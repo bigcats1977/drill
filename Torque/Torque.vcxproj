@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BA4D634F-EBF3-485F-8312-B6374B7933E6}</ProjectGuid>
+    <RootNamespace>Torque</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26919.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Debug\</OutDir>
+    <IntDir>Debug\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>TorqueMeterV3.23</TargetName>
+    <IncludePath>.\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>TorqueMeterV3.19.exe</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Release\</OutDir>
+    <IntDir>Release\</IntDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>TorqueMeterV3.23</TargetName>
+    <IncludePath>.\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.exe</TargetExt>
+    <TargetName>TorqueMeterV3.19.exe</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;Netapi32.lib;Version.lib;legacy_stdio_definitions.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TorqueMeterV3.23.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <Profile>true</Profile>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>/NODEFAULTLIB:libc.lib;/NODEFAULTLIB:msvcrt.lib;/NODEFAULTLIB:msvcrt.lib;/NODEFAULTLIB:libcd.lib;/NODEFAULTLIB:libcmtd.lib;Netapi32.lib;libjpeg.lib;Version.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TorqueMeterV3.19.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader />
+      <AssemblerOutput>All</AssemblerOutput>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;Netapi32.lib;Version.lib;legacy_stdio_definitions.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TorqueMeterV3.23.exe</OutputFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <AssemblerOutput>All</AssemblerOutput>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>/NODEFAULTLIB:libc.lib;/NODEFAULTLIB:libcmt.lib;/NODEFAULTLIB:msvcrt.lib;/NODEFAULTLIB:libcd.lib;/NODEFAULTLIB:libcmtd.lib;Netapi32.lib;libjpeg.lib;Version.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TorqueMeterV3.19.exe</OutputFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="BtnST.h" />
+    <ClInclude Include="CApplication.h" />
+    <ClInclude Include="CChart.h" />
+    <ClInclude Include="CChartObject.h" />
+    <ClInclude Include="CChartObjects.h" />
+    <ClInclude Include="DlgSegCabl.h" />
+    <ClInclude Include="CFont0.h" />
+    <ClInclude Include="Cnterior.h" />
+    <ClInclude Include="CShape.h" />
+    <ClInclude Include="DlgXlsStatSet.h" />
+    <ClInclude Include="CeXDib.h" />
+    <ClInclude Include="ColorComboBox.h" />
+    <ClInclude Include="ColorRadio.h" />
+    <ClInclude Include="CoolControlsManager.h" />
+    <ClInclude Include="CRange.h" />
+    <ClInclude Include="CrashHandler.h" />
+    <ClInclude Include="CShapes.h" />
+    <ClInclude Include="CWorkbook.h" />
+    <ClInclude Include="CWorkbooks.h" />
+    <ClInclude Include="CWorksheet.h" />
+    <ClInclude Include="CWorksheets.h" />
+    <ClInclude Include="DlgBear.h" />
+    <ClInclude Include="DlgCollect.h" />
+    <ClInclude Include="DlgDataStat.h" />
+    <ClInclude Include="DlgFuncTest.h" />
+    <ClInclude Include="DlgHisGrp.h" />
+    <ClInclude Include="DlgHisList.h" />
+    <ClInclude Include="DlgHisSumup.h" />
+    <ClInclude Include="DlgMainShowSet.h" />
+    <ClInclude Include="DlgModPW.h" />
+    <ClInclude Include="DlgParaSet.h" />
+    <ClInclude Include="DlgPassword.h" />
+    <ClInclude Include="DlgRemark.h" />
+    <ClInclude Include="DlgScatter.h" />
+    <ClInclude Include="DlgScm.h" />
+    <ClInclude Include="DlgShowSet.h" />
+    <ClInclude Include="DlgStatSet.h" />
+    <ClInclude Include="DlgValveSet.h" />
+    <ClInclude Include="DlgZero.h" />
+    <ClInclude Include="DlgZoomIn.h" />
+    <ClInclude Include="excel.h" />
+    <ClInclude Include="HighResTimer.h" />
+    <ClInclude Include="LineChartCtrl.h" />
+    <ClInclude Include="LineChartCtrlEx.h" />
+    <ClInclude Include="LineChartCtrlStat.h" />
+    <ClInclude Include="lodepng.h" />
+    <ClInclude Include="Macro.h" />
+    <ClInclude Include="MenuEx.h" />
+    <ClInclude Include="Mylistctrl.h" />
+    <ClInclude Include="MySheet.h" />
+    <ClInclude Include="NumEdit.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Ruler.h" />
+    <ClInclude Include="SerialPort.h" />
+    <ClInclude Include="ShadeButtonST.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TeeChart\axes.h" />
+    <ClInclude Include="TeeChart\axis.h" />
+    <ClInclude Include="TeeChart\page.h" />
+    <ClInclude Include="TeeChart\series.h" />
+    <ClInclude Include="TeeChart\tchart.h" />
+    <ClInclude Include="TorqData.pb.h" />
+    <ClInclude Include="Torque.h" />
+    <ClInclude Include="TorqueDlg.h" />
+    <ClInclude Include="TubeCfg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="E:\paperprograme\RES\ANGLE.BMP" />
+    <Image Include="e:\paperprograme\res\bitmap2.bmp" />
+    <Image Include="e:\paperprograme\res\bitmap3.bmp" />
+    <Image Include="E:\paperprograme\RES\KONG.BMP" />
+    <Image Include="res\add.ico" />
+    <Image Include="res\ANGLE.BMP" />
+    <Image Include="res\apply.ico" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\BMKONG.BMP" />
+    <Image Include="res\cross.bmp" />
+    <Image Include="res\cross_w.bmp" />
+    <Image Include="res\excel.ico" />
+    <Image Include="res\GEARWEEL.ICO" />
+    <Image Include="res\HUI.BMP" />
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\KONG.BMP" />
+    <Image Include="res\LedOff.ico" />
+    <Image Include="res\ledoff1.ico" />
+    <Image Include="res\ledon.ico" />
+    <Image Include="res\LedRed.ico" />
+    <Image Include="res\LOCKUP.ICO" />
+    <Image Include="res\MARK0023.ICO" />
+    <Image Include="res\MISC1057.ICO" />
+    <Image Include="res\modbuscl.ico" />
+    <Image Include="res\modbusop.ico" />
+    <Image Include="res\Netscape Download.ico" />
+    <Image Include="res\news.ico" />
+    <Image Include="res\No.ico" />
+    <Image Include="res\Open Folder 2.ico" />
+    <Image Include="res\Open Folder.ico" />
+    <Image Include="res\open.ico" />
+    <Image Include="res\PowerOff.ico" />
+    <Image Include="res\Print.ico" />
+    <Image Include="res\prior.ico" />
+    <Image Include="res\REDTICK.ICO" />
+    <Image Include="res\RUN.ico" />
+    <Image Include="res\Save.ico" />
+    <Image Include="res\SETSOUND.ICO" />
+    <Image Include="res\STOP.ico" />
+    <Image Include="res\TIMER01.ICO" />
+    <Image Include="res\toolbar.bmp" />
+    <Image Include="res\Tools4.ico" />
+    <Image Include="res\Torque.ico" />
+    <Image Include="res\UnloadB.ico" />
+    <Image Include="res\UnloadE.ico" />
+    <Image Include="res\VOLUME.ICO" />
+    <Image Include="res\word.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Torque.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BtnST.cpp" />
+    <ClCompile Include="DlgSegCabl.cpp" />
+    <ClCompile Include="DlgXlsStatSet.cpp" />
+    <ClCompile Include="CeXDib.cpp" />
+    <ClCompile Include="ColorComboBox.cpp" />
+    <ClCompile Include="ColorRadio.cpp" />
+    <ClCompile Include="CoolControlsManager.cpp" />
+    <ClCompile Include="CrashHandler.cpp" />
+    <ClCompile Include="DlgBear.cpp" />
+    <ClCompile Include="DlgCollect.cpp" />
+    <ClCompile Include="DlgDataStat.cpp" />
+    <ClCompile Include="DlgFuncTest.cpp" />
+    <ClCompile Include="DlgHisGrp.cpp" />
+    <ClCompile Include="DlgHisList.cpp" />
+    <ClCompile Include="DlgHisSumup.cpp" />
+    <ClCompile Include="DlgMainShowSet.cpp" />
+    <ClCompile Include="DlgModPW.cpp" />
+    <ClCompile Include="DlgParaSet.cpp" />
+    <ClCompile Include="DlgPassword.cpp" />
+    <ClCompile Include="DlgRemark.cpp" />
+    <ClCompile Include="DlgScatter.cpp" />
+    <ClCompile Include="DlgScm.cpp" />
+    <ClCompile Include="DlgShowSet.cpp" />
+    <ClCompile Include="DlgStatSet.cpp" />
+    <ClCompile Include="DlgValveSet.cpp" />
+    <ClCompile Include="DlgZero.cpp" />
+    <ClCompile Include="DlgZoomIn.cpp" />
+    <ClCompile Include="Excel.cpp" />
+    <ClCompile Include="HighResTimer.cpp" />
+    <ClCompile Include="LineChartCtrl.cpp" />
+    <ClCompile Include="LineChartCtrlEx.cpp" />
+    <ClCompile Include="LineChartCtrlStat.cpp" />
+    <ClCompile Include="lodepng.cpp" />
+    <ClCompile Include="MenuEx.cpp" />
+    <ClCompile Include="Mylistctrl.cpp" />
+    <ClCompile Include="MySheet.cpp" />
+    <ClCompile Include="NumEdit.cpp" />
+    <ClCompile Include="Ruler.cpp" />
+    <ClCompile Include="SerialPort.cpp" />
+    <ClCompile Include="ShadeButtonST.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="TeeChart\axes.cpp" />
+    <ClCompile Include="TeeChart\axis.cpp" />
+    <ClCompile Include="TeeChart\page.cpp" />
+    <ClCompile Include="TeeChart\series.cpp" />
+    <ClCompile Include="TeeChart\tchart.cpp" />
+    <ClCompile Include="TorqData.pb.cc" />
+    <ClCompile Include="Torque.cpp" />
+    <ClCompile Include="TorqueDlg.cpp" />
+    <ClCompile Include="TubeCfg.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties _x007B_4061F8F2-1D1C-11D5-9401-006008A7EED4_x007D_="CSeriesTextSource" RESOURCE_FILE="Torque.rc" _x007B_B6C10489-FB89-11D4-93C9-006008A7EED4_x007D_="CTchartctrl" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

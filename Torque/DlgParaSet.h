@@ -1,0 +1,159 @@
+#if !defined(AFX_DLGPARASET_H__4ED7C23C_5F6E_4A6E_98BA_B7E3D9ACFE62__INCLUDED_)
+#define AFX_DLGPARASET_H__4ED7C23C_5F6E_4A6E_98BA_B7E3D9ACFE62__INCLUDED_
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+// DlgParaSet.h : header file
+//
+
+#include "afxwin.h"
+#include "ColorComboBox.h"
+#include "NumEdit.h"
+#include "TubeCfg.h"
+
+/////////////////////////////////////////////////////////////////////////////
+// CDlgParaSet dialog
+
+class CDlgParaSet : public CDialog
+{
+
+// Construction
+public:
+    CDlgParaSet(CWnd* pParent = NULL);   // standard constructor
+
+    PARACFG     m_tempCfg;
+    SHOWCFG     m_tempShow;
+    BYTE        m_ucPort;
+    TUBINGCFG   m_tCurTub;
+
+// Dialog Data
+    //{{AFX_DATA(CDlgParaSet)
+    enum { IDD = IDD_DLGPARASET };
+    CComboBox   m_cbPort;
+    CComboBox   m_cbImgNum;
+    double      m_fControlCir;
+    double      m_fControl;
+    double      m_fOptTorq;
+    double      m_fLowerCir;
+    double      m_fLowerLimit;
+    double      m_fMaxCir;
+    double      m_fMaxLimit;
+    double      m_fMaxRPM;
+    double      m_fShow;
+    double      m_fSpeedDown;
+    double      m_fUpperCir;
+    double      m_fUpperLimit;
+    CString     m_strParaFile;
+    UINT        m_nReset;
+    double      m_fPlus;
+    double      m_fLowerTai;
+    double      m_fUpperTai;
+    double      m_fMinShlSlope;
+    double      m_fMaxDeltaCir;
+    double      m_fMinDeltaCir;
+    CString     m_strMemo;
+    CString     m_strLBM10;
+    CString     m_strSetShowName[MAXPARANUM+1];
+    CString     m_strSetShowOption[MAXPARANUM+1];
+    CColorComboBox  m_cbSetShowOption[MAXPARANUM + 1];
+    CString     m_strFixShowOption[MAXPARANUM+1];
+    CColorComboBox  m_cbFixShowOption[MAXPARANUM + 1];
+    CNumEdit    m_neControlCir;
+    CNumEdit    m_neOptTorq;
+    CNumEdit    m_neControl;
+    CNumEdit    m_neLowerCir;
+    CNumEdit    m_neLowerLimit;
+    CNumEdit    m_neMaxCir;
+    CNumEdit    m_neMaxLimit;
+    CNumEdit    m_neMaxRPM;
+    CNumEdit    m_neShow;
+    CNumEdit    m_neSpeedDown;
+    CNumEdit    m_neUpperCir;
+    CNumEdit    m_neUpperLimit;
+    CNumEdit    m_nePlus;
+    CNumEdit    m_neLowerTai;
+    CNumEdit    m_neUpperTai;
+    CNumEdit    m_neMinShlSlope;
+    CNumEdit    m_neMaxDeltaCir;
+    CNumEdit    m_neMinDeltaCir;
+    BOOL        m_bFixedTubing;
+    //}}AFX_DATA
+
+
+// Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CDlgParaSet)
+    protected:
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
+
+// Implementation
+protected:
+
+    // Generated message map functions
+    //{{AFX_MSG(CDlgParaSet)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnParaopen();
+    //afx_msg void OnParanew();
+    afx_msg void OnParasave();
+    virtual void OnOK();
+    //afx_msg void OnDefault();
+    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    afx_msg void OnCbnKillfocusCbpara01();
+    afx_msg void OnCbnKillfocusCbpara02();
+    afx_msg void OnCbnKillfocusCbpara03();
+    afx_msg void OnCbnKillfocusCbpara04();
+    afx_msg void OnCbnKillfocusCbpara05();
+    afx_msg void OnCbnKillfocusCbpara06();
+    afx_msg void OnCbnKillfocusCbpara07();
+    afx_msg void OnCbnKillfocusCbpara08();
+    afx_msg void OnCbnKillfocusCbpara09();
+    afx_msg void OnCbnKillfocusCbpara10();
+    afx_msg void OnCbnKillfocusCbpara11();
+    afx_msg void OnCbnKillfocusCbpara12();
+    afx_msg void OnCbnKillfocusCbpara13();
+    afx_msg void OnCbnKillfocusCbpara14();
+    afx_msg void OnCbnKillfocusCbpara15();
+    afx_msg void OnCbnKillfocusCbpara16();
+    afx_msg void OnEnKillfocusEditmaxcir();
+    afx_msg void OnCbnKillfocusCbfixpara04();
+    afx_msg void OnCbnKillfocusCbfixpara05();
+    afx_msg void OnCbnKillfocusCbfixpara06();
+    afx_msg void OnCbnKillfocusCbfixpara07();
+    afx_msg void OnCbnKillfocusCbfixpara16();
+    afx_msg void OnCbnSelchangeCbfixpara04();
+    afx_msg void OnCbnSelchangeCbfixpara05();
+    afx_msg void OnCbnSelchangeCbfixpara06();
+    afx_msg void OnCbnSelchangeCbfixpara07();
+    afx_msg void OnCbnSelchangeCbfixpara16();
+    afx_msg void OnBnClickedCkfixedtubing();
+    afx_msg void OnKillfocusEditopttorq();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
+private:
+    BOOL GetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow);
+    void SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow);
+    void CheckShowOption(SHOWCFG *ptShow);
+    void WriteOtherPara(string strParaName);
+    void JudgeShowParaChanged(UINT nIndex);
+    void JudgeFixShowParaChanged(UINT nIndex);
+    void ChgTorqbyShowPara(bool bInit=false);
+    void ChangeTubingShowBox(UINT nNum);
+    void InitFixShowPara();
+    void ShowTubingCtrl(bool bInit=false);
+    void UpdateDlgLabel();
+    void SetImgNum();
+
+    COLORREF    m_clrNormal;
+    COLORREF    m_clrChanged;
+    UINT        m_nCurLang;
+    CTubeCfg    m_cTubing;
+public:
+};
+
+//{{AFX_INSERT_LOCATION}}
+// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+
+#endif // !defined(AFX_DLGPARASET_H__4ED7C23C_5F6E_4A6E_98BA_B7E3D9ACFE62__INCLUDED_)
+
