@@ -192,7 +192,7 @@ typedef struct tagPORTCFG
 typedef struct tagFixTubPara
 {
     UINT        nNO;
-    string      strName[LANGUAGE_NUM];
+    string      strName[LANGUAGE_NUM+1];
 }FIXTUBPARA;
 
 typedef struct tagFixTubInfo
@@ -328,7 +328,7 @@ typedef struct tagPARACFG
 typedef struct tagSHOWPARANAME
 {
     WORD        wNameID;
-    string      strName[LANGUAGE_NUM];
+    string      strName[LANGUAGE_NUM+1];
 }SHOWPARANAME;
 
 /* 当前扭矩的显示参数的设置，保存到文件中 */

@@ -681,8 +681,8 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_UPDATE_COMMAND_UI(ID_LANG_CHN, OnUpdateLangChn)
     ON_COMMAND(ID_LANG_ENG, OnLangEng)
     ON_UPDATE_COMMAND_UI(ID_LANG_ENG, OnUpdateLangEng)
-    ON_COMMAND(ID_LANG_RUS, OnLangRus)
-    ON_UPDATE_COMMAND_UI(ID_LANG_RUS, OnUpdateLangRus)
+    /*ON_COMMAND(ID_LANG_RUS, OnLangRus)
+    ON_UPDATE_COMMAND_UI(ID_LANG_RUS, OnUpdateLangRus)*/
     ON_COMMAND(ID_VER_BIGTORQ, OnVerBigTorq)
     ON_UPDATE_COMMAND_UI(ID_VER_BIGTORQ, OnUpdateVerBigTorq)
     ON_COMMAND(ID_VER_UNIT_NM, OnVerUnitNm)
@@ -784,10 +784,10 @@ void CTorqueDlg::UpdateDlgLabel()
             m_strLBM2.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", theApp.m_strUnit);
             m_strLBM9.Format("Torque(%s)", theApp.m_strUnit);
             break;
-        case LANGUAGE_RUSSIAN:
+        /*case LANGUAGE_RUSSIAN:
             m_strLBM2.Format("§Ô§â§Ñ§æ. §¬§®§¹§°(§¦§Õ.:  §£. §à§ã§î=%s, §°. §à§ã§î=§à§Ò.)", theApp.m_strUnit);
             m_strLBM9.Format("§¬§â§å§ä§Þ§à§Þ(%s)", theApp.m_strUnit);
-            break;
+            break;*/
     }
 }
 
@@ -873,7 +873,7 @@ BOOL CTorqueDlg::OnInitDialog()
 
     m_tMenu[LANGUAGE_CHINESE].LoadMenu(IDR_MAINMENU);
     m_tMenu[LANGUAGE_ENGLISH].LoadMenu(IDR_MAINMENU_ENG);
-    m_tMenu[LANGUAGE_RUSSIAN].LoadMenu(IDR_MAINMENU_RUS);
+    //m_tMenu[LANGUAGE_RUSSIAN].LoadMenu(IDR_MAINMENU_RUS);
     SetMenu(&m_tMenu[theApp.m_nLangType]);
 
     m_iShackle = theApp.m_bShackle;
@@ -4364,7 +4364,7 @@ void CTorqueDlg::OnUpdateLangEng(CCmdUI *pCmdUI)
 {
     pCmdUI->SetCheck((theApp.m_nLangType == LANGUAGE_ENGLISH));
 }
-
+/*
 void CTorqueDlg::OnLangRus()
 {
     UpdCfgLangChg(LANGUAGE_RUSSIAN);
@@ -4374,7 +4374,7 @@ void CTorqueDlg::OnUpdateLangRus(CCmdUI *pCmdUI)
 {
     pCmdUI->SetCheck((theApp.m_nLangType == LANGUAGE_RUSSIAN));
 }
-
+*/
 void CTorqueDlg::OnVerBigTorq()
 {
     CString  strValue;

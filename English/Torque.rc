@@ -265,7 +265,7 @@ BEGIN
     EDITTEXT        IDC_EDITMEMO,192,256,63,14,ES_MULTILINE | ES_AUTOVSCROLL
     EDITTEXT        IDC_EDITPARAFILE,62,274,193,14,ES_AUTOHSCROLL
     GROUPBOX        "Display Parameter",IDC_STATIC,281,7,269,253
-    CONTROL         "SystemTubing",IDC_CKFIXEDTUBING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,417,7,54,10,WS_EX_RIGHT
+    CONTROL         "SystemTubing",IDC_CKFIXEDTUBING,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,417,7,54,10,WS_EX_RIGHT
     COMBOBOX        IDC_CBPARA01,333,23,73,115,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_CBPARA02,466,23,73,115,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_CBPARA16,333,53,73,115,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
@@ -558,7 +558,7 @@ BEGIN
     PUSHBUTTON      "Modify",IDC_BTNMODIFYSUM,624,15,50,20
     PUSHBUTTON      "Save",IDC_BTNSAVESUM,624,45,50,20
     PUSHBUTTON      "Font",IDC_BTNMODFONT,624,75,50,20
-    CONTROL         "",IDC_REDSUM,"RichEdit20W",ES_MULTILINE | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,15,17,594,332
+    CONTROL         "",IDC_REDSUM,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | 0x4,15,17,594,332
 END
 
 IDD_DLGPASSWORD DIALOGEX 0, 0, 183, 42
@@ -987,8 +987,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,23,2,30428
- PRODUCTVERSION 3,23,2,30428
+ FILEVERSION 6,23,1,60915
+ PRODUCTVERSION 6,23,1,60915
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -1005,13 +1005,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Torque Meter Application"
-            VALUE "FileVersion", "3,23,2,30428"
+            VALUE "FileVersion", "6,23,1,20220915"
             VALUE "InternalName", "Torque Meter"
             VALUE "LegalCopyright", "Copyright (C) 2022"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Torque.EXE"
             VALUE "ProductName", "Torque Meter Application"
-            VALUE "ProductVersion", "3,23,2,30428"
+            VALUE "ProductVersion", "6,23,1,20220915"
         END
     END
     BLOCK "VarFileInfo"
@@ -1249,7 +1249,6 @@ BEGIN
     POPUP "ÓïÑÔ(&L)"
     BEGIN
         MENUITEM "ººÓï(&C)",                      ID_LANG_CHN
-        MENUITEM "¶íÓï(&R)",                      ID_LANG_RUS
         MENUITEM "Ó¢Óï(&E)",                      ID_LANG_ENG
     END
     POPUP "°æ±¾(&V)"
@@ -1286,7 +1285,6 @@ BEGIN
     POPUP "Language(&L)"
     BEGIN
         MENUITEM "Chinese(&C)",                 ID_LANG_CHN
-        MENUITEM "Russian(&R)",                 ID_LANG_RUS
         MENUITEM "English(&E)",                 ID_LANG_ENG
     END
     POPUP "Version(&V)"
@@ -1299,43 +1297,6 @@ BEGIN
     POPUP "Help(&H)"
     BEGIN
         MENUITEM "About(&A)...",                ID_ABOUT
-    END
-END
-
-IDR_MAINMENU_RUS MENU
-BEGIN
-    POPUP "§¶§Ñ§Û§Ý(&F)"
-    BEGIN
-        MENUITEM "§¹§ä§Ö§ß§Ú§Ö(&R)...",               ID_COLLECTDATA
-        MENUITEM SEPARATOR
-        MENUITEM "§á§â§à§ê§Ý§í§Ö(&H)...",              ID_HISTORYLIST
-        MENUITEM SEPARATOR
-        MENUITEM "§£§í§ç§à§Õ(&X)",                   ID_APP_EXIT
-    END
-    POPUP "§µ§ã§ä§Ñ§ß(&S)"
-    BEGIN
-        MENUITEM "§±§Ñ§â§Ñ(&P)...",                 ID_SETPARA
-        MENUITEM "§Ü§Ý§Ñ§á§Ñ§ß(&V)...",               ID_VALVESET
-        MENUITEM "§ª§ã§á§í§ä§Ñ§ß§Ú§Û(&D)...",            ID_DEBUG
-        MENUITEM "§á§Ñ§â§à§Ý§î(&M)...",               ID_MODPW
-        MENUITEM "§¬§Ñ§Ý§Ú§Ò§â§à§Ó§Ü§Ñ(&C)...",           ID_SEGCALIB
-    END
-    POPUP "§ñ§Ù§í§Ü(&L)"
-    BEGIN
-        MENUITEM "§Ü§Ú§ä§Ñ§Û§ã§Ü§Ú§Û(&C)",               ID_LANG_CHN
-        MENUITEM "§â§å§ã§ã§Ü§Ú§Û(&R)",                 ID_LANG_RUS
-        MENUITEM "§Ñ§ß§Ô§Ý§Ú§Û§ã§Ü§Ú§Û(&E)",              ID_LANG_ENG
-    END
-    POPUP "§Ó§Ö§â§ã§Ú§ñ(&V)"
-    BEGIN
-        MENUITEM "§Ò§à§Ý§î§ê§à§Û(&B)",                 ID_VER_BIGTORQ
-        MENUITEM SEPARATOR
-        MENUITEM "N.m(&N)",                     ID_VER_UNIT_NM
-        MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
-    END
-    POPUP "§±§à§Þ(&H)"
-    BEGIN
-        MENUITEM "§ß§Ñ(&A)...",                   ID_ABOUT
     END
 END
 
@@ -1764,10 +1725,10 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRTITLE            "JianHu KaiTai Torque Meter V3.23"
-    IDS_STRTRYOUT           "JianHu KaiTai Torque Meter V3.23(Trial)"
-    IDS_STRBIGTITLE         "JianHu KaiTai Torque Meter V3.23*"
-    IDS_STRBIGTRYOUT        "JianHu KaiTai Torque Meter V3.23*(Trial)"
+    IDS_STRTITLE            "JianHu KaiTai Torque Meter V6.23"
+    IDS_STRTRYOUT           "JianHu KaiTai Torque Meter V6.23(Trial)"
+    IDS_STRBIGTITLE         "JianHu KaiTai Torque Meter V6.23*"
+    IDS_STRBIGTRYOUT        "JianHu KaiTai Torque Meter V6.23*(Trial)"
     IDS_STRONEBLANK         " "
     IDS_STRABINCH           "in"
     IDS_STRABMILMETER       "mm"

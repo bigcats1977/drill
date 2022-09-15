@@ -10,7 +10,6 @@
 #define IDR_TOOLBAR                     104
 #define ID_PORTINFO                     105
 #define IDR_MAINMENU_ENG                106
-#define IDR_MAINMENU_RUS                107
 #define IDD_TORQUE_DIALOG               120
 #define IDD_DLGAPI                      121
 #define IDD_DLGBEAR                     122

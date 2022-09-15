@@ -29,8 +29,8 @@
 
 #define LANGUAGE_CHINESE    0
 #define LANGUAGE_ENGLISH    1
-#define LANGUAGE_RUSSIAN    2
-#define LANGUAGE_NUM        (LANGUAGE_RUSSIAN+1)
+//#define LANGUAGE_RUSSIAN    2
+#define LANGUAGE_NUM        (LANGUAGE_ENGLISH+1)
 
 #define BIGPOINT            _T("\xA1\xF1")
 //#define BIGPOINT            "\x00\xB7"

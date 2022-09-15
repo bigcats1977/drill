@@ -95,17 +95,17 @@ SHOWPARANAME g_tNameInfo[MAXNAMENUM+1] = {
     /* 0  */    {COMMPARA_WELL,         "施工井号",     "WellNo.",          "Номер СКВ"},
     /* 1  */    {COMMPARA_OPERATION,    "作业方式",     "OperType",         "операция"},
     /* 2  */    {COMMPARA_PARTYA,       "甲方",         "Company",          "Сторона А"},
-    /* 3  */    {TUBEPARA_FACTORY,      "钻杆等级",     "TubingOEM",        "OEM труб"},
-    /* 4  */    {TUBEPARA_DIAMETER,     "钻杆规格",     "SizeThread",       "Размер&нить"},
+    /* 3  */    {TUBEPARA_FACTORY,      "钻杆等级",     "DrillGrade",       "OEM труб"},
+    /* 4  */    {TUBEPARA_DIAMETER,     "钻杆规格",     "DrillSpec",        "Размер&нить"},
     /* 5  */    {TUBEPARA_BUCKLETYPE,   "扣型材质",     "Material",         "материал"},
-    /* 6  */    {COUPPARA_DIAMETER,     "司钻",         "CPLSpec",          "CPL Специфик."},
+    /* 6  */    {COUPPARA_DIAMETER,     "司钻",         "Driller",          "CPL Специфик."},
     /* 7  */    {COMMPARA_CONTRACT,     "合同号",       "Contract",         "контракт"},
     /* 8  */    {TUBEPARA_TUBENO,       "管体序号",     "TubingSN",         "Номер Трубка"},
     /* 9  */    {TUBEPARA_RUNNINGNO,    "入井序号",     "TallyNO",          "Номер Спусти."},
     /* 10 */    {COUPPARA_THREADDOPE,   "丝扣油",       "ThreadDope",       "Нить допинг"},
     /* 11 */    {COUPPARA_HANDDEVICE,   "悬吊工具",     "Elevator",         "Пове устр"},
     /* 12 */    {COMMPARA_CASINGTEAM,   "钻井队",       "TRSTeam",          "кожух ком"},
-    /* 13 */    {COMMPARA_SHIFTLEADER,  "当班班长",         "TRSSpv.",          "Начал смены"},
+    /* 13 */    {COMMPARA_SHIFTLEADER,  "当班班长",     "TRSSpv.",          "Начал смены"},
     /* 14 */    {COUPPARA_HYDTONG,      "液压钳",       "HYDTong",          "гидра ключ"},
     /* 15 */    {COUPPARA_OEM,          "钻井厂家",     "Factory",          "завод"}
 };
@@ -233,7 +233,7 @@ void CTorqueApp::InitLanguage()
 
     m_hLangDLL[LANGUAGE_CHINESE] = ::LoadLibrary(CHNDLLNAME);
     m_hLangDLL[LANGUAGE_ENGLISH] = ::LoadLibrary(ENGDLLNAME);
-    m_hLangDLL[LANGUAGE_RUSSIAN] = ::LoadLibrary(RUSDLLNAME);
+    //m_hLangDLL[LANGUAGE_RUSSIAN] = ::LoadLibrary(RUSDLLNAME);
 }
 
 BOOL CTorqueApp::LoadLanguageDll(UINT nLangType, BOOL bUpdate)

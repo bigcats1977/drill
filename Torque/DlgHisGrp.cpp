@@ -192,9 +192,9 @@ void CDlgHisGrp::UpdateDlgLabel()
         case LANGUAGE_ENGLISH:
             m_strLBG1.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)",  theApp.m_strUnit);
             break;
-        case LANGUAGE_RUSSIAN:
+        /*case LANGUAGE_RUSSIAN:
             m_strLBG1.Format("§Ô§â§Ñ§æ. §¬§®§¹§°(§¦§Õ.:  §£. §à§ã§î=%s, §°. §à§ã§î=§à§Ò.)",  theApp.m_strUnit);
-            break;
+            break;*/
     }
     m_strLBG10 = theApp.m_strUnit;
     m_strLBG22 = theApp.m_strUnit;

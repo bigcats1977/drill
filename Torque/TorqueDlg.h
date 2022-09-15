@@ -282,8 +282,8 @@ protected:
     afx_msg void OnUpdateLangChn(CCmdUI *pCmdUI);
     afx_msg void OnLangEng();
     afx_msg void OnUpdateLangEng(CCmdUI *pCmdUI);
-    afx_msg void OnLangRus();
-    afx_msg void OnUpdateLangRus(CCmdUI *pCmdUI);
+    /*afx_msg void OnLangRus();
+    afx_msg void OnUpdateLangRus(CCmdUI *pCmdUI);*/
     afx_msg void OnVerBigTorq();
     afx_msg void OnUpdateVerBigTorq(CCmdUI *pCmdUI);
     afx_msg void OnVerUnitNm();

@@ -529,8 +529,8 @@ BEGIN
     EDITTEXT        IDC_EDUNQUALIFY,288,292,43,16,ES_AUTOHSCROLL | ES_READONLY
     GROUPBOX        "记录文件",IDC_STATIC_L1,7,316,672,40
     LTEXT           "上扣总数",IDC_STATIC_L2,10,295,40,10
-    LTEXT           "合格总数",IDC_STATIC_L4,120,295,40,10
-    LTEXT           "不合格数",IDC_STATIC_L6,237,295,40,10
+    LTEXT           "入井总数",IDC_STATIC_L4,120,295,40,10
+    LTEXT           "不入井数",IDC_STATIC_L6,237,295,40,10
 END
 
 IDD_DLGREMARK DIALOGEX 0, 0, 202, 119
@@ -558,7 +558,7 @@ BEGIN
     PUSHBUTTON      "修改",IDC_BTNMODIFYSUM,624,15,50,20
     PUSHBUTTON      "保存",IDC_BTNSAVESUM,624,45,50,20
     PUSHBUTTON      "字体",IDC_BTNMODFONT,624,75,50,20
-    CONTROL         "",IDC_REDSUM,"RichEdit20W",ES_MULTILINE | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,15,17,594,332
+    CONTROL         "",IDC_REDSUM,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | 0x4,15,17,594,332
 END
 
 IDD_DLGPASSWORD DIALOGEX 0, 0, 164, 43
@@ -603,9 +603,9 @@ BEGIN
     GROUPBOX        "基本信息",IDC_STATIC_STAT2,383,48,174,42
     LTEXT           "扭矩-周数曲线图        （单位:纵轴=N.m, 横轴=周）",IDC_STATIC_STAT3,35,11,334,8
     LTEXT           "上扣总数",IDC_STATIC_STAT4,17,252,40,10
-    LTEXT           "合格总数",IDC_STATIC_STAT5,139,252,40,10
-    LTEXT           "不合格数",IDC_STATIC_STAT6,257,252,40,10
-    LTEXT           "不合格图形编号",IDC_STATIC_STAT7,17,270,54,10
+    LTEXT           "入井总数",IDC_STATIC_STAT5,139,252,40,10
+    LTEXT           "不入井数",IDC_STATIC_STAT6,257,252,40,10
+    LTEXT           "不入井图形编号",IDC_STATIC_STAT7,17,270,54,10
     LTEXT           "工具扣编号",IDC_STATIC_STAT8,197,270,54,10
     LTEXT           "记录文件",IDC_STATIC_STAT9,17,341,33,8
     LTEXT           "最大扭矩",IDC_STATIC_STAT10,458,59,28,8
@@ -987,8 +987,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,23,2,30428
- PRODUCTVERSION 3,23,2,30428
+ FILEVERSION 6,23,1,60915
+ PRODUCTVERSION 6,23,1,60915
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -1005,13 +1005,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Torque Meter Application"
-            VALUE "FileVersion", "3,23,2,20220428"
+            VALUE "FileVersion", "6,23,1,20220915"
             VALUE "InternalName", "Torque Meter"
             VALUE "LegalCopyright", "Copyright (C) 2022"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Torque.EXE"
             VALUE "ProductName", "Torque Meter Application"
-            VALUE "ProductVersion", "3,23,2,20220428"
+            VALUE "ProductVersion", "6,23,1,20220915"
         END
     END
     BLOCK "VarFileInfo"
@@ -1249,7 +1249,6 @@ BEGIN
     POPUP "语言(&L)"
     BEGIN
         MENUITEM "汉语(&C)",                      ID_LANG_CHN
-        MENUITEM "俄语(&R)",                      ID_LANG_RUS
         MENUITEM "英语(&E)",                      ID_LANG_ENG
     END
     POPUP "版本(&V)"
@@ -1286,7 +1285,6 @@ BEGIN
     POPUP "Language(&L)"
     BEGIN
         MENUITEM "Chinese(&C)",                 ID_LANG_CHN
-        MENUITEM "Russian(&R)",                 ID_LANG_RUS
         MENUITEM "English(&E)",                 ID_LANG_ENG
     END
     POPUP "Version(&V)"
@@ -1299,43 +1297,6 @@ BEGIN
     POPUP "Help(&H)"
     BEGIN
         MENUITEM "About(&A)...",                ID_ABOUT
-    END
-END
-
-IDR_MAINMENU_RUS MENU
-BEGIN
-    POPUP "Файл(&F)"
-    BEGIN
-        MENUITEM "Чтение(&R)...",               ID_COLLECTDATA
-        MENUITEM SEPARATOR
-        MENUITEM "прошлые(&H)...",              ID_HISTORYLIST
-        MENUITEM SEPARATOR
-        MENUITEM "Выход(&X)",                   ID_APP_EXIT
-    END
-    POPUP "Устан(&S)"
-    BEGIN
-        MENUITEM "Пара(&P)...",                 ID_SETPARA
-        MENUITEM "клапан(&V)...",               ID_VALVESET
-        MENUITEM "Испытаний(&D)...",            ID_DEBUG
-        MENUITEM "пароль(&M)...",               ID_MODPW
-        MENUITEM "Калибровка(&C)...",           ID_SEGCALIB
-    END
-    POPUP "язык(&L)"
-    BEGIN
-        MENUITEM "китайский(&C)",               ID_LANG_CHN
-        MENUITEM "русский(&R)",                 ID_LANG_RUS
-        MENUITEM "английский(&E)",              ID_LANG_ENG
-    END
-    POPUP "версия(&V)"
-    BEGIN
-        MENUITEM "большой(&B)",                 ID_VER_BIGTORQ
-        MENUITEM SEPARATOR
-        MENUITEM "N.m(&N)",                     ID_VER_UNIT_NM
-        MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
-    END
-    POPUP "Пом(&H)"
-    BEGIN
-        MENUITEM "на(&A)...",                   ID_ABOUT
     END
 END
 

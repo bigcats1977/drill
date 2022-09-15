@@ -257,9 +257,9 @@ void CDlgParaSet::UpdateDlgLabel()
         case LANGUAGE_ENGLISH:
             m_strLBM10.Format("Torque Parameter(%s)", theApp.m_strUnit);
             break;
-        case LANGUAGE_RUSSIAN:
+        /*case LANGUAGE_RUSSIAN:
             m_strLBM10.Format("妤忘把忘. 抗把批找. 技抉技.(快忱: %s)", theApp.m_strUnit);
-            break;
+            break;*/
     }
 }
 
