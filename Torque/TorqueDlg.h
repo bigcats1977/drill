@@ -256,7 +256,7 @@ protected:
     HICON       m_hIcon;
     CToolBar    m_wndtoolbar;
     CStatusBar  m_StatusBar;
-    CMenu     m_tMenu[1];
+    CMenu     m_tMenu[LANGUAGE_NUM];
 
     // Generated message map functions
     //{{AFX_MSG(CTorqueDlg)
@@ -278,12 +278,12 @@ protected:
     afx_msg void OnShowtest();
     afx_msg void OnCollectdata();
     afx_msg void OnBtrun();
-    /*afx_msg void OnLangChn();
+    afx_msg void OnLangChn();
     afx_msg void OnUpdateLangChn(CCmdUI *pCmdUI);
     afx_msg void OnLangEng();
     afx_msg void OnUpdateLangEng(CCmdUI *pCmdUI);
     afx_msg void OnLangRus();
-    afx_msg void OnUpdateLangRus(CCmdUI *pCmdUI);*/
+    afx_msg void OnUpdateLangRus(CCmdUI *pCmdUI);
     afx_msg void OnVerBigTorq();
     afx_msg void OnUpdateVerBigTorq(CCmdUI *pCmdUI);
     afx_msg void OnVerUnitNm();

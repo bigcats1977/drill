@@ -630,8 +630,7 @@ public:
     void    ReadPara(string strParaName, PARACFG *ptCfg, BOOL bNeedWrite = TRUE);
     void    WritePara(string strParaName, PARACFG *ptCfg);
     void    ReadGlbShowPara();
-    //BOOL    ReadShowPara (BYTE ucLang, SHOWCFG *ptShow);
-    BOOL    ReadShowPara(SHOWCFG* ptShow);
+    BOOL    ReadShowPara (BYTE ucLang, SHOWCFG *ptShow);
     void    WriteGlbShowPara();
     void    WriteShowPara();
     void    WriteXlsStatPara(string strParaName, XLSSTATCFG *ptStat);
@@ -648,7 +647,7 @@ public:
     void    StringSubtract(CString& strValue, BYTE ucChar);
     void    SplitRegString(CString strReg[], CString strRegCode);
     void    MergeRegString(CString strReg[], CString& strRegCode);
-    //BOOL    LoadLanguageDll(UINT nLangType, BOOL bUpdate=TRUE);
+    BOOL    LoadLanguageDll(UINT nLangType, BOOL bUpdate=TRUE);
     void    ReOpenWindow();
     void    PlayAlarmSound();
     void    StopAlarmSound();
@@ -713,7 +712,7 @@ public:
 
     PARACFG         m_tParaCfg;
     PORTCFG         m_tPortCfg;
-    SHOWCFG         m_tShowCfg[1] ;         /* 显示参数的所有参数设置 */
+    SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
     SHOWCFG         *m_ptCurShow;
     XLSSTATCFG      m_tXlsStatCfg;
     DBREG           m_tdbReg;
@@ -767,7 +766,7 @@ public:
     char            m_aucPassWord[MAXPWLEN];
 
     /* 多语言支持 */
-    //HINSTANCE       m_hLangDLL[LANGUAGE_NUM];
+    HINSTANCE       m_hLangDLL[LANGUAGE_NUM];
     UINT            m_nLangType;        /* 当前语言类型 */
 
     BYTE            m_ucDPILevel;
@@ -828,7 +827,7 @@ private:
 
     void InitArray();
     void InitVariant();
-    //void InitLanguage();
+    void InitLanguage();
 
     void SetDefaultShow(BYTE ucLang, SHOWCFG *ptShow);
     void SetDefaultXlsStat(XLSSTATCFG *ptStat);

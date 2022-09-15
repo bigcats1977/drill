@@ -1,0 +1,6 @@
+; Chinese.def : Declares the module parameters for the DLL.
+
+LIBRARY      "Chinese"
+
+EXPORTS
+    ; Explicit exports can go here

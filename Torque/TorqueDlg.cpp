@@ -677,12 +677,12 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_MESSAGE(WM_ALARMPLAYTIMEROUT,ALarmPlayTimerOut)
     ON_MESSAGE(WM_READVALVETIMEROUT,ReadValveTimerOut)
     ON_MESSAGE(WM_COMM_RXCHAR, OnCommunication)
-    /*ON_COMMAND(ID_LANG_CHN, OnLangChn)
+    ON_COMMAND(ID_LANG_CHN, OnLangChn)
     ON_UPDATE_COMMAND_UI(ID_LANG_CHN, OnUpdateLangChn)
     ON_COMMAND(ID_LANG_ENG, OnLangEng)
     ON_UPDATE_COMMAND_UI(ID_LANG_ENG, OnUpdateLangEng)
     ON_COMMAND(ID_LANG_RUS, OnLangRus)
-    ON_UPDATE_COMMAND_UI(ID_LANG_RUS, OnUpdateLangRus)*/
+    ON_UPDATE_COMMAND_UI(ID_LANG_RUS, OnUpdateLangRus)
     ON_COMMAND(ID_VER_BIGTORQ, OnVerBigTorq)
     ON_UPDATE_COMMAND_UI(ID_VER_BIGTORQ, OnUpdateVerBigTorq)
     ON_COMMAND(ID_VER_UNIT_NM, OnVerUnitNm)
@@ -872,8 +872,8 @@ BOOL CTorqueDlg::OnInitDialog()
     SetIcon(m_hIcon, FALSE);        // Set small icon
 
     m_tMenu[LANGUAGE_CHINESE].LoadMenu(IDR_MAINMENU);
-    /*m_tMenu[LANGUAGE_ENGLISH].LoadMenu(IDR_MAINMENU_ENG);
-    m_tMenu[LANGUAGE_RUSSIAN].LoadMenu(IDR_MAINMENU_RUS);*/
+    m_tMenu[LANGUAGE_ENGLISH].LoadMenu(IDR_MAINMENU_ENG);
+    m_tMenu[LANGUAGE_RUSSIAN].LoadMenu(IDR_MAINMENU_RUS);
     SetMenu(&m_tMenu[theApp.m_nLangType]);
 
     m_iShackle = theApp.m_bShackle;
@@ -4321,7 +4321,7 @@ void CTorqueDlg::OnInitMenuPopup(CMenu *pPopupMenu, UINT nIndex,BOOL bSysMenu)
         state.m_nIndexMax = nCount;
     }
 } 
-#if 0
+
 void CTorqueDlg::UpdCfgLangChg(UINT nLang)
 {
     COMP_BGE(nLang, LANGUAGE_NUM);
@@ -4374,7 +4374,7 @@ void CTorqueDlg::OnUpdateLangRus(CCmdUI *pCmdUI)
 {
     pCmdUI->SetCheck((theApp.m_nLangType == LANGUAGE_RUSSIAN));
 }
-#endif
+
 void CTorqueDlg::OnVerBigTorq()
 {
     CString  strValue;

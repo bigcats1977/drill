@@ -363,7 +363,7 @@ void CDlgParaSet::OnParaopen()
     ((CEdit*)GetDlgItem(IDC_EDITPARAFILE))->SetSel(iLen,iLen);
 
     theApp.ReadPara(m_strParaFile.GetBuffer(0), &m_tempCfg);
-    theApp.ReadShowPara(&m_tempShow);
+    theApp.ReadShowPara(m_nCurLang, &m_tempShow);
     m_ucPort = 1;
     SetParaValue(&m_tempCfg, &m_tempShow);
     m_strParaFile.ReleaseBuffer();

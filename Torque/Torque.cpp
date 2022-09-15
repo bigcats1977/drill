@@ -93,21 +93,21 @@ UINT   g_nValidLen[REGCODESEGNUM] = {
 
 SHOWPARANAME g_tNameInfo[MAXNAMENUM+1] = {
     /* 0  */    {COMMPARA_WELL,         "施工井号",     "WellNo.",          "Номер СКВ"},
-    /* 1  */    {COMMPARA_OPERATION,    "作业目的",     "OperType",         "операция"},
+    /* 1  */    {COMMPARA_OPERATION,    "作业方式",     "OperType",         "операция"},
     /* 2  */    {COMMPARA_PARTYA,       "甲方",         "Company",          "Сторона А"},
-    /* 3  */    {TUBEPARA_FACTORY,      "管件名称",     "TubingOEM",        "OEM труб"},
-    /* 4  */    {TUBEPARA_DIAMETER,     "规格扣型",     "SizeThread",       "Размер&нить"},
-    /* 5  */    {TUBEPARA_BUCKLETYPE,   "材质钢级",     "Material",         "материал"},
-    /* 6  */    {COUPPARA_DIAMETER,     "接箍规格",     "CPLSpec",          "CPL Специфик."},
+    /* 3  */    {TUBEPARA_FACTORY,      "钻杆等级",     "TubingOEM",        "OEM труб"},
+    /* 4  */    {TUBEPARA_DIAMETER,     "钻杆规格",     "SizeThread",       "Размер&нить"},
+    /* 5  */    {TUBEPARA_BUCKLETYPE,   "扣型材质",     "Material",         "материал"},
+    /* 6  */    {COUPPARA_DIAMETER,     "司钻",         "CPLSpec",          "CPL Специфик."},
     /* 7  */    {COMMPARA_CONTRACT,     "合同号",       "Contract",         "контракт"},
     /* 8  */    {TUBEPARA_TUBENO,       "管体序号",     "TubingSN",         "Номер Трубка"},
     /* 9  */    {TUBEPARA_RUNNINGNO,    "入井序号",     "TallyNO",          "Номер Спусти."},
     /* 10 */    {COUPPARA_THREADDOPE,   "丝扣油",       "ThreadDope",       "Нить допинг"},
     /* 11 */    {COUPPARA_HANDDEVICE,   "悬吊工具",     "Elevator",         "Пове устр"},
-    /* 12 */    {COMMPARA_CASINGTEAM,   "油套管队",     "TRSTeam",          "кожух ком"},
-    /* 13 */    {COMMPARA_SHIFTLEADER,  "队长",         "TRSSpv.",          "Начал смены"},
+    /* 12 */    {COMMPARA_CASINGTEAM,   "钻井队",       "TRSTeam",          "кожух ком"},
+    /* 13 */    {COMMPARA_SHIFTLEADER,  "当班班长",         "TRSSpv.",          "Начал смены"},
     /* 14 */    {COUPPARA_HYDTONG,      "液压钳",       "HYDTong",          "гидра ключ"},
-    /* 15 */    {COUPPARA_OEM,          "厂家",         "Factory",          "завод"}
+    /* 15 */    {COUPPARA_OEM,          "钻井厂家",     "Factory",          "завод"}
 };
 
 /*********************代码宏************************************/
@@ -221,7 +221,7 @@ void CTorqueApp::InitVariant()
     m_nPBHead       = htonl(PBHEAD);
     m_strReadFile.clear();
 }
-#if 0
+
 void CTorqueApp::InitLanguage()
 {
     int     i = 0;
@@ -254,7 +254,7 @@ BOOL CTorqueApp::LoadLanguageDll(UINT nLangType, BOOL bUpdate)
 
     return TRUE;
 }
-#endif
+
 void CTorqueApp::InitArray()
 {
     m_slParity[0] = _T("Odd");
@@ -392,7 +392,7 @@ BOOL CTorqueApp::InitInstance()
 
     /* 初始化数组、变量 */
     InitVariant();
-    //InitLanguage();
+    InitLanguage();
     InitArray();
 
     /*构造保存正常Log数据的文件路径*/
@@ -412,11 +412,14 @@ BOOL CTorqueApp::InitInstance()
 
     /* 显示参数 */
     ReadGlbShowPara();
-    if (!ReadShowPara(&m_tShowCfg[0]))
+    for(i=0; i<LANGUAGE_NUM; i++)
+        if(!ReadShowPara(i, &m_tShowCfg[i]))
+            bModified = TRUE;
+    if(bModified)
         WriteShowPara();
 
-    //LoadLanguageDll(m_nLangType, FALSE);
-    m_ptCurShow = &m_tShowCfg[m_nLangType] ;
+    LoadLanguageDll(m_nLangType, FALSE);
+    m_ptCurShow = &m_tShowCfg[m_nLangType];
     /* 获取当前数据序号 */
     GetCurNum();
 
@@ -481,11 +484,11 @@ int CTorqueApp::ExitInstance()
     for(i=0; i<DBG_MAXNUM; i++)
         m_strDbgHead[i].Empty();
     m_strUnit.Empty();
-    /*for (i = 0; i<LANGUAGE_NUM; i++)
+    for (i = 0; i<LANGUAGE_NUM; i++)
     {
         if (m_hLangDLL[i])
             AfxFreeLibrary(m_hLangDLL[i]);
-    }*/
+    }
 
     google::protobuf::ShutdownProtobufLibrary();
 
@@ -655,17 +658,15 @@ void CTorqueApp::SetDefaultShow(BYTE ucLang, SHOWCFG *ptShow)
 
 void CTorqueApp::ReadGlbShowPara()
 {
-    //char    auctemp[MAXPARALEN];
+    char    auctemp[MAXPARALEN];
 
-    m_nLangType = LANGUAGE_CHINESE;
-
-    /*GetConfigStr(m_strShowFile.c_str(), IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,IDS_STRZERO,auctemp);
-    m_nLangType = atoi(auctemp);*/
+    GetConfigStr(m_strShowFile.c_str(), IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,IDS_STRZERO,auctemp);
+    m_nLangType = atoi(auctemp);
 
     GetConfigStr(m_strShowFile.c_str(), IDS_STRPNGLBPARA, IDS_STRPIPASSWORD, IDS_STRPVPASSWORD, m_aucPassWord);
 }
 
-BOOL CTorqueApp::ReadShowPara(SHOWCFG *ptShow)
+BOOL CTorqueApp::ReadShowPara(BYTE ucLang, SHOWCFG *ptShow)
 {
     WORD    i       = 0;
     WORD    j       = 0;
@@ -679,7 +680,6 @@ BOOL CTorqueApp::ReadShowPara(SHOWCFG *ptShow)
     string  strDefault;
     char    aucTemp[MAXPARALEN];
     ostringstream buf;
-    BYTE ucLang = LANGUAGE_CHINESE;
 
     ASSERT_NULL_R(ptShow, FALSE);
     
@@ -839,8 +839,8 @@ void CTorqueApp::WriteGlbShowPara()
 {
     CString  strValue;
 
-    /*strValue.Format("%d",m_nLangType);
-    WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,strValue,m_strShowFile.c_str());*/
+    strValue.Format("%d",m_nLangType);
+    WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,strValue,m_strShowFile.c_str());
     
     WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPIPASSWORD,m_aucPassWord,m_strShowFile.c_str());
 
