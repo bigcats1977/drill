@@ -711,19 +711,19 @@ BOOL CTorqueApp::ReadShowPara(BYTE ucLang, SHOWCFG *ptShow)
     GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
     ptShow->wMainNum = atoi(aucTemp);
 
-    /* 是否固定管材信息 */
+    /* 是否固定管材信息 
     ptShow->bFixTub = TRUE;
     strName = LoadString4string(IDS_STRPIFIXTUBING);
     strKeyName = strLang + strName;
     strDefault = LoadString4string(IDS_STRONE);
     GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
     if (atoi(aucTemp) == 0)
-        ptShow->bFixTub = FALSE;
+        ptShow->bFixTub = FALSE;*/
     // 不显示固定管材信息
     ptShow->bFixTub = FALSE;
 
     /* 油管固定参数 */
-    ReadFixTubingPara(m_strShowFile, strLang, &ptShow->tTubingCfg);
+    //ReadFixTubingPara(m_strShowFile, strLang, &ptShow->tTubingCfg);
 
     if(ptShow->wParaNum == 0 || ptShow->wListNum == 0 || ptShow->wMainNum == 0)
     {
