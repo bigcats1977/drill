@@ -69,7 +69,7 @@
     <OutDir>Debug\</OutDir>
     <IntDir>Debug\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>TorqueMeterV3.23</TargetName>
+    <TargetName>TorqueMeterV6.23</TargetName>
     <IncludePath>.\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -81,7 +81,7 @@
     <IntDir>Release\</IntDir>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>TorqueMeterV3.23</TargetName>
+    <TargetName>TorqueMeterV6.23</TargetName>
     <IncludePath>.\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -103,7 +103,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;Netapi32.lib;Version.lib;legacy_stdio_definitions.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)TorqueMeterV3.23.exe</OutputFile>
+      <OutputFile>$(OutDir)TorqueMeterV6.23.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
@@ -156,7 +156,7 @@
     </ProjectReference>
     <Link>
       <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;Netapi32.lib;Version.lib;legacy_stdio_definitions.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)TorqueMeterV3.23.exe</OutputFile>
+      <OutputFile>$(OutDir)TorqueMeterV6.23.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
