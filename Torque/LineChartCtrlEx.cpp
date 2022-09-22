@@ -64,6 +64,7 @@ CLineChartCtrlEx::CLineChartCtrlEx()
     m_clrBk       = CTRLBKCOLOR;
     m_bBear       = FALSE;
     m_bBKLine     = TRUE;
+    m_bShowIP = FALSE;
     m_bIPLock     = FALSE;
     //m_nTorqNo     = 1;
     m_bIPSeled    = FALSE;

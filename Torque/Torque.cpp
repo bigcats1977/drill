@@ -107,7 +107,7 @@ SHOWPARANAME g_tNameInfo[MAXNAMENUM+1] = {
     /* 12 */    {COMMPARA_CASINGTEAM,   "钻井队",       "TRSTeam",          "кожух ком"},
     /* 13 */    {COMMPARA_SHIFTLEADER,  "当班班长",     "TRSSpv.",          "Начал смены"},
     /* 14 */    {COUPPARA_HYDTONG,      "液压钳",       "HYDTong",          "гидра ключ"},
-    /* 15 */    {COUPPARA_OEM,          "钻井厂家",     "Factory",          "завод"}
+    /* 15 */    {COUPPARA_OEM,          "钻杆厂家",     "Factory",          "завод"}
 };
 
 /*********************代码宏************************************/

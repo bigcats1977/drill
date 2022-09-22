@@ -51,6 +51,7 @@ public:
     BOOL            m_bBKLine;
     BOOL            m_bIPLock;
     BYTE            m_uLineType;
+    BOOL            m_bShowIP;
 
     // Operations
 public:
