@@ -49,7 +49,7 @@ private:
     Excel       m_impExc;
 
     BOOL        CheckTorqValue();
-    BOOL        CheckReadCalib(CALIBCTRL *ptRead, CString &strError);
+    BOOL        CheckReadCalib(CALIBCTRL *ptRead, string &strError);
     void        GetCalibInfo();
     void        UpdateCalibList();
     void        EnableCtrl(BOOL bBegin);

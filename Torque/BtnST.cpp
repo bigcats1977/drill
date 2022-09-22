@@ -1,11 +1,13 @@
 #include "StdAfx.h"
 #include "BtnST.h"
+#include "Torque.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CButtonST
@@ -1770,13 +1772,14 @@ void CButtonST::InitToolTip()
 //
 void CButtonST::SetTooltipText(int iText, BOOL bActivate)
 {
-    CString strText;
+    string strText;
 
     // Load string resource
-    strText.LoadString(iText);
+    //strText.LoadString(iText);
+    strText = theApp.LoadstringFromRes(iText);
     // If string resource is not empty
-    if (strText.IsEmpty() == FALSE)
-        SetTooltipText((LPCTSTR)strText, bActivate);
+    if (strText.empty() == FALSE)
+        SetTooltipText(strText.c_str(), bActivate);
 } // End of SetTooltipText
 
 // This function sets the text to show in the button tooltip.
@@ -2044,10 +2047,12 @@ void CButtonST::SetIconAndText(int iIconIn, LPCTSTR lpszText)
 
 void CButtonST::SetIconAndText(int iIconIn, WORD wTextID)
 {
-    CString  strText;
+    //CString  strText;
+    string strText;
     
-    strText.Format(wTextID);
-    SetIconAndText(iIconIn, strText);
+    //strText.Format(wTextID);
+    strText = theApp.LoadstringFromRes(wTextID);
+    SetIconAndText(iIconIn, theApp.LoadstringFromRes(wTextID).c_str());
 }
 //#undef BS_TYPEMASK
 

@@ -7,7 +7,6 @@
 #include "afxdialogex.h"
 
 
-extern TORQUEDATA  m_tReadData; 
 // CDlgScatter 对话框
 
 IMPLEMENT_DYNAMIC(CDlgScatter, CDialogEx)
@@ -98,27 +97,27 @@ void CDlgScatter::ResetScatLine(PARACFG *ptCfg)
     ptComm = &ptCfg->tComm;
 
     m_wndLineScat.RemoveAt();
-    m_wndLineScat.m_fUpperLimit = ptCtrl->fUpperLimit;     /* 最大扭矩 */
-    m_wndLineScat.m_fLowerLimit = ptCtrl->fLowerLimit;     /* 最小扭矩 */
-    m_wndLineScat.m_fOptTorq    = ptCtrl->fOptTorq;        /* 最佳扭矩 */
-    m_wndLineScat.m_fSpeedDown  = ptCtrl->fSpeedDown;      /* 减速扭矩 */
-    m_wndLineScat.m_fShow       = ptCtrl->fShow;           /* 显示扭矩 */
-    m_wndLineScat.m_fBear       = ptCtrl->fBear;           /* 肩负扭矩 */
-    m_wndLineScat.m_fControlCir = ptCtrl->fControlCir;     /* 控制周数 */
-    m_wndLineScat.m_fUpperCir   = ptCtrl->fUpperCir;       /* 上限周数 */
-    m_wndLineScat.m_fLowerCir   = ptCtrl->fLowerCir;       /* 下限周数 */
-    m_wndLineScat.m_fMaxCir     = ptCtrl->fMaxCir;         /* 最大周数 */
-    m_wndLineScat.m_fMaxLimit   = ptCtrl->fMaxLimit;       /* 最大上限 */
-    m_wndLineScat.m_fUpperTai   = ptComm->fUpperTai;       /* 最大台阶 */
-    m_wndLineScat.m_fLowerTai   = ptComm->fLowerTai;       /* 最小台阶 */
+    m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
+    m_wndLineScat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
+    m_wndLineScat.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
+    m_wndLineScat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
+    m_wndLineScat.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
+    m_wndLineScat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    m_wndLineScat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* 控制周数 */
+    m_wndLineScat.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
+    m_wndLineScat.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
+    m_wndLineScat.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
+    m_wndLineScat.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
+    m_wndLineScat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
+    m_wndLineScat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
 
     m_wndLineScat.SetBkColor(RGB(255, 255, 255));
     m_wndLineScat.m_bBKLine = FALSE;
-    m_wndLineScat.Add(RGB(0, 0, 0), ptCtrl->fMaxLimit, 0.0);
+    m_wndLineScat.Add(RGB(0, 0, 0), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0);
 
     /* 重新设置刻度 */
-    m_xScatAxis.SetTickPara(10, ptCtrl->fMaxCir);
-    m_yScatAxis.SetTickPara(20, ptCtrl->fMaxLimit);
+    m_xScatAxis.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
+    m_yScatAxis.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
     m_wndLineScat.DrawBkLine();
 }
 
@@ -129,7 +128,7 @@ void CDlgScatter::DrawScatterPlot(void)
     double  fCir    = 0;
     TorqData::Torque  *ptTorq = NULL;
     
-    for(i=0; i<m_tReadData.nTotal; i++)
+    for(i=0; i<g_tReadData.nTotal; i++)
     {
         ptTorq = theApp.GetOrgTorqFromTorq(i);
         if(NULL== ptTorq)
@@ -143,9 +142,9 @@ void CDlgScatter::DrawScatterPlot(void)
         fCir = theApp.GetCir(ptTorq);
         CHECK_VALUE_LOW(m_fFullCir, fCir);
     }
-    ResetScatLineByData(&m_tReadData.tData[m_tReadData.nTotal-1]);
+    ResetScatLineByData(&g_tReadData.tData[g_tReadData.nTotal-1]);
 
-    m_wndLineScat.DrawMultiScatter(&m_tReadData);
+    m_wndLineScat.DrawMultiScatter(&g_tReadData);
 
     UpdateData(FALSE);
 }

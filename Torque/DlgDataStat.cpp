@@ -15,8 +15,6 @@
 
 // CDlgDataStat dialog
 
-extern TORQUEDATA  m_tReadData;
-
 IMPLEMENT_DYNAMIC(CDlgDataStat, CDialogEx)
 
 CDlgDataStat::CDlgDataStat(CWnd* pParent /*=NULL*/)
@@ -165,7 +163,9 @@ BOOL CDlgDataStat::OnInitDialog()
     theApp.AdaptDlgCtrlSize(this, 0);
 
     ptCtrl = &theApp.m_tParaCfg.tCtrl;
-    InitStatRange(ptCtrl->fLowerLimit, ptCtrl->fOptTorq, ptCtrl->fUpperLimit);
+    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], 
+                  ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],
+                  ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
     InitLabelInfo();
 
     ResetStatLine(&theApp.m_tParaCfg);
@@ -179,16 +179,16 @@ BOOL CDlgDataStat::OnInitDialog()
 
 void CDlgDataStat::UpdateDlgLabel()
 {
-    switch(theApp.m_nLangType)
+    switch(g_tGlbCfg.nLangType)
     {
         case LANGUAGE_CHINESE:
-            m_strLBS3.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", theApp.m_strUnit);
+            m_strLBS3.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit);
             break;
         case LANGUAGE_ENGLISH:
-            m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)",  theApp.m_strUnit);
+            m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit);
             break;
         /*case LANGUAGE_RUSSIAN:
-            m_strLBS3.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)",  theApp.m_strUnit);
+            m_strLBS3.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", g_tGlbCfg.strUnit);
             break;*/
     }
 }
@@ -197,11 +197,11 @@ void CDlgDataStat::ShowCurStat(CString strStatFile)
 {
     m_strStatFile = strStatFile;
     
-    ASSERT_ZERO(m_tReadData.nTotal);
+    ASSERT_ZERO(g_tReadData.nTotal);
 
     ClearFileInfo();
 
-    m_nStatType = theApp.m_ptCurShow->wStatType;
+    m_nStatType = theApp.m_ptCurShow->nStatType;
 
     GetStatType();
 
@@ -275,27 +275,27 @@ void CDlgDataStat::ResetStatLine(PARACFG *ptCfg)
     ptComm = &ptCfg->tComm;
 
     m_wndLineStat.RemoveAt();
-    m_wndLineStat.m_fUpperLimit = ptCtrl->fUpperLimit;     /* 最大扭矩 */
-    m_wndLineStat.m_fLowerLimit = ptCtrl->fLowerLimit;     /* 最小扭矩 */
-    m_wndLineStat.m_fOptTorq    = ptCtrl->fOptTorq;        /* 最佳扭矩 */
-    m_wndLineStat.m_fSpeedDown  = ptCtrl->fSpeedDown;      /* 减速扭矩 */
-    m_wndLineStat.m_fShow       = ptCtrl->fShow;           /* 显示扭矩 */
-    m_wndLineStat.m_fBear       = ptCtrl->fBear;           /* 肩负扭矩 */
-    m_wndLineStat.m_fControlCir = ptCtrl->fControlCir;     /* 控制周数 */
-    m_wndLineStat.m_fUpperCir   = ptCtrl->fUpperCir;       /* 上限周数 */
-    m_wndLineStat.m_fLowerCir   = ptCtrl->fLowerCir;       /* 下限周数 */
-    m_wndLineStat.m_fMaxCir     = ptCtrl->fMaxCir;         /* 最大周数 */
-    m_wndLineStat.m_fMaxLimit   = ptCtrl->fMaxLimit;       /* 最大上限 */
-    m_wndLineStat.m_fUpperTai   = ptComm->fUpperTai;       /* 最大台阶 */
-    m_wndLineStat.m_fLowerTai   = ptComm->fLowerTai;       /* 最小台阶 */
+    m_wndLineStat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
+    m_wndLineStat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
+    m_wndLineStat.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
+    m_wndLineStat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
+    m_wndLineStat.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
+    m_wndLineStat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    m_wndLineStat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];        /* 控制周数 */
+    m_wndLineStat.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];     /* 上限周数 */
+    m_wndLineStat.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];     /* 下限周数 */
+    m_wndLineStat.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];       /* 最大周数 */
+    m_wndLineStat.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
+    m_wndLineStat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
+    m_wndLineStat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
 
     m_wndLineStat.SetBkColor(RGB(255, 255, 255));
     m_wndLineStat.m_bBKLine = FALSE;
-    m_wndLineStat.Add(RGB(0, 0, 0), ptCtrl->fMaxLimit, 0.0);
+    m_wndLineStat.Add(RGB(0, 0, 0), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0);
 
     /* 重新设置刻度 */
-    m_xStatAxis.SetTickPara(10, ptCtrl->fMaxCir);
-    m_yStatAxis.SetTickPara(20, ptCtrl->fMaxLimit);
+    m_xStatAxis.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
+    m_yStatAxis.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
     m_wndLineStat.DrawBkLine();
 
     UpdateDlgLabel();
@@ -306,11 +306,11 @@ void CDlgDataStat::GetStatType()
     int    i  = 0;
     TorqData::Torque  *ptTorq = NULL;
 
-    ASSERT_ZERO(m_tReadData.nTotal);
+    ASSERT_ZERO(g_tReadData.nTotal);
 
     m_cbStatType.ResetContent();
-    ptTorq = &m_tReadData.tData[m_tReadData.nTotal-1];    
-    for(i=0; i<ptTorq->tshow_size(); i++)
+    ptTorq = &g_tReadData.tData[g_tReadData.nTotal-1];    
+    for(i=1; i<=ptTorq->tshow_size(); i++)
     {
         m_cbStatType.AddString(theApp.GetTorqShowName(ptTorq, i));
     }
@@ -325,14 +325,14 @@ void CDlgDataStat::GetBasicStatInfo()
     TorqData::Torque  *ptTorq = NULL;
     CString strType;
 
-    ASSERT_ZERO(m_tReadData.nTotal);
+    ASSERT_ZERO(g_tReadData.nTotal);
     
     strType.Format(IDS_STRALLSTAT);
     m_cbBuckType.AddString(strType);
 
-    for(i=0; i<m_tReadData.nTotal; i++)
+    for(i=0; i<g_tReadData.nTotal; i++)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
         strType = theApp.GetStatType(ptTorq, m_nStatType);
 
         if(!strType.IsEmpty())
@@ -360,8 +360,8 @@ void CDlgDataStat::ClearFileInfo()
     m_nBuckNum = 0;
     m_nQuali   = 0;
     m_nUnQuali = 0;
-    m_fOptTorq = (int)theApp.m_tParaCfg.tCtrl.fOptTorq;
-    m_fMaxTorq = (int)theApp.m_tParaCfg.tCtrl.fUpperLimit;
+    m_fOptTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
+    m_fMaxTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT];
     m_fMinTorq = 0;
 
     m_ptDrawData = NULL;
@@ -452,10 +452,10 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     double  fInflTorq   = 0;
     double  fDeltCir    = 0;
     DWORD   dwQuality   = 0;
-    int     iShowIndex  = m_tReadData.nTotal-1;
+    int     iShowIndex  = g_tReadData.nTotal-1;
     double  fFullTorq   = 0;
     CString strNo;
-    LISTINT listNo;
+    vector<int> listNo;
     TorqData::Torque *ptTorq = NULL;
 
     m_nBuckNum = 0;
@@ -469,9 +469,9 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     m_fMinTorq  = 0xFFFFFFFF;
     m_ptDrawData = NULL;
 
-    for(i=m_tReadData.nTotal-1; i>=0; i--)
+    for(i=g_tReadData.nTotal-1; i>=0; i--)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
         if(!IsSelType(ptTorq))
             continue;
         
@@ -483,7 +483,7 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     }
     /* 选择满屏扭矩最大的数据,或者没有选中，取最后的值 */
     {
-        m_ptDrawData = &m_tReadData.tData[iShowIndex];
+        m_ptDrawData = &g_tReadData.tData[iShowIndex];
         if(!bSetRange)
         {
             InitStatRange(m_ptDrawData->flowerlimit(), 
@@ -495,9 +495,9 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         m_fOptTorq = (int)theApp.GetOptTorq(m_ptDrawData);
     }
 
-    for(i=m_tReadData.nTotal-1; i>=0; i--)
+    for(i=g_tReadData.nTotal-1; i>=0; i--)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
         if(!IsSelType(ptTorq))
             continue;
 
@@ -591,15 +591,15 @@ void CDlgDataStat::DrawStatFlow(CTChart *ptChart, CString strRatio[], CString st
     
 }
 
-void CDlgDataStat::DrawStatTorq(LISTINT listNo)
+void CDlgDataStat::DrawStatTorq(vector<int> listNo)
 {
     if(m_nBuckNum != 0)
     {
-        m_wndLineStat.DrawMultiData(&m_tReadData, listNo);
+        m_wndLineStat.DrawMultiData(&g_tReadData, listNo);
         return;
     }
 
-    m_wndLineStat.DrawMultiData(&m_tReadData, listNo);
+    m_wndLineStat.DrawMultiData(&g_tReadData, listNo);
     m_fMaxTorq = 0;
     m_fMinTorq = 0;
 }
@@ -608,19 +608,19 @@ void CDlgDataStat::OnBnClickedBtnsetstat()
     CDlgStatSet dlgStatSet;
     TorqData::Torque *ptTorq = m_ptDrawData;
 
-    if(m_tReadData.nTotal != 0)
+    if(g_tReadData.nTotal != 0)
     {
         if(ptTorq == NULL)
-            ptTorq = &m_tReadData.tData[m_tReadData.nTotal-1];
+            ptTorq = &g_tReadData.tData[g_tReadData.nTotal-1];
         dlgStatSet.m_fCtrlMax   = ptTorq->fmaxlimit();
         dlgStatSet.m_fShouldMax = theApp.GetOptTorq(ptTorq);
         dlgStatSet.m_fDeltaMax  = ptTorq->fmaxcir();
     }
     else
     {
-        dlgStatSet.m_fCtrlMax   = theApp.m_tParaCfg.tCtrl.fMaxLimit;
-        dlgStatSet.m_fShouldMax = theApp.m_tParaCfg.tCtrl.fOptTorq;
-        dlgStatSet.m_fDeltaMax  = theApp.m_tParaCfg.tCtrl.fMaxCir;
+        dlgStatSet.m_fCtrlMax   = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT];
+        dlgStatSet.m_fShouldMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
+        dlgStatSet.m_fDeltaMax  = theApp.m_tParaCfg.tCtrl.fTurnConf[INDEX_TURN_MAXLIMIT];
     }
     
     dlgStatSet.m_tempStat     = m_tStatCfg;
@@ -696,7 +696,7 @@ void CDlgDataStat::OnBnClickedBtnsavestat()
 void CDlgDataStat::OnBnClickedCheckalign()
 {
     m_bAlignShow = !m_bAlignShow;
-    COMP_BE(m_tReadData.nTotal, 0);
+    COMP_BE(g_tReadData.nTotal, 0);
     BeginCalStat();
 }
 

@@ -60,7 +60,7 @@ void CDlgRemark::OnOK()
 BOOL CDlgRemark::OnInitDialog()
 {
     int     i = 0;
-    CString strQuality;
+    string  strQuality;
 
     CDialog::OnInitDialog();
     // TODO:  Add extra initialization here
@@ -120,8 +120,9 @@ BOOL CDlgRemark::OnInitDialog()
 
     for(i=0; i<MAX_USE_CAUSE; i++)
     {
-        strQuality.Format(IDS_STRMARKDISQUAL + m_lsCause[i]);
-        m_cbRemark.AddString(strQuality);
+        //strQuality.Format(IDS_STRMARKDISQUAL + m_lsCause[i]);
+        strQuality = theApp.LoadstringFromRes(IDS_STRMARKDISQUAL + m_lsCause[i]);
+        m_cbRemark.AddString(strQuality.c_str());
     }
     
     SetRejCause();

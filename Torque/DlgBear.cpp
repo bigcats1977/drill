@@ -75,12 +75,13 @@ void CDlgBear::OnBnClickedCheckbigtorq()
     UpdateData(TRUE);
 
     theApp.m_nTorqMulti = 1;
-    theApp.m_bBigTorq = m_bBigTorq;
+    g_tGlbCfg.bBigTorq = m_bBigTorq;
     if(m_bBigTorq)
         theApp.m_nTorqMulti = 10;
 
-    strNum.Format("%d",m_bBigTorq);
-    theApp.WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIBIGTORQ,strNum,theApp.m_strParaFile);
+    theDB.UpdateGlobalPara();
+    /*strNum.Format("%d",m_bBigTorq);
+    theApp.WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIBIGTORQ,strNum,theApp.m_strParaFile);*/
 }
 
 void CDlgBear::OnBnClickedCheckshackle()
@@ -88,5 +89,9 @@ void CDlgBear::OnBnClickedCheckshackle()
     CString strNum;
 
     UpdateData(TRUE);
+
+    g_tGlbCfg.bShackle = m_bShackle;
+
+    theDB.UpdateGlobalPara();
 }
 

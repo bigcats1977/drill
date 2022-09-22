@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(CDlgShowSet, CDialog)
 CDlgShowSet::CDlgShowSet(CWnd* pParent /*=NULL*/)
     : CDialog(IDD_DLGSHOWPARA, pParent)
 {
+    m_bModified = FALSE;
 }
 
 CDlgShowSet::~CDlgShowSet()
@@ -22,7 +23,6 @@ CDlgShowSet::~CDlgShowSet()
 void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_EDSHOWNAME0, m_strShowName[0]);
     DDX_Text(pDX, IDC_EDSHOWNAME1, m_strShowName[1]);
     DDX_Text(pDX, IDC_EDSHOWNAME2, m_strShowName[2]);
     DDX_Text(pDX, IDC_EDSHOWNAME3, m_strShowName[3]);
@@ -37,7 +37,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDSHOWNAME12, m_strShowName[12]);
     DDX_Text(pDX, IDC_EDSHOWNAME13, m_strShowName[13]);
     DDX_Text(pDX, IDC_EDSHOWNAME14, m_strShowName[14]);
-    DDX_Check(pDX, IDC_CHECKLIST0, m_bList[0]);
+    DDX_Text(pDX, IDC_EDSHOWNAME15, m_strShowName[15]);
     DDX_Check(pDX, IDC_CHECKLIST1, m_bList[1]);
     DDX_Check(pDX, IDC_CHECKLIST2, m_bList[2]);
     DDX_Check(pDX, IDC_CHECKLIST3, m_bList[3]);
@@ -52,7 +52,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKLIST12, m_bList[12]);
     DDX_Check(pDX, IDC_CHECKLIST13, m_bList[13]);
     DDX_Check(pDX, IDC_CHECKLIST14, m_bList[14]);
-    DDX_Check(pDX, IDC_CHECKMAIN0, m_bMain[0]);
+    DDX_Check(pDX, IDC_CHECKLIST15, m_bList[15]);
     DDX_Check(pDX, IDC_CHECKMAIN1, m_bMain[1]);
     DDX_Check(pDX, IDC_CHECKMAIN2, m_bMain[2]);
     DDX_Check(pDX, IDC_CHECKMAIN3, m_bMain[3]);
@@ -67,9 +67,9 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKMAIN12, m_bMain[12]);
     DDX_Check(pDX, IDC_CHECKMAIN13, m_bMain[13]);
     DDX_Check(pDX, IDC_CHECKMAIN14, m_bMain[14]);
+    DDX_Check(pDX, IDC_CHECKMAIN15, m_bMain[15]);
     DDX_Radio(pDX, IDC_RADIOSHOWFILE0, m_iFileName);
     DDX_Radio(pDX, IDC_RADIOSHOWSTAT0, m_iShowStat);
-    DDX_Control(pDX, IDC_RADIOSHOWFILE0, m_rdShowName[0]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE1, m_rdShowName[1]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE2, m_rdShowName[2]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE3, m_rdShowName[3]);
@@ -84,7 +84,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOSHOWFILE12, m_rdShowName[12]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE13, m_rdShowName[13]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE14, m_rdShowName[14]);
-    DDX_Control(pDX, IDC_RADIOSHOWSTAT0, m_rdStatName[0]);
+    DDX_Control(pDX, IDC_RADIOSHOWFILE15, m_rdShowName[15]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT1, m_rdStatName[1]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT2, m_rdStatName[2]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT3, m_rdStatName[3]);
@@ -99,7 +99,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOSHOWSTAT12, m_rdStatName[12]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT13, m_rdStatName[13]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT14, m_rdStatName[14]);
-    DDX_Control(pDX, IDC_CHECKLIST0, m_clListName[0]);
+    DDX_Control(pDX, IDC_RADIOSHOWSTAT15, m_rdStatName[15]);
     DDX_Control(pDX, IDC_CHECKLIST1, m_clListName[1]);
     DDX_Control(pDX, IDC_CHECKLIST2, m_clListName[2]);
     DDX_Control(pDX, IDC_CHECKLIST3, m_clListName[3]);
@@ -114,7 +114,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKLIST12, m_clListName[12]);
     DDX_Control(pDX, IDC_CHECKLIST13, m_clListName[13]);
     DDX_Control(pDX, IDC_CHECKLIST14, m_clListName[14]);
-    DDX_Control(pDX, IDC_CHECKMAIN0, m_clMainName[0]);
+    DDX_Control(pDX, IDC_CHECKLIST15, m_clListName[15]);
     DDX_Control(pDX, IDC_CHECKMAIN1, m_clMainName[1]);
     DDX_Control(pDX, IDC_CHECKMAIN2, m_clMainName[2]);
     DDX_Control(pDX, IDC_CHECKMAIN3, m_clMainName[3]);
@@ -129,13 +129,11 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKMAIN12, m_clMainName[12]);
     DDX_Control(pDX, IDC_CHECKMAIN13, m_clMainName[13]);
     DDX_Control(pDX, IDC_CHECKMAIN14, m_clMainName[14]);
-    
+    DDX_Control(pDX, IDC_CHECKMAIN15, m_clMainName[15]);
 }
 
 BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
-    ON_BN_CLICKED(IDOK, &CDlgShowSet::OnBnClickedOk)
     ON_WM_CTLCOLOR()
-    ON_BN_CLICKED(IDC_RADIOSHOWFILE0, &CDlgShowSet::OnBnClickedRadioshowfile0)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE1, &CDlgShowSet::OnBnClickedRadioshowfile1)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE2, &CDlgShowSet::OnBnClickedRadioshowfile2)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE3, &CDlgShowSet::OnBnClickedRadioshowfile3)
@@ -150,7 +148,7 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE12, &CDlgShowSet::OnBnClickedRadioshowfile12)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE13, &CDlgShowSet::OnBnClickedRadioshowfile13)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE14, &CDlgShowSet::OnBnClickedRadioshowfile14)
-    ON_BN_CLICKED(IDC_RADIOSHOWSTAT0, &CDlgShowSet::OnBnClickedRadioshowstat0)
+    ON_BN_CLICKED(IDC_RADIOSHOWFILE15, &CDlgShowSet::OnBnClickedRadioshowfile15)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT1, &CDlgShowSet::OnBnClickedRadioshowstat1)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT2, &CDlgShowSet::OnBnClickedRadioshowstat2)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT3, &CDlgShowSet::OnBnClickedRadioshowstat3)
@@ -165,7 +163,7 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT12, &CDlgShowSet::OnBnClickedRadioshowstat12)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT13, &CDlgShowSet::OnBnClickedRadioshowstat13)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT14, &CDlgShowSet::OnBnClickedRadioshowstat14)
-    ON_BN_CLICKED(IDC_CHECKLIST0, &CDlgShowSet::OnBnClickedChecklist0)
+    ON_BN_CLICKED(IDC_RADIOSHOWSTAT15, &CDlgShowSet::OnBnClickedRadioshowstat15)
     ON_BN_CLICKED(IDC_CHECKLIST1, &CDlgShowSet::OnBnClickedChecklist1)
     ON_BN_CLICKED(IDC_CHECKLIST2, &CDlgShowSet::OnBnClickedChecklist2)
     ON_BN_CLICKED(IDC_CHECKLIST3, &CDlgShowSet::OnBnClickedChecklist3)
@@ -180,7 +178,7 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_CHECKLIST12, &CDlgShowSet::OnBnClickedChecklist12)
     ON_BN_CLICKED(IDC_CHECKLIST13, &CDlgShowSet::OnBnClickedChecklist13)
     ON_BN_CLICKED(IDC_CHECKLIST14, &CDlgShowSet::OnBnClickedChecklist14)
-    ON_BN_CLICKED(IDC_CHECKMAIN0, &CDlgShowSet::OnBnClickedCheckmain0)
+    ON_BN_CLICKED(IDC_CHECKLIST15, &CDlgShowSet::OnBnClickedChecklist15)
     ON_BN_CLICKED(IDC_CHECKMAIN1, &CDlgShowSet::OnBnClickedCheckmain1)
     ON_BN_CLICKED(IDC_CHECKMAIN2, &CDlgShowSet::OnBnClickedCheckmain2)
     ON_BN_CLICKED(IDC_CHECKMAIN3, &CDlgShowSet::OnBnClickedCheckmain3)
@@ -195,55 +193,59 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_CHECKMAIN12, &CDlgShowSet::OnBnClickedCheckmain12)
     ON_BN_CLICKED(IDC_CHECKMAIN13, &CDlgShowSet::OnBnClickedCheckmain13)
     ON_BN_CLICKED(IDC_CHECKMAIN14, &CDlgShowSet::OnBnClickedCheckmain14)
+    ON_BN_CLICKED(IDC_CHECKMAIN15, &CDlgShowSet::OnBnClickedCheckmain15)
+    ON_BN_CLICKED(IDC_UPDATESHOW, &CDlgShowSet::OnBnClickedUpdateshow)
 END_MESSAGE_MAP()
 
 // CDlgShowSet message handlers
-
-
 BOOL CDlgShowSet::OnInitDialog()
 {
     WORD    i = 0;
-    WORD    j = 0;
-    CString strList;
-    CString strMain;
+    //WORD    j = 0;
+    //string  strList;
+    //string  strMain;
 
     CDialog::OnInitDialog();
 
     m_clrNormal  = RGB(0, 0, 0); 
     m_clrChanged = RGB(255, 0, 0);
-    memset(&m_bHisList[0], FALSE, sizeof(BOOL)*MAXPARANUM);
-    memset(&m_bHisMain[0], FALSE, sizeof(BOOL)*MAXPARANUM);
+    memset(&m_bList[0], FALSE, sizeof(BOOL) * MAXPARANUM);
+    memset(&m_bMain[0], FALSE, sizeof(BOOL) * MAXPARANUM);
+    memset(&m_bHisList[0], FALSE, sizeof(BOOL) * MAXPARANUM);
+    memset(&m_bHisMain[0], FALSE, sizeof(BOOL) * MAXPARANUM);
 
-    for(i=0; i<m_tempShow.wParaNum && i<MAXPARANUM; i++)
+    for(i=1; i<m_tempShow.nParaNum && i<MAXPARANUM; i++)
     {
-        m_strShowName[i] = m_tempShow.tShow[i].strName.c_str();
+        m_strShowName[i] = m_tempShow.strShow[i].c_str();
     }
-    m_iPriorShowCtrlID = m_iFileName = m_tempShow.wFileName;
-    m_iPriorStatCtrlID = m_iShowStat = m_tempShow.wStatType;
-    for(i=0; i<m_tempShow.wListNum; i++)
+    m_iPriorShowCtrlID = m_iFileName = m_tempShow.nFileName;
+    m_iPriorStatCtrlID = m_iShowStat = m_tempShow.nStatType;
+    for(i=0; i<m_tempShow.nListNum; i++)
     {
-        strList = m_tempShow.strList[i].c_str();
-        for(j=0; j<m_tempShow.wParaNum && j<MAXPARANUM; j++)
+        m_bHisList[m_tempShow.nList[i]] = m_bList[m_tempShow.nList[i]] = TRUE;
+        /*strList = theApp.GetListShowName(&m_tempShow,i);
+        for(j=1; j< m_tempShow.wParaNum && j<MAXPARANUM; j++)
         {
-            if(strList.CompareNoCase(m_tempShow.tShow[j].strName.c_str()) == 0)
+            if(strList == m_tempShow.strShow[j])
             {
                 m_bHisList[j] = m_bList[j] = TRUE;
                 break;
             }
-        }
+        }*/
     }
     
-    for(i=0; i<m_tempShow.wMainNum; i++)
+    for(i=0; i< m_tempShow.nMainNum; i++)
     {
-        strMain = m_tempShow.strMain[i].c_str();
-        for(j=0; j<m_tempShow.wParaNum && j<MAXPARANUM; j++)
+        m_bHisMain[m_tempShow.nMain[i]] = m_bMain[m_tempShow.nMain[i]] = TRUE;
+        /*strMain = theApp.GetMainShowName(&m_tempShow,i);
+        for(j=1; j< m_tempShow.wParaNum && j<MAXPARANUM; j++)
         {
-            if(strMain.CompareNoCase(m_tempShow.tShow[j].strName.c_str()) == 0)
+            if(strMain == m_tempShow.strShow[j])
             {
                 m_bHisMain[j] = m_bMain[j] = TRUE;
                 break;
             }
-        }
+        }*/
     }
 
     UpdateData(FALSE);
@@ -252,45 +254,94 @@ BOOL CDlgShowSet::OnInitDialog()
                   // 异常: OCX 属性页应返回 FALSE
 }
 
-void CDlgShowSet::OnBnClickedOk()
+void CDlgShowSet::OnBnClickedUpdateshow()
 {
     WORD    i = 0;
-    int     iShow = 0;
-    int     iList = 0;
-    int     iMain = 0;
+    //int     iShow = 0;
+    int     iList = 0;  // not include 0 factory
+    int     iMain = 1;  // include 0 factory
 
     UpdateData(TRUE);
 
-    for (i = 0; i < MAXPARANUM; i++)
+    for (i = 1; i < MAXPARANUM; i++)
     {
         if (m_strShowName[i].IsEmpty())
-            continue;
+        {
+            GetDlgItem(IDC_EDSHOWNAME1 + i - 1)->SetFocus();
+            AfxMessageBox(theApp.LoadstringFromRes(IDS_STRNULLSHOWNAME).c_str());
+            return;
+        }
+    }
 
-        m_tempShow.tShow[iShow].strName = m_strShowName[i];
-        if(m_iFileName == i)
-            m_tempShow.wFileName = iShow;
-        if (m_iShowStat == i)
-            m_tempShow.wStatType = iShow;
-        iShow++;
+    memset(&m_tempShow.nList[0], 0, sizeof(UINT) * MAXPARANUM);
+    memset(&m_tempShow.nMain[0], 0, sizeof(UINT) * MAXMAINPARA);
+    m_tempShow.nFileName = m_iFileName;
+    m_tempShow.nStatType = m_iShowStat;
+    for (i = 1; i < MAXPARANUM; i++)
+    {
+        m_tempShow.strShow[i] = m_strShowName[i];
 
         if (m_bList[i])
         {
-            m_tempShow.strList[iList++] = m_strShowName[i];
+            m_tempShow.nList[iList++] = i;
         }
         if (m_bMain[i])
         {
-            if(iMain >= MAXMAINPARA)
+            if (iMain >= MAXMAINPARA)
             {
                 continue;
             }
-            m_tempShow.strMain[iMain++] = m_strShowName[i];
+            m_tempShow.nMain[iMain++] = i;
         }
     }
-    
-    m_tempShow.wParaNum = iShow;
-    m_tempShow.wListNum = iList;
-    m_tempShow.wMainNum = iMain;
-    CDialog::OnOK();
+
+    m_tempShow.nParaNum = MAXPARANUM;
+    m_tempShow.nListNum = iList;
+    m_tempShow.nMainNum = iMain;
+
+    SaveShowCfgInotDB();
+}
+
+BOOL CDlgShowSet::CheckShowCfgChanged()
+{
+    int i = 0;
+    SHOWCFG* ptCurShow = theApp.m_ptCurShow;
+
+    if (m_tempShow.nListNum != ptCurShow->nListNum ||
+        m_tempShow.nMainNum != ptCurShow->nMainNum ||
+        m_tempShow.nFileName != ptCurShow->nFileName ||
+        m_tempShow.nStatType != ptCurShow->nStatType)
+        return TRUE;
+
+    if (0 != memcmp(&m_tempShow.nShow[0], &ptCurShow->nShow[0], sizeof(UINT) * MAXPARANUM) ||
+        0 != memcmp(&m_bHisMain[0], &m_bMain[0], sizeof(BOOL) * MAXPARANUM) ||
+        0 != memcmp(&m_bHisList[0], &m_bList[0], sizeof(BOOL) * MAXPARANUM))
+    {
+        return TRUE;
+    }
+
+    for (i = 1; i < MAXPARANUM; i++)
+    {
+        if (m_tempShow.strShow[i] != ptCurShow->strShow[i])
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+BOOL CDlgShowSet::SaveShowCfgInotDB()
+{
+    if (!theDB.UpdateShowName(&m_tempShow))
+        return FALSE;
+
+    // update showcfg
+    m_bModified = CheckShowCfgChanged();
+    if (m_bModified)
+    {
+        return theDB.UpdateShowPara(&m_tempShow);
+    }
+
+    return TRUE;
 }
 
 HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
@@ -317,7 +368,6 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     // TODO:  在此更改 DC 的任何特性
     switch (iCtrlID)//对某一个特定控件进行判断  
     {
-    case IDC_EDSHOWNAME0:
     case IDC_EDSHOWNAME1:
     case IDC_EDSHOWNAME2:
     case IDC_EDSHOWNAME3:
@@ -332,10 +382,11 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     case IDC_EDSHOWNAME12:
     case IDC_EDSHOWNAME13:
     case IDC_EDSHOWNAME14:
+    case IDC_EDSHOWNAME15:
         //UpdateData(TRUE);
-        iIndex = iCtrlID - IDC_EDSHOWNAME0;
+        iIndex = iCtrlID - IDC_EDSHOWNAME1+1;
         //JUDGE_STRPARA_CHANGE(m_strShowName[iIndex], ptShow->tShow[iIndex].strName.c_str());
-        JUDGE_STRPARA_CHANGE(strContent, ptShow->tShow[iIndex].strName.c_str());
+        JUDGE_STRPARA_CHANGE(strContent, ptShow->strShow[iIndex].c_str());
         break;
     default:
         hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -351,15 +402,15 @@ void CDlgShowSet::JudgeShowRadio(int iCtrlIdx)
     COLORREF    clrCtrl;
     BOOL        bSeled = FALSE;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
     
     clrCtrl = m_clrNormal;
     bSeled = (m_iFileName == iCtrlIdx);
-    if ((bSeled  && iCtrlIdx != theApp.m_ptCurShow->wFileName) ||
-        (!bSeled && iCtrlIdx == theApp.m_ptCurShow->wFileName))
+    if ((bSeled  && iCtrlIdx != theApp.m_ptCurShow->nFileName) ||
+        (!bSeled && iCtrlIdx == theApp.m_ptCurShow->nFileName))
     {
-        if (iCtrlIdx != theApp.m_ptCurShow->wFileName)
+        if (iCtrlIdx != theApp.m_ptCurShow->nFileName)
         {
             clrCtrl = m_clrChanged;
         }
@@ -369,13 +420,6 @@ void CDlgShowSet::JudgeShowRadio(int iCtrlIdx)
     m_rdShowName[iCtrlIdx].Invalidate();
 }
 
-void CDlgShowSet::OnBnClickedRadioshowfile0()
-{
-    UpdateData(TRUE);
-    JudgeShowRadio(0);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 0;
-}
 void CDlgShowSet::OnBnClickedRadioshowfile1()
 {
     UpdateData(TRUE);
@@ -474,20 +518,27 @@ void CDlgShowSet::OnBnClickedRadioshowfile14()
     JudgeShowRadio(m_iPriorShowCtrlID);
     m_iPriorShowCtrlID = 14;
 }
+void CDlgShowSet::OnBnClickedRadioshowfile15()
+{
+    UpdateData(TRUE);
+    JudgeShowRadio(15);
+    JudgeShowRadio(m_iPriorShowCtrlID);
+    m_iPriorShowCtrlID = 15;
+}
 
 void CDlgShowSet::JudgeStatRadio(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
     BOOL        bSeled = FALSE;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
     
     clrCtrl = m_clrNormal;
     bSeled = (m_iShowStat == iCtrlIdx);
-    if ((bSeled  && iCtrlIdx != theApp.m_ptCurShow->wStatType) ||
-        (!bSeled && iCtrlIdx == theApp.m_ptCurShow->wStatType))
-    if (iCtrlIdx != theApp.m_ptCurShow->wStatType)
+    if ((bSeled  && iCtrlIdx != theApp.m_ptCurShow->nStatType) ||
+        (!bSeled && iCtrlIdx == theApp.m_ptCurShow->nStatType))
+    if (iCtrlIdx != theApp.m_ptCurShow->nStatType)
     {
         clrCtrl = m_clrChanged;
     }
@@ -496,13 +547,6 @@ void CDlgShowSet::JudgeStatRadio(int iCtrlIdx)
     m_rdStatName[iCtrlIdx].Invalidate();
 }
 
-void CDlgShowSet::OnBnClickedRadioshowstat0()
-{
-    UpdateData(TRUE);
-    JudgeStatRadio(0);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 0;
-}
 void CDlgShowSet::OnBnClickedRadioshowstat1()
 {
     UpdateData(TRUE);
@@ -604,14 +648,21 @@ void CDlgShowSet::OnBnClickedRadioshowstat14()
     JudgeStatRadio(m_iPriorStatCtrlID);
     m_iPriorStatCtrlID = 14;
 }
+void CDlgShowSet::OnBnClickedRadioshowstat15()
+{
+    UpdateData(TRUE);
+    JudgeStatRadio(15);
+    JudgeStatRadio(m_iPriorStatCtrlID);
+    m_iPriorStatCtrlID = 15;
+}
 
 
 void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
     
     clrCtrl = m_clrNormal;
     if (m_bHisList[iCtrlIdx] != m_bList[iCtrlIdx])
@@ -621,11 +672,6 @@ void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
 
     m_clListName[iCtrlIdx].SetForeColor(clrCtrl);
     m_clListName[iCtrlIdx].Invalidate();
-}
-void CDlgShowSet::OnBnClickedChecklist0()
-{
-    UpdateData(TRUE);
-    JudgeListCheck(0);
 }
 void CDlgShowSet::OnBnClickedChecklist1()
 {
@@ -698,13 +744,18 @@ void CDlgShowSet::OnBnClickedChecklist14()
     UpdateData(TRUE);
     JudgeListCheck(14);
 }
+void CDlgShowSet::OnBnClickedChecklist15()
+{
+    UpdateData(TRUE);
+    JudgeListCheck(15);
+}
 
 void CDlgShowSet::JudgeMainCheck(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
     
     clrCtrl = m_clrNormal;
     if (m_bHisMain[iCtrlIdx] != m_bMain[iCtrlIdx])
@@ -714,11 +765,6 @@ void CDlgShowSet::JudgeMainCheck(int iCtrlIdx)
 
     m_clMainName[iCtrlIdx].SetForeColor(clrCtrl);
     m_clMainName[iCtrlIdx].Invalidate();
-}
-void CDlgShowSet::OnBnClickedCheckmain0()
-{
-    UpdateData(TRUE);
-    JudgeMainCheck(0);
 }
 void CDlgShowSet::OnBnClickedCheckmain1()
 {
@@ -790,4 +836,9 @@ void CDlgShowSet::OnBnClickedCheckmain14()
 {
     UpdateData(TRUE);
     JudgeMainCheck(14);
+}
+void CDlgShowSet::OnBnClickedCheckmain15()
+{
+    UpdateData(TRUE);
+    JudgeMainCheck(15);
 }

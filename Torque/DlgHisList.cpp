@@ -6,37 +6,8 @@
 #include "DlgHisList.h"
 #include "DlgHisGrp.h"
 #include "DlgXlsStatSet.h"
-/* for excel */
-/*#include "CApplication.h"
-#include "CRange.h"
-#include "CWorkbook.h"
-#include "CWorkbooks.h"
-#include "CWorksheet.h"
-#include "CWorksheets.h"
-#include "CChart.h"
-#include "CChartObjects.h"
-#include "CChartObject.h"
-#include "CShapes.h"
-#include "CShape.h"
-#include "CFont0.h"*/
-
 #include "DlgScatter.h"
 #include "DlgDataStat.h"
-
-#define SHEET_COVER     _T("Cover")
-#define SHEET_SUMMARY   _T("Page1")
-#define SHEET_QUALITY   _T("Page2")
-#define SHEET_SCATTER   _T("Page3")
-#define SHEET_REPORT    _T("Page4")
-
-#define TEMPLATE_RPTCHN _T("RptTmpChn.xlsx")
-#define TEMPLATE_RPTENG _T("RptTmpEng.xlsx")
-#define TEMPLATE_GRAPHY _T("GrpTmp.xlsx")
-
-#define SHOWPARA_WELLNAME       0
-#define SHOWPARA_COMPANY        2
-#define SHOWPARA_TUBINGOEM      3
-#define SHOWPARA_TUBINGTYPE     4
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -48,56 +19,10 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDlgHisList property page
-extern TORQUEDATA  m_tReadData;
 SAVELOGDATA g_tOrgData;         /* 存储扭矩原始数据暂时内存 */
 //CWorksheet  *g_ptCurSheet = NULL;
 
-#define     MAXIMGINFO          17
-#define     IMG_HOSTNO          0
-#define     IMG_ENDTIME         1
-#define     IMG_CTRLTORQ        2
-#define     IMG_CTRLTURN        3
-#define     IMG_SHLDTORQ        4
-#define     IMG_DELTATORQ       5
-#define     IMG_DELTATURN       6
-#define     IMG_SLOPEFAC        7
-#define     IMG_QUALITY         8
-#define     IMG_COMMENT         9
-#define     IMG_BHA             10
-#define     IMG_BREAKOUT        11
-#define     IMG_YES             12
-#define     IMG_NO              13
-#define     IMG_NM              14
-#define     IMG_LBFT            15
-#define     IMG_TURN            16
-SHOWPARANAME g_tImgInfo[MAXIMGINFO] = {
-    /* 0  */    { 0,    "电脑编号",     "Host No.",         "Номер ком."},
-    /* 1  */    { 1,    "完成时间",     "End Time",         "Вр. св."},
-    /* 2  */    { 2,    "实际扭矩",     "Ctrl Torq",        "Фак.кру.мон."},
-    /* 3  */    { 3,    "实际周数",     "Ctrl Turn",        "Ч. об. св."},
-    /* 4  */    { 4,    "拐点扭矩",     "ShoulderTorq",     "плечо мом."},
-    /* 5  */    { 5,    "扭矩差值",     "DeltaTorq",        "дельта мом."},
-    /* 6  */    { 6,    "周数差值",     "DeltaTurn",        "Дельта-поворот"},
-    /* 7  */    { 7,    "斜坡因子",     "SlopeFac",         "фактор скат"},
-    /* 8  */    { 8,    "质量说明",     "Quality",          "Оц. Кач-ва"},
-    /* 9  */    { 9,    "备    注",     "Comment",          "Приме."},
-    /* 10 */    {10,    "工具扣",       "BHA",              "пряжка"},
-    /* 11 */    {11,    "卸扣",         "BreakOut",         "мочка"},
-    /* 12 */    {12,    "是",           "Yes",              "да"},
-    /* 13 */    {13,    "否",           "No",               "нет"},
-    /* 14 */    {14,    "N.m",          "N.m",              "N.m"},
-    /* 15 */    {15,    "lb.ft",        "lb.ft",            "lb.ft"},
-    /* 16 */    {16,    "周",           "Turn",             "об."}
-};
-
-#if 0
-COleVariant
-    covTrue((short)TRUE),
-    covFalse((short)FALSE),
-    covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
-#endif
 CDlgHisGrp      *pdlgPrint = NULL;
-//CWorkbook       g_GlbBook;
 IMPLEMENT_DYNCREATE(CDlgHisList, CPropertyPage)
 
 CDlgHisList::CDlgHisList() : CPropertyPage(CDlgHisList::IDD)
@@ -149,36 +74,47 @@ END_MESSAGE_MAP()
 BOOL CDlgHisList::OnInitDialog()
 {
     WORD    i        = 0;
-    CString strHead;
-    CString strTemp;
+    string  strHead;
+    //CString strTemp;
     CRect   rcView;
+    char buffer[MAX_LOADSTRING];
 
     CPropertyPage::OnInitDialog();
 
     theApp.AdaptDlgCtrlSize(this,2);
 
-    m_nCurLang = theApp.m_nLangType;
+    m_nCurLang = g_tGlbCfg.nLangType;
+    
+    m_ptStat   = &theApp.m_tXlsStatCfg[m_nCurLang];
 
     m_listHis.GetWindowRect(&rcView);
     m_iWidth = (int)(rcView.Width()/12.17);
     m_listHis.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_UNDERLINEHOT);
-    m_strFixHead.Format(IDS_STRHISLLISTHEAD,
+    /* 20220922 钻杆版本无最大/最小扭矩 */
+    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), 
+                    int(0.8 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+                    int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+                    int(2 * m_iWidth));
+    /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
                    int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
                    int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                   int(2*m_iWidth));
-    strHead = m_strFixHead;
+                   int(2*m_iWidth));*/
+    m_strFixHead = buffer;
+    strHead = buffer;
     m_wShowListNum = 0;
-    for(i=0; i<theApp.m_ptCurShow->wListNum && i<MAXPARANUM; i++)
+    for(i=0; i<theApp.m_ptCurShow->nListNum && i<MAXPARANUM; i++)
     {
-        strTemp.Format("%s, %d;", theApp.m_ptCurShow->strList[i].c_str(), m_iWidth);
-        strHead += strTemp;
+        //strTemp.Format("%s, %d;", theApp.m_ptCurShow->strList[i].c_str(), m_iWidth);
+        snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.GetListShowName(theApp.m_ptCurShow, i).c_str(), m_iWidth);
+        strHead += buffer;
         m_wShowListNum++;
     }
-    m_listHis.SetHeadings(strHead);
+    m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
     
     //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    //GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -206,8 +142,8 @@ void CDlgHisList::OnBtnhis()
     UINT    nMaxShowPlace = 0;
     CString strFilter;
     CString strInfo;
-    CString strHead, strTemp;
-    CString strName;
+    CString strHead , strTemp;
+    string  strName;
     TorqData::Torque  *ptTorq = NULL;
     
     strFilter.Format(IDS_STRDATFILTER);
@@ -225,36 +161,36 @@ void CDlgHisList::OnBtnhis()
         return;
     }
 
-    m_nHisTotalRec   = m_tReadData.nTotal;
-    m_nHisQualyRec   = m_tReadData.nQualy;
-    m_nHisUnQualyRec = m_tReadData.nUnQualy;
+    m_nHisTotalRec   = g_tReadData.nTotal;
+    m_nHisQualyRec   = g_tReadData.nQualy;
+    m_nHisUnQualyRec = g_tReadData.nUnQualy;
 
     SetDataPlace(1);
     
     m_listHis.DeleteAllItems();
 
     /* update list head */
-    strHead = m_strFixHead;
+    strHead = m_strFixHead.c_str();
     nMaxShowPlace = 0;
-    ptTorq = &m_tReadData.tData[0];
+    ptTorq = &g_tReadData.tData[0];
     m_wShowListNum = ptTorq->tshow_size();
 
-    for(i=1; i<m_tReadData.nTotal; i++)
+    for(i=1; i<g_tReadData.nTotal; i++)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
         if(ptTorq->tshow_size() > m_wShowListNum)
         {
             nMaxShowPlace = i;
             m_wShowListNum = ptTorq->tshow_size();
         }
     }
-    ptTorq = &m_tReadData.tData[nMaxShowPlace];
-    for(i=0; i<MAXPARANUM && i< m_wShowListNum; i++)
+    ptTorq = &g_tReadData.tData[nMaxShowPlace];
+    for(i=1; i<MAXPARANUM && i<= m_wShowListNum; i++)
     {
         strName = theApp.GetTorqShowName(ptTorq, i);
-        if (strName.IsEmpty())
+        if (strName.empty())
             strName = _T("NULL");
-        strTemp.Format("%s, %d;", strName, m_iWidth);
+        strTemp.Format("%s, %d;", strName.c_str(), m_iWidth);
         strHead += strTemp;
     }                
     m_listHis.SetHeadings(strHead);
@@ -269,14 +205,14 @@ void CDlgHisList::OnBtnhis()
 
 BOOL CDlgHisList::OnSetActive()
 {
-    UINT    nCurSel = m_tReadData.nCur;
+    UINT    nCurSel = g_tReadData.nCur;
     CHECK_VALUE_LOW(nCurSel, 1);
     SendMessageToDescendants(WM_SETFONT, (WPARAM)theApp.m_tRuleHFont.GetSafeHandle(), TRUE);
     if(theApp.ReadHisTorqFromFile(m_strHisName))
     {
-        m_nHisTotalRec   = m_tReadData.nTotal;
-        m_nHisQualyRec   = m_tReadData.nQualy;
-        m_nHisUnQualyRec = m_tReadData.nUnQualy;
+        m_nHisTotalRec   = g_tReadData.nTotal;
+        m_nHisQualyRec   = g_tReadData.nQualy;
+        m_nHisUnQualyRec = g_tReadData.nUnQualy;
         /* 20210317 从图形切回列表时，保持当前的选择记录 */
         SetDataPlace(nCurSel);
         
@@ -317,7 +253,7 @@ void CDlgHisList::OnBnClickedBtnexport()
 
 /*"序号,%d;施工时间,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;
    管件名称,%d;上扣类型,%d;重量,%d;接箍规格,%d;备注,%d;"*/
-/* "序号,%d;施工时间,%d;最小扭矩,%d;控制扭矩,%d;最佳扭矩,%d;最大扭矩,%d;
+/* "序号,%d;施工时间,%d;控制扭矩,%d;最佳扭矩,%d;
     实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
 VOID CDlgHisList::ShowHisTorqList()
 {
@@ -329,7 +265,7 @@ VOID CDlgHisList::ShowHisTorqList()
     CString     strNo;
     CString     strTime;
     CString     strCir;
-    CString     strMinTorq, strMaxTorq;
+    //CString     strMinTorq, strMaxTorq;
     CString     strCtrlTorq, strOptTorq;
     CString     strTorq;
     CString     strShoulder;
@@ -348,12 +284,12 @@ VOID CDlgHisList::ShowHisTorqList()
 
     m_ptStatTorq = NULL;
 
-    ASSERT_ZERO(m_tReadData.nTotal);
+    ASSERT_ZERO(g_tReadData.nTotal);
 
     m_listHis.SetRedraw(0);
 
-    m_ptStatTorq = &m_tReadData.tData[m_tReadData.nTotal - 1];
-    for(i=0;i<m_tReadData.nTotal;i++)
+    m_ptStatTorq = &g_tReadData.tData[g_tReadData.nTotal - 1];
+    for(i=0;i<g_tReadData.nTotal;i++)
     {
         ptTorq = theApp.GetOrgTorqFromTorq(i);
         if(NULL == ptTorq)
@@ -362,8 +298,8 @@ VOID CDlgHisList::ShowHisTorqList()
 
         /* 20180102 序号删除后自动更新 */
         strNo.Format("%d",i+1);
-        strMinTorq.Format("%d", (int)ptTorq->flowerlimit());
-        strMaxTorq.Format("%d", (int)ptTorq->fupperlimit());
+        //strMinTorq.Format("%d", (int)ptTorq->flowerlimit());
+        //strMaxTorq.Format("%d", (int)ptTorq->fupperlimit());
         strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
         strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
         strMemo = ptTorq->strmemo().c_str();
@@ -396,19 +332,20 @@ VOID CDlgHisList::ShowHisTorqList()
         /*"序号,%d;施工时间,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d; 备注,%d;*/
         /* "序号,%d;施工时间,%d;最小扭矩,%d;最大扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
         /* "序号,%d;施工时间,%d;最小扭矩,%d;控制扭矩,%d;最佳扭矩,%d;最大扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
+        /* "序号,%d;施工时间,%d;控制扭矩,%d;最佳扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
         slShow.AddTail(strNo);
         slShow.AddTail(strTime);
-        slShow.AddTail(strMinTorq);
+        //slShow.AddTail(strMinTorq);
         slShow.AddTail(strCtrlTorq);
         slShow.AddTail(strOptTorq);
-        slShow.AddTail(strMaxTorq);
+        //slShow.AddTail(strMaxTorq);
         slShow.AddTail(strTorq);
         slShow.AddTail(strCir);
         slShow.AddTail(strShoulder);
         slShow.AddTail(strSlope);
         slShow.AddTail(strMemo);
 
-        for(j = 0; j<ptTorq->tshow_size() && j<m_wShowListNum ; j++)
+        for(j = 1; j<ptTorq->tshow_size() && j<m_wShowListNum ; j++)
             slShow.AddTail(theApp.GetTorqShowValue(ptTorq, j));
         /* 补空 */
         for(; j<m_wShowListNum; j++)
@@ -437,7 +374,7 @@ VOID CDlgHisList::ShowHisTorqList()
     GetDlgItem(IDC_BTNGRAPHEXP)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNORGDATA)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNSTATLIST)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
+    //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
 
     m_listHis.SetRedraw(1);
 }
@@ -445,9 +382,9 @@ VOID CDlgHisList::ShowHisTorqList()
 void CDlgHisList::SetDataPlace(UINT nCur)
 {
     ASSERT_ZERO(nCur);
-    COMP_BG(nCur, m_tReadData.nTotal);
+    COMP_BG(nCur, g_tReadData.nTotal);
 
-    m_tReadData.nCur = nCur;
+    g_tReadData.nCur = nCur;
 }
 
 /* 获取LIST选择的记录信息，有下面三种形式供选择
@@ -510,9 +447,9 @@ void CDlgHisList::OnBnClickedBtnimgexp()
 
     GetPrintDlg();
     pdlgPrint->ShowWindow(SW_SHOW);
-    for(i=0; i<nSelCount; i=i+theApp.m_nImgNum)
+    for(i=0; i<nSelCount; i=i+ g_tGlbCfg.nImgNum)
     {
-        pdlgPrint->PrintOneImage(&m_nSelItem[i], 0, theApp.m_nImgNum);
+        pdlgPrint->PrintOneImage(&m_nSelItem[i], 0, g_tGlbCfg.nImgNum);
     }
     
     pdlgPrint->ShowWindow(SW_HIDE);
@@ -555,7 +492,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     }
 
     /* construct NULL head */
-    ptTorq   = &m_tReadData.tData[0];
+    ptTorq   = &g_tReadData.tData[0];
     strTime = theApp.GetTorqCollTime(ptTorq);
     nIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
     iHeadLen = sprintf_s(aucHead, SPRINTFLEN, "%5d; %s; %3d; %5d; %5.0f; Torq: ", 
@@ -570,14 +507,14 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     strSecHead = " DelPlus: ";
     memcpy(&aucHead[iHeadLen - strSecHead.GetLength()], strSecHead, strSecHead.GetLength());
 
-    for(i=0; i<nSelCount && i < m_tReadData.nTotal; i++)
+    for(i=0; i<nSelCount && i < g_tReadData.nTotal; i++)
     {
         memset(&g_tOrgData, 0, sizeof(SAVELOGDATA));
         pPrnData = &g_tOrgData.aucLog[0];
         if(m_nSelItem[i] == 0)
             continue;
         index = m_nSelItem[i] - 1;
-        ptTorq   = &m_tReadData.tData[index];
+        ptTorq   = &g_tReadData.tData[index];
 
         strTime = theApp.GetTorqCollTime(ptTorq);
         nIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
@@ -835,8 +772,8 @@ void CDlgHisList::OnBnClickedBtngraphexp()
         return;
     }
 
-    strsuffix.Format("_Img(%d).xlsx", theApp.m_nImgNum);
-    strSheet.Format("Pic%d", theApp.m_nImgNum);
+    strsuffix.Format("_Img(%d).xlsx", g_tGlbCfg.nImgNum);
+    strSheet.Format("Pic%d", g_tGlbCfg.nImgNum);
 
     strModel = theApp.m_strAppPath.c_str();
     strModel += TEMPLATE_GRAPHY;
@@ -870,7 +807,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
     pdlgPrint->PrintLineImg(&m_nSelItem[0], nSelCount);
     pdlgPrint->ShowWindow(SW_HIDE);
 #endif
-    switch(theApp.m_nImgNum)
+    switch(g_tGlbCfg.nImgNum)
     {
         case 1:
             Export1Img(&m_nSelItem[0], nSelCount);
@@ -1006,7 +943,7 @@ void CDlgHisList::SetCellFont(int iRow, int iCol, int iNum, UINT dwQuality)
 
 /*
     iIndex  : 总结中填写显示参数的序号，范围1~6(MAXSUMMARYPARA)
-    iSeq    : 参数在结构中的顺序号，范围0~14
+    iSeq    : 参数在结构中的顺序号，范围1~15
     iBegin  : excel表格的开始行号，大于0
     iMaxVal : 这个参数列举的最大值个数，超过它将覆盖其他显示参数的值
 */
@@ -1020,17 +957,17 @@ BOOL CDlgHisList::SetMultiValue(int iIndex, int iSeq, int iBegin, int iMaxNum)
 
     COMP_BLE_R(iIndex, 0, FALSE);
     COMP_BG_R(iIndex, MAXSUMMARYPARA, FALSE);
-    COMP_BL_R(iSeq, 0, FALSE);
+    COMP_BL_R(iSeq, 1, FALSE);
     COMP_BGE_R(iSeq, MAXPARANUM, FALSE);
     COMP_BLE_R(iBegin, 0, FALSE);
     COMP_BLE_R(iMaxNum, 0, FALSE);
     
-    strValue.Format("%d.%s", iIndex, theApp.GetTorqShowName(m_ptStatTorq, iSeq));
+    strValue.Format("%d.%s", iIndex, theApp.GetTorqShowName(m_ptStatTorq, iSeq+1));// skip 0 factory
     SetCell(iBegin, 2,   strValue);
 
-    for(i=0;i<(int)m_tReadData.nTotal;i++)
+    for(i=0;i<(int)g_tReadData.nTotal;i++)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
 
         /* 调过工具扣和备注非空的记录 */
         if(ptTorq->btoolbuck())
@@ -1058,31 +995,33 @@ BOOL CDlgHisList::SetMultiValue(int iIndex, int iSeq, int iBegin, int iMaxNum)
 /*
     iSeq    : 参数在结构中的顺序号，范围0~14
 */
-int CDlgHisList::GetParaValueInfo(int iSeq, LISTINT &listNo)
+int CDlgHisList::GetParaValueInfo(int iSeq, vector<int> &listNo)
 {
     int     i       = 0;
     int     iValNum = 0;
-    CString strValue;
-    CStringList slValue;
+    string  strValue;
+    vector<string> lsValues;
+    vector<string>::iterator it;
     TorqData::Torque *ptTorq = NULL;
 
-    COMP_BL_R(iSeq, 0, 0);
+    COMP_BL_R(iSeq, 1, 0);
     COMP_BGE_R(iSeq, MAXPARANUM, 0);
 
-    for(i=0; i<(int)m_tReadData.nTotal; i++)
+    for(i=0; i<(int)g_tReadData.nTotal; i++)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
 
         /* 调过工具扣和备注非空的记录 */
         if(ptTorq->btoolbuck())
             continue;
 
         strValue = theApp.GetTorqShowValue(ptTorq, iSeq);
-        if(strValue.IsEmpty())
+        if(strValue.empty())
             continue;
-        if (NULL == slValue.Find(strValue))
+        it = find(lsValues.begin(), lsValues.end(), strValue);
+        if (it == lsValues.end())
         {
-            slValue.AddTail(strValue);
+            lsValues.push_back(strValue);
             listNo.push_back(i);
             iValNum++;
         }
@@ -1101,14 +1040,14 @@ CString CDlgHisList::GetOperInfo(CStringList &slOper)
     POSITION    tPos;
     TorqData::Torque *ptTorq = NULL;
 
-    for(i=0;i<(int)m_tReadData.nTotal;i++)
+    for(i=0;i<(int)g_tReadData.nTotal;i++)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
 
         slCurOper.RemoveAll();
 
         /* 当班班长 */
-        strOper = theApp.GetTorqShowValue(ptTorq, theApp.m_tXlsStatCfg.ucOperator);
+        strOper = theApp.GetTorqShowValue(ptTorq, m_ptStat->ucOperator);
 
         theApp.SplitString(strOper, slCurOper);
 
@@ -1123,7 +1062,7 @@ CString CDlgHisList::GetOperInfo(CStringList &slOper)
     }
 
     if (ptTorq != NULL)
-        strName = theApp.GetTorqShowName(ptTorq, theApp.m_tXlsStatCfg.ucOperator);
+        strName = theApp.GetTorqShowName(ptTorq, m_ptStat->ucOperator);
     
     return strName;
 }
@@ -1186,14 +1125,14 @@ CString CDlgHisList::GetConsSummaryInfo()
     CString     strHaved;
     POSITION    pos;
 
-    ASSERT_ZERO_R(m_tReadData.nTotal, strSumm);
+    ASSERT_ZERO_R(g_tReadData.nTotal, strSumm);
 
-    strTmp.Format(IDS_STRINFCONSBEGIN, theApp.GetTorqFullDate(&m_tReadData.tData[0]));
+    strTmp.Format(IDS_STRINFCONSBEGIN, theApp.GetTorqFullDate(&g_tReadData.tData[0]));
     strSumm = strTmp;
 
-    for(i=0;i<(int)m_tReadData.nTotal;i++)
+    for(i=0;i<(int)g_tReadData.nTotal;i++)
     {
-        ptTorq = &m_tReadData.tData[i];
+        ptTorq = &g_tReadData.tData[i];
 
         if(ptTorq->btoolbuck())
         {
@@ -1202,7 +1141,7 @@ CString CDlgHisList::GetConsSummaryInfo()
         }
 
         /* 管件规格 */
-        strTubing = theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBINGTYPE);
+        strTubing = theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBETYPE);
         for(j=0; j<slTubing.GetCount(); j++)
         {
             pos = slTubing.FindIndex(j);
@@ -1240,10 +1179,10 @@ CString CDlgHisList::GetConsSummaryInfo()
     strSumm += strTmp;
 
     /* 总数 */
-    strTmp.Format(IDS_STRINFCONSTOTAL, m_tReadData.nTotal, m_tReadData.nQualy, m_tReadData.nUnQualy);
+    strTmp.Format(IDS_STRINFCONSTOTAL, g_tReadData.nTotal, g_tReadData.nQualy, g_tReadData.nUnQualy);
     strSumm += strTmp;
 
-    strTmp.Format(IDS_STRINFCONSEND, theApp.GetTorqFullDate(&m_tReadData.tData[m_tReadData.nTotal - 1]));
+    strTmp.Format(IDS_STRINFCONSEND, theApp.GetTorqFullDate(&g_tReadData.tData[g_tReadData.nTotal - 1]));
 
     strSumm += strTmp;
 
@@ -1261,11 +1200,11 @@ void CDlgHisList::WriteCoverSheet()
     SetCell(11,  5, GetWellName(FALSE));
 
     /* 27 行 D 列 D27 : 开始日期 */
-    strTime.Format("'%s", theApp.GetTorqFullDate(&m_tReadData.tData[0]));
+    strTime.Format("'%s", theApp.GetTorqFullDate(&g_tReadData.tData[0]));
     SetCell(27,  4, strTime);
 
     /* 27 行 G 列 G27 : 结束日期 */
-    strTime.Format("'%s", theApp.GetTorqFullDate(&m_tReadData.tData[m_tReadData.nTotal-1]));
+    strTime.Format("'%s", theApp.GetTorqFullDate(&g_tReadData.tData[g_tReadData.nTotal-1]));
     SetCell(27,  7, strTime);
 }
 
@@ -1291,14 +1230,14 @@ void CDlgHisList::WriteSummarySheet()
     /* 4 行 D 列 D4 : 施工井号*/
     SetCell(4, 4, GetWellName(FALSE));
     /* H4:  开始日期         */
-    SetCell(4, 8, theApp.GetTorqSimpDate(&m_tReadData.tData[0]));
+    SetCell(4, 8, theApp.GetTorqSimpDate(&g_tReadData.tData[0]));
 
     /* B7: 6个显示参数，可选, 3/4为多个值 */
     iRow = 7;
     iIndex = 0;
-    for(i=0; i<MAXPARANUM; i++)
+    for(i=1; i<MAXPARANUM; i++)
     {
-        if(!theApp.m_tXlsStatCfg.bSummary[i])
+        if(!m_ptStat->bSummary[i])
             continue;
         iIndex++;
         /* 最多6个显示参数 */
@@ -1308,12 +1247,12 @@ void CDlgHisList::WriteSummarySheet()
         {
             case 3: // 最多显示4个值
                 /* B11:         显示参数名称4  */
-                SetMultiValue(SHOWPARA_TUBINGOEM, i, 11, MAX3VALUES);
+                SetMultiValue(SHOWPARA_TUBEOEM, i, 11, MAX3VALUES);
                 iRow = 15;
                 break;
             case 4: // 最多显示8个值
                 /* B15:         显示参数名称5  */
-                SetMultiValue(SHOWPARA_TUBINGTYPE, i, 15, MAX4VALUES);
+                SetMultiValue(SHOWPARA_TUBETYPE, i, 15, MAX4VALUES);
                 iRow = 23;
                 break;
             default:
@@ -1370,8 +1309,8 @@ void CDlgHisList::WriteQualitySheet()
 
     COMP_BFALSE(m_tSaveExc.loadSheet(SHEET_QUALITY));
 
-    iQual[0] = m_tReadData.nTotal;
-    for(i=0;i<(int)m_tReadData.nTotal;i++)
+    iQual[0] = g_tReadData.nTotal;
+    for(i=0;i<(int)g_tReadData.nTotal;i++)
     {
         ptTorq = theApp.GetOrgTorqFromTorq(i);
         if(NULL== ptTorq)
@@ -1418,10 +1357,10 @@ void CDlgHisList::WriteQualitySheet()
         }
     }
 
-    if(0 != m_tReadData.nTotal)
+    if(0 != g_tReadData.nTotal)
     {
-        fAveTorq[0] /= m_tReadData.nTotal;
-        fAveTurn[0] /= m_tReadData.nTotal;
+        fAveTorq[0] /= g_tReadData.nTotal;
+        fAveTurn[0] /= g_tReadData.nTotal;
     }
     if(0 != nShlNum)
     {
@@ -1544,11 +1483,11 @@ void  CDlgHisList::FillReportHead(int &iRow, TorqData::Torque *ptHeadTorq)
     iRow++;
     
     /* B5 / E5 4 管件名称 */
-    SetCell(iRow, 2,  theApp.GetTorqShowName(ptHeadTorq,  SHOWPARA_TUBINGOEM));
-    SetCell(iRow, 5,  theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBINGOEM));
+    SetCell(iRow, 2,  theApp.GetTorqShowName(ptHeadTorq,  SHOWPARA_TUBEOEM));
+    SetCell(iRow, 5,  theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBEOEM));
     /* H5 / K5 5 规格扣型 */
-    SetCell(iRow, 8,  theApp.GetTorqShowName(ptHeadTorq,  SHOWPARA_TUBINGTYPE));
-    SetCell(iRow, 11, theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBINGTYPE));
+    SetCell(iRow, 8,  theApp.GetTorqShowName(ptHeadTorq,  SHOWPARA_TUBETYPE));
+    SetCell(iRow, 11, theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBETYPE));
     iRow++;
 
     // 跳过显示扭矩的名称行
@@ -1600,18 +1539,18 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
     COMP_BL(iRow, 4);
     ASSERT_NULL(ptHeadTorq);
 
-    strType = theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBINGTYPE);
+    strType = theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBETYPE);
 
     // 跳过序号/日期行
     iRow++;
     /* 9 行开始 */
-    for(i=0; i<(int)m_tReadData.nTotal; i++)
+    for(i=0; i<(int)g_tReadData.nTotal; i++)
     {
         ptTorq = theApp.GetOrgTorqFromTorq(i);
         if(NULL== ptTorq)
             continue;
 
-        if(0 != strType.CompareNoCase(theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBINGTYPE)))
+        if(0 != strType.CompareNoCase(theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBETYPE)))
             continue;
 
         iCol = 2;
@@ -1643,7 +1582,7 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
             iCol += 2;
 
         /* I 入井序号 显示参数10 */
-        SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, theApp.m_tXlsStatCfg.ucTally));
+        SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, m_ptStat->ucTally));
         
         /* J 质量属性 */
         dwQuality = theApp.GetQuality(ptTorq);
@@ -1658,7 +1597,7 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
             strQual.Format(IDS_STRMARKDISQUAL);
             SetCell(iRow, iCol++, strQual);
 
-            strCause = theApp.GetQualityInfo(ptTorq);
+            strCause = theApp.GetQualityInfo(ptTorq).c_str();
             SetCell(iRow, iCol++, strCause);
         }
 
@@ -1666,7 +1605,7 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
         /* 合并单元格 */
         //range.AttachDispatch(sheet.get_Range(COleVariant(_T("K")+strRow),COleVariant(_T("L")+strRow)),TRUE);
         //range.Merge(COleVariant((long)0));
-        SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, theApp.m_tXlsStatCfg.ucOperator));
+        SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, m_ptStat->ucOperator));
         //range.ReleaseDispatch();
         //iCol++;
 
@@ -1687,7 +1626,7 @@ void CDlgHisList::WriteReportSheet()
 {
     int         iBeginRow = 4;
     int         iCurRow   = 0;
-    LISTINT     listNo;
+    vector<int> listNo;
     TorqData::Torque *ptHead = NULL;
 
     ASSERT_NULL(m_ptStatTorq);
@@ -1698,21 +1637,22 @@ void CDlgHisList::WriteReportSheet()
     iCurRow  = 4;
 
     /* 获取 5 规格扣型 的值的名称 的最新序号 */
-    GetParaValueInfo(SHOWPARA_TUBINGTYPE, listNo);
-    list<int>::iterator it = listNo.begin();
+    GetParaValueInfo(SHOWPARA_TUBETYPE, listNo);
+    //list<int>::iterator it = listNo.begin();
 
+    int it = 0;
     do {
         if (4 == iCurRow)
         {
             ptHead = m_ptStatTorq;
             if (0 != listNo.size())
             {
-                ptHead = &m_tReadData.tData[*it];
+                ptHead = &g_tReadData.tData[listNo[it]];
             }
         }
         else
         {
-            ptHead = &m_tReadData.tData[*it];
+            ptHead = &g_tReadData.tData[listNo[it]];
 
             /* 拷贝目的位置 */
             m_tSaveExc.copyMultiRow(iBeginRow, iCurRow, 4);
@@ -1733,7 +1673,7 @@ void CDlgHisList::WriteReportSheet()
         {
             break;
         }
-    }while (it != listNo.end());
+    }while (it < (int)listNo.size());
 }
 
 /*  先创建一个_Application类，用_Application来创建一个Excel应用程序接口。
@@ -1772,7 +1712,6 @@ void CDlgHisList::OnBnClickedBtnstatlist()
     strTmpFile += strTemplate;
 
     /* 打开模板文件 */
-    
     if(!m_tSaveExc.open(strTmpFile))
     {
         m_tSaveExc.close();

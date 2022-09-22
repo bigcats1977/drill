@@ -75,7 +75,7 @@ private:
     void    SetCell(long irow, long icolumn, int iValue);
     CString GetOperInfo(CStringList &slOper);
     BOOL    SetMultiValue(int iIndex, int iSeq, int iBegin, int iMaxNum);
-    int     GetParaValueInfo(int iSeq, LISTINT &listNo);
+    int     GetParaValueInfo(int iSeq, vector<int> &listNo);
     CString GetWellName(BOOL bSuffix = TRUE);
     void    Export1Img(UINT *pnSel, UINT nSelCount);
     void    Export2Img(UINT *pnSel, UINT nSelCount);
@@ -88,11 +88,13 @@ private:
 
     WORD    m_wShowListNum;
     int     m_iWidth;
-    CString m_strFixHead;
+    string  m_strFixHead;
     UINT    m_nSelItem[MAXWELLNUM];     /* 记录选定的记录的序号 */
     UINT    m_nCurLang;
     TorqData::Torque *m_ptStatTorq;     /* 统计数据的地址，从最后开始排除工具扣,且没有备注 */
     Excel   m_tSaveExc;
+
+    XLSSTATCFG* m_ptStat;
 };
 
 //{{AFX_INSERT_LOCATION}}

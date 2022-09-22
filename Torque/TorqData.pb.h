@@ -417,6 +417,12 @@ class Torque : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::int32 dwcolinter() const;
   void set_dwcolinter(::google::protobuf::int32 value);
 
+  // int32 dwVer = 16;
+  void clear_dwver();
+  static const int kDwVerFieldNumber = 16;
+  ::google::protobuf::int32 dwver() const;
+  void set_dwver(::google::protobuf::int32 value);
+
   // bool bToolBuck = 21;
   void clear_btoolbuck();
   static const int kBToolBuckFieldNumber = 21;
@@ -440,6 +446,12 @@ class Torque : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   static const int kBTimeLineFieldNumber = 26;
   bool btimeline() const;
   void set_btimeline(bool value);
+
+  // int32 dwTorqUnit = 27;
+  void clear_dwtorqunit();
+  static const int kDwTorqUnitFieldNumber = 27;
+  ::google::protobuf::int32 dwtorqunit() const;
+  void set_dwtorqunit(::google::protobuf::int32 value);
 
   // double fMaxLimit = 31;
   void clear_fmaxlimit();
@@ -549,12 +561,6 @@ class Torque : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   double flowertime() const;
   void set_flowertime(double value);
 
-  // int32 dwTorqUnit = 27;
-  void clear_dwtorqunit();
-  static const int kDwTorqUnitFieldNumber = 27;
-  ::google::protobuf::int32 dwtorqunit() const;
-  void set_dwtorqunit(::google::protobuf::int32 value);
-
   // double fPlus = 51;
   void clear_fplus();
   static const int kFPlusFieldNumber = 51;
@@ -633,10 +639,12 @@ class Torque : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::int32 dwtotalplus_;
   ::google::protobuf::int32 dwipplus_;
   ::google::protobuf::int32 dwcolinter_;
+  ::google::protobuf::int32 dwver_;
   bool btoolbuck_;
   bool bncheckip_;
   bool bshackle_;
   bool btimeline_;
+  ::google::protobuf::int32 dwtorqunit_;
   double fmaxlimit_;
   double fupperlimit_;
   double fcontrol_;
@@ -655,7 +663,6 @@ class Torque : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   double fuppertime_;
   double fcontroltime_;
   double flowertime_;
-  ::google::protobuf::int32 dwtorqunit_;
   double fplus_;
   double fmaxrpm_;
   double fcut_;
@@ -1101,6 +1108,20 @@ inline void Torque::set_allocated_llcoltime(::std::string* llcoltime) {
   }
   llcoltime_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), llcoltime);
   // @@protoc_insertion_point(field_set_allocated:TorqData.Torque.llColTime)
+}
+
+// int32 dwVer = 16;
+inline void Torque::clear_dwver() {
+  dwver_ = 0;
+}
+inline ::google::protobuf::int32 Torque::dwver() const {
+  // @@protoc_insertion_point(field_get:TorqData.Torque.dwVer)
+  return dwver_;
+}
+inline void Torque::set_dwver(::google::protobuf::int32 value) {
+  
+  dwver_ = value;
+  // @@protoc_insertion_point(field_set:TorqData.Torque.dwVer)
 }
 
 // bool bToolBuck = 21;

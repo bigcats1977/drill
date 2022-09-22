@@ -13,6 +13,7 @@ public:
 	CDlgShowSet(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgShowSet();
     SHOWCFG m_tempShow;
+    BOOL    m_bModified;
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -31,9 +32,8 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
-    afx_msg void OnBnClickedOk();
+    afx_msg void OnBnClickedUpdateshow();
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-    afx_msg void OnBnClickedRadioshowfile0();
     afx_msg void OnBnClickedRadioshowfile1();
     afx_msg void OnBnClickedRadioshowfile2();
     afx_msg void OnBnClickedRadioshowfile3();
@@ -48,7 +48,7 @@ protected:
     afx_msg void OnBnClickedRadioshowfile12();
     afx_msg void OnBnClickedRadioshowfile13();
     afx_msg void OnBnClickedRadioshowfile14();
-    afx_msg void OnBnClickedRadioshowstat0();
+    afx_msg void OnBnClickedRadioshowfile15();
     afx_msg void OnBnClickedRadioshowstat1();
     afx_msg void OnBnClickedRadioshowstat2();
     afx_msg void OnBnClickedRadioshowstat3();
@@ -63,7 +63,7 @@ protected:
     afx_msg void OnBnClickedRadioshowstat12();
     afx_msg void OnBnClickedRadioshowstat13();
     afx_msg void OnBnClickedRadioshowstat14();
-    afx_msg void OnBnClickedChecklist0();
+    afx_msg void OnBnClickedRadioshowstat15();
     afx_msg void OnBnClickedChecklist1();
     afx_msg void OnBnClickedChecklist2();
     afx_msg void OnBnClickedChecklist3();
@@ -78,7 +78,7 @@ protected:
     afx_msg void OnBnClickedChecklist12();
     afx_msg void OnBnClickedChecklist13();
     afx_msg void OnBnClickedChecklist14();
-    afx_msg void OnBnClickedCheckmain0();
+    afx_msg void OnBnClickedChecklist15();
     afx_msg void OnBnClickedCheckmain1();
     afx_msg void OnBnClickedCheckmain2();
     afx_msg void OnBnClickedCheckmain3();
@@ -93,6 +93,7 @@ protected:
     afx_msg void OnBnClickedCheckmain12();
     afx_msg void OnBnClickedCheckmain13();
     afx_msg void OnBnClickedCheckmain14();
+    afx_msg void OnBnClickedCheckmain15();
 
 	DECLARE_MESSAGE_MAP()
 
@@ -108,4 +109,6 @@ private:
     void        JudgeStatRadio(int iCtrlIdx);
     void        JudgeListCheck(int iCtrlIdx);
     void        JudgeMainCheck(int iCtrlIdx);
+    BOOL        SaveShowCfgInotDB();
+    BOOL        CheckShowCfgChanged();
 };

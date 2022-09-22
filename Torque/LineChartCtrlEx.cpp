@@ -29,21 +29,12 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define     CONT_XOFFSET        5       /* 显示文字，相对于竖线的位置 */
-#define     CONT_YOFFSET        12      /* 显示文字，相对于底线的位置 */
-#define     CONT_XSCALE         0.75    /* 文字开始位置(相对于整体宽度) */
-#define     CONT_XANTIRANGE     425     /* 坐标超过该位置时，需要反方向显示文字 */
-#define     CONT_XANTIOFFSET    80      /* 文字贴右边时，反方向调整 */
-#define     CONT_XRIGHTRANGE    380     /* 拐点/选中的信息如果太大，则方向显示文字 */
 /////////////////////////////////////////////////////////////////////////////
 // CLineChartCtrlEx
 
 CLineChartCtrlEx::CLineChartCtrlEx()
 {
     m_uLineType   = LINETYPE_MAIN;
-    m_fOffset     = 1;
-    m_iStaticX    = 0;
-    m_iChartWidth = MAXLINEITEM;
     m_iChartHeight= 400;
 
     m_fUpperLimit = 2500;   /* 最大扭矩 */
@@ -60,11 +51,8 @@ CLineChartCtrlEx::CLineChartCtrlEx()
     m_fMaxLimit   = 5000;   /* 最大上限 */
     m_fUpperTai   = 900;
     m_fLowerTai   = 200;
-    m_bLastPoint  = FALSE;
-    m_clrBk       = CTRLBKCOLOR;
     m_bBear       = FALSE;
-    m_bBKLine     = TRUE;
-    m_bShowIP = FALSE;
+    m_bCheckIP    = FALSE;
     m_bIPLock     = FALSE;
     //m_nTorqNo     = 1;
     m_bIPSeled    = FALSE;
@@ -114,57 +102,11 @@ BOOL CLineChartCtrlEx::RegisterWndClass(HINSTANCE hInstance)
     return (::RegisterClass(&wc) != 0);
 }
 
-void CLineChartCtrlEx::GetMemDC()
-{
-    CClientDC dc(this);
-
-    COMP_BNE(m_MemDC.GetSafeHdc(), NULL);
-
-    m_MemDC.CreateCompatibleDC(&dc);
-    m_Bitmap.CreateCompatibleBitmap(&dc,m_rcClient.Width(),m_rcClient.Height());
-    m_MemDC.SelectObject(m_Bitmap);
-}
-
-void CLineChartCtrlEx::InvalidateCtrl()
-{
-    if (m_MemDC.GetSafeHdc() == NULL)
-    {
-        GetMemDC();
-
-        // draw scale
-        DrawBkLine();
-    }
-
-    InvalidateRect(m_rcClient, FALSE);
-}
-
-UINT CLineChartCtrlEx::SetPos(double fPos, BOOL bLast)
-{
-    CHECK_VALUE_UP (fPos, m_tItem.m_fUpper);
-    CHECK_VALUE_LOW(fPos, m_tItem.m_fLower);
-
-    /* 超过500个数据，说明图像过了一屏，清屏重新开始 */
-    if(m_tItem.m_nPos >= MAXLINEITEM)
-    {
-        m_tItem.m_nPos = 0;
-
-        return 0;
-    }
-
-    m_bLastPoint = bLast;
-    m_tItem.m_fData[m_tItem.m_nPos++] = fPos;
-    return m_tItem.m_nPos;
-}
-
 void CLineChartCtrlEx::SetStartPoint(UINT nBegin)
 {
     COMP_BGE(nBegin, MAXLINEITEM);
-    if(nBegin >= MAXLINEITEM)
-    {
-        return;
-    }
 
-    m_iStaticX = nBegin;// int(nBegin / m_fOffset + 0.5);
+    CLineChartCtrl::SetStartPoint(nBegin);
     m_tItem.m_nPos = nBegin;
 
     m_nStartPoint = nBegin;
@@ -262,13 +204,7 @@ void CLineChartCtrlEx::DrawSpike(BOOL bStop)
 
 BOOL CLineChartCtrlEx::Add(COLORREF clrLine, double fUpper, double fLower, BYTE uType)
 {
-    memset(&m_tItem, 0, sizeof(LINECHARITEM));
-
-    m_tItem.m_clrLine = clrLine;
-    m_tItem.m_fLower  = fLower;
-    m_tItem.m_fUpper  = fUpper;
-    m_tItem.m_nPos    = 0;
-    m_bLastPoint      = FALSE;
+    CLineChartCtrl::Add(clrLine, fUpper, fLower);
     m_uLineType       = uType;    
 
     return TRUE;
@@ -291,25 +227,6 @@ void CLineChartCtrlEx::FinishDraw()
     m_MemDC.LineTo(ptNew);
     m_MemDC.SelectObject(pOldPen);
 
-    Invalidate(FALSE);
-}
-
-void CLineChartCtrlEx::Go()
-{
-    DrawSpike();
-
-    Invalidate(FALSE);
-}
-
-void CLineChartCtrlEx::Erase()
-{
-    CPoint  ptZero;
-
-    ptZero.x = 0;
-    ptZero.y = 0;
-
-    m_MemDC.MoveTo(ptZero);
-    m_MemDC.LineTo(ptZero);
     Invalidate(FALSE);
 }
 
@@ -418,26 +335,6 @@ void CLineChartCtrlEx::DrawVLine(int x)
     m_MemDC.LineTo(ptEnd);
 }
 
-/* 打印说明文字 */
-void  CLineChartCtrlEx::ShowContent(COLORREF clrText, int y, CString strContent, UINT nLeftOffset)
-{
-    CPoint  ptBegin;
-    CRect   rectCont;
-    CString strPrint;
-
-    m_MemDC.SetTextColor(clrText);
-    ptBegin.x = int((m_iChartWidth)*CONT_XSCALE);
-    ptBegin.y = y;
-
-    rectCont.left = 0;
-    rectCont.right = m_rcClient.right - nLeftOffset;
-    rectCont.top = y;
-    rectCont.bottom = m_rcClient.bottom;
-
-    strPrint = strContent + _T("          ");
-    m_MemDC.DrawText(strPrint, -1, &rectCont, DT_SINGLELINE | DT_RIGHT | DT_TOP);
-}
-
 /* 打印选定点 / 放大点的动态位置的信息 */
 void CLineChartCtrlEx::ShowVarPntText(COLORREF clrText, int x, int y, CString strContent)
 {
@@ -476,7 +373,6 @@ void CLineChartCtrlEx::DrawControlLine()
     int     x        = 0;
     int     y        = 0;
     CPen    *pOldPen = NULL;
-    CString strTemp;
     COLORREF clrCtrl = LC_SAFECOLOR;
     
     if(LINETYPE_HISG == m_uLineType)
@@ -495,8 +391,8 @@ void CLineChartCtrlEx::DrawControlLine()
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fOptTorq)/m_fMaxLimit);
     DrawHLine(y);    
     /* 显示最佳扭矩值 */
-    strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
-    ShowContent(clrCtrl, y-CONT_YOFFSET, strTemp);
+    //strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
+    ShowContent(clrCtrl, y-CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXCONTROL, m_fOptTorq));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -506,7 +402,7 @@ void CLineChartCtrlEx::DrawAlarmLine()
     int     x        = 0;
     int     y        = 0;
     CPen    *pOldPen = NULL;
-    CString strTemp;
+    //CString strTemp;
     COLORREF clrAlarm = LC_ALARMCOLOR;
     
     if(LINETYPE_HISG == m_uLineType)
@@ -526,19 +422,23 @@ void CLineChartCtrlEx::DrawAlarmLine()
         x = int((m_iChartWidth)*m_fUpperCir/m_fWidthCir);
         DrawVLine(x);
     }
+    /* 20220922 钻杆数据无最大/最小扭矩 */
+#if 0
     /* ----- */
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fLowerLimit)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示最小扭矩值 */
-    strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
-    ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);    
+    //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
+    //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
+    ShowContent(clrAlarm, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT, m_fLowerLimit));
     /* ----- */    
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fUpperLimit)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示最大扭矩值 */
-    strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
-    ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
-
+    //strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
+    //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
+    ShowContent(clrAlarm, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT, m_fUpperLimit));
+#endif
     m_MemDC.SelectObject(pOldPen);
 }
 
@@ -547,8 +447,10 @@ void CLineChartCtrlEx::DrawTaiLine()
     int     x        = 0;
     int     y        = 0;
     CPen    *pOldPen = NULL;
-    CString strTemp;
+    //CString strTemp;
     COLORREF clrTai = LC_TAICOLOR;
+
+    COMP_BFALSE(m_bCheckIP);
     
     if(LINETYPE_HISG == m_uLineType)
     {
@@ -563,8 +465,9 @@ void CLineChartCtrlEx::DrawTaiLine()
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fUpperTai)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示最大台阶扭矩值 */
-    strTemp.Format(IDS_STRLCXUPTAI, m_fUpperTai);
-    ShowContent(clrTai, y-CONT_YOFFSET, strTemp);
+    //strTemp.Format(IDS_STRLCXUPTAI, m_fUpperTai);
+    //ShowContent(clrTai, y-CONT_YOFFSET, strTemp);
+    ShowContent(clrTai, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPTAI, m_fUpperTai));
 #if 0
     /* 显示减速扭矩 */
     /*最佳台阶扭矩(减速扭矩) */
@@ -580,8 +483,9 @@ void CLineChartCtrlEx::DrawTaiLine()
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fLowerTai)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示最小台阶扭矩值 */
-    strTemp.Format(IDS_STRLCXLOWTAI, m_fLowerTai);
-    ShowContent(clrTai, y-CONT_YOFFSET, strTemp);
+    //strTemp.Format(IDS_STRLCXLOWTAI, m_fLowerTai);
+    //ShowContent(clrTai, y-CONT_YOFFSET, strTemp);
+    ShowContent(clrTai, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWTAI, m_fLowerTai));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -591,7 +495,7 @@ void CLineChartCtrlEx::DrawShowLine()
     int     x        = 0;
     int     y        = 0;
     CPen    *pOldPen = NULL;
-    CString strTemp;
+    //CString strTemp;
 
     COLORREF clrShow = LC_SHOWCOLOR;
     
@@ -608,8 +512,9 @@ void CLineChartCtrlEx::DrawShowLine()
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fShow)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示显示扭矩值 */
-    strTemp.Format(IDS_STRLCXSHOW, m_fShow);
-    ShowContent(clrShow, y-CONT_YOFFSET, strTemp);
+    //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
+    //ShowContent(clrShow, y-CONT_YOFFSET, strTemp);
+    ShowContent(clrShow, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXSHOW, m_fShow));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -619,8 +524,10 @@ void CLineChartCtrlEx::DrawBearLine()
     int     x        = 0;
     int     y        = 0;
     CPen    *pOldPen = NULL;
-    CString strTemp;
+    //CString strTemp;
     COLORREF clrBear = LC_BEARCOLOR;
+
+    COMP_BFALSE(m_bBear);
     
     if(LINETYPE_HISG == m_uLineType)
     {
@@ -630,14 +537,13 @@ void CLineChartCtrlEx::DrawBearLine()
 
     pOldPen = m_MemDC.SelectObject(&penBear);
 
-    COMP_BFALSE(m_bBear);
-
     /* ----- */
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fBear)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示肩负扭矩值 */
-    strTemp.Format(IDS_STRLCXBEAR, m_fBear);
-    ShowContent(clrBear, y-CONT_YOFFSET, strTemp);
+    //strTemp.Format(IDS_STRLCXBEAR, m_fBear);
+    //ShowContent(clrBear, y-CONT_YOFFSET, strTemp);
+    ShowContent(clrBear, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXBEAR, m_fBear));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -713,11 +619,6 @@ void CLineChartCtrlEx::DrawZoomBkLine()
     m_MemDC.SelectObject(&pOldFont);
 }
 
-void CLineChartCtrlEx::SetBkColor(COLORREF clrBk)
-{
-    m_clrBk = clrBk;
-}
-
 void CLineChartCtrlEx::DrawInflection(int iIPPos, double fDelIPCir, double fSetIPTorq)//, COLORREF clrIP)
 {
     double      fRange;
@@ -730,6 +631,8 @@ void CLineChartCtrlEx::DrawInflection(int iIPPos, double fDelIPCir, double fSetI
     CPen*       pOldPen = NULL;
     int         iRealIPPos = 0;
     COLORREF    clrIP = LC_SAFECOLOR;
+
+    COMP_BFALSE(m_bCheckIP);
     
     if(LINETYPE_HISG == m_uLineType)
     {
@@ -834,6 +737,7 @@ void CLineChartCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
     /* 只是在hisgraph里面才触发移动拐点事件 */
     if(m_uLineType == LINETYPE_HISG)
     {
+        COMP_BFALSE(m_bCheckIP);
         COMP_BTRUE(m_bIPLock); /* 老数据IP锁定，不能修改，只能看 */
         if(m_rcInterPt.PtInRect(point))
         {
@@ -870,6 +774,7 @@ void CLineChartCtrlEx::OnRButtonUp(UINT nFlags, CPoint point)
     HWND hParent = ::GetParent(m_hWnd);
 
     COMP_BFALSE(m_uLineType == LINETYPE_HISG);
+    COMP_BFALSE(m_bCheckIP);
     COMP_BFALSE(m_bIPSeled);
     m_bIPSeled = FALSE;
 

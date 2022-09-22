@@ -37,23 +37,14 @@ typedef struct tagLINECHARITEM
 /////////////////////////////////////////////////////////////////////////////
 // CLineChartCtrl window
 
-#define CTRLBKCOLOR     RGB(0,0,0)
-#define CTRLWHITECOLOR  RGB(255,255,255)
-#define CTRLBLACKCOLOR  RGB(0,0,0)
-#define LC_BKCOLOR      RGB(50,50,50)
-#define LC_ZOOMCOLOR    RGB(218,218,218)
-#define LC_SAFECOLOR    RGB(0,255,0)
-#define LC_ALARMCOLOR   RGB(255,0,0)
-#define LC_SPEEDCOLOR   RGB(0,0,255)
-#define LC_SHOWCOLOR    RGB(0,255,255)
-#define LC_BEARCOLOR    RGB(255,0,0)
-#define LC_TAICOLOR     RGB(0,0,255)
-#define IP_INFCOLOR     RGB(0,255,0)
-#define IP_SELCOLOR     RGB(255,0,255)
-#define ZOOM_SELCOLOR   RGB(255,0,255)
-//#define IP_INFCOLOR     RGB(160,32,240)
-#define LC_HISSAFECLR   RGB(136,0, 21)
-#define LC_HISSHOWCLR   RGB(164,82,164)
+
+
+#define     CONT_XOFFSET        5       /* 显示文字，相对于竖线的位置 */
+#define     CONT_YOFFSET        12      /* 显示文字，相对于底线的位置 */
+#define     CONT_XSCALE         0.75    /* 文字开始位置(相对于整体宽度) */
+#define     CONT_XANTIRANGE     425     /* 坐标超过该位置时，需要反方向显示文字 */
+#define     CONT_XANTIOFFSET    80      /* 文字贴右边时，反方向调整 */
+#define     CONT_XRIGHTRANGE    380     /* 拐点/选中的信息如果太大，则方向显示文字 */
 
 class CLineChartCtrl : public CWnd
 {
@@ -103,14 +94,17 @@ protected:
 
 private:
     void    DrawGridLine();
+
+protected:
+    void    ShowContent(COLORREF clrText, int y, string trContent, UINT nLeftOffset = 0);
     void    GetMemDC();
 
-    int      m_iRpmWidth;
-    int      m_iRpmHeight;
-    CRect    m_rcClient;
     CDC      m_MemDC;
     CBitmap  m_Bitmap;
     COLORREF m_clrBk;
+    CRect    m_rcClient;
+    int      m_iChartWidth;
+    int      m_iChartHeight;
     BOOL     m_bLastPoint;
 };
 

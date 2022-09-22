@@ -66,8 +66,9 @@ END_MESSAGE_MAP()
 
 BOOL CDlgCollect::OnInitDialog()
 {
-    CString     strHead;
+    string      strHead;
     CRect       rcView;
+    char        buffer[MAX_LOADSTRING];
     int         iWidth  = 0;
 
     CDialog::OnInitDialog();
@@ -81,9 +82,12 @@ BOOL CDlgCollect::OnInitDialog()
     iWidth = (int)(rcView.Width()/4);
     m_listData.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_UNDERLINEHOT);
     //strHead.Format("上扣时间,%d;扭拧周数,%d;扭拧扭矩,%d;",nWidth*2,nWidth,nWidth);
-    strHead.Format(IDS_STRCOLLISTHEAD,int(iWidth*1.8),(iWidth),(iWidth));
+    //strHead.Format(IDS_STRCOLLISTHEAD,int(iWidth*1.8),(iWidth),(iWidth));
+    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD).c_str(),
+             int(iWidth * 1.8), (iWidth), (iWidth));
     
-    m_listData.SetHeadings(strHead);
+    strHead = buffer;
+    m_listData.SetHeadings(strHead.c_str());
     m_listData.LoadColumnInfo();
 
     g_ptParentDlg = (CTorqueDlg *)GetParent();
@@ -117,7 +121,7 @@ void CDlgCollect::OnBtncollect()
 
     SetTimer(COLLECT_TIMER, COLLECT_TLEN, NULL);
 
-    if(theApp.m_nTestFunc == COLL_HISTORY)
+    if(g_tGlbCfg.nTest == COLL_HISTORY)
     {
         g_ptParentDlg->RunIniAutoFile();
     }
@@ -210,7 +214,7 @@ void CDlgCollect::ReadCollData(int iCollNum)
 
         m_tHisData.tOneData[nCur].tTime   = CTime(iYear,iMonth,iDate,iHour,iMinute,0,0);
         m_tHisData.tOneData[nCur].fTorque = fTorque;
-        m_tHisData.tOneData[nCur].fCir    = fPlus/theApp.m_tParaCfg.tCtrl.fPlus;
+        m_tHisData.tOneData[nCur].fCir = fPlus / g_tGlbCfg.nPlusPerTurn;
 
         nCur ++;
         if(nCur >= MAXHISDATANUM)
@@ -289,7 +293,7 @@ void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
     m_nCollectStatus = INVALIDDATA;
     
     /* 读取autosave文件中的#COL 开头的Collect数据 */
-    if(theApp.m_nTestFunc == COLL_HISTORY)
+    if(g_tGlbCfg.nTest == COLL_HISTORY)
     {
         bReadRes = g_ptParentDlg->CollectHisData();
     }

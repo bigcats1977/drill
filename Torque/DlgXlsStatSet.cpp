@@ -10,7 +10,6 @@
 // CDlgXlsStatSet 对话框
 
 
-extern TORQUEDATA  m_tReadData;
 TorqData::Torque   *g_ptLast = NULL;
 
 IMPLEMENT_DYNAMIC(CDlgXlsStatSet, CDialogEx)
@@ -28,7 +27,6 @@ CDlgXlsStatSet::~CDlgXlsStatSet()
 void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_EDXLSSNAME0, m_strShowName[0]);
     DDX_Text(pDX, IDC_EDXLSSNAME1, m_strShowName[1]);
     DDX_Text(pDX, IDC_EDXLSSNAME2, m_strShowName[2]);
     DDX_Text(pDX, IDC_EDXLSSNAME3, m_strShowName[3]);
@@ -43,7 +41,7 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDXLSSNAME12, m_strShowName[12]);
     DDX_Text(pDX, IDC_EDXLSSNAME13, m_strShowName[13]);
     DDX_Text(pDX, IDC_EDXLSSNAME14, m_strShowName[14]);
-    DDX_Check(pDX, IDC_CHECKSUMM0, m_bSummary[0]);
+    DDX_Text(pDX, IDC_EDXLSSNAME15, m_strShowName[15]);
     DDX_Check(pDX, IDC_CHECKSUMM1, m_bSummary[1]);
     DDX_Check(pDX, IDC_CHECKSUMM2, m_bSummary[2]);
     DDX_Check(pDX, IDC_CHECKSUMM3, m_bSummary[3]);
@@ -58,7 +56,7 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKSUMM12, m_bSummary[12]);
     DDX_Check(pDX, IDC_CHECKSUMM13, m_bSummary[13]);
     DDX_Check(pDX, IDC_CHECKSUMM14, m_bSummary[14]);
-    DDX_Check(pDX, IDC_CHECKRPT0, m_bReport[0]);
+    DDX_Check(pDX, IDC_CHECKSUMM15, m_bSummary[15]);
     DDX_Check(pDX, IDC_CHECKRPT1, m_bReport[1]);
     DDX_Check(pDX, IDC_CHECKRPT2, m_bReport[2]);
     DDX_Check(pDX, IDC_CHECKRPT3, m_bReport[3]);
@@ -73,8 +71,8 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKRPT12, m_bReport[12]);
     DDX_Check(pDX, IDC_CHECKRPT13, m_bReport[13]);
     DDX_Check(pDX, IDC_CHECKRPT14, m_bReport[14]);
-    DDX_Radio(pDX, IDC_RADIOOPER0, m_iOperator);
-    DDX_Control(pDX, IDC_RADIOOPER0, m_rdOperator[0]);
+    DDX_Check(pDX, IDC_CHECKRPT15, m_bReport[15]);
+    DDX_Radio(pDX, IDC_RADIOOPER1, m_iOperator);
     DDX_Control(pDX, IDC_RADIOOPER1, m_rdOperator[1]);
     DDX_Control(pDX, IDC_RADIOOPER2, m_rdOperator[2]);
     DDX_Control(pDX, IDC_RADIOOPER3, m_rdOperator[3]);
@@ -89,8 +87,8 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOOPER12, m_rdOperator[12]);
     DDX_Control(pDX, IDC_RADIOOPER13, m_rdOperator[13]);
     DDX_Control(pDX, IDC_RADIOOPER14, m_rdOperator[14]);
-    DDX_Radio(pDX, IDC_RADIOTALLY0, m_iTally);
-    DDX_Control(pDX, IDC_RADIOTALLY0, m_rdTally[0]);
+    DDX_Control(pDX, IDC_RADIOOPER15, m_rdOperator[15]);
+    DDX_Radio(pDX, IDC_RADIOTALLY1, m_iTally);
     DDX_Control(pDX, IDC_RADIOTALLY1, m_rdTally[1]);
     DDX_Control(pDX, IDC_RADIOTALLY2, m_rdTally[2]);
     DDX_Control(pDX, IDC_RADIOTALLY3, m_rdTally[3]);
@@ -105,7 +103,7 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOTALLY12, m_rdTally[12]);
     DDX_Control(pDX, IDC_RADIOTALLY13, m_rdTally[13]);
     DDX_Control(pDX, IDC_RADIOTALLY14, m_rdTally[14]);
-    DDX_Control(pDX, IDC_CHECKSUMM0, m_clSummary[0]);
+    DDX_Control(pDX, IDC_RADIOTALLY15, m_rdTally[15]);
     DDX_Control(pDX, IDC_CHECKSUMM1, m_clSummary[1]);
     DDX_Control(pDX, IDC_CHECKSUMM2, m_clSummary[2]);
     DDX_Control(pDX, IDC_CHECKSUMM3, m_clSummary[3]);
@@ -120,7 +118,7 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKSUMM12, m_clSummary[12]);
     DDX_Control(pDX, IDC_CHECKSUMM13, m_clSummary[13]);
     DDX_Control(pDX, IDC_CHECKSUMM14, m_clSummary[14]);
-    DDX_Control(pDX, IDC_CHECKRPT0, m_clReport[0]);
+    DDX_Control(pDX, IDC_CHECKSUMM15, m_clSummary[15]);
     DDX_Control(pDX, IDC_CHECKRPT1, m_clReport[1]);
     DDX_Control(pDX, IDC_CHECKRPT2, m_clReport[2]);
     DDX_Control(pDX, IDC_CHECKRPT3, m_clReport[3]);
@@ -135,12 +133,12 @@ void CDlgXlsStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKRPT12, m_clReport[12]);
     DDX_Control(pDX, IDC_CHECKRPT13, m_clReport[13]);
     DDX_Control(pDX, IDC_CHECKRPT14, m_clReport[14]);
+    DDX_Control(pDX, IDC_CHECKRPT15, m_clReport[15]);
 }
 
 
 BEGIN_MESSAGE_MAP(CDlgXlsStatSet, CDialogEx)
     ON_BN_CLICKED(IDOK, &CDlgXlsStatSet::OnBnClickedOk)
-    ON_BN_CLICKED(IDC_CHECKRPT0, &CDlgXlsStatSet::OnBnClickedCheckrpt0)
     ON_BN_CLICKED(IDC_CHECKRPT1, &CDlgXlsStatSet::OnBnClickedCheckrpt1)
     ON_BN_CLICKED(IDC_CHECKRPT2, &CDlgXlsStatSet::OnBnClickedCheckrpt2)
     ON_BN_CLICKED(IDC_CHECKRPT3, &CDlgXlsStatSet::OnBnClickedCheckrpt3)
@@ -155,7 +153,7 @@ BEGIN_MESSAGE_MAP(CDlgXlsStatSet, CDialogEx)
     ON_BN_CLICKED(IDC_CHECKRPT12, &CDlgXlsStatSet::OnBnClickedCheckrpt12)
     ON_BN_CLICKED(IDC_CHECKRPT13, &CDlgXlsStatSet::OnBnClickedCheckrpt13)
     ON_BN_CLICKED(IDC_CHECKRPT14, &CDlgXlsStatSet::OnBnClickedCheckrpt14)
-    ON_BN_CLICKED(IDC_CHECKSUMM0, &CDlgXlsStatSet::OnBnClickedChecksumm0)
+    ON_BN_CLICKED(IDC_CHECKRPT15, &CDlgXlsStatSet::OnBnClickedCheckrpt15)
     ON_BN_CLICKED(IDC_CHECKSUMM1, &CDlgXlsStatSet::OnBnClickedChecksumm1)
     ON_BN_CLICKED(IDC_CHECKSUMM2, &CDlgXlsStatSet::OnBnClickedChecksumm2)
     ON_BN_CLICKED(IDC_CHECKSUMM3, &CDlgXlsStatSet::OnBnClickedChecksumm3)
@@ -170,7 +168,7 @@ BEGIN_MESSAGE_MAP(CDlgXlsStatSet, CDialogEx)
     ON_BN_CLICKED(IDC_CHECKSUMM12, &CDlgXlsStatSet::OnBnClickedChecksumm12)
     ON_BN_CLICKED(IDC_CHECKSUMM13, &CDlgXlsStatSet::OnBnClickedChecksumm13)
     ON_BN_CLICKED(IDC_CHECKSUMM14, &CDlgXlsStatSet::OnBnClickedChecksumm14)
-    ON_BN_CLICKED(IDC_RADIOOPER0, &CDlgXlsStatSet::OnBnClickedRadiooper0)
+    ON_BN_CLICKED(IDC_CHECKSUMM15, &CDlgXlsStatSet::OnBnClickedChecksumm15)
     ON_BN_CLICKED(IDC_RADIOOPER1, &CDlgXlsStatSet::OnBnClickedRadiooper1)
     ON_BN_CLICKED(IDC_RADIOOPER2, &CDlgXlsStatSet::OnBnClickedRadiooper2)
     ON_BN_CLICKED(IDC_RADIOOPER3, &CDlgXlsStatSet::OnBnClickedRadiooper3)
@@ -185,7 +183,7 @@ BEGIN_MESSAGE_MAP(CDlgXlsStatSet, CDialogEx)
     ON_BN_CLICKED(IDC_RADIOOPER12, &CDlgXlsStatSet::OnBnClickedRadiooper12)
     ON_BN_CLICKED(IDC_RADIOOPER13, &CDlgXlsStatSet::OnBnClickedRadiooper13)
     ON_BN_CLICKED(IDC_RADIOOPER14, &CDlgXlsStatSet::OnBnClickedRadiooper14)
-    ON_BN_CLICKED(IDC_RADIOTALLY0, &CDlgXlsStatSet::OnBnClickedRadiotally0)
+    ON_BN_CLICKED(IDC_RADIOOPER15, &CDlgXlsStatSet::OnBnClickedRadiooper15)
     ON_BN_CLICKED(IDC_RADIOTALLY1, &CDlgXlsStatSet::OnBnClickedRadiotally1)
     ON_BN_CLICKED(IDC_RADIOTALLY2, &CDlgXlsStatSet::OnBnClickedRadiotally2)
     ON_BN_CLICKED(IDC_RADIOTALLY3, &CDlgXlsStatSet::OnBnClickedRadiotally3)
@@ -200,6 +198,7 @@ BEGIN_MESSAGE_MAP(CDlgXlsStatSet, CDialogEx)
     ON_BN_CLICKED(IDC_RADIOTALLY12, &CDlgXlsStatSet::OnBnClickedRadiotally12)
     ON_BN_CLICKED(IDC_RADIOTALLY13, &CDlgXlsStatSet::OnBnClickedRadiotally13)
     ON_BN_CLICKED(IDC_RADIOTALLY14, &CDlgXlsStatSet::OnBnClickedRadiotally14)
+    ON_BN_CLICKED(IDC_RADIOTALLY15, &CDlgXlsStatSet::OnBnClickedRadiotally15)
 END_MESSAGE_MAP()
 
 // CDlgXlsStatSet 消息处理程序
@@ -209,21 +208,23 @@ BOOL CDlgXlsStatSet::OnInitDialog()
 
     CDialog::OnInitDialog();
 
-    g_ptLast   = &m_tReadData.tData[m_tReadData.nTotal-1];
-    m_ptStat   = &theApp.m_tXlsStatCfg;
+    g_ptLast   = &g_tReadData.tData[g_tReadData.nTotal-1];
+    m_ptStat   = &theApp.m_tXlsStatCfg[g_tGlbCfg.nLangType];
     m_iShowNum = g_ptLast->tshow_size();
+    if (m_iShowNum > MAXPARANUM - 1)
+        m_iShowNum = MAXPARANUM - 1;
 
     m_clrNormal  = RGB(0, 0, 0); 
     m_clrChanged = RGB(255, 0, 0);
     memset(&m_bSummary[0], FALSE, sizeof(BOOL)*MAXPARANUM);
     memset(&m_bReport[0],  FALSE, sizeof(BOOL)*MAXPARANUM);
 
-    for(i=0; i< m_iShowNum && i<MAXPARANUM; i++)
+    for(i=1; i<= m_iShowNum; i++)
     {
         m_strShowName[i] = theApp.GetTorqShowName(g_ptLast, i);
     }
-    m_iPriorOperID  = m_iOperator = m_ptStat->ucOperator;
-    m_iPriorTallyID = m_iTally    = m_ptStat->ucTally;
+    m_iPriorOperID  = m_iOperator = m_ptStat->ucOperator-1;
+    m_iPriorTallyID = m_iTally    = m_ptStat->ucTally-1;
     memcpy(&m_bSummary[0],  &m_ptStat->bSummary[0], sizeof(BOOL)*MAXPARANUM);
     memcpy(&m_bReport[0],   &m_ptStat->bReport[0],  sizeof(BOOL)*MAXPARANUM);
 
@@ -244,15 +245,12 @@ void CDlgXlsStatSet::OnBnClickedOk()
     memset(&m_ptStat->bSummary[0],  FALSE, sizeof(BOOL)*MAXPARANUM);
     memset(&m_ptStat->bReport[0],   FALSE, sizeof(BOOL)*MAXPARANUM);
 
-    for (i = 0; i < MAXPARANUM; i++)
+    m_ptStat->ucOperator = m_iOperator+1;
+    m_ptStat->ucTally = m_iTally + 1;
+    for (i = 1; i <= m_iShowNum; i++)
     {
         if (m_strShowName[i].IsEmpty())
             continue;
-
-        if(m_iOperator == i)
-            m_ptStat->ucOperator = (BYTE)i;
-        if (m_iTally == i)
-            m_ptStat->ucTally = (BYTE)i;
         
         if(m_bSummary[i] && iSummary< MAXSUMMARYPARA)
         {
@@ -266,7 +264,7 @@ void CDlgXlsStatSet::OnBnClickedOk()
         }
     }
 
-    theApp.WriteXlsStatPara(theApp.m_strParaFile, m_ptStat);
+    //theApp.WriteXlsStatPara(theApp.m_strParaFile, m_ptStat);
 
     CDialog::OnOK();
 }
@@ -275,8 +273,8 @@ void CDlgXlsStatSet::JudgeReportCheck(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, m_iShowNum);
     
     clrCtrl = m_clrNormal;
     if (m_ptStat->bReport[iCtrlIdx] != m_bReport[iCtrlIdx])
@@ -286,11 +284,6 @@ void CDlgXlsStatSet::JudgeReportCheck(int iCtrlIdx)
 
     m_clReport[iCtrlIdx].SetForeColor(clrCtrl);
     m_clReport[iCtrlIdx].Invalidate();
-}
-void CDlgXlsStatSet::OnBnClickedCheckrpt0()
-{
-    UpdateData(TRUE);
-    JudgeReportCheck(0);
 }
 void CDlgXlsStatSet::OnBnClickedCheckrpt1()
 {
@@ -362,13 +355,18 @@ void CDlgXlsStatSet::OnBnClickedCheckrpt14()
     UpdateData(TRUE);
     JudgeReportCheck(14);
 }
+void CDlgXlsStatSet::OnBnClickedCheckrpt15()
+{
+    UpdateData(TRUE);
+    JudgeReportCheck(15);
+}
 
 void CDlgXlsStatSet::JudgeSummaryCheck(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, m_iShowNum);
     
     clrCtrl = m_clrNormal;
     if (m_ptStat->bSummary[iCtrlIdx] != m_bSummary[iCtrlIdx])
@@ -378,11 +376,6 @@ void CDlgXlsStatSet::JudgeSummaryCheck(int iCtrlIdx)
 
     m_clSummary[iCtrlIdx].SetForeColor(clrCtrl);
     m_clSummary[iCtrlIdx].Invalidate();
-}
-void CDlgXlsStatSet::OnBnClickedChecksumm0()
-{
-    UpdateData(TRUE);
-    JudgeSummaryCheck(0);
 }
 void CDlgXlsStatSet::OnBnClickedChecksumm1()
 {
@@ -454,14 +447,19 @@ void CDlgXlsStatSet::OnBnClickedChecksumm14()
     UpdateData(TRUE);
     JudgeSummaryCheck(14);
 }
+void CDlgXlsStatSet::OnBnClickedChecksumm15()
+{
+    UpdateData(TRUE);
+    JudgeSummaryCheck(15);
+}
 
 void CDlgXlsStatSet::JudgeOperRadio(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
     BOOL        bSeled = FALSE;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, m_iShowNum);
     
     clrCtrl = m_clrNormal;
     bSeled = (m_iOperator == iCtrlIdx);
@@ -476,13 +474,6 @@ void CDlgXlsStatSet::JudgeOperRadio(int iCtrlIdx)
 
     m_rdOperator[iCtrlIdx].SetForeColor(clrCtrl);
     m_rdOperator[iCtrlIdx].Invalidate();
-}
-void CDlgXlsStatSet::OnBnClickedRadiooper0()
-{
-    UpdateData(TRUE);
-    JudgeOperRadio(0);
-    JudgeOperRadio(m_iPriorOperID);
-    m_iPriorOperID = 0;
 }
 void CDlgXlsStatSet::OnBnClickedRadiooper1()
 {
@@ -582,14 +573,21 @@ void CDlgXlsStatSet::OnBnClickedRadiooper14()
     JudgeOperRadio(m_iPriorOperID);
     m_iPriorOperID = 14;
 }
+void CDlgXlsStatSet::OnBnClickedRadiooper15()
+{
+    UpdateData(TRUE);
+    JudgeOperRadio(15);
+    JudgeOperRadio(m_iPriorOperID);
+    m_iPriorOperID = 15;
+}
 
 void CDlgXlsStatSet::JudgeTallyRadio(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
     BOOL        bSeled = FALSE;
 
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BG(iCtrlIdx, MAXPARANUM);
+    COMP_BL(iCtrlIdx, 1);
+    COMP_BGE(iCtrlIdx, m_iShowNum);
     
     clrCtrl = m_clrNormal;
     bSeled = (m_iTally== iCtrlIdx);
@@ -604,13 +602,6 @@ void CDlgXlsStatSet::JudgeTallyRadio(int iCtrlIdx)
 
     m_rdTally[iCtrlIdx].SetForeColor(clrCtrl);
     m_rdTally[iCtrlIdx].Invalidate();
-}
-void CDlgXlsStatSet::OnBnClickedRadiotally0()
-{
-    UpdateData(TRUE);
-    JudgeTallyRadio(0);
-    JudgeTallyRadio(m_iPriorTallyID);
-    m_iPriorTallyID = 0;
 }
 void CDlgXlsStatSet::OnBnClickedRadiotally1()
 {
@@ -708,4 +699,11 @@ void CDlgXlsStatSet::OnBnClickedRadiotally14()
     JudgeTallyRadio(14);
     JudgeTallyRadio(m_iPriorTallyID);
     m_iPriorTallyID = 14;
+}
+void CDlgXlsStatSet::OnBnClickedRadiotally15()
+{
+    UpdateData(TRUE);
+    JudgeTallyRadio(15);
+    JudgeTallyRadio(m_iPriorTallyID);
+    m_iPriorTallyID = 15;
 }

@@ -8,7 +8,6 @@
 
 
 // CDlgZoomIn dialog
-extern TORQUEDATA  m_tReadData;
 
 
 /*********************´úÂëºê************************************/
@@ -61,7 +60,7 @@ BOOL CDlgZoomIn::OnInitDialog()
     m_yZoomAxis.SetRulerType(RT_VERTICAL);
 
     m_iZoomPos = m_nPos;
-    m_nCurZoom = theApp.m_nZoomIn;
+    m_nCurZoom = g_tGlbCfg.nZoomIn;
 
     DrawZoomPnt();
 
@@ -78,10 +77,10 @@ void CDlgZoomIn::DrawZoomPnt()
     DRAWTORQDATA  *ptDraw = NULL;
     UINT    nStartPnt = 0;
 
-    COMP_BL(m_tReadData.nCur, 1);
-    COMP_BG(m_tReadData.nCur, m_tReadData.nTotal);
+    COMP_BL(g_tReadData.nCur, 1);
+    COMP_BG(g_tReadData.nCur, g_tReadData.nTotal);
 
-    ptDraw = theApp.GetDrawDataFromTorq(m_tReadData.nCur - 1, m_nCurZoom);
+    ptDraw = theApp.GetDrawDataFromTorq(g_tReadData.nCur - 1, m_nCurZoom);
     ASSERT_NULL(ptDraw);
         
     GetZoomRange(ptDraw);
@@ -208,7 +207,7 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA *ptDraw)
 
     ASSERT_NULL(ptDraw);
     ptTorq = ptDraw->ptOrgTorq;
-    tCurSplit = m_tReadData.tSplit[m_tReadData.nCur-1];
+    tCurSplit = g_tReadData.tSplit[g_tReadData.nCur-1];
 
     if(m_nCurZoom <= 0)
         m_nCurZoom = 1;

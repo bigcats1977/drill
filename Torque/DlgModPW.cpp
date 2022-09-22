@@ -40,30 +40,30 @@ END_MESSAGE_MAP()
 // CDlgModPW message handlers
 void CDlgModPW::OnBnClickedBtnmodpw()
 {
-    CString strCompPW;
-    CString strSuppPW;
+    string strCompPW;
+    string strSuppPW;
 
     UpdateData(TRUE);
 
-    strSuppPW.Format(IDS_STRSUPPORPW);
-    
-    strCompPW = theApp.m_aucPassWord;
-    if( 0 != strCompPW.Compare(m_strOldPW) &&
-        0 != strSuppPW.Compare(m_strOldPW))
+    strSuppPW = theApp.LoadstringFromRes(IDS_STRSUPPORPW);
+    strCompPW = g_tGlbCfg.strPassWord;
+    if( 0 != m_strOldPW.Compare(strSuppPW.c_str()) &&
+        0 != m_strOldPW.Compare(strCompPW.c_str()))
     {
-        AfxMessageBox(IDS_STROLDPWERROR);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STROLDPWERROR).c_str());
         return;
     }
 
     if(m_strNewPW.IsEmpty())
     {
-        AfxMessageBox(IDS_STRNEWPWNULL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRNEWPWNULL).c_str());
         return;
     }
 
-    lstrcpyn(theApp.m_aucPassWord, m_strNewPW, MAXPWLEN);
-    theApp.WriteShowPara();
+    g_tGlbCfg.strPassWord = m_strNewPW;
+    //lstrcpyn(theApp.m_aucPassWord, m_strNewPW, MAXPWLEN);
+    theDB.UpdateGlobalPara();
 
-    AfxMessageBox(IDS_STRNEWPWOK);
+    AfxMessageBox(theApp.LoadstringFromRes(IDS_STRNEWPWOK).c_str());
     CDialog::OnOK();
 }

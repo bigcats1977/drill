@@ -20,6 +20,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //#define     TEST_QUALITY
+extern CTubeCfg    g_cTubing;
 
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueApp
@@ -30,130 +31,10 @@ BEGIN_MESSAGE_MAP(CTorqueApp, CWinApp)
     ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
-/*********************全局变量************************************/
-//添加的标识只运行一次的属性名
-string  g_strPropName  = "Torque.exe";     //自己定义一个属性名
-HANDLE  g_hValue       = (HANDLE)1;        //自己定义一个属性值
-CTubeCfg    g_cTubing;
 
-extern  CString         g_strCmdName[];
-
-/* 计算拐点的全局变量 */
-double  g_fAdjSlope[COLLECTPOINTS];             //相邻点斜率
-double  g_fAdjInfPnt[COLLECTPOINTS];            //相邻点拐点
-double  g_fIntSlope[COLLECTPOINTS];             //间隔点斜率
-double  g_fIntInfPnt[COLLECTPOINTS];            //间隔点拐点
-
-
-TORQUEDATA  m_tReadData;        /* 读取的历史保存的扭矩控制数据，包括文件名称，数据个数等信息 */
-
-/* 是否编译校准仪版本，校准仪版本只编译校准仪DLL库 */
-
-#define     RforCur                 2
-
-#define HEIGHT_MAINDLG      780
-#define MIN_TORQDATALEN     0xFF
-/* 定义程序状态字符串 */
-string g_strStatus[STATUS_MAXNUM] = {
-            _T("INVALID"),
-            _T("START"),
-            _T("EXIT"),
-            _T("RUN"),
-            _T("STOP"),
-            _T("SETPARA"),
-            _T("FUNTEST"),
-            _T("COLLECT"),
-            _T("HISTORY"),
-            _T("RESTART"),
-            _T("CHGLANG"),
-            _T("HISSTAT"),
-            _T("SETVALVE"),
-            _T("VERCIRC"),
-            _T("VERTIME"),
-            _T("SETSHOW"),
-            _T("CHGUNIT"),
-            _T("CALIB")
-};
-
-/* 定义串口操作字符串 */
-string  g_strPortOpr[PORTOPR_MAXNUM] = {
-            _T("OPEN"),
-            _T("CLOSE")
-};
-
-/* 注册码的各个段的长度 */
-UINT   g_nValidLen[REGCODESEGNUM] = {
-            REGCODELEN1,
-            REGCODELEN2,
-            REGCODELEN3,
-            REGCODELEN4,
-            REGCODELEN5,
-            REGCODELEN6
-};
-
-SHOWPARANAME g_tNameInfo[MAXNAMENUM+1] = {
-    /* 0  */    {COMMPARA_WELL,         "施工井号",     "WellNo.",          "Номер СКВ"},
-    /* 1  */    {COMMPARA_OPERATION,    "作业方式",     "OperType",         "операция"},
-    /* 2  */    {COMMPARA_PARTYA,       "甲方",         "Company",          "Сторона А"},
-    /* 3  */    {TUBEPARA_FACTORY,      "钻杆等级",     "DrillGrade",       "OEM труб"},
-    /* 4  */    {TUBEPARA_DIAMETER,     "钻杆规格",     "DrillSpec",        "Размер&нить"},
-    /* 5  */    {TUBEPARA_BUCKLETYPE,   "扣型材质",     "Material",         "материал"},
-    /* 6  */    {COUPPARA_DIAMETER,     "司钻",         "Driller",          "CPL Специфик."},
-    /* 7  */    {COMMPARA_CONTRACT,     "合同号",       "Contract",         "контракт"},
-    /* 8  */    {TUBEPARA_TUBENO,       "管体序号",     "TubingSN",         "Номер Трубка"},
-    /* 9  */    {TUBEPARA_RUNNINGNO,    "入井序号",     "TallyNO",          "Номер Спусти."},
-    /* 10 */    {COUPPARA_THREADDOPE,   "丝扣油",       "ThreadDope",       "Нить допинг"},
-    /* 11 */    {COUPPARA_HANDDEVICE,   "悬吊工具",     "Elevator",         "Пове устр"},
-    /* 12 */    {COMMPARA_CASINGTEAM,   "钻井队",       "TRSTeam",          "кожух ком"},
-    /* 13 */    {COMMPARA_SHIFTLEADER,  "当班班长",     "TRSSpv.",          "Начал смены"},
-    /* 14 */    {COUPPARA_HYDTONG,      "液压钳",       "HYDTong",          "гидра ключ"},
-    /* 15 */    {COUPPARA_OEM,          "钻杆厂家",     "Factory",          "завод"}
-};
 
 /*********************代码宏************************************/
 
-/* 参数上限检查，如果检查的值大于某值，将该值修改为比某值小*** */
-#define CHECK_PARA_UP(check, upper,diff) {                      \
-        if(check > upper)                                       \
-        {                                                       \
-            (check) = (upper - diff);                           \
-            m_bParaChg = TRUE;                                  \
-        }                                                       \
-    }
-
-/* 参数下限检查，如果检查的值小于某值，将该值修改为比某值大*** */
-#define CHECK_PARA_LOW(check, lower, diff) {                    \
-        if(check < lower)                                       \
-        {                                                       \
-            (check) = (lower + diff);                           \
-            m_bParaChg = TRUE;                                  \
-        }                                                       \
-    }
-
-/* 参数范围检查，如果检查的值不在范围内，将该值设置为默认值 */
-#define CHECK_PARA_ROUND(check, lower, upper, defval) {         \
-        if(check < lower || check > upper)                      \
-        {                                                       \
-            (check) = (defval);                                 \
-            m_bParaChg = TRUE;                                  \
-        }                                                       \
-    }
-
-/* 参数范围检查，如果检查的值不在数组内，将该值设置为默认值 */
-#define CHECK_PARA_ARRAY(check, array, lower, upper, defval) {  \
-        for(i=lower; i<upper; i++)                              \
-        {                                                       \
-            if(check == array[i])                               \
-            {                                                   \
-                break;                                          \
-            }                                                   \
-        }                                                       \
-        if(i >= upper)                                          \
-        {                                                       \
-            (check) = defval;                                   \
-            m_bParaChg = TRUE;                                  \
-        }                                                       \
-    }
 
 /* 打印DEBUG信息时，指针自动往后移动
    变量pData和iLen都约定好，减少入参 */
@@ -166,27 +47,6 @@ SHOWPARANAME g_tNameInfo[MAXNAMENUM+1] = {
         }                                                       \
     }
 
-/* 初始化显示参数 */
-#define SET_SHOW_INFO(wShowName, bMain) {                       \
-        ptShow->tShow[wNum].wNameID  = wShowName;               \
-        ptShow->tShow[wNum].wLen   = 0;                         \
-        memset(ptShow->tShow[wNum].aucValue, 0, MAXPARALEN);    \
-        ptShow->tOption[wNum].wOptNum = 0;                      \
-        ptShow->wListID[wNum] = wShowName;                      \
-        wNum++;                                                 \
-        if(bMain)   {                                           \
-            ptShow->wMainID[wMainNum++] = wShowName;            \
-        }                                                       \
-    }
-
-/* 获取老版本显示参数 */
-#define GET_OLDSHOW_INFO(wShowName, aucShowVal, maxlen) {       \
-        strTemp = aucShowVal;                                   \
-        ptShow[nShowNum].wNameID  = wShowName;                  \
-        ptShow[nShowNum].wLen     = strTemp.GetLength();        \
-        lstrcpyn(ptShow[nShowNum].aucValue, strTemp, maxlen);   \
-        nShowNum ++;                                            \
-    }
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueApp construction
 
@@ -200,6 +60,7 @@ CTorqueApp::CTorqueApp()
 // The one and only CTorqueApp object
 
 CTorqueApp theApp;
+CDBAccess  theDB;
 
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueApp initialization
@@ -216,7 +77,6 @@ BOOL CALLBACK EnumWndProc(HWND hwnd,LPARAM lParam)
 
 void CTorqueApp::InitVariant()
 {
-    //m_bFirstRun     = TRUE;
     m_bShowCRC      = FALSE;
     m_nPBHead       = htonl(PBHEAD);
     m_strReadFile.clear();
@@ -236,51 +96,98 @@ void CTorqueApp::InitLanguage()
     //m_hLangDLL[LANGUAGE_RUSSIAN] = ::LoadLibrary(RUSDLLNAME);
 }
 
-BOOL CTorqueApp::LoadLanguageDll(UINT nLangType, BOOL bUpdate)
+void CTorqueApp::ClearTorqCfgPara(PARACFG* ptCfg)
+{
+    int i = 0;
+
+    memset(&m_tParaCfg.tCtrl, 0, sizeof(CONTROLPARA));
+    memset(&m_tParaCfg.tComm, 0, sizeof(COMMONCFG));
+    memset(&ptCfg->tTubeCfg, 0, sizeof(TUBECFG));
+    m_tParaCfg.strAlias.clear();
+    m_tParaCfg.strMemo.clear();
+    for (i = 0; i < MAXPARANUM; i++)
+        ptCfg->strValue[i].clear();
+    m_tParaCfg.tCtrl.ucVer = 2;
+}
+
+void CTorqueApp::InitTorqCfgPara(PARACFG* ptCfg)
+{
+    CONTROLPARA* ptCtrl = NULL;
+
+    ASSERT_NULL(ptCfg);
+
+    ClearTorqCfgPara(ptCfg);
+
+    ptCtrl = &ptCfg->tCtrl;
+
+    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] = stod(LoadstringFromRes(IDS_STRPVMAXBOUND));
+    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT] = stod(LoadstringFromRes(IDS_STRPVUPLIMIT));
+    ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] = stod(LoadstringFromRes(IDS_STRPVCONTROL));
+    ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] = stod(LoadstringFromRes(IDS_STRPVOPTTORQ));
+    ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT] = stod(LoadstringFromRes(IDS_STRPVLOWLIMIT));
+    ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN] = stod(LoadstringFromRes(IDS_STRPVSPEEDDOWN));
+    ptCtrl->fTorqConf[INDEX_TORQ_SHOW] = stod(LoadstringFromRes(IDS_STRPVSHOW));
+    ptCtrl->fTorqConf[INDEX_TORQ_BEAR] = stod(LoadstringFromRes(IDS_STRPVBEAR));
+    ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI] = stod(LoadstringFromRes(IDS_STRPVUPTAI));
+    ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI] = stod(LoadstringFromRes(IDS_STRPVLOWTAI));
+
+    ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] = stod(LoadstringFromRes(IDS_STRPVMAXCIR));
+    ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT] = stod(LoadstringFromRes(IDS_STRPVUPCIR));
+    ptCtrl->fTurnConf[INDEX_TURN_CONTROL] = stod(LoadstringFromRes(IDS_STRPVCTRLCIR));
+    ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT] = stod(LoadstringFromRes(IDS_STRPVLOWCIR));
+    ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA] = stod(LoadstringFromRes(IDS_STRPVMAXDELTACIR));
+    ptCtrl->fTurnConf[INDEX_TURN_MINDELTA] = stod(LoadstringFromRes(IDS_STRPVMINDELTACIR));
+
+    ptCtrl->fFullRPM = stod(LoadstringFromRes(IDS_STRPVMAXRPM));
+    ptCtrl->fMinShlSlope = stod(LoadstringFromRes(IDS_STRPVMINSHLSLOPE));
+}
+
+void CTorqueApp::InitValvePara(VALVECFG* ptCfg)
+{
+    ASSERT_NULL(ptCfg);
+
+    ptCfg->ucTorq[0][0] = 0;
+    ptCfg->ucTorq[0][1] = 30;
+    ptCfg->ucTorq[0][2] = 70;
+
+    ptCfg->ucTorq[1][0] = 0;
+    ptCfg->ucTorq[1][1] = 30;
+    ptCfg->ucTorq[1][2] = 70;
+
+    ptCfg->ucRatio[0][0] = 90;
+    ptCfg->ucRatio[0][1] = 70;
+    ptCfg->ucRatio[0][2] = 10;
+
+    ptCfg->ucRatio[1][0] = 50;
+    ptCfg->ucRatio[1][1] = 10;
+    ptCfg->ucRatio[1][2] = 10;
+}
+
+BOOL CTorqueApp::LoadLanguageDll(UINT nLang, BOOL bUpdate)
 {
     CString strValue;
 
-    COMP_BGE_R(nLangType, LANGUAGE_NUM, FALSE);
-    ASSERT_NULL_R(m_hLangDLL[nLangType], FALSE);
+    CheckLanguage(nLang);
 
-    m_nLangType = nLangType;
-    AfxSetResourceHandle(m_hLangDLL[nLangType]);
+    ASSERT_NULL_R(m_hLangDLL[nLang], FALSE);
+
+    g_tGlbCfg.nLangType = nLang;
+    AfxSetResourceHandle(m_hLangDLL[nLang]);
 
     COMP_BFALSE_R(bUpdate, TRUE);
 
-    /*save into ini*/
-    strValue.Format("%d",m_nLangType);
-    WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,strValue,m_strShowFile);
+    theDB.UpdateGlobalPara();
 
     return TRUE;
 }
 
 void CTorqueApp::InitArray()
 {
-    m_slParity[0] = _T("Odd");
-    m_slParity[1] = _T("Even");
-    m_slParity[2] = _T("None");
-
-    m_ucParity[0]       = 'O';
-    m_ucParity[1]       = 'E';
-    m_ucParity[2]       = 'N';
-
     m_ucDefaultMac[0]   = 0x12;
     m_ucDefaultMac[1]   = 0x79;
     m_ucDefaultMac[2]   = 0x56;
     m_ucDefaultMac[3]   = 0x58;
     m_ucDefaultMac[4]   = 0x11;
-
-    m_nBand[0]          = 1200;
-    m_nBand[1]          = 2400;
-    m_nBand[2]          = 4800;
-    m_nBand[3]          = 9600;
-    m_nBand[4]          = 14400;
-    m_nBand[5]          = 19200;
-    m_nBand[6]          = 38400;
-    m_nBand[7]          = 56000;
-    m_nBand[8]          = 57600;
-    m_nBand[9]          = 115200;
 
     m_strDbgHead[0]     = _T("####");
     m_strDbgHead[1]     = _T("****");
@@ -292,11 +199,11 @@ void CTorqueApp::InitArray()
 BOOL CTorqueApp::InitInstance()
 {
     CTime   time=CTime::GetCurrentTime();//得到当前时间
-    CString strFont;
+    string  strFont;
     HDC     hdcScreen;
     int     i = 0;
     BOOL    bModified = FALSE;
-    CString strAppFile;       /* 程序全路径名称 */
+    string  strDbFile;
 
     CCrashHandler ch;
     ch.SetProcessExceptionHandlers();
@@ -307,6 +214,16 @@ BOOL CTorqueApp::InitInstance()
     AfxEnableControlContainer();
 
     AfxInitRichEdit2();
+
+
+    /* 避免弹出“由于另一个程序正在运行... */
+    AfxOleInit();
+    COleMessageFilter* ptFilter = AfxOleGetMessageFilter();
+    ptFilter->EnableBusyDialog(FALSE);
+    /* AfxOleGetMessageFilter()->EnableBusyDialog(FALSE);
+     AfxOleGetMessageFilter()->SetBusyReply(SERVERCALL_RETRYLATER);
+     AfxOleGetMessageFilter()->EnableNotRespondingDialog(TRUE);
+     AfxOleGetMessageFilter()->SetMessagePendingDelay(-1);*/
     
     /* 让程序退出时自动调用内存泄漏检测函数 */
     //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -324,15 +241,15 @@ BOOL CTorqueApp::InitInstance()
     m_nScreenX = GetSystemMetrics(SM_CXFULLSCREEN);
     m_nScreenY = GetSystemMetrics(SM_CYFULLSCREEN);
 
-    strFont.Format(IDS_STRFONTTIMESNR);
+    strFont= LoadstringFromRes(IDS_STRFONTTIMESNR);
     //int fontx = 5 * m_ucDPILevel/4 ;
     int fonty = -12 * m_ucDPILevel/4 ;
     m_tLineTextFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
                      OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont);
+                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
     m_tRuleHFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
                      OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont);
+                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
 #if 0
     fonty = -18 * m_ucDPILevel/4 ;
     m_tPntTextFont.CreateFont(fonty, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
@@ -342,14 +259,14 @@ BOOL CTorqueApp::InitInstance()
     fonty = -12 * m_ucDPILevel/4 ;
     m_tPntTextFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
                      OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont);
+                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
 #endif
 
     fonty = -10 * m_ucDPILevel/4 ;
     m_tRuleVFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
                      OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont);
-    strFont.Empty();
+                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
+    //strFont.Empty();
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -365,10 +282,10 @@ BOOL CTorqueApp::InitInstance()
         !analyze -v */
 
     //这里得到的是程序当前路径
-    GetModuleFileName(NULL,strAppFile.GetBuffer(MAX_PATH),MAX_PATH);
-    strAppFile.ReleaseBuffer();
-    m_strAppPath   = strAppFile.Left(strAppFile.ReverseFind('\\')+1);
-    strAppFile.ReleaseBuffer();
+    char buffer[MAX_PATH + 1] = { 0 };
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    (_tcsrchr(buffer, _T('\\')))[1] = 0; // 删除文件名，只获得路径字串
+    m_strAppPath = buffer;
 
     /* 创建数据路径 */
     m_strDataPath  = m_strAppPath + "Data\\";
@@ -384,11 +301,12 @@ BOOL CTorqueApp::InitInstance()
     /* 动态链接库路径 */
     m_strDllFile   = m_strAppPath + CHNDLLNAME;
 
-    /* 系统显示参数路径，写死 */
-    m_strShowFile  = m_strAppPath + SHOWCONFNAME;
-
-    /* 系统参数路径，写死，不存储 */
-    ReadParaFileName();
+    /* 获取数据库文件 */
+    int initStep = 0;
+    if(!theDB.InitConfigFromDB(initStep))
+    {
+        InitDefaultConfig(initStep);
+    }
 
     /* 初始化数组、变量 */
     InitVariant();
@@ -406,20 +324,8 @@ BOOL CTorqueApp::InitInstance()
 
     SetRegistryKey(_T("zsg Applications"));
 
-    /* 获取程序参数 */
-    ReadPara(m_strParaFile, &m_tParaCfg);
-    m_tParaCfg.tCtrl.ucVer = 1;
-
-    /* 显示参数 */
-    ReadGlbShowPara();
-    for(i=0; i<LANGUAGE_NUM; i++)
-        if(!ReadShowPara(i, &m_tShowCfg[i]))
-            bModified = TRUE;
-    if(bModified)
-        WriteShowPara();
-
-    LoadLanguageDll(m_nLangType, FALSE);
-    m_ptCurShow = &m_tShowCfg[m_nLangType];
+    LoadLanguageDll(g_tGlbCfg.nLangType, FALSE);
+    m_ptCurShow = &m_tShowCfg[g_tGlbCfg.nLangType];
     /* 获取当前数据序号 */
     GetCurNum();
 
@@ -435,6 +341,7 @@ BOOL CTorqueApp::InitInstance()
     {
         m_tdbReg.bReged = 0;
     }
+    //m_tdbReg.bReged = 1;
 
     if(0 == m_dwTotalTorqNum)
         m_dwTotalTorqNum = m_nCurNO;
@@ -483,7 +390,6 @@ int CTorqueApp::ExitInstance()
     DeleteObject(m_tPntTextFont);
     for(i=0; i<DBG_MAXNUM; i++)
         m_strDbgHead[i].Empty();
-    m_strUnit.Empty();
     for (i = 0; i<LANGUAGE_NUM; i++)
     {
         if (m_hLangDLL[i])
@@ -496,7 +402,6 @@ int CTorqueApp::ExitInstance()
 
     return CWinApp::ExitInstance();
 }
-
 
 /* 获取注册信息和校验 */
 void  CTorqueApp::CheckAppReg()
@@ -544,693 +449,213 @@ void  CTorqueApp::CheckAppReg()
     return;
 }
 
-BOOL CTorqueApp::GetConfigStr( string strParaName, CString strclassName, CString strclassItem, 
-                               CString strclassDefault, char* pDest, int iParaLen)
-{
-    char        auctemp[MAXPARALEN];
-    CString     strNull;
-
-    ASSERT_NULL_R(pDest, FALSE);
-    COMP_BG_R(iParaLen, MAXPARALEN, FALSE);
-
-    memset(auctemp, 0, MAXPARALEN);
-
-    strNull.Format(IDS_STRNULL);
-
-    GetPrivateProfileString(strclassName,strclassItem,strNull,auctemp,iParaLen,strParaName.c_str());
-    if(strstr(auctemp,strNull))
-    {
-        lstrcpyn(pDest,strclassDefault,strclassDefault.GetLength()+1);
-        m_bParaChg = TRUE;
-    }
-    else
-    {
-        lstrcpyn(pDest,auctemp,iParaLen);
-    }
-
-    return TRUE;
-}
-
-BOOL  CTorqueApp::GetConfigStr( string strParaName, WORD wclassName, WORD wclassItem,
-                                WORD wclassDefault, char* pDest, int iParaLen)
-{
-    CString     strItem;
-    CString     strDefault;
-    CString     strName;
-
-    ASSERT_NULL_R(pDest, FALSE);
-    COMP_BG_R(iParaLen, MAXPARALEN, FALSE);
-    strName.Format(wclassName);
-    strItem.Format(wclassItem);
-    strDefault.Format(wclassDefault);
-
-    return GetConfigStr(strParaName, strName, strItem, strDefault, pDest, iParaLen);
-}
-
-void CTorqueApp::WriteConfigStr(CString strclassName,CString strclassItem, CString strValue, string strParaName)
-{
-    WritePrivateProfileString(strclassName,strclassItem,strValue,strParaName.c_str());
-}
-
-void CTorqueApp::WriteConfigStr(WORD wclassName, WORD wclassItem, CString strValue, string strParaName)
-{
-    CString     strName;
-    CString     strItem;
-
-    strName.Format(wclassName);
-    strItem.Format(wclassItem);
-    WritePrivateProfileString(strName,strItem,strValue,strParaName.c_str());
-}
-
-void CTorqueApp::InitShowCfg(SHOWCFG *ptShow)
+void CTorqueApp::ClearShowPara(SHOWCFG *ptShow)
 {
     int     i = 0;
     int     j = 0;
     
     ASSERT_NULL(ptShow);
     
-    ptShow->wParaNum = 0;
-    ptShow->wListNum = 0;
-    ptShow->wMainNum = 0;
-    ptShow->wFileName = 0;
-    ptShow->wStatType = 0;
-    for(i = 0; i<MAXPARANUM+1; i++)
+    ptShow->nParaNum = 0;
+    ptShow->nListNum = 0;
+    ptShow->nMainNum = 0;
+    ptShow->nFileName = 0;
+    ptShow->nStatType = 0;
+    memset(ptShow->nList, 0, sizeof(UINT) * MAXPARANUM);
+    memset(ptShow->nMain, 0, sizeof(UINT) * MAXMAINPARA);
+    for(i = 0; i<MAXPARANUM; i++)
     {
-        ptShow->strList[i].clear();
-        ptShow->strMain[i].clear();
-        ptShow->tShow[i].strName.clear();
-        ptShow->tShow[i].strValue.clear();
-        ptShow->tOption[i].wOptNum  = 0;
-        for(j=0; j<MAXOPTIONNUM; j++)
-            ptShow->tOption[i].strOpt[j].clear();
+        ptShow->strShow[i].clear();
     }
 }
 
-void CTorqueApp::SetDefaultShow(BYTE ucLang, SHOWCFG *ptShow)
+void CTorqueApp::InitShowPara(SHOWCFG *ptShow, UINT nLang)
 {
     int      i  = 0;
     string   strPW;
 
     ASSERT_NULL(ptShow);
-    COMP_BGE(ucLang, LANGUAGE_NUM);
+    CheckLanguage(nLang);
 
-    for(i=0; i<MAXNAMENUM+1; i++)
+    for(i=0; i< MAXPARANUM; i++)
     {
-        ptShow->tShow[i].strName = g_tNameInfo[i].strName[ucLang];
-        ptShow->strList[i]       = g_tNameInfo[i].strName[ucLang];
+        ptShow->strShow[i] = g_tNameInfo[i].strName[nLang];
+        ptShow->nList[i] = i;
     }
 
-    i = 0;
-    ptShow->strMain[i++] = g_tNameInfo[3].strName[ucLang];
-    ptShow->strMain[i++] = g_tNameInfo[4].strName[ucLang];
-    ptShow->strMain[i++] = g_tNameInfo[5].strName[ucLang];
-    ptShow->strMain[i++] = g_tNameInfo[6].strName[ucLang];
-    ptShow->strMain[i++] = g_tNameInfo[8].strName[ucLang];
-    ptShow->strMain[i++] = g_tNameInfo[9].strName[ucLang];
-    ptShow->strMain[i++] = g_tNameInfo[13].strName[ucLang];
+    for(i=0;i< MAXMAINPARA;i++)
+    {
+        ptShow->nMain[i] = g_nMainNameNO[i];
+    }
 
-    ptShow->wParaNum = MAXNAMENUM;
-    ptShow->wListNum = MAXNAMENUM;
-    ptShow->wMainNum = i;
-    ptShow->wFileName = 0;
-    ptShow->wStatType = 4;
+    ptShow->nParaNum = MAXPARANUM;
+    ptShow->nListNum = MAXPARANUM-1;
+    ptShow->nMainNum = MAXMAINPARA;
+    ptShow->nFileName = 1;
+    ptShow->nStatType = 5;
 }
 
-void CTorqueApp::ReadGlbShowPara()
+void CTorqueApp::InitDefaultConfig(int initStep)
 {
-    char    auctemp[MAXPARALEN];
+    int i = 0;
 
-    GetConfigStr(m_strShowFile.c_str(), IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,IDS_STRZERO,auctemp);
-    m_nLangType = atoi(auctemp);
+    // global parameter
+    if(initStep < 1)
+        InitGlobalPara();
 
-    GetConfigStr(m_strShowFile.c_str(), IDS_STRPNGLBPARA, IDS_STRPIPASSWORD, IDS_STRPVPASSWORD, m_aucPassWord);
+    // Show parameter
+    if (initStep < 2)
+    {
+        for (i = 0; i < LANGUAGE_NUM; i++)
+        {
+            InitShowPara(&m_tShowCfg[i], i);
+            InitXlsStatPara(&m_tXlsStatCfg[i]);
+        }
+    }
+
+    if (initStep < 3)
+    {
+        InitTorqCfgPara(&m_tParaCfg);
+    }
+    if (initStep < 4)
+    {
+        g_cTubing.InitConfig();
+    }
+    if (initStep < 5)
+    {
+        InitValvePara(&m_tValveCfg);
+    }
+
+    return;
 }
 
-BOOL CTorqueApp::ReadShowPara(BYTE ucLang, SHOWCFG *ptShow)
+void CTorqueApp::InitGlobalPara()
 {
-    WORD    i       = 0;
-    WORD    j       = 0;
-    WORD    wLen    = 0;
-    string strLang;
-    string strName;
-    string strOption;
-    string  strKeyKind;
-    string strKeyName;
-    BOOL    bModified = TRUE;
-    string  strDefault;
-    char    aucTemp[MAXPARALEN];
-    ostringstream buf;
+    g_tGlbCfg.nLangType = LANGUAGE_CHINESE;
+    g_tGlbCfg.nPortNO = 1;
+    g_tGlbCfg.nPlusPerTurn = stoi(LoadstringFromRes(IDS_STRPVPLUS));
+    g_tGlbCfg.nTorqUnit = 0;
+    g_tGlbCfg.nCollectDur = 100;
+    g_tGlbCfg.nResetDur = 10000;
+    g_tGlbCfg.nSaveDur = 30000;
+    g_tGlbCfg.nIPShowMode = 1;
+    g_tGlbCfg.nZoomIn = 5;
+    g_tGlbCfg.nImgNum = 8;
+    g_tGlbCfg.nTest = 0;
+
+    g_tGlbCfg.fDiscount = 1;
+    g_tGlbCfg.fMulti = 1;
+    g_tGlbCfg.fRpmAdj = 3.5;
+    g_tGlbCfg.fIPDeltaVal = 0.1;
+
+    g_tGlbCfg.bCheckIP = 1;
+    g_tGlbCfg.bBigTorq = 0;
+    g_tGlbCfg.bShackle = 0;
+    g_tGlbCfg.bDateBehind = 0;
+
+    g_tGlbCfg.strPassWord = LoadstringFromRes(IDS_STRPVPASSWORD);
+    g_tGlbCfg.strDataPath = NULLSTR;
+
+    g_tGlbCfg.strUnit = LoadstringFromRes(IDS_STRTORQNMUNIT, BIGPOINT);
+}
+
+BOOL CTorqueApp::SetShowNameFromID(string lsID,SHOWCFG* ptShow, UINT nLang)
+{
+    UINT i;
+    UINT iParaNum = 0;
+    vector<string> lsName;
+    vector<int> lsIndex;
+    string* plsName = NULL;
 
     ASSERT_NULL_R(ptShow, FALSE);
-    
-    InitShowCfg(ptShow);
-    buf << "Lan" << ucLang + 1;
-    strLang = buf.str();
-    buf.str("");
-    strName = LoadString4string(IDS_STRPNSHOWPARA);
-    strKeyKind = strLang + strName;
+    if (lsID.empty())
+        return FALSE;
+    CheckLanguage(nLang);
 
-    /* ParaNum */
-    strName = LoadString4string(IDS_STRPIPARANUM);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVPARANUM);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptShow->wParaNum = atoi(aucTemp);
-    
-    /* ListNum */
-    strName = LoadString4string(IDS_STRPILISTNUM);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVLISTNUM);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptShow->wListNum = atoi(aucTemp);
-
-    /* MainNum */
-    strName = LoadString4string(IDS_STRPIMAINNUM);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVMAINNUM);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptShow->wMainNum = atoi(aucTemp);
-
-    /* 是否固定管材信息 
-    ptShow->bFixTub = TRUE;
-    strName = LoadString4string(IDS_STRPIFIXTUBING);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRONE);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    if (atoi(aucTemp) == 0)
-        ptShow->bFixTub = FALSE;*/
-    // 不显示固定管材信息
-    ptShow->bFixTub = FALSE;
-
-    /* 油管固定参数 */
-    //ReadFixTubingPara(m_strShowFile, strLang, &ptShow->tTubingCfg);
-
-    if(ptShow->wParaNum == 0 || ptShow->wListNum == 0 || ptShow->wMainNum == 0)
+    iParaNum = ptShow->nParaNum;
+    lsName = theDB.GetNamesByIndexs(lsID);
+    lsIndex = GetIDFromList(lsID);
+    if (lsName.size() < iParaNum)
     {
-        SetDefaultShow(ucLang, ptShow);
         return FALSE;
     }
-
-    /* FileNameID */
-    strName = LoadString4string(IDS_STRPIFILENAME);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVFILENAME);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptShow->wFileName = atoi(aucTemp);
-    
-    /* StatType */
-    strName = LoadString4string(IDS_STRPISTATTYPE);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVSTATTYPE);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptShow->wStatType = atoi(aucTemp);
-
-    strOption = LoadString4string(IDS_STRPIOPTION);
-    /* showname & option */
-    for(i=0; i<ptShow->wParaNum+1 && i<MAXPARANUM+1; i++)
+    for (i = 0; i < iParaNum; i++)
     {
-        /* showname i */
-        strName = LoadString4string(IDS_STRPISHOWNAME);
-        buf << strLang << strName << i+1;
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),NULL,aucTemp,MAXPARALEN,m_strShowFile.c_str());
-        ptShow->tShow[i].strName = aucTemp;
-
-        /* CurOption */
-        strName = LoadString4string(IDS_STRPICUROPT);
-        buf << strLang << strName << i + 1;
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),NULL,aucTemp,MAXPARALEN,m_strShowFile.c_str());
-        ptShow->tShow[i].strValue = aucTemp;
-
-        /* Option Num */
-        buf << strLang << strOption << i + 1 << "Num";
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),"0",aucTemp,MAXPARALEN, m_strShowFile.c_str());
-        ptShow->tOption[i].wOptNum = atoi(aucTemp);
-
-        /* Show i Option j */
-        strName = LoadString4string(IDS_STRPISHOWINFO);
-        for(j=0; j<ptShow->tOption[i].wOptNum && j<MAXOPTIONNUM; j++)
-        {
-            buf << strLang << strName << i + 1 << strOption << j+1;
-            strKeyName = buf.str();
-            buf.str("");
-            GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),NULL,aucTemp,MAXPARALEN, m_strShowFile.c_str());
-            ptShow->tOption[i].strOpt[j] = aucTemp;
-        }
+        ptShow->strShow[i] = lsName[i];
+        ptShow->nShow[i] = lsIndex[i];
     }
-    
-    /* 列表参数 */
-    for(i=0; i<ptShow->wListNum && i<MAXPARANUM; i++)
-    {
-        /* List i */
-        strName = LoadString4string(IDS_STRPILISTNAME);
-        buf << strLang << strName << i + 1 ;
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),NULL,aucTemp,MAXPARALEN,m_strShowFile.c_str());
-        ptShow->strList[i]   = aucTemp;
-    }
-    
-    /* 主界面参数 */
-    for(i=0; i<ptShow->wMainNum && i<MAXPARANUM; i++)
-    {
-        /* Main i */
-        strName = LoadString4string(IDS_STRPIMAINNAME);
-        buf << strLang << strName << i + 1 ;
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),NULL,aucTemp,MAXPARALEN,m_strShowFile.c_str());
-        ptShow->strMain[i]   = aucTemp;
-    }
-
-    return bModified;
+    return TRUE;
 }
 
-void CTorqueApp::ReadParaFileName(void)
+BOOL CTorqueApp::SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow)
 {
-    string  strKeyKind;
-    string  strLang;
-    string  strKeyName;
-    string  strDefault;
-    HANDLE  hFind;
-    WIN32_FIND_DATA  FindFileData;
-    static char    aucTemp[200];
-    
-    strKeyKind = LoadString4string(IDS_STRPNGLBPARA);
-    strKeyName = LoadString4string(IDS_STRPIPARAFILE);
-    strDefault = m_strAppPath + DEFAULTNAME;
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    m_strParaFile = aucTemp;
+    UINT i;
+    UINT iParaNum = 0;
+    vector<int> lsNO;
+    UINT* plsNO = NULL;
 
-    hFind = FindFirstFile(m_strParaFile.c_str(), &FindFileData);
-    if (hFind == INVALID_HANDLE_VALUE)
+    ASSERT_NULL_R(ptShow, FALSE);
+    if (lsID.empty())
+        return FALSE;
+
+    iParaNum = ptShow->nListNum;
+    if (0 == iType)     //当前list
     {
-        m_strParaFile = strDefault;
-        WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPIPARAFILE, strDefault.c_str(), m_strShowFile.c_str());
+        iParaNum = ptShow->nListNum;
+        plsNO = &ptShow->nList[0];
+        lsNO = GetIDFromList(lsID);
     }
-}
-
-void CTorqueApp::WriteGlbShowPara()
-{
-    CString  strValue;
-
-    strValue.Format("%d",m_nLangType);
-    WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPILANGUAGE,strValue,m_strShowFile.c_str());
-    
-    WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPIPASSWORD,m_aucPassWord,m_strShowFile.c_str());
-
-    WriteConfigStr(IDS_STRPNGLBPARA,IDS_STRPIPARAFILE, m_strParaFile.c_str(), m_strShowFile.c_str());
-}
-
-void CTorqueApp::WriteShowPara()
-{
-    WORD    i       = 0;
-    WORD    j       = 0;
-    WORD    wLen    = 0;
-    BYTE    ucLang  = 0;
-    SHOWCFG *ptShow = NULL;
-    CFileStatus status;
-    HANDLE      hDir;
-    string  strLang;
-    string  strKeyKind;
-    string  strName;
-    string  strOption;
-    string  strKeyName;
-    string  strValue;
-    ostringstream buf;
-    
-    /* 如果文件不存在，生成一个隐藏文件 */
-    //if (!CFile::GetStatus(m_strShowFile, status))
+    else                //当前main
     {
-        hDir = CreateFile (m_strShowFile.c_str(),//folder
-                    GENERIC_READ|GENERIC_WRITE,//readwrite
-                    0,//share
-                    NULL,//security attribute
-                    CREATE_ALWAYS,//创建
-                    FILE_ATTRIBUTE_SYSTEM|FILE_ATTRIBUTE_HIDDEN,//dwFlagsAndAttributes,
-                    NULL);//temphandle
-                         
-        CloseHandle(hDir);
+        iParaNum = ptShow->nMainNum;
+        plsNO = &ptShow->nMain[0];
+        lsNO = GetIDFromList(lsID);
     }
 
-    WriteGlbShowPara();
-
-    for(ucLang =0 ; ucLang < LANGUAGE_NUM; ucLang++)
+    if (lsNO.size() < iParaNum)
     {
-        ptShow = &m_tShowCfg[ucLang];
-        
-        buf << "Lan" << ucLang + 1;
-        strLang = buf.str();
-        buf.str("");
-        strName = LoadString4string(IDS_STRPNSHOWPARA);
-        strKeyKind = strLang + strName;
-        
-        /* ParaNum */
-        strName = LoadString4string(IDS_STRPIPARANUM);
-        strKeyName = strLang + strName;
-        buf << ptShow->wParaNum;
-        strValue = buf.str();
-        buf.str("");
-        WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(),strValue.c_str(),m_strShowFile.c_str());
-        
-        /* ListNum */
-        strName = LoadString4string(IDS_STRPILISTNUM);
-        strKeyName = strLang + strName;
-        buf << ptShow->wListNum;
-        strValue = buf.str();
-        buf.str("");
-        WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(),strValue.c_str(),m_strShowFile.c_str());
-        
-        /* MainNum */
-        strName = LoadString4string(IDS_STRPIMAINNUM);
-        strKeyName = strLang + strName;
-        buf << ptShow->wMainNum;
-        strValue = buf.str();
-        buf.str("");
-        WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(),strValue.c_str(),m_strShowFile.c_str());
-
-        /* 固定管件信息 */
-        strName = LoadString4string(IDS_STRPIFIXTUBING);
-        strKeyName = strLang + strName;
-        buf << ptShow->bFixTub;
-        strValue = buf.str();
-        buf.str("");
-        WriteConfigStr(strKeyKind.c_str(), strKeyName.c_str(), strValue.c_str(), m_strShowFile.c_str());
-        
-        /* 油管固定参数 */
-        WriteFixTubingPara(m_strShowFile, strLang, &m_tShowCfg[ucLang].tTubingCfg);
-        
-        /* FileNameID */
-        strName = LoadString4string(IDS_STRPIFILENAME);
-        strKeyName = strLang + strName;
-        buf << ptShow->wFileName;
-        strValue = buf.str();
-        buf.str("");
-        WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(),strValue.c_str(),m_strShowFile.c_str());
-        
-        /* StatType */
-        strName = LoadString4string(IDS_STRPISTATTYPE);
-        strKeyName = strLang + strName;
-        buf << ptShow->wStatType;
-        strValue = buf.str();
-        buf.str("");
-        WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(),strValue.c_str(),m_strShowFile.c_str());
-
-        strOption = LoadString4string(IDS_STRPIOPTION);
-        /* showname & option */
-        for(i=0; i<ptShow->wParaNum+1 && i<MAXPARANUM+1; i++)
-        {
-            /* showname i */
-            strName = LoadString4string(IDS_STRPISHOWNAME);
-            buf << strLang << strName << i+1;
-            strKeyName = buf.str();
-            buf.str("");
-            WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),ptShow->tShow[i].strName.c_str(),m_strShowFile.c_str());
-
-            /* CurOption */
-            strName = LoadString4string(IDS_STRPICUROPT);
-            buf << strLang << strName << i+1;
-            strKeyName = buf.str();
-            buf.str("");
-            WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),ptShow->tShow[i].strValue.c_str(),m_strShowFile.c_str());
-
-            /* Option Num */
-            buf << strLang << strOption << i+1 << _T("Num");
-            strKeyName = buf.str();
-            buf.str("");
-            buf << ptShow->tOption[i].wOptNum;
-            strValue = buf.str();
-            buf.str("");
-            WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),strValue.c_str(),m_strShowFile.c_str());
-
-            /* Show i Option j */
-            strName = LoadString4string(IDS_STRPISHOWINFO);
-            for(j=0; j<ptShow->tOption[i].wOptNum && j<MAXOPTIONNUM; j++)
-            {
-                buf << strLang << strName << i+1 << strOption << j+1;
-                strKeyName = buf.str();
-                buf.str("");
-                WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),ptShow->tOption[i].strOpt[j].c_str(),m_strShowFile.c_str());
-            }
-        }
-
-        /* 列表参数 */
-        for(i=0; i<ptShow->wListNum && i<MAXPARANUM; i++)
-        {
-            /* ListName i */
-            strName = LoadString4string(IDS_STRPILISTNAME);
-            buf << strLang << strName << i+1;
-            strKeyName = buf.str();
-            buf.str("");
-            WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),ptShow->strList[i].c_str(),m_strShowFile.c_str());
-        }
-        
-        /* 主界面参数 */
-        for(i=0; i<ptShow->wMainNum && i<MAXPARANUM; i++)
-        {
-            /* MainName i */
-            strName = LoadString4string(IDS_STRPIMAINNAME);
-            buf << strLang << strName << i+1;
-            strKeyName = buf.str();
-            buf.str("");
-            WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(), ptShow->strMain[i].c_str(), m_strShowFile.c_str());
-        }
+        return FALSE;
     }
+    for (i = 0; i < iParaNum; i++)
+    {
+        plsNO[i] = lsNO[i];
+    }
+    return TRUE;
 }
 
-void CTorqueApp::WriteParaFileName(string strFileName)
+int CTorqueApp::GetOptionIDbyValue(string name, string value, UINT nLang)
 {
-    string  strKeyKind;
-    string  strLang;
-    string  strKeyName;
+    if(name.empty() || value.empty())
+        return -1;
+    CheckLanguage(nLang);
 
-    strKeyKind = _T("Lan1") + LoadString4string(IDS_STRPNSHOWPARA);
-
-    strKeyName = LoadString4string(IDS_STRPIPARAFILE);
-    WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(), strFileName.c_str(), m_strShowFile.c_str());
+    return 0;
+}
+BOOL CTorqueApp::UpdateCurOptions(WORD wNum, string value[], UINT nLang)
+{
+    CheckLanguage(nLang);
+    return FALSE;
 }
 
-void CTorqueApp::SetDefaultXlsStat(XLSSTATCFG *ptStat)
+void CTorqueApp::InitXlsStatPara(XLSSTATCFG* ptStat)
 {
-    int   i = 0;
     ASSERT_NULL(ptStat);
-
-    ptStat->ucTally    = 9;
-    ptStat->ucOperator = 13;
-
-    for (i = 0; i < MAXPARANUM; i++)
-        ptStat->bSummary[i] = FALSE;
     
-    ptStat->bSummary[1]  = TRUE;    /*  2 作业目的  */
-    ptStat->bSummary[2]  = TRUE;    /*  3 甲方      */
-    ptStat->bSummary[3]  = TRUE;    /*  4 管件名称  */
-    ptStat->bSummary[4]  = TRUE;    /*  5 规格扣型  */
-    ptStat->bSummary[11] = TRUE;    /* 12 悬吊工具  */
-    ptStat->bSummary[14] = TRUE;    /* 15 液压钳    */
+    memset(ptStat, 0, sizeof(XLSSTATCFG));
+
+    ptStat->ucTally    = 10;         /* 10 入井序号 */
+    ptStat->ucOperator = 14;         /* 14 队长 */
+    
+    ptStat->bSummary[2]  = TRUE;     /*  2 作业目的  */
+    ptStat->bSummary[3]  = TRUE;     /*  3 甲方      */
+    ptStat->bSummary[4]  = TRUE;     /*  4 管件名称  */
+    ptStat->bSummary[5]  = TRUE;     /*  5 规格扣型  */
+    ptStat->bSummary[12] = TRUE;     /* 12 悬吊工具  */
+    ptStat->bSummary[15] = TRUE;     /* 15 液压钳    */
         
-    memset(&ptStat->bReport[0], 0, sizeof(BOOL)*MAXPARANUM);
-    ptStat->bReport[0]  = TRUE;     /* 1 施工井号 */
-    ptStat->bReport[2]  = TRUE;     /* 3 甲方     */
-    ptStat->bReport[7]  = TRUE;     /* 8 合同号   */
-}
-
-void CTorqueApp::ReadXlsStatPara(string strParaName, XLSSTATCFG *ptStat)
-{
-    int     i = 0;
-    string  strName;
-    string  strKeyKind;
-    string  strKeyName;
-    char    aucTemp[MAXPARALEN];
-    ostringstream buf;
-    CString strNull;
-    XLSSTATCFG  tTmpCfg;
-
-    ASSERT_NULL(ptStat);
-
-    SetDefaultXlsStat(&tTmpCfg);
-
-    strNull.Format(IDS_STRNULL);
-    strKeyKind = LoadString4string(IDS_STRPNXLSSTATPARA);    
-    for(i=0; i<MAXPARANUM; i++)
-    {
-        /* Summary i (Page1) */
-        strName = LoadString4string(IDS_STRPISUMMARY);
-        buf << strName << i+1;
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),strNull,aucTemp,MAXPARALEN,strParaName.c_str());
-        ptStat->bSummary[i] = TRUE;
-        if(strstr(aucTemp,strNull))
-        {
-            m_bParaChg = TRUE;
-            ptStat->bSummary[i] = tTmpCfg.bSummary[i];
-            continue;
-        }
-        if(atoi(aucTemp) == 0)
-        {
-            ptStat->bSummary[i] = FALSE;
-        }
-    }
-
-    for(i=0; i<MAXPARANUM; i++)
-    {
-        /* Report i (Page4) */
-        strName = LoadString4string(IDS_STRPIREPORT);
-        buf << strName << i+1;
-        strKeyName = buf.str();
-        buf.str("");
-        GetPrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),strNull,aucTemp,MAXPARALEN,strParaName.c_str());
-        ptStat->bReport[i] = FALSE;
-        if(strstr(aucTemp,strNull))
-        {
-            m_bParaChg = TRUE;
-            ptStat->bReport[i] = tTmpCfg.bReport[i];
-            continue;
-        }
-        if(atoi(aucTemp) != 0)
-        {
-            ptStat->bReport[i] = TRUE;
-        }
-    }
-
-    /* 当班班长 */
-    GetConfigStr(strParaName, IDS_STRPNXLSSTATPARA, IDS_STRPIOPERATOR,IDS_STRPVOPERATOR,aucTemp);
-    ptStat->ucOperator = atoi(aucTemp);
-
-    /* 入井序号 */
-    GetConfigStr(strParaName, IDS_STRPNXLSSTATPARA, IDS_STRPITALLY,IDS_STRPVTALLY,aucTemp);
-    ptStat->ucTally = atoi(aucTemp);
-}
-
-void CTorqueApp::WriteXlsStatPara(string strParaName, XLSSTATCFG *ptStat)
-{
-    int     i = 0;
-    string  strName;
-    string  strKeyKind;
-    string  strKeyName;
-    ostringstream buf;
-    CString     strValue;
-
-
-    ASSERT_NULL(ptStat);
-
-    strKeyKind = LoadString4string(IDS_STRPNXLSSTATPARA);
-
-    for(i=0; i<MAXPARANUM; i++)
-    {
-        /* Summary i(Page1) */
-        strName = LoadString4string(IDS_STRPISUMMARY);
-        buf << strName << i+1;
-        strKeyName = buf.str();
-        buf.str("");
-        
-        strValue.Format("%d",ptStat->bSummary[i]);
-        WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),strValue,strParaName.c_str());
-    }
-    
-    for(i=0; i<MAXPARANUM; i++)
-    {
-        /* Report i(Page4) */
-        strName = LoadString4string(IDS_STRPIREPORT);
-        buf << strName << i+1;
-        strKeyName = buf.str();
-        buf.str("");
-        
-        strValue.Format("%d",ptStat->bReport[i]);
-        WritePrivateProfileString(strKeyKind.c_str(),strKeyName.c_str(),strValue,strParaName.c_str());
-    }
-
-    /* 当班班长 */
-    strValue.Format("%d",ptStat->ucOperator);
-    WriteConfigStr(IDS_STRPNXLSSTATPARA,IDS_STRPIOPERATOR,strValue,strParaName);
-
-    /* 入井序号 */
-    strValue.Format("%d",ptStat->ucTally);
-    WriteConfigStr(IDS_STRPNXLSSTATPARA,IDS_STRPITALLY,strValue,strParaName);
-}
-
-void CTorqueApp::ReadTorquePara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm)
-{
-    char    auctemp[MAXPARALEN];
-
-    ASSERT_NULL(ptCtrl);
-    ASSERT_NULL(ptComm);
-
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPIMAXBOUND,IDS_STRPVMAXBOUND,auctemp);    
-    ptCtrl->fMaxLimit = atof(auctemp);
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPIUPLIMIT,IDS_STRPVUPLIMIT,auctemp);    
-    ptCtrl->fUpperLimit = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPICONTROL,IDS_STRPVCONTROL,auctemp);    
-    ptCtrl->fControl = atof(auctemp);
-    
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPIOPTTORQ,IDS_STRPVOPTTORQ,auctemp);    
-    ptCtrl->fOptTorq = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPILOWLIMIT,IDS_STRPVLOWLIMIT,auctemp);    
-    ptCtrl->fLowerLimit = atof(auctemp);
-    
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPISPEEDDOWN,IDS_STRPVSPEEDDOWN,auctemp);
-    ptCtrl->fSpeedDown = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPISHOW,IDS_STRPVSHOW,auctemp);
-    ptCtrl->fShow = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPIBEAR,IDS_STRPVBEAR,auctemp);
-    ptCtrl->fBear = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPICUT,IDS_STRPVCUT,auctemp);
-    ptCtrl->fCut = atof(auctemp);
-
-    /* 台阶扭矩 */
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPIUPTAI,IDS_STRPVUPTAI,auctemp);
-    ptComm->fUpperTai = atof(auctemp);
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPILOWTAI,IDS_STRPVLOWTAI,auctemp);
-    ptComm->fLowerTai = atof(auctemp);
-    GetConfigStr(strParaName, IDS_STRPNTORQUE,IDS_STRPIMINSHLSLOPE,IDS_STRPVMINSHLSLOPE,auctemp);
-    ptComm->fMinShlSlope = atof(auctemp);
-}
-
-void CTorqueApp::WriteTorquePara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm)
-{
-    CString     strValue;
-
-    ASSERT_NULL(ptCtrl);
-    ASSERT_NULL(ptComm);
-    
-    strValue.Format("%.2f",ptCtrl->fMaxLimit);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIMAXBOUND,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fUpperLimit);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIUPLIMIT,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fControl);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPICONTROL,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fOptTorq);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIOPTTORQ,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fLowerLimit);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPILOWLIMIT,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fSpeedDown);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPISPEEDDOWN,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fShow);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPISHOW,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fBear);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIBEAR,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fCut);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPICUT,strValue,strParaName);
-    /*台阶扭矩*/
-    strValue.Format("%.2f",ptComm->fUpperTai);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIUPTAI,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fSpeedDown);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIGOODTAI,strValue,strParaName);
-    strValue.Format("%.2f",ptComm->fLowerTai);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPILOWTAI,strValue,strParaName);
-    strValue.Format("%.2f",ptComm->fMinShlSlope);
-    WriteConfigStr(IDS_STRPNTORQUE,IDS_STRPIMINSHLSLOPE,strValue,strParaName);
-    
+    ptStat->bReport[1]  = TRUE;      /* 1 施工井号 */
+    ptStat->bReport[3]  = TRUE;      /* 3 甲方     */
+    ptStat->bReport[8]  = TRUE;      /* 8 合同号   */
 }
 
 /* 扭矩参数 相差 DIFF_TORQUE 10 */
@@ -1238,60 +663,14 @@ void CTorqueApp::AdjustTorquePara(CONTROLPARA *ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
 
-    CHECK_PARA_UP(ptCtrl->fUpperLimit, ptCtrl->fMaxLimit,   DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fControl,    ptCtrl->fUpperLimit, DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fLowerLimit, ptCtrl->fControl,    DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fOptTorq,    ptCtrl->fUpperLimit, DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fLowerLimit, ptCtrl->fOptTorq,    DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fSpeedDown,  ptCtrl->fLowerLimit, DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fShow,       ptCtrl->fSpeedDown,  DIFF_TORQUE);
-    CHECK_PARA_LOW(ptCtrl->fBear,      ptCtrl->fSpeedDown,  DIFF_TORQUE);
-}
-
-void CTorqueApp::ReadCircuitPara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm)
-{
-    char    auctemp[MAXPARALEN];
-
-    ASSERT_NULL(ptCtrl);
-    ASSERT_NULL(ptComm);
-
-    GetConfigStr(strParaName, IDS_STRPNCIRCUIT,IDS_STRPIMAXCIR,IDS_STRPVMAXCIR,auctemp);
-    ptCtrl->fMaxCir = atof(auctemp);
-    GetConfigStr(strParaName, IDS_STRPNCIRCUIT,IDS_STRPIUPCIR,IDS_STRPVUPCIR,auctemp);
-    ptCtrl->fUpperCir = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNCIRCUIT,IDS_STRPICTRLCIR,IDS_STRPVCTRLCIR,auctemp);
-    ptCtrl->fControlCir = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNCIRCUIT,IDS_STRPILOWCIR,IDS_STRPVLOWCIR,auctemp);
-    ptCtrl->fLowerCir = atof(auctemp);
-    
-    GetConfigStr(strParaName, IDS_STRPNCIRCUIT,IDS_STRPIMAXDELTACIR,IDS_STRPVMAXDELTACIR,auctemp);
-    ptComm->fMaxDeltaCir = atof(auctemp);
-    
-    GetConfigStr(strParaName, IDS_STRPNCIRCUIT,IDS_STRPIMINDELTACIR,IDS_STRPVMINDELTACIR,auctemp);
-    ptComm->fMinDeltaCir = atof(auctemp);
-}
-
-void CTorqueApp::WriteCircuitPara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm)
-{
-    CString     strValue;
-
-    ASSERT_NULL(ptCtrl);
-    ASSERT_NULL(ptComm);
-    
-    strValue.Format("%.3f",ptCtrl->fMaxCir);
-    WriteConfigStr(IDS_STRPNCIRCUIT,IDS_STRPIMAXCIR,strValue,strParaName);
-    strValue.Format("%.3f",ptCtrl->fUpperCir);
-    WriteConfigStr(IDS_STRPNCIRCUIT,IDS_STRPIUPCIR,strValue,strParaName);
-    strValue.Format("%.3f",ptCtrl->fControlCir);
-    WriteConfigStr(IDS_STRPNCIRCUIT,IDS_STRPICTRLCIR,strValue,strParaName);
-    strValue.Format("%.3f",ptCtrl->fLowerCir);
-    WriteConfigStr(IDS_STRPNCIRCUIT,IDS_STRPILOWCIR,strValue,strParaName);
-    strValue.Format("%.3f",ptComm->fMaxDeltaCir);
-    WriteConfigStr(IDS_STRPNCIRCUIT,IDS_STRPIMAXDELTACIR,strValue,strParaName);
-    strValue.Format("%.3f",ptComm->fMinDeltaCir);
-    WriteConfigStr(IDS_STRPNCIRCUIT,IDS_STRPIMINDELTACIR,strValue,strParaName);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT], ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT],   DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],    DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],    DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],       ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
+    CHECK_PARA_LOW(ptCtrl->fTorqConf[INDEX_TORQ_BEAR],      ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
 }
 
 /* 周参数 相差 DIFF_CIRCUIT 0.1 */
@@ -1299,516 +678,9 @@ void CTorqueApp::AdjustCircuitPara(CONTROLPARA *ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
 
-    CHECK_PARA_UP(ptCtrl->fUpperCir,   ptCtrl->fMaxCir,     DIFF_CIRCUIT);
-    CHECK_PARA_UP(ptCtrl->fControlCir, ptCtrl->fUpperCir,   DIFF_CIRCUIT);
-    CHECK_PARA_UP(ptCtrl->fLowerCir,   ptCtrl->fControlCir, DIFF_CIRCUIT);
-}
-
-void CTorqueApp::ReadRpmPara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm)
-{
-    char    auctemp[MAXPARALEN];
-
-    ASSERT_NULL(ptCtrl);
-    ASSERT_NULL(ptComm);
-    
-    GetConfigStr(strParaName, IDS_STRPNRPM,IDS_STRPIMAXRPM,IDS_STRPVMAXRPM,auctemp);
-    ptCtrl->fMaxRPM = atof(auctemp);
-    GetConfigStr(strParaName, IDS_STRPNRPM,IDS_STRPIPLUS,IDS_STRPVPLUS,auctemp);
-    ptCtrl->fPlus = atof(auctemp);
-    /*转速倍数调整*/
-    GetConfigStr(strParaName, IDS_STRPNRPM,IDS_STRPIRPMADJ,IDS_STRPVRPMADJ,auctemp);
-    ptComm->fRpmAdj = atof(auctemp);
-}
-
-void CTorqueApp::WriteRpmPara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm)
-{
-    CString     strValue;
-
-    ASSERT_NULL(ptCtrl);
-    ASSERT_NULL(ptComm);
-
-    strValue.Format("%.2f",ptCtrl->fMaxRPM);
-    WriteConfigStr(IDS_STRPNRPM,IDS_STRPIMAXRPM,strValue,strParaName);
-    strValue.Format("%.2f",ptCtrl->fPlus);
-    WriteConfigStr(IDS_STRPNRPM,IDS_STRPIPLUS,strValue,strParaName);
-    strValue.Format("%.2f",ptComm->fRpmAdj);
-    WriteConfigStr(IDS_STRPNRPM,IDS_STRPIRPMADJ,strValue,strParaName);
-}
-
-void CTorqueApp::ReadPortPara(string strParaName, PORTCFG *ptPort)
-{
-    int     i = 0;
-    char    auctemp[MAXPARALEN];
-
-    ASSERT_NULL(ptPort);
-
-    /*串口号*/
-    GetConfigStr(strParaName, IDS_STRPNPORT,IDS_STRPIPORTNO,IDS_STRPVPORTNO,auctemp);
-    ptPort->ucPortNo = atoi(auctemp);
-
-    /*波特率*/
-    GetConfigStr(strParaName, IDS_STRPNPORT,IDS_STRPIBAND,IDS_STRPVBAND,auctemp);
-    ptPort->nBand = atoi(auctemp);
-
-    /*校验*/
-    GetConfigStr(strParaName, IDS_STRPNPORT,IDS_STRPIPARITY,IDS_STRPVPARNONE,auctemp);
-    ptPort->ucParity = 'N';
-    m_strParity = _T("None");
-    for(i=0;i<3;i++)
-    {
-        if(strstr(auctemp, m_slParity[i].c_str()))
-        {
-            ptPort->ucParity = m_ucParity[i];
-            m_strParity = m_slParity[i];
-            break;
-        }
-    }
-
-    /*数据位*/
-    GetConfigStr(strParaName, IDS_STRPNPORT,IDS_STRPIDATABIT,IDS_STRPVDATABIT,auctemp);
-    ptPort->ucDataBit = atoi(auctemp);
-
-    /*停止位*/
-    GetConfigStr(strParaName, IDS_STRPNPORT,IDS_STRPISTOPBIT,IDS_STRPVSTOPBIT,auctemp);
-    ptPort->ucStopBit = atoi(auctemp);
-    
-    /* 串口相关参数 */    
-    AdjustPortPara(ptPort);
-}
-
-void CTorqueApp::WritePortPara(string strParaName, PORTCFG *ptPort)
-{
-    int         i = 0;
-    CString     strValue;
-
-    ASSERT_NULL(ptPort);
-    
-    /*串口号*/
-    strValue.Format("%d",ptPort->ucPortNo);
-    WriteConfigStr(IDS_STRPNPORT,IDS_STRPIPORTNO,strValue,strParaName);
-    /*波特率*/
-    strValue.Format("%d",ptPort->nBand);
-    WriteConfigStr(IDS_STRPNPORT,IDS_STRPIBAND,strValue,strParaName);
-    /*校验*/
-    strValue.Format(IDS_STRPVPARNONE);
-    for(i=0;i<3;i++)
-    {
-        if(ptPort->ucParity == m_ucParity[i])
-        {
-            strValue = m_slParity[i].c_str();
-            break;
-        }
-    }
-    WriteConfigStr(IDS_STRPNPORT,IDS_STRPIPARITY,strValue,strParaName);
-    /*数据位*/
-    strValue.Format("%d",ptPort->ucDataBit);
-    WriteConfigStr(IDS_STRPNPORT,IDS_STRPIDATABIT,strValue,strParaName);
-    /*停止位*/
-    strValue.Format("%d",ptPort->ucStopBit);
-    WriteConfigStr(IDS_STRPNPORT,IDS_STRPISTOPBIT,strValue,strParaName);
-}
-
-/* 串口参数 */
-void CTorqueApp::AdjustPortPara(PORTCFG *ptPort)
-{
-    int  i = 0;
-
-    ASSERT_NULL(ptPort);
-
-    CHECK_PARA_ROUND(ptPort->ucPortNo,   1, 16, 1);
-    CHECK_PARA_ROUND(ptPort->ucDataBit,  6, 8, 8);
-    CHECK_PARA_ROUND(ptPort->ucStopBit,  1, 2, 1);
-    CHECK_PARA_ARRAY(ptPort->nBand, m_nBand, 0, 10, 9600);
-}
-
-void CTorqueApp::ReadFixTubingPara(string strParaName, string strLang, TUBINGCFG *ptTubing)
-{
-    string      strName;
-    string      strKeyKind;
-    string      strKeyName;
-    string      strDefault;
-    char        aucTemp[MAXPARALEN];
-
-    ASSERT_NULL(ptTubing);
-    //ASSERT_NULL(ptOther);
-
-    strName = LoadString4string(IDS_STRPNSHOWPARA);
-    strKeyKind = strLang + strName;
-
-    /* 厂家 */
-    strName = LoadString4string(IDS_STRPIFACTORY);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVFACTORY);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptTubing->nFactory = atoi(aucTemp);
-
-    /* 管件厂家 */
-    strName = LoadString4string(IDS_STRPIOEM);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVOEM);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptTubing->nOEM = atoi(aucTemp);
-    
-    /* 管件规格 */
-    strName = LoadString4string(IDS_STRPISIZE);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVSIZE);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptTubing->nSize = atoi(aucTemp);
-    
-    /* 扣型材质 */
-    strName = LoadString4string(IDS_STRPIMAT);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVMAT);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptTubing->nMat = atoi(aucTemp);
-
-    /* 接箍规格 */
-    strName = LoadString4string(IDS_STRPICOUPLING);
-    strKeyName = strLang + strName;
-    strDefault = LoadString4string(IDS_STRPVCOUPLING);
-    GetConfigStr(m_strShowFile, strKeyKind.c_str(), strKeyName.c_str(), strDefault.c_str(), aucTemp);
-    ptTubing->nCoupling = atoi(aucTemp);
-}
-
-void CTorqueApp::WriteOneTubing(string strParaName, string strLang, unsigned string_ID, CString strValue)
-{
-    string      strName;
-    string      strKeyKind;
-    string      strKeyName;
-    
-    strName = LoadString4string(IDS_STRPNSHOWPARA);
-    strKeyKind = strLang + strName;
-
-    strName = LoadString4string(string_ID);
-    strKeyName = strLang + strName;
-    WriteConfigStr(strKeyKind.c_str(),strKeyName.c_str(),strValue,strParaName.c_str());
-}
-
-void CTorqueApp::WriteFixTubingPara(string strParaName, string strLang, TUBINGCFG *ptTubing)
-{
-    CString     strValue;
-
-    ASSERT_NULL(ptTubing);
-
-    /* 厂家 */
-    strValue.Format("%d",ptTubing->nFactory);
-    WriteOneTubing(strParaName, strLang, IDS_STRPIFACTORY, strValue);
-
-    /* 管件厂家 */
-    strValue.Format("%d",ptTubing->nOEM);
-    WriteOneTubing(strParaName, strLang, IDS_STRPIOEM, strValue);
-
-    /* 管件规格 */
-    strValue.Format("%d",ptTubing->nSize);
-    WriteOneTubing(strParaName, strLang, IDS_STRPISIZE, strValue);
-
-    /* 扣型材质 */
-    strValue.Format("%d",ptTubing->nMat);
-    WriteOneTubing(strParaName, strLang, IDS_STRPIMAT, strValue);
-
-    /* 接箍规格 */
-    strValue.Format("%d",ptTubing->nCoupling);
-    WriteOneTubing(strParaName, strLang, IDS_STRPICOUPLING, strValue);
-}
-
-void CTorqueApp::ReadValvePara(string strParaName, VALVECFG *ptValve)
-{
-    int         i = 0;
-    int         j = 0;
-    CString     strKeyKind;
-    CString     strKeyName;
-    CString     strDefVal;
-    char        auctemp[MAXPARALEN];
-    BYTE        ucDefTorq[VALVETYPENUM][VALVERATIONUM]   = { 
-                                    { 0, 30,  70},
-                                    { 0, 30,  70}};
-    BYTE        ucDefRatio[VALVETYPENUM][VALVERATIONUM]  = {
-                                    {90, 70, 10},
-                                    {50, 10, 10}};
-
-    ASSERT_NULL(ptValve);
-    
-    strKeyKind.Format(IDS_STRPNVALVE);
-
-    for(i=0; i<VALVETYPENUM; i++)
-    {
-        /* 扭矩参数 */
-        for(j=0; j<VALVERATIONUM; j++)
-        {
-            strKeyName.Format(IDS_STRPIVAVLETORQ, i + 1 , j + 1);
-            strDefVal.Format("%d", ucDefTorq[i][j]);
-            GetConfigStr(strParaName, strKeyKind, strKeyName, strDefVal,auctemp);
-            ptValve->ucTorq[i][j] = atoi(auctemp);
-        }
-        
-        /* 比例阀参数 */
-        for(j=0; j<VALVERATIONUM; j++)
-        {
-            strKeyName.Format(IDS_STRPIVAVLERATIO, i + 1 , j + 1);
-            strDefVal.Format("%d", ucDefRatio[i][j]);
-            GetConfigStr(strParaName, strKeyKind, strKeyName, strDefVal,auctemp);
-            ptValve->ucRatio[i][j] = atoi(auctemp);
-        }
-    }
-}
-
-void CTorqueApp::WriteValvePara(string strParaName, VALVECFG *ptValve)
-{
-    int         i = 0;
-    int         j = 0;
-    CString     strKeyKind;
-    CString     strKeyName;
-    CString     strValue;
-
-    ASSERT_NULL(ptValve);
-    
-    strKeyKind.Format(IDS_STRPNVALVE);
-
-    for(i=0; i<VALVETYPENUM; i++)
-    {
-        /* 扭矩参数 */
-        for(j=0; j<VALVERATIONUM; j++)
-        {
-            strKeyName.Format(IDS_STRPIVAVLETORQ, i + 1, j+ 1);
-            strValue.Format("%d", ptValve->ucTorq[i][j]);
-            WriteConfigStr(strKeyKind,strKeyName,strValue, strParaName);
-        }
-        
-        /* 比例阀参数 */
-        for(j=0; j<VALVERATIONUM; j++)
-        {
-            strKeyName.Format(IDS_STRPIVAVLERATIO, i + 1, j+ 1);
-            strValue.Format("%d", ptValve->ucRatio[i][j]);
-            WriteConfigStr(strKeyKind,strKeyName,strValue, strParaName);
-        }
-    }
-}
-#if 0
-void CTorqueApp::ReadCalibPara(string strParaName, CALIBCFG *ptCalib)
-{
-    int         i = 0;
-    CString     strKeyKind;
-    CString     strKeyName;
-    CString     strDefVal;
-    char        auctemp[MAXPARALEN];
-    CString     strLoad[CALIBNUM]   = {"0",     "5",     "10",    "20",    "30",    "40",     "50"};
-    CString     strStroke[CALIBNUM] = {"0.000", "1.250", "2.500", "5.000", "7.500", "10.000", "12.500"};
-    CString     strReturn[CALIBNUM] = {"0.000", "1.250", "2.500", "5.000", "7.500", "10.000", "/"};
-
-    ASSERT_NULL(ptCalib);
-
-    memset(ptCalib, 0, sizeof(CALIBCFG));
-    strKeyKind.Format(IDS_STRPNCALIB);
-    /* 负荷参数 */
-    for(i=0; i<CALIBNUM; i++)
-    {
-        strKeyName.Format(IDS_STRPILOAD, i + 1);
-        GetConfigStr(strParaName, strKeyKind, strKeyName, strLoad[i],auctemp);
-        memcpy(ptCalib->ucLoad[i], auctemp, strlen(auctemp));
-    }
-    
-    /* 进程读数参数 */
-    for(i=0; i<CALIBNUM; i++)
-    {
-        strKeyName.Format(IDS_STRPISTROKE, i + 1);
-        GetConfigStr(strParaName, strKeyKind, strKeyName, strStroke[i],auctemp);
-        memcpy(ptCalib->ucStroke[i], auctemp, strlen(auctemp));
-    }
-    
-    /* 回程读数参数 */
-    for(i=0; i<CALIBNUM; i++)
-    {
-        strKeyName.Format(IDS_STRPIRETURN, i + 1);
-        GetConfigStr(strParaName, strKeyKind, strKeyName, strReturn[i],auctemp);
-        memcpy(ptCalib->ucReturn[i], auctemp, strlen(auctemp));
-    }
-}
-
-void CTorqueApp::WriteCalibPara(string strParaName, CALIBCFG *ptCalib)
-{
-    int         i = 0;
-    CString     strKeyKind;
-    CString     strKeyName;
-    CString     strValue;
-
-    ASSERT_NULL(ptCalib);
-    
-    strKeyKind.Format(IDS_STRPNCALIB);
-    /* 负荷参数 */
-    for(i=0; i<CALIBNUM; i++)
-    {
-        strKeyName.Format(IDS_STRPILOAD, i + 1);
-        WriteConfigStr(strKeyKind,strKeyName, ptCalib->ucLoad[i], strParaName);
-    }
-
-    /* 进程读数参数 */
-    for(i=0; i<CALIBNUM; i++)
-    {
-        strKeyName.Format(IDS_STRPISTROKE, i + 1);
-        WriteConfigStr(strKeyKind,strKeyName, ptCalib->ucStroke[i], strParaName);
-    }
-    
-    /* 回程读数参数 */
-    for(i=0; i<CALIBNUM; i++)
-    {
-        strKeyName.Format(IDS_STRPIRETURN, i + 1);
-        WriteConfigStr(strKeyKind,strKeyName, ptCalib->ucReturn[i], strParaName);
-    }
-}
-#endif
-void CTorqueApp::ReadOtherPara(string strParaName, PARACFG *ptCfg)
-{
-    char            auctemp[MAXPARALEN];
-
-    ASSERT_NULL(ptCfg);
-    
-    GetConfigStr(strParaName, IDS_STRPNOTHER,IDS_STRPIRESET,IDS_STRPVRESET,auctemp);
-    m_nReset = atoi(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNOTHER,IDS_STRPISAVEDATA,IDS_STRPVSAVEDATA,auctemp);
-    m_nSaveTime = atoi(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNOTHER,IDS_STRPIEXPORTIMGNUM,IDS_STRPVEXPORTIMGNUM,auctemp);
-    m_nImgNum = atoi(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNOTHER,IDS_STRPIZOOMIN,IDS_STRPVZOOMIN,auctemp);
-    m_nZoomIn = atoi(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNOTHER,IDS_STRPIMEMO,IDS_STRONEBLANK,ptCfg->tComm.aucMemo);
-
-    /*参数调整*/
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIMULT,IDS_STRPVMULT,auctemp);
-    ptCfg->tComm.fMulti = atof(auctemp);
-
-    m_bBigTorq   = FALSE;
-    m_nTorqMulti = 1;
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIBIGTORQ,IDS_STRZERO,auctemp);
-    if(atoi(auctemp) != 0)
-    {
-        m_bBigTorq   = TRUE;
-        m_nTorqMulti = 10;
-    }
-
-    m_nTorqUnit = 0;
-    m_strUnit.Format("N%sm", BIGPOINT);
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPITORQUNIT,IDS_STRZERO,auctemp);
-    if(atoi(auctemp) != 0)
-    {
-        m_nTorqUnit = 1;
-        m_strUnit.Format("lb%sft", BIGPOINT);
-    }
-
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPITEST,IDS_STRZERO,auctemp);
-    m_nTestFunc = atoi(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIIPSHOWMODE,IDS_STRONE,auctemp);
-    m_nIPShowMode = atoi(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIIPDELTAVAL,IDS_STRPVIPDELTAVAL,auctemp);
-    m_fIPDeltaVal = atof(auctemp);
-
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPICOLLTIME,IDS_STRPVCOLLTIME,auctemp);
-    m_nColletTime = atoi(auctemp);
-    if(m_nColletTime < 20)
-        m_nColletTime = 100;
-
-    m_bShackle = FALSE;
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPISHACKLE,IDS_STRZERO,auctemp);
-    if(atoi(auctemp) != 0)
-    {
-        m_bShackle   = TRUE;
-    }
-
-    m_bCheckIP = TRUE;
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIIPPOINT,IDS_STRONE,auctemp);
-    if(atoi(auctemp) == 0)
-    {
-        m_bCheckIP   = FALSE;
-    }
-    
-    m_bFileBehindDate = FALSE;
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIFILEDATEBEHIND,IDS_STRZERO,auctemp);
-    if(atoi(auctemp) != 0)
-    {
-        m_bFileBehindDate = TRUE;
-    }
-    
-    GetConfigStr(strParaName, IDS_STRPNADJUST,IDS_STRPIAUTOSAVE,IDS_STRONEBLANK,auctemp);
-    m_strAutoSaveFile = auctemp;
-}
-
-void CTorqueApp::UpdateAutoSaveFileName()
-{
-    char            auctemp[MAXPARALEN];
-
-    GetConfigStr(m_strParaFile, IDS_STRPNADJUST,IDS_STRPIAUTOSAVE,IDS_STRONEBLANK,auctemp);
-    m_strAutoSaveFile = auctemp;
-}
-
-void CTorqueApp::WriteOtherPara(string strParaName, PARACFG *ptCfg)
-{
-    CString     strValue;
-
-    ASSERT_NULL(ptCfg);
-    
-    strValue.Format("%d",m_nReset);
-    WriteConfigStr(IDS_STRPNOTHER,IDS_STRPIRESET,strValue,strParaName);
-    
-    strValue.Format("%d",m_nSaveTime);
-    WriteConfigStr(IDS_STRPNOTHER,IDS_STRPISAVEDATA,strValue,strParaName);
-    
-    strValue.Format("%d",m_nImgNum);
-    WriteConfigStr(IDS_STRPNOTHER,IDS_STRPIEXPORTIMGNUM,strValue,strParaName);
-
-    strValue.Format("%d",m_nZoomIn);
-    WriteConfigStr(IDS_STRPNOTHER,IDS_STRPIZOOMIN,strValue,strParaName);
-
-    WriteConfigStr(IDS_STRPNOTHER,IDS_STRPIMEMO,ptCfg->tComm.aucMemo,strParaName);
-
-    /*参数调整*/
-    strValue.Format("%.2f",ptCfg->tComm.fMulti);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIMULT,strValue,strParaName);
-
-    strValue.Format("%d",m_bBigTorq);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIBIGTORQ,strValue,strParaName);
-
-    strValue.Format("%d",m_nTorqUnit);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPITORQUNIT,strValue,strParaName);
-
-    strValue.Format("%d",m_nTestFunc);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPITEST,strValue,strParaName);
-
-    strValue.Format("%d",m_nIPShowMode);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIIPSHOWMODE,strValue,strParaName);
-
-    strValue.Format("%.3f",m_fIPDeltaVal);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIIPDELTAVAL,strValue,strParaName);
-
-    strValue.Format("%d",m_nColletTime);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPICOLLTIME,strValue,strParaName);
-
-    strValue.Format("%d",m_bShackle);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPISHACKLE,strValue,strParaName);
-
-    strValue.Format("%d",m_bCheckIP);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIIPPOINT,strValue,strParaName);
-    
-    strValue.Format("%d",m_bFileBehindDate);
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIFILEDATEBEHIND,strValue,strParaName);
-
-    WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIAUTOSAVE,m_strAutoSaveFile.c_str(),strParaName);
-}
-
-/* 其他杂项参数 */
-void CTorqueApp::AdjustOtherPara(PARACFG *ptCfg)
-{
-    ASSERT_NULL(ptCfg);
-
-    CHECK_PARA_ROUND(ptCfg->tCtrl.fCut, 0.5, 2.0, 1.0);
-    //CHECK_PARA_ROUND(ptCfg->iZero, 0, 200, 100);
-    CHECK_PARA_ROUND(ptCfg->tComm.fMulti, 0, 2, 1);
-    CHECK_PARA_ROUND(ptCfg->tComm.fRpmAdj, 0, 50, 3.5);
+    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT],   ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT],     DIFF_CIRCUIT);
+    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_CONTROL], ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT],   DIFF_CIRCUIT);
+    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT],   ptCtrl->fTurnConf[INDEX_TURN_CONTROL], DIFF_CIRCUIT);
 }
 
 void CTorqueApp::AdjustParaValue(PARACFG *ptCfg)
@@ -1826,101 +698,7 @@ void CTorqueApp::AdjustParaValue(PARACFG *ptCfg)
     AdjustCircuitPara(ptCtrl);
 
     /* 其他参数 */
-    AdjustOtherPara(ptCfg);
-}
-
-void CTorqueApp::ReadPara(string strParaName, PARACFG *ptCfg, BOOL bNeedWrite)
-{
-    CONTROLPARA     *ptCtrl = NULL;
-    COMMONCFG       *ptComm = NULL;
-
-    ASSERT_NULL(ptCfg);
-    ptCtrl = &ptCfg->tCtrl;
-    ptComm = &ptCfg->tComm;
-
-    m_bParaChg = FALSE;
-
-    memset(ptCfg,0,sizeof(PARACFG));
-
-    /*扭矩参数*//*台阶扭矩 拐点*/
-    ReadTorquePara(strParaName, ptCtrl, ptComm);
-
-    /*扭拧周数*/
-    ReadCircuitPara(strParaName, ptCtrl, ptComm);
-
-    /*转速*/
-    ReadRpmPara(strParaName, ptCtrl, ptComm);
-    
-    /* XLS统计参数 */
-    ReadXlsStatPara(strParaName, &m_tXlsStatCfg);
-
-    /*其他*/
-    ReadOtherPara(strParaName, ptCfg);
-    
-    /*串口参数*/
-    ReadPortPara(strParaName, &m_tPortCfg);
-
-    /* 比例阀参数 */
-    ReadValvePara(strParaName, &m_tValveCfg);
-
-    /* 校准参数 */
-    //ReadCalibPara(strParaName, &m_tCalibCfg);
-
-    /*参数范围检查*/
-    AdjustParaValue(ptCfg);
-
-    if(m_bParaChg && bNeedWrite)
-    {
-        WritePara(strParaName, ptCfg);
-        m_bParaChg = FALSE;
-    }
-
-    return;
-}
-
-void CTorqueApp::WritePara(string strParaName, PARACFG *ptCfg)
-{
-    int     i    = 0;
-    CFile   file;
-    CONTROLPARA     *ptCtrl = NULL;
-    PORTCFG         *ptPort = NULL;
-    COMMONCFG       *ptComm = NULL;
-    CString strkeyName, strNum;
-
-    ASSERT_NULL(ptCfg);
-    ptCtrl = &ptCfg->tCtrl;
-    ptComm = &ptCfg->tComm;
-
-    file.Open(strParaName.c_str(), CFile::modeCreate|CFile::shareDenyNone);
-    file.Close();
-
-    /*扭矩参数*/
-    WriteTorquePara(strParaName, ptCtrl, ptComm);
-
-    /*扭拧周数*/
-    WriteCircuitPara(strParaName, ptCtrl, ptComm);
-
-    /*转速*/
-    WriteRpmPara(strParaName, ptCtrl, ptComm);
-
-    /* XLS统计参数 */
-    WriteXlsStatPara(strParaName, &m_tXlsStatCfg);
-
-    /*串口参数*/
-    WritePortPara(strParaName, &m_tPortCfg);
-
-    /* 比例阀参数 */
-    WriteValvePara(strParaName, &m_tValveCfg);
-
-    /* 校准参数 */
-    //WriteCalibPara(strParaName, &m_tCalibCfg);
-
-    /*其他*/
-    WriteOtherPara(strParaName, ptCfg);
-
-    m_bParaChg = FALSE;
-
-    return;
+    //AdjustOtherPara(ptCfg);
 }
 
 /* 从原始注册码解密运算 */
@@ -2129,9 +907,9 @@ void CTorqueApp::CreateNewWellFile()
     CTime   time=CTime::GetCurrentTime();//得到当前时间
 
     /* 以井号保存文件 */
-    strTemp = m_ptCurShow->tShow[m_ptCurShow->wFileName].strValue.c_str();
+    strTemp = m_tParaCfg.strValue[m_ptCurShow->nFileName].c_str();
     m_strDataFile = m_strDataPath;
-    if(!m_bFileBehindDate)
+    if(!g_tGlbCfg.bDateBehind)
     {
         m_strDataFile += time.Format(IDS_STRDATEFORM);
         m_strDataFile += _T("_");
@@ -2152,14 +930,14 @@ void CTorqueApp::CreateNewWellFile()
 
 int CTorqueApp::GetMainWellIndex()
 {
-    int         i = 0;
+    UINT        i = 0;
     string      strWellName;
     
-    strWellName = m_tShowCfg[m_nLangType].strMain[MAINSHOWWELL];
+    strWellName = GetMainShowName(m_ptCurShow, MAINSHOWWELL);
 
-    for(i=0; i<m_tShowCfg[m_nLangType].wParaNum && i<MAXPARANUM; i++)
+    for(i=1; i< m_ptCurShow->nParaNum && i<MAXPARANUM; i++)
     {
-        if(0 == strWellName.compare(m_tShowCfg[m_nLangType].tShow[i].strName))
+        if(strWellName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
         {
             return i;
         }
@@ -2167,36 +945,37 @@ int CTorqueApp::GetMainWellIndex()
     return -1;
 }
 
-int CTorqueApp::GetMainWellIndexfromData(CString strWellName, TorqData::Torque *ptTorq)
+int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
 {
     int         i = 0;
-    CString     strName;
+    string      strWellName;
+    string      strName;
 
-    if(strWellName.IsEmpty())
-        return -1;
     ASSERT_NULL_R(ptTorq, -1);
 
-    for(i=0; i< ptTorq->tshow_size() && i<MAXPARANUM; i++)
+    strWellName = theApp.GetListShowName(m_ptCurShow, nWellNO);
+    if(strWellName.empty())
+        return -1;
+
+    for(i=1; i<= ptTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         strName = GetTorqShowName(ptTorq, i);
-        if(0 == strWellName.Compare(strName))
-        {
+        if (strName == strWellName)
             return i;
-        }
     }
     return -1;
 }
 
 int CTorqueApp::GetMainTubeIndex()
 {
-    int         i = 0;
+    UINT        i = 0;
     string      strTubeName;
     
-    strTubeName = m_tShowCfg[m_nLangType].strMain[MAINSHOWTUBE];
+    strTubeName = m_tShowCfg[g_tGlbCfg.nLangType].nMain[MAINSHOWTUBE];
 
-    for(i=0; i<m_tShowCfg[m_nLangType].wParaNum && i<MAXPARANUM; i++)
+    for(i=1; i<m_tShowCfg[g_tGlbCfg.nLangType].nParaNum && i<MAXPARANUM; i++)
     {
-        if(0 == strTubeName.compare(m_tShowCfg[m_nLangType].tShow[i].strName))
+        if(0 == strTubeName.compare(m_tShowCfg[g_tGlbCfg.nLangType].strShow[i]))
         {
             return i;
         }
@@ -2238,9 +1017,9 @@ void CTorqueApp::GetCurNum()
         if(iWellIndex >= 0)
         {
             /* 从后往前找最新的入井序号 */
-            for(i=m_tReadData.nTotal - 1; i>=0; i--)
+            for(i=g_tReadData.nTotal - 1; i>=0; i--)
             {
-                ptTorq = &m_tReadData.tData[i];
+                ptTorq = &g_tReadData.tData[i];
                 if(iWellIndex >= ptTorq->tshow_size())
                     continue;
 
@@ -2292,7 +1071,7 @@ BOOL CTorqueApp::TimeValidWell(CString strFileName)
     CTime       oldtime;
     CTimeSpan   tSpan;
 
-    if(!m_bFileBehindDate) //  日期在前
+    if(!g_tGlbCfg.bDateBehind) //  日期在前
     {
         strDate = strFileName;
     }
@@ -2325,14 +1104,14 @@ void  CTorqueApp::GetCurWellFile()
     SetCurrentDirectory(m_strDataPath.c_str());
 
     /* 以井号保存文件 */
-    strWell = m_ptCurShow->tShow[m_ptCurShow->wFileName].strValue.c_str();
+    strWell = m_tParaCfg.strValue[m_ptCurShow->nFileName].c_str();
     if (strWell.IsEmpty())
     {
         CreateNewWellFile();
         return;
     }
 
-    if(!m_bFileBehindDate)
+    if(!g_tGlbCfg.bDateBehind)
         strSearch = _T("*_") + strWell + _T(".pbd");
     else
         strSearch = strWell + _T("_*") + _T(".pbd");
@@ -2368,11 +1147,11 @@ void  CTorqueApp::GetCurWellFile()
     return;
 }
 
-CString CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
+string  CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
 {
     int     i       = 0;
     DWORD   dwFlag  = 1;
-    CString strQuality;
+    string  strQuality;
     //CString strInfo;
     DWORD   dwQuality = 0;
 
@@ -2382,17 +1161,18 @@ CString CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
     dwQuality = GetQuality(ptTorq);
     if(dwQuality & QUA_RESU_QUALITYBIT)
     {
-        strQuality.Format(IDS_STRMARKQUALITY);
+        //strQuality.Format(IDS_STRMARKQUALITY);
+        strQuality = LoadstringFromRes(IDS_STRMARKQUALITY);
     }
     else
     {
-        strQuality.Format(IDS_STRMARKDISQUAL);
+        strQuality = LoadstringFromRes(IDS_STRMARKDISQUAL);
         for(i=1; i<=MAX_BAD_CAUSE; i++)
         {
             dwFlag *= 2;
             if(dwQuality & dwFlag)
             {
-                strQuality.Format(IDS_STRMARKDISQUAL+i);
+                strQuality = LoadstringFromRes(IDS_STRMARKDISQUAL+i);
                 break;
             }
         }
@@ -2400,7 +1180,6 @@ CString CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
     
     return strQuality;
 }
-
 
 int CTorqueApp::GetQualityIndex(TorqData::Torque *ptTorq)
 {
@@ -2443,7 +1222,7 @@ int CTorqueApp::GetQualityIndex(TorqData::Torque *ptTorq)
 //
 //  edit by [r]@dotlive.cnblogs.com
 ///////////////////////////////////////////////////////////////////////////////
-void CTorqueApp::ExportListToExcel(CString strSheetName, CDatabase* ptDb, CMylistctrl *ptlistData)
+void CTorqueApp::ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl *ptlistData)
 {
     // 创建表结构
     int         i           = 0;
@@ -2542,7 +1321,6 @@ BOOL CTorqueApp::CheckExcelDriver(CString &strDriver)
     return TRUE;
 }
 
-
 //获得默认的文件名
 //默认文件名：yyyymmddhhmmss.xls
 BOOL CTorqueApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
@@ -2600,7 +1378,7 @@ BOOL CTorqueApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
         // delete the file
         if(!DeleteFile(sExcelFile))
         {
-            AfxMessageBox(IDS_STRINFOVEREXLERR);
+            AfxMessageBox(LoadstringFromRes(IDS_STRINFOVEREXLERR).c_str());
             return FALSE;
         }
     }
@@ -2633,7 +1411,7 @@ BOOL CTorqueApp::MakeSurePathExists( CString &Path,
     return !_access(Path,0);
 }
 
-BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CMylistctrl *ptlistData)
+BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl *ptlistData)
 {
     CDatabase   database;
     CString     strDriver;
@@ -2686,24 +1464,28 @@ BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CMy
 
 void CTorqueApp::ShowMainTitle()
 {
-    CString strAppName;
+    string strAppName;
     CWnd    *m_pCWnd = AfxGetMainWnd();
 
     if(m_tdbReg.bReged)
     {
-        strAppName.Format(IDS_STRTITLE);
-        if(m_bBigTorq)
-            strAppName.Format(IDS_STRBIGTITLE);
-        ::SetWindowText(*m_pCWnd,strAppName);
+        strAppName = LoadstringFromRes(IDS_STRTITLE);
+        //strAppName.Format(IDS_STRTITLE);
+        if(g_tGlbCfg.bBigTorq)
+            strAppName = LoadstringFromRes(IDS_STRBIGTITLE);
+            //strAppName.Format(IDS_STRBIGTITLE);
+        ::SetWindowText(*m_pCWnd,strAppName.c_str());
         return;
     }
     
     /* else */
-    strAppName.Format(IDS_STRTRYOUT);
-    if(m_bBigTorq)
-        strAppName.Format(IDS_STRBIGTRYOUT);
+    strAppName = LoadstringFromRes(IDS_STRTRYOUT);
+    //strAppName.Format(IDS_STRTRYOUT);
+    if(g_tGlbCfg.bBigTorq)
+        strAppName = LoadstringFromRes(IDS_STRBIGTRYOUT);
+        //strAppName.Format(IDS_STRBIGTRYOUT);
 
-    ::SetWindowText(*m_pCWnd,strAppName);
+    ::SetWindowText(*m_pCWnd,strAppName.c_str());
     return;
 }
 
@@ -2941,7 +1723,7 @@ void CTorqueApp::SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr)
 
     ASSERT_NULL(pucRcvByte);
 
-    COMP_BNE(m_nTestFunc, COLL_PORT);
+    COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
 
     /* 消息长度为0，处理后直接返回 */
     COMP_BTRUE(MsgLenIsZero(wLen, DBG_HASH));
@@ -2971,7 +1753,7 @@ void CTorqueApp::SaveCollectErrorData(CString strError, BYTE *pucRcvByte, WORD w
 
     ASSERT_NULL(pucRcvByte);//m_wRcvLen
 
-    COMP_BNE(m_nTestFunc, COLL_PORT);
+    COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
 
     /* 消息长度为0，处理后直接返回 */
     COMP_BTRUE(MsgLenIsZero(wLen, DBG_COLLECT));
@@ -3022,7 +1804,7 @@ void CTorqueApp::SaveResetData(BYTE *pucRcvByte, WORD wLen)
     ASSERT_NULL(pucRcvByte);
 
     COMP_BFALSE(m_bShowCRC);
-    COMP_BNE(m_nTestFunc, COLL_PORT);
+    COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
 
     SaveCurTimeAndHead(DBG_START);
 
@@ -3068,9 +1850,9 @@ void CTorqueApp::SaveSendFailure(UINT nCmdType)
 {
     char    *pData = NULL;
     int     iLen   = 0;
-    CString strCmd;
+    string  strCmd;
 
-    COMP_BNE(m_nTestFunc, COLL_PORT);
+    COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
 
     SaveCurTimeAndHead(DBG_HASH);
 
@@ -3078,7 +1860,7 @@ void CTorqueApp::SaveSendFailure(UINT nCmdType)
     strCmd = g_strCmdName[nCmdType-SCMREAD];
 
     /* Save Info */
-    iLen = sprintf_s(pData, SPRINTFLEN, " Send %s Command Failure!\r\n", (LPSTR)(LPCTSTR)strCmd);
+    iLen = sprintf_s(pData, SPRINTFLEN, " Send %s Command Failure!\r\n", strCmd.c_str());
     INC_DBG_INFO();
     return;
 }
@@ -3127,7 +1909,7 @@ void CTorqueApp::SavePortOper(UINT nPortOpr)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, SPRINTFLEN, " Port %d is %s!\r\n", m_tPortCfg.ucPortNo, (LPCTSTR)g_strPortOpr[nPortOpr].c_str());
+    iLen = sprintf_s(pData, SPRINTFLEN, " Port %d is %s!\r\n", g_tGlbCfg.nPortNO, (LPCTSTR)g_strPortOpr[nPortOpr].c_str());
     INC_DBG_INFO();
     return;
 }
@@ -3317,7 +2099,7 @@ WORD CTorqueApp::GetIPPlace(int iCurPnt, int iInterval)
 
     for(i = iCurPnt -1; i>(iCurPnt-1-iInterval) && i>0; i--)
     {
-        if(g_fAdjInfPnt[i] <= 0)
+        if(m_fAdjInfPnt[i] <= 0)
             return i;
     }
 
@@ -3365,10 +2147,10 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
     /**  斜率的斜率/控制扭矩 >1%  / iInterval(5) 
         往回找相邻点斜率的斜率的最大值 
         如果最大相邻拐点 大于 斜率的斜率的50%，则该最大值为拐点；否则斜率的斜率前一个点为拐点*/
-    memset(g_fAdjSlope, 0, sizeof(double)*COLLECTPOINTS);   //相邻点斜率
-    memset(g_fAdjInfPnt, 0, sizeof(double)*COLLECTPOINTS);  //相邻点拐点
-    memset(g_fIntSlope, 0, sizeof(double)*COLLECTPOINTS);   //间隔点斜率
-    memset(g_fIntInfPnt, 0, sizeof(double)*COLLECTPOINTS);  //间隔点拐点
+    memset(m_fAdjSlope, 0, sizeof(double)*COLLECTPOINTS);   //相邻点斜率
+    memset(m_fAdjInfPnt, 0, sizeof(double)*COLLECTPOINTS);  //相邻点拐点
+    memset(m_fIntSlope, 0, sizeof(double)*COLLECTPOINTS);   //间隔点斜率
+    memset(m_fIntInfPnt, 0, sizeof(double)*COLLECTPOINTS);  //间隔点拐点
     
     fStandValue = 0.009;
     if(ptTorq->fmaxcir() != 5)
@@ -3379,22 +2161,22 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
     COMP_BLE_R(ptTorq->ftorque_size(), iInterval, 0);
 
     iSearchPnt = iInterval;
-    g_fAdjSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(iInterval-1))/fCtrlTor;
-    g_fIntSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(1))/fCtrlTor;
+    m_fAdjSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(iInterval-1))/fCtrlTor;
+    m_fIntSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(1))/fCtrlTor;
     for(i=iInterval+1; i<int(ptTorq->ftorque_size()-1); i++)
     {
         if(iSearchPnt == iInterval && ptTorq->ftorque(i) > fBgnTorqPct * fCtrlTor)
             iSearchPnt = i;
-        g_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1))/fCtrlTor;
-        //g_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1));
-        g_fAdjInfPnt[i] = g_fAdjSlope[i] - g_fAdjSlope[i-1];
+        m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1))/fCtrlTor;
+        //m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1));
+        m_fAdjInfPnt[i] = m_fAdjSlope[i] - m_fAdjSlope[i-1];
 
-        g_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/fCtrlTor;
-        //g_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/(iInterval-1);
-        g_fIntInfPnt[i] = g_fIntSlope[i] - g_fIntSlope[i-1];
+        m_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/fCtrlTor;
+        //m_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/(iInterval-1);
+        m_fIntInfPnt[i] = m_fIntSlope[i] - m_fIntSlope[i-1];
 
-        if(fabs(g_fAdjInfPnt[i]) < 0.00001) g_fAdjInfPnt[i] = 0;
-        if(fabs(g_fIntInfPnt[i]) < 0.00001) g_fIntInfPnt[i] = 0;
+        if(fabs(m_fAdjInfPnt[i]) < 0.00001) m_fAdjInfPnt[i] = 0;
+        if(fabs(m_fIntInfPnt[i]) < 0.00001) m_fIntInfPnt[i] = 0;
     }
 #if 0    
     /* 从控制扭矩往回退0.1周 */
@@ -3418,7 +2200,7 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
         iIPBegin = iInterval;
     for(i= iIPBegin; i<ptTorq->ftorque_size()-1; i++)
     {
-        if (g_fIntSlope[i] < fChkIntSlope)
+        if (m_fIntSlope[i] < fChkIntSlope)
             continue;
 
         wTmpPos = GetIPPlace(i, iInterval);
@@ -3437,7 +2219,7 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
     
     for(i= iSearchPnt-1; i>iIPBegin; i--)
     {
-        if (g_fIntSlope[i] < fChkIntSlope)
+        if (m_fIntSlope[i] < fChkIntSlope)
             continue;
 
         wTmpPos = GetIPPlace(i, iInterval);
@@ -3455,21 +2237,21 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
         iIPBegin = iInterval;
     for(i= iIPBegin +1; i<int(ptTorq->ftorque_size()-1); i++)
     {
-        if (g_fIntInfPnt[i] < fStandValue)
+        if (m_fIntInfPnt[i] < fStandValue)
             continue;
 
         wTmpPos = i - 1;
         fTmpAdjInfPnt = 0;
         for (j = i - 1; j >= int(i - iInterval + 1); j--)
         {
-            if (fTmpAdjInfPnt < g_fAdjInfPnt[j])
+            if (fTmpAdjInfPnt < m_fAdjInfPnt[j])
             {
-                fTmpAdjInfPnt = g_fAdjInfPnt[j];
+                fTmpAdjInfPnt = m_fAdjInfPnt[j];
                 wTmpPos = j;
             }
         }
 
-        if(g_fAdjInfPnt[wTmpPos] < g_fAdjInfPnt[i]*0.5)
+        if(m_fAdjInfPnt[wTmpPos] < m_fAdjInfPnt[i]*0.5)
             wTmpPos = i - 1;
         /* 最佳扭矩的10~~70% */
         if (ptTorq->ftorque(wTmpPos) < (0.1*fCtrlTor))
@@ -3524,13 +2306,13 @@ WORD CTorqueApp::SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP)
     ASSERT_ZERO_R(fBestTorq, 0);
 
     /* 相差两个点的扭矩差/ 控制扭矩 > 0.03 两次；从第6个数据开始，找到往回走一步 */
-    memset(g_fAdjSlope, 0, sizeof(double)*COLLECTPOINTS);   //相邻点斜率
+    memset(m_fAdjSlope, 0, sizeof(double)*COLLECTPOINTS);   //相邻点斜率
 
 
-    g_fAdjSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(0))/fBestTorq;
+    m_fAdjSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(0))/fBestTorq;
     for(i=iInterval+1; i<int(ptTorq->ftorque_size()-1); i++)
     {
-        g_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval))/fBestTorq;
+        m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval))/fBestTorq;
     }
 
     /* 圈数差值 0.01~0.25 */
@@ -3539,16 +2321,16 @@ WORD CTorqueApp::SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP)
         iIPBegin = iMinIPPnt;
     for(i= iIPBegin; i<ptTorq->ftorque_size()-1; i++)
     {
-        /*if (g_fAdjSlope[i] < fLowValue)
+        /*if (m_fAdjSlope[i] < fLowValue)
         {
             iFoundNum = 0;
             continue;
         }
         iFoundNum ++;*/
 
-        //if(iFoundNum >= 2 || g_fAdjSlope[i] > fHighValue)
-        //if((g_fAdjSlope[i] + g_fAdjSlope[i+1]) > 2*fLowValue || g_fAdjSlope[i] > fHighValue)
-        if((g_fAdjSlope[i] + g_fAdjSlope[i+1]) >= m_fIPDeltaVal)
+        //if(iFoundNum >= 2 || m_fAdjSlope[i] > fHighValue)
+        //if((m_fAdjSlope[i] + m_fAdjSlope[i+1]) > 2*fLowValue || m_fAdjSlope[i] > fHighValue)
+        if((m_fAdjSlope[i] + m_fAdjSlope[i+1]) >= g_tGlbCfg.fIPDeltaVal)
         {
             wTmpPos = i - 1;
             //wTmpPos = i;
@@ -3632,7 +2414,7 @@ WORD  CTorqueApp::SearchIP4RECPLUS(TorqData::Torque *ptTorq)
 
         fDelTorq = ptTorq->ftorque(i) - ptTorq->ftorque(j);
         fDelta   = fDelTorq / fBestTorq;
-        if(fDelta >= m_fIPDeltaVal)
+        if(fDelta >= g_tGlbCfg.fIPDeltaVal)
         {
             wTmpPos = i - 1;
 
@@ -3959,7 +2741,7 @@ CString CTorqueApp::GetTorqFullDate(TorqData::Torque *ptTorq)
     colTime = ptTorq->coltime();
     COleDateTime olett(colTime);
 
-    if(LANGUAGE_CHINESE == m_nLangType)
+    if(LANGUAGE_CHINESE == g_tGlbCfg.nLangType)
     {
         return olett.Format(_T("%Y年%m月%d日"));
     }
@@ -4268,15 +3050,15 @@ void CTorqueApp::ClearReadTorq()
 {
     int i = 0;
 
-    m_tReadData.nCur = 0;
-    m_tReadData.nTotal = 0;
-    m_tReadData.nQualy = 0;
-    m_tReadData.nUnQualy = 0;
+    g_tReadData.nCur = 0;
+    g_tReadData.nTotal = 0;
+    g_tReadData.nQualy = 0;
+    g_tReadData.nUnQualy = 0;
 
-    memset(&m_tReadData.tSplit, 0, MAXWELLNUM*sizeof(SPLITPOINT));
+    memset(&g_tReadData.tSplit, 0, MAXWELLNUM*sizeof(SPLITPOINT));
 
     for(i=0; i<MAXWELLNUM; i++)
-        m_tReadData.tData[i].Clear();
+        g_tReadData.tData[i].Clear();
 }
 
 /* 从文件当前读取位置获取数据的长度，文件位置为读取有效的文件长度之后 */
@@ -4358,7 +3140,7 @@ int  CTorqueApp::SeekPBDataPos(CFile &file, int iCurPos)
     int     iFileLen = 0;
     char    cTmpRead[100];
 
-    COMP_BFALSE_R(m_tReadData.bHaveHead, 0);
+    COMP_BFALSE_R(g_tReadData.bHaveHead, 0);
     
     iFileLen = (int)file.GetLength();
     if((iCurPos+MIN_TORQDATALEN) >= iFileLen)
@@ -4434,12 +3216,12 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     }
 
     /* 检查文件是否有头 */
-    m_tReadData.bHaveHead = FALSE;
+    g_tReadData.bHaveHead = FALSE;
     file.Read(cPBHead,PBHEADLEN);
     file.Seek(sizeof(UINT), CFile::begin);
     if(memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
     {
-        m_tReadData.bHaveHead = TRUE;
+        g_tReadData.bHaveHead = TRUE;
     }
 
     BeginWaitCursor();
@@ -4467,20 +3249,20 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
         }
 
 
-        bRes = m_tReadData.tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
+        bRes = g_tReadData.tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
         if (!bRes)
             continue;
 
         /* 数据大于1屏时设置分屏信息 */
         /* 20190609最后一屏按控制周数，其他按满屏计算 */
         /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */
-        ptTorq = &m_tReadData.tData[nValid];
-        pSplit = &m_tReadData.tSplit[nValid];
+        ptTorq = &g_tReadData.tData[nValid];
+        pSplit = &g_tReadData.tSplit[nValid];
 
         iTotalPnt = ptTorq->ftorque_size();
         if(VERSION_RECPLUS(ptTorq))
         {
-            m_tReadData.nTotalPlus[nValid] = ptTorq->dwtotalplus();
+            g_tReadData.nTotalPlus[nValid] = ptTorq->dwtotalplus();
             
             if(ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
                 iTotalPnt = (int)ceil(ptTorq->dwtotalplus() / ptTorq->fplus() /
@@ -4540,11 +3322,11 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
         }
 
         /* NM  < ---- > lbft (* ratio) */
-        if(theApp.m_nTorqUnit != ptTorq->dwtorqunit())
+        if(g_tGlbCfg.nTorqUnit != ptTorq->dwtorqunit())
         {
             /* 0 (N.M) lb.ft --> N.m  */
             fRatio    = LBFT2NM;
-            if(theApp.m_nTorqUnit == 1) // N.m --> lb.ft
+            if(g_tGlbCfg.nTorqUnit == 1) // N.m --> lb.ft
                 fRatio = NM2LBFT;
 
             ptTorq->set_fmaxtorq(fRatio*ptTorq->fmaxtorq());
@@ -4565,15 +3347,15 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
             }
         }
 
-        m_tReadData.nTotal++;
+        g_tReadData.nTotal++;
         dwQuality = GetQuality(ptTorq);
         if(dwQuality & QUA_RESU_QUALITYBIT)
         {
-            m_tReadData.nQualy++;
+            g_tReadData.nQualy++;
         }
         else
         {
-            m_tReadData.nUnQualy++;
+            g_tReadData.nUnQualy++;
         }
         nValid++;
     }
@@ -4585,14 +3367,13 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     return TRUE;
 }
 
-
 TorqData::Torque * CTorqueApp::GetOrgTorqFromTorq(UINT nNO)
 {
     TorqData::Torque *ptOrg = NULL;
 
-    COMP_BGE_R(nNO, m_tReadData.nTotal, NULL);
+    COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
 
-    ptOrg = &m_tReadData.tData[nNO];
+    ptOrg = &g_tReadData.tData[nNO];
     ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
 
     return ptOrg;
@@ -4619,10 +3400,10 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
     TorqData::Torque *ptOrg = NULL;
     DRAWTORQDATA     *ptDraw = NULL;
 
-    COMP_BGE_R(nNO, m_tReadData.nTotal, NULL);
+    COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
     COMP_BGE_R(nNO, MAXWELLNUM, NULL);
 
-    ptOrg = &m_tReadData.tData[nNO];
+    ptOrg = &g_tReadData.tData[nNO];
     ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
 
     ptDraw = &m_tCurDrawTorq;
@@ -4646,7 +3427,7 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
 
     fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / iMulti / MAXLINEITEM;
 
-    iDrawPnt = (int)ceil(m_tReadData.nTotalPlus[nNO] / fPlusPerPnt);
+    iDrawPnt = (int)ceil(g_tReadData.nTotalPlus[nNO] / fPlusPerPnt);
     if(iDrawPnt < 2)
         iDrawPnt = 2;
 
@@ -4735,46 +3516,9 @@ CString CTorqueApp::GetStatType(TorqData::Torque *ptTorq, WORD wPlace)
     return GetTorqShowValue(ptTorq, wPlace);
 }
 
-BOOL CTorqueApp::InsertShowOption(SHOWCFG *ptShow, WORD wShowName, CString strOption, CComboBox *ptcbOption)
-{
-    WORD    wNum = 0;
-    int     i = 0;
-
-    ASSERT_NULL_R(ptShow, FALSE);
-    ASSERT_NULL_R(ptcbOption, FALSE);
-
-    COMP_BG_R(wShowName,  MAXPARANUM+1, FALSE);
-    COMP_BTRUE_R(strOption.IsEmpty(), FALSE);
-    if (ptShow->tOption[wShowName].wOptNum < MAXOPTIONNUM)
-    {
-
-        wNum = ptShow->tOption[wShowName].wOptNum;
-
-        ptShow->tOption[wShowName].strOpt[wNum] = strOption;
-
-        ptcbOption->AddString(strOption);
-        ptShow->tOption[wShowName].wOptNum++;
-
-        return TRUE;
-    }
-    
-    ptcbOption->Clear();
-    for (i = 0; i < MAXOPTIONNUM-1; i++)
-    {
-        ptShow->tOption[wShowName].strOpt[i] = ptShow->tOption[wShowName].strOpt[i + 1];
-        ptcbOption->AddString(ptShow->tOption[wShowName].strOpt[i].c_str());
-    }
-    ptShow->tOption[wShowName].strOpt[MAXOPTIONNUM - 1] = strOption;
-    ptShow->tOption[wShowName].wOptNum = MAXOPTIONNUM;
-    ptcbOption->AddString(strOption);
-
-    return TRUE;
-}
-
 BOOL CTorqueApp::CheckPassWord()
 {
-    CString         strCompPW;
-    CString         strSupPW;
+    string          strSupPW;
     CDlgPassword    dlgPW;
 
     if(IDOK != dlgPW.DoModal())
@@ -4782,40 +3526,55 @@ BOOL CTorqueApp::CheckPassWord()
         return FALSE;
     }
 
-    strCompPW = m_aucPassWord;
-    strSupPW.Format(IDS_STRSUPPORPW);
-    if( 0 != strCompPW.Compare(dlgPW.m_strPassword) &&
-        0 != strSupPW.Compare(dlgPW.m_strPassword))
+    strSupPW = LoadstringFromRes(IDS_STRSUPPORPW);
+    if( 0 != dlgPW.m_strPassword.Compare(g_tGlbCfg.strPassWord.c_str()) &&
+        0 != dlgPW.m_strPassword.Compare(strSupPW.c_str()))
     {
-        AfxMessageBox(IDS_STRERRORPW);
+        AfxMessageBox(LoadstringFromRes(IDS_STRERRORPW).c_str());
         return FALSE;
     }
 
     return TRUE;
 }
 
-string CTorqueApp::LoadString4string( unsigned string_ID )
+string CTorqueApp::LoadstringFromRes( unsigned string_ID )
 {
     char buffer[ MAX_LOADSTRING ];
-    unsigned bytes_copied = LoadString( GetModuleHandle(NULL), string_ID, buffer, MAX_LOADSTRING );
+
+    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING );
     if( !bytes_copied )
         throw std::runtime_error( "Resource not found!" );
 
     return string( buffer, bytes_copied );
 }
 
-BOOL CTorqueApp::LoadString4string( unsigned string_ID , string &strValue)
+string CTorqueApp::LoadstringFromRes(unsigned string_ID, int val)
 {
-    char buffer[ MAX_LOADSTRING ];
-    unsigned bytes_copied = LoadString( GetModuleHandle(NULL), string_ID, buffer, MAX_LOADSTRING );
-    if( !bytes_copied )
-    {
-        strValue = ( "Resource not found!" );
-        return FALSE;
-    }
+    char buffer[MAX_LOADSTRING];
+    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
 
-    strValue = string( buffer, bytes_copied );
-    return TRUE;
+    return string(buffer);
+}
+
+string CTorqueApp::LoadstringFromRes(unsigned string_ID, double val)
+{
+    char buffer[MAX_LOADSTRING];
+    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
+
+    return string(buffer);
+}
+
+string CTorqueApp::LoadstringFromRes(unsigned string_ID, string val)
+{
+    string buffer1;
+    char buffer2[MAX_LOADSTRING];
+    buffer1 = LoadstringFromRes(string_ID);
+    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+    snprintf(buffer2, MAX_LOADSTRING, buffer1.c_str(), val.c_str());
+
+    return string(buffer2);
 }
 
 /*
@@ -4865,7 +3624,7 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
         file.Close();
         return;
     }
-    //SEEK_TORQUE(((int)m_tReadData.nCur-1), nLeng);
+    //SEEK_TORQUE(((int)g_tReadData.nCur-1), nLeng);
 
     /* 获得当前数据的位置 */
     iDataLen = SeekFileLen(file);
@@ -5078,15 +3837,15 @@ BOOL CTorqueApp::ReCalWellNO(CString strDataName)
     TorqData::Torque    *ptTorq         = NULL;
     TorqData::ShowInfo  *ptRunningShow  = NULL;
 
-    iWellIndex = GetMainWellIndexfromData(m_ptCurShow->strMain[MAINSHOWWELL].c_str(), &m_tReadData.tData[0]);
+    iWellIndex = GetMainWellIndexfromData(MAINSHOWWELL, &g_tReadData.tData[0]);
 
     COMP_BL_R(iWellIndex, 0, FALSE);
 
     BeginWaitCursor();
     /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
-    for(i = 1; i<=(int)m_tReadData.nTotal; i++)
+    for(i = 1; i<=(int)g_tReadData.nTotal; i++)
     {
-        ptTorq = &m_tReadData.tData[i-1];
+        ptTorq = &g_tReadData.tData[i-1];
 
         strOldNO = GetTorqShowValue(ptTorq, iWellIndex);
         ptRunningShow = ptTorq->mutable_tshow(iWellIndex);
@@ -5125,20 +3884,20 @@ void CTorqueApp::SaveAllData(CString strDataName)
     if(file.Open(strDataName, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyNone,NULL))
     {
         /*更新记录数*/
-        file.Write(&m_tReadData.nTotal,sizeof(UINT));
+        file.Write(&g_tReadData.nTotal,sizeof(UINT));
 
-        for(i = 0; i < m_tReadData.nTotal; i++)
+        for(i = 0; i < g_tReadData.nTotal; i++)
         {
-            nDataLen = m_tReadData.tData[i].ByteSize();
+            nDataLen = g_tReadData.tData[i].ByteSize();
             if(nDataLen == 0 || nDataLen >= MAXPROBUFF)
                 continue;
             memset(m_cProtoBuf, 0, MAXPROBUFF);
-            if (!m_tReadData.tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
+            if (!g_tReadData.tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
             {
                 continue;
             }
 
-            if(m_tReadData.bHaveHead)
+            if(g_tReadData.bHaveHead)
                 file.Write(&m_nPBHead, PBHEADLEN);
             file.Write(&nDataLen, sizeof(UINT));
             file.Write(m_cProtoBuf, nDataLen);
@@ -5148,53 +3907,51 @@ void CTorqueApp::SaveAllData(CString strDataName)
     file.Close();
 }
 
-CString CTorqueApp::GetFixTubingValue(UINT nShowIndex, UINT nCurNO, FIXTUBINFO *ptFix)
+string CTorqueApp::GetFixTubeValue(UINT nShowIndex, UINT nCurNO, FIXTUBEINFO *ptFix)
 {
     UINT    i = 0;
-    CString strValue;
 
-    COMP_BGE_R(nShowIndex, (MAXPARANUM + 1), NULLSTR);
+    COMP_BGE_R(nShowIndex, MAXPARANUM, NULLSTR);
     ASSERT_NULL_R(ptFix, NULLSTR);
 
-    if (!m_ptCurShow->bFixTub)
+    if (!IsFixTube())
     {
-        return m_ptCurShow->tShow[nShowIndex].strValue.c_str();
+        return m_tParaCfg.strValue[nShowIndex];
     }
 
     for (i = 0; i < ptFix->nNum; i++)
     {
         if (nCurNO == ptFix->ptPara[i].nNO)
         {
-            strValue = ptFix->ptPara[i].strName[m_nLangType].c_str();
-            break;
+            return ptFix->ptPara[i].strName[g_tGlbCfg.nLangType];
         }
     }
-    return strValue;
+    return "";
 }
 
-CString CTorqueApp::GetFactoryValue()
+string CTorqueApp::GetTubeFactoryValue()
 {
-    return GetFixTubingValue(15, m_ptCurShow->tTubingCfg.nFactory, &g_cTubing.m_tFactory);
+    return GetFixTubeValue(INDEX_SHOW_FACTORY, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_FACTORY], &g_cTubing.m_tTubInfo[INDEX_TUBE_FACTORY]);
 }
 
-CString CTorqueApp::GetOEMValue()
+string CTorqueApp::GetTubeOEMValue()
 {
-    return GetFixTubingValue(3, m_ptCurShow->tTubingCfg.nOEM, &g_cTubing.m_tOEM);
+    return GetFixTubeValue(INDEX_SHOW_OEM, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_OEM], &g_cTubing.m_tTubInfo[INDEX_TUBE_OEM]);
 }
 
-CString CTorqueApp::GetTubSizeValue()
+string CTorqueApp::GetTubeSizeValue()
 {
-    return GetFixTubingValue(4, m_ptCurShow->tTubingCfg.nSize, &g_cTubing.m_tSize);
+    return GetFixTubeValue(INDEX_SHOW_SIZE, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_SIZE], &g_cTubing.m_tTubInfo[INDEX_TUBE_SIZE]);
 }
 
-CString CTorqueApp::GetThreadMatValue()
+string CTorqueApp::GetTubeMaterValue()
 {
-    return GetFixTubingValue(5, m_ptCurShow->tTubingCfg.nMat, &g_cTubing.m_tMater);
+    return GetFixTubeValue(INDEX_SHOW_MATER, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_MATER], &g_cTubing.m_tTubInfo[INDEX_TUBE_MATER]);
 }
 
-CString CTorqueApp::GetCouplingValue()
+string CTorqueApp::GetTubeCouplValue()
 {
-    return GetFixTubingValue(6, m_ptCurShow->tTubingCfg.nCoupling, &g_cTubing.m_tCoupl);
+    return GetFixTubeValue(INDEX_SHOW_COUPL, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_COUPL], &g_cTubing.m_tTubInfo[INDEX_TUBE_COUPL]);
 }
 
 CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
@@ -5203,9 +3960,12 @@ CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if(iIndex >= ptTorq->tshow_size())
+    if(iIndex > ptTorq->tshow_size())
         return NULLSTR;
 
+    // cur version iIndex 从1开始, 0为Factory
+    if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;
     return ptTorq->tshow(iIndex).strname().c_str();
 }
 
@@ -5215,10 +3975,41 @@ CString CTorqueApp::GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex)
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if(iIndex >= ptTorq->tshow_size())
+    if(iIndex > ptTorq->tshow_size())
         return NULLSTR;
 
+    // cur version iIndex 从1开始, 0为Factory
+    if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;
     return ptTorq->tshow(iIndex).strvalue().c_str();
+}
+
+string CTorqueApp::GetListShowName(SHOWCFG* ptShow, UINT NO)
+{
+    ASSERT_NULL_R(ptShow, NULLSTR);
+    COMP_BGE_R(NO, ptShow->nListNum, NULLSTR);
+
+    return ptShow->strShow[ptShow->nList[NO]];
+
+}
+string CTorqueApp::GetMainShowName(SHOWCFG* ptShow, UINT NO)
+{
+    ASSERT_NULL_R(ptShow, NULLSTR);
+    COMP_BGE_R(NO, ptShow->nMainNum, NULLSTR);
+
+    return ptShow->strShow[ptShow->nMain[NO]];
+}
+
+BOOL CTorqueApp::IsFixTube()
+{
+    return CheckFixTube(&m_tParaCfg);
+}
+
+BOOL CTorqueApp::CheckFixTube(PARACFG* ptCfg)
+{
+    ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BG_R(ptCfg->tTubeCfg.nIndex, 0, TRUE);
+    return FALSE;
 }
 
 /* \/:*?"<>| 加 . */
@@ -5235,4 +4026,3 @@ BOOL CTorqueApp::FindNotFileChar(CString strFileName)
 
     return FALSE;
 }
-

@@ -15,7 +15,6 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDlgHisGrp property page
-extern TORQUEDATA  m_tReadData;
 
 IMPLEMENT_DYNCREATE(CDlgHisGrp, CPropertyPage)
 
@@ -70,36 +69,36 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_STATIC_G10, m_strLBG10);
     DDX_Text(pDX, IDC_STATIC_G22, m_strLBG22);
     DDX_Text(pDX, IDC_STATIC_G20, m_strLBG20);
-    DDX_Text(pDX, IDC_HISSHOW01, m_strHisShowName[0]);
-    DDX_Text(pDX, IDC_HISSHOW02, m_strHisShowName[1]);
-    DDX_Text(pDX, IDC_HISSHOW03, m_strHisShowName[2]);
-    DDX_Text(pDX, IDC_HISSHOW04, m_strHisShowName[3]);
-    DDX_Text(pDX, IDC_HISSHOW05, m_strHisShowName[4]);
-    DDX_Text(pDX, IDC_HISSHOW06, m_strHisShowName[5]);
-    DDX_Text(pDX, IDC_HISSHOW07, m_strHisShowName[6]);
-    DDX_Text(pDX, IDC_HISSHOW08, m_strHisShowName[7]);
-    DDX_Text(pDX, IDC_HISSHOW09, m_strHisShowName[8]);
-    DDX_Text(pDX, IDC_HISSHOW10, m_strHisShowName[9]);
-    DDX_Text(pDX, IDC_HISSHOW11, m_strHisShowName[10]);
-    DDX_Text(pDX, IDC_HISSHOW12, m_strHisShowName[11]);
-    DDX_Text(pDX, IDC_HISSHOW13, m_strHisShowName[12]);
-    DDX_Text(pDX, IDC_HISSHOW14, m_strHisShowName[13]);
-    DDX_Text(pDX, IDC_HISSHOW15, m_strHisShowName[14]);
-    DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[0]);
-    DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[1]);
-    DDX_Text(pDX, IDC_HISEDIT03, m_strHisShowValue[2]);
-    DDX_Text(pDX, IDC_HISEDIT04, m_strHisShowValue[3]);
-    DDX_Text(pDX, IDC_HISEDIT05, m_strHisShowValue[4]);
-    DDX_Text(pDX, IDC_HISEDIT06, m_strHisShowValue[5]);
-    DDX_Text(pDX, IDC_HISEDIT07, m_strHisShowValue[6]);
-    DDX_Text(pDX, IDC_HISEDIT08, m_strHisShowValue[7]);
-    DDX_Text(pDX, IDC_HISEDIT09, m_strHisShowValue[8]);
-    DDX_Text(pDX, IDC_HISEDIT10, m_strHisShowValue[9]);
-    DDX_Text(pDX, IDC_HISEDIT11, m_strHisShowValue[10]);
-    DDX_Text(pDX, IDC_HISEDIT12, m_strHisShowValue[11]);
-    DDX_Text(pDX, IDC_HISEDIT13, m_strHisShowValue[12]);
-    DDX_Text(pDX, IDC_HISEDIT14, m_strHisShowValue[13]);
-    DDX_Text(pDX, IDC_HISEDIT15, m_strHisShowValue[14]);
+    DDX_Text(pDX, IDC_HISSHOW01, m_strHisShowName[1]);
+    DDX_Text(pDX, IDC_HISSHOW02, m_strHisShowName[2]);
+    DDX_Text(pDX, IDC_HISSHOW03, m_strHisShowName[3]);
+    DDX_Text(pDX, IDC_HISSHOW04, m_strHisShowName[4]);
+    DDX_Text(pDX, IDC_HISSHOW05, m_strHisShowName[5]);
+    DDX_Text(pDX, IDC_HISSHOW06, m_strHisShowName[6]);
+    DDX_Text(pDX, IDC_HISSHOW07, m_strHisShowName[7]);
+    DDX_Text(pDX, IDC_HISSHOW08, m_strHisShowName[8]);
+    DDX_Text(pDX, IDC_HISSHOW09, m_strHisShowName[9]);
+    DDX_Text(pDX, IDC_HISSHOW10, m_strHisShowName[10]);
+    DDX_Text(pDX, IDC_HISSHOW11, m_strHisShowName[11]);
+    DDX_Text(pDX, IDC_HISSHOW12, m_strHisShowName[12]);
+    DDX_Text(pDX, IDC_HISSHOW13, m_strHisShowName[13]);
+    DDX_Text(pDX, IDC_HISSHOW14, m_strHisShowName[14]);
+    DDX_Text(pDX, IDC_HISSHOW15, m_strHisShowName[15]);
+    DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[1]);
+    DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[2]);
+    DDX_Text(pDX, IDC_HISEDIT03, m_strHisShowValue[3]);
+    DDX_Text(pDX, IDC_HISEDIT04, m_strHisShowValue[4]);
+    DDX_Text(pDX, IDC_HISEDIT05, m_strHisShowValue[5]);
+    DDX_Text(pDX, IDC_HISEDIT06, m_strHisShowValue[6]);
+    DDX_Text(pDX, IDC_HISEDIT07, m_strHisShowValue[7]);
+    DDX_Text(pDX, IDC_HISEDIT08, m_strHisShowValue[8]);
+    DDX_Text(pDX, IDC_HISEDIT09, m_strHisShowValue[9]);
+    DDX_Text(pDX, IDC_HISEDIT10, m_strHisShowValue[10]);
+    DDX_Text(pDX, IDC_HISEDIT11, m_strHisShowValue[11]);
+    DDX_Text(pDX, IDC_HISEDIT12, m_strHisShowValue[12]);
+    DDX_Text(pDX, IDC_HISEDIT13, m_strHisShowValue[13]);
+    DDX_Text(pDX, IDC_HISEDIT14, m_strHisShowValue[14]);
+    DDX_Text(pDX, IDC_HISEDIT15, m_strHisShowValue[15]);
     //}}AFX_DATA_MAP
 }
 
@@ -184,21 +183,22 @@ void CDlgHisGrp::EmptyIPEdit()
 
 void CDlgHisGrp::UpdateDlgLabel()
 {
-    switch(theApp.m_nLangType)
+    m_strLBG1 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
+    /*switch(g_tGlbCfg.nLangType)
     {
         case LANGUAGE_CHINESE:
-            m_strLBG1.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）",  theApp.m_strUnit);
+            m_strLBG1.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit);
             break;
         case LANGUAGE_ENGLISH:
-            m_strLBG1.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)",  theApp.m_strUnit);
+            m_strLBG1.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit);
             break;
-        /*case LANGUAGE_RUSSIAN:
-            m_strLBG1.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)",  theApp.m_strUnit);
-            break;*/
-    }
-    m_strLBG10 = theApp.m_strUnit;
-    m_strLBG22 = theApp.m_strUnit;
-    m_strLBG20 = theApp.m_strUnit;
+        case LANGUAGE_RUSSIAN:
+            m_strLBG1.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", g_tGlbCfg.strUnit);
+            break;
+    }*/
+    m_strLBG10 = g_tGlbCfg.strUnit.c_str();
+    m_strLBG22 = g_tGlbCfg.strUnit.c_str();
+    m_strLBG20 = g_tGlbCfg.strUnit.c_str();
 }
 
 /* 设置EDIT控件内容 */
@@ -209,7 +209,7 @@ void CDlgHisGrp::SetCurEdit()
 
     ASSERT_NULL(m_ptCurTorq);
 
-    m_strNo.Format("%d", m_tReadData.nCur);
+    m_strNo.Format("%d", g_tReadData.nCur);
     m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
     m_bToolBuck = m_ptCurTorq->btoolbuck();
     m_bCheckIP  = !m_ptCurTorq->bncheckip();
@@ -218,12 +218,12 @@ void CDlgHisGrp::SetCurEdit()
         m_bCheckIP = FALSE;
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     /* 显示参数 */
-    for(i=0; i<m_ptCurTorq->tshow_size() && i<MAXPARANUM; i++)
+    for(i=1; i<=m_ptCurTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         m_strHisShowName[i]  = theApp.GetTorqShowName(m_ptCurTorq, i);
         m_strHisShowValue[i] = theApp.GetTorqShowValue(m_ptCurTorq, i);
     }
-    m_strQuality    = theApp.GetQualityInfo(m_ptCurTorq);
+    m_strQuality    = theApp.GetQualityInfo(m_ptCurTorq).c_str();
     m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
 
     GET_CTRL_TORQ(fTorq, m_ptCurTorq);
@@ -275,6 +275,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
     m_wndLineHis.m_fMaxLimit    = m_ptCurTorq->fmaxlimit();         /* 最大上限 */
     m_wndLineHis.m_fUpperTai    = m_ptCurTorq->fuppertai();         /* 最大台阶 */
     m_wndLineHis.m_fLowerTai    = m_ptCurTorq->flowertai();         /* 最小台阶 */
+    m_wndLineHis.m_bCheckIP     = !m_ptCurTorq->bncheckip();
 
     m_wndLineHis.SetBkColor(RGB(255,255,255));
     m_wndLineHis.m_bBKLine = FALSE;
@@ -314,30 +315,30 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG *ptCfg)
     ptCtrl = &ptCfg->tCtrl;
     ptComm = &ptCfg->tComm;
 
-    m_wndLineHis.m_fUpperLimit = ptCtrl->fUpperLimit;     /* 最大扭矩 */
-    m_wndLineHis.m_fLowerLimit = ptCtrl->fLowerLimit;     /* 最小扭矩 */
-    m_wndLineHis.m_fOptTorq    = ptCtrl->fOptTorq;        /* 最佳扭矩 */
-    m_wndLineHis.m_fSpeedDown  = ptCtrl->fSpeedDown;      /* 减速扭矩 */
-    m_wndLineHis.m_fShow       = ptCtrl->fShow;           /* 显示扭矩 */
-    m_wndLineHis.m_fBear       = ptCtrl->fBear;           /* 肩负扭矩 */
-    m_wndLineHis.m_fControlCir = ptCtrl->fControlCir;     /* 控制周数 */
-    m_wndLineHis.m_fUpperCir   = ptCtrl->fUpperCir;       /* 上限周数 */
-    m_wndLineHis.m_fLowerCir   = ptCtrl->fLowerCir;       /* 下限周数 */
-    m_wndLineHis.m_fMaxCir     = ptCtrl->fMaxCir;         /* 最大周数 */
-    m_wndLineHis.m_fWidthCir   = ptCtrl->fMaxCir;
-    m_wndLineHis.m_fMaxLimit   = ptCtrl->fMaxLimit;       /* 最大上限 */
-    m_wndLineHis.m_fBear       = ptCtrl->fBear;           /* 肩负扭矩 */
+    m_wndLineHis.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
+    m_wndLineHis.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
+    m_wndLineHis.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
+    m_wndLineHis.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
+    m_wndLineHis.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
+    m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    m_wndLineHis.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* 控制周数 */
+    m_wndLineHis.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
+    m_wndLineHis.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
+    m_wndLineHis.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
+    m_wndLineHis.m_fWidthCir   = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
+    m_wndLineHis.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
+    m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    m_wndLineHis.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
+    m_wndLineHis.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
+    m_wndLineHis.m_bCheckIP    = false;
 
-    m_wndLineHis.m_fUpperTai   = ptComm->fUpperTai;       /* 最大台阶 */
-    m_wndLineHis.m_fLowerTai   = ptComm->fLowerTai;       /* 最小台阶 */
-
-    m_wndLineHis.Add(RGB(255,255,255),ptCtrl->fMaxLimit, 0.0, LINETYPE_HISG);
-    m_xHisAxis1.SetTickPara(10,ptCtrl->fMaxCir);
-    m_yHisAxis1.SetTickPara(20,ptCtrl->fMaxLimit);
+    m_wndLineHis.Add(RGB(255,255,255),ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_HISG);
+    m_xHisAxis1.SetTickPara(10,ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
+    m_yHisAxis1.SetTickPara(20,ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
     m_wndLineHis.DrawBkLine();
-    m_wndRpmHis.Add(RGB(255,255,255),ptCtrl->fMaxRPM, 0.0);
-    m_xHisAxis2.SetTickPara(10,ptCtrl->fMaxCir);
-    m_yHisAxis2.SetTickPara(3,ptCtrl->fMaxRPM);
+    m_wndRpmHis.Add(RGB(255,255,255),ptCtrl->fFullRPM, 0.0);
+    m_xHisAxis2.SetTickPara(10,ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
+    m_yHisAxis2.SetTickPara(3,ptCtrl->fFullRPM);
     m_wndRpmHis.DrawBkLine();
 
     UpdateDlgLabel();
@@ -355,9 +356,9 @@ BOOL CDlgHisGrp::OnSetActive()
 /* 查看前一个数据 */
 void CDlgHisGrp::OnBtnpri()
 {
-    if(m_tReadData.nCur > 1)
+    if(g_tReadData.nCur > 1)
     {
-        m_tReadData.nCur--;
+        g_tReadData.nCur--;
         ShowCurData(TRUE);
         return;
     }
@@ -370,9 +371,9 @@ void CDlgHisGrp::OnBtnpri()
 /* 查看后一个数据 */
 void CDlgHisGrp::OnBtnnext()
 {
-    if(m_tReadData.nCur < m_tReadData.nTotal)
+    if(g_tReadData.nCur < g_tReadData.nTotal)
     {
-        m_tReadData.nCur++;
+        g_tReadData.nCur++;
         ShowCurData(TRUE);
         return;
     }
@@ -400,7 +401,7 @@ BOOL CDlgHisGrp::CheckCurData(UINT *pnCur, UINT nMax)
     }
 
     /* 游标保护 */
-    if(m_tReadData.nCur > 1)
+    if(g_tReadData.nCur > 1)
     {
         GetDlgItem(IDC_BTNPRI)->EnableWindow(TRUE);
     }
@@ -542,13 +543,13 @@ WORD CDlgHisGrp::DrawCurInflection(int iBegin, int iEnd)
         wSchDraw = (int)ceil(wSchDraw / m_ptCurTorq->fplus() / m_ptCurTorq->fmaxcir() * MAXLINEITEM);
     }
 
-    if( (theApp.m_nIPShowMode & 0x01) &&
+    if( (g_tGlbCfg.nIPShowMode & 0x01) &&
         (wIPDraw > iBegin) &&
         (wIPDraw < iEnd))
     {
         m_wndLineHis.DrawInflection(wIPDraw-iBegin, fDelCir, m_nIPTorq);
     }
-    if( (theApp.m_nIPShowMode & 0x02) &&
+    if( (g_tGlbCfg.nIPShowMode & 0x02) &&
         (wSchDraw > iBegin) &&
         (wSchDraw < iEnd))
     {
@@ -602,17 +603,17 @@ void CDlgHisGrp::ShowCurData(BOOL bNew)
     char    aucTemp[250];
 
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
-    COMP_BFALSE(CheckCurData(&m_tReadData.nCur, m_tReadData.nTotal));
+    COMP_BFALSE(CheckCurData(&g_tReadData.nCur, g_tReadData.nTotal));
 
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
-    m_ptCurDraw = theApp.GetDrawDataFromTorq(m_tReadData.nCur - 1);
+    m_ptCurDraw = theApp.GetDrawDataFromTorq(g_tReadData.nCur - 1);
     ASSERT_NULL(m_ptCurDraw);
     m_ptCurTorq = m_ptCurDraw->ptOrgTorq;
     ASSERT_NULL(m_ptCurTorq);
 
     if(bNew)
     {
-        m_tCurSplit = m_tReadData.tSplit[m_tReadData.nCur-1];
+        m_tCurSplit = g_tReadData.tSplit[g_tReadData.nCur-1];
         m_wndLineHis.ClearSelPnt();
     }
 
@@ -702,7 +703,7 @@ void CDlgHisGrp::OnBtnsaveimg()
 
     hdc = dc.m_hDC;
     hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
-    strNo.Format(IDS_STRPNGNAME, m_strFileName, m_tReadData.nCur);
+    strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
 
     strFileName = theApp.GetSaveDataPath();
     strFileName += strNo;
@@ -785,18 +786,18 @@ void CDlgHisGrp::OnModRemark()
             m_ptCurTorq->set_dwquality(2 << (dlgRemark.m_iCause-1));
         }
     }
-    m_strQuality = theApp.GetQualityInfo(m_ptCurTorq);
+    m_strQuality = theApp.GetQualityInfo(m_ptCurTorq).c_str();
 
     if(bModified)
     {
-        theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur,m_ptCurTorq);
+        theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur,m_ptCurTorq);
         ShowCurData(FALSE);
     }
 
     /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
     COMP_BE(iQuality, dlgRemark.m_iQuality);
 
-    iWellIndex = theApp.GetMainWellIndexfromData(theApp.m_ptCurShow->strMain[MAINSHOWWELL].c_str(), m_ptCurTorq);
+    iWellIndex = theApp.GetMainWellIndexfromData(MAINSHOWWELL, m_ptCurTorq);
     COMP_BE(iWellIndex, -1);
 
     pSheet = (CPropertySheet*)GetOwner();
@@ -821,7 +822,7 @@ void CDlgHisGrp::OnEnKillfocusHisipper()
 
     UpdateData(FALSE);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur,m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur,m_ptCurTorq);
 }
 
 /* 左键单击 wParam :True 显示/ false: 不显示 */
@@ -861,7 +862,7 @@ LRESULT CDlgHisGrp::InterPtChange(WPARAM wParam, LPARAM lParam)
 
     ASSERT_ZERO_R(lParam, 0);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur,m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur,m_ptCurTorq);
     UpdateData(FALSE);
 
     return 0;
@@ -990,7 +991,7 @@ void CDlgHisGrp::PrintOneImage(UINT *pnCur, UINT nIndex, UINT nMax, int iTmpNo)
     {
         if(pnCur[i] == 0)
             break;
-        m_tReadData.nCur = pnCur[i];
+        g_tReadData.nCur = pnCur[i];
         ShowCurData(TRUE);
         RedrawWindow();
 
@@ -1012,7 +1013,7 @@ void CDlgHisGrp::PrintOneImage(UINT *pnCur, UINT nIndex, UINT nMax, int iTmpNo)
         StretchBlt(hMemDC, iDestX*(iWidth + iTabW), iDestY*(iHeight + iTabH), iWidth, iHeight,
                    hSrcDC,0,0,iWidth,iHeight,SRCCOPY );
 
-        if(pnCur[i] >= m_tReadData.nTotal || pnCur[i+1] == 0)
+        if(pnCur[i] >= g_tReadData.nTotal || pnCur[i+1] == 0)
             break;
     }
 
@@ -1063,11 +1064,11 @@ void CDlgHisGrp::PrintLineImg(UINT *pnSel, UINT nSelCount)
 
     for(i=0; i<nSelCount; i++)
     {
-        m_tReadData.nCur = pnSel[i];
+        g_tReadData.nCur = pnSel[i];
         ShowCurData(TRUE);
         RedrawWindow();
 
-        strNo.Format(IDS_STRPNGNAME, m_strFileName, m_tReadData.nCur);
+        strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
         strTempName = theApp.GetSaveDataPath() + strNo;
 
         theApp.CopyDCToPNGFile(hdc, pnSel[i], strTempName, &rcClt, hMemDC, hBitmap);
@@ -1092,12 +1093,12 @@ void CDlgHisGrp::OnBnClickedCheckippoint()
     UpdateData(TRUE);
     if(!m_bCheckIP)
     {
-        m_ptCurTorq->set_bncheckip(1);
+        m_ptCurTorq->set_bncheckip(true);
         theApp.SetIPInfo(m_ptCurTorq, 0);
     }
     else    /* 重新搜索拐点 */
     {
-        m_ptCurTorq->set_bncheckip(0);
+        m_ptCurTorq->set_bncheckip(false);
         wIPPos = theApp.SearchDeltaIP(m_ptCurTorq, m_bCheckIP);
         theApp.SetIPInfo(m_ptCurTorq, m_ptCurTorq->ftorque(wIPPos));
     }
@@ -1106,9 +1107,9 @@ void CDlgHisGrp::OnBnClickedCheckippoint()
     dwQuality = theApp.JudgeQuality(m_ptCurTorq, m_bShackle);
     m_ptCurTorq->set_dwquality(dwQuality);
 
-    m_strQuality    = theApp.GetQualityInfo(m_ptCurTorq);
+    m_strQuality    = theApp.GetQualityInfo(m_ptCurTorq).c_str();
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 
     DrawCurTorque();
 
@@ -1124,7 +1125,7 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
     if(m_bToolBuck)
         m_ptCurTorq->set_btoolbuck(1);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnBnClickedCheckshackle()
@@ -1136,7 +1137,7 @@ void CDlgHisGrp::OnBnClickedCheckshackle()
     if(m_bShackle)
         m_ptCurTorq->set_bshackle(1);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnEnKillfocusHismemo()
@@ -1148,7 +1149,7 @@ void CDlgHisGrp::OnEnKillfocusHismemo()
     m_ptCurTorq->set_strmemo(m_strMemo);
 
     UpdateData(FALSE);
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), m_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnStnClickedPriorsplit()

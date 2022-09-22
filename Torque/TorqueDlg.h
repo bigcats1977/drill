@@ -20,133 +20,6 @@
 
 //#define  TESTRUN   /* 测试定义宏值 */
 
-#define STEPTORQUE      20  /* 削平突起时，后一个数据比前一个数据累增的步长 */
-#define PRIKETORQ       500 /* 小于这个扭矩且小于台阶扭矩，不削平 */
-
-/* MODBUS自定义命令 */
-#define COM_READ        0x0001  /* 读取数据 */
-#define COM_ADJUST      0x0002  /* 校准倍数 */
-#define COM_QIPI        0x0003  /* 去皮 */
-#define COM_COLLECT     0x0004  /* 采集单片机数据 */
-#define COM_SHOW        0x0005  /* 显示扭矩 */
-#define COM_SPEED       0x0006  /* 减速扭矩 */
-#define COM_CONTROL     0x0007  /* 控制扭矩 */
-#define COM_BSPEED      0x0008  /* 开始减速控制 */
-#define COM_ESPEED      0x0009  /* 停止减速控制 */
-#define COM_BUNLOAD     0x000A  /* 开始卸荷控制 */
-#define COM_EUNLOAD     0x000B  /* 停止卸荷控制 */
-#define COM_UPPER       0x000C  /* 上限扭矩 */
-#define COM_LOWER       0x000D  /* 下限扭矩 */
-#define COM_CUT         0x000E  /* 打折系数 */
-#define COM_TIME        0x000F  /* 设置时间 */
-#define COM_VPRESS      0x0010  /* 减压阀 */
-#define COM_VFLOW       0x0011  /* 流量阀 */
-#define COM_VZOOM       0x0012  /* 放大倍数 */
-#define COM_READVALVE   0x0014  /* 读取阀门状态 */
-#define COM_READMULTI   0x0015  /* 读取多组数据 */
-#define COM_WRITECALIB  0x0017  /* 分段校准 写 */
-#define COM_CTRLCALIB   0x0018  /* 分段校准控制 */
-#define COM_READCALIB   0x0019  /* 分段校准 读 */
-/* 单片机命令定义 */
-#define SCMREAD         15      /* 读取数据 */
-#define SCMADJUST       16      /* 校准 */
-#define SCMQIPI         17      /* 去皮 */
-#define SCMCOLLECT      18      /* 采集数据 */
-#define SCMSHOW         19      /* 显示扭矩 */
-#define SCMSPEED        20      /* 减速扭矩 */
-#define SCMCONTROL      21      /* 控制扭矩 */
-#define SCMBSPEED       22      /* 开始减速 */
-#define SCMESPEED       23      /* 停止减速 */
-#define SCMBUNLOAD      24      /* 开始卸荷 */
-#define SCMEUNLOAD      25      /* 停止卸荷 */
-#define SCMUPPER        26      /* 上限扭矩 */
-#define SCMLOWER        27      /* 下限扭矩 */
-#define SCMCUT          28      /* 打折系数 */
-#define SCMCOLLECTOK    29      /* 收到有效数据再次采集数据：最后一次确认后不需要再次收到数据 */
-#define SCMCOLLECTNOK   30      /* 收到无效数据再次采集数据 */
-#define SCMTIME         31      /* 设置单片机时间 */
-#define SCMVPRESS       32      /* 减压阀 */
-#define SCMVFLOW        33      /* 流量阀 */
-#define SCMREADVALVE    34      /* 读取阀门状态 */
-#define SCMREADMULTI    35      /* 读取多组数据 */
-#define SCMWRITECALIB   36      /* 写分段校准 */
-#define SCMCTRLCALIB    37      /* 分段校准控制 */
-#define SCMREADCALIB    38      /* 读分段校准 */
-// #define SCMVZOOM        34      /* 放大倍数 */
-/*#define CIRNUMS         4615.4*/    /* 1200脉冲为一小周,100小周为26大周,1200/0.26= */
-
-#define RS_COMM_CLOSE   0   /* 串口关闭 */
-#define RS_COMM_OPEN    1   /* 串口打开 */
-/* 串口测试打开，值为 m_nTestFunc+1 */
-#define RS_COMM_RAND    2   /* COLL_RAND+1 */
-#define RS_COMM_TORQUE  3   /* COLL_TORQUE+1 */
-#define RS_COMM_HISTORY 4   /* COLL_HISTORY+1 */
-#define RS_COMM_MULTITORQ  5   /* COLL_MULTITORQ+1 */
-/* #define COLL_RAND           1
-   #define COLL_TORQUE         2
-   #define COLL_HISTORY        3
-   #define COLL_MULTITORQ      4
-*/
-
-/* 目前低4位有效，由高到低分别代表：卸扣、上扣、流量阀、压力阀、卸荷阀、减速阀。=1 表示错误 */
-#define VALVEMAXNUM             6
-#define VALVESTATUS_SPEED       0x0001
-#define VALVESTATUS_UNLOAD      0x0002
-#define VALVESTATUS_PRESS       0x0004
-#define VALVESTATUS_FLOW        0x0008
-#define VALVESTATUS_MAKEUP      0x0010
-#define VALVESTATUS_BREAKOUT    0x0020
-
-#define PORTOPR_OPEN    0   /* 打开串口 */
-#define PORTOPR_CLOSE   1   /* 关闭串口 */
-#define PORTOPR_MAXNUM  (PORTOPR_CLOSE +1)
-
-#define COLLECTPOINTS   5*MAXLINEITEM
-#define TESTNUM         COLLECTPOINTS
-
-/*
-    0：待机/反转、数据丢弃
-    1：正常显示；
-    2：减速
-    3：卸荷
-    4: 抱死
-    CC: 上扣/卸扣反转，扭矩奇数/偶数互换
-    F0: 多个数据时，数据重复，该条数据需要跳过continue
-    FE:卸扣结束254
-    FF:CRC ERROR
-*/
-#define     PLCSTATUS_WAIT      0
-#define     PLCSTATUS_NORMAL    1
-#define     PLCSTATUS_DECEL     2
-#define     PLCSTATUS_UNLOAD    3
-#define     PLCSTATUS_LOCKON    4
-#define     PLCSTATUS_REVERSE   0xCC
-#define     PLCSTATUS_REPEAT    0xF0
-#define     PLCSTATUS_BREAKOUT  0xFE
-#define     PLCSTATUS_CRCERR    0xFF
-
-typedef struct tagCOLLECTORQUE
-{
-    UINT        nCurCount;
-    UINT        nAllCount;
-    DWORD       dwQuality;
-    CTime       tTime;
-    double      fTorque[COLLECTPOINTS];
-    double      fRpm[COLLECTPOINTS];
-    PARACFG     tParaCfg;
-}COLLECTTORQUE;
-
-#define         COLLPORTNUM     50000
-typedef struct tagPORTDATA
-{
-    UINT        nSaveCount;
-    UINT        nLastPlus;
-    double      fTorque[COLLPORTNUM];
-    double      fRpm[COLLPORTNUM];
-    int         iDelPlus[COLLPORTNUM];
-}PORTDATA;
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueDlg dialog
 class CTorqueDlg : public CDialog
@@ -309,6 +182,8 @@ protected:
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
     afx_msg void OnSegcalib();
+    afx_msg void OnTubeCfg();
+    afx_msg void OnGlbCfg();
     DECLARE_MESSAGE_MAP()
 
 private:
@@ -380,6 +255,7 @@ private:
     void StopPlayAlam();
     int  GetIPPlus(TorqData::Torque *ptTorq, WORD wIPPos);
     double OverTorqOpt(double fTorq, BYTE ucStatus);
+    BOOL   JudgeRunStatus(unsigned wInfo);
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/
@@ -409,7 +285,8 @@ private:
     BOOL            m_bAlarm;           /* 是否需要告警 */
 
     /* theApp全局变量指针，方便引用 */
-    SHOWCFG         *m_ptShowCfg;
+    SHOWCFG         *m_ptShow;
+    PARACFG         *m_ptCfg;
     CONTROLPARA     *m_ptCtrl;
     COMMONCFG       *m_ptComm;
     COLLECTTORQUE   m_tCollData;        /* 当前的扭矩结构数据，可以超过正常图形4倍 */

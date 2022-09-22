@@ -79,7 +79,7 @@ private:
     void InitStatRange(double fMin, double fCtrl, double fMax);
     void GetStatType();
     void DrawStatFlow(CTChart *ptChart, CString strRatio[], CString strLabel[], UINT pnNum[]);
-    void DrawStatTorq(LISTINT listNo);
+    void DrawStatTorq(vector<int> listNo);
     void UpdateDlgLabel();
     BOOL IsSelType(TorqData::Torque *ptTorq);   /* 是否是选中的类型 */
     

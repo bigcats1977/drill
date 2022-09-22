@@ -94,6 +94,9 @@ void CDlgValveSet::OnBnClickedBtnvalve()
 
     //m_tempValve.ucZoomRatio   = m_ucZoomRatio;
 
+    if (!theDB.UpdateValvePara(&m_tempValve))
+        return;
+
     CDialog::OnOK();
 }
 

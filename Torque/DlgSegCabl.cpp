@@ -30,10 +30,11 @@ CDlgSegCabl::~CDlgSegCabl()
 BOOL CDlgSegCabl::OnInitDialog()
 {
     int         i  = 0;
-    CString     strInfo;
-    CString     strHead;
+    //string      strInfo;
+    string      strHead;
     CRect       rcView;
     int         iWidth  = 0;
+    char buffer[MAX_LOADSTRING];
 
     CDialogEx::OnInitDialog();
 
@@ -44,8 +45,8 @@ BOOL CDlgSegCabl::OnInitDialog()
 
     for (i = 0; i < MAXSEGNUM; i++)
     {
-        strInfo.Format("%d", i+1);
-        m_cbSegment.AddString(strInfo);
+        //strInfo.Format("%d", i+1);
+        m_cbSegment.AddString(to_string(i+1).c_str());
     }
     m_cbSegment.SetCurSel(0);
 
@@ -54,9 +55,11 @@ BOOL CDlgSegCabl::OnInitDialog()
     iWidth = (int)(rcView.Width()/4.2);
     m_lsCalibInfo.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_UNDERLINEHOT);
     // "类型,%d;段号,%d;校准扭矩,%d;A/D扭矩,%d;最小扭矩,%d;最大扭矩,%d;"
-    strHead.Format(IDS_STRCALIBLISTHEAD,int(iWidth*0.4),int(iWidth*0.4),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8));
-
-    m_lsCalibInfo.SetHeadings(strHead);
+    //strHead.Format(IDS_STRCALIBLISTHEAD,int(iWidth*0.4),int(iWidth*0.4),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8));
+    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
+             int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));
+    strHead = buffer;
+    m_lsCalibInfo.SetHeadings(strHead.c_str());
     m_lsCalibInfo.LoadColumnInfo();
 
     g_ptCalParentDlg = (CTorqueDlg *)GetParent();
@@ -252,7 +255,7 @@ void CDlgSegCabl::OnBnClickedBtncalibbegin()
 
     if(!g_ptCalParentDlg->SendData(SCMCTRLCALIB))
     {
-        AfxMessageBox(IDS_STRCALIBSENDFAIL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
         return;
     }
 
@@ -271,7 +274,7 @@ void CDlgSegCabl::OnBnClickedBtncalibfin()
 
     if(!g_ptCalParentDlg->SendData(SCMCTRLCALIB))
     {
-        AfxMessageBox(IDS_STRCALIBSENDFAIL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
         return;
     }
 
@@ -286,7 +289,7 @@ void CDlgSegCabl::OnBnClickedBtncalibgo()
 
     if(!CheckTorqValue())
     {
-        AfxMessageBox(IDS_STRCALIBERRORINPUT);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBERRORINPUT).c_str());
         return;
     }
 
@@ -298,7 +301,7 @@ void CDlgSegCabl::OnBnClickedBtncalibgo()
     theApp.m_tCalibCtrl.tInfo.iSCMTorq = 0;
     if(!g_ptCalParentDlg->SendData(SCMWRITECALIB))
     {
-        AfxMessageBox(IDS_STRCALIBSENDFAIL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
     }
 }
 
@@ -312,7 +315,7 @@ void CDlgSegCabl::OnBnClickedBtncalibread()
 
     if(!g_ptCalParentDlg->SendData(SCMREADCALIB))
     {
-        AfxMessageBox(IDS_STRCALIBSENDFAIL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
     }
     Sleep(200);
 #if 0
@@ -332,19 +335,24 @@ void CDlgSegCabl::OnBnClickedBtncalibread()
 #endif
 }
 
-BOOL CDlgSegCabl::CheckReadCalib(CALIBCTRL *ptRead, CString &strError)
+BOOL CDlgSegCabl::CheckReadCalib(CALIBCTRL *ptRead, string &strError)
 {
+    stringstream ss;
     ASSERT_NULL_R(ptRead, FALSE);
 
     if(ptRead->ucType != m_iType)
     {
-        strError.Format("CurType:%d, RcvType:%d", m_iType, ptRead->ucType);
+        ss << "CurType:" << m_iType << "RcvType:" << ptRead->ucType;
+        strError = ss.str();
+        //strError.Format("CurType:%d, RcvType:%d", m_iType, ptRead->ucType);
         return FALSE;
     }
 
     if(ptRead->tInfo.ucSegNO != m_ucCurSeg)
     {
-        strError.Format("CurSeg:%d, RcvSeg:%d", m_ucCurSeg, ptRead->tInfo.ucSegNO);
+        ss << "CurSeg:" << m_ucCurSeg << "RcvSeg:" << ptRead->tInfo.ucSegNO;
+        strError = ss.str();
+        //strError.Format("CurSeg:%d, RcvSeg:%d", m_ucCurSeg, ptRead->tInfo.ucSegNO);
         return FALSE;
     }
 
@@ -357,8 +365,8 @@ LRESULT CDlgSegCabl::ProcReadCalib(WPARAM wParam, LPARAM lParam)
     CALIBCTRL tRead     = {0};
     UINT    nCalibTorq  = 0;
     UINT    nSCMTorq    = 0;
-    CString strError;
-    CString strInfo;
+    string  strError;
+    string  strInfo;
     CALIBINFO   *ptCurCabli = NULL;
 
     ASSERT_NULL_R(g_ptCalParentDlg, 0);
@@ -377,8 +385,10 @@ LRESULT CDlgSegCabl::ProcReadCalib(WPARAM wParam, LPARAM lParam)
 
     if(!CheckReadCalib(&tRead, strError))
     {
-        strInfo.Format(IDS_STRCALIBREADERROR, strError);
-        AfxMessageBox(strInfo);
+        //strInfo.Format(IDS_STRCALIBREADERROR, strError);
+        //AfxMessageBox(strInfo);
+        strInfo = theApp.LoadstringFromRes(IDS_STRCALIBREADERROR, strError);
+        AfxMessageBox(strInfo.c_str());
         return 1;
     }
 
@@ -536,7 +546,7 @@ void CDlgSegCabl::OnTimer(UINT_PTR nIDEvent)
         if(!g_ptCalParentDlg->SendData(SCMWRITECALIB))
         {
             KillTimer(SETCALIB_TIMER);
-            AfxMessageBox(IDS_STRCALIBSENDFAIL);
+            AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
             return;
         }
     }
@@ -547,7 +557,7 @@ void CDlgSegCabl::OnTimer(UINT_PTR nIDEvent)
     {
         UpdateCalibList();
         KillTimer(SETCALIB_TIMER);
-        AfxMessageBox(IDS_STRCALIBIMPSUCC);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBIMPSUCC).c_str());
     }
 
     CDialogEx::OnTimer(nIDEvent);

@@ -105,6 +105,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwdelplus_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwcolinter_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, llcoltime_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwver_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, btoolbuck_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, strmemo_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, strremark_),
@@ -173,7 +174,7 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016TorqData.proto\022\010TorqData\"-\n\010ShowInfo\022\020"
-      "\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\261\007\n\006To"
+      "\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\300\007\n\006To"
       "rque\022\017\n\007coltime\030\001 \001(\006\022\017\n\007dwSeqNo\030\002 \001(\005\022\021"
       "\n\tdwQuality\030\003 \001(\005\022\017\n\007dwIPPos\030\004 \001(\005\022\020\n\010fM"
       "axTorq\030\005 \001(\001\022\023\n\007fTorque\030\006 \003(\001B\002\020\001\022\020\n\004fRp"
@@ -181,26 +182,27 @@ void AddDescriptorsImpl() {
       "owInfo\022\021\n\tbegintime\030\t \001(\006\022\020\n\010dwIPTorq\030\n "
       "\001(\005\022\023\n\013dwTotalPlus\030\013 \001(\005\022\020\n\010dwIPPlus\030\014 \001"
       "(\005\022\025\n\tdwDelPlus\030\r \003(\005B\002\020\001\022\022\n\ndwColInter\030"
-      "\016 \001(\005\022\021\n\tllColTime\030\017 \001(\014\022\021\n\tbToolBuck\030\025 "
-      "\001(\010\022\017\n\007strMemo\030\026 \001(\014\022\021\n\tstrRemark\030\027 \001(\014\022"
-      "\021\n\tbNCheckIP\030\030 \001(\010\022\020\n\010bShackle\030\031 \001(\010\022\021\n\t"
-      "bTimeLine\030\032 \001(\010\022\022\n\ndwTorqUnit\030\033 \001(\005\022\021\n\tf"
-      "MaxLimit\030\037 \001(\001\022\023\n\013fUpperLimit\030  \001(\001\022\020\n\010f"
-      "Control\030! \001(\001\022\023\n\013fLowerLimit\030\" \001(\001\022\022\n\nfS"
-      "peedDown\030# \001(\001\022\r\n\005fShow\030$ \001(\001\022\r\n\005fBear\030%"
-      " \001(\001\022\021\n\tfUpperTai\030& \001(\001\022\021\n\tfLowerTai\030\' \001"
-      "(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007fMaxCir\030) \001(\001\022\021\n"
-      "\tfUpperCir\030* \001(\001\022\023\n\013fControlCir\030+ \001(\001\022\021\n"
-      "\tfLowerCir\030, \001(\001\022\020\n\010fMaxTime\030- \001(\001\022\022\n\nfU"
-      "pperTime\030. \001(\001\022\024\n\014fControlTime\030/ \001(\001\022\022\n\n"
-      "fLowerTime\0300 \001(\001\022\r\n\005fPlus\0303 \001(\001\022\017\n\007fMaxR"
-      "PM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n\007fRpmAdj\0306 \001(\001\022"
-      "\016\n\006fMulti\0307 \001(\001\022\024\n\014fMinShlSlope\030F \001(\001\022\024\n"
-      "\014fMaxDeltaCir\030G \001(\001\022\024\n\014fMinDeltaCir\030H \001("
-      "\001\022\022\n\nfMakeupDur\030I \001(\001b\006proto3"
+      "\016 \001(\005\022\021\n\tllColTime\030\017 \001(\014\022\r\n\005dwVer\030\020 \001(\005\022"
+      "\021\n\tbToolBuck\030\025 \001(\010\022\017\n\007strMemo\030\026 \001(\014\022\021\n\ts"
+      "trRemark\030\027 \001(\014\022\021\n\tbNCheckIP\030\030 \001(\010\022\020\n\010bSh"
+      "ackle\030\031 \001(\010\022\021\n\tbTimeLine\030\032 \001(\010\022\022\n\ndwTorq"
+      "Unit\030\033 \001(\005\022\021\n\tfMaxLimit\030\037 \001(\001\022\023\n\013fUpperL"
+      "imit\030  \001(\001\022\020\n\010fControl\030! \001(\001\022\023\n\013fLowerLi"
+      "mit\030\" \001(\001\022\022\n\nfSpeedDown\030# \001(\001\022\r\n\005fShow\030$"
+      " \001(\001\022\r\n\005fBear\030% \001(\001\022\021\n\tfUpperTai\030& \001(\001\022\021"
+      "\n\tfLowerTai\030\' \001(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007f"
+      "MaxCir\030) \001(\001\022\021\n\tfUpperCir\030* \001(\001\022\023\n\013fCont"
+      "rolCir\030+ \001(\001\022\021\n\tfLowerCir\030, \001(\001\022\020\n\010fMaxT"
+      "ime\030- \001(\001\022\022\n\nfUpperTime\030. \001(\001\022\024\n\014fContro"
+      "lTime\030/ \001(\001\022\022\n\nfLowerTime\0300 \001(\001\022\r\n\005fPlus"
+      "\0303 \001(\001\022\017\n\007fMaxRPM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n"
+      "\007fRpmAdj\0306 \001(\001\022\016\n\006fMulti\0307 \001(\001\022\024\n\014fMinSh"
+      "lSlope\030F \001(\001\022\024\n\014fMaxDeltaCir\030G \001(\001\022\024\n\014fM"
+      "inDeltaCir\030H \001(\001\022\022\n\nfMakeupDur\030I \001(\001b\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1029);
+      descriptor, 1044);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TorqData.proto", &protobuf_RegisterTypes);
 }
@@ -527,6 +529,7 @@ const int Torque::kDwIPPlusFieldNumber;
 const int Torque::kDwDelPlusFieldNumber;
 const int Torque::kDwColInterFieldNumber;
 const int Torque::kLlColTimeFieldNumber;
+const int Torque::kDwVerFieldNumber;
 const int Torque::kBToolBuckFieldNumber;
 const int Torque::kStrMemoFieldNumber;
 const int Torque::kStrRemarkFieldNumber;
@@ -885,6 +888,20 @@ bool Torque::MergePartialFromCodedStream(
             static_cast< ::google::protobuf::uint8>(122u /* 122 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_llcoltime()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 dwVer = 16;
+      case 16: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(128u /* 128 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &dwver_)));
         } else {
           goto handle_unusual;
         }
@@ -1481,6 +1498,11 @@ void Torque::SerializeWithCachedSizes(
       15, this->llcoltime(), output);
   }
 
+  // int32 dwVer = 16;
+  if (this->dwver() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(16, this->dwver(), output);
+  }
+
   // bool bToolBuck = 21;
   if (this->btoolbuck() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(21, this->btoolbuck(), output);
@@ -1769,6 +1791,11 @@ void Torque::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         15, this->llcoltime(), target);
+  }
+
+  // int32 dwVer = 16;
+  if (this->dwver() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(16, this->dwver(), target);
   }
 
   // bool bToolBuck = 21;
@@ -2106,6 +2133,13 @@ size_t Torque::ByteSizeLong() const {
         this->dwcolinter());
   }
 
+  // int32 dwVer = 16;
+  if (this->dwver() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->dwver());
+  }
+
   // bool bToolBuck = 21;
   if (this->btoolbuck() != 0) {
     total_size += 2 + 1;
@@ -2124,6 +2158,13 @@ size_t Torque::ByteSizeLong() const {
   // bool bTimeLine = 26;
   if (this->btimeline() != 0) {
     total_size += 2 + 1;
+  }
+
+  // int32 dwTorqUnit = 27;
+  if (this->dwtorqunit() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->dwtorqunit());
   }
 
   // double fMaxLimit = 31;
@@ -2214,13 +2255,6 @@ size_t Torque::ByteSizeLong() const {
   // double fLowerTime = 48;
   if (this->flowertime() != 0) {
     total_size += 2 + 8;
-  }
-
-  // int32 dwTorqUnit = 27;
-  if (this->dwtorqunit() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwtorqunit());
   }
 
   // double fPlus = 51;
@@ -2343,6 +2377,9 @@ void Torque::MergeFrom(const Torque& from) {
   if (from.dwcolinter() != 0) {
     set_dwcolinter(from.dwcolinter());
   }
+  if (from.dwver() != 0) {
+    set_dwver(from.dwver());
+  }
   if (from.btoolbuck() != 0) {
     set_btoolbuck(from.btoolbuck());
   }
@@ -2354,6 +2391,9 @@ void Torque::MergeFrom(const Torque& from) {
   }
   if (from.btimeline() != 0) {
     set_btimeline(from.btimeline());
+  }
+  if (from.dwtorqunit() != 0) {
+    set_dwtorqunit(from.dwtorqunit());
   }
   if (from.fmaxlimit() != 0) {
     set_fmaxlimit(from.fmaxlimit());
@@ -2408,9 +2448,6 @@ void Torque::MergeFrom(const Torque& from) {
   }
   if (from.flowertime() != 0) {
     set_flowertime(from.flowertime());
-  }
-  if (from.dwtorqunit() != 0) {
-    set_dwtorqunit(from.dwtorqunit());
   }
   if (from.fplus() != 0) {
     set_fplus(from.fplus());
@@ -2482,10 +2519,12 @@ void Torque::InternalSwap(Torque* other) {
   swap(dwtotalplus_, other->dwtotalplus_);
   swap(dwipplus_, other->dwipplus_);
   swap(dwcolinter_, other->dwcolinter_);
+  swap(dwver_, other->dwver_);
   swap(btoolbuck_, other->btoolbuck_);
   swap(bncheckip_, other->bncheckip_);
   swap(bshackle_, other->bshackle_);
   swap(btimeline_, other->btimeline_);
+  swap(dwtorqunit_, other->dwtorqunit_);
   swap(fmaxlimit_, other->fmaxlimit_);
   swap(fupperlimit_, other->fupperlimit_);
   swap(fcontrol_, other->fcontrol_);
@@ -2504,7 +2543,6 @@ void Torque::InternalSwap(Torque* other) {
   swap(fuppertime_, other->fuppertime_);
   swap(fcontroltime_, other->fcontroltime_);
   swap(flowertime_, other->flowertime_);
-  swap(dwtorqunit_, other->dwtorqunit_);
   swap(fplus_, other->fplus_);
   swap(fmaxrpm_, other->fmaxrpm_);
   swap(fcut_, other->fcut_);

@@ -76,16 +76,16 @@ void CDlgScm::OnScminitial()
     UpdateData(TRUE);
 
     BeginWaitCursor();
-    CHECK_PARA_CHANGE(ptCtrl->fControl,   m_fControl, bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fSpeedDown, m_fSpeed,   bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fShow,      m_fShow,    bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fUpperLimit,m_fUpper,   bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fLowerLimit,m_fLower,   bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],   m_fControl, bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN], m_fSpeed,   bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],      m_fShow,    bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT],m_fUpper,   bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT],m_fLower,   bChanged);
 
     if(bChanged)
     {
-        theApp.WritePara(theApp.m_strParaFile,m_ptParaCfg);
-        m_pParentDlg->ResetLineChart();
+        /*theApp.WritePara(theApp.m_strParaFile,m_ptParaCfg);
+        m_pParentDlg->ResetLineChart();*/
     }
 
     m_pParentDlg->SendAllCommand();
@@ -99,10 +99,10 @@ void CDlgScm::OnScmmulti()
     UpdateData(TRUE);
 
     BeginWaitCursor();
-    if(m_ptParaCfg->tComm.fMulti != m_fMulti)
+    if(g_tGlbCfg.fMulti != m_fMulti)
     {
-        m_ptParaCfg->tComm.fMulti = m_fMulti;
-        theApp.WritePara(theApp.m_strParaFile,m_ptParaCfg);
+        g_tGlbCfg.fMulti = m_fMulti;
+        theDB.UpdateGlobalPara();
     }
 
     m_pParentDlg->SendData(SCMADJUST);
@@ -131,11 +131,11 @@ BOOL CDlgScm::OnInitDialog()
     m_ptParaCfg  = &theApp.m_tParaCfg;
 
     m_fMulti     = 1.0/*m_ptParaCfg->fMulti*/;
-    m_fControl   = m_ptParaCfg->tCtrl.fControl;
-    m_fSpeed     = m_ptParaCfg->tCtrl.fSpeedDown;
-    m_fShow      = m_ptParaCfg->tCtrl.fShow;
-    m_fUpper     = m_ptParaCfg->tCtrl.fUpperLimit;
-    m_fLower     = m_ptParaCfg->tCtrl.fLowerLimit;
+    m_fControl   = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_CONTROL];
+    m_fSpeed     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN];
+    m_fShow      = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SHOW];
+    m_fUpper     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT];
+    m_fLower     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT];
 
     m_tDate      = CTime::GetCurrentTime();
     m_tTime      = m_tDate;

@@ -35,7 +35,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CLineChartCtrlEx window
 
-class CLineChartCtrlEx : public CWnd
+class CLineChartCtrlEx : public CLineChartCtrl
 {
 // Construction
 public:
@@ -45,13 +45,10 @@ public:
 
 // Attributes
 public:
-    LINECHARITEM    m_tItem;
-    int             m_iStaticX;
-    double          m_fOffset;
-    BOOL            m_bBKLine;
+    //LINECHARITEM    m_tItem;
+    bool            m_bCheckIP;
     BOOL            m_bIPLock;
     BYTE            m_uLineType;
-    BOOL            m_bShowIP;
 
     // Operations
 public:
@@ -63,16 +60,12 @@ public:
     //}}AFX_VIRTUAL
 // Implementation
 public:
-    UINT    SetPos(double fPos, BOOL bLast = FALSE);
     UINT    UpdatePos(double fPos);
-    void    InvalidateCtrl();
+    //void    InvalidateCtrl();
     void    DrawSpike(BOOL bStop = FALSE);
     BOOL    RemoveAt();
-    void    Go();
-    void    Erase();
     BOOL    Add(COLORREF clrLine, double fUpper, double fLower, BYTE uType = LINETYPE_MAIN);
     void    DrawBkLine();
-    void    SetBkColor(COLORREF clrBk);
     void    FinishDraw();
     void    DrawInflection(int iIPPos, double fDelIPCir, double fSetIPTorq = -1);//, COLORREF clrIP = IP_INFCOLOR);
     void    DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMaxCir, double fDeltaCir, double fSetZoomTorq = -1);
@@ -118,29 +111,20 @@ protected:
     DECLARE_MESSAGE_MAP()
     
 private:
+    //void    GetMemDC();
     void    DrawGridLine(COLORREF clrBk = LC_BKCOLOR);
     void    DrawHLine(int y);
     void    DrawVLine(int x);
-    void    ShowContent(COLORREF clrText, int y, CString strContent, UINT nLeftOffset=0);
     void    DrawControlLine();
     void    DrawAlarmLine();
     void    DrawTaiLine();
     void    DrawShowLine();
     void    DrawBearLine();
     void    ShowTorqNo();
-    void    GetMemDC();
     void    EraseLastOne();
     void    ShowVarPntText(COLORREF clrText, int x, int y, CString strContent);
     void    ShowRightPntText(COLORREF clrText, int x, int y, CString strContent);
 
-    
-    CDC         m_MemDC;
-    CBitmap     m_Bitmap;
-    COLORREF    m_clrBk;
-    
-    int         m_iChartWidth;
-    int         m_iChartHeight;
-    CRect       m_rcClient;
     CBitmap     m_bpCross;
     CBitmap     m_bpWCross;
     BITMAP      m_bmpInfo;
@@ -148,9 +132,7 @@ private:
     BOOL        m_bIPSeled;
     UINT        m_nSelPntNum;
     UINT        m_nSelPos[MAX_SHOWSELPOINTNUM];
-
-    BOOL        m_bLastPoint;
-    
+        
     UINT        m_nStartPoint;
 };
 

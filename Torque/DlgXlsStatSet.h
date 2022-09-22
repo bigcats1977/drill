@@ -19,7 +19,7 @@ public:
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGXLSSTATSET };
 #endif
-    CString m_strShowName[MAXPARANUM];
+    CString m_strShowName[MAXPARANUM];  // skip 0: factory range(1~m_iShowNum)
     BOOL m_bSummary[MAXPARANUM];
     CColorRadio m_clSummary[MAXPARANUM];
     BOOL m_bReport[MAXPARANUM];
@@ -33,7 +33,6 @@ protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedOk();
-    afx_msg void OnBnClickedCheckrpt0();
     afx_msg void OnBnClickedCheckrpt1();
     afx_msg void OnBnClickedCheckrpt2();
     afx_msg void OnBnClickedCheckrpt3();
@@ -48,7 +47,7 @@ protected:
     afx_msg void OnBnClickedCheckrpt12();
     afx_msg void OnBnClickedCheckrpt13();
     afx_msg void OnBnClickedCheckrpt14();
-    afx_msg void OnBnClickedChecksumm0();
+    afx_msg void OnBnClickedCheckrpt15();
     afx_msg void OnBnClickedChecksumm1();
     afx_msg void OnBnClickedChecksumm2();
     afx_msg void OnBnClickedChecksumm3();
@@ -63,7 +62,7 @@ protected:
     afx_msg void OnBnClickedChecksumm12();
     afx_msg void OnBnClickedChecksumm13();
     afx_msg void OnBnClickedChecksumm14();
-    afx_msg void OnBnClickedRadiooper0();
+    afx_msg void OnBnClickedChecksumm15();
     afx_msg void OnBnClickedRadiooper1();
     afx_msg void OnBnClickedRadiooper2();
     afx_msg void OnBnClickedRadiooper3();
@@ -78,7 +77,7 @@ protected:
     afx_msg void OnBnClickedRadiooper12();
     afx_msg void OnBnClickedRadiooper13();
     afx_msg void OnBnClickedRadiooper14();
-    afx_msg void OnBnClickedRadiotally0();
+    afx_msg void OnBnClickedRadiooper15();
     afx_msg void OnBnClickedRadiotally1();
     afx_msg void OnBnClickedRadiotally2();
     afx_msg void OnBnClickedRadiotally3();
@@ -93,6 +92,7 @@ protected:
     afx_msg void OnBnClickedRadiotally12();
     afx_msg void OnBnClickedRadiotally13();
     afx_msg void OnBnClickedRadiotally14();
+    afx_msg void OnBnClickedRadiotally15();
     DECLARE_MESSAGE_MAP()
 
 private:

@@ -57,12 +57,6 @@ BOOL CDlgFuncTest::OnInitDialog()
     CDialog::OnInitDialog();
 
     // TODO: Add extra initialization here
-    m_btnUnloadE.SetShade(CShadeButtonST::SHS_HARDBUMP);
-    m_btnUnloadB.SetShade(CShadeButtonST::SHS_HARDBUMP);
-    m_btnSpeedE.SetShade(CShadeButtonST::SHS_HARDBUMP);
-    m_btnSpeedB.SetShade(CShadeButtonST::SHS_HARDBUMP);
-    m_btnAlarmE.SetShade(CShadeButtonST::SHS_HARDBUMP);
-    m_btnAlarmB.SetShade(CShadeButtonST::SHS_HARDBUMP);
     m_btnUnloadE.SetIcon(IDI_UNLOADE);
     m_btnUnloadB.SetIcon(IDI_UNLOADB);
     m_btnSpeedE.SetIcon(IDI_SPEEDE);

@@ -29,7 +29,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CLineChartCtrlStat window
 
-class CLineChartCtrlStat : public CWnd
+class CLineChartCtrlStat : public CLineChartCtrl
 {
 // Construction
 public:
@@ -39,10 +39,7 @@ public:
 
 // Attributes
 public:
-    LINECHARITEM    m_tItem;
-    int             m_iStaticX;
-    double          m_fOffset;
-    BOOL            m_bBKLine;
+    //LINECHARITEM    m_tItem;
 
     // Operations
 public:
@@ -56,15 +53,13 @@ public:
 public:
     //UINT    SetPos(double fPos, BOOL bLast = FALSE);
     //UINT    UpdatePos(double fPos);
-    void    InvalidateCtrl();
     //void    DrawSpike();
     BOOL    RemoveAt();
     //void    Go();
     BOOL    Add(COLORREF clrLine, double fUpper, double fLower);
     void    DrawBkLine();
-    void    SetBkColor(COLORREF clrBk);
     //void    FinishDraw();
-    void    DrawMultiData(TORQUEDATA *ptTorqData, LISTINT liNO);
+    void    DrawMultiData(TORQUEDATA *ptTorqData, vector<int> liNO);
     void    DrawMultiScatter(TORQUEDATA *ptTorqData);
 
 public:
@@ -100,24 +95,13 @@ private:
     void    DrawGridLine();
     void    DrawHLine(int y);
     void    DrawVLine(int x);
-    void    ShowContent(COLORREF clrText, int y, CString strContent, UINT nLeftOffset=0);
+    void    ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset=0);
     void    DrawControlLine();
     void    DrawAlarmLine();
     void    DrawTaiLine();
     void    DrawShowLine();
     void    DrawBearLine();
-    void    GetMemDC();
     void    DrawScatter(int x, int y, BOOL bAccept,BOOL bIP);
-    
-    CDC         m_MemDC;
-    CBitmap     m_Bitmap;
-    COLORREF    m_clrBk;
-    
-    int         m_iChartWidth;
-    int         m_iChartHeight;
-    CRect       m_rcClient;
-
-    BOOL        m_bLastPoint;
 };
 
 /////////////////////////////////////////////////////////////////////////////

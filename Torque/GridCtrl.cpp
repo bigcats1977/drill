@@ -337,7 +337,7 @@ void CGridCtrl::InitOLELib(void)
     {
         sc = ::OleInitialize(NULL);
         if (FAILED(sc))
-            AfxMessageBox(IDS_STRINFINITOLEFAIL);
+            AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFINITOLEFAIL).c_str());
         else
             m_bMustUninitOLE = TRUE;
     }
@@ -6192,7 +6192,7 @@ BOOL CGridCtrl::Save(LPCTSTR strFileName)
 
     CATCH (CFileException, e)
     {
-        AfxMessageBox(IDS_STRINFSAVEGRIDFAIL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFSAVEGRIDFAIL).c_str());
         e->Delete();
         return FALSE;
     }
@@ -6295,7 +6295,7 @@ BOOL CGridCtrl::Load(LPCTSTR strFileName)
 
     CATCH (CFileException, e)
     {
-        AfxMessageBox(IDS_STRINFLOADGRIDFAIL);
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFLOADGRIDFAIL).c_str());
         e->Delete();
         return FALSE;
     }

@@ -33,8 +33,8 @@ static char THIS_FILE[] = __FILE__;
 
 CLineChartCtrl::CLineChartCtrl()
 {
-    m_iRpmWidth  = MAXLINEITEM;
-    m_iRpmHeight = 100;
+    m_iChartWidth = MAXLINEITEM;
+    m_iChartHeight = 100;
     m_fOffset    = 1;
     m_iStaticX   = 0;
     m_clrBk      = CTRLBKCOLOR;
@@ -117,10 +117,6 @@ UINT CLineChartCtrl::SetPos(double fPos, BOOL bLast)
 void CLineChartCtrl::SetStartPoint(UINT nBegin)
 {
     COMP_BGE(nBegin, MAXLINEITEM);
-    if(nBegin >= MAXLINEITEM)
-    {
-        return;
-    }
 
     m_iStaticX = nBegin;//int(nBegin / m_fOffset + 0.5);
     return;
@@ -161,12 +157,12 @@ void CLineChartCtrl::DrawSpike()
     
     fRange  = m_tItem.m_fUpper - m_tItem.m_fLower;
 
-    ptOld.y = m_iRpmHeight;
+    ptOld.y = m_iChartHeight;
     if(m_tItem.m_nPos >= 2)
     {
-        ptOld.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos-2]))/fRange) * m_iRpmHeight);
+        ptOld.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos-2]))/fRange) * m_iChartHeight);
     }
-    ptNew.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos-1]))/fRange) * m_iRpmHeight);
+    ptNew.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos-1]))/fRange) * m_iChartHeight);
 
     //如果曲线没有超出屏幕图片框右边界线，直接在屏幕图片框区域内绘制曲线，不用平移
     m_MemDC.MoveTo(ptOld);
@@ -174,7 +170,7 @@ void CLineChartCtrl::DrawSpike()
     if(m_bLastPoint)
     {
         m_MemDC.MoveTo(ptNew);
-        ptNew.y = m_iRpmHeight;
+        ptNew.y = m_iChartHeight;
         m_MemDC.LineTo(ptNew);
     }
     m_MemDC.SelectObject(pOldPen);
@@ -230,10 +226,10 @@ void CLineChartCtrl::DrawFinLine()
     // Minus one to make sure to draw inside the area
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     ptOld.x = int(m_iStaticX * m_fOffset);
-    ptOld.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos-2]))/fRange) * m_iRpmHeight);
+    ptOld.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos-2]))/fRange) * m_iChartHeight);
     
     m_MemDC.MoveTo(ptOld);
-    ptOld.y = m_iRpmHeight;
+    ptOld.y = m_iChartHeight;
     m_MemDC.LineTo(ptOld);
     
     m_MemDC.SelectObject(pOldPen);
@@ -264,13 +260,13 @@ void CLineChartCtrl::DrawGridLine()
     pOldPen = m_MemDC.SelectObject(&penBk);
     for(i=0; i<=10; i++)
     {
-        m_MemDC.MoveTo(m_iRpmWidth/10*i,0);
-        m_MemDC.LineTo(m_iRpmWidth/10*i,m_iRpmHeight);
+        m_MemDC.MoveTo(m_iChartWidth/10*i,0);
+        m_MemDC.LineTo(m_iChartWidth/10*i,m_iChartHeight);
     }
     for(i=0; i<=3; i++)
     {
-        m_MemDC.MoveTo(0,m_iRpmHeight/3*i);
-        m_MemDC.LineTo(m_iRpmWidth,m_iRpmHeight/3*i);
+        m_MemDC.MoveTo(0,m_iChartHeight/3*i);
+        m_MemDC.LineTo(m_iChartWidth,m_iChartHeight/3*i);
     }
     m_MemDC.SelectObject(pOldPen);
 
@@ -282,9 +278,9 @@ void CLineChartCtrl::DrawBkLine()
     GetClientRect(&m_rcClient);
 
     /* 获取画图区域的宽和高 */
-    m_iRpmWidth = m_rcClient.Width() -1;
-    m_iRpmHeight= m_rcClient.Height()-1;
-    m_fOffset   = (m_iRpmWidth * 1.0) / MAXLINEITEM;
+    m_iChartWidth = m_rcClient.Width() -1;
+    m_iChartHeight= m_rcClient.Height()-1;
+    m_fOffset   = (m_iChartWidth * 1.0) / MAXLINEITEM;
 
     GetMemDC();
 
@@ -297,3 +293,24 @@ void CLineChartCtrl::SetBkColor(COLORREF clrBk)
     m_clrBk = clrBk;
 }
 
+
+/* 打印说明文字 */
+void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset)
+{
+    CPoint  ptBegin;
+    CRect   rectCont;
+    char    strPrint[MAX_LOADSTRING];
+
+    m_MemDC.SetTextColor(clrText);
+    ptBegin.x = int((m_iChartWidth)*CONT_XSCALE);
+    ptBegin.y = y;
+
+    rectCont.left = 0;
+    rectCont.right = m_rcClient.right - nLeftOffset;
+    rectCont.top = y;
+    rectCont.bottom = m_rcClient.bottom;
+
+    snprintf(strPrint, MAX_LOADSTRING, "%s          ", strContent.c_str());
+    //strPrint = strContent + _T("          ");
+    m_MemDC.DrawText(strPrint, -1, &rectCont, DT_SINGLELINE | DT_RIGHT | DT_TOP);
+}

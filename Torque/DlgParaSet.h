@@ -24,14 +24,10 @@ public:
 
     PARACFG     m_tempCfg;
     SHOWCFG     m_tempShow;
-    BYTE        m_ucPort;
-    TUBINGCFG   m_tCurTub;
 
 // Dialog Data
     //{{AFX_DATA(CDlgParaSet)
     enum { IDD = IDD_DLGPARASET };
-    CComboBox   m_cbPort;
-    CComboBox   m_cbImgNum;
     double      m_fControlCir;
     double      m_fControl;
     double      m_fOptTorq;
@@ -44,9 +40,8 @@ public:
     double      m_fSpeedDown;
     double      m_fUpperCir;
     double      m_fUpperLimit;
-    CString     m_strParaFile;
-    UINT        m_nReset;
-    double      m_fPlus;
+    CString     m_strParaAlias;
+    CColorComboBox m_cbAlias;
     double      m_fLowerTai;
     double      m_fUpperTai;
     double      m_fMinShlSlope;
@@ -54,11 +49,11 @@ public:
     double      m_fMinDeltaCir;
     CString     m_strMemo;
     CString     m_strLBM10;
-    CString     m_strSetShowName[MAXPARANUM+1];
-    CString     m_strSetShowOption[MAXPARANUM+1];
-    CColorComboBox  m_cbSetShowOption[MAXPARANUM + 1];
-    CString     m_strFixShowOption[MAXPARANUM+1];
-    CColorComboBox  m_cbFixShowOption[MAXPARANUM + 1];
+    CString     m_strSetShowName[MAXPARANUM];
+    CString     m_strSetShowOption[MAXPARANUM];
+    CColorComboBox  m_cbSetShowOption[MAXPARANUM];
+    CString     m_strFixTubingOpt[MAXTUBECFGNUM];
+    CColorComboBox  m_cbFixTubingOpt[MAXTUBECFGNUM];
     CNumEdit    m_neControlCir;
     CNumEdit    m_neOptTorq;
     CNumEdit    m_neControl;
@@ -71,13 +66,12 @@ public:
     CNumEdit    m_neSpeedDown;
     CNumEdit    m_neUpperCir;
     CNumEdit    m_neUpperLimit;
-    CNumEdit    m_nePlus;
     CNumEdit    m_neLowerTai;
     CNumEdit    m_neUpperTai;
     CNumEdit    m_neMinShlSlope;
     CNumEdit    m_neMaxDeltaCir;
     CNumEdit    m_neMinDeltaCir;
-    BOOL        m_bFixedTubing;
+    BOOL        m_bFixedTube;
     //}}AFX_DATA
 
 
@@ -94,12 +88,7 @@ protected:
     // Generated message map functions
     //{{AFX_MSG(CDlgParaSet)
     virtual BOOL OnInitDialog();
-    afx_msg void OnParaopen();
-    //afx_msg void OnParanew();
-    afx_msg void OnParasave();
-    virtual void OnOK();
-    //afx_msg void OnDefault();
-    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    afx_msg void OnParasave();    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnCbnKillfocusCbpara01();
     afx_msg void OnCbnKillfocusCbpara02();
     afx_msg void OnCbnKillfocusCbpara03();
@@ -117,39 +106,40 @@ protected:
     afx_msg void OnCbnKillfocusCbpara15();
     afx_msg void OnCbnKillfocusCbpara16();
     afx_msg void OnEnKillfocusEditmaxcir();
-    afx_msg void OnCbnKillfocusCbfixpara04();
+    afx_msg void OnCbnKillfocusCbfixpara01();
     afx_msg void OnCbnKillfocusCbfixpara05();
     afx_msg void OnCbnKillfocusCbfixpara06();
     afx_msg void OnCbnKillfocusCbfixpara07();
-    afx_msg void OnCbnKillfocusCbfixpara16();
-    afx_msg void OnCbnSelchangeCbfixpara04();
+    afx_msg void OnCbnKillfocusCbfixpara08();
+    afx_msg void OnCbnSelchangeCbfixpara01();
     afx_msg void OnCbnSelchangeCbfixpara05();
     afx_msg void OnCbnSelchangeCbfixpara06();
     afx_msg void OnCbnSelchangeCbfixpara07();
-    afx_msg void OnCbnSelchangeCbfixpara16();
+    afx_msg void OnCbnSelchangeCbfixpara08();
     afx_msg void OnBnClickedCkfixedtubing();
     afx_msg void OnKillfocusEditopttorq();
+    afx_msg void OnCbnSelchangeCbalias();
+    afx_msg void OnCbnKillfocusCbalias();
+    afx_msg void OnBnClickedDelalias();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
-    BOOL GetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow);
+    BOOL GetParaValue(PARACFG *ptCfg);
     void SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow);
-    void CheckShowOption(SHOWCFG *ptShow);
-    void WriteOtherPara(string strParaName);
     void JudgeShowParaChanged(UINT nIndex);
-    void JudgeFixShowParaChanged(UINT nIndex);
+    void JudgeFixShowParaChanged(UINT nIndex, TUBECFG* ptTubing);
     void ChgTorqbyShowPara(bool bInit=false);
-    void ChangeTubingShowBox(UINT nNum);
+    void ChangeTubingShowBox(UINT nIndex);
     void InitFixShowPara();
     void ShowTubingCtrl(bool bInit=false);
     void UpdateDlgLabel();
-    void SetImgNum();
+    void InitAliasShow();
+    CString DelCurAliasContent();
 
+    TUBECFG     *m_ptCurTub;
     COLORREF    m_clrNormal;
     COLORREF    m_clrChanged;
     UINT        m_nCurLang;
-    CTubeCfg    m_cTubing;
-public:
 };
 
 //{{AFX_INSERT_LOCATION}}

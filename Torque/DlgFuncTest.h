@@ -8,7 +8,6 @@
 //
 
 #include "BtnST.h"
-#include "ShadeButtonST.h"
 
 #include "TorqueDlg.h"
 /////////////////////////////////////////////////////////////////////////////
@@ -23,13 +22,13 @@ public:
 // Dialog Data
     //{{AFX_DATA(CDlgFuncTest)
     enum { IDD = IDD_DLGTEST };
-    CShadeButtonST  m_btnOK;
-    CShadeButtonST  m_btnUnloadE;
-    CShadeButtonST  m_btnUnloadB;
-    CShadeButtonST  m_btnSpeedE;
-    CShadeButtonST  m_btnSpeedB;
-    CShadeButtonST  m_btnAlarmE;
-    CShadeButtonST  m_btnAlarmB;
+    CButtonST  m_btnOK;
+    CButtonST  m_btnUnloadE;
+    CButtonST  m_btnUnloadB;
+    CButtonST  m_btnSpeedE;
+    CButtonST  m_btnSpeedB;
+    CButtonST  m_btnAlarmE;
+    CButtonST  m_btnAlarmB;
     //}}AFX_DATA
 
 
