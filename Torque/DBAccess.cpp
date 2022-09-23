@@ -131,6 +131,8 @@ BOOL CDBAccess::ReadGlobalPara()
 
 BOOL CDBAccess::UpdateGlobalPara()
 {
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
+
     CHECK_PARA_ROUND(g_tGlbCfg.nLangType, LANGUAGE_CHINESE, LANGUAGE_NUM, LANGUAGE_CHINESE);
     CHECK_PARA_ROUND(g_tGlbCfg.fDiscount, 0.5, 2.0, 1.0);
     CHECK_PARA_ROUND(g_tGlbCfg.fMulti, 0, 2, 1);
@@ -145,6 +147,9 @@ BOOL CDBAccess::UpdateGlobalPara()
 
 vector<string> CDBAccess::GetNamesByIndexs(string indexs)
 {
+    vector<string> lsNames;
+
+    COMP_BFALSE_R(m_bValidDBFile, lsNames);
     return m_tDBShowName.GetNamesByIndexs(indexs);
 
 }
@@ -158,6 +163,7 @@ BOOL CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
     UINT    i = 0;
 
     ASSERT_NULL_R(ptShow, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     COMP_BLE_R(m_tDBShowCfg._lsParaNum.size(), 0, FALSE);
 
     CheckLanguage(nLang);
@@ -189,6 +195,7 @@ BOOL CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
 BOOL CDBAccess::UpdateShowAlias(SHOWCFG* ptShow, UINT Alias)
 {
     ASSERT_NULL_R(ptShow, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     if (!m_tDBShowCfg.UpdateAlias(Alias))
     {
@@ -204,6 +211,7 @@ BOOL CDBAccess::UpdateShowAlias(SHOWCFG* ptShow, UINT Alias)
 BOOL CDBAccess::UpdateShowPara(SHOWCFG* ptShow)
 {
     ASSERT_NULL_R(ptShow, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     if (!m_tDBShowCfg.UpdateShowCfg(ptShow))
         return FALSE;
@@ -221,6 +229,7 @@ BOOL CDBAccess::UpdateShowName(SHOWCFG* ptShow)
     int index = 0;
 
     ASSERT_NULL_R(ptShow, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     // update show name
     for (i = 1; i < MAXPARANUM; i++)
@@ -240,13 +249,16 @@ BOOL CDBAccess::UpdateShowName(SHOWCFG* ptShow)
 
 vector<string> CDBAccess::GetOptionsByIndex(UINT showIndex)
 {
+    vector<string> lsOptions;
+    COMP_BFALSE_R(m_bValidDBFile, lsOptions);
     return m_tDBShowOpt.GetOptionsByNameIndex(showIndex);
 }
 
 BOOL CDBAccess::ReadTubeInfo(TUBECFG* ptTube, BOOL bIndex)
 {
     int index = 0;
-    ASSERT_NULL_R(ptTube, DB_INVALID_VAL);
+    ASSERT_NULL_R(ptTube, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     // by index
     if (bIndex == 0)
@@ -264,6 +276,7 @@ BOOL CDBAccess::ReadTubeInfo(TUBECFG* ptTube, BOOL bIndex)
 vector<int> CDBAccess::ReadCurShowIndex()
 {
     vector<int> lsIndexs;
+    COMP_BFALSE_R(m_bValidDBFile, lsIndexs);
 
     if (m_tDBShowCfg._lsShowPara.size() > 0)
         lsIndexs = m_tDBShowName.GetIndexsByNOs(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
@@ -273,12 +286,15 @@ vector<int> CDBAccess::ReadCurShowIndex()
 
 vector<string> CDBAccess::ReadOptionsByShowIndex(int index)
 {
+    vector<string> lsOptions;
+    COMP_BFALSE_R(m_bValidDBFile, lsOptions);
     return m_tDBShowOpt.GetOptionsByNameIndex(index);
 }
 
 BOOL  CDBAccess::ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang)
 {
     ASSERT_NULL_R(ptStat, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     return m_tDBXlsStatCfg.GetInfoByLang(ptStat, nLang);
 }
@@ -286,6 +302,7 @@ BOOL  CDBAccess::ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang)
 BOOL CDBAccess::UpdateXlsStatPara(XLSSTATCFG* ptStat)
 {
     ASSERT_NULL_R(ptStat, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     if (!m_tDBXlsStatCfg.UpdateInfo(ptStat))
         return FALSE;
 
@@ -299,6 +316,7 @@ BOOL CDBAccess::ReadTorqCfgPara(int iAlias, PARACFG* ptCfg)
     TORQCFGID  tCfgID = { 0 };
 
     ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     COMP_BLE_R(iAlias, 0, FALSE);
 
     theApp.ClearTorqCfgPara(ptCfg);
@@ -321,6 +339,7 @@ int CDBAccess::ReadTorqCfgPara(string sAlias, PARACFG* ptCfg)
     int index = 0;
     
     ASSERT_NULL_R(ptCfg, DB_INVALID_VAL);
+    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
 
     index = m_tDBTorqueCfg.GetIndexByAlias(sAlias);
     COMP_BLE_R(index,0, index);
@@ -333,6 +352,8 @@ int CDBAccess::ReadTorqCfgPara(string sAlias, PARACFG* ptCfg)
 BOOL CDBAccess::DeleteAlias(string sAlias)
 {
     int index = 0;
+
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     
     index = m_tDBTorqueCfg.GetIndexByAlias(sAlias);
     COMP_BLE_R(index, 0, FALSE);
@@ -348,6 +369,7 @@ BOOL CDBAccess::InsertTubeName(UINT TubeKind, int NO, vector<string> Names)
 {
     BOOL bRes = FALSE;
 
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     COMP_BGE_R(TubeKind, MAXTUBECFGNUM, FALSE);
 
     bRes = m_tDBTubeText[TubeKind].InsertNames(NO, Names);
@@ -363,6 +385,7 @@ BOOL CDBAccess::UpdateTubeName(UINT TubeKind, int NO, vector<string> Names)
 {
     BOOL bRes = FALSE;
 
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     COMP_BGE_R(TubeKind, MAXTUBECFGNUM, FALSE);
 
     bRes = m_tDBTubeText[TubeKind].UpdateNames(NO, Names);
@@ -375,6 +398,7 @@ BOOL CDBAccess::UpdateTubeName(UINT TubeKind, int NO, vector<string> Names)
 
 BOOL CDBAccess::CheckTubeNO(UINT TubeKind, int NO)
 {
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
     COMP_BGE_R(TubeKind, MAXTUBECFGNUM, FALSE);
 
     return m_tDBTubeText[TubeKind].CheckNO(NO);
@@ -383,6 +407,7 @@ BOOL CDBAccess::CheckTubeNO(UINT TubeKind, int NO)
 int CDBAccess::InsertTubeCfg(TUBECFG* ptTube)
 {
     int index = DB_INVALID_VAL;
+    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
     ASSERT_NULL_R(ptTube, DB_INVALID_VAL);
 
     index = m_tDBTubeCfg.InsertTubeCfg(ptTube);
@@ -399,6 +424,7 @@ BOOL CDBAccess::DeleteTubeCfg(TUBECFG* ptTube)
     BOOL bRes = FALSE;
 
     ASSERT_NULL_R(ptTube, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     bRes = m_tDBTubeCfg.DeleteTubeCfg(ptTube);
     COMP_BFALSE_R(bRes, FALSE);
@@ -414,6 +440,7 @@ BOOL CDBAccess::UpdateTubeCfg(TUBECFG* ptTube)
     BOOL bRes = FALSE;
 
     ASSERT_NULL_R(ptTube, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     bRes = m_tDBTubeCfg.UpdateTubeCfg(ptTube);
     COMP_BFALSE_R(bRes, FALSE);
@@ -429,6 +456,7 @@ BOOL CDBAccess::GetInitTube(TUBECFG* ptTube)
     UINT i = 0;
 
     ASSERT_NULL_R(ptTube, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     for (i = 0; i < MAXTUBECFGNUM; i++)
     {
@@ -444,6 +472,7 @@ BOOL CDBAccess::GetInitTube(TUBECFG* ptTube)
 int CDBAccess::QueryIndexByInfo(TUBECFG* ptTube)
 {
     ASSERT_NULL_R(ptTube, DB_INVALID_VAL);
+    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
 
     return m_tDBTubeCfg.QueryTubeByInfo(ptTube);
 }
@@ -455,6 +484,8 @@ BOOL CDBAccess::LoadTubingInfo()
     int m = 0, n = 0;
     FIXTUBEPARA* ptPara = NULL;
     FIXTUBEINFO* ptFixInfo = &g_cTubing.m_tTubInfo[0];
+
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     // load tubbing Info data
     for (i = 0; i < MAXTUBECFGNUM; i++)
@@ -507,6 +538,8 @@ BOOL CDBAccess::LoadTubingCfg()
     TUBECFG* ptCfg = NULL;
     FIXTUBECFG* ptFixCfg = &g_cTubing.m_tTubCfg;
 
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
+
     count = m_tDBTubeCfg._Count;
     if (!m_tDBTubeCfg.Valid() || count <= 0)
     {
@@ -549,6 +582,7 @@ BOOL CDBAccess::LoadTubingCfg()
 BOOL CDBAccess::ReadValvePara(VALVECFG* ptCfg)
 {
     ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
 
     COMP_BFALSE_R(m_tDBValveCfg.GetGlbCfg(ptCfg), FALSE);
 
@@ -564,6 +598,7 @@ int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     ASSERT_NULL_R(ptCfg, DB_INVALID_VAL);
     ASSERT_NULL_R(ptShow, DB_INVALID_VAL);
+    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
 
     // torque config
     tCfgID.nTorqueID = m_tDBValTorque.GetIndexByInfo(&ptCfg->tCtrl);
@@ -600,6 +635,8 @@ vector<string> CDBAccess::ReadAllAlias()
     size_t i = 0;
     vector<string> strAlias;
 
+    COMP_BFALSE_R(m_bValidDBFile, strAlias);
+
     if (m_tDBTorqueCfg._lsAlias.size() <= 0)
         return strAlias;
 
@@ -616,6 +653,8 @@ vector<string> CDBAccess::ReadAllAlias()
 BOOL CDBAccess::UpdateValvePara(VALVECFG* ptCfg)
 {
     ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BFALSE_R(m_bValidDBFile, FALSE);
+
     if (!m_tDBValveCfg.UpdateGlbCfg(ptCfg))
         return FALSE;
 

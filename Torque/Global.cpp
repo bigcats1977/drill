@@ -40,7 +40,7 @@ const SHOWPARANAME g_tNameInfo[MAXPARANUM] = {
     /* 15 */    {COUPPARA_HYDTONG,      "液压钳",       "HYDTong",          "гидра ключ"},
 };
 
-const UINT g_nMainNameNO[MAXMAINPARA] = { 4,5,6,7,9,10,14 };
+const UINT g_nMainNameNO[MAXMAINPARA] = { 0, 4, 5, 6, 7, 9, 10, 14 };
 
 /* 默认厂家名称表 */
 FIXTUBEPARA     g_tDefFactory[MAXDEFFACTORYNUM] = {

@@ -305,6 +305,7 @@ BOOL CTorqueApp::InitInstance()
     int initStep = 0;
     if(!theDB.InitConfigFromDB(initStep))
     {
+        initStep = 0;
         InitDefaultConfig(initStep);
     }
 
