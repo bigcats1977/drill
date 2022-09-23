@@ -323,30 +323,32 @@ void CDlgDataStat::GetBasicStatInfo()
     UINT    i  = 0;
     POSITION pos;
     TorqData::Torque  *ptTorq = NULL;
-    CString strType;
+    string strType;
 
     ASSERT_ZERO(g_tReadData.nTotal);
     
-    strType.Format(IDS_STRALLSTAT);
-    m_cbBuckType.AddString(strType);
+    strType = theApp.LoadstringFromRes(IDS_STRALLSTAT);
+    //strType.Format(IDS_STRALLSTAT);
+    m_cbBuckType.AddString(strType.c_str());
 
     for(i=0; i<g_tReadData.nTotal; i++)
     {
         ptTorq = &g_tReadData.tData[i];
-        strType = theApp.GetStatType(ptTorq, m_nStatType);
+        strType = theApp.GetStatType(ptTorq, m_nStatType).GetBuffer(0);
 
-        if(!strType.IsEmpty())
+        if(!strType.empty())
         {
-             if ((pos = m_slStatType.Find(strType)) == NULL)
+             if ((pos = m_slStatType.Find(strType.c_str())) == NULL)
              {
-                m_slStatType.AddTail(strType);
-                m_cbBuckType.AddString(strType);
+                m_slStatType.AddTail(strType.c_str());
+                m_cbBuckType.AddString(strType.c_str());
              }    
         }
     }
 
-    strType.Format(IDS_STRBUCKLE);
-    m_cbBuckType.AddString(strType);
+    strType = theApp.LoadstringFromRes(IDS_STRBUCKLE);
+    //strType.Format(IDS_STRBUCKLE);
+    m_cbBuckType.AddString(strType.c_str());
     m_cbBuckType.SetCurSel(0);
 }
 
@@ -401,23 +403,23 @@ BYTE CDlgDataStat::GetValueRange(double *fRange, double fValue)
 BOOL CDlgDataStat::IsSelType(TorqData::Torque *ptTorq)
 {
     CString strCurType;
-    CString strType;
-    CString strBuckle;
+    string strType;
+    string strBuckle;
 
     ASSERT_NULL_R(ptTorq, FALSE);
 
     m_cbBuckType.GetWindowText(strCurType);
-    strType.Format(IDS_STRALLSTAT);
-    strBuckle.Format(IDS_STRBUCKLE);
+    strType= theApp.LoadstringFromRes(IDS_STRALLSTAT);
+    strBuckle = theApp.LoadstringFromRes(IDS_STRBUCKLE);
 
     /* 所有数据时，不比较类型 */
-    if(strCurType.CompareNoCase(strType) == 0)
+    if(strCurType.CompareNoCase(strType.c_str()) == 0)
         return TRUE;
     
-    strType = theApp.GetStatType(ptTorq, m_nStatType);
+    strType = theApp.GetStatType(ptTorq, m_nStatType).GetBuffer(0);
 
     /* 工具扣 */
-    if(strCurType.CompareNoCase(strBuckle) == 0)
+    if(strCurType.CompareNoCase(strBuckle.c_str()) == 0)
     {
         /* 选中工具扣，当前数据不是工具扣 */
         if(!ptTorq->btoolbuck())
@@ -426,7 +428,7 @@ BOOL CDlgDataStat::IsSelType(TorqData::Torque *ptTorq)
             
         }
     }
-    else if(strCurType.CompareNoCase(strType) != 0)
+    else if(strCurType.CompareNoCase(strType.c_str()) != 0)
     {
         return FALSE;
     }

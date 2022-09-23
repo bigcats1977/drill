@@ -47,6 +47,8 @@ BOOL CDBAccess::InitConfigFromDB(int &initstep)
 
     m_bValidDBFile = FALSE;
 
+    //return FALSE;
+
     initstep = 0;
     strDbFile = theApp.m_strAppPath + SQLITEFILE;
     // NO DB file, using default value

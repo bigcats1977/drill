@@ -113,8 +113,8 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.LoadColumnInfo();
     
     //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
+    /*GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);*/
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -1296,14 +1296,14 @@ void CDlgHisList::WriteQualitySheet()
     /* final/shoulder/delta */
     double      fAveTorq[3] = {0};
     double      fAveTurn[3] = {0};
-    int         nShlNum  = 0;
+    //int         nShlNum  = 0;
     DWORD       dwQuality = 0;
     DWORD       dwFlag = 1;
     double      fTorque = 0;
     double      fCir    = 0;
     double      fShlTorq=0;
     double      fShlCir = 0;
-    WORD        wIPPos  = 0;
+    //WORD        wIPPos  = 0;
     WORD        wSchPos = 0;
     TorqData::Torque *ptTorq = NULL;
 
@@ -1345,6 +1345,7 @@ void CDlgHisList::WriteQualitySheet()
         fAveTurn[0] += fCir;
         
         /* shoulder */
+#if 0
         fShlTorq = theApp.GetIPTorq(ptTorq,wIPPos,wSchPos); // IP Torq
         fShlCir  = wIPPos * ptTorq->fmaxcir()/MAXLINEITEM;
         if(wIPPos != 0)
@@ -1355,6 +1356,7 @@ void CDlgHisList::WriteQualitySheet()
             fAveTorq[2] += (fTorque - fShlTorq);
             fAveTurn[2] += (fCir    - fShlCir);
         }
+#endif
     }
 
     if(0 != g_tReadData.nTotal)
@@ -1362,6 +1364,7 @@ void CDlgHisList::WriteQualitySheet()
         fAveTorq[0] /= g_tReadData.nTotal;
         fAveTurn[0] /= g_tReadData.nTotal;
     }
+#if 0
     if(0 != nShlNum)
     {
         fAveTorq[1] /= nShlNum;
@@ -1369,7 +1372,7 @@ void CDlgHisList::WriteQualitySheet()
         fAveTorq[2] /= nShlNum;
         fAveTurn[2] /= nShlNum;
     }
-
+#endif
     /* A2 井名 */
     SetCell(2,  1, GetWellName(FALSE));
 
@@ -1423,6 +1426,7 @@ void CDlgHisList::WriteQualitySheet()
     SetCell(iRow,  2, fAveTorq[0]);
     /* C :  平均周数  */
     SetCell(iRow++,  3, fAveTurn[0]);
+#if 0
     /* B:  平均拐点扭矩  */
     SetCell(iRow,  2, fAveTorq[1]);
     /* C++:  平均拐点周数  */
@@ -1431,6 +1435,7 @@ void CDlgHisList::WriteQualitySheet()
     SetCell(iRow,  2, fAveTorq[2]);
     /* C++:  DELTA拐点周数  */
     SetCell(iRow++,  3, fAveTurn[2]);
+#endif
 }
 
 void CDlgHisList::WriteScatterSheet()
@@ -1496,15 +1501,17 @@ void  CDlgHisList::FillReportHead(int &iRow, TorqData::Torque *ptHeadTorq)
     /* 7 行 C 列 C7 : 显示扭矩 */
     SetCell(iRow, iCol++, ptHeadTorq->fshow());
     /* :  最小扭矩  */
-    SetCell(iRow, iCol++, ptHeadTorq->flowerlimit());
+    //SetCell(iRow, iCol++, ptHeadTorq->flowerlimit());
     /* :  最佳扭矩  */
     SetCell(iRow, iCol++, theApp.GetOptTorq(ptHeadTorq));
     /* :  最大扭矩  */
-    SetCell(iRow, iCol++, ptHeadTorq->fupperlimit());
+    //SetCell(iRow, iCol++, ptHeadTorq->fupperlimit());
     /* :  最小拐点  */
     SetCell(iRow, iCol++, ptHeadTorq->flowertai());
+    iCol++;
     /* :  最大拐点  */
     SetCell(iRow, iCol++, ptHeadTorq->fuppertai());
+    iCol++;
     /* :  最小周数  */
     SetCell(iRow, iCol++, ptHeadTorq->flowercir());
     /* :  最大周数  */
@@ -1530,8 +1537,8 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
     WORD        wSchPos     = 0;
     DWORD       dwQuality   = 0;
     CStringList slDateTime;
-    CString     strQual;
-    CString     strCause;
+    string      strQual;
+    string      strCause;
     CString     strRow;
     CString     strType;
     TorqData::Torque *ptTorq = NULL;
@@ -1588,17 +1595,17 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
         dwQuality = theApp.GetQuality(ptTorq);
         if(dwQuality & QUA_RESU_QUALITYBIT)
         {
-            strQual.Format(IDS_STRMARKQUALITY);
-            SetCell(iRow, iCol++, strQual);
+            strQual = theApp.LoadstringFromRes(IDS_STRMARKQUALITY);
+            SetCell(iRow, iCol++, strQual.c_str());
             iCol++;
         }
         else
         {
-            strQual.Format(IDS_STRMARKDISQUAL);
-            SetCell(iRow, iCol++, strQual);
+            strQual = theApp.LoadstringFromRes(IDS_STRMARKDISQUAL);
+            SetCell(iRow, iCol++, strQual.c_str());
 
-            strCause = theApp.GetQualityInfo(ptTorq).c_str();
-            SetCell(iRow, iCol++, strCause);
+            strCause = theApp.GetQualityInfo(ptTorq);
+            SetCell(iRow, iCol++, strCause.c_str());
         }
 
         /* 操作人, 显示参数14 占1格 不合并 */

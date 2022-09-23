@@ -238,21 +238,22 @@ void CLineChartCtrlStat::DrawAlarmLine()
     /* | */
     x = int((m_iChartWidth)*m_fUpperCir/m_fMaxCir);
     DrawVLine(x);
+#if 0
     /* ----- */
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fLowerLimit)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示最小扭矩值 */
     //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
     //ShowContent(LC_ALARMCOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXCONTROL, m_fLowerLimit));
+    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT, m_fLowerLimit));
     /* ----- */    
     y = int((m_iChartHeight)*(m_fMaxLimit-m_fUpperLimit)/m_fMaxLimit);
     DrawHLine(y);
     /* 显示最大扭矩值 */
     //strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
     //ShowContent(LC_ALARMCOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXCONTROL, m_fUpperLimit));
-
+    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT, m_fUpperLimit));
+#endif
     m_MemDC.SelectObject(pOldPen);
 }
 
@@ -359,7 +360,7 @@ void CLineChartCtrlStat::DrawBkLine()
     DrawAlarmLine();
 
     /*台阶扭矩*/
-    DrawTaiLine();
+    //DrawTaiLine();
 
     /*显示扭矩*/
     DrawShowLine();
@@ -487,7 +488,7 @@ void CLineChartCtrlStat::DrawMultiScatter(TORQUEDATA *ptTorqData)
     WORD    wSchPos     = 0;
     WORD    wCtrlPos    = 0;
     double  fCtrlTorq   = 0;
-    UINT    nIPTorq     = 0;
+    //UINT    nIPTorq     = 0;
     TorqData::Torque *ptTorq = NULL;
 
     ASSERT_NULL(ptTorqData);
@@ -507,16 +508,17 @@ void CLineChartCtrlStat::DrawMultiScatter(TORQUEDATA *ptTorqData)
 
         GET_CTRL_TORQ(fCtrlTorq, ptTorq);
         wCtrlPos = ptTorq->ftorque_size();
-        nIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
+        //nIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
         x = (int)(wCtrlPos * theApp.GetMaxCir(ptTorq) / m_fMaxCir * m_fOffset);
         y = (int)((((fRange - fCtrlTorq)) / fRange)*m_iChartHeight);
         DrawScatter(x, y, bAccepted, FALSE);
-
+#if 0
         if (wIPPos > 0 && nIPTorq > 0)
         {
             x = (int)(wIPPos * theApp.GetMaxCir(ptTorq) / m_fMaxCir * m_fOffset);
             y = (int)((((fRange - nIPTorq)) / fRange)*m_iChartHeight);
             DrawScatter(x, y, bAccepted, TRUE);
         }
+#endif
     }
 }
