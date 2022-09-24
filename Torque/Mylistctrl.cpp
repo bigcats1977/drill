@@ -259,6 +259,8 @@ int CMylistctrl::AddItemList( CStringList& slItem )
         (void)lstrcpy( arrpsz[ iCol ], strItem );
         iCol++;
     }
+    if (iCol < m_iNumCols)
+        int kkk = 1;
 
     //va_end( list );
 

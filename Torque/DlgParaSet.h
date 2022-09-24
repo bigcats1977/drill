@@ -88,7 +88,8 @@ protected:
     // Generated message map functions
     //{{AFX_MSG(CDlgParaSet)
     virtual BOOL OnInitDialog();
-    afx_msg void OnParasave();    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    afx_msg void OnParasave(); 
+    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnCbnKillfocusCbpara01();
     afx_msg void OnCbnKillfocusCbpara02();
     afx_msg void OnCbnKillfocusCbpara03();

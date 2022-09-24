@@ -345,10 +345,10 @@ VOID CDlgHisList::ShowHisTorqList()
         slShow.AddTail(strSlope);
         slShow.AddTail(strMemo);
 
-        for(j = 1; j<ptTorq->tshow_size() && j<m_wShowListNum ; j++)
+        for(j = 1; j<=ptTorq->tshow_size() && j<=m_wShowListNum ; j++)
             slShow.AddTail(theApp.GetTorqShowValue(ptTorq, j));
         /* ²¹¿Õ */
-        for(; j<m_wShowListNum; j++)
+        for(; j<=m_wShowListNum; j++)
             slShow.AddTail(NULLSTR);
         iItem    = m_listHis.AddItemList(slShow);
         slShow.RemoveAll();

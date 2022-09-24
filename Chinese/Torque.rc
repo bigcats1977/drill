@@ -797,7 +797,7 @@ BEGIN
     LTEXT           "显示参数名称",IDC_STATIC,30,14,49,8
     LTEXT           "第一页(6)",IDC_STATIC,104,14,39,8
     LTEXT           "第四页(3)",IDC_STATIC,158,14,41,8
-    LTEXT           "当班班长",IDC_STATIC,218,14,28,8
+    LTEXT           "当班班长",IDC_STATIC,218,14,30,8
     LTEXT           "入井序号",IDC_STATIC,262,14,33,8
     LTEXT           "01",IDC_STATIC,14,35,9,8
     LTEXT           "02",IDC_STATIC,14,53,9,8
