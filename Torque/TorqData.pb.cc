@@ -5,407 +5,383 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
-#include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
+
+namespace _pb = ::PROTOBUF_NAMESPACE_ID;
+namespace _pbi = _pb::internal;
+
 namespace TorqData {
-class ShowInfoDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ShowInfo>
-      _instance;
-} _ShowInfo_default_instance_;
-class TorqueDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Torque>
-      _instance;
-} _Torque_default_instance_;
-}  // namespace TorqData
-namespace protobuf_TorqData_2eproto {
-void InitDefaultsShowInfoImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  {
-    void* ptr = &::TorqData::_ShowInfo_default_instance_;
-    new (ptr) ::TorqData::ShowInfo();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::TorqData::ShowInfo::InitAsDefaultInstance();
-}
-
-void InitDefaultsShowInfo() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsShowInfoImpl);
-}
-
-void InitDefaultsTorqueImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  protobuf_TorqData_2eproto::InitDefaultsShowInfo();
-  {
-    void* ptr = &::TorqData::_Torque_default_instance_;
-    new (ptr) ::TorqData::Torque();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::TorqData::Torque::InitAsDefaultInstance();
-}
-
-void InitDefaultsTorque() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsTorqueImpl);
-}
-
-::google::protobuf::Metadata file_level_metadata[2];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::ShowInfo, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::ShowInfo, strvalue_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::ShowInfo, strname_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, coltime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwseqno_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwquality_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwippos_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmaxtorq_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, ftorque_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, frpm_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, tshow_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, begintime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwiptorq_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwtotalplus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwipplus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwdelplus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwcolinter_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, llcoltime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwver_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, btoolbuck_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, strmemo_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, strremark_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, bncheckip_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, bshackle_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, btimeline_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, dwtorqunit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmaxlimit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fupperlimit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fcontrol_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, flowerlimit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fspeeddown_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fshow_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fbear_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fuppertai_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, flowertai_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fopttorq_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmaxcir_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fuppercir_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fcontrolcir_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, flowercir_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmaxtime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fuppertime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fcontroltime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, flowertime_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fplus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmaxrpm_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fcut_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, frpmadj_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmulti_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fminshlslope_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmaxdeltacir_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmindeltacir_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TorqData::Torque, fmakeupdur_),
-};
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::TorqData::ShowInfo)},
-  { 7, -1, sizeof(::TorqData::Torque)},
-};
-
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::TorqData::_ShowInfo_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::TorqData::_Torque_default_instance_),
-};
-
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  ::google::protobuf::MessageFactory* factory = NULL;
-  AssignDescriptors(
-      "TorqData.proto", schemas, file_default_instances, TableStruct::offsets, factory,
-      file_level_metadata, NULL, NULL);
-}
-
-void protobuf_AssignDescriptorsOnce() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016TorqData.proto\022\010TorqData\"-\n\010ShowInfo\022\020"
-      "\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\300\007\n\006To"
-      "rque\022\017\n\007coltime\030\001 \001(\006\022\017\n\007dwSeqNo\030\002 \001(\005\022\021"
-      "\n\tdwQuality\030\003 \001(\005\022\017\n\007dwIPPos\030\004 \001(\005\022\020\n\010fM"
-      "axTorq\030\005 \001(\001\022\023\n\007fTorque\030\006 \003(\001B\002\020\001\022\020\n\004fRp"
-      "m\030\007 \003(\001B\002\020\001\022!\n\005tShow\030\010 \003(\0132\022.TorqData.Sh"
-      "owInfo\022\021\n\tbegintime\030\t \001(\006\022\020\n\010dwIPTorq\030\n "
-      "\001(\005\022\023\n\013dwTotalPlus\030\013 \001(\005\022\020\n\010dwIPPlus\030\014 \001"
-      "(\005\022\025\n\tdwDelPlus\030\r \003(\005B\002\020\001\022\022\n\ndwColInter\030"
-      "\016 \001(\005\022\021\n\tllColTime\030\017 \001(\014\022\r\n\005dwVer\030\020 \001(\005\022"
-      "\021\n\tbToolBuck\030\025 \001(\010\022\017\n\007strMemo\030\026 \001(\014\022\021\n\ts"
-      "trRemark\030\027 \001(\014\022\021\n\tbNCheckIP\030\030 \001(\010\022\020\n\010bSh"
-      "ackle\030\031 \001(\010\022\021\n\tbTimeLine\030\032 \001(\010\022\022\n\ndwTorq"
-      "Unit\030\033 \001(\005\022\021\n\tfMaxLimit\030\037 \001(\001\022\023\n\013fUpperL"
-      "imit\030  \001(\001\022\020\n\010fControl\030! \001(\001\022\023\n\013fLowerLi"
-      "mit\030\" \001(\001\022\022\n\nfSpeedDown\030# \001(\001\022\r\n\005fShow\030$"
-      " \001(\001\022\r\n\005fBear\030% \001(\001\022\021\n\tfUpperTai\030& \001(\001\022\021"
-      "\n\tfLowerTai\030\' \001(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007f"
-      "MaxCir\030) \001(\001\022\021\n\tfUpperCir\030* \001(\001\022\023\n\013fCont"
-      "rolCir\030+ \001(\001\022\021\n\tfLowerCir\030, \001(\001\022\020\n\010fMaxT"
-      "ime\030- \001(\001\022\022\n\nfUpperTime\030. \001(\001\022\024\n\014fContro"
-      "lTime\030/ \001(\001\022\022\n\nfLowerTime\0300 \001(\001\022\r\n\005fPlus"
-      "\0303 \001(\001\022\017\n\007fMaxRPM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n"
-      "\007fRpmAdj\0306 \001(\001\022\016\n\006fMulti\0307 \001(\001\022\024\n\014fMinSh"
-      "lSlope\030F \001(\001\022\024\n\014fMaxDeltaCir\030G \001(\001\022\024\n\014fM"
-      "inDeltaCir\030H \001(\001\022\022\n\nfMakeupDur\030I \001(\001b\006pr"
-      "oto3"
+PROTOBUF_CONSTEXPR ShowInfo::ShowInfo(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.strvalue_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.strname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ShowInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ShowInfoDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ShowInfoDefaultTypeInternal() {}
+  union {
+    ShowInfo _instance;
   };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1044);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "TorqData.proto", &protobuf_RegisterTypes);
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ShowInfoDefaultTypeInternal _ShowInfo_default_instance_;
+PROTOBUF_CONSTEXPR Torque::Torque(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.ftorque_)*/{}
+  , /*decltype(_impl_.frpm_)*/{}
+  , /*decltype(_impl_.tshow_)*/{}
+  , /*decltype(_impl_.dwdelplus_)*/{}
+  , /*decltype(_impl_._dwdelplus_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.llcoltime_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.strmemo_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.strremark_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.coltime_)*/uint64_t{0u}
+  , /*decltype(_impl_.dwseqno_)*/0
+  , /*decltype(_impl_.dwquality_)*/0
+  , /*decltype(_impl_.fmaxtorq_)*/0
+  , /*decltype(_impl_.dwippos_)*/0
+  , /*decltype(_impl_.dwiptorq_)*/0
+  , /*decltype(_impl_.begintime_)*/uint64_t{0u}
+  , /*decltype(_impl_.dwtotalplus_)*/0
+  , /*decltype(_impl_.dwipplus_)*/0
+  , /*decltype(_impl_.dwcolinter_)*/0
+  , /*decltype(_impl_.dwver_)*/0
+  , /*decltype(_impl_.btoolbuck_)*/false
+  , /*decltype(_impl_.bncheckip_)*/false
+  , /*decltype(_impl_.bshackle_)*/false
+  , /*decltype(_impl_.btimeline_)*/false
+  , /*decltype(_impl_.dwtorqunit_)*/0
+  , /*decltype(_impl_.fmaxlimit_)*/0
+  , /*decltype(_impl_.fupperlimit_)*/0
+  , /*decltype(_impl_.fcontrol_)*/0
+  , /*decltype(_impl_.flowerlimit_)*/0
+  , /*decltype(_impl_.fspeeddown_)*/0
+  , /*decltype(_impl_.fshow_)*/0
+  , /*decltype(_impl_.fbear_)*/0
+  , /*decltype(_impl_.fuppertai_)*/0
+  , /*decltype(_impl_.flowertai_)*/0
+  , /*decltype(_impl_.fopttorq_)*/0
+  , /*decltype(_impl_.fmaxcir_)*/0
+  , /*decltype(_impl_.fuppercir_)*/0
+  , /*decltype(_impl_.fcontrolcir_)*/0
+  , /*decltype(_impl_.flowercir_)*/0
+  , /*decltype(_impl_.fmaxtime_)*/0
+  , /*decltype(_impl_.fuppertime_)*/0
+  , /*decltype(_impl_.fcontroltime_)*/0
+  , /*decltype(_impl_.flowertime_)*/0
+  , /*decltype(_impl_.fplus_)*/0
+  , /*decltype(_impl_.fmaxrpm_)*/0
+  , /*decltype(_impl_.fcut_)*/0
+  , /*decltype(_impl_.frpmadj_)*/0
+  , /*decltype(_impl_.fmulti_)*/0
+  , /*decltype(_impl_.fminshlslope_)*/0
+  , /*decltype(_impl_.fmaxdeltacir_)*/0
+  , /*decltype(_impl_.fmindeltacir_)*/0
+  , /*decltype(_impl_.fmakeupdur_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct TorqueDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TorqueDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TorqueDefaultTypeInternal() {}
+  union {
+    Torque _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TorqueDefaultTypeInternal _Torque_default_instance_;
+}  // namespace TorqData
+static ::_pb::Metadata file_level_metadata_TorqData_2eproto[2];
+static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_TorqData_2eproto = nullptr;
+static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_TorqData_2eproto = nullptr;
+
+const uint32_t TableStruct_TorqData_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::TorqData::ShowInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::TorqData::ShowInfo, _impl_.strvalue_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::ShowInfo, _impl_.strname_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.coltime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwseqno_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwquality_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwippos_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxtorq_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.ftorque_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.frpm_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.tshow_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.begintime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwiptorq_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwtotalplus_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwipplus_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwdelplus_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwcolinter_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.llcoltime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwver_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.btoolbuck_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.strmemo_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.strremark_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.bncheckip_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.bshackle_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.btimeline_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwtorqunit_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxlimit_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fupperlimit_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fcontrol_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.flowerlimit_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fspeeddown_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fshow_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fbear_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fuppertai_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.flowertai_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fopttorq_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxcir_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fuppercir_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fcontrolcir_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.flowercir_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxtime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fuppertime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fcontroltime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.flowertime_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fplus_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxrpm_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fcut_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.frpmadj_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmulti_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fminshlslope_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxdeltacir_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmindeltacir_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmakeupdur_),
+};
+static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, -1, sizeof(::TorqData::ShowInfo)},
+  { 8, -1, -1, sizeof(::TorqData::Torque)},
+};
+
+static const ::_pb::Message* const file_default_instances[] = {
+  &::TorqData::_ShowInfo_default_instance_._instance,
+  &::TorqData::_Torque_default_instance_._instance,
+};
+
+const char descriptor_table_protodef_TorqData_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\016TorqData.proto\022\010TorqData\"-\n\010ShowInfo\022\020"
+  "\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\300\007\n\006To"
+  "rque\022\017\n\007coltime\030\001 \001(\006\022\017\n\007dwSeqNo\030\002 \001(\005\022\021"
+  "\n\tdwQuality\030\003 \001(\005\022\017\n\007dwIPPos\030\004 \001(\005\022\020\n\010fM"
+  "axTorq\030\005 \001(\001\022\023\n\007fTorque\030\006 \003(\001B\002\020\001\022\020\n\004fRp"
+  "m\030\007 \003(\001B\002\020\001\022!\n\005tShow\030\010 \003(\0132\022.TorqData.Sh"
+  "owInfo\022\021\n\tbegintime\030\t \001(\006\022\020\n\010dwIPTorq\030\n "
+  "\001(\005\022\023\n\013dwTotalPlus\030\013 \001(\005\022\020\n\010dwIPPlus\030\014 \001"
+  "(\005\022\025\n\tdwDelPlus\030\r \003(\005B\002\020\001\022\022\n\ndwColInter\030"
+  "\016 \001(\005\022\021\n\tllColTime\030\017 \001(\014\022\r\n\005dwVer\030\020 \001(\005\022"
+  "\021\n\tbToolBuck\030\025 \001(\010\022\017\n\007strMemo\030\026 \001(\014\022\021\n\ts"
+  "trRemark\030\027 \001(\014\022\021\n\tbNCheckIP\030\030 \001(\010\022\020\n\010bSh"
+  "ackle\030\031 \001(\010\022\021\n\tbTimeLine\030\032 \001(\010\022\022\n\ndwTorq"
+  "Unit\030\033 \001(\005\022\021\n\tfMaxLimit\030\037 \001(\001\022\023\n\013fUpperL"
+  "imit\030  \001(\001\022\020\n\010fControl\030! \001(\001\022\023\n\013fLowerLi"
+  "mit\030\" \001(\001\022\022\n\nfSpeedDown\030# \001(\001\022\r\n\005fShow\030$"
+  " \001(\001\022\r\n\005fBear\030% \001(\001\022\021\n\tfUpperTai\030& \001(\001\022\021"
+  "\n\tfLowerTai\030\' \001(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007f"
+  "MaxCir\030) \001(\001\022\021\n\tfUpperCir\030* \001(\001\022\023\n\013fCont"
+  "rolCir\030+ \001(\001\022\021\n\tfLowerCir\030, \001(\001\022\020\n\010fMaxT"
+  "ime\030- \001(\001\022\022\n\nfUpperTime\030. \001(\001\022\024\n\014fContro"
+  "lTime\030/ \001(\001\022\022\n\nfLowerTime\0300 \001(\001\022\r\n\005fPlus"
+  "\0303 \001(\001\022\017\n\007fMaxRPM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n"
+  "\007fRpmAdj\0306 \001(\001\022\016\n\006fMulti\0307 \001(\001\022\024\n\014fMinSh"
+  "lSlope\030F \001(\001\022\024\n\014fMaxDeltaCir\030G \001(\001\022\024\n\014fM"
+  "inDeltaCir\030H \001(\001\022\022\n\nfMakeupDur\030I \001(\001b\006pr"
+  "oto3"
+  ;
+static ::_pbi::once_flag descriptor_table_TorqData_2eproto_once;
+const ::_pbi::DescriptorTable descriptor_table_TorqData_2eproto = {
+    false, false, 1044, descriptor_table_protodef_TorqData_2eproto,
+    "TorqData.proto",
+    &descriptor_table_TorqData_2eproto_once, nullptr, 0, 2,
+    schemas, file_default_instances, TableStruct_TorqData_2eproto::offsets,
+    file_level_metadata_TorqData_2eproto, file_level_enum_descriptors_TorqData_2eproto,
+    file_level_service_descriptors_TorqData_2eproto,
+};
+PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_TorqData_2eproto_getter() {
+  return &descriptor_table_TorqData_2eproto;
 }
 
-void AddDescriptors() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_TorqData_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_TorqData_2eproto(&descriptor_table_TorqData_2eproto);
 namespace TorqData {
 
 // ===================================================================
 
-void ShowInfo::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ShowInfo::kStrValueFieldNumber;
-const int ShowInfo::kStrNameFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class ShowInfo::_Internal {
+ public:
+};
 
-ShowInfo::ShowInfo()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_TorqData_2eproto::InitDefaultsShowInfo();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:TorqData.ShowInfo)
+ShowInfo::ShowInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:TorqData.ShowInfo)
 }
 ShowInfo::ShowInfo(const ShowInfo& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  strvalue_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.strvalue().size() > 0) {
-    strvalue_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strvalue_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ShowInfo* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.strvalue_){}
+    , decltype(_impl_.strname_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.strvalue_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strvalue_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_strvalue().empty()) {
+    _this->_impl_.strvalue_.Set(from._internal_strvalue(), 
+      _this->GetArenaForAllocation());
   }
-  strname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.strname().size() > 0) {
-    strname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strname_);
+  _impl_.strname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_strname().empty()) {
+    _this->_impl_.strname_.Set(from._internal_strname(), 
+      _this->GetArenaForAllocation());
   }
   // @@protoc_insertion_point(copy_constructor:TorqData.ShowInfo)
 }
 
-void ShowInfo::SharedCtor() {
-  strvalue_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  _cached_size_ = 0;
+inline void ShowInfo::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.strvalue_){}
+    , decltype(_impl_.strname_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.strvalue_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strvalue_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.strname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ShowInfo::~ShowInfo() {
   // @@protoc_insertion_point(destructor:TorqData.ShowInfo)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
   SharedDtor();
 }
 
-void ShowInfo::SharedDtor() {
-  strvalue_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void ShowInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.strvalue_.Destroy();
+  _impl_.strname_.Destroy();
 }
 
 void ShowInfo::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* ShowInfo::descriptor() {
-  ::protobuf_TorqData_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_TorqData_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const ShowInfo& ShowInfo::default_instance() {
-  ::protobuf_TorqData_2eproto::InitDefaultsShowInfo();
-  return *internal_default_instance();
-}
-
-ShowInfo* ShowInfo::New(::google::protobuf::Arena* arena) const {
-  ShowInfo* n = new ShowInfo;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
+  _impl_._cached_size_.Set(size);
 }
 
 void ShowInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:TorqData.ShowInfo)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  strvalue_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  _internal_metadata_.Clear();
+  _impl_.strvalue_.ClearToEmpty();
+  _impl_.strname_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool ShowInfo::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:TorqData.ShowInfo)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* ShowInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
       // bytes strValue = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_strvalue()));
-        } else {
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_strvalue();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bytes strName = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_strname()));
-        } else {
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_strname();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
     }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:TorqData.ShowInfo)
-  return true;
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:TorqData.ShowInfo)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
 }
 
-void ShowInfo::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:TorqData.ShowInfo)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // bytes strValue = 2;
-  if (this->strvalue().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      2, this->strvalue(), output);
-  }
-
-  // bytes strName = 3;
-  if (this->strname().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      3, this->strname(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:TorqData.ShowInfo)
-}
-
-::google::protobuf::uint8* ShowInfo::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+uint8_t* ShowInfo::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:TorqData.ShowInfo)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bytes strValue = 2;
-  if (this->strvalue().size() > 0) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        2, this->strvalue(), target);
+  if (!this->_internal_strvalue().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_strvalue(), target);
   }
 
   // bytes strName = 3;
-  if (this->strname().size() > 0) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        3, this->strname(), target);
+  if (!this->_internal_strname().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        3, this->_internal_strname(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:TorqData.ShowInfo)
   return target;
@@ -415,69 +391,49 @@ size_t ShowInfo::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:TorqData.ShowInfo)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // bytes strValue = 2;
-  if (this->strvalue().size() > 0) {
+  if (!this->_internal_strvalue().empty()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->strvalue());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_strvalue());
   }
 
   // bytes strName = 3;
-  if (this->strname().size() > 0) {
+  if (!this->_internal_strname().empty()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->strname());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_strname());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-void ShowInfo::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:TorqData.ShowInfo)
-  GOOGLE_DCHECK_NE(&from, this);
-  const ShowInfo* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ShowInfo>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:TorqData.ShowInfo)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:TorqData.ShowInfo)
-    MergeFrom(*source);
-  }
-}
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ShowInfo::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ShowInfo::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ShowInfo::GetClassData() const { return &_class_data_; }
 
-void ShowInfo::MergeFrom(const ShowInfo& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:TorqData.ShowInfo)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+
+void ShowInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ShowInfo*>(&to_msg);
+  auto& from = static_cast<const ShowInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:TorqData.ShowInfo)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.strvalue().size() > 0) {
-
-    strvalue_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strvalue_);
+  if (!from._internal_strvalue().empty()) {
+    _this->_internal_set_strvalue(from._internal_strvalue());
   }
-  if (from.strname().size() > 0) {
-
-    strname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strname_);
+  if (!from._internal_strname().empty()) {
+    _this->_internal_set_strname(from._internal_strname());
   }
-}
-
-void ShowInfo::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:TorqData.ShowInfo)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void ShowInfo::CopyFrom(const ShowInfo& from) {
@@ -491,1490 +447,1112 @@ bool ShowInfo::IsInitialized() const {
   return true;
 }
 
-void ShowInfo::Swap(ShowInfo* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void ShowInfo::InternalSwap(ShowInfo* other) {
   using std::swap;
-  strvalue_.Swap(&other->strvalue_);
-  strname_.Swap(&other->strname_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.strvalue_, lhs_arena,
+      &other->_impl_.strvalue_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.strname_, lhs_arena,
+      &other->_impl_.strname_, rhs_arena
+  );
 }
 
-::google::protobuf::Metadata ShowInfo::GetMetadata() const {
-  protobuf_TorqData_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_TorqData_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata ShowInfo::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_TorqData_2eproto_getter, &descriptor_table_TorqData_2eproto_once,
+      file_level_metadata_TorqData_2eproto[0]);
 }
-
 
 // ===================================================================
 
-void Torque::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Torque::kColtimeFieldNumber;
-const int Torque::kDwSeqNoFieldNumber;
-const int Torque::kDwQualityFieldNumber;
-const int Torque::kDwIPPosFieldNumber;
-const int Torque::kFMaxTorqFieldNumber;
-const int Torque::kFTorqueFieldNumber;
-const int Torque::kFRpmFieldNumber;
-const int Torque::kTShowFieldNumber;
-const int Torque::kBegintimeFieldNumber;
-const int Torque::kDwIPTorqFieldNumber;
-const int Torque::kDwTotalPlusFieldNumber;
-const int Torque::kDwIPPlusFieldNumber;
-const int Torque::kDwDelPlusFieldNumber;
-const int Torque::kDwColInterFieldNumber;
-const int Torque::kLlColTimeFieldNumber;
-const int Torque::kDwVerFieldNumber;
-const int Torque::kBToolBuckFieldNumber;
-const int Torque::kStrMemoFieldNumber;
-const int Torque::kStrRemarkFieldNumber;
-const int Torque::kBNCheckIPFieldNumber;
-const int Torque::kBShackleFieldNumber;
-const int Torque::kBTimeLineFieldNumber;
-const int Torque::kDwTorqUnitFieldNumber;
-const int Torque::kFMaxLimitFieldNumber;
-const int Torque::kFUpperLimitFieldNumber;
-const int Torque::kFControlFieldNumber;
-const int Torque::kFLowerLimitFieldNumber;
-const int Torque::kFSpeedDownFieldNumber;
-const int Torque::kFShowFieldNumber;
-const int Torque::kFBearFieldNumber;
-const int Torque::kFUpperTaiFieldNumber;
-const int Torque::kFLowerTaiFieldNumber;
-const int Torque::kFOptTorqFieldNumber;
-const int Torque::kFMaxCirFieldNumber;
-const int Torque::kFUpperCirFieldNumber;
-const int Torque::kFControlCirFieldNumber;
-const int Torque::kFLowerCirFieldNumber;
-const int Torque::kFMaxTimeFieldNumber;
-const int Torque::kFUpperTimeFieldNumber;
-const int Torque::kFControlTimeFieldNumber;
-const int Torque::kFLowerTimeFieldNumber;
-const int Torque::kFPlusFieldNumber;
-const int Torque::kFMaxRPMFieldNumber;
-const int Torque::kFCutFieldNumber;
-const int Torque::kFRpmAdjFieldNumber;
-const int Torque::kFMultiFieldNumber;
-const int Torque::kFMinShlSlopeFieldNumber;
-const int Torque::kFMaxDeltaCirFieldNumber;
-const int Torque::kFMinDeltaCirFieldNumber;
-const int Torque::kFMakeupDurFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class Torque::_Internal {
+ public:
+};
 
-Torque::Torque()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_TorqData_2eproto::InitDefaultsTorque();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:TorqData.Torque)
+Torque::Torque(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:TorqData.Torque)
 }
 Torque::Torque(const Torque& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      ftorque_(from.ftorque_),
-      frpm_(from.frpm_),
-      tshow_(from.tshow_),
-      dwdelplus_(from.dwdelplus_),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  llcoltime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.llcoltime().size() > 0) {
-    llcoltime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.llcoltime_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Torque* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.ftorque_){from._impl_.ftorque_}
+    , decltype(_impl_.frpm_){from._impl_.frpm_}
+    , decltype(_impl_.tshow_){from._impl_.tshow_}
+    , decltype(_impl_.dwdelplus_){from._impl_.dwdelplus_}
+    , /*decltype(_impl_._dwdelplus_cached_byte_size_)*/{0}
+    , decltype(_impl_.llcoltime_){}
+    , decltype(_impl_.strmemo_){}
+    , decltype(_impl_.strremark_){}
+    , decltype(_impl_.coltime_){}
+    , decltype(_impl_.dwseqno_){}
+    , decltype(_impl_.dwquality_){}
+    , decltype(_impl_.fmaxtorq_){}
+    , decltype(_impl_.dwippos_){}
+    , decltype(_impl_.dwiptorq_){}
+    , decltype(_impl_.begintime_){}
+    , decltype(_impl_.dwtotalplus_){}
+    , decltype(_impl_.dwipplus_){}
+    , decltype(_impl_.dwcolinter_){}
+    , decltype(_impl_.dwver_){}
+    , decltype(_impl_.btoolbuck_){}
+    , decltype(_impl_.bncheckip_){}
+    , decltype(_impl_.bshackle_){}
+    , decltype(_impl_.btimeline_){}
+    , decltype(_impl_.dwtorqunit_){}
+    , decltype(_impl_.fmaxlimit_){}
+    , decltype(_impl_.fupperlimit_){}
+    , decltype(_impl_.fcontrol_){}
+    , decltype(_impl_.flowerlimit_){}
+    , decltype(_impl_.fspeeddown_){}
+    , decltype(_impl_.fshow_){}
+    , decltype(_impl_.fbear_){}
+    , decltype(_impl_.fuppertai_){}
+    , decltype(_impl_.flowertai_){}
+    , decltype(_impl_.fopttorq_){}
+    , decltype(_impl_.fmaxcir_){}
+    , decltype(_impl_.fuppercir_){}
+    , decltype(_impl_.fcontrolcir_){}
+    , decltype(_impl_.flowercir_){}
+    , decltype(_impl_.fmaxtime_){}
+    , decltype(_impl_.fuppertime_){}
+    , decltype(_impl_.fcontroltime_){}
+    , decltype(_impl_.flowertime_){}
+    , decltype(_impl_.fplus_){}
+    , decltype(_impl_.fmaxrpm_){}
+    , decltype(_impl_.fcut_){}
+    , decltype(_impl_.frpmadj_){}
+    , decltype(_impl_.fmulti_){}
+    , decltype(_impl_.fminshlslope_){}
+    , decltype(_impl_.fmaxdeltacir_){}
+    , decltype(_impl_.fmindeltacir_){}
+    , decltype(_impl_.fmakeupdur_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.llcoltime_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llcoltime_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_llcoltime().empty()) {
+    _this->_impl_.llcoltime_.Set(from._internal_llcoltime(), 
+      _this->GetArenaForAllocation());
   }
-  strmemo_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.strmemo().size() > 0) {
-    strmemo_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strmemo_);
+  _impl_.strmemo_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strmemo_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_strmemo().empty()) {
+    _this->_impl_.strmemo_.Set(from._internal_strmemo(), 
+      _this->GetArenaForAllocation());
   }
-  strremark_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.strremark().size() > 0) {
-    strremark_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strremark_);
+  _impl_.strremark_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strremark_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_strremark().empty()) {
+    _this->_impl_.strremark_.Set(from._internal_strremark(), 
+      _this->GetArenaForAllocation());
   }
-  ::memcpy(&coltime_, &from.coltime_,
-    static_cast<size_t>(reinterpret_cast<char*>(&fmakeupdur_) -
-    reinterpret_cast<char*>(&coltime_)) + sizeof(fmakeupdur_));
+  ::memcpy(&_impl_.coltime_, &from._impl_.coltime_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.fmakeupdur_) -
+    reinterpret_cast<char*>(&_impl_.coltime_)) + sizeof(_impl_.fmakeupdur_));
   // @@protoc_insertion_point(copy_constructor:TorqData.Torque)
 }
 
-void Torque::SharedCtor() {
-  llcoltime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strmemo_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strremark_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&coltime_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fmakeupdur_) -
-      reinterpret_cast<char*>(&coltime_)) + sizeof(fmakeupdur_));
-  _cached_size_ = 0;
+inline void Torque::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.ftorque_){arena}
+    , decltype(_impl_.frpm_){arena}
+    , decltype(_impl_.tshow_){arena}
+    , decltype(_impl_.dwdelplus_){arena}
+    , /*decltype(_impl_._dwdelplus_cached_byte_size_)*/{0}
+    , decltype(_impl_.llcoltime_){}
+    , decltype(_impl_.strmemo_){}
+    , decltype(_impl_.strremark_){}
+    , decltype(_impl_.coltime_){uint64_t{0u}}
+    , decltype(_impl_.dwseqno_){0}
+    , decltype(_impl_.dwquality_){0}
+    , decltype(_impl_.fmaxtorq_){0}
+    , decltype(_impl_.dwippos_){0}
+    , decltype(_impl_.dwiptorq_){0}
+    , decltype(_impl_.begintime_){uint64_t{0u}}
+    , decltype(_impl_.dwtotalplus_){0}
+    , decltype(_impl_.dwipplus_){0}
+    , decltype(_impl_.dwcolinter_){0}
+    , decltype(_impl_.dwver_){0}
+    , decltype(_impl_.btoolbuck_){false}
+    , decltype(_impl_.bncheckip_){false}
+    , decltype(_impl_.bshackle_){false}
+    , decltype(_impl_.btimeline_){false}
+    , decltype(_impl_.dwtorqunit_){0}
+    , decltype(_impl_.fmaxlimit_){0}
+    , decltype(_impl_.fupperlimit_){0}
+    , decltype(_impl_.fcontrol_){0}
+    , decltype(_impl_.flowerlimit_){0}
+    , decltype(_impl_.fspeeddown_){0}
+    , decltype(_impl_.fshow_){0}
+    , decltype(_impl_.fbear_){0}
+    , decltype(_impl_.fuppertai_){0}
+    , decltype(_impl_.flowertai_){0}
+    , decltype(_impl_.fopttorq_){0}
+    , decltype(_impl_.fmaxcir_){0}
+    , decltype(_impl_.fuppercir_){0}
+    , decltype(_impl_.fcontrolcir_){0}
+    , decltype(_impl_.flowercir_){0}
+    , decltype(_impl_.fmaxtime_){0}
+    , decltype(_impl_.fuppertime_){0}
+    , decltype(_impl_.fcontroltime_){0}
+    , decltype(_impl_.flowertime_){0}
+    , decltype(_impl_.fplus_){0}
+    , decltype(_impl_.fmaxrpm_){0}
+    , decltype(_impl_.fcut_){0}
+    , decltype(_impl_.frpmadj_){0}
+    , decltype(_impl_.fmulti_){0}
+    , decltype(_impl_.fminshlslope_){0}
+    , decltype(_impl_.fmaxdeltacir_){0}
+    , decltype(_impl_.fmindeltacir_){0}
+    , decltype(_impl_.fmakeupdur_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.llcoltime_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llcoltime_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.strmemo_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strmemo_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.strremark_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strremark_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 Torque::~Torque() {
   // @@protoc_insertion_point(destructor:TorqData.Torque)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
   SharedDtor();
 }
 
-void Torque::SharedDtor() {
-  llcoltime_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strmemo_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strremark_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void Torque::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.ftorque_.~RepeatedField();
+  _impl_.frpm_.~RepeatedField();
+  _impl_.tshow_.~RepeatedPtrField();
+  _impl_.dwdelplus_.~RepeatedField();
+  _impl_.llcoltime_.Destroy();
+  _impl_.strmemo_.Destroy();
+  _impl_.strremark_.Destroy();
 }
 
 void Torque::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Torque::descriptor() {
-  ::protobuf_TorqData_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_TorqData_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const Torque& Torque::default_instance() {
-  ::protobuf_TorqData_2eproto::InitDefaultsTorque();
-  return *internal_default_instance();
-}
-
-Torque* Torque::New(::google::protobuf::Arena* arena) const {
-  Torque* n = new Torque;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
+  _impl_._cached_size_.Set(size);
 }
 
 void Torque::Clear() {
 // @@protoc_insertion_point(message_clear_start:TorqData.Torque)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ftorque_.Clear();
-  frpm_.Clear();
-  tshow_.Clear();
-  dwdelplus_.Clear();
-  llcoltime_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strmemo_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  strremark_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&coltime_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fmakeupdur_) -
-      reinterpret_cast<char*>(&coltime_)) + sizeof(fmakeupdur_));
-  _internal_metadata_.Clear();
+  _impl_.ftorque_.Clear();
+  _impl_.frpm_.Clear();
+  _impl_.tshow_.Clear();
+  _impl_.dwdelplus_.Clear();
+  _impl_.llcoltime_.ClearToEmpty();
+  _impl_.strmemo_.ClearToEmpty();
+  _impl_.strremark_.ClearToEmpty();
+  ::memset(&_impl_.coltime_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.fmakeupdur_) -
+      reinterpret_cast<char*>(&_impl_.coltime_)) + sizeof(_impl_.fmakeupdur_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool Torque::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:TorqData.Torque)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* Torque::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
       // fixed64 coltime = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(9u /* 9 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_FIXED64>(
-                 input, &coltime_)));
-        } else {
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 9)) {
+          _impl_.coltime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<uint64_t>(ptr);
+          ptr += sizeof(uint64_t);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwSeqNo = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwseqno_)));
-        } else {
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.dwseqno_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwQuality = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwquality_)));
-        } else {
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.dwquality_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwIPPos = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwippos_)));
-        } else {
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.dwippos_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMaxTorq = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(41u /* 41 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmaxtorq_)));
-        } else {
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 41)) {
+          _impl_.fmaxtorq_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // repeated double fTorque = 6 [packed = true];
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, this->mutable_ftorque())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(49u /* 49 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 1, 50u, input, this->mutable_ftorque())));
-        } else {
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedDoubleParser(_internal_mutable_ftorque(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 49) {
+          _internal_add_ftorque(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr));
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // repeated double fRpm = 7 [packed = true];
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, this->mutable_frpm())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(57u /* 57 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 1, 58u, input, this->mutable_frpm())));
-        } else {
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedDoubleParser(_internal_mutable_frpm(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 57) {
+          _internal_add_frpm(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr));
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // repeated .TorqData.ShowInfo tShow = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_tshow()));
-        } else {
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_tshow(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<66>(ptr));
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // fixed64 begintime = 9;
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(73u /* 73 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_FIXED64>(
-                 input, &begintime_)));
-        } else {
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 73)) {
+          _impl_.begintime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<uint64_t>(ptr);
+          ptr += sizeof(uint64_t);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwIPTorq = 10;
-      case 10: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwiptorq_)));
-        } else {
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _impl_.dwiptorq_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwTotalPlus = 11;
-      case 11: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwtotalplus_)));
-        } else {
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+          _impl_.dwtotalplus_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwIPPlus = 12;
-      case 12: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwipplus_)));
-        } else {
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
+          _impl_.dwipplus_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // repeated int32 dwDelPlus = 13 [packed = true];
-      case 13: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_dwdelplus())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 106u, input, this->mutable_dwdelplus())));
-        } else {
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_dwdelplus(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 104) {
+          _internal_add_dwdelplus(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwColInter = 14;
-      case 14: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwcolinter_)));
-        } else {
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
+          _impl_.dwcolinter_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bytes llColTime = 15;
-      case 15: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(122u /* 122 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_llcoltime()));
-        } else {
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 122)) {
+          auto str = _internal_mutable_llcoltime();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwVer = 16;
-      case 16: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(128u /* 128 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwver_)));
-        } else {
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 128)) {
+          _impl_.dwver_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bool bToolBuck = 21;
-      case 21: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(168u /* 168 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &btoolbuck_)));
-        } else {
+      case 21:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 168)) {
+          _impl_.btoolbuck_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bytes strMemo = 22;
-      case 22: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(178u /* 178 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_strmemo()));
-        } else {
+      case 22:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 178)) {
+          auto str = _internal_mutable_strmemo();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bytes strRemark = 23;
-      case 23: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(186u /* 186 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_strremark()));
-        } else {
+      case 23:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 186)) {
+          auto str = _internal_mutable_strremark();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bool bNCheckIP = 24;
-      case 24: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(192u /* 192 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &bncheckip_)));
-        } else {
+      case 24:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 192)) {
+          _impl_.bncheckip_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bool bShackle = 25;
-      case 25: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(200u /* 200 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &bshackle_)));
-        } else {
+      case 25:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 200)) {
+          _impl_.bshackle_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // bool bTimeLine = 26;
-      case 26: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(208u /* 208 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &btimeline_)));
-        } else {
+      case 26:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 208)) {
+          _impl_.btimeline_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // int32 dwTorqUnit = 27;
-      case 27: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(216u /* 216 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &dwtorqunit_)));
-        } else {
+      case 27:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 216)) {
+          _impl_.dwtorqunit_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMaxLimit = 31;
-      case 31: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(249u /* 249 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmaxlimit_)));
-        } else {
+      case 31:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 249)) {
+          _impl_.fmaxlimit_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fUpperLimit = 32;
-      case 32: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(1u /* 257 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fupperlimit_)));
-        } else {
+      case 32:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 1)) {
+          _impl_.fupperlimit_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fControl = 33;
-      case 33: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(9u /* 265 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fcontrol_)));
-        } else {
+      case 33:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 9)) {
+          _impl_.fcontrol_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fLowerLimit = 34;
-      case 34: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(17u /* 273 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &flowerlimit_)));
-        } else {
+      case 34:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
+          _impl_.flowerlimit_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fSpeedDown = 35;
-      case 35: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(25u /* 281 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fspeeddown_)));
-        } else {
+      case 35:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.fspeeddown_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fShow = 36;
-      case 36: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(33u /* 289 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fshow_)));
-        } else {
+      case 36:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.fshow_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fBear = 37;
-      case 37: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(41u /* 297 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fbear_)));
-        } else {
+      case 37:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 41)) {
+          _impl_.fbear_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fUpperTai = 38;
-      case 38: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(49u /* 305 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fuppertai_)));
-        } else {
+      case 38:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 49)) {
+          _impl_.fuppertai_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fLowerTai = 39;
-      case 39: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(57u /* 313 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &flowertai_)));
-        } else {
+      case 39:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 57)) {
+          _impl_.flowertai_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fOptTorq = 40;
-      case 40: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(65u /* 321 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fopttorq_)));
-        } else {
+      case 40:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 65)) {
+          _impl_.fopttorq_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMaxCir = 41;
-      case 41: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(73u /* 329 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmaxcir_)));
-        } else {
+      case 41:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 73)) {
+          _impl_.fmaxcir_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fUpperCir = 42;
-      case 42: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(81u /* 337 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fuppercir_)));
-        } else {
+      case 42:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 81)) {
+          _impl_.fuppercir_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fControlCir = 43;
-      case 43: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(89u /* 345 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fcontrolcir_)));
-        } else {
+      case 43:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 89)) {
+          _impl_.fcontrolcir_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fLowerCir = 44;
-      case 44: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(97u /* 353 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &flowercir_)));
-        } else {
+      case 44:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 97)) {
+          _impl_.flowercir_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMaxTime = 45;
-      case 45: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(105u /* 361 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmaxtime_)));
-        } else {
+      case 45:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 105)) {
+          _impl_.fmaxtime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fUpperTime = 46;
-      case 46: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(113u /* 369 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fuppertime_)));
-        } else {
+      case 46:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 113)) {
+          _impl_.fuppertime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fControlTime = 47;
-      case 47: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(121u /* 377 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fcontroltime_)));
-        } else {
+      case 47:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 121)) {
+          _impl_.fcontroltime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fLowerTime = 48;
-      case 48: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(129u /* 385 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &flowertime_)));
-        } else {
+      case 48:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 129)) {
+          _impl_.flowertime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fPlus = 51;
-      case 51: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(153u /* 409 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fplus_)));
-        } else {
+      case 51:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 153)) {
+          _impl_.fplus_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMaxRPM = 52;
-      case 52: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(161u /* 417 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmaxrpm_)));
-        } else {
+      case 52:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 161)) {
+          _impl_.fmaxrpm_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fCut = 53;
-      case 53: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(169u /* 425 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fcut_)));
-        } else {
+      case 53:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 169)) {
+          _impl_.fcut_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fRpmAdj = 54;
-      case 54: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(177u /* 433 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &frpmadj_)));
-        } else {
+      case 54:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 177)) {
+          _impl_.frpmadj_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMulti = 55;
-      case 55: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(185u /* 441 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmulti_)));
-        } else {
+      case 55:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 185)) {
+          _impl_.fmulti_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMinShlSlope = 70;
-      case 70: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(49u /* 561 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fminshlslope_)));
-        } else {
+      case 70:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 49)) {
+          _impl_.fminshlslope_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMaxDeltaCir = 71;
-      case 71: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(57u /* 569 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmaxdeltacir_)));
-        } else {
+      case 71:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 57)) {
+          _impl_.fmaxdeltacir_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMinDeltaCir = 72;
-      case 72: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(65u /* 577 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmindeltacir_)));
-        } else {
+      case 72:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 65)) {
+          _impl_.fmindeltacir_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
-
+        continue;
       // double fMakeupDur = 73;
-      case 73: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(73u /* 585 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &fmakeupdur_)));
-        } else {
+      case 73:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 73)) {
+          _impl_.fmakeupdur_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
           goto handle_unusual;
-        }
-        break;
-      }
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
 
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
+uint8_t* Torque::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:TorqData.Torque)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // fixed64 coltime = 1;
+  if (this->_internal_coltime() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFixed64ToArray(1, this->_internal_coltime(), target);
+  }
+
+  // int32 dwSeqNo = 2;
+  if (this->_internal_dwseqno() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_dwseqno(), target);
+  }
+
+  // int32 dwQuality = 3;
+  if (this->_internal_dwquality() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_dwquality(), target);
+  }
+
+  // int32 dwIPPos = 4;
+  if (this->_internal_dwippos() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_dwippos(), target);
+  }
+
+  // double fMaxTorq = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxtorq = this->_internal_fmaxtorq();
+  uint64_t raw_fmaxtorq;
+  memcpy(&raw_fmaxtorq, &tmp_fmaxtorq, sizeof(tmp_fmaxtorq));
+  if (raw_fmaxtorq != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(5, this->_internal_fmaxtorq(), target);
+  }
+
+  // repeated double fTorque = 6 [packed = true];
+  if (this->_internal_ftorque_size() > 0) {
+    target = stream->WriteFixedPacked(6, _internal_ftorque(), target);
+  }
+
+  // repeated double fRpm = 7 [packed = true];
+  if (this->_internal_frpm_size() > 0) {
+    target = stream->WriteFixedPacked(7, _internal_frpm(), target);
+  }
+
+  // repeated .TorqData.ShowInfo tShow = 8;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_tshow_size()); i < n; i++) {
+    const auto& repfield = this->_internal_tshow(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(8, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // fixed64 begintime = 9;
+  if (this->_internal_begintime() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFixed64ToArray(9, this->_internal_begintime(), target);
+  }
+
+  // int32 dwIPTorq = 10;
+  if (this->_internal_dwiptorq() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(10, this->_internal_dwiptorq(), target);
+  }
+
+  // int32 dwTotalPlus = 11;
+  if (this->_internal_dwtotalplus() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(11, this->_internal_dwtotalplus(), target);
+  }
+
+  // int32 dwIPPlus = 12;
+  if (this->_internal_dwipplus() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(12, this->_internal_dwipplus(), target);
+  }
+
+  // repeated int32 dwDelPlus = 13 [packed = true];
+  {
+    int byte_size = _impl_._dwdelplus_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          13, _internal_dwdelplus(), byte_size, target);
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:TorqData.Torque)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:TorqData.Torque)
-  return false;
-#undef DO_
-}
-
-void Torque::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:TorqData.Torque)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // fixed64 coltime = 1;
-  if (this->coltime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFixed64(1, this->coltime(), output);
-  }
-
-  // int32 dwSeqNo = 2;
-  if (this->dwseqno() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->dwseqno(), output);
-  }
-
-  // int32 dwQuality = 3;
-  if (this->dwquality() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->dwquality(), output);
-  }
-
-  // int32 dwIPPos = 4;
-  if (this->dwippos() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->dwippos(), output);
-  }
-
-  // double fMaxTorq = 5;
-  if (this->fmaxtorq() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(5, this->fmaxtorq(), output);
-  }
-
-  // repeated double fTorque = 6 [packed = true];
-  if (this->ftorque_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(6, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _ftorque_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteDoubleArray(
-      this->ftorque().data(), this->ftorque_size(), output);
-  }
-
-  // repeated double fRpm = 7 [packed = true];
-  if (this->frpm_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(7, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _frpm_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteDoubleArray(
-      this->frpm().data(), this->frpm_size(), output);
-  }
-
-  // repeated .TorqData.ShowInfo tShow = 8;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->tshow_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->tshow(static_cast<int>(i)), output);
-  }
-
-  // fixed64 begintime = 9;
-  if (this->begintime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFixed64(9, this->begintime(), output);
-  }
-
-  // int32 dwIPTorq = 10;
-  if (this->dwiptorq() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(10, this->dwiptorq(), output);
-  }
-
-  // int32 dwTotalPlus = 11;
-  if (this->dwtotalplus() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->dwtotalplus(), output);
-  }
-
-  // int32 dwIPPlus = 12;
-  if (this->dwipplus() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(12, this->dwipplus(), output);
-  }
-
-  // repeated int32 dwDelPlus = 13 [packed = true];
-  if (this->dwdelplus_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(13, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _dwdelplus_cached_byte_size_));
-  }
-  for (int i = 0, n = this->dwdelplus_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
-      this->dwdelplus(i), output);
-  }
 
   // int32 dwColInter = 14;
-  if (this->dwcolinter() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(14, this->dwcolinter(), output);
+  if (this->_internal_dwcolinter() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(14, this->_internal_dwcolinter(), target);
   }
 
   // bytes llColTime = 15;
-  if (this->llcoltime().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      15, this->llcoltime(), output);
+  if (!this->_internal_llcoltime().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        15, this->_internal_llcoltime(), target);
   }
 
   // int32 dwVer = 16;
-  if (this->dwver() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(16, this->dwver(), output);
+  if (this->_internal_dwver() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(16, this->_internal_dwver(), target);
   }
 
   // bool bToolBuck = 21;
-  if (this->btoolbuck() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(21, this->btoolbuck(), output);
+  if (this->_internal_btoolbuck() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(21, this->_internal_btoolbuck(), target);
   }
 
   // bytes strMemo = 22;
-  if (this->strmemo().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      22, this->strmemo(), output);
+  if (!this->_internal_strmemo().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        22, this->_internal_strmemo(), target);
   }
 
   // bytes strRemark = 23;
-  if (this->strremark().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      23, this->strremark(), output);
+  if (!this->_internal_strremark().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        23, this->_internal_strremark(), target);
   }
 
   // bool bNCheckIP = 24;
-  if (this->bncheckip() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(24, this->bncheckip(), output);
+  if (this->_internal_bncheckip() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(24, this->_internal_bncheckip(), target);
   }
 
   // bool bShackle = 25;
-  if (this->bshackle() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(25, this->bshackle(), output);
+  if (this->_internal_bshackle() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(25, this->_internal_bshackle(), target);
   }
 
   // bool bTimeLine = 26;
-  if (this->btimeline() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(26, this->btimeline(), output);
+  if (this->_internal_btimeline() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(26, this->_internal_btimeline(), target);
   }
 
   // int32 dwTorqUnit = 27;
-  if (this->dwtorqunit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(27, this->dwtorqunit(), output);
+  if (this->_internal_dwtorqunit() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(27, this->_internal_dwtorqunit(), target);
   }
 
   // double fMaxLimit = 31;
-  if (this->fmaxlimit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(31, this->fmaxlimit(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxlimit = this->_internal_fmaxlimit();
+  uint64_t raw_fmaxlimit;
+  memcpy(&raw_fmaxlimit, &tmp_fmaxlimit, sizeof(tmp_fmaxlimit));
+  if (raw_fmaxlimit != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(31, this->_internal_fmaxlimit(), target);
   }
 
   // double fUpperLimit = 32;
-  if (this->fupperlimit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(32, this->fupperlimit(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fupperlimit = this->_internal_fupperlimit();
+  uint64_t raw_fupperlimit;
+  memcpy(&raw_fupperlimit, &tmp_fupperlimit, sizeof(tmp_fupperlimit));
+  if (raw_fupperlimit != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(32, this->_internal_fupperlimit(), target);
   }
 
   // double fControl = 33;
-  if (this->fcontrol() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(33, this->fcontrol(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontrol = this->_internal_fcontrol();
+  uint64_t raw_fcontrol;
+  memcpy(&raw_fcontrol, &tmp_fcontrol, sizeof(tmp_fcontrol));
+  if (raw_fcontrol != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(33, this->_internal_fcontrol(), target);
   }
 
   // double fLowerLimit = 34;
-  if (this->flowerlimit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(34, this->flowerlimit(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowerlimit = this->_internal_flowerlimit();
+  uint64_t raw_flowerlimit;
+  memcpy(&raw_flowerlimit, &tmp_flowerlimit, sizeof(tmp_flowerlimit));
+  if (raw_flowerlimit != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(34, this->_internal_flowerlimit(), target);
   }
 
   // double fSpeedDown = 35;
-  if (this->fspeeddown() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(35, this->fspeeddown(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fspeeddown = this->_internal_fspeeddown();
+  uint64_t raw_fspeeddown;
+  memcpy(&raw_fspeeddown, &tmp_fspeeddown, sizeof(tmp_fspeeddown));
+  if (raw_fspeeddown != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(35, this->_internal_fspeeddown(), target);
   }
 
   // double fShow = 36;
-  if (this->fshow() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(36, this->fshow(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fshow = this->_internal_fshow();
+  uint64_t raw_fshow;
+  memcpy(&raw_fshow, &tmp_fshow, sizeof(tmp_fshow));
+  if (raw_fshow != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(36, this->_internal_fshow(), target);
   }
 
   // double fBear = 37;
-  if (this->fbear() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(37, this->fbear(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fbear = this->_internal_fbear();
+  uint64_t raw_fbear;
+  memcpy(&raw_fbear, &tmp_fbear, sizeof(tmp_fbear));
+  if (raw_fbear != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(37, this->_internal_fbear(), target);
   }
 
   // double fUpperTai = 38;
-  if (this->fuppertai() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(38, this->fuppertai(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppertai = this->_internal_fuppertai();
+  uint64_t raw_fuppertai;
+  memcpy(&raw_fuppertai, &tmp_fuppertai, sizeof(tmp_fuppertai));
+  if (raw_fuppertai != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(38, this->_internal_fuppertai(), target);
   }
 
   // double fLowerTai = 39;
-  if (this->flowertai() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(39, this->flowertai(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowertai = this->_internal_flowertai();
+  uint64_t raw_flowertai;
+  memcpy(&raw_flowertai, &tmp_flowertai, sizeof(tmp_flowertai));
+  if (raw_flowertai != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(39, this->_internal_flowertai(), target);
   }
 
   // double fOptTorq = 40;
-  if (this->fopttorq() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(40, this->fopttorq(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fopttorq = this->_internal_fopttorq();
+  uint64_t raw_fopttorq;
+  memcpy(&raw_fopttorq, &tmp_fopttorq, sizeof(tmp_fopttorq));
+  if (raw_fopttorq != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(40, this->_internal_fopttorq(), target);
   }
 
   // double fMaxCir = 41;
-  if (this->fmaxcir() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(41, this->fmaxcir(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxcir = this->_internal_fmaxcir();
+  uint64_t raw_fmaxcir;
+  memcpy(&raw_fmaxcir, &tmp_fmaxcir, sizeof(tmp_fmaxcir));
+  if (raw_fmaxcir != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(41, this->_internal_fmaxcir(), target);
   }
 
   // double fUpperCir = 42;
-  if (this->fuppercir() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(42, this->fuppercir(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppercir = this->_internal_fuppercir();
+  uint64_t raw_fuppercir;
+  memcpy(&raw_fuppercir, &tmp_fuppercir, sizeof(tmp_fuppercir));
+  if (raw_fuppercir != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(42, this->_internal_fuppercir(), target);
   }
 
   // double fControlCir = 43;
-  if (this->fcontrolcir() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(43, this->fcontrolcir(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontrolcir = this->_internal_fcontrolcir();
+  uint64_t raw_fcontrolcir;
+  memcpy(&raw_fcontrolcir, &tmp_fcontrolcir, sizeof(tmp_fcontrolcir));
+  if (raw_fcontrolcir != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(43, this->_internal_fcontrolcir(), target);
   }
 
   // double fLowerCir = 44;
-  if (this->flowercir() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(44, this->flowercir(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowercir = this->_internal_flowercir();
+  uint64_t raw_flowercir;
+  memcpy(&raw_flowercir, &tmp_flowercir, sizeof(tmp_flowercir));
+  if (raw_flowercir != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(44, this->_internal_flowercir(), target);
   }
 
   // double fMaxTime = 45;
-  if (this->fmaxtime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(45, this->fmaxtime(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxtime = this->_internal_fmaxtime();
+  uint64_t raw_fmaxtime;
+  memcpy(&raw_fmaxtime, &tmp_fmaxtime, sizeof(tmp_fmaxtime));
+  if (raw_fmaxtime != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(45, this->_internal_fmaxtime(), target);
   }
 
   // double fUpperTime = 46;
-  if (this->fuppertime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(46, this->fuppertime(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppertime = this->_internal_fuppertime();
+  uint64_t raw_fuppertime;
+  memcpy(&raw_fuppertime, &tmp_fuppertime, sizeof(tmp_fuppertime));
+  if (raw_fuppertime != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(46, this->_internal_fuppertime(), target);
   }
 
   // double fControlTime = 47;
-  if (this->fcontroltime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(47, this->fcontroltime(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontroltime = this->_internal_fcontroltime();
+  uint64_t raw_fcontroltime;
+  memcpy(&raw_fcontroltime, &tmp_fcontroltime, sizeof(tmp_fcontroltime));
+  if (raw_fcontroltime != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(47, this->_internal_fcontroltime(), target);
   }
 
   // double fLowerTime = 48;
-  if (this->flowertime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(48, this->flowertime(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowertime = this->_internal_flowertime();
+  uint64_t raw_flowertime;
+  memcpy(&raw_flowertime, &tmp_flowertime, sizeof(tmp_flowertime));
+  if (raw_flowertime != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(48, this->_internal_flowertime(), target);
   }
 
   // double fPlus = 51;
-  if (this->fplus() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(51, this->fplus(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fplus = this->_internal_fplus();
+  uint64_t raw_fplus;
+  memcpy(&raw_fplus, &tmp_fplus, sizeof(tmp_fplus));
+  if (raw_fplus != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(51, this->_internal_fplus(), target);
   }
 
   // double fMaxRPM = 52;
-  if (this->fmaxrpm() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(52, this->fmaxrpm(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxrpm = this->_internal_fmaxrpm();
+  uint64_t raw_fmaxrpm;
+  memcpy(&raw_fmaxrpm, &tmp_fmaxrpm, sizeof(tmp_fmaxrpm));
+  if (raw_fmaxrpm != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(52, this->_internal_fmaxrpm(), target);
   }
 
   // double fCut = 53;
-  if (this->fcut() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(53, this->fcut(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcut = this->_internal_fcut();
+  uint64_t raw_fcut;
+  memcpy(&raw_fcut, &tmp_fcut, sizeof(tmp_fcut));
+  if (raw_fcut != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(53, this->_internal_fcut(), target);
   }
 
   // double fRpmAdj = 54;
-  if (this->frpmadj() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(54, this->frpmadj(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_frpmadj = this->_internal_frpmadj();
+  uint64_t raw_frpmadj;
+  memcpy(&raw_frpmadj, &tmp_frpmadj, sizeof(tmp_frpmadj));
+  if (raw_frpmadj != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(54, this->_internal_frpmadj(), target);
   }
 
   // double fMulti = 55;
-  if (this->fmulti() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(55, this->fmulti(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmulti = this->_internal_fmulti();
+  uint64_t raw_fmulti;
+  memcpy(&raw_fmulti, &tmp_fmulti, sizeof(tmp_fmulti));
+  if (raw_fmulti != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(55, this->_internal_fmulti(), target);
   }
 
   // double fMinShlSlope = 70;
-  if (this->fminshlslope() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(70, this->fminshlslope(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fminshlslope = this->_internal_fminshlslope();
+  uint64_t raw_fminshlslope;
+  memcpy(&raw_fminshlslope, &tmp_fminshlslope, sizeof(tmp_fminshlslope));
+  if (raw_fminshlslope != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(70, this->_internal_fminshlslope(), target);
   }
 
   // double fMaxDeltaCir = 71;
-  if (this->fmaxdeltacir() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(71, this->fmaxdeltacir(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxdeltacir = this->_internal_fmaxdeltacir();
+  uint64_t raw_fmaxdeltacir;
+  memcpy(&raw_fmaxdeltacir, &tmp_fmaxdeltacir, sizeof(tmp_fmaxdeltacir));
+  if (raw_fmaxdeltacir != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(71, this->_internal_fmaxdeltacir(), target);
   }
 
   // double fMinDeltaCir = 72;
-  if (this->fmindeltacir() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(72, this->fmindeltacir(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmindeltacir = this->_internal_fmindeltacir();
+  uint64_t raw_fmindeltacir;
+  memcpy(&raw_fmindeltacir, &tmp_fmindeltacir, sizeof(tmp_fmindeltacir));
+  if (raw_fmindeltacir != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(72, this->_internal_fmindeltacir(), target);
   }
 
   // double fMakeupDur = 73;
-  if (this->fmakeupdur() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(73, this->fmakeupdur(), output);
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmakeupdur = this->_internal_fmakeupdur();
+  uint64_t raw_fmakeupdur;
+  memcpy(&raw_fmakeupdur, &tmp_fmakeupdur, sizeof(tmp_fmakeupdur));
+  if (raw_fmakeupdur != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(73, this->_internal_fmakeupdur(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:TorqData.Torque)
-}
-
-::google::protobuf::uint8* Torque::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:TorqData.Torque)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // fixed64 coltime = 1;
-  if (this->coltime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFixed64ToArray(1, this->coltime(), target);
-  }
-
-  // int32 dwSeqNo = 2;
-  if (this->dwseqno() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->dwseqno(), target);
-  }
-
-  // int32 dwQuality = 3;
-  if (this->dwquality() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->dwquality(), target);
-  }
-
-  // int32 dwIPPos = 4;
-  if (this->dwippos() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->dwippos(), target);
-  }
-
-  // double fMaxTorq = 5;
-  if (this->fmaxtorq() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(5, this->fmaxtorq(), target);
-  }
-
-  // repeated double fTorque = 6 [packed = true];
-  if (this->ftorque_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      6,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _ftorque_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteDoubleNoTagToArray(this->ftorque_, target);
-  }
-
-  // repeated double fRpm = 7 [packed = true];
-  if (this->frpm_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      7,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _frpm_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteDoubleNoTagToArray(this->frpm_, target);
-  }
-
-  // repeated .TorqData.ShowInfo tShow = 8;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->tshow_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        8, this->tshow(static_cast<int>(i)), deterministic, target);
-  }
-
-  // fixed64 begintime = 9;
-  if (this->begintime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFixed64ToArray(9, this->begintime(), target);
-  }
-
-  // int32 dwIPTorq = 10;
-  if (this->dwiptorq() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(10, this->dwiptorq(), target);
-  }
-
-  // int32 dwTotalPlus = 11;
-  if (this->dwtotalplus() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->dwtotalplus(), target);
-  }
-
-  // int32 dwIPPlus = 12;
-  if (this->dwipplus() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(12, this->dwipplus(), target);
-  }
-
-  // repeated int32 dwDelPlus = 13 [packed = true];
-  if (this->dwdelplus_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      13,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _dwdelplus_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32NoTagToArray(this->dwdelplus_, target);
-  }
-
-  // int32 dwColInter = 14;
-  if (this->dwcolinter() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(14, this->dwcolinter(), target);
-  }
-
-  // bytes llColTime = 15;
-  if (this->llcoltime().size() > 0) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        15, this->llcoltime(), target);
-  }
-
-  // int32 dwVer = 16;
-  if (this->dwver() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(16, this->dwver(), target);
-  }
-
-  // bool bToolBuck = 21;
-  if (this->btoolbuck() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(21, this->btoolbuck(), target);
-  }
-
-  // bytes strMemo = 22;
-  if (this->strmemo().size() > 0) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        22, this->strmemo(), target);
-  }
-
-  // bytes strRemark = 23;
-  if (this->strremark().size() > 0) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        23, this->strremark(), target);
-  }
-
-  // bool bNCheckIP = 24;
-  if (this->bncheckip() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(24, this->bncheckip(), target);
-  }
-
-  // bool bShackle = 25;
-  if (this->bshackle() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(25, this->bshackle(), target);
-  }
-
-  // bool bTimeLine = 26;
-  if (this->btimeline() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(26, this->btimeline(), target);
-  }
-
-  // int32 dwTorqUnit = 27;
-  if (this->dwtorqunit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(27, this->dwtorqunit(), target);
-  }
-
-  // double fMaxLimit = 31;
-  if (this->fmaxlimit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(31, this->fmaxlimit(), target);
-  }
-
-  // double fUpperLimit = 32;
-  if (this->fupperlimit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(32, this->fupperlimit(), target);
-  }
-
-  // double fControl = 33;
-  if (this->fcontrol() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(33, this->fcontrol(), target);
-  }
-
-  // double fLowerLimit = 34;
-  if (this->flowerlimit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(34, this->flowerlimit(), target);
-  }
-
-  // double fSpeedDown = 35;
-  if (this->fspeeddown() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(35, this->fspeeddown(), target);
-  }
-
-  // double fShow = 36;
-  if (this->fshow() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(36, this->fshow(), target);
-  }
-
-  // double fBear = 37;
-  if (this->fbear() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(37, this->fbear(), target);
-  }
-
-  // double fUpperTai = 38;
-  if (this->fuppertai() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(38, this->fuppertai(), target);
-  }
-
-  // double fLowerTai = 39;
-  if (this->flowertai() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(39, this->flowertai(), target);
-  }
-
-  // double fOptTorq = 40;
-  if (this->fopttorq() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(40, this->fopttorq(), target);
-  }
-
-  // double fMaxCir = 41;
-  if (this->fmaxcir() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(41, this->fmaxcir(), target);
-  }
-
-  // double fUpperCir = 42;
-  if (this->fuppercir() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(42, this->fuppercir(), target);
-  }
-
-  // double fControlCir = 43;
-  if (this->fcontrolcir() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(43, this->fcontrolcir(), target);
-  }
-
-  // double fLowerCir = 44;
-  if (this->flowercir() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(44, this->flowercir(), target);
-  }
-
-  // double fMaxTime = 45;
-  if (this->fmaxtime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(45, this->fmaxtime(), target);
-  }
-
-  // double fUpperTime = 46;
-  if (this->fuppertime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(46, this->fuppertime(), target);
-  }
-
-  // double fControlTime = 47;
-  if (this->fcontroltime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(47, this->fcontroltime(), target);
-  }
-
-  // double fLowerTime = 48;
-  if (this->flowertime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(48, this->flowertime(), target);
-  }
-
-  // double fPlus = 51;
-  if (this->fplus() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(51, this->fplus(), target);
-  }
-
-  // double fMaxRPM = 52;
-  if (this->fmaxrpm() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(52, this->fmaxrpm(), target);
-  }
-
-  // double fCut = 53;
-  if (this->fcut() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(53, this->fcut(), target);
-  }
-
-  // double fRpmAdj = 54;
-  if (this->frpmadj() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(54, this->frpmadj(), target);
-  }
-
-  // double fMulti = 55;
-  if (this->fmulti() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(55, this->fmulti(), target);
-  }
-
-  // double fMinShlSlope = 70;
-  if (this->fminshlslope() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(70, this->fminshlslope(), target);
-  }
-
-  // double fMaxDeltaCir = 71;
-  if (this->fmaxdeltacir() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(71, this->fmaxdeltacir(), target);
-  }
-
-  // double fMinDeltaCir = 72;
-  if (this->fmindeltacir() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(72, this->fmindeltacir(), target);
-  }
-
-  // double fMakeupDur = 73;
-  if (this->fmakeupdur() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(73, this->fmakeupdur(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:TorqData.Torque)
   return target;
@@ -1984,505 +1562,678 @@ size_t Torque::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:TorqData.Torque)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated double fTorque = 6 [packed = true];
   {
-    unsigned int count = static_cast<unsigned int>(this->ftorque_size());
+    unsigned int count = static_cast<unsigned int>(this->_internal_ftorque_size());
     size_t data_size = 8UL * count;
     if (data_size > 0) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _ftorque_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
 
   // repeated double fRpm = 7 [packed = true];
   {
-    unsigned int count = static_cast<unsigned int>(this->frpm_size());
+    unsigned int count = static_cast<unsigned int>(this->_internal_frpm_size());
     size_t data_size = 8UL * count;
     if (data_size > 0) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _frpm_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
 
   // repeated .TorqData.ShowInfo tShow = 8;
-  {
-    unsigned int count = static_cast<unsigned int>(this->tshow_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->tshow(static_cast<int>(i)));
-    }
+  total_size += 1UL * this->_internal_tshow_size();
+  for (const auto& msg : this->_impl_.tshow_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // repeated int32 dwDelPlus = 13 [packed = true];
   {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      Int32Size(this->dwdelplus_);
+    size_t data_size = ::_pbi::WireFormatLite::
+      Int32Size(this->_impl_.dwdelplus_);
     if (data_size > 0) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _dwdelplus_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._dwdelplus_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
   // bytes llColTime = 15;
-  if (this->llcoltime().size() > 0) {
+  if (!this->_internal_llcoltime().empty()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->llcoltime());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_llcoltime());
   }
 
   // bytes strMemo = 22;
-  if (this->strmemo().size() > 0) {
+  if (!this->_internal_strmemo().empty()) {
     total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->strmemo());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_strmemo());
   }
 
   // bytes strRemark = 23;
-  if (this->strremark().size() > 0) {
+  if (!this->_internal_strremark().empty()) {
     total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->strremark());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_strremark());
   }
 
   // fixed64 coltime = 1;
-  if (this->coltime() != 0) {
+  if (this->_internal_coltime() != 0) {
     total_size += 1 + 8;
   }
 
   // int32 dwSeqNo = 2;
-  if (this->dwseqno() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwseqno());
+  if (this->_internal_dwseqno() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwseqno());
   }
 
   // int32 dwQuality = 3;
-  if (this->dwquality() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwquality());
+  if (this->_internal_dwquality() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwquality());
   }
 
   // double fMaxTorq = 5;
-  if (this->fmaxtorq() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxtorq = this->_internal_fmaxtorq();
+  uint64_t raw_fmaxtorq;
+  memcpy(&raw_fmaxtorq, &tmp_fmaxtorq, sizeof(tmp_fmaxtorq));
+  if (raw_fmaxtorq != 0) {
     total_size += 1 + 8;
   }
 
   // int32 dwIPPos = 4;
-  if (this->dwippos() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwippos());
+  if (this->_internal_dwippos() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwippos());
   }
 
   // int32 dwIPTorq = 10;
-  if (this->dwiptorq() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwiptorq());
+  if (this->_internal_dwiptorq() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwiptorq());
   }
 
   // fixed64 begintime = 9;
-  if (this->begintime() != 0) {
+  if (this->_internal_begintime() != 0) {
     total_size += 1 + 8;
   }
 
   // int32 dwTotalPlus = 11;
-  if (this->dwtotalplus() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwtotalplus());
+  if (this->_internal_dwtotalplus() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwtotalplus());
   }
 
   // int32 dwIPPlus = 12;
-  if (this->dwipplus() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwipplus());
+  if (this->_internal_dwipplus() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwipplus());
   }
 
   // int32 dwColInter = 14;
-  if (this->dwcolinter() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwcolinter());
+  if (this->_internal_dwcolinter() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dwcolinter());
   }
 
   // int32 dwVer = 16;
-  if (this->dwver() != 0) {
+  if (this->_internal_dwver() != 0) {
     total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwver());
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_dwver());
   }
 
   // bool bToolBuck = 21;
-  if (this->btoolbuck() != 0) {
+  if (this->_internal_btoolbuck() != 0) {
     total_size += 2 + 1;
   }
 
   // bool bNCheckIP = 24;
-  if (this->bncheckip() != 0) {
+  if (this->_internal_bncheckip() != 0) {
     total_size += 2 + 1;
   }
 
   // bool bShackle = 25;
-  if (this->bshackle() != 0) {
+  if (this->_internal_bshackle() != 0) {
     total_size += 2 + 1;
   }
 
   // bool bTimeLine = 26;
-  if (this->btimeline() != 0) {
+  if (this->_internal_btimeline() != 0) {
     total_size += 2 + 1;
   }
 
   // int32 dwTorqUnit = 27;
-  if (this->dwtorqunit() != 0) {
+  if (this->_internal_dwtorqunit() != 0) {
     total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->dwtorqunit());
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_dwtorqunit());
   }
 
   // double fMaxLimit = 31;
-  if (this->fmaxlimit() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxlimit = this->_internal_fmaxlimit();
+  uint64_t raw_fmaxlimit;
+  memcpy(&raw_fmaxlimit, &tmp_fmaxlimit, sizeof(tmp_fmaxlimit));
+  if (raw_fmaxlimit != 0) {
     total_size += 2 + 8;
   }
 
   // double fUpperLimit = 32;
-  if (this->fupperlimit() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fupperlimit = this->_internal_fupperlimit();
+  uint64_t raw_fupperlimit;
+  memcpy(&raw_fupperlimit, &tmp_fupperlimit, sizeof(tmp_fupperlimit));
+  if (raw_fupperlimit != 0) {
     total_size += 2 + 8;
   }
 
   // double fControl = 33;
-  if (this->fcontrol() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontrol = this->_internal_fcontrol();
+  uint64_t raw_fcontrol;
+  memcpy(&raw_fcontrol, &tmp_fcontrol, sizeof(tmp_fcontrol));
+  if (raw_fcontrol != 0) {
     total_size += 2 + 8;
   }
 
   // double fLowerLimit = 34;
-  if (this->flowerlimit() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowerlimit = this->_internal_flowerlimit();
+  uint64_t raw_flowerlimit;
+  memcpy(&raw_flowerlimit, &tmp_flowerlimit, sizeof(tmp_flowerlimit));
+  if (raw_flowerlimit != 0) {
     total_size += 2 + 8;
   }
 
   // double fSpeedDown = 35;
-  if (this->fspeeddown() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fspeeddown = this->_internal_fspeeddown();
+  uint64_t raw_fspeeddown;
+  memcpy(&raw_fspeeddown, &tmp_fspeeddown, sizeof(tmp_fspeeddown));
+  if (raw_fspeeddown != 0) {
     total_size += 2 + 8;
   }
 
   // double fShow = 36;
-  if (this->fshow() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fshow = this->_internal_fshow();
+  uint64_t raw_fshow;
+  memcpy(&raw_fshow, &tmp_fshow, sizeof(tmp_fshow));
+  if (raw_fshow != 0) {
     total_size += 2 + 8;
   }
 
   // double fBear = 37;
-  if (this->fbear() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fbear = this->_internal_fbear();
+  uint64_t raw_fbear;
+  memcpy(&raw_fbear, &tmp_fbear, sizeof(tmp_fbear));
+  if (raw_fbear != 0) {
     total_size += 2 + 8;
   }
 
   // double fUpperTai = 38;
-  if (this->fuppertai() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppertai = this->_internal_fuppertai();
+  uint64_t raw_fuppertai;
+  memcpy(&raw_fuppertai, &tmp_fuppertai, sizeof(tmp_fuppertai));
+  if (raw_fuppertai != 0) {
     total_size += 2 + 8;
   }
 
   // double fLowerTai = 39;
-  if (this->flowertai() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowertai = this->_internal_flowertai();
+  uint64_t raw_flowertai;
+  memcpy(&raw_flowertai, &tmp_flowertai, sizeof(tmp_flowertai));
+  if (raw_flowertai != 0) {
     total_size += 2 + 8;
   }
 
   // double fOptTorq = 40;
-  if (this->fopttorq() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fopttorq = this->_internal_fopttorq();
+  uint64_t raw_fopttorq;
+  memcpy(&raw_fopttorq, &tmp_fopttorq, sizeof(tmp_fopttorq));
+  if (raw_fopttorq != 0) {
     total_size += 2 + 8;
   }
 
   // double fMaxCir = 41;
-  if (this->fmaxcir() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxcir = this->_internal_fmaxcir();
+  uint64_t raw_fmaxcir;
+  memcpy(&raw_fmaxcir, &tmp_fmaxcir, sizeof(tmp_fmaxcir));
+  if (raw_fmaxcir != 0) {
     total_size += 2 + 8;
   }
 
   // double fUpperCir = 42;
-  if (this->fuppercir() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppercir = this->_internal_fuppercir();
+  uint64_t raw_fuppercir;
+  memcpy(&raw_fuppercir, &tmp_fuppercir, sizeof(tmp_fuppercir));
+  if (raw_fuppercir != 0) {
     total_size += 2 + 8;
   }
 
   // double fControlCir = 43;
-  if (this->fcontrolcir() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontrolcir = this->_internal_fcontrolcir();
+  uint64_t raw_fcontrolcir;
+  memcpy(&raw_fcontrolcir, &tmp_fcontrolcir, sizeof(tmp_fcontrolcir));
+  if (raw_fcontrolcir != 0) {
     total_size += 2 + 8;
   }
 
   // double fLowerCir = 44;
-  if (this->flowercir() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowercir = this->_internal_flowercir();
+  uint64_t raw_flowercir;
+  memcpy(&raw_flowercir, &tmp_flowercir, sizeof(tmp_flowercir));
+  if (raw_flowercir != 0) {
     total_size += 2 + 8;
   }
 
   // double fMaxTime = 45;
-  if (this->fmaxtime() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxtime = this->_internal_fmaxtime();
+  uint64_t raw_fmaxtime;
+  memcpy(&raw_fmaxtime, &tmp_fmaxtime, sizeof(tmp_fmaxtime));
+  if (raw_fmaxtime != 0) {
     total_size += 2 + 8;
   }
 
   // double fUpperTime = 46;
-  if (this->fuppertime() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppertime = this->_internal_fuppertime();
+  uint64_t raw_fuppertime;
+  memcpy(&raw_fuppertime, &tmp_fuppertime, sizeof(tmp_fuppertime));
+  if (raw_fuppertime != 0) {
     total_size += 2 + 8;
   }
 
   // double fControlTime = 47;
-  if (this->fcontroltime() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontroltime = this->_internal_fcontroltime();
+  uint64_t raw_fcontroltime;
+  memcpy(&raw_fcontroltime, &tmp_fcontroltime, sizeof(tmp_fcontroltime));
+  if (raw_fcontroltime != 0) {
     total_size += 2 + 8;
   }
 
   // double fLowerTime = 48;
-  if (this->flowertime() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowertime = this->_internal_flowertime();
+  uint64_t raw_flowertime;
+  memcpy(&raw_flowertime, &tmp_flowertime, sizeof(tmp_flowertime));
+  if (raw_flowertime != 0) {
     total_size += 2 + 8;
   }
 
   // double fPlus = 51;
-  if (this->fplus() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fplus = this->_internal_fplus();
+  uint64_t raw_fplus;
+  memcpy(&raw_fplus, &tmp_fplus, sizeof(tmp_fplus));
+  if (raw_fplus != 0) {
     total_size += 2 + 8;
   }
 
   // double fMaxRPM = 52;
-  if (this->fmaxrpm() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxrpm = this->_internal_fmaxrpm();
+  uint64_t raw_fmaxrpm;
+  memcpy(&raw_fmaxrpm, &tmp_fmaxrpm, sizeof(tmp_fmaxrpm));
+  if (raw_fmaxrpm != 0) {
     total_size += 2 + 8;
   }
 
   // double fCut = 53;
-  if (this->fcut() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcut = this->_internal_fcut();
+  uint64_t raw_fcut;
+  memcpy(&raw_fcut, &tmp_fcut, sizeof(tmp_fcut));
+  if (raw_fcut != 0) {
     total_size += 2 + 8;
   }
 
   // double fRpmAdj = 54;
-  if (this->frpmadj() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_frpmadj = this->_internal_frpmadj();
+  uint64_t raw_frpmadj;
+  memcpy(&raw_frpmadj, &tmp_frpmadj, sizeof(tmp_frpmadj));
+  if (raw_frpmadj != 0) {
     total_size += 2 + 8;
   }
 
   // double fMulti = 55;
-  if (this->fmulti() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmulti = this->_internal_fmulti();
+  uint64_t raw_fmulti;
+  memcpy(&raw_fmulti, &tmp_fmulti, sizeof(tmp_fmulti));
+  if (raw_fmulti != 0) {
     total_size += 2 + 8;
   }
 
   // double fMinShlSlope = 70;
-  if (this->fminshlslope() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fminshlslope = this->_internal_fminshlslope();
+  uint64_t raw_fminshlslope;
+  memcpy(&raw_fminshlslope, &tmp_fminshlslope, sizeof(tmp_fminshlslope));
+  if (raw_fminshlslope != 0) {
     total_size += 2 + 8;
   }
 
   // double fMaxDeltaCir = 71;
-  if (this->fmaxdeltacir() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxdeltacir = this->_internal_fmaxdeltacir();
+  uint64_t raw_fmaxdeltacir;
+  memcpy(&raw_fmaxdeltacir, &tmp_fmaxdeltacir, sizeof(tmp_fmaxdeltacir));
+  if (raw_fmaxdeltacir != 0) {
     total_size += 2 + 8;
   }
 
   // double fMinDeltaCir = 72;
-  if (this->fmindeltacir() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmindeltacir = this->_internal_fmindeltacir();
+  uint64_t raw_fmindeltacir;
+  memcpy(&raw_fmindeltacir, &tmp_fmindeltacir, sizeof(tmp_fmindeltacir));
+  if (raw_fmindeltacir != 0) {
     total_size += 2 + 8;
   }
 
   // double fMakeupDur = 73;
-  if (this->fmakeupdur() != 0) {
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmakeupdur = this->_internal_fmakeupdur();
+  uint64_t raw_fmakeupdur;
+  memcpy(&raw_fmakeupdur, &tmp_fmakeupdur, sizeof(tmp_fmakeupdur));
+  if (raw_fmakeupdur != 0) {
     total_size += 2 + 8;
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-void Torque::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:TorqData.Torque)
-  GOOGLE_DCHECK_NE(&from, this);
-  const Torque* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Torque>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:TorqData.Torque)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:TorqData.Torque)
-    MergeFrom(*source);
-  }
-}
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Torque::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Torque::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Torque::GetClassData() const { return &_class_data_; }
 
-void Torque::MergeFrom(const Torque& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:TorqData.Torque)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+
+void Torque::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Torque*>(&to_msg);
+  auto& from = static_cast<const Torque&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:TorqData.Torque)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  ftorque_.MergeFrom(from.ftorque_);
-  frpm_.MergeFrom(from.frpm_);
-  tshow_.MergeFrom(from.tshow_);
-  dwdelplus_.MergeFrom(from.dwdelplus_);
-  if (from.llcoltime().size() > 0) {
-
-    llcoltime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.llcoltime_);
+  _this->_impl_.ftorque_.MergeFrom(from._impl_.ftorque_);
+  _this->_impl_.frpm_.MergeFrom(from._impl_.frpm_);
+  _this->_impl_.tshow_.MergeFrom(from._impl_.tshow_);
+  _this->_impl_.dwdelplus_.MergeFrom(from._impl_.dwdelplus_);
+  if (!from._internal_llcoltime().empty()) {
+    _this->_internal_set_llcoltime(from._internal_llcoltime());
   }
-  if (from.strmemo().size() > 0) {
-
-    strmemo_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strmemo_);
+  if (!from._internal_strmemo().empty()) {
+    _this->_internal_set_strmemo(from._internal_strmemo());
   }
-  if (from.strremark().size() > 0) {
-
-    strremark_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.strremark_);
+  if (!from._internal_strremark().empty()) {
+    _this->_internal_set_strremark(from._internal_strremark());
   }
-  if (from.coltime() != 0) {
-    set_coltime(from.coltime());
+  if (from._internal_coltime() != 0) {
+    _this->_internal_set_coltime(from._internal_coltime());
   }
-  if (from.dwseqno() != 0) {
-    set_dwseqno(from.dwseqno());
+  if (from._internal_dwseqno() != 0) {
+    _this->_internal_set_dwseqno(from._internal_dwseqno());
   }
-  if (from.dwquality() != 0) {
-    set_dwquality(from.dwquality());
+  if (from._internal_dwquality() != 0) {
+    _this->_internal_set_dwquality(from._internal_dwquality());
   }
-  if (from.fmaxtorq() != 0) {
-    set_fmaxtorq(from.fmaxtorq());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxtorq = from._internal_fmaxtorq();
+  uint64_t raw_fmaxtorq;
+  memcpy(&raw_fmaxtorq, &tmp_fmaxtorq, sizeof(tmp_fmaxtorq));
+  if (raw_fmaxtorq != 0) {
+    _this->_internal_set_fmaxtorq(from._internal_fmaxtorq());
   }
-  if (from.dwippos() != 0) {
-    set_dwippos(from.dwippos());
+  if (from._internal_dwippos() != 0) {
+    _this->_internal_set_dwippos(from._internal_dwippos());
   }
-  if (from.dwiptorq() != 0) {
-    set_dwiptorq(from.dwiptorq());
+  if (from._internal_dwiptorq() != 0) {
+    _this->_internal_set_dwiptorq(from._internal_dwiptorq());
   }
-  if (from.begintime() != 0) {
-    set_begintime(from.begintime());
+  if (from._internal_begintime() != 0) {
+    _this->_internal_set_begintime(from._internal_begintime());
   }
-  if (from.dwtotalplus() != 0) {
-    set_dwtotalplus(from.dwtotalplus());
+  if (from._internal_dwtotalplus() != 0) {
+    _this->_internal_set_dwtotalplus(from._internal_dwtotalplus());
   }
-  if (from.dwipplus() != 0) {
-    set_dwipplus(from.dwipplus());
+  if (from._internal_dwipplus() != 0) {
+    _this->_internal_set_dwipplus(from._internal_dwipplus());
   }
-  if (from.dwcolinter() != 0) {
-    set_dwcolinter(from.dwcolinter());
+  if (from._internal_dwcolinter() != 0) {
+    _this->_internal_set_dwcolinter(from._internal_dwcolinter());
   }
-  if (from.dwver() != 0) {
-    set_dwver(from.dwver());
+  if (from._internal_dwver() != 0) {
+    _this->_internal_set_dwver(from._internal_dwver());
   }
-  if (from.btoolbuck() != 0) {
-    set_btoolbuck(from.btoolbuck());
+  if (from._internal_btoolbuck() != 0) {
+    _this->_internal_set_btoolbuck(from._internal_btoolbuck());
   }
-  if (from.bncheckip() != 0) {
-    set_bncheckip(from.bncheckip());
+  if (from._internal_bncheckip() != 0) {
+    _this->_internal_set_bncheckip(from._internal_bncheckip());
   }
-  if (from.bshackle() != 0) {
-    set_bshackle(from.bshackle());
+  if (from._internal_bshackle() != 0) {
+    _this->_internal_set_bshackle(from._internal_bshackle());
   }
-  if (from.btimeline() != 0) {
-    set_btimeline(from.btimeline());
+  if (from._internal_btimeline() != 0) {
+    _this->_internal_set_btimeline(from._internal_btimeline());
   }
-  if (from.dwtorqunit() != 0) {
-    set_dwtorqunit(from.dwtorqunit());
+  if (from._internal_dwtorqunit() != 0) {
+    _this->_internal_set_dwtorqunit(from._internal_dwtorqunit());
   }
-  if (from.fmaxlimit() != 0) {
-    set_fmaxlimit(from.fmaxlimit());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxlimit = from._internal_fmaxlimit();
+  uint64_t raw_fmaxlimit;
+  memcpy(&raw_fmaxlimit, &tmp_fmaxlimit, sizeof(tmp_fmaxlimit));
+  if (raw_fmaxlimit != 0) {
+    _this->_internal_set_fmaxlimit(from._internal_fmaxlimit());
   }
-  if (from.fupperlimit() != 0) {
-    set_fupperlimit(from.fupperlimit());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fupperlimit = from._internal_fupperlimit();
+  uint64_t raw_fupperlimit;
+  memcpy(&raw_fupperlimit, &tmp_fupperlimit, sizeof(tmp_fupperlimit));
+  if (raw_fupperlimit != 0) {
+    _this->_internal_set_fupperlimit(from._internal_fupperlimit());
   }
-  if (from.fcontrol() != 0) {
-    set_fcontrol(from.fcontrol());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontrol = from._internal_fcontrol();
+  uint64_t raw_fcontrol;
+  memcpy(&raw_fcontrol, &tmp_fcontrol, sizeof(tmp_fcontrol));
+  if (raw_fcontrol != 0) {
+    _this->_internal_set_fcontrol(from._internal_fcontrol());
   }
-  if (from.flowerlimit() != 0) {
-    set_flowerlimit(from.flowerlimit());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowerlimit = from._internal_flowerlimit();
+  uint64_t raw_flowerlimit;
+  memcpy(&raw_flowerlimit, &tmp_flowerlimit, sizeof(tmp_flowerlimit));
+  if (raw_flowerlimit != 0) {
+    _this->_internal_set_flowerlimit(from._internal_flowerlimit());
   }
-  if (from.fspeeddown() != 0) {
-    set_fspeeddown(from.fspeeddown());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fspeeddown = from._internal_fspeeddown();
+  uint64_t raw_fspeeddown;
+  memcpy(&raw_fspeeddown, &tmp_fspeeddown, sizeof(tmp_fspeeddown));
+  if (raw_fspeeddown != 0) {
+    _this->_internal_set_fspeeddown(from._internal_fspeeddown());
   }
-  if (from.fshow() != 0) {
-    set_fshow(from.fshow());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fshow = from._internal_fshow();
+  uint64_t raw_fshow;
+  memcpy(&raw_fshow, &tmp_fshow, sizeof(tmp_fshow));
+  if (raw_fshow != 0) {
+    _this->_internal_set_fshow(from._internal_fshow());
   }
-  if (from.fbear() != 0) {
-    set_fbear(from.fbear());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fbear = from._internal_fbear();
+  uint64_t raw_fbear;
+  memcpy(&raw_fbear, &tmp_fbear, sizeof(tmp_fbear));
+  if (raw_fbear != 0) {
+    _this->_internal_set_fbear(from._internal_fbear());
   }
-  if (from.fuppertai() != 0) {
-    set_fuppertai(from.fuppertai());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppertai = from._internal_fuppertai();
+  uint64_t raw_fuppertai;
+  memcpy(&raw_fuppertai, &tmp_fuppertai, sizeof(tmp_fuppertai));
+  if (raw_fuppertai != 0) {
+    _this->_internal_set_fuppertai(from._internal_fuppertai());
   }
-  if (from.flowertai() != 0) {
-    set_flowertai(from.flowertai());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowertai = from._internal_flowertai();
+  uint64_t raw_flowertai;
+  memcpy(&raw_flowertai, &tmp_flowertai, sizeof(tmp_flowertai));
+  if (raw_flowertai != 0) {
+    _this->_internal_set_flowertai(from._internal_flowertai());
   }
-  if (from.fopttorq() != 0) {
-    set_fopttorq(from.fopttorq());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fopttorq = from._internal_fopttorq();
+  uint64_t raw_fopttorq;
+  memcpy(&raw_fopttorq, &tmp_fopttorq, sizeof(tmp_fopttorq));
+  if (raw_fopttorq != 0) {
+    _this->_internal_set_fopttorq(from._internal_fopttorq());
   }
-  if (from.fmaxcir() != 0) {
-    set_fmaxcir(from.fmaxcir());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxcir = from._internal_fmaxcir();
+  uint64_t raw_fmaxcir;
+  memcpy(&raw_fmaxcir, &tmp_fmaxcir, sizeof(tmp_fmaxcir));
+  if (raw_fmaxcir != 0) {
+    _this->_internal_set_fmaxcir(from._internal_fmaxcir());
   }
-  if (from.fuppercir() != 0) {
-    set_fuppercir(from.fuppercir());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppercir = from._internal_fuppercir();
+  uint64_t raw_fuppercir;
+  memcpy(&raw_fuppercir, &tmp_fuppercir, sizeof(tmp_fuppercir));
+  if (raw_fuppercir != 0) {
+    _this->_internal_set_fuppercir(from._internal_fuppercir());
   }
-  if (from.fcontrolcir() != 0) {
-    set_fcontrolcir(from.fcontrolcir());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontrolcir = from._internal_fcontrolcir();
+  uint64_t raw_fcontrolcir;
+  memcpy(&raw_fcontrolcir, &tmp_fcontrolcir, sizeof(tmp_fcontrolcir));
+  if (raw_fcontrolcir != 0) {
+    _this->_internal_set_fcontrolcir(from._internal_fcontrolcir());
   }
-  if (from.flowercir() != 0) {
-    set_flowercir(from.flowercir());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowercir = from._internal_flowercir();
+  uint64_t raw_flowercir;
+  memcpy(&raw_flowercir, &tmp_flowercir, sizeof(tmp_flowercir));
+  if (raw_flowercir != 0) {
+    _this->_internal_set_flowercir(from._internal_flowercir());
   }
-  if (from.fmaxtime() != 0) {
-    set_fmaxtime(from.fmaxtime());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxtime = from._internal_fmaxtime();
+  uint64_t raw_fmaxtime;
+  memcpy(&raw_fmaxtime, &tmp_fmaxtime, sizeof(tmp_fmaxtime));
+  if (raw_fmaxtime != 0) {
+    _this->_internal_set_fmaxtime(from._internal_fmaxtime());
   }
-  if (from.fuppertime() != 0) {
-    set_fuppertime(from.fuppertime());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fuppertime = from._internal_fuppertime();
+  uint64_t raw_fuppertime;
+  memcpy(&raw_fuppertime, &tmp_fuppertime, sizeof(tmp_fuppertime));
+  if (raw_fuppertime != 0) {
+    _this->_internal_set_fuppertime(from._internal_fuppertime());
   }
-  if (from.fcontroltime() != 0) {
-    set_fcontroltime(from.fcontroltime());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcontroltime = from._internal_fcontroltime();
+  uint64_t raw_fcontroltime;
+  memcpy(&raw_fcontroltime, &tmp_fcontroltime, sizeof(tmp_fcontroltime));
+  if (raw_fcontroltime != 0) {
+    _this->_internal_set_fcontroltime(from._internal_fcontroltime());
   }
-  if (from.flowertime() != 0) {
-    set_flowertime(from.flowertime());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_flowertime = from._internal_flowertime();
+  uint64_t raw_flowertime;
+  memcpy(&raw_flowertime, &tmp_flowertime, sizeof(tmp_flowertime));
+  if (raw_flowertime != 0) {
+    _this->_internal_set_flowertime(from._internal_flowertime());
   }
-  if (from.fplus() != 0) {
-    set_fplus(from.fplus());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fplus = from._internal_fplus();
+  uint64_t raw_fplus;
+  memcpy(&raw_fplus, &tmp_fplus, sizeof(tmp_fplus));
+  if (raw_fplus != 0) {
+    _this->_internal_set_fplus(from._internal_fplus());
   }
-  if (from.fmaxrpm() != 0) {
-    set_fmaxrpm(from.fmaxrpm());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxrpm = from._internal_fmaxrpm();
+  uint64_t raw_fmaxrpm;
+  memcpy(&raw_fmaxrpm, &tmp_fmaxrpm, sizeof(tmp_fmaxrpm));
+  if (raw_fmaxrpm != 0) {
+    _this->_internal_set_fmaxrpm(from._internal_fmaxrpm());
   }
-  if (from.fcut() != 0) {
-    set_fcut(from.fcut());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fcut = from._internal_fcut();
+  uint64_t raw_fcut;
+  memcpy(&raw_fcut, &tmp_fcut, sizeof(tmp_fcut));
+  if (raw_fcut != 0) {
+    _this->_internal_set_fcut(from._internal_fcut());
   }
-  if (from.frpmadj() != 0) {
-    set_frpmadj(from.frpmadj());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_frpmadj = from._internal_frpmadj();
+  uint64_t raw_frpmadj;
+  memcpy(&raw_frpmadj, &tmp_frpmadj, sizeof(tmp_frpmadj));
+  if (raw_frpmadj != 0) {
+    _this->_internal_set_frpmadj(from._internal_frpmadj());
   }
-  if (from.fmulti() != 0) {
-    set_fmulti(from.fmulti());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmulti = from._internal_fmulti();
+  uint64_t raw_fmulti;
+  memcpy(&raw_fmulti, &tmp_fmulti, sizeof(tmp_fmulti));
+  if (raw_fmulti != 0) {
+    _this->_internal_set_fmulti(from._internal_fmulti());
   }
-  if (from.fminshlslope() != 0) {
-    set_fminshlslope(from.fminshlslope());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fminshlslope = from._internal_fminshlslope();
+  uint64_t raw_fminshlslope;
+  memcpy(&raw_fminshlslope, &tmp_fminshlslope, sizeof(tmp_fminshlslope));
+  if (raw_fminshlslope != 0) {
+    _this->_internal_set_fminshlslope(from._internal_fminshlslope());
   }
-  if (from.fmaxdeltacir() != 0) {
-    set_fmaxdeltacir(from.fmaxdeltacir());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmaxdeltacir = from._internal_fmaxdeltacir();
+  uint64_t raw_fmaxdeltacir;
+  memcpy(&raw_fmaxdeltacir, &tmp_fmaxdeltacir, sizeof(tmp_fmaxdeltacir));
+  if (raw_fmaxdeltacir != 0) {
+    _this->_internal_set_fmaxdeltacir(from._internal_fmaxdeltacir());
   }
-  if (from.fmindeltacir() != 0) {
-    set_fmindeltacir(from.fmindeltacir());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmindeltacir = from._internal_fmindeltacir();
+  uint64_t raw_fmindeltacir;
+  memcpy(&raw_fmindeltacir, &tmp_fmindeltacir, sizeof(tmp_fmindeltacir));
+  if (raw_fmindeltacir != 0) {
+    _this->_internal_set_fmindeltacir(from._internal_fmindeltacir());
   }
-  if (from.fmakeupdur() != 0) {
-    set_fmakeupdur(from.fmakeupdur());
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_fmakeupdur = from._internal_fmakeupdur();
+  uint64_t raw_fmakeupdur;
+  memcpy(&raw_fmakeupdur, &tmp_fmakeupdur, sizeof(tmp_fmakeupdur));
+  if (raw_fmakeupdur != 0) {
+    _this->_internal_set_fmakeupdur(from._internal_fmakeupdur());
   }
-}
-
-void Torque::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:TorqData.Torque)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void Torque::CopyFrom(const Torque& from) {
@@ -2496,73 +2247,53 @@ bool Torque::IsInitialized() const {
   return true;
 }
 
-void Torque::Swap(Torque* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void Torque::InternalSwap(Torque* other) {
   using std::swap;
-  ftorque_.InternalSwap(&other->ftorque_);
-  frpm_.InternalSwap(&other->frpm_);
-  tshow_.InternalSwap(&other->tshow_);
-  dwdelplus_.InternalSwap(&other->dwdelplus_);
-  llcoltime_.Swap(&other->llcoltime_);
-  strmemo_.Swap(&other->strmemo_);
-  strremark_.Swap(&other->strremark_);
-  swap(coltime_, other->coltime_);
-  swap(dwseqno_, other->dwseqno_);
-  swap(dwquality_, other->dwquality_);
-  swap(fmaxtorq_, other->fmaxtorq_);
-  swap(dwippos_, other->dwippos_);
-  swap(dwiptorq_, other->dwiptorq_);
-  swap(begintime_, other->begintime_);
-  swap(dwtotalplus_, other->dwtotalplus_);
-  swap(dwipplus_, other->dwipplus_);
-  swap(dwcolinter_, other->dwcolinter_);
-  swap(dwver_, other->dwver_);
-  swap(btoolbuck_, other->btoolbuck_);
-  swap(bncheckip_, other->bncheckip_);
-  swap(bshackle_, other->bshackle_);
-  swap(btimeline_, other->btimeline_);
-  swap(dwtorqunit_, other->dwtorqunit_);
-  swap(fmaxlimit_, other->fmaxlimit_);
-  swap(fupperlimit_, other->fupperlimit_);
-  swap(fcontrol_, other->fcontrol_);
-  swap(flowerlimit_, other->flowerlimit_);
-  swap(fspeeddown_, other->fspeeddown_);
-  swap(fshow_, other->fshow_);
-  swap(fbear_, other->fbear_);
-  swap(fuppertai_, other->fuppertai_);
-  swap(flowertai_, other->flowertai_);
-  swap(fopttorq_, other->fopttorq_);
-  swap(fmaxcir_, other->fmaxcir_);
-  swap(fuppercir_, other->fuppercir_);
-  swap(fcontrolcir_, other->fcontrolcir_);
-  swap(flowercir_, other->flowercir_);
-  swap(fmaxtime_, other->fmaxtime_);
-  swap(fuppertime_, other->fuppertime_);
-  swap(fcontroltime_, other->fcontroltime_);
-  swap(flowertime_, other->flowertime_);
-  swap(fplus_, other->fplus_);
-  swap(fmaxrpm_, other->fmaxrpm_);
-  swap(fcut_, other->fcut_);
-  swap(frpmadj_, other->frpmadj_);
-  swap(fmulti_, other->fmulti_);
-  swap(fminshlslope_, other->fminshlslope_);
-  swap(fmaxdeltacir_, other->fmaxdeltacir_);
-  swap(fmindeltacir_, other->fmindeltacir_);
-  swap(fmakeupdur_, other->fmakeupdur_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.ftorque_.InternalSwap(&other->_impl_.ftorque_);
+  _impl_.frpm_.InternalSwap(&other->_impl_.frpm_);
+  _impl_.tshow_.InternalSwap(&other->_impl_.tshow_);
+  _impl_.dwdelplus_.InternalSwap(&other->_impl_.dwdelplus_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.llcoltime_, lhs_arena,
+      &other->_impl_.llcoltime_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.strmemo_, lhs_arena,
+      &other->_impl_.strmemo_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.strremark_, lhs_arena,
+      &other->_impl_.strremark_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Torque, _impl_.fmakeupdur_)
+      + sizeof(Torque::_impl_.fmakeupdur_)
+      - PROTOBUF_FIELD_OFFSET(Torque, _impl_.coltime_)>(
+          reinterpret_cast<char*>(&_impl_.coltime_),
+          reinterpret_cast<char*>(&other->_impl_.coltime_));
 }
 
-::google::protobuf::Metadata Torque::GetMetadata() const {
-  protobuf_TorqData_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_TorqData_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata Torque::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_TorqData_2eproto_getter, &descriptor_table_TorqData_2eproto_once,
+      file_level_metadata_TorqData_2eproto[1]);
 }
-
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace TorqData
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::TorqData::ShowInfo*
+Arena::CreateMaybeMessage< ::TorqData::ShowInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::TorqData::ShowInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::TorqData::Torque*
+Arena::CreateMaybeMessage< ::TorqData::Torque >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::TorqData::Torque >(arena);
+}
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

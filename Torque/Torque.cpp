@@ -393,7 +393,8 @@ int CTorqueApp::ExitInstance()
     for (i = 0; i<LANGUAGE_NUM; i++)
     {
         if (m_hLangDLL[i])
-            AfxFreeLibrary(m_hLangDLL[i]);
+            FreeLibrary(m_hLangDLL[i]);
+            //AfxFreeLibrary(m_hLangDLL[i]);
     }
 
     google::protobuf::ShutdownProtobufLibrary();
@@ -3588,7 +3589,7 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
     UINT    nNextPos= 0;    /* 下一个数据的位置 */
     UINT    nLastPos = 0;
     int     iLeft   = 0;    /* 当前数据后的数据大小 */
-    UINT    iCurLen = 0;     /* 当前数据的总长度 */
+    size_t  iCurLen = 0;     /* 当前数据的总长度 */
     UINT    iDataLen= 0;     /* 数据的总长度 */
     UINT    nTotal  = 0;
     CFile   file;
@@ -3598,7 +3599,7 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
     ASSERT_NULL(ptTorq);
     ASSERT_ZERO(iDataPlace);
     
-    iCurLen = ptTorq->ByteSize();
+    iCurLen = ptTorq->ByteSizeLong();
     ASSERT_ZERO(iCurLen);
     COMP_BGE(iCurLen, MAXPROBUFF);
     pcBuff = new char[iCurLen];
@@ -3877,7 +3878,7 @@ BOOL CTorqueApp::ReCalWellNO(CString strDataName)
 void CTorqueApp::SaveAllData(CString strDataName)
 {
     UINT    i           = 0;
-    UINT    nDataLen    = 0;
+    size_t  nDataLen    = 0;
     CFile   file;
     
     /* write to file */
@@ -3888,7 +3889,7 @@ void CTorqueApp::SaveAllData(CString strDataName)
 
         for(i = 0; i < g_tReadData.nTotal; i++)
         {
-            nDataLen = g_tReadData.tData[i].ByteSize();
+            nDataLen = g_tReadData.tData[i].ByteSizeLong();
             if(nDataLen == 0 || nDataLen >= MAXPROBUFF)
                 continue;
             memset(m_cProtoBuf, 0, MAXPROBUFF);

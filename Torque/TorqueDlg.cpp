@@ -3960,7 +3960,7 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque *ptPBData)
 {
     /* 空文件，扭矩序号为1 */
     UINT    nTorqNum    = 1;
-    UINT    nDataLen    = 0;
+    size_t  nDataLen    = 0;
     int     i           = 0;
     UINT    nLeng       = 0;    /* 数据的长度 */
     CString strFileName;
@@ -3981,7 +3981,7 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque *ptPBData)
     duration = _difftime64(curTime, m_tStartTime);
     ptPBData->set_fmakeupdur(_difftime64(curTime, m_tStartTime));
     
-    nDataLen = ptPBData->ByteSize();
+    nDataLen = ptPBData->ByteSizeLong();
     ASSERT_ZERO(nDataLen);
     COMP_BGE(nDataLen, MAXPROBUFF);
     pcBuff = new char[nDataLen];
