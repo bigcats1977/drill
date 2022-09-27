@@ -2390,6 +2390,7 @@ BEGIN
     IDS_STRINVALIDTORQ      "Invalid torque value!"
     IDS_STROPERATESUCC      "%s operation is successful!"
     IDS_STROPERATEFAIL      "%s operation failed!"
+	IDS_STRDBPASSWORD		"Drill@KT123456"
 END
 
 #endif    // Chinese (Simplified, PRC) resources

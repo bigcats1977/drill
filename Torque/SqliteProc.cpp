@@ -11,8 +11,6 @@ SqliteProc::~SqliteProc()
     CloseDB();
 }
 
-
-
 //UTF-8×ªUnicode 
 wstring SqliteProc::UTF82Unicode(const string& utf8string)
 {
@@ -115,10 +113,10 @@ string SqliteProc::ASCII2UTF8(string& strAsciiCode)
     return strRet;
 }
 
-BOOL SqliteProc::OpenDB(string filename)
+BOOL SqliteProc::OpenDB(string filename, string pw)
 {
-    int row = 0, col = 0;
-    char** pResult;
+    string inputkey;
+    char* pErrMsg = NULL;
 
     if (SQLITE_OK != sqlite3_open(filename.c_str(), &ptCfgDB))
     {
@@ -126,14 +124,20 @@ BOOL SqliteProc::OpenDB(string filename)
         return FALSE;
     }
 
-    QueryTable("sqlite_master", "type = 'table' and name = 'D_Language'", row, col, &pResult);
-    FreeResult(&pResult);
-    if (row <= 0)
-        return FALSE;
-    else
+    // ÉèÖÃÃÜÂë
+    //sqlite3_key(ptCfgDB, pw.c_str(), pw.size());
+
+    // ÊäÈëÃÜÂë
+    inputkey = "PRAGMA key='" + pw + "';";
+    ExecuteSQL(inputkey);
+
+    int result = sqlite3_exec(ptCfgDB, "SELECT count(*) FROM sqlite_master;", NULL, 0, &pErrMsg);
+    if (result != SQLITE_OK)
     {
-        DBFile = filename;
+        sqlite3_free(pErrMsg);
+        return FALSE;
     }
+
     return TRUE;
 }
 

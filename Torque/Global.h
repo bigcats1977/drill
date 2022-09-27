@@ -74,7 +74,7 @@ using namespace std;
 #define CHNDLLNAME              _T("Chinese.dll")
 #define ENGDLLNAME              _T("English.dll")
 //#define RUSDLLNAME              _T("Russian.dll")
-#define SQLITEFILE              _T("TorqueCfg.db")
+#define SQLITEFILE              _T("DrillCfg.db")
 
 #define TEMPLATE_RPTCHN         _T("RptTmpChn.xlsx")
 #define TEMPLATE_RPTENG         _T("RptTmpEng.xlsx")

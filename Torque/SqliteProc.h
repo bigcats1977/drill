@@ -8,7 +8,7 @@ public:
     SqliteProc();
     ~SqliteProc();
 
-    int OpenDB(string filename);
+    int OpenDB(string filename, string pw);
     BOOL isOpen();
     void CloseDB();
     BOOL GetTable(string tablename, int &row, int &col, char*** pazResult);

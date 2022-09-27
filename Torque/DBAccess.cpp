@@ -44,6 +44,7 @@ BOOL CDBAccess::InitConfigFromDB(int &initstep)
 {
     UINT i = 0;
     string strDbFile;
+    string strPW;
 
     m_bValidDBFile = FALSE;
 
@@ -51,8 +52,9 @@ BOOL CDBAccess::InitConfigFromDB(int &initstep)
 
     initstep = 0;
     strDbFile = theApp.m_strAppPath + SQLITEFILE;
+    strPW = theApp.LoadstringFromRes(IDS_STRDBPASSWORD);
     // NO DB file, using default value
-    COMP_BFALSE_R(m_tSqlite.OpenDB(strDbFile), FALSE);
+    COMP_BFALSE_R(m_tSqlite.OpenDB(strDbFile, strPW), FALSE);
 
     m_bValidDBFile = TRUE;
     COMP_BFALSE_R(InitDBHandle(), FALSE);

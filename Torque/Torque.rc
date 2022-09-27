@@ -2389,6 +2389,7 @@ BEGIN
     IDS_STRINVALIDTORQ      "无效扭矩值!"
     IDS_STROPERATESUCC      "%s操作成功!"
     IDS_STROPERATEFAIL      "%s操作失败!"
+	IDS_STRDBPASSWORD		"Drill@KT123456"
 END
 
 #endif    // Chinese (Simplified, PRC) resources
