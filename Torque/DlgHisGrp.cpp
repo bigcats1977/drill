@@ -218,7 +218,7 @@ void CDlgHisGrp::SetCurEdit()
         m_bCheckIP = FALSE;
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     /* œ‘ æ≤Œ ˝ */
-    for(i=1; i<=m_ptCurTorq->tshow_size() && i<MAXPARANUM; i++)
+    for(i=0; i<m_ptCurTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         m_strHisShowName[i]  = theApp.GetTorqShowName(m_ptCurTorq, i);
         m_strHisShowValue[i] = theApp.GetTorqShowValue(m_ptCurTorq, i);

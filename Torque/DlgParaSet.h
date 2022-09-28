@@ -22,6 +22,7 @@ class CDlgParaSet : public CDialog
 public:
     CDlgParaSet(CWnd* pParent = NULL);   // standard constructor
 
+    bool        m_bParaChg;
     PARACFG     m_tempCfg;
     SHOWCFG     m_tempShow;
 

@@ -2955,7 +2955,8 @@ void CTorqueDlg::OnSetpara()
     //dlgParaSet.m_ucPort   = g_tGlbCfg.nPortNO;
     dlgParaSet.m_tempShow = *m_ptShow;
     //dlgParaSet.m_tCurTub  = theApp.m_tParaCfg.tTubeCfg;
-    if(IDOK != dlgParaSet.DoModal())
+    dlgParaSet.DoModal();
+    if(!dlgParaSet.m_bParaChg)
         return;
 
     ptCurCfg  = &dlgParaSet.m_tempCfg;
@@ -4031,10 +4032,11 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque *ptPBData)
 
 void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
 {
-    WORD    i        = 0;
+    UINT    i        = 0;
     TorqData::ShowInfo *pbShow = NULL;
     CString strRunningNO;
     string  strWholeTube;
+    string  strName, strVal;
 
     ASSERT_NULL(ptPBData);
 
@@ -4044,6 +4046,7 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
     {
         pbShow = ptPBData->add_tshow();
         pbShow->set_strname(m_ptShow->strShow[i]);
+        strName = m_ptShow->strShow[i];
 
         switch(i)
         {
@@ -4051,34 +4054,35 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
             case TUBESN:
                 strWholeTube = m_ptCfg->strValue[i] + "-" + m_strTubeNO2.GetBuffer(0);
                 //_itoa_s(m_nCurTubeNO, cTemp, 10, 10);
-                pbShow->set_strvalue(strWholeTube);
+                strVal = strWholeTube;
                 break;
             /* 入井序号 */
             case TALLYNO:
                 if(QUA_RESU_GOOD == ptPBData->dwquality())
-                    pbShow->set_strvalue(strRunningNO.GetBuffer());
+                    strVal = strRunningNO.GetBuffer(0);
                 break;
             /* 管件厂家 */
             case FIXSHOWBEGIN:
-                pbShow->set_strvalue(theApp.GetTubeOEMValue());
+                strVal = theApp.GetTubeOEMValue();
                 break;
             /* 管件规格 */
             case FIXSHOWBEGIN+1:
-                pbShow->set_strvalue(theApp.GetTubeSizeValue());
+                strVal = theApp.GetTubeSizeValue();
                 break;
             /* 扣型材质 */
             case FIXSHOWBEGIN+2:
-                pbShow->set_strvalue(theApp.GetTubeMaterValue());
+                strVal = theApp.GetTubeMaterValue();
                 break;
             /* 接箍规格 */
             case FIXSHOWBEGIN+3:
-                pbShow->set_strvalue(theApp.GetTubeCouplValue());
+                strVal = theApp.GetTubeCouplValue();
                 break;
 
             default:
-                pbShow->set_strvalue(m_ptCfg->strValue[i]);
+                strVal = m_ptCfg->strValue[i];
                 break;
         }
+        pbShow->set_strvalue(strVal);
     }
 }
 

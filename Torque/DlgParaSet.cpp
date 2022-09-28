@@ -43,6 +43,8 @@ CDlgParaSet::CDlgParaSet(CWnd* pParent /*=NULL*/)
     m_fMinDeltaCir  = 0.0f;
     m_bFixedTube  = TRUE;
 
+    m_bParaChg = false;
+
     m_ptCurTub = &m_tempCfg.tTubeCfg;
     //}}AFX_DATA_INIT
 }
@@ -378,6 +380,8 @@ void CDlgParaSet::OnParasave()
     UpdateData(FALSE);
 
     InitAliasShow();
+
+    m_bParaChg = true;
 
     strInfo = theApp.LoadstringFromRes(IDS_STRINFSAVEALIAS, m_strParaAlias.GetBuffer(0));
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK|MB_ICONEXCLAMATION);

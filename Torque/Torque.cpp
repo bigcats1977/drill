@@ -393,8 +393,11 @@ int CTorqueApp::ExitInstance()
     for (i = 0; i<LANGUAGE_NUM; i++)
     {
         if (m_hLangDLL[i])
-            FreeLibrary(m_hLangDLL[i]);
-            //AfxFreeLibrary(m_hLangDLL[i]);
+        {
+            // for NO preprocess _AFXDLL
+            //  FreeLibrary(m_hLangDLL[i]);
+            AfxFreeLibrary(m_hLangDLL[i]);
+        }
     }
 
     google::protobuf::ShutdownProtobufLibrary();
@@ -958,7 +961,7 @@ int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
     if(strWellName.empty())
         return -1;
 
-    for(i=1; i<= ptTorq->tshow_size() && i<MAXPARANUM; i++)
+    for(i=0; i< ptTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         strName = GetTorqShowName(ptTorq, i);
         if (strName == strWellName)
@@ -3961,12 +3964,13 @@ CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if(iIndex > ptTorq->tshow_size())
+    if(iIndex >= ptTorq->tshow_size())
         return NULLSTR;
 
     // cur version iIndex 从1开始, 0为Factory
-    if (ptTorq->dwver() < 2 && iIndex > 0)
-        iIndex--;
+    // 20220928 按listNO存储，NO从1~15，和show序号对应，不需要--
+    /*if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;*/
     return ptTorq->tshow(iIndex).strname().c_str();
 }
 
@@ -3980,8 +3984,9 @@ CString CTorqueApp::GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex)
         return NULLSTR;
 
     // cur version iIndex 从1开始, 0为Factory
-    if (ptTorq->dwver() < 2 && iIndex > 0)
-        iIndex--;
+    // 20220928 按listNO存储，NO从1~15，和show序号对应，不需要--
+    /*if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;*/
     return ptTorq->tshow(iIndex).strvalue().c_str();
 }
 

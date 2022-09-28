@@ -33,6 +33,7 @@ CDlgHisList::CDlgHisList() : CPropertyPage(CDlgHisList::IDD)
     m_nHisTotalRec = 0;
     m_nHisQualyRec = 0;
     m_nHisUnQualyRec = 0;
+    m_nMaxShowNum = 0;
     m_ptStatTorq     = NULL;
     //}}AFX_DATA_INIT
 }
@@ -101,13 +102,11 @@ BOOL CDlgHisList::OnInitDialog()
                    int(2*m_iWidth));*/
     m_strFixHead = buffer;
     strHead = buffer;
-    m_wShowListNum = 0;
     for(i=0; i<theApp.m_ptCurShow->nListNum && i<MAXPARANUM; i++)
     {
         //strTemp.Format("%s, %d;", theApp.m_ptCurShow->strList[i].c_str(), m_iWidth);
         snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.GetListShowName(theApp.m_ptCurShow, i).c_str(), m_iWidth);
         strHead += buffer;
-        m_wShowListNum++;
     }
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
@@ -172,22 +171,23 @@ void CDlgHisList::OnBtnhis()
     /* update list head */
     strHead = m_strFixHead.c_str();
     nMaxShowPlace = 0;
-    ptTorq = &g_tReadData.tData[0];
-    m_wShowListNum = ptTorq->tshow_size();
-
-    for(i=1; i<g_tReadData.nTotal; i++)
+    m_nMaxShowNum = 0;
+    for(i=0; i<g_tReadData.nTotal; i++)
     {
         ptTorq = &g_tReadData.tData[i];
-        if(ptTorq->tshow_size() > m_wShowListNum)
+        if(ptTorq->tshow_size() > (int)m_nMaxShowNum)
         {
             nMaxShowPlace = i;
-            m_wShowListNum = ptTorq->tshow_size();
+            m_nMaxShowNum = ptTorq->tshow_size();
         }
     }
     ptTorq = &g_tReadData.tData[nMaxShowPlace];
-    for(i=1; i<MAXPARANUM && i<= m_wShowListNum; i++)
+
+    m_nMaxShowNum = MIN(m_nMaxShowNum, MAXPARANUM);
+    m_nMaxShowNum = MIN(m_nMaxShowNum, theApp.m_ptCurShow->nListNum);
+    for(i=0; i< m_nMaxShowNum; i++)
     {
-        strName = theApp.GetTorqShowName(ptTorq, i);
+        strName = theApp.GetTorqShowName(ptTorq, theApp.m_ptCurShow->nList[i]);
         if (strName.empty())
             strName = _T("NULL");
         strTemp.Format("%s, %d;", strName.c_str(), m_iWidth);
@@ -345,10 +345,13 @@ VOID CDlgHisList::ShowHisTorqList()
         slShow.AddTail(strSlope);
         slShow.AddTail(strMemo);
 
-        for(j = 1; j<=ptTorq->tshow_size() && j<=m_wShowListNum ; j++)
-            slShow.AddTail(theApp.GetTorqShowValue(ptTorq, j));
+        for (j = 0; j < ptTorq->tshow_size() && j < (int)m_nMaxShowNum; j++)
+        {
+            string val = theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]);
+            slShow.AddTail(theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]));
+        }
         /* ²¹¿Õ */
-        for(; j<=m_wShowListNum; j++)
+        for(; j< (int)m_nMaxShowNum; j++)
             slShow.AddTail(NULLSTR);
         iItem    = m_listHis.AddItemList(slShow);
         slShow.RemoveAll();

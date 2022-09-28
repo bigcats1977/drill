@@ -86,7 +86,7 @@ private:
     void    FillReportHead(int &iRow, TorqData::Torque *ptHeadTorq);
     void    FillReportData(int &iRow, TorqData::Torque *ptHeadTorq);
 
-    WORD    m_wShowListNum;
+    UINT    m_nMaxShowNum;
     int     m_iWidth;
     string  m_strFixHead;
     UINT    m_nSelItem[MAXWELLNUM];     /* 记录选定的记录的序号 */

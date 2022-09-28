@@ -48,8 +48,6 @@ BOOL CDBAccess::InitConfigFromDB(int &initstep)
 
     m_bValidDBFile = FALSE;
 
-    //return FALSE;
-
     initstep = 0;
     strDbFile = theApp.m_strAppPath + SQLITEFILE;
     strPW = theApp.LoadstringFromRes(IDS_STRDBPASSWORD);
