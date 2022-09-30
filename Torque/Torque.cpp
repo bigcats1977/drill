@@ -957,7 +957,7 @@ int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
 
     ASSERT_NULL_R(ptTorq, -1);
 
-    strWellName = theApp.GetListShowName(m_ptCurShow, nWellNO);
+    strWellName = GetMainShowName(m_ptCurShow, nWellNO);
     if(strWellName.empty())
         return -1;
 
@@ -2566,7 +2566,7 @@ UINT CTorqueApp::GetIPTorq(TorqData::Torque *ptTorq, WORD &wIPPos, WORD &wSchPos
     if(wIPPos == 0 && wSchPos != 0)
     {
         wIPPos = wSchPos;
-        theApp.SetIPInfo(ptTorq, ptTorq->ftorque(wIPPos));
+        SetIPInfo(ptTorq, ptTorq->ftorque(wIPPos));
         nIPTorq = (UINT)ptTorq->ftorque(wSchPos);
     }
 
@@ -2638,7 +2638,7 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
     }
 
     GET_CTRL_TORQ(fMaxTorq, ptTorq);
-    fCircle  = theApp.GetCir(ptTorq);
+    fCircle  = GetCir(ptTorq);
 
     SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
     SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
@@ -2656,7 +2656,7 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
         goto ENDJUDGE;
     }
 
-    fIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
+    fIPTorq = GetIPTorq(ptTorq, wIPPos, wSchPos);
     /* 没有找到拐点，且需要找到拐点时，其他错误 */
     if(wIPPos == 0) 
     {
@@ -2673,9 +2673,9 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
     fMaxDelCir = (ptTorq->fmaxdeltacir() > 0) ? ptTorq->fmaxdeltacir() : 0.1;
     fMinSlope  = (ptTorq->fminshlslope() > 0) ? ptTorq->fminshlslope() : 5.0;
     
-    fDeltaCir  = theApp.GetIPDelCir(ptTorq, wIPPos);
+    fDeltaCir  = GetIPDelCir(ptTorq, wIPPos);
     /*  拐点斜率小    （实际拐点斜率数值小于设置的拐点斜率数值时 */
-    fSlopeFactor = theApp.GetFlopeFactor(ptTorq, wIPPos, (UINT)fIPTorq);
+    fSlopeFactor = GetFlopeFactor(ptTorq, wIPPos, (UINT)fIPTorq);
     SET_QUALITY_BIT(fSlopeFactor < fMinSlope, QUA_LOW_SLOPE, dwQuality);
 
     /* 超周数差值  周数差值超过设置的最大周数差值时----判废 */
@@ -2842,7 +2842,7 @@ int CTorqueApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lp
     
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
-    theApp.SavePNG(hBitmap, strFile);
+    SavePNG(hBitmap, strFile);
 
     return   0;
 }

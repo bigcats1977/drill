@@ -4045,8 +4045,8 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
     for(i=0; i<m_ptShow->nParaNum && i<MAXPARANUM; i++)
     {
         pbShow = ptPBData->add_tshow();
-        pbShow->set_strname(m_ptShow->strShow[i]);
         strName = m_ptShow->strShow[i];
+        pbShow->set_strname(strName);
 
         switch(i)
         {
