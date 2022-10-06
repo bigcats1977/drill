@@ -310,7 +310,7 @@ void CDlgDataStat::GetStatType()
 
     m_cbStatType.ResetContent();
     ptTorq = &g_tReadData.tData[g_tReadData.nTotal-1];    
-    for(i=0; i<ptTorq->tshow_size(); i++)
+    for(i=1; i<=ptTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         m_cbStatType.AddString(theApp.GetTorqShowName(ptTorq, i));
     }

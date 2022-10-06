@@ -345,9 +345,10 @@ VOID CDlgHisList::ShowHisTorqList()
         slShow.AddTail(strSlope);
         slShow.AddTail(strMemo);
 
+        // List[j] = 1~15
         for (j = 0; j < ptTorq->tshow_size() && j < (int)m_nMaxShowNum; j++)
         {
-            string val = theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]);
+            //string val = theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]);
             slShow.AddTail(theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]));
         }
         /* ²¹¿Õ */

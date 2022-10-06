@@ -218,7 +218,9 @@ void CDlgHisGrp::SetCurEdit()
         m_bCheckIP = FALSE;
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     /* 显示参数 */
-    for(i=0; i<m_ptCurTorq->tshow_size() && i<MAXPARANUM; i++)
+    /* 20221006 老版本i-1；新版本跳过0 厂家从1开始
+      最大值 老版本通过tshow_size()控制， 新版本根据MAXPARANUM 避免越界*/
+    for (i = 1; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         m_strHisShowName[i]  = theApp.GetTorqShowName(m_ptCurTorq, i);
         m_strHisShowValue[i] = theApp.GetTorqShowValue(m_ptCurTorq, i);
