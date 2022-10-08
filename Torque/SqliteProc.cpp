@@ -118,7 +118,7 @@ BOOL SqliteProc::OpenDB(string filename, string pw)
     string inputkey;
     char* pErrMsg = NULL;
 
-    if (SQLITE_OK != sqlite3_open(filename.c_str(), &ptCfgDB))
+    if (SQLITE_OK != sqlite3_open(ASCII2UTF8(filename).c_str(), &ptCfgDB))
     {
         CloseDB();
         return FALSE;

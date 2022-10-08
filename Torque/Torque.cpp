@@ -301,17 +301,6 @@ BOOL CTorqueApp::InitInstance()
     /* 动态链接库路径 */
     m_strDllFile   = m_strAppPath + CHNDLLNAME;
 
-    /* 获取数据库文件 */
-    int initStep = 0;
-    if(!theDB.InitConfigFromDB(initStep))
-    {
-        InitDefaultConfig(initStep);
-    }
-
-    /* 初始化数组、变量 */
-    InitVariant();
-    InitLanguage();
-    InitArray();
 
     /*构造保存正常Log数据的文件路径*/
     m_strLogFile = m_strLogPath;
@@ -322,7 +311,18 @@ BOOL CTorqueApp::InitInstance()
     m_tSaveLog.iCur = 0;
     m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate|CFile::modeNoTruncate|CFile::modeReadWrite|CFile::shareDenyNone,NULL);
 
+    /* 初始化数组、变量 */
+    InitVariant();
+    InitLanguage();
+    InitArray();
     SetRegistryKey(_T("zsg Applications"));
+
+    /* 获取数据库文件 */
+    int initStep = 0;
+    if (!theDB.InitConfigFromDB(initStep))
+    {
+        InitDefaultConfig(initStep);
+    }
 
     LoadLanguageDll(g_tGlbCfg.nLangType, FALSE);
     m_ptCurShow = &m_tShowCfg[g_tGlbCfg.nLangType];
@@ -502,6 +502,10 @@ void CTorqueApp::InitShowPara(SHOWCFG *ptShow, UINT nLang)
 void CTorqueApp::InitDefaultConfig(int initStep)
 {
     int i = 0;
+    CString strInfo;
+
+    strInfo.Format("InitConfigFromDB fail(%d)!", initStep);
+    SaveMessage(strInfo);
 
     // global parameter
     if(initStep < 1)

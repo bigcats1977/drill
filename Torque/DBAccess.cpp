@@ -51,6 +51,8 @@ BOOL CDBAccess::InitConfigFromDB(int &initstep)
     initstep = 0;
     strDbFile = theApp.m_strAppPath + SQLITEFILE;
     strPW = theApp.LoadstringFromRes(IDS_STRDBPASSWORD);
+    theApp.SaveMessage(strDbFile.c_str());
+    //theApp.SaveMessage(strPW.c_str());
     // NO DB file, using default value
     COMP_BFALSE_R(m_tSqlite.OpenDB(strDbFile, strPW), FALSE);
 
