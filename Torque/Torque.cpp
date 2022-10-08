@@ -3968,13 +3968,13 @@ CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if(iIndex >= ptTorq->tshow_size())
+    if(iIndex > ptTorq->tshow_size())
         return NULLSTR;
 
     // cur version iIndex 从1开始, 0为Factory
     // 20220928 按listNO存储，NO从1~15，和show序号对应，不需要--
-    /*if (ptTorq->dwver() < 2 && iIndex > 0)
-        iIndex--;*/
+    if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;
     return ptTorq->tshow(iIndex).strname().c_str();
 }
 
@@ -3989,8 +3989,8 @@ CString CTorqueApp::GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex)
 
     // cur version iIndex 从1开始, 0为Factory
     // 20220928 按listNO存储，NO从1~15，和show序号对应，不需要--
-    /*if (ptTorq->dwver() < 2 && iIndex > 0)
-        iIndex--;*/
+    if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;
     return ptTorq->tshow(iIndex).strvalue().c_str();
 }
 
