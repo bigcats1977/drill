@@ -989,7 +989,7 @@
 #define IDS_STRINVALIDTORQ              52812
 #define IDS_STROPERATESUCC              52813
 #define IDS_STROPERATEFAIL              52814
-#define IDS_STRDBPASSWORD				52815
+#define IDS_STRDBPASSWORD               52815
 #define IDS_STRTAGKIND                  54003
 #define IDS_STRBUCKLE                   54005
 #define IDS_STRALLSTAT                  54006
