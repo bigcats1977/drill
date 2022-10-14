@@ -251,6 +251,15 @@ BOOL SqliteProc::InsertRow(string tablename, vector<string> values)
     return TRUE;
 }
 
+BOOL SqliteProc::GetValue(char* pResult, BYTE& Value)
+{
+    ASSERT_NULL_R(pResult, FALSE);
+
+    Value = (BYTE)atoi(pResult);
+
+    return TRUE;
+}
+
 BOOL SqliteProc::GetValue(char* pResult, int& Value)
 {
     ASSERT_NULL_R(pResult, FALSE);

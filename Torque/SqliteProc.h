@@ -24,6 +24,7 @@ public:
     BOOL GetValue(char* pResult, WORD & Value); 
     BOOL GetValue(char* pResult, double& Value);
     BOOL GetValue(char* pResult, string &Value);
+    BOOL GetValue(char* pResult, BYTE& Value);
     BOOL ExecuteSQL(string sql);
     int  GetLastInsertID();
 

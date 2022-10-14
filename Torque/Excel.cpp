@@ -495,6 +495,23 @@ void Excel::delNOTNameSheet(CString strSheetName)
     }
 }
 
+//删除指定名称的sheet
+void Excel::delNameSheet(CString strSheetName)
+{
+    int         i = 0;
+    CWorksheet  tmpSheet;
+
+    for (i = sheets.get_Count(); i > 0; i--)
+    {
+        tmpSheet.AttachDispatch(sheets.get_Item(_variant_t((long)i)), TRUE);
+        if (0 == strSheetName.CompareNoCase(tmpSheet.get_Name()))
+        {
+            tmpSheet.Delete();
+            return;
+        }
+    }
+}
+
 void Excel::show(bool bShow)
 {
     application.put_Visible(bShow);

@@ -79,6 +79,9 @@ public:
     //删除非指定名称的sheet
     void delNOTNameSheet(CString strSheetName);
 
+    //删除指定名称的sheet
+    void delNameSheet(CString strSheetName);
+
 public:
     //初始化 Excel_OLE
     static bool initExcel();

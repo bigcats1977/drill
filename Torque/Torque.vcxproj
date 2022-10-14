@@ -234,7 +234,6 @@
     <ClInclude Include="CeXDib.h" />
     <ClInclude Include="ColorComboBox.h" />
     <ClInclude Include="ColorRadio.h" />
-    <ClInclude Include="CoolControlsManager.h" />
     <ClInclude Include="CRange.h" />
     <ClInclude Include="CrashHandler.h" />
     <ClInclude Include="CShapes.h" />
@@ -363,7 +362,6 @@
     <ClCompile Include="CeXDib.cpp" />
     <ClCompile Include="ColorComboBox.cpp" />
     <ClCompile Include="ColorRadio.cpp" />
-    <ClCompile Include="CoolControlsManager.cpp" />
     <ClCompile Include="CrashHandler.cpp" />
     <ClCompile Include="DlgBear.cpp" />
     <ClCompile Include="DlgCollect.cpp" />

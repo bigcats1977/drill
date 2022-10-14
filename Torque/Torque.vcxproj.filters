@@ -93,9 +93,6 @@
     <ClInclude Include="TorqueDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoolControlsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgDataStat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -484,9 +481,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TorqueDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CoolControlsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgDataStat.cpp">
