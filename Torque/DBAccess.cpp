@@ -54,35 +54,72 @@ BOOL CDBAccess::InitConfigFromDB(int &initstep)
     theApp.SaveMessage(strDbFile.c_str());
     //theApp.SaveMessage(strPW.c_str());
     // NO DB file, using default value
-    COMP_BFALSE_R(m_tSqlite.OpenDB(strDbFile, strPW), FALSE);
+    if (!m_tSqlite.OpenDB(strDbFile, strPW))
+    {
+        theApp.SaveMessage("OpenDB fail!!");
+        return FALSE;
+    }
 
     m_bValidDBFile = TRUE;
-    COMP_BFALSE_R(InitDBHandle(), FALSE);
+    if (!InitDBHandle())
+    {
+        theApp.SaveMessage("InitDBHandle fail!!");
+        return FALSE;
+    }
 
     // global parameter
-    COMP_BFALSE_R(ReadGlobalPara(), FALSE);
+    if (!ReadGlobalPara())
+    {
+        theApp.SaveMessage("ReadGlobalPara fail!!");
+        return FALSE;
+    }
     initstep++;
 
     for (i = 0; i < LANGUAGE_NUM; i++)
     {
         // Show parameter
-        COMP_BFALSE_R(ReadShowPara(&theApp.m_tShowCfg[i], i), FALSE);
+        if (!ReadShowPara(&theApp.m_tShowCfg[i], i))
+        {
+            theApp.SaveMessage("ReadShowPara fail!!");
+            return FALSE;
+        }
 
         // excel statastic config
-        COMP_BFALSE_R(ReadXlsStatPara(&theApp.m_tXlsStatCfg[i], i), FALSE);
+        if (!ReadXlsStatPara(&theApp.m_tXlsStatCfg[i], i))
+        {
+            theApp.SaveMessage("ReadXlsStatPara fail!!");
+            return FALSE;
+        }
     }
     initstep++;
 
     // Torque&Turn parameter
-    COMP_BFALSE_R(ReadTorqCfgPara(theApp.m_tShowCfg[g_tGlbCfg.nLangType].nAlias, &theApp.m_tParaCfg), FALSE);
+    if (!ReadTorqCfgPara(theApp.m_tShowCfg[g_tGlbCfg.nLangType].nAlias, &theApp.m_tParaCfg))
+    {
+        theApp.SaveMessage("ReadTorqCfgPara fail!!");
+        return FALSE;
+    }
     initstep++;
 
-    COMP_BFALSE_R(LoadTubingInfo(), FALSE);
-    COMP_BFALSE_R(LoadTubingCfg(), FALSE);
+    if (!LoadTubingInfo())
+    {
+        theApp.SaveMessage("LoadTubingInfo fail!!");
+        return FALSE;
+    }
+    if (!LoadTubingCfg())
+    {
+        theApp.SaveMessage("LoadTubingCfg fail!!");
+        return FALSE;
+    }
     initstep++;
 
-    COMP_BFALSE_R(ReadValvePara(&theApp.m_tValveCfg), FALSE);
-    initstep++;
+    if (!ReadValvePara(&theApp.m_tValveCfg))
+    {
+        theApp.SaveMessage("ReadValvePara fail!!");
+        //return FALSE;
+    }
+    else
+        initstep++;
     /* 系统参数路径，写死，不存储 */
     //CheckParaFileName();
     return TRUE;
