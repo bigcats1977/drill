@@ -248,7 +248,7 @@ private:
     void LightValveStatus(BYTE *pucStatus);
     void CalcDelayCount();
     CDialog *GetDlgPoint(CDialog * pDialog, BYTE uDlgKind, UINT iDlgID);
-    BOOL CheckPortData(char *pData, int iLen, BOOL &bFini);
+    BOOL CheckPortData(BYTE *pData, int iLen, BOOL &bFini);
     int  RcvTorqDataProc(COLLECTDATA *ptCollData);
     void UnitChangeTorq();
     void UpdCfgLangChg(UINT nLang);
@@ -308,6 +308,7 @@ private:
     UINT            m_nCurDelay;
     int             m_iValveBreakCnt;       /* 读取阀门状态失败次数，设置为初始5次，小于等于0说明通信中断，如果一直读取不到，说明串口状态不对 */
     int             m_iTorqBreakCnt;
+    int             m_iMaxReadTimes;    /* 串口最大读取次数 */
     
     CString         m_strTubeNO2;       /* 管体编号 第二段 */
     BOOL            m_bCanModLastData;  /* 复位时间前，可以修改最后一条数据 */

@@ -52,6 +52,8 @@ public:
     void    SaveSendFailure(UINT nCmdType = 15); /* 默认SCMREAD15 */
     // 保存CRC或者串口错误、长度不对数据
     void    SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr);
+    /* 保存服务器客户端通信的信息到文件 */
+    void    SaveCommunication(BYTE* msg, WORD wLen, UINT nType);
     // 保存正常数据信息
     void    SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen);
     void    SaveMultiData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen);
@@ -265,7 +267,7 @@ private:
     void SaveDbgHead(UINT nType);
     void SaveCurTimeAndHead(UINT nType);
     BOOL MsgLenIsZero(WORD wLen, UINT nType);
-    void SaveSerialData(BYTE *pucRcvByte, WORD wLen);
+    void SaveHexData(BYTE *pucRcvByte, WORD wLen);
     void CheckAppReg();
     BOOL CheckProductDate();
     BOOL GetProductVersion(CString &strVersion);

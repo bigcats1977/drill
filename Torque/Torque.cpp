@@ -193,7 +193,8 @@ void CTorqueApp::InitArray()
     m_strDbgHead[1]     = _T("****");
     m_strDbgHead[2]     = _T("#COL");
     m_strDbgHead[3]     = _T("#INF");
-    m_strDbgHead[4]     = _T("#SND");
+    m_strDbgHead[4]     = _T("@SND");
+    m_strDbgHead[5]     = _T("@RCV");
 }
 
 BOOL CTorqueApp::InitInstance()
@@ -1571,7 +1572,7 @@ void CTorqueApp::SaveStreamData(CString strStream)
     INC_DBG_INFO();
 }
 
-void CTorqueApp::SaveSerialData(BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveHexData(BYTE *pucRcvByte, WORD wLen)
 {
     int     i       = 0;
     int     iLen    = 0;
@@ -1591,6 +1592,23 @@ void CTorqueApp::SaveSerialData(BYTE *pucRcvByte, WORD wLen)
     iLen = 2;
     memcpy(pData, "\r\n", iLen);
     INC_DBG_INFO();
+}
+
+void CTorqueApp::SaveCommunication(BYTE* msg, WORD wLen, UINT nType)
+{
+    int     iLen = 0;
+    char* pData = NULL;
+
+    ASSERT_NULL(msg);
+    ASSERT_ZERO(wLen);
+    COMP_BL(nType, DBG_SNDCMD);
+    COMP_BG(nType, DBG_RCVCOM);
+    COMP_BFALSE(m_bShowCRC);
+
+    /* Send Communication Time */
+    SaveCurTimeAndHead(nType);
+
+    SaveHexData(msg, wLen);
 }
 
 /* 保存正常的原始数据，测试和定位使用
@@ -1638,7 +1656,7 @@ void CTorqueApp::SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
     INC_DBG_INFO();
 
     /* 计算的扭矩等信息 */
-    iLen  = sprintf_s(pData, 60, "T%10d, P%10d, S%4d, N%4d, R%6.2f\r\n",
+    iLen  = sprintf_s(pData, 60, "T%10ld, P%10ld, S%4d, N%4d, R%6.2f\r\n",
                             ptOrgData->nTorque,
                             ptOrgData->nPlus,
                             ptOrgData->ucStatus,
@@ -1656,11 +1674,11 @@ void CTorqueApp::SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
         pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
         /* data len */
-        iLen = sprintf_s(pData,SPRINTFLEN, " ORG DATA(len%2d) ", wLen);
+        iLen = sprintf_s(pData,SPRINTFLEN, "ORG DATA(len%2d) ", wLen);
         INC_DBG_INFO();
 
         /* source serial data */
-        SaveSerialData(pucRcvByte, wLen);
+        SaveHexData(pucRcvByte, wLen);
     }
     return;
 }
@@ -1715,7 +1733,7 @@ BOOL CTorqueApp::MsgLenIsZero(WORD wLen, UINT nType)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, SPRINTFLEN, " Recv Len 0 Data!\r\n");
+    iLen = sprintf_s(pData, SPRINTFLEN, "Recv Len 0 Data!\r\n");
     INC_DBG_INFO();
 
     return TRUE;
@@ -1744,11 +1762,11 @@ void CTorqueApp::SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr)
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
     /* data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, " CRC  Error(len%2d) ", wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "CRC  Error(len%2d) ", wLen);
     INC_DBG_INFO();
 
     /* source serial data */
-    SaveSerialData(pucRcvByte, wLen);
+    SaveHexData(pucRcvByte, wLen);
 
     return;
 }
@@ -1771,11 +1789,11 @@ void CTorqueApp::SaveCollectErrorData(CString strError, BYTE *pucRcvByte, WORD w
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
     /* Info and data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, " %s (len%2d) ", (LPCTSTR)strError, wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "%s (len%2d) ", (LPCTSTR)strError, wLen);
     INC_DBG_INFO();
 
     /* source serial data */
-    SaveSerialData(pucRcvByte, wLen);
+    SaveHexData(pucRcvByte, wLen);
 
     return;
 }
@@ -1794,11 +1812,11 @@ void CTorqueApp::SaveCollectOrgData(BYTE *pucRcvByte, WORD wLen)
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
     /* data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, " ORG  Data(len%2d) ", wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "ORG  Data(len%2d) ", wLen);
     INC_DBG_INFO();
 
     /* source serial data */
-    SaveSerialData(pucRcvByte, wLen);
+    SaveHexData(pucRcvByte, wLen);
 
     return;
 }
@@ -1819,11 +1837,11 @@ void CTorqueApp::SaveResetData(BYTE *pucRcvByte, WORD wLen)
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
     /* data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, " Reset Data(len%2d) ", wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "Reset Data(len%2d) ", wLen);
     INC_DBG_INFO();
 
     /* source serial data */
-    SaveSerialData(pucRcvByte, wLen);
+    SaveHexData(pucRcvByte, wLen);
 
     return;
 }
@@ -1844,14 +1862,14 @@ void CTorqueApp::SaveSendData(CString strCmd, BYTE *pucRcvByte, WORD wLen)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, " %s(len%2d)\r\n", (LPCTSTR)strCmd, wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "%s(len%2d)\r\n", (LPCTSTR)strCmd, wLen);
     INC_DBG_INFO();
     
     /* 对外不展现modbus编码 */
     return;
 
     /* source serial data */
-    SaveSerialData(pucRcvByte, wLen);
+    SaveHexData(pucRcvByte, wLen);
 }
 
 //保存串口发送错误数据
@@ -1869,7 +1887,7 @@ void CTorqueApp::SaveSendFailure(UINT nCmdType)
     strCmd = g_strCmdName[nCmdType-SCMREAD];
 
     /* Save Info */
-    iLen = sprintf_s(pData, SPRINTFLEN, " Send %s Command Failure!\r\n", strCmd.c_str());
+    iLen = sprintf_s(pData, SPRINTFLEN, "Send %s Command Failure!\r\n", strCmd.c_str());
     INC_DBG_INFO();
     return;
 }
@@ -1899,7 +1917,7 @@ void CTorqueApp::SaveAppStatus(UINT nStatus, CString strInfo)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, 100, " Application is %s Status(%s)!\r\n", (LPCTSTR)g_strStatus[nStatus].c_str(), (LPSTR)(LPCTSTR)strInfo);
+    iLen = sprintf_s(pData, 100, "Application is %s Status(%s)!\r\n", (LPCTSTR)g_strStatus[nStatus].c_str(), (LPSTR)(LPCTSTR)strInfo);
     INC_DBG_INFO();
     return;
 }
@@ -1918,7 +1936,7 @@ void CTorqueApp::SavePortOper(UINT nPortOpr)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, SPRINTFLEN, " Port %d is %s!\r\n", g_tGlbCfg.nPortNO, (LPCTSTR)g_strPortOpr[nPortOpr].c_str());
+    iLen = sprintf_s(pData, SPRINTFLEN, "Port %d is %s!\r\n", g_tGlbCfg.nPortNO, (LPCTSTR)g_strPortOpr[nPortOpr].c_str());
     INC_DBG_INFO();
     return;
 }
@@ -1940,13 +1958,13 @@ void CTorqueApp::SavePortBufData(BYTE *pucRcvByte, WORD wLen, UINT nClashSta)
 
     /* data len */
     if(nClashSta == RS_READCLASH)
-        iLen = sprintf_s(pData, SPRINTFLEN, " ReadCls  Data(len%2d) ", wLen);
+        iLen = sprintf_s(pData, SPRINTFLEN, "ReadCls  Data(len%2d) ", wLen);
     else if(nClashSta == RS_RESETCLASH)
-        iLen = sprintf_s(pData, SPRINTFLEN, " ResetCls Data(len%2d) ", wLen);
+        iLen = sprintf_s(pData, SPRINTFLEN, "ResetCls Data(len%2d) ", wLen);
     INC_DBG_INFO();
 
     /* source serial data */
-    SaveSerialData(pucRcvByte, wLen);
+    SaveHexData(pucRcvByte, wLen);
 
     return;
 }
@@ -1963,7 +1981,7 @@ void CTorqueApp::SaveMessage(CString strMessage)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, 200, " %s\r\n", (LPCTSTR)strMessage);
+    iLen = sprintf_s(pData, 200, "%s\r\n", (LPCTSTR)strMessage);
     INC_DBG_INFO();
     return;
 }

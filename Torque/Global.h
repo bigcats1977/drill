@@ -395,9 +395,10 @@ using namespace std;
 #define DBG_COLLECT                 2   /* collect */
 #define DBG_MESSAGE                 3   /* MessageBox显示信息 */
 #define DBG_SNDCMD                  4   /* 发送串口请求 */
-#define DBG_MAXNUM                  (DBG_SNDCMD+1)
+#define DBG_RCVCOM                  5   /* 接收串口消息 */
+#define DBG_MAXNUM                  (DBG_RCVCOM+1)
 /* 调试信息头的长度固定为4 */
-#define DBG_HEADLEN                 4
+#define DBG_HEADLEN                 5
 #pragma endregion
 
 #pragma region MAX RANGE

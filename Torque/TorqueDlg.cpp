@@ -627,6 +627,7 @@ void CTorqueDlg::InitVariant()
     m_bAlarm    = FALSE;
     m_bCanModLastData   = FALSE;
     m_strMainValue[MAINSHOWWELL].Format("%d", theApp.m_nCurRunningNO);
+    m_iMaxReadTimes = (int)ceil(MAXCOMMBREAKTIME / g_tGlbCfg.nCollectDur) + 1;
 
     m_ptPortData = (PORTDATA*)(new BYTE[sizeof(PORTDATA)]);
     memset(m_ptPortData, 0, sizeof(PORTDATA));
@@ -1112,7 +1113,7 @@ BOOL CTorqueDlg::CollectRandData(COLLECTDATA* ptCollData)
     }
 
     /* 调试显示随机数据 */
-    m_strRecvData.Format("%d,%ld,%d",(int)ptCollData->fTorque,ptCollData->nOrgPlus,ptCollData->ucStatus);
+    m_strRecvData.Format("%ld,%ld,%d",(int)ptCollData->fTorque,ptCollData->nOrgPlus,ptCollData->ucStatus);
 
     /*300编码器，转速太快，除2降1倍*/
     ptCollData->fRpm = m_iOutPoints * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] * 0.8/g_tGlbCfg.fRpmAdj;
@@ -1220,7 +1221,7 @@ BOOL CTorqueDlg::CollectTorqData(COLLECTDATA* ptCollData)
         tOrgData.fRpm = ptCollData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn/2;
 
     /* 调试显示接收到的有效数据 */
-    m_strRecvData.Format("%d,%ld,%d,%.1f(%s)",(int)ptCollData->fTorque,ptCollData->nOrgPlus,ptCollData->ucStatus,ptCollData->fRpm,strTime);
+    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)",(int)ptCollData->fTorque,ptCollData->nOrgPlus,ptCollData->ucStatus,ptCollData->fRpm,strTime);
 
     return TRUE;
 }
@@ -1327,7 +1328,7 @@ BOOL CTorqueDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
 
     /* 调试显示接收到的有效数据 */
     ptOrgData = &ptCollData[nDataNum-1];
-    m_strRecvData.Format("%d,%ld,%d,%.1f(%s)",(int)ptOrgData->fTorque,ptOrgData->nOrgPlus,ptOrgData->ucStatus,ptOrgData->fRpm,strTime);
+    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)",(int)ptOrgData->fTorque,ptOrgData->nOrgPlus,ptOrgData->ucStatus,ptOrgData->fRpm,strTime);
     return TRUE;
 }
 
@@ -1914,7 +1915,7 @@ void CTorqueDlg::SavePortNormalInfo(COLLECTDATA *ptCollData)
     /* 调试显示接收到的有效数据 */
     GetLocalTime(&ts);
     strTime.Format("%02d:%02d:%02d.%03d",ts.wHour,ts.wMinute, ts.wSecond, ts.wMilliseconds);
-    m_strRecvData.Format("%d,%ld,%d,%.1f(%s)",(int)ptCollData->fTorque,ptCollData->nOrgPlus,ptCollData->ucStatus,fRpm,strTime);
+    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)",(int)ptCollData->fTorque,ptCollData->nOrgPlus,ptCollData->ucStatus,fRpm,strTime);
 
     /* 根据Plus计算数据的点数 */
     CalcPointNum(ptCollData, &tOrgData);
@@ -1987,7 +1988,7 @@ void CTorqueDlg::SavePortMultiDataInfo(COLLECTDATA *ptCollData)
     GetLocalTime(&ts);
     strTime.Format("%02d:%02d:%02d.%03d",ts.wHour,ts.wMinute, ts.wSecond, ts.wMilliseconds);
 
-    m_strRecvData.Format("%d,%ld,%d,%.1f(%s)",(int)ptOrgColl->fTorque,ptOrgColl->nOrgPlus,ptOrgColl->ucStatus,fRpm,strTime);
+    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)",(int)ptOrgColl->fTorque,ptOrgColl->nOrgPlus,ptOrgColl->ucStatus,fRpm,strTime);
     theApp.SaveMultiData(&tOrgData, m_ucRcvByte, m_wRcvLen);
 }
 
@@ -2011,7 +2012,7 @@ LRESULT CTorqueDlg::CollectTimerOut(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-BOOL CTorqueDlg::CheckPortData(char *pData, int iLen, BOOL &bFini)
+BOOL CTorqueDlg::CheckPortData(BYTE *pData, int iLen, BOOL &bFini)
 {
     int     iNum = 0;
     ASSERT_NULL_R(pData, FALSE);
@@ -2084,22 +2085,24 @@ BOOL CTorqueDlg::CheckPortData(char *pData, int iLen, BOOL &bFini)
 
 LONG CTorqueDlg::OnCommunication(WPARAM Char, LPARAM num)
 {
-    static char PortBuf[200]  = {0};
+    static BYTE PortBuf[200]  = {0};
     static int  iDataLen      = 0;  //数据长度，一次处理一个数据
     BOOL    bDataOK  = FALSE;
     BOOL    bInvalid = FALSE;
+    int     iLen = (int)num;
 
-    ASSERT_ZERO_R(num, 0);
+    ASSERT_ZERO_R(iLen, 0);
 
-    if (iDataLen + num >= 200)
+    if (iDataLen + iLen >= 200)
     {
         iDataLen = 0;
         return 0;
     }
     
     /* 定时获取的数据信息，封装到各个collect函数中设置值 */
-    memcpy(&PortBuf[iDataLen], (unsigned char*)Char, num);
-    iDataLen += num;
+    memcpy(&PortBuf[iDataLen], (BYTE*)Char, iLen);
+    theApp.SaveCommunication((BYTE*)Char, iLen, DBG_RCVCOM);
+    iDataLen += iLen;
 
     /* 非法数据，清零返回 */
     if(!CheckPortData(&PortBuf[0], iDataLen, bDataOK))
@@ -2127,7 +2130,7 @@ LONG CTorqueDlg::OnCommunication(WPARAM Char, LPARAM num)
             if(m_ucRcvByte[3] == COM_READ || m_ucRcvByte[3] == COM_READMULTI)   // 读取扭矩数据
             {
                 RcvTorqDataProc(NULL);
-                m_iTorqBreakCnt = (int)ceil(MAXCOMMBREAKTIME / g_tGlbCfg.nCollectDur);
+                m_iTorqBreakCnt = m_iMaxReadTimes;
             }
             break;
             
@@ -2646,7 +2649,7 @@ void CTorqueDlg::RunTorque()
         }
     }
     
-    m_iTorqBreakCnt = (int)ceil(MAXCOMMBREAKTIME / g_tGlbCfg.nCollectDur);
+    m_iTorqBreakCnt = m_iMaxReadTimes;
 
     switch(g_tGlbCfg.nTest)
     {
@@ -2757,7 +2760,7 @@ void CTorqueDlg::StopTorque()
     //CString strBtnText;
 
     m_iTest = 0;
-    m_iTorqBreakCnt = (int)ceil(MAXCOMMBREAKTIME / g_tGlbCfg.nCollectDur);
+    m_iTorqBreakCnt = m_iMaxReadTimes;
 
     if((g_tGlbCfg.nTest == COLL_TORQUE ||
         g_tGlbCfg.nTest == COLL_MULTITORQ)
@@ -3220,6 +3223,7 @@ BOOL CTorqueDlg::ChangeCommParam(BOOL bUpdateText)
 #endif
 
     /* else */
+    theApp.SaveMessage("OpenPort Failure!!");
     SetCommShowInfo(RS_COMM_CLOSE);
     return FALSE;
 }
@@ -3594,6 +3598,7 @@ BOOL CTorqueDlg::SendData( UINT nParaType )
 #else
     COMP_BFALSE_R(m_bComm, FALSE);
     m_tPort.WriteToPort((char*)m_ucSndByte, wLen);
+    theApp.SaveCommunication(m_ucSndByte, wLen, DBG_SNDCMD);
 #endif
     return TRUE;
 }
