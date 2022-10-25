@@ -1936,7 +1936,7 @@ void CTorqueApp::SavePortOper(UINT nPortOpr)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, SPRINTFLEN, "Port %d is %s!\r\n", g_tGlbCfg.nPortNO, (LPCTSTR)g_strPortOpr[nPortOpr].c_str());
+    iLen = sprintf_s(pData, SPRINTFLEN, "Port %d(%d) is %s!\r\n", g_tGlbCfg.nPortNO, g_tGlbCfg.nBaudRate, (LPCTSTR)g_strPortOpr[nPortOpr].c_str());
     INC_DBG_INFO();
     return;
 }

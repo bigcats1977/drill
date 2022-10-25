@@ -135,6 +135,7 @@ BOOL CDBAccess::ReadGlobalPara()
     g_tGlbCfg.nPortNO = m_tDBGlbCfg._PortNO;
     if (g_tGlbCfg.nPortNO < 1)
         g_tGlbCfg.nPortNO = 1;
+    g_tGlbCfg.nBaudRate = m_tDBGlbCfg._BaudRate;
     g_tGlbCfg.nPlusPerTurn = m_tDBGlbCfg._PlusPerTurn;
     g_tGlbCfg.nTorqUnit = m_tDBGlbCfg._TorqUnit;
     if (g_tGlbCfg.nTorqUnit == 1)

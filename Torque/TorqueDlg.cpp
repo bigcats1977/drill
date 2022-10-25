@@ -3211,10 +3211,11 @@ BOOL CTorqueDlg::ChangeCommParam(BOOL bUpdateText)
         return TRUE;
     }
 #else
-    m_tPort.ClosePort();
-    if (m_tPort.InitPort(this, g_tGlbCfg.nPortNO, 115200, 'N', 8, 1, EV_RXCHAR | EV_CTS, 512))
+    CLOSE_PORTCOMM();
+    if (m_tPort.InitPort(this, g_tGlbCfg.nPortNO, g_tGlbCfg.nBaudRate, 'N', 8, 1, EV_RXCHAR | EV_CTS, 512))
     {
         m_tPort.StartMonitoring();
+        theApp.SavePortOper(PORTOPR_OPEN);
         
         SetCommShowInfo(RS_COMM_OPEN);
 

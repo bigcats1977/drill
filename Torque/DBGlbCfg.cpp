@@ -15,6 +15,7 @@ void CDBGlbCfg::Empty()
 {
     _LangType = 0;
     _PortNO = 1;
+    _BaudRate = 115200;
     _PlusPerTurn = 4500;
     _TorqUnit = 0;
     _CollectDur = 100;
@@ -59,6 +60,7 @@ void CDBGlbCfg::GetTable()
 
     _Sqlite->GetValue(pResult[nIndex++], _LangType);
     _Sqlite->GetValue(pResult[nIndex++], _PortNO);
+    _Sqlite->GetValue(pResult[nIndex++], _BaudRate);
     _Sqlite->GetValue(pResult[nIndex++], _PlusPerTurn);
     _Sqlite->GetValue(pResult[nIndex++], _TorqUnit);
     _Sqlite->GetValue(pResult[nIndex++], _CollectDur);
@@ -98,6 +100,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->nLangType));
     fields.push_back("PortNO");
     values.push_back(to_string(ptfg->nPortNO));
+    fields.push_back("BaudRate");
+    values.push_back(to_string(ptfg->nBaudRate));
     fields.push_back("PlusPerTurn");
     values.push_back(to_string(ptfg->nPlusPerTurn));
     fields.push_back("TorqUnit");

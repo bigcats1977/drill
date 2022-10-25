@@ -6,6 +6,7 @@ class CDBGlbCfg: public CDBBase
 public:
     UINT    _LangType;
     UINT    _PortNO;
+    UINT    _BaudRate;
     UINT    _PlusPerTurn;
     UINT    _TorqUnit;
     UINT    _CollectDur;

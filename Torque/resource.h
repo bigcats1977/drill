@@ -665,6 +665,7 @@
 #define IDC_EDITRESET                   2254
 #define IDC_EDITCOLLECT                 2255
 #define IDC_EDITSAVEDUR                 2256
+#define IDC_COMBOBAUD                   2257
 #define ID_SETPARA                      32770
 #define ID_ABOUT                        32771
 #define ID_DEBUG                        32772

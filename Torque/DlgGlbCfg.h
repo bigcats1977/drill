@@ -20,10 +20,8 @@ public:
 	enum { IDD = IDD_DLGGLBCFG };
 #endif
 	CComboBox   m_cbPort;
+	CComboBox   m_cbBaud;
 	CComboBox   m_cbImgNum;
-	CNumEdit    m_nePlus;
-
-	UINT        m_nPort;
 	UINT        m_nPlus;
 	UINT        m_nReset;
 	UINT        m_nCollect;
@@ -42,9 +40,11 @@ protected:
 private:
 	BOOL GetParaValue(GLBCFG* ptCfg);
 	void SetParaValue(GLBCFG* ptCfg);
-	void SetImgNum();
+	void SelComboItem(CComboBox* ptCCB, map<int, int> Items, int val);
 
 	COLORREF    m_clrNormal;
 	COLORREF    m_clrChanged;
 	UINT        m_nCurLang;
+	map<int, int>	m_Baud;
+	map<int, int>	m_ImgNum;
 };

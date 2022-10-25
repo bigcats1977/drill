@@ -273,8 +273,11 @@ UINT CSerialPort::CommThread(LPVOID pParam)
         {
             // Shutdown event.  This is event zero so it will be
             // the higest priority and be serviced first.
-            CloseHandle(port->m_hComm);
-            port->m_hComm = NULL;
+            if (port->m_hComm != NULL)
+            {
+                CloseHandle(port->m_hComm);
+                port->m_hComm = NULL;
+            }
             port->m_bThreadAlive = FALSE;
 
             // Kill this thread.  break is not needed, but makes me feel better.

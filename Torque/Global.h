@@ -789,6 +789,7 @@ typedef struct tagGLBCFG
     UINT        nLangType;      /* 语言类型 */
     //UINT        nParaIndex;     /* 控制参数配置索引 */
     UINT        nPortNO;        /* 串口号 */
+    UINT        nBaudRate;      /* 波特率 */
     UINT        nPlusPerTurn;   /* 周脉冲数 */
     UINT        nTorqUnit;      /* 扭矩单位: 0:N.m; 1:lb.ft */
     UINT        nCollectDur;    /* 定时收集数据的时间，ms，默认250 */
@@ -1441,4 +1442,17 @@ vector<int> GetIDFromList(string lsVals);
 void CheckLanguage(UINT& nLang);
 CString GetCCBString(CComboBox* ptCCB);
 #pragma endregion
+
+
+class map_value_finder
+{
+public:
+    map_value_finder(const int& cmp_int) :m_s_cmp_int(cmp_int) {}
+    bool operator ()(const map<int, int>::value_type& pair)
+    {
+        return pair.second == m_s_cmp_int;
+    }
+private:
+    const int& m_s_cmp_int;
+};
 
