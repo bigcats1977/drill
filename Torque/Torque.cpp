@@ -189,12 +189,12 @@ void CTorqueApp::InitArray()
     m_ucDefaultMac[3]   = 0x58;
     m_ucDefaultMac[4]   = 0x11;
 
-    m_strDbgHead[0]     = _T("####");
-    m_strDbgHead[1]     = _T("****");
-    m_strDbgHead[2]     = _T("#COL");
-    m_strDbgHead[3]     = _T("#INF");
-    m_strDbgHead[4]     = _T("@SND");
-    m_strDbgHead[5]     = _T("@RCV");
+    m_strDbgHead[0]     = _T("#### ");
+    m_strDbgHead[1]     = _T("**** ");
+    m_strDbgHead[2]     = _T("#COL ");
+    m_strDbgHead[3]     = _T("#INF ");
+    m_strDbgHead[4]     = _T("@SND ");
+    m_strDbgHead[5]     = _T("@RCV ");
 }
 
 BOOL CTorqueApp::InitInstance()
