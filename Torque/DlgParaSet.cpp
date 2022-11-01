@@ -265,18 +265,13 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
     
     lsShowIndex = theDB.ReadCurShowIndex();
 
-    if (lsShowIndex.size() == 0)
-    {
-        for (i = 0; i < MAXPARANUM; i++)
-            m_strSetShowName[i] = ptShow->strShow[i].c_str();
-        return;
-    }
-
-    for(i=0; i<MAXPARANUM && i< lsShowIndex.size(); i++)   //  i<ptShow->wParaNum+1 && 
+    for(i=0; i<MAXPARANUM; i++)   //  i<ptShow->wParaNum+1 && 
     {
         m_strSetShowName[i] = ptShow->strShow[i].c_str();
 
         m_cbSetShowOption[i].ResetContent();
+        if (i >= lsShowIndex.size())
+            continue;
 
         lsOption.clear();
         

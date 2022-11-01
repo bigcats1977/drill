@@ -321,7 +321,8 @@ vector<int> CDBAccess::ReadCurShowIndex()
     COMP_BFALSE_R(m_bValidDBFile, lsIndexs);
 
     if (m_tDBShowCfg._lsShowPara.size() > 0)
-        lsIndexs = m_tDBShowName.GetIndexsByNOs(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
+        lsIndexs = GetIDFromList(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
+        //lsIndexs = m_tDBShowName.GetIndexsByNOs(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
 
     return lsIndexs;
 }
