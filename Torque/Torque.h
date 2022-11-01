@@ -150,7 +150,7 @@ public:
     int     SeekFileLen(CFile &file);
     void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq);
     int     GetMainWellIndex();
-    int     GetMainTubeIndex();
+    //int     GetMainTubeIndex();
     int     GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq);
     //void    UpdateAutoSaveFileName();
     string  GetTubeFactoryValue();

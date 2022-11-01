@@ -518,10 +518,10 @@ using namespace std;
 //#define       HALFPARALEN             25
 //#define       MAXPARALEN              50
 
-#define         MAXPARANUM              16  /* 0 Factory + 15  */
+#define         MAXPARANUM              18  /* 钻杆6+油田3+勘探公司6+其他3  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
 #define         MAXOPTIONNUM            50
-#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
+//#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
 #define         MAINSHOWWELL            6   /* 第6个主界面显示参数为入井序号(6) */
 
 /* 15个参数, 4~7固定 */

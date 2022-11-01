@@ -975,7 +975,7 @@ int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
     }
     return -1;
 }
-
+#if 0
 int CTorqueApp::GetMainTubeIndex()
 {
     UINT        i = 0;
@@ -992,7 +992,7 @@ int CTorqueApp::GetMainTubeIndex()
     }
     return -1;
 }
-
+#endif
 /* 获取当前扭矩的序号 */
 void CTorqueApp::GetCurNum()
 {
