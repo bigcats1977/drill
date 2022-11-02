@@ -174,9 +174,6 @@
     <ClInclude Include="SerialPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TubeCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -204,9 +201,6 @@
     <ClInclude Include="sqlite3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgTubeCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SqliteProc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -219,16 +213,10 @@
     <ClInclude Include="DBBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DBTubeCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DBShowCfg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DBShowOption.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DBShowName.h">
@@ -537,9 +525,6 @@
     <ClCompile Include="SerialPort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TubeCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DlgXlsStatSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -555,9 +540,6 @@
     <ClCompile Include="sqlite3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgTubeCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SqliteProc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -570,16 +552,10 @@
     <ClCompile Include="DBBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DBTubeCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DBShowCfg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DBShowOption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DBShowName.cpp">

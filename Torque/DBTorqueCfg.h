@@ -9,7 +9,7 @@ public:
     vector<int>     _lsLangType;
     vector<int>     _lsTorqueID;
     vector<int>     _lsTurnID;
-    vector<int>     _lsTubeID;
+    //vector<int>     _lsTubeID;
     vector<double>  _lsFullRPM;
     vector<double>  _lsMinShlSlope;
 

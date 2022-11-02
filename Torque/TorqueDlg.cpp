@@ -19,7 +19,7 @@
 #include "DlgMainShowSet.h"
 #include "DlgRemark.h"
 #include "DlgSegCabl.h"
-#include "DlgTubeCfg.h"
+//#include "DlgTubeCfg.h"
 #include "DlgGlbCfg.h"
 //#include "DlgApi.h"
 #include <Nb30.h>
@@ -481,7 +481,7 @@ CTorqueDlg::CTorqueDlg(CWnd* pParent /*=NULL*/)
     m_nClashERR     = 0;
     m_nInterval     = 20;//时间需要修改20191208
     //m_strCircle     = _T("0");
-    m_strTubeNO2    = _T("");
+    //m_strTubeNO2    = _T("");
     m_iShackle      = 0;
     m_strRecvData   = _T("");
     m_strQuality    = _T("");
@@ -544,7 +544,7 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDMAINSHOW5, m_strMainValue[5]);
     DDX_Text(pDX, IDC_EDMAINSHOW6, m_strMainValue[6]);
     DDX_Text(pDX, IDC_EDMAINSHOW7, m_strMainValue[7]);
-    DDX_Text(pDX, IDC_EDMAINSHOW52, m_strTubeNO2);
+    //DDX_Text(pDX, IDC_EDMAINSHOW52, m_strTubeNO2);
     DDX_Text(pDX, IDC_STATIC_M2, m_strLBM2);
     DDX_Text(pDX, IDC_STATIC_M9, m_strLBM9);
     //}}AFX_DATA_MAP
@@ -603,7 +603,7 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_BN_CLICKED(IDC_BTNQUALITY, &CTorqueDlg::OnBnClickedBtnquality)
     ON_BN_CLICKED(IDC_BTNSHOWSET, &CTorqueDlg::OnBnClickedBtnshowset)
     ON_COMMAND(ID_SEGCALIB, &CTorqueDlg::OnSegcalib)
-    ON_COMMAND(ID_TUBECFG, &CTorqueDlg::OnTubeCfg)
+    //ON_COMMAND(ID_TUBECFG, &CTorqueDlg::OnTubeCfg)
     ON_COMMAND(ID_GLBCFG, &CTorqueDlg::OnGlbCfg)
 END_MESSAGE_MAP()
 
@@ -653,10 +653,10 @@ void CTorqueDlg::InitMainShowPara()
         m_strMainValue[i] = theApp.m_tParaCfg.strValue[m_ptShow->nMain[i]].c_str();
     }
 
-    m_strMainValue[1] = theApp.GetTubeOEMValue().c_str();
-    m_strMainValue[2] = theApp.GetTubeSizeValue().c_str();
-    m_strMainValue[3] = theApp.GetTubeMaterValue().c_str();
-    m_strMainValue[4] = theApp.GetTubeCouplValue().c_str();
+    //m_strMainValue[1] = theApp.GetTubeOEMValue().c_str();
+    //m_strMainValue[2] = theApp.GetTubeSizeValue().c_str();
+    //m_strMainValue[3] = theApp.GetTubeMaterValue().c_str();
+    //m_strMainValue[4] = theApp.GetTubeCouplValue().c_str();
 
     UpdateData(FALSE);
 }
@@ -3026,7 +3026,7 @@ void CTorqueDlg::OnBnClickedBtnshowset()
     dlgMain.m_tempCfg = *m_ptCfg;
     dlgMain.m_ptShow  = m_ptShow;
     //dlgMain.m_tCurTub  = theApp.m_ptCurShow->tTubeCfg;
-    dlgMain.m_strTubeNO2  = m_strTubeNO2;
+    //dlgMain.m_strTubeNO2  = m_strTubeNO2;
     if (IDOK != dlgMain.DoModal())
         return;
 #if 0
@@ -3048,7 +3048,7 @@ void CTorqueDlg::OnBnClickedBtnshowset()
         ReGetTorqNo();
     theApp.WritePara(theApp.m_strParaFile, &theApp.m_tParaCfg);
 #endif
-    m_strTubeNO2 = dlgMain.m_strTubeNO2;
+    //m_strTubeNO2 = dlgMain.m_strTubeNO2;
     theDB.UpdateShowPara(m_ptShow);
 
     /*显示参数*/
@@ -4056,17 +4056,20 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
 
         switch(i)
         {
+#if 0
             /* 管体序号 */
             case TUBESN:
                 strWholeTube = m_ptCfg->strValue[i] + "-" + m_strTubeNO2.GetBuffer(0);
                 //_itoa_s(m_nCurTubeNO, cTemp, 10, 10);
                 strVal = strWholeTube;
                 break;
+#endif
             /* 入井序号 */
             case TALLYNO:
                 if(QUA_RESU_GOOD == ptPBData->dwquality())
                     strVal = strRunningNO.GetBuffer(0);
                 break;
+#if 0
             /* 管件厂家 */
             case FIXSHOWBEGIN:
                 strVal = theApp.GetTubeOEMValue();
@@ -4083,7 +4086,7 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
             case FIXSHOWBEGIN+3:
                 strVal = theApp.GetTubeCouplValue();
                 break;
-
+#endif
             default:
                 strVal = m_ptCfg->strValue[i];
                 break;
@@ -4661,6 +4664,7 @@ void CTorqueDlg::OnSegcalib()
     m_pdlgCalib->ShowWindow(SW_SHOW);
 }
 
+#if 0
 void CTorqueDlg::OnTubeCfg()
 {
     CDlgTubeCfg     dlgTubeCfg;
@@ -4677,3 +4681,4 @@ void CTorqueDlg::OnTubeCfg()
 
     dlgTubeCfg.DoModal();
 }
+#endif

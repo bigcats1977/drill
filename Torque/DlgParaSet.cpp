@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 
-extern CTubeCfg    g_cTubing;
+//extern CTubeCfg    g_cTubing;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDlgParaSet dialog
@@ -41,11 +41,11 @@ CDlgParaSet::CDlgParaSet(CWnd* pParent /*=NULL*/)
     m_fMinShlSlope  = 0.0f;
     m_fMaxDeltaCir  = 0.0f;
     m_fMinDeltaCir  = 0.0f;
-    m_bFixedTube  = TRUE;
+    //m_bFixedTube  = TRUE;
 
     m_bParaChg = false;
 
-    m_ptCurTub = &m_tempCfg.tTubeCfg;
+    //m_ptCurTub = &m_tempCfg.tTubeCfg;
     //}}AFX_DATA_INIT
 }
 
@@ -108,6 +108,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_SHOWSET14, m_strSetShowName[13]);
     DDX_Text(pDX, IDC_SHOWSET15, m_strSetShowName[14]);
     DDX_Text(pDX, IDC_SHOWSET16, m_strSetShowName[15]);
+    DDX_Text(pDX, IDC_SHOWSET17, m_strSetShowName[16]);
+    DDX_Text(pDX, IDC_SHOWSET18, m_strSetShowName[17]);
     DDX_Text(pDX, IDC_CBPARA01, m_strSetShowOption[0]);
     DDX_Text(pDX, IDC_CBPARA02, m_strSetShowOption[1]);
     DDX_Text(pDX, IDC_CBPARA03, m_strSetShowOption[2]);
@@ -124,6 +126,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_CBPARA14, m_strSetShowOption[13]);
     DDX_Text(pDX, IDC_CBPARA15, m_strSetShowOption[14]);
     DDX_Text(pDX, IDC_CBPARA16, m_strSetShowOption[15]);
+    DDX_Text(pDX, IDC_CBPARA17, m_strSetShowOption[16]);
+    DDX_Text(pDX, IDC_CBPARA18, m_strSetShowOption[17]);
     DDX_Control(pDX, IDC_CBPARA01, m_cbSetShowOption[0]);
     DDX_Control(pDX, IDC_CBPARA02, m_cbSetShowOption[1]);
     DDX_Control(pDX, IDC_CBPARA03, m_cbSetShowOption[2]);
@@ -140,17 +144,19 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CBPARA14, m_cbSetShowOption[13]);
     DDX_Control(pDX, IDC_CBPARA15, m_cbSetShowOption[14]);
     DDX_Control(pDX, IDC_CBPARA16, m_cbSetShowOption[15]);
-    DDX_Check(pDX, IDC_CKFIXEDTUBING, m_bFixedTube);
-    DDX_Text(pDX, IDC_CBFIXPARA01, m_strFixTubingOpt[0]);
-    DDX_Text(pDX, IDC_CBFIXPARA05, m_strFixTubingOpt[1]);// 4567 9 10 14
-    DDX_Text(pDX, IDC_CBFIXPARA06, m_strFixTubingOpt[2]);
-    DDX_Text(pDX, IDC_CBFIXPARA07, m_strFixTubingOpt[3]);
-    DDX_Text(pDX, IDC_CBFIXPARA08, m_strFixTubingOpt[4]);
-    DDX_Control(pDX, IDC_CBFIXPARA01, m_cbFixTubingOpt[0]);
-    DDX_Control(pDX, IDC_CBFIXPARA05, m_cbFixTubingOpt[1]);
-    DDX_Control(pDX, IDC_CBFIXPARA06, m_cbFixTubingOpt[2]);
-    DDX_Control(pDX, IDC_CBFIXPARA07, m_cbFixTubingOpt[3]);
-    DDX_Control(pDX, IDC_CBFIXPARA08, m_cbFixTubingOpt[4]);
+    DDX_Control(pDX, IDC_CBPARA17, m_cbSetShowOption[16]);
+    DDX_Control(pDX, IDC_CBPARA18, m_cbSetShowOption[17]);
+    //DDX_Check(pDX, IDC_CKFIXEDTUBING, m_bFixedTube);
+    //DDX_Text(pDX, IDC_CBFIXPARA01, m_strFixTubingOpt[0]);
+    //DDX_Text(pDX, IDC_CBFIXPARA05, m_strFixTubingOpt[1]);// 4567 9 10 14
+    //DDX_Text(pDX, IDC_CBFIXPARA06, m_strFixTubingOpt[2]);
+    //DDX_Text(pDX, IDC_CBFIXPARA07, m_strFixTubingOpt[3]);
+    //DDX_Text(pDX, IDC_CBFIXPARA08, m_strFixTubingOpt[4]);
+    //DDX_Control(pDX, IDC_CBFIXPARA01, m_cbFixTubingOpt[0]);
+    //DDX_Control(pDX, IDC_CBFIXPARA05, m_cbFixTubingOpt[1]);
+    //DDX_Control(pDX, IDC_CBFIXPARA06, m_cbFixTubingOpt[2]);
+    //DDX_Control(pDX, IDC_CBFIXPARA07, m_cbFixTubingOpt[3]);
+    //DDX_Control(pDX, IDC_CBFIXPARA08, m_cbFixTubingOpt[4]);
     //}}AFX_DATA_MAP
 }
 
@@ -174,9 +180,11 @@ BEGIN_MESSAGE_MAP(CDlgParaSet, CDialog)
     ON_CBN_KILLFOCUS(IDC_CBPARA14, &CDlgParaSet::OnCbnKillfocusCbpara14)
     ON_CBN_KILLFOCUS(IDC_CBPARA15, &CDlgParaSet::OnCbnKillfocusCbpara15)
     ON_CBN_KILLFOCUS(IDC_CBPARA16, &CDlgParaSet::OnCbnKillfocusCbpara16)
+    ON_CBN_KILLFOCUS(IDC_CBPARA17, &CDlgParaSet::OnCbnKillfocusCbpara17)
+    ON_CBN_KILLFOCUS(IDC_CBPARA18, &CDlgParaSet::OnCbnKillfocusCbpara18)
     ON_EN_KILLFOCUS(IDC_EDITOPTTORQ, &CDlgParaSet::OnKillfocusEditopttorq)
     ON_EN_KILLFOCUS(IDC_EDITMAXCIR, &CDlgParaSet::OnEnKillfocusEditmaxcir)
-    ON_CBN_KILLFOCUS(IDC_CBFIXPARA01, &CDlgParaSet::OnCbnKillfocusCbfixpara01)
+    /*ON_CBN_KILLFOCUS(IDC_CBFIXPARA01, &CDlgParaSet::OnCbnKillfocusCbfixpara01)
     ON_CBN_KILLFOCUS(IDC_CBFIXPARA05, &CDlgParaSet::OnCbnKillfocusCbfixpara05)
     ON_CBN_KILLFOCUS(IDC_CBFIXPARA06, &CDlgParaSet::OnCbnKillfocusCbfixpara06)
     ON_CBN_KILLFOCUS(IDC_CBFIXPARA07, &CDlgParaSet::OnCbnKillfocusCbfixpara07)
@@ -186,7 +194,7 @@ BEGIN_MESSAGE_MAP(CDlgParaSet, CDialog)
     ON_CBN_SELCHANGE(IDC_CBFIXPARA06, &CDlgParaSet::OnCbnSelchangeCbfixpara06)
     ON_CBN_SELCHANGE(IDC_CBFIXPARA07, &CDlgParaSet::OnCbnSelchangeCbfixpara07)
     ON_CBN_SELCHANGE(IDC_CBFIXPARA08, &CDlgParaSet::OnCbnSelchangeCbfixpara08)
-    ON_BN_CLICKED(IDC_CKFIXEDTUBING, &CDlgParaSet::OnBnClickedCkfixedtubing)
+    ON_BN_CLICKED(IDC_CKFIXEDTUBING, &CDlgParaSet::OnBnClickedCkfixedtubing)*/
     ON_CBN_SELCHANGE(IDC_CBALIAS, &CDlgParaSet::OnCbnSelchangeCbalias)
     ON_CBN_KILLFOCUS(IDC_CBALIAS, &CDlgParaSet::OnCbnKillfocusCbalias)
     ON_BN_CLICKED(IDC_DELALIAS, &CDlgParaSet::OnBnClickedDelalias)
@@ -209,7 +217,7 @@ BOOL CDlgParaSet::OnInitDialog()
     /* 根据入参设置参数初始值 */
     SetParaValue(&m_tempCfg, &m_tempShow);
 
-    InitFixShowPara();
+    //InitFixShowPara();
 
     UpdateDlgLabel();
 
@@ -261,7 +269,7 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
     m_strMemo = ptCfg->strMemo.c_str();
     m_strParaAlias = ptCfg->strAlias.c_str();
 
-    m_bFixedTube = theApp.CheckFixTube(ptCfg);
+    //m_bFixedTube = theApp.CheckFixTube(ptCfg);
     
     lsShowIndex = theDB.ReadCurShowIndex();
 
@@ -308,35 +316,35 @@ void CDlgParaSet::InitAliasShow()
     m_cbAlias.SetCurSel(iCur);
 }
 
-void CDlgParaSet::InitFixShowPara()
-{
-    g_cTubing.SetFactoryBox(&m_cbFixTubingOpt[INDEX_TUBE_FACTORY], m_ptCurTub, m_nCurLang);
-    g_cTubing.SetOEMBox(&m_cbFixTubingOpt[INDEX_TUBE_OEM], m_ptCurTub, m_nCurLang);
-    g_cTubing.SetSizeBox(&m_cbFixTubingOpt[INDEX_TUBE_SIZE], m_ptCurTub, m_nCurLang);
-    g_cTubing.SetMatBox(&m_cbFixTubingOpt[INDEX_TUBE_MATER], m_ptCurTub, m_nCurLang);
-    g_cTubing.SetCouplBox(&m_cbFixTubingOpt[INDEX_TUBE_COUPL], m_ptCurTub, m_nCurLang);
-    
-    ShowTubingCtrl(true);
-}
-
-void CDlgParaSet::ShowTubingCtrl(bool bInit)
-{
-    m_cbSetShowOption[FIXINDEX_FACTORY].ShowWindow(!m_bFixedTube);
-    m_cbSetShowOption[FIXINDEX_OEM].ShowWindow(!m_bFixedTube);
-    m_cbSetShowOption[FIXINDEX_SIZE].ShowWindow(!m_bFixedTube);
-    m_cbSetShowOption[FIXINDEX_MATER].ShowWindow(!m_bFixedTube);
-    m_cbSetShowOption[FIXINDEX_COUPL].ShowWindow(!m_bFixedTube);
-    
-    m_cbFixTubingOpt[INDEX_TUBE_FACTORY].ShowWindow(m_bFixedTube);
-    m_cbFixTubingOpt[INDEX_TUBE_OEM].ShowWindow(m_bFixedTube);
-    m_cbFixTubingOpt[INDEX_TUBE_SIZE].ShowWindow(m_bFixedTube);
-    m_cbFixTubingOpt[INDEX_TUBE_MATER].ShowWindow(m_bFixedTube);
-    m_cbFixTubingOpt[INDEX_TUBE_COUPL].ShowWindow(m_bFixedTube);
-
-    /* 由其他管材改为设定管材，修改默认扭矩值配置 */
-    if(m_bFixedTube)
-        ChgTorqbyShowPara(bInit);
-}
+//void CDlgParaSet::InitFixShowPara()
+//{
+//    g_cTubing.SetFactoryBox(&m_cbFixTubingOpt[INDEX_TUBE_FACTORY], m_ptCurTub, m_nCurLang);
+//    g_cTubing.SetOEMBox(&m_cbFixTubingOpt[INDEX_TUBE_OEM], m_ptCurTub, m_nCurLang);
+//    g_cTubing.SetSizeBox(&m_cbFixTubingOpt[INDEX_TUBE_SIZE], m_ptCurTub, m_nCurLang);
+//    g_cTubing.SetMatBox(&m_cbFixTubingOpt[INDEX_TUBE_MATER], m_ptCurTub, m_nCurLang);
+//    g_cTubing.SetCouplBox(&m_cbFixTubingOpt[INDEX_TUBE_COUPL], m_ptCurTub, m_nCurLang);
+//    
+//    ShowTubingCtrl(true);
+//}
+//
+//void CDlgParaSet::ShowTubingCtrl(bool bInit)
+//{
+//    m_cbSetShowOption[FIXINDEX_FACTORY].ShowWindow(!m_bFixedTube);
+//    m_cbSetShowOption[FIXINDEX_OEM].ShowWindow(!m_bFixedTube);
+//    m_cbSetShowOption[FIXINDEX_SIZE].ShowWindow(!m_bFixedTube);
+//    m_cbSetShowOption[FIXINDEX_MATER].ShowWindow(!m_bFixedTube);
+//    m_cbSetShowOption[FIXINDEX_COUPL].ShowWindow(!m_bFixedTube);
+//    
+//    m_cbFixTubingOpt[INDEX_TUBE_FACTORY].ShowWindow(m_bFixedTube);
+//    m_cbFixTubingOpt[INDEX_TUBE_OEM].ShowWindow(m_bFixedTube);
+//    m_cbFixTubingOpt[INDEX_TUBE_SIZE].ShowWindow(m_bFixedTube);
+//    m_cbFixTubingOpt[INDEX_TUBE_MATER].ShowWindow(m_bFixedTube);
+//    m_cbFixTubingOpt[INDEX_TUBE_COUPL].ShowWindow(m_bFixedTube);
+//
+//    /* 由其他管材改为设定管材，修改默认扭矩值配置 */
+//    if(m_bFixedTube)
+//        ChgTorqbyShowPara(bInit);
+//}
 
 void CDlgParaSet::OnParasave()
 {
@@ -401,17 +409,17 @@ BOOL CDlgParaSet::GetParaValue(PARACFG *ptCfg)
     }
 
     //ptShow->bFixTube = m_bFixedTube;
-    if (m_bFixedTube)
-    {
-        for (i = 0; i < MAXTUBECFGNUM; i++)
-        {
-            ptCfg->tTubeCfg.nFixTube[i] = g_cTubing.GetTubeNOByName(i, m_ptCurTub->nFixTube[INDEX_TUBE_FACTORY], &m_cbFixTubingOpt[i], m_nCurLang);
-        }
-    }
-    else
-    {
-        memset(&ptCfg->tTubeCfg, 0, sizeof(TUBECFG));
-    }
+    //if (m_bFixedTube)
+    //{
+    //    for (i = 0; i < MAXTUBECFGNUM; i++)
+    //    {
+    //        ptCfg->tTubeCfg.nFixTube[i] = g_cTubing.GetTubeNOByName(i, m_ptCurTub->nFixTube[INDEX_TUBE_FACTORY], &m_cbFixTubingOpt[i], m_nCurLang);
+    //    }
+    //}
+    //else
+    //{
+    //    memset(&ptCfg->tTubeCfg, 0, sizeof(TUBECFG));
+    //}
 
     ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]    = m_fMaxLimit;
     //ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]  = m_fUpperLimit;
@@ -539,25 +547,25 @@ void CDlgParaSet::JudgeShowParaChanged(UINT nIndex)
     m_cbSetShowOption[nIndex].m_ColorText = clrCtrl;
     m_cbSetShowOption[nIndex].Invalidate();
 }
-
-void CDlgParaSet::JudgeFixShowParaChanged(UINT nIndex, TUBECFG* ptTubing)
-{
-    COLORREF    clrCtrl;
-    TUBECFG   *ptOldTubing = &theApp.m_tParaCfg.tTubeCfg;
-
-    COMP_BL(nIndex, INDEX_TUBE_FACTORY);
-    COMP_BG(nIndex, INDEX_TUBE_COUPL);
-    ASSERT_NULL(ptTubing);
-
-    clrCtrl = m_clrNormal;
-    if(theApp.IsFixTube() != m_bFixedTube)
-        clrCtrl = m_clrChanged;
-    else if (ptOldTubing->nFixTube[nIndex] != ptTubing->nFixTube[nIndex])
-        clrCtrl = m_clrChanged;
-
-    m_cbFixTubingOpt[nIndex].m_ColorText = clrCtrl;
-    m_cbFixTubingOpt[nIndex].Invalidate();
-}
+//
+//void CDlgParaSet::JudgeFixShowParaChanged(UINT nIndex, TUBECFG* ptTubing)
+//{
+//    COLORREF    clrCtrl;
+//    TUBECFG   *ptOldTubing = &theApp.m_tParaCfg.tTubeCfg;
+//
+//    COMP_BL(nIndex, INDEX_TUBE_FACTORY);
+//    COMP_BG(nIndex, INDEX_TUBE_COUPL);
+//    ASSERT_NULL(ptTubing);
+//
+//    clrCtrl = m_clrNormal;
+//    if(theApp.IsFixTube() != m_bFixedTube)
+//        clrCtrl = m_clrChanged;
+//    else if (ptOldTubing->nFixTube[nIndex] != ptTubing->nFixTube[nIndex])
+//        clrCtrl = m_clrChanged;
+//
+//    m_cbFixTubingOpt[nIndex].m_ColorText = clrCtrl;
+//    m_cbFixTubingOpt[nIndex].Invalidate();
+//}
 
 void CDlgParaSet::OnCbnKillfocusCbpara01()
 {
@@ -623,27 +631,35 @@ void CDlgParaSet::OnCbnKillfocusCbpara16()
 {
     JudgeShowParaChanged(15);
 }
+void CDlgParaSet::OnCbnKillfocusCbpara17()
+{
+    JudgeShowParaChanged(16);
+}
+void CDlgParaSet::OnCbnKillfocusCbpara18()
+{
+    JudgeShowParaChanged(17);
+}
 
-void CDlgParaSet::OnCbnKillfocusCbfixpara01()
-{
-    JudgeFixShowParaChanged(INDEX_TUBE_FACTORY, m_ptCurTub);
-}
-void CDlgParaSet::OnCbnKillfocusCbfixpara05()
-{
-    JudgeFixShowParaChanged(INDEX_TUBE_OEM, m_ptCurTub);
-}
-void CDlgParaSet::OnCbnKillfocusCbfixpara06()
-{
-    JudgeFixShowParaChanged(INDEX_TUBE_SIZE, m_ptCurTub);
-}
-void CDlgParaSet::OnCbnKillfocusCbfixpara07()
-{
-    JudgeFixShowParaChanged(INDEX_TUBE_MATER, m_ptCurTub);
-}
-void CDlgParaSet::OnCbnKillfocusCbfixpara08()
-{
-    JudgeFixShowParaChanged(INDEX_TUBE_COUPL, m_ptCurTub);
-}
+//void CDlgParaSet::OnCbnKillfocusCbfixpara01()
+//{
+//    JudgeFixShowParaChanged(INDEX_TUBE_FACTORY, m_ptCurTub);
+//}
+//void CDlgParaSet::OnCbnKillfocusCbfixpara05()
+//{
+//    JudgeFixShowParaChanged(INDEX_TUBE_OEM, m_ptCurTub);
+//}
+//void CDlgParaSet::OnCbnKillfocusCbfixpara06()
+//{
+//    JudgeFixShowParaChanged(INDEX_TUBE_SIZE, m_ptCurTub);
+//}
+//void CDlgParaSet::OnCbnKillfocusCbfixpara07()
+//{
+//    JudgeFixShowParaChanged(INDEX_TUBE_MATER, m_ptCurTub);
+//}
+//void CDlgParaSet::OnCbnKillfocusCbfixpara08()
+//{
+//    JudgeFixShowParaChanged(INDEX_TUBE_COUPL, m_ptCurTub);
+//}
 
 /* 20210419 最大，最小是最佳的1.1    0.9倍，满屏是1.3倍，修改最佳扭矩后默认值 */
 void CDlgParaSet::OnKillfocusEditopttorq()
@@ -674,153 +690,153 @@ void CDlgParaSet::OnEnKillfocusEditmaxcir()
     UpdateData(FALSE);
 }
 
-void CDlgParaSet::ChgTorqbyShowPara(bool bInit)
-{
-    UINT i = 0;
-    TUBECFG   *ptCfg = g_cTubing.m_tTubCfg.ptCfg;
+//void CDlgParaSet::ChgTorqbyShowPara(bool bInit)
+//{
+//    UINT i = 0;
+//    TUBECFG   *ptCfg = g_cTubing.m_tTubCfg.ptCfg;
+//
+//    for(i=0; i<g_cTubing.m_tTubCfg.nNum; i++)
+//    {
+//        if( ptCfg[i].nFixTube[INDEX_TUBE_OEM]   == m_ptCurTub->nFixTube[INDEX_TUBE_OEM] &&
+//            ptCfg[i].nFixTube[INDEX_TUBE_SIZE]  == m_ptCurTub->nFixTube[INDEX_TUBE_SIZE] &&
+//            ptCfg[i].nFixTube[INDEX_TUBE_MATER] == m_ptCurTub->nFixTube[INDEX_TUBE_MATER] &&
+//            ptCfg[i].nFixTube[INDEX_TUBE_COUPL] == m_ptCurTub->nFixTube[INDEX_TUBE_COUPL])
+//        {
+//            //m_fUpperLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_MAXTORQ];
+//            m_fOptTorq      = ptCfg[i].nTorqVal[INDEX_TUBE_OPTTORQ];
+//            //m_fLowerLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_MINTORQ];
+//            /* lb.ft */
+//            if(g_tGlbCfg.nTorqUnit != 0)
+//            {
+//                //m_fUpperLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_LBMAXTORQ];
+//                m_fOptTorq      = ptCfg[i].nTorqVal[INDEX_TUBE_LBOPTTORQ];
+//                //m_fLowerLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_LBMINTORQ];
+//            }
+//
+//            m_fLowerTai     = HAND_FLOOR(m_fOptTorq * 0.1);
+//            m_fSpeedDown    = HAND_CEIL(m_fOptTorq * 0.3);
+//            m_fUpperTai     = HAND_CEIL(m_fOptTorq * 0.7);
+//            //m_fMaxLimit     = (ceil(ceil(m_fUpperLimit * 1.15) / 100)) * 100;
+//            m_fMaxLimit = HAND_CEIL(m_fOptTorq * 1.3);
+//
+//            if(!bInit)
+//                m_fControl = m_fOptTorq;
+//
+//            UpdateData(FALSE);
+//            return;
+//        }
+//    }
+//}
 
-    for(i=0; i<g_cTubing.m_tTubCfg.nNum; i++)
-    {
-        if( ptCfg[i].nFixTube[INDEX_TUBE_OEM]   == m_ptCurTub->nFixTube[INDEX_TUBE_OEM] &&
-            ptCfg[i].nFixTube[INDEX_TUBE_SIZE]  == m_ptCurTub->nFixTube[INDEX_TUBE_SIZE] &&
-            ptCfg[i].nFixTube[INDEX_TUBE_MATER] == m_ptCurTub->nFixTube[INDEX_TUBE_MATER] &&
-            ptCfg[i].nFixTube[INDEX_TUBE_COUPL] == m_ptCurTub->nFixTube[INDEX_TUBE_COUPL])
-        {
-            //m_fUpperLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_MAXTORQ];
-            m_fOptTorq      = ptCfg[i].nTorqVal[INDEX_TUBE_OPTTORQ];
-            //m_fLowerLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_MINTORQ];
-            /* lb.ft */
-            if(g_tGlbCfg.nTorqUnit != 0)
-            {
-                //m_fUpperLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_LBMAXTORQ];
-                m_fOptTorq      = ptCfg[i].nTorqVal[INDEX_TUBE_LBOPTTORQ];
-                //m_fLowerLimit   = ptCfg[i].nTorqVal[INDEX_TUBE_LBMINTORQ];
-            }
-
-            m_fLowerTai     = HAND_FLOOR(m_fOptTorq * 0.1);
-            m_fSpeedDown    = HAND_CEIL(m_fOptTorq * 0.3);
-            m_fUpperTai     = HAND_CEIL(m_fOptTorq * 0.7);
-            //m_fMaxLimit     = (ceil(ceil(m_fUpperLimit * 1.15) / 100)) * 100;
-            m_fMaxLimit = HAND_CEIL(m_fOptTorq * 1.3);
-
-            if(!bInit)
-                m_fControl = m_fOptTorq;
-
-            UpdateData(FALSE);
-            return;
-        }
-    }
-}
-
-void CDlgParaSet::ChangeTubingShowBox(UINT nIndex)
-{
-    TUBECFG tTmpTub = { 0 };
-    UINT    nCurNO = 0;
-    int     i = 0;
-
-    COMP_BL(nIndex, INDEX_TUBE_FACTORY);
-    COMP_BG(nIndex, INDEX_TUBE_COUPL);
-
-    // 获取和设置油管5个参数值
-    nCurNO = g_cTubing.GetTubeNOByName(nIndex, m_ptCurTub->nFixTube[INDEX_TUBE_FACTORY], &m_cbFixTubingOpt[nIndex], m_nCurLang);
-    if (!g_cTubing.CheckTubeNOChanged(nIndex, nCurNO, m_ptCurTub, &tTmpTub))
-        return;
-    /* 后续序号从m_ptCurTub获取 */
-    for (i = nIndex - 1; i >= 0; i--)
-    {
-        tTmpTub.nFixTube[i] = m_ptCurTub->nFixTube[i];
-    }
-
-    // 初始化COMBOBOX内容，有变化则显示红色
-    switch (nIndex)
-    {
-    case INDEX_TUBE_FACTORY:
-        g_cTubing.InitOEMValue(&tTmpTub);
-        g_cTubing.SetFactoryBox(&m_cbFixTubingOpt[INDEX_TUBE_FACTORY], &tTmpTub, m_nCurLang);
-        JudgeFixShowParaChanged(INDEX_TUBE_FACTORY, &tTmpTub);
-
-    case INDEX_TUBE_OEM:
-        g_cTubing.InitSizeValue(&tTmpTub);
-        g_cTubing.SetOEMBox(&m_cbFixTubingOpt[INDEX_TUBE_OEM], &tTmpTub, m_nCurLang);
-        JudgeFixShowParaChanged(INDEX_TUBE_OEM, &tTmpTub);
-
-    case INDEX_TUBE_SIZE:
-        g_cTubing.InitMatValue(&tTmpTub);
-        g_cTubing.SetSizeBox(&m_cbFixTubingOpt[INDEX_TUBE_SIZE], &tTmpTub, m_nCurLang);
-        JudgeFixShowParaChanged(INDEX_TUBE_SIZE, &tTmpTub);
-
-    case INDEX_TUBE_MATER:
-        g_cTubing.InitCouplValue(&tTmpTub);
-        g_cTubing.SetMatBox(&m_cbFixTubingOpt[INDEX_TUBE_MATER], &tTmpTub, m_nCurLang);
-        JudgeFixShowParaChanged(INDEX_TUBE_MATER, &tTmpTub);
-
-    case INDEX_TUBE_COUPL:
-        g_cTubing.SetCouplBox(&m_cbFixTubingOpt[INDEX_TUBE_COUPL], &tTmpTub, m_nCurLang);
-        JudgeFixShowParaChanged(INDEX_TUBE_COUPL, &tTmpTub);
-    default:
-        break;
-    }
-
-    ShowTubingCtrl();
-
-    *m_ptCurTub = tTmpTub;
-}
-
-void CDlgParaSet::OnCbnSelchangeCbfixpara01()
-{
-    ChangeTubingShowBox(INDEX_TUBE_FACTORY);
-    ChgTorqbyShowPara();
-}
-
-void CDlgParaSet::OnCbnSelchangeCbfixpara05()
-{
-    ChangeTubingShowBox(INDEX_TUBE_OEM);
-    ChgTorqbyShowPara();
-}
-
-void CDlgParaSet::OnCbnSelchangeCbfixpara06()
-{
-    ChangeTubingShowBox(INDEX_TUBE_SIZE);
-    ChgTorqbyShowPara();
-}
-
-void CDlgParaSet::OnCbnSelchangeCbfixpara07()
-{
-    ChangeTubingShowBox(INDEX_TUBE_MATER);
-    ChgTorqbyShowPara();
-}
-
-void CDlgParaSet::OnCbnSelchangeCbfixpara08()
-{
-    ChangeTubingShowBox(INDEX_TUBE_COUPL);
-    ChgTorqbyShowPara();
-}
-
-void CDlgParaSet::OnBnClickedCkfixedtubing()
-{
-    int     i = 0;
-    UpdateData(TRUE);
-    ShowTubingCtrl();
-
-    /* 自选管材转固定管材 */
-    if(m_bFixedTube && !theApp.IsFixTube())
-    {
-        ChangeTubingShowBox(INDEX_TUBE_FACTORY);
-    }
-
-    /* 固定管材转自选管材 */
-    if(!m_bFixedTube && theApp.IsFixTube())
-    {
-        m_cbSetShowOption[0].m_ColorText = m_clrChanged;
-        m_cbSetShowOption[0].Invalidate();
-        for(i= FIXINDEX_OEM; i<= FIXINDEX_COUPL; i++)
-        {
-            m_cbSetShowOption[i].m_ColorText = m_clrChanged;
-            m_cbSetShowOption[i].Invalidate();
-        }
-    }
-    UpdateData(FALSE);
-}
+//void CDlgParaSet::ChangeTubingShowBox(UINT nIndex)
+//{
+//    TUBECFG tTmpTub = { 0 };
+//    UINT    nCurNO = 0;
+//    int     i = 0;
+//
+//    COMP_BL(nIndex, INDEX_TUBE_FACTORY);
+//    COMP_BG(nIndex, INDEX_TUBE_COUPL);
+//
+//    // 获取和设置油管5个参数值
+//    nCurNO = g_cTubing.GetTubeNOByName(nIndex, m_ptCurTub->nFixTube[INDEX_TUBE_FACTORY], &m_cbFixTubingOpt[nIndex], m_nCurLang);
+//    if (!g_cTubing.CheckTubeNOChanged(nIndex, nCurNO, m_ptCurTub, &tTmpTub))
+//        return;
+//    /* 后续序号从m_ptCurTub获取 */
+//    for (i = nIndex - 1; i >= 0; i--)
+//    {
+//        tTmpTub.nFixTube[i] = m_ptCurTub->nFixTube[i];
+//    }
+//
+//    // 初始化COMBOBOX内容，有变化则显示红色
+//    switch (nIndex)
+//    {
+//    case INDEX_TUBE_FACTORY:
+//        g_cTubing.InitOEMValue(&tTmpTub);
+//        g_cTubing.SetFactoryBox(&m_cbFixTubingOpt[INDEX_TUBE_FACTORY], &tTmpTub, m_nCurLang);
+//        JudgeFixShowParaChanged(INDEX_TUBE_FACTORY, &tTmpTub);
+//
+//    case INDEX_TUBE_OEM:
+//        g_cTubing.InitSizeValue(&tTmpTub);
+//        g_cTubing.SetOEMBox(&m_cbFixTubingOpt[INDEX_TUBE_OEM], &tTmpTub, m_nCurLang);
+//        JudgeFixShowParaChanged(INDEX_TUBE_OEM, &tTmpTub);
+//
+//    case INDEX_TUBE_SIZE:
+//        g_cTubing.InitMatValue(&tTmpTub);
+//        g_cTubing.SetSizeBox(&m_cbFixTubingOpt[INDEX_TUBE_SIZE], &tTmpTub, m_nCurLang);
+//        JudgeFixShowParaChanged(INDEX_TUBE_SIZE, &tTmpTub);
+//
+//    case INDEX_TUBE_MATER:
+//        g_cTubing.InitCouplValue(&tTmpTub);
+//        g_cTubing.SetMatBox(&m_cbFixTubingOpt[INDEX_TUBE_MATER], &tTmpTub, m_nCurLang);
+//        JudgeFixShowParaChanged(INDEX_TUBE_MATER, &tTmpTub);
+//
+//    case INDEX_TUBE_COUPL:
+//        g_cTubing.SetCouplBox(&m_cbFixTubingOpt[INDEX_TUBE_COUPL], &tTmpTub, m_nCurLang);
+//        JudgeFixShowParaChanged(INDEX_TUBE_COUPL, &tTmpTub);
+//    default:
+//        break;
+//    }
+//
+//    //ShowTubingCtrl();
+//
+//    *m_ptCurTub = tTmpTub;
+//}
+//
+//void CDlgParaSet::OnCbnSelchangeCbfixpara01()
+//{
+//    ChangeTubingShowBox(INDEX_TUBE_FACTORY);
+//    ChgTorqbyShowPara();
+//}
+//
+//void CDlgParaSet::OnCbnSelchangeCbfixpara05()
+//{
+//    ChangeTubingShowBox(INDEX_TUBE_OEM);
+//    ChgTorqbyShowPara();
+//}
+//
+//void CDlgParaSet::OnCbnSelchangeCbfixpara06()
+//{
+//    ChangeTubingShowBox(INDEX_TUBE_SIZE);
+//    ChgTorqbyShowPara();
+//}
+//
+//void CDlgParaSet::OnCbnSelchangeCbfixpara07()
+//{
+//    ChangeTubingShowBox(INDEX_TUBE_MATER);
+//    ChgTorqbyShowPara();
+//}
+//
+//void CDlgParaSet::OnCbnSelchangeCbfixpara08()
+//{
+//    ChangeTubingShowBox(INDEX_TUBE_COUPL);
+//    ChgTorqbyShowPara();
+//}
+//
+//void CDlgParaSet::OnBnClickedCkfixedtubing()
+//{
+//    int     i = 0;
+//    UpdateData(TRUE);
+//    ShowTubingCtrl();
+//
+//    /* 自选管材转固定管材 */
+//    if(m_bFixedTube && !theApp.IsFixTube())
+//    {
+//        ChangeTubingShowBox(INDEX_TUBE_FACTORY);
+//    }
+//
+//    /* 固定管材转自选管材 */
+//    if(!m_bFixedTube && theApp.IsFixTube())
+//    {
+//        m_cbSetShowOption[0].m_ColorText = m_clrChanged;
+//        m_cbSetShowOption[0].Invalidate();
+//        for(i= FIXINDEX_OEM; i<= FIXINDEX_COUPL; i++)
+//        {
+//            m_cbSetShowOption[i].m_ColorText = m_clrChanged;
+//            m_cbSetShowOption[i].Invalidate();
+//        }
+//    }
+//    UpdateData(FALSE);
+//}
 
 void CDlgParaSet::OnCbnKillfocusCbalias()
 {
@@ -848,12 +864,12 @@ void CDlgParaSet::OnCbnSelchangeCbalias()
     iAliasID = theDB.ReadTorqCfgPara(strAlias.GetBuffer(0), &m_tempCfg);
     COMP_BLE(iAliasID, 0);
 
-    if(m_tempCfg.tTubeCfg.nIndex > 0)
-        m_bFixedTube = TRUE;
+    /*if(m_tempCfg.tTubeCfg.nIndex > 0)
+        m_bFixedTube = TRUE;*/
 
     SetParaValue(&m_tempCfg, &m_tempShow);
 
-    InitFixShowPara();
+    //InitFixShowPara();
 
     UpdateData(FALSE);
 }

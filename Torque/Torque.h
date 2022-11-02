@@ -153,13 +153,13 @@ public:
     //int     GetMainTubeIndex();
     int     GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq);
     //void    UpdateAutoSaveFileName();
-    string  GetTubeFactoryValue();
+    /*string  GetTubeFactoryValue();
     string  GetTubeOEMValue();
     string  GetTubeSizeValue();
     string  GetTubeMaterValue();
     string  GetTubeCouplValue();
     BOOL    IsFixTube();
-    BOOL    CheckFixTube(PARACFG* ptCfg);
+    BOOL    CheckFixTube(PARACFG* ptCfg);*/
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque *ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex);
@@ -317,7 +317,7 @@ private:
     //void AdjustOtherPara  (PARACFG *ptCfg);
 
     BOOL JudgeTranslate(TorqData::Torque *ptTorq);
-    string GetFixTubeValue(UINT nShowIndex, UINT nCurNO, FIXTUBEINFO *ptFix);
+    //string GetFixTubeValue(UINT nShowIndex, UINT nCurNO, FIXTUBEINFO *ptFix);
     WORD GetIPPlace(int iCurPnt, int iInterval);
 
     //BOOL UpdateShowName(UINT nLang, WORD wNum, string name[]);

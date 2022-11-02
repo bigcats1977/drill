@@ -19,7 +19,7 @@ void CDBTorqueCfg::Empty()
     _lsLangType.clear();
     _lsTorqueID.clear();
     _lsTurnID.clear();
-    _lsTubeID.clear();
+    //_lsTubeID.clear();
     _lsFullRPM.clear();
     _lsMinShlSlope.clear();
 
@@ -60,9 +60,9 @@ void CDBTorqueCfg::GetTable()
         _lsTorqueID.push_back(Value);
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsTurnID.push_back(Value);
-        if (!_Sqlite->GetValue(pResult[nIndex++], Value))
+        /*if (!_Sqlite->GetValue(pResult[nIndex++], Value))
             Value = 0;
-        _lsTubeID.push_back(Value);
+        _lsTubeID.push_back(Value);*/
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsFullRPM.push_back(Value);
         _Sqlite->GetValue(pResult[nIndex++], fVal);
@@ -97,7 +97,7 @@ BOOL CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID *ptID)
     ptCfg->strAlias = _lsAlias[iOffset];
     ptID->nTorqueID = _lsTorqueID[iOffset];
     ptID->nTurnID = _lsTurnID[iOffset];
-    ptID->nTubeID = ptCfg->tTubeCfg.nIndex = _lsTubeID[iOffset];
+    //ptID->nTubeID = ptCfg->tTubeCfg.nIndex = _lsTubeID[iOffset];
 
     ptCtrl->fFullRPM = _lsFullRPM[iOffset];
     ptCtrl->fMinShlSlope = _lsMinShlSlope[iOffset];
@@ -136,8 +136,8 @@ int CDBTorqueCfg::UpdateParaByAlias(PARACFG* ptCfg, TORQCFGID* ptID)
     strValues.push_back(to_string(ptID->nTorqueID));
     strFields.push_back("TurnID");
     strValues.push_back(to_string(ptID->nTurnID));
-    strFields.push_back("TubeID");
-    strValues.push_back(to_string(ptCfg->tTubeCfg.nIndex));
+    /*strFields.push_back("TubeID");
+    strValues.push_back(to_string(ptCfg->tTubeCfg.nIndex));*/
     strFields.push_back("FullRPM");
     strValues.push_back(to_string(ptCfg->tCtrl.fFullRPM));
     strFields.push_back("MinShlSlope");

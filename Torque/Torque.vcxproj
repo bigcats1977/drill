@@ -216,8 +216,6 @@
     <ClInclude Include="DBShowCfg.h" />
     <ClInclude Include="DBShowName.h" />
     <ClInclude Include="DBShowOption.h" />
-    <ClInclude Include="DBText.h" />
-    <ClInclude Include="DBTubeCfg.h" />
     <ClInclude Include="DBValTurn.h" />
     <ClInclude Include="DBTorqueCfg.h" />
     <ClInclude Include="DBValTorque.h" />
@@ -229,7 +227,6 @@
     <ClInclude Include="CFont0.h" />
     <ClInclude Include="Cnterior.h" />
     <ClInclude Include="CShape.h" />
-    <ClInclude Include="DlgTubeCfg.h" />
     <ClInclude Include="DlgXlsStatSet.h" />
     <ClInclude Include="CeXDib.h" />
     <ClInclude Include="ColorComboBox.h" />
@@ -285,7 +282,6 @@
     <ClInclude Include="TorqData.pb.h" />
     <ClInclude Include="Torque.h" />
     <ClInclude Include="TorqueDlg.h" />
-    <ClInclude Include="TubeCfg.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="E:\paperprograme\RES\ANGLE.BMP" />
@@ -347,8 +343,6 @@
     <ClCompile Include="DBShowCfg.cpp" />
     <ClCompile Include="DBShowName.cpp" />
     <ClCompile Include="DBShowOption.cpp" />
-    <ClCompile Include="DBText.cpp" />
-    <ClCompile Include="DBTubeCfg.cpp" />
     <ClCompile Include="DBValTurn.cpp" />
     <ClCompile Include="DBTorqueCfg.cpp" />
     <ClCompile Include="DBValTorque.cpp" />
@@ -357,7 +351,6 @@
     <ClCompile Include="DlgGlbCfg.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="DlgSegCabl.cpp" />
-    <ClCompile Include="DlgTubeCfg.cpp" />
     <ClCompile Include="DlgXlsStatSet.cpp" />
     <ClCompile Include="CeXDib.cpp" />
     <ClCompile Include="ColorComboBox.cpp" />
@@ -405,7 +398,6 @@
     <ClCompile Include="TorqData.pb.cc" />
     <ClCompile Include="Torque.cpp" />
     <ClCompile Include="TorqueDlg.cpp" />
-    <ClCompile Include="TubeCfg.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

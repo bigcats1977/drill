@@ -10,7 +10,7 @@
 #include "afxwin.h"
 #include "ColorComboBox.h"
 #include "NumEdit.h"
-#include "TubeCfg.h"
+//#include "TubeCfg.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CDlgParaSet dialog
@@ -53,8 +53,8 @@ public:
     CString     m_strSetShowName[MAXPARANUM];
     CString     m_strSetShowOption[MAXPARANUM];
     CColorComboBox  m_cbSetShowOption[MAXPARANUM];
-    CString     m_strFixTubingOpt[MAXTUBECFGNUM];
-    CColorComboBox  m_cbFixTubingOpt[MAXTUBECFGNUM];
+    /*CString     m_strFixTubingOpt[MAXTUBECFGNUM];
+    CColorComboBox  m_cbFixTubingOpt[MAXTUBECFGNUM];*/
     CNumEdit    m_neControlCir;
     CNumEdit    m_neOptTorq;
     CNumEdit    m_neControl;
@@ -72,7 +72,7 @@ public:
     CNumEdit    m_neMinShlSlope;
     CNumEdit    m_neMaxDeltaCir;
     CNumEdit    m_neMinDeltaCir;
-    BOOL        m_bFixedTube;
+    //BOOL        m_bFixedTube;
     //}}AFX_DATA
 
 
@@ -107,18 +107,20 @@ protected:
     afx_msg void OnCbnKillfocusCbpara14();
     afx_msg void OnCbnKillfocusCbpara15();
     afx_msg void OnCbnKillfocusCbpara16();
+    afx_msg void OnCbnKillfocusCbpara17();
+    afx_msg void OnCbnKillfocusCbpara18();
     afx_msg void OnEnKillfocusEditmaxcir();
-    afx_msg void OnCbnKillfocusCbfixpara01();
-    afx_msg void OnCbnKillfocusCbfixpara05();
-    afx_msg void OnCbnKillfocusCbfixpara06();
-    afx_msg void OnCbnKillfocusCbfixpara07();
-    afx_msg void OnCbnKillfocusCbfixpara08();
-    afx_msg void OnCbnSelchangeCbfixpara01();
-    afx_msg void OnCbnSelchangeCbfixpara05();
-    afx_msg void OnCbnSelchangeCbfixpara06();
-    afx_msg void OnCbnSelchangeCbfixpara07();
-    afx_msg void OnCbnSelchangeCbfixpara08();
-    afx_msg void OnBnClickedCkfixedtubing();
+    //afx_msg void OnCbnKillfocusCbfixpara01();
+    //afx_msg void OnCbnKillfocusCbfixpara05();
+    //afx_msg void OnCbnKillfocusCbfixpara06();
+    //afx_msg void OnCbnKillfocusCbfixpara07();
+    //afx_msg void OnCbnKillfocusCbfixpara08();
+    //afx_msg void OnCbnSelchangeCbfixpara01();
+    //afx_msg void OnCbnSelchangeCbfixpara05();
+    //afx_msg void OnCbnSelchangeCbfixpara06();
+    //afx_msg void OnCbnSelchangeCbfixpara07();
+    //afx_msg void OnCbnSelchangeCbfixpara08();
+    //afx_msg void OnBnClickedCkfixedtubing();
     afx_msg void OnKillfocusEditopttorq();
     afx_msg void OnCbnSelchangeCbalias();
     afx_msg void OnCbnKillfocusCbalias();
@@ -129,16 +131,16 @@ private:
     BOOL GetParaValue(PARACFG *ptCfg);
     void SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow);
     void JudgeShowParaChanged(UINT nIndex);
-    void JudgeFixShowParaChanged(UINT nIndex, TUBECFG* ptTubing);
-    void ChgTorqbyShowPara(bool bInit=false);
-    void ChangeTubingShowBox(UINT nIndex);
-    void InitFixShowPara();
-    void ShowTubingCtrl(bool bInit=false);
+    //void JudgeFixShowParaChanged(UINT nIndex, TUBECFG* ptTubing);
+    //void ChgTorqbyShowPara(bool bInit=false);
+    //void ChangeTubingShowBox(UINT nIndex);
+    //void InitFixShowPara();
+    //void ShowTubingCtrl(bool bInit=false);
     void UpdateDlgLabel();
     void InitAliasShow();
     CString DelCurAliasContent();
 
-    TUBECFG     *m_ptCurTub;
+    //TUBECFG     *m_ptCurTub;
     COLORREF    m_clrNormal;
     COLORREF    m_clrChanged;
     UINT        m_nCurLang;

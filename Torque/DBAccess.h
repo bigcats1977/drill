@@ -2,11 +2,11 @@
 
 #include "SqliteProc.h"
 #include "DBGlbCfg.h"
-#include "DBText.h"
+//#include "DBText.h"
 #include "DBShowName.h"
 #include "DBShowCfg.h"
 #include "DBShowOption.h"
-#include "DBTubeCfg.h"
+//#include "DBTubeCfg.h"
 #include "DBValTurn.h"
 #include "DBTorqueCfg.h"
 #include "DBValTorque.h"
@@ -19,57 +19,57 @@ public:
     CDBAccess();
     ~CDBAccess();
 
-    BOOL    InitDBHandle();
-    BOOL    InitConfigFromDB(int& initstep);
+    bool    InitDBHandle();
+    bool    InitConfigFromDB(UINT& initstep);
 
-    BOOL    ReadGlobalPara();
-    BOOL    UpdateGlobalPara();
+    bool    ReadGlobalPara();
+    bool    UpdateGlobalPara();
 
     vector<string> GetNamesByIndexs(string indexs);
 
-    BOOL    ReadShowPara(SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
-    BOOL    UpdateShowAlias(SHOWCFG* ptShow, UINT Alias);
-    BOOL    UpdateShowPara(SHOWCFG* ptShow);
-    BOOL    UpdateShowName(SHOWCFG* ptShow);
+    bool    ReadShowPara(SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
+    bool    UpdateShowAlias(SHOWCFG* ptShow, UINT Alias);
+    bool    UpdateShowPara(SHOWCFG* ptShow);
+    bool    UpdateShowName(SHOWCFG* ptShow);
     vector<string> GetOptionsByIndex(UINT showIndex);
-    BOOL    ReadTubeInfo(TUBECFG* ptTube, BOOL bIndex = TRUE);
+    //bool    ReadTubeInfo(TUBECFG* ptTube, bool bIndex = true);
     vector<int> ReadCurShowIndex();
     vector<string> ReadOptionsByShowIndex(int index);
 
-    BOOL    ReadTorqCfgPara(int iAlias, PARACFG* ptCfg);
+    bool    ReadTorqCfgPara(int iAlias, PARACFG* ptCfg);
     int     ReadTorqCfgPara(string sAlias, PARACFG* ptCfg);
     int     UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow);
-    BOOL    DeleteAlias(string sAlias);
+    bool    DeleteAlias(string sAlias);
     vector<string> ReadAllAlias();
 
-    BOOL    InsertTubeName(UINT TubeKind, int NO, vector<string> Names);
-    BOOL    UpdateTubeName(UINT TubeKind, int NO, vector<string> Names);
-    BOOL    CheckTubeNO(UINT TubeKind, int NO);
-    int     InsertTubeCfg(TUBECFG* ptTube);
-    BOOL    DeleteTubeCfg(TUBECFG* ptTube);
-    BOOL    UpdateTubeCfg(TUBECFG* ptTube);
-    BOOL    GetInitTube(TUBECFG* ptTube);
-    int     QueryIndexByInfo(TUBECFG* ptTube);
+    bool    InsertTubeName(UINT TubeKind, int NO, vector<string> Names);
+    bool    UpdateTubeName(UINT TubeKind, int NO, vector<string> Names);
+    bool    CheckTubeNO(UINT TubeKind, int NO);
+    //int     InsertTubeCfg(TUBECFG* ptTube);
+    //bool    DeleteTubeCfg(TUBECFG* ptTube);
+    //bool    UpdateTubeCfg(TUBECFG* ptTube);
+    //bool    GetInitTube(TUBECFG* ptTube);
+    //int     QueryIndexByInfo(TUBECFG* ptTube);
 
-    BOOL    ReadValvePara(VALVECFG* ptCfg);
-    BOOL    UpdateValvePara(VALVECFG* ptCfg);
+    bool    ReadValvePara(VALVECFG* ptCfg);
+    bool    UpdateValvePara(VALVECFG* ptCfg);
 
-    BOOL    ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang = LANGUAGE_CURRENT);
-    BOOL    UpdateXlsStatPara(XLSSTATCFG* ptStat);
+    bool    ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang = LANGUAGE_CURRENT);
+    bool    UpdateXlsStatPara(XLSSTATCFG* ptStat);
 
     SqliteProc      m_tSqlite;              /* SQLite3 数据库配置文件 */
-    BOOL            m_bValidDBFile;
+    bool            m_bValidDBFile;
 
 private:
-    BOOL    LoadTubingInfo();
-    BOOL    LoadTubingCfg();
+    /*bool    LoadTubingInfo();
+    bool    LoadTubingCfg();*/
     
     CDBGlbCfg       m_tDBGlbCfg;
     CDBShowName     m_tDBShowName;
     CDBShowCfg      m_tDBShowCfg;
     CDBShowOption   m_tDBShowOpt;
-    CDBText         m_tDBTubeText[MAXTUBECFGNUM];
-    CDBTubeCfg      m_tDBTubeCfg;
+    //CDBText         m_tDBTubeText[MAXTUBECFGNUM];
+    //CDBTubeCfg      m_tDBTubeCfg;
     CDBValTorque    m_tDBValTorque;
     CDBValTurn      m_tDBValTurn;
     CDBTorqueCfg    m_tDBTorqueCfg;

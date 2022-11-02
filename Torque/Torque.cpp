@@ -11,7 +11,7 @@
 #include "lodepng.h"
 #include "CrashHandler.h"
 #include "DlgPassword.h"
-#include "TubeCfg.h"
+//#include "TubeCfg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -20,7 +20,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //#define     TEST_QUALITY
-extern CTubeCfg    g_cTubing;
+//extern CTubeCfg    g_cTubing;
 
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueApp
@@ -102,7 +102,7 @@ void CTorqueApp::ClearTorqCfgPara(PARACFG* ptCfg)
 
     memset(&m_tParaCfg.tCtrl, 0, sizeof(CONTROLPARA));
     memset(&m_tParaCfg.tComm, 0, sizeof(COMMONCFG));
-    memset(&ptCfg->tTubeCfg, 0, sizeof(TUBECFG));
+    //memset(&ptCfg->tTubeCfg, 0, sizeof(TUBECFG));
     m_tParaCfg.strAlias.clear();
     m_tParaCfg.strMemo.clear();
     for (i = 0; i < MAXPARANUM; i++)
@@ -319,7 +319,7 @@ BOOL CTorqueApp::InitInstance()
     SetRegistryKey(_T("zsg Applications"));
 
     /* 获取数据库文件 */
-    int initStep = 0;
+    UINT initStep = 0xFFFFFFFF;
     if (!theDB.InitConfigFromDB(initStep))
     {
         theApp.SaveMessage("InitConfigFromDB fail!! Using Default Config.");
@@ -506,32 +506,31 @@ void CTorqueApp::InitDefaultConfig(int initStep)
     int i = 0;
     CString strInfo;
 
-    strInfo.Format("InitConfigFromDB fail(%d)!", initStep);
+    strInfo.Format("InitConfigFromDB fail(0x%x)!", initStep);
     SaveMessage(strInfo);
 
     // global parameter
-    if(initStep < 1)
+    if (initStep & 1)
         InitGlobalPara();
 
     // Show parameter
-    if (initStep < 2)
+    for (i = 0; i < LANGUAGE_NUM; i++)
     {
-        for (i = 0; i < LANGUAGE_NUM; i++)
-        {
+        if (initStep & 2)
             InitShowPara(&m_tShowCfg[i], i);
+        if (initStep & 4)
             InitXlsStatPara(&m_tXlsStatCfg[i]);
-        }
     }
 
-    if (initStep < 3)
+    if (initStep & 8)
     {
         InitTorqCfgPara(&m_tParaCfg);
     }
-    if (initStep < 4)
+    /*if (initStep < 4)
     {
         g_cTubing.InitConfig();
-    }
-    if (initStep < 5)
+    }*/
+    if (initStep & 16)
     {
         InitValvePara(&m_tValveCfg);
     }
@@ -3933,7 +3932,7 @@ void CTorqueApp::SaveAllData(CString strDataName)
 
     file.Close();
 }
-
+#if 0
 string CTorqueApp::GetFixTubeValue(UINT nShowIndex, UINT nCurNO, FIXTUBEINFO *ptFix)
 {
     UINT    i = 0;
@@ -3980,7 +3979,7 @@ string CTorqueApp::GetTubeCouplValue()
 {
     return GetFixTubeValue(INDEX_SHOW_COUPL, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_COUPL], &g_cTubing.m_tTubInfo[INDEX_TUBE_COUPL]);
 }
-
+#endif
 CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
 {
     ASSERT_NULL_R(ptTorq, NULLSTR);
@@ -4028,7 +4027,7 @@ string CTorqueApp::GetMainShowName(SHOWCFG* ptShow, UINT NO)
 
     return ptShow->strShow[ptShow->nMain[NO]];
 }
-
+#if 0
 BOOL CTorqueApp::IsFixTube()
 {
     return CheckFixTube(&m_tParaCfg);
@@ -4040,7 +4039,7 @@ BOOL CTorqueApp::CheckFixTube(PARACFG* ptCfg)
     COMP_BG_R(ptCfg->tTubeCfg.nIndex, 0, TRUE);
     return FALSE;
 }
-
+#endif
 /* \/:*?"<>| 加 . */
 BOOL CTorqueApp::FindNotFileChar(CString strFileName)
 {

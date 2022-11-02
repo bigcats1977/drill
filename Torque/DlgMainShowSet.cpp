@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-extern CTubeCfg    g_cTubing;
+//extern CTubeCfg    g_cTubing;
 // CDlgMainShowSet dialog
 
 IMPLEMENT_DYNAMIC(CDlgMainShowSet, CDialogEx)
@@ -15,7 +15,7 @@ IMPLEMENT_DYNAMIC(CDlgMainShowSet, CDialogEx)
 CDlgMainShowSet::CDlgMainShowSet(CWnd* pParent /*=NULL*/)
     : CDialogEx(IDD_DLGMAINSHOW, pParent)
 {
-    m_bFixedTube  = TRUE;
+    //m_bFixedTube  = TRUE;
 }
 
 CDlgMainShowSet::~CDlgMainShowSet()
@@ -25,28 +25,34 @@ CDlgMainShowSet::~CDlgMainShowSet()
 void CDlgMainShowSet::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_MAINPARANAME0, m_strMainShow[0]);
-    DDX_Text(pDX, IDC_MAINPARANAME1, m_strMainShow[1]);
-    DDX_Text(pDX, IDC_MAINPARANAME2, m_strMainShow[2]);
-    DDX_Text(pDX, IDC_MAINPARANAME3, m_strMainShow[3]);
-    DDX_Text(pDX, IDC_MAINPARANAME4, m_strMainShow[4]);
-    DDX_Text(pDX, IDC_MAINPARANAME5, m_strMainShow[5]);
-    DDX_Text(pDX, IDC_MAINPARANAME6, m_strMainShow[6]);
-    DDX_Text(pDX, IDC_MAINPARANAME7, m_strMainShow[7]);
-    DDX_Control(pDX, IDC_CBMAINPARA0, m_cbMainOption[0]);
-    DDX_Control(pDX, IDC_CBMAINPARA1, m_cbMainOption[1]);
-    DDX_Control(pDX, IDC_CBMAINPARA2, m_cbMainOption[2]);
-    DDX_Control(pDX, IDC_CBMAINPARA3, m_cbMainOption[3]);
-    DDX_Control(pDX, IDC_CBMAINPARA4, m_cbMainOption[4]);
-    DDX_Control(pDX, IDC_CBMAINPARA5, m_cbMainOption[5]);
-    DDX_Control(pDX, IDC_CBMAINPARA7, m_cbMainOption[7]);
-    DDX_CBString(pDX, IDC_CBMAINPARA0, m_strMainOption[0]);
-    DDX_CBString(pDX, IDC_CBMAINPARA1, m_strMainOption[1]);
-    DDX_CBString(pDX, IDC_CBMAINPARA2, m_strMainOption[2]);
-    DDX_CBString(pDX, IDC_CBMAINPARA3, m_strMainOption[3]);
-    DDX_CBString(pDX, IDC_CBMAINPARA4, m_strMainOption[4]);
+    //DDX_Text(pDX, IDC_MAINPARANAME0, m_strMainShow[0]);
+    DDX_Text(pDX, IDC_MAINPARANAME1, m_strMainShow[0]);
+    DDX_Text(pDX, IDC_MAINPARANAME2, m_strMainShow[1]);
+    DDX_Text(pDX, IDC_MAINPARANAME3, m_strMainShow[2]);
+    DDX_Text(pDX, IDC_MAINPARANAME4, m_strMainShow[3]);
+    DDX_Text(pDX, IDC_MAINPARANAME5, m_strMainShow[4]);
+    DDX_Text(pDX, IDC_MAINPARANAME6, m_strMainShow[5]);
+    DDX_Text(pDX, IDC_MAINPARANAME7, m_strMainShow[6]);
+    DDX_Text(pDX, IDC_MAINPARANAME8, m_strMainShow[7]);
+    //DDX_Control(pDX, IDC_CBMAINPARA0, m_cbMainOption[0]);
+    DDX_Control(pDX, IDC_CBMAINPARA1, m_cbMainOption[0]);
+    DDX_Control(pDX, IDC_CBMAINPARA2, m_cbMainOption[1]);
+    DDX_Control(pDX, IDC_CBMAINPARA3, m_cbMainOption[2]);
+    DDX_Control(pDX, IDC_CBMAINPARA4, m_cbMainOption[3]);
+    DDX_Control(pDX, IDC_CBMAINPARA5, m_cbMainOption[4]);
+    DDX_Control(pDX, IDC_CBMAINPARA6, m_cbMainOption[5]);
+    DDX_Control(pDX, IDC_CBMAINPARA7, m_cbMainOption[6]);
+    DDX_Control(pDX, IDC_CBMAINPARA8, m_cbMainOption[7]);
+    //DDX_CBString(pDX, IDC_CBMAINPARA0, m_strMainOption[0]);
+    DDX_CBString(pDX, IDC_CBMAINPARA1, m_strMainOption[0]);
+    DDX_CBString(pDX, IDC_CBMAINPARA2, m_strMainOption[1]);
+    DDX_CBString(pDX, IDC_CBMAINPARA3, m_strMainOption[2]);
+    DDX_CBString(pDX, IDC_CBMAINPARA4, m_strMainOption[3]);
+    DDX_CBString(pDX, IDC_CBMAINPARA5, m_strMainOption[4]);
+    DDX_CBString(pDX, IDC_CBMAINPARA6, m_strMainOption[5]);
+    DDX_CBString(pDX, IDC_CBMAINPARA7, m_strMainOption[6]);
     DDX_CBString(pDX, IDC_CBMAINPARA7, m_strMainOption[7]);
-    DDX_Text(pDX, IDC_EDMAINPARA52, m_strTubeNO2);
+    /*DDX_Text(pDX, IDC_EDMAINPARA52, m_strTubeNO2);
     DDX_Check(pDX, IDC_CKMAINFIXED, m_bFixedTube);
     DDX_Control(pDX, IDC_CBMFIXPARA0, m_cbFixTubingOpt[0]);
     DDX_Control(pDX, IDC_CBMFIXPARA1, m_cbFixTubingOpt[1]);
@@ -57,21 +63,23 @@ void CDlgMainShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_CBString(pDX, IDC_CBMFIXPARA1, m_strFixTubingOpt[1]);
     DDX_CBString(pDX, IDC_CBMFIXPARA2, m_strFixTubingOpt[2]);
     DDX_CBString(pDX, IDC_CBMFIXPARA3, m_strFixTubingOpt[3]);
-    DDX_CBString(pDX, IDC_CBMFIXPARA4, m_strFixTubingOpt[4]);
+    DDX_CBString(pDX, IDC_CBMFIXPARA4, m_strFixTubingOpt[4]);*/
 }
 
 
 BEGIN_MESSAGE_MAP(CDlgMainShowSet, CDialogEx)
     ON_BN_CLICKED(IDOK, &CDlgMainShowSet::OnBnClickedOk)
     ON_WM_CTLCOLOR()
-    ON_CBN_KILLFOCUS(IDC_CBMAINPARA0, &CDlgMainShowSet::OnCbnKillfocusCbmainpara0)
+    //ON_CBN_KILLFOCUS(IDC_CBMAINPARA0, &CDlgMainShowSet::OnCbnKillfocusCbmainpara0)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA1, &CDlgMainShowSet::OnCbnKillfocusCbmainpara1)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA2, &CDlgMainShowSet::OnCbnKillfocusCbmainpara2)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA3, &CDlgMainShowSet::OnCbnKillfocusCbmainpara3)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA4, &CDlgMainShowSet::OnCbnKillfocusCbmainpara4)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA5, &CDlgMainShowSet::OnCbnKillfocusCbmainpara5)
+    ON_CBN_KILLFOCUS(IDC_CBMAINPARA6, &CDlgMainShowSet::OnCbnKillfocusCbmainpara6)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA7, &CDlgMainShowSet::OnCbnKillfocusCbmainpara7)
-    ON_BN_CLICKED(IDC_CKMAINFIXED, &CDlgMainShowSet::OnBnClickedCkmainfixed)
+    ON_CBN_KILLFOCUS(IDC_CBMAINPARA7, &CDlgMainShowSet::OnCbnKillfocusCbmainpara8)
+    /*ON_BN_CLICKED(IDC_CKMAINFIXED, &CDlgMainShowSet::OnBnClickedCkmainfixed)
     ON_CBN_KILLFOCUS(IDC_CBMFIXPARA0, &CDlgMainShowSet::OnCbnKillfocusCbmfixpara0)
     ON_CBN_KILLFOCUS(IDC_CBMFIXPARA1, &CDlgMainShowSet::OnCbnKillfocusCbmfixpara1)
     ON_CBN_KILLFOCUS(IDC_CBMFIXPARA2, &CDlgMainShowSet::OnCbnKillfocusCbmfixpara2)
@@ -81,7 +89,7 @@ BEGIN_MESSAGE_MAP(CDlgMainShowSet, CDialogEx)
     ON_CBN_SELCHANGE(IDC_CBMFIXPARA1, &CDlgMainShowSet::OnCbnSelchangeCbmfixpara1)
     ON_CBN_SELCHANGE(IDC_CBMFIXPARA2, &CDlgMainShowSet::OnCbnSelchangeCbmfixpara2)
     ON_CBN_SELCHANGE(IDC_CBMFIXPARA3, &CDlgMainShowSet::OnCbnSelchangeCbmfixpara3)
-    ON_CBN_SELCHANGE(IDC_CBMFIXPARA4, &CDlgMainShowSet::OnCbnSelchangeCbmfixpara4)
+    ON_CBN_SELCHANGE(IDC_CBMFIXPARA4, &CDlgMainShowSet::OnCbnSelchangeCbmfixpara4)*/
 END_MESSAGE_MAP()
 
 
@@ -95,7 +103,7 @@ BOOL CDlgMainShowSet::OnInitDialog()
 
     InitMainShowPara();
 
-    InitFixShowPara();
+    //InitFixShowPara();
 
     UpdateData(FALSE);
 
@@ -113,7 +121,7 @@ void CDlgMainShowSet::InitMainShowPara()
     m_clrNormal  = RGB(0, 0, 0); 
     m_clrChanged = RGB(255, 0, 0);
 
-    m_bFixedTube = theApp.CheckFixTube(&m_tempCfg);
+    //m_bFixedTube = theApp.CheckFixTube(&m_tempCfg);
 
     for(i=0; i< m_ptShow->nMainNum && i<MAXMAINPARA; i++)
     {
@@ -137,6 +145,7 @@ void CDlgMainShowSet::InitMainShowPara()
     }
 }
 
+#if 0
 void CDlgMainShowSet::InitFixShowPara()
 {
     TUBECFG *ptTube = &m_tempCfg.tTubeCfg;
@@ -165,7 +174,7 @@ void CDlgMainShowSet::ShowTubingCtrl()
     m_cbFixTubingOpt[INDEX_TUBE_MATER].ShowWindow(m_bFixedTube);
     m_cbFixTubingOpt[INDEX_TUBE_COUPL].ShowWindow(m_bFixedTube);
 }
-
+#endif
 BOOL CDlgMainShowSet::GetParaValue()
 {
     UINT        i = 0;
@@ -178,7 +187,7 @@ BOOL CDlgMainShowSet::GetParaValue()
             continue;
         m_tempCfg.strValue[m_ptShow->nMain[i]] = m_strMainOption[i];
     }
-
+#if 0
     if (m_bFixedTube)
     {
         nFactory = m_cbFixTubingOpt[INDEX_TUBE_FACTORY].GetCurSel();
@@ -192,7 +201,7 @@ BOOL CDlgMainShowSet::GetParaValue()
     {
         memset(&m_tempCfg.tTubeCfg, 0, sizeof(TUBECFG));
     }
-
+#endif
     return TRUE;
 }
 
@@ -212,7 +221,7 @@ void CDlgMainShowSet::OnBnClickedOk()
 HBRUSH CDlgMainShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
-    COLORREF    clrCtrl;
+    //COLORREF    clrCtrl;
     CString     strContent;
 
     GetDlgItemText(pWnd->GetDlgCtrlID(), strContent);
@@ -220,20 +229,19 @@ HBRUSH CDlgMainShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         return hbr;
 
     // TODO:  在此更改 DC 的任何特性
-    switch (pWnd->GetDlgCtrlID())//对某一个特定控件进行判断  
-    {
-    case IDC_EDMAINPARA52:
-        JUDGE_STRPARA_CHANGE(strContent, m_strTubeNO2);
-        break;
-    default:
-        hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
-        break;
-    }
-    
+    //switch (pWnd->GetDlgCtrlID())//对某一个特定控件进行判断  
+    //{
+    ///*case IDC_EDMAINPARA52:
+    //    JUDGE_STRPARA_CHANGE(strContent, m_strTubeNO2);
+    //    break;*/
+    //default:
+    //    hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+    //    break;
+    //}
+    hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
     // TODO:  如果默认的不是所需画笔，则返回另一个画笔
     return hbr;
 }
-
 
 void CDlgMainShowSet::JudgeMainShowParaChanged(UINT nIndex, CString strContent)
 {
@@ -249,55 +257,62 @@ void CDlgMainShowSet::JudgeMainShowParaChanged(UINT nIndex, CString strContent)
     m_cbMainOption[nIndex].Invalidate();
 }
 
-void CDlgMainShowSet::OnCbnKillfocusCbmainpara0()
-{
-    CString     strContent;
-    GetDlgItemText(IDC_CBMAINPARA0, strContent);
-    JudgeMainShowParaChanged(0, strContent);
-}
+//void CDlgMainShowSet::OnCbnKillfocusCbmainpara0()
+//{
+//    CString     strContent;
+//    GetDlgItemText(IDC_CBMAINPARA0, strContent);
+//    JudgeMainShowParaChanged(0, strContent);
+//}
 
 void CDlgMainShowSet::OnCbnKillfocusCbmainpara1()
 {
     CString     strContent;
     GetDlgItemText(IDC_CBMAINPARA1, strContent);
-    JudgeMainShowParaChanged(1, strContent);
+    JudgeMainShowParaChanged(0, strContent);
 }
-
 void CDlgMainShowSet::OnCbnKillfocusCbmainpara2()
 {
     CString     strContent;
     GetDlgItemText(IDC_CBMAINPARA2, strContent);
-    JudgeMainShowParaChanged(2, strContent);
+    JudgeMainShowParaChanged(1, strContent);
 }
-
 void CDlgMainShowSet::OnCbnKillfocusCbmainpara3()
 {
     CString     strContent;
     GetDlgItemText(IDC_CBMAINPARA3, strContent);
-    JudgeMainShowParaChanged(3, strContent);
+    JudgeMainShowParaChanged(2, strContent);
 }
-
 void CDlgMainShowSet::OnCbnKillfocusCbmainpara4()
 {
     CString     strContent;
     GetDlgItemText(IDC_CBMAINPARA4, strContent);
-    JudgeMainShowParaChanged(4, strContent);
+    JudgeMainShowParaChanged(3, strContent);
 }
-
 void CDlgMainShowSet::OnCbnKillfocusCbmainpara5()
 {
     CString     strContent;
     GetDlgItemText(IDC_CBMAINPARA5, strContent);
+    JudgeMainShowParaChanged(4, strContent);
+}
+void CDlgMainShowSet::OnCbnKillfocusCbmainpara6()
+{
+    CString     strContent;
+    GetDlgItemText(IDC_CBMAINPARA6, strContent);
     JudgeMainShowParaChanged(5, strContent);
 }
-
 void CDlgMainShowSet::OnCbnKillfocusCbmainpara7()
 {
     CString     strContent;
-    GetDlgItemText(IDC_CBMAINPARA5, strContent);
+    GetDlgItemText(IDC_CBMAINPARA7, strContent);
+    JudgeMainShowParaChanged(6, strContent);
+}
+void CDlgMainShowSet::OnCbnKillfocusCbmainpara8()
+{
+    CString     strContent;
+    GetDlgItemText(IDC_CBMAINPARA8, strContent);
     JudgeMainShowParaChanged(7, strContent);
 }
-
+#if 0
 void CDlgMainShowSet::OnCbnKillfocusCbmfixpara0()
 {
     JudgeFixShowParaChanged(INDEX_TUBE_FACTORY, &m_tempCfg.tTubeCfg);
@@ -446,3 +461,4 @@ void CDlgMainShowSet::OnBnClickedCkmainfixed()
     }
     UpdateData(FALSE);
 }
+#endif

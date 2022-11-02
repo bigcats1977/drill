@@ -354,7 +354,7 @@ using namespace std;
 #define SHOWPARA_TUBETYPE           5
 
 #pragma endregion
-
+#if 0
 #pragma region TUBE CONFIG
 
 #define     INDEX_TUBE_FACTORY      0
@@ -387,7 +387,7 @@ using namespace std;
 
 #define     MAXDEFTUBECFGNUM        131
 #pragma endregion
-
+#endif
 #pragma region DEBUGINFO
 /* 保存调试信息约定消息头宏值和字符串 */
 #define DBG_HASH                    0   /* # */
@@ -445,25 +445,18 @@ using namespace std;
 #define STATUS_MAXNUM           (STATUS_TUBECFG +1)
 #pragma endregion
 
-
 #pragma region DATABASE
 /* 定义程序的状态 */
 #define D_LANGUAGE              0   /* 语言字典表 */
 #define T_SHOWNAME              1   /* 显示参数名称表 */
-#define T_TUBEFACTORY           2   /* 厂家名称表 */
-#define T_TUBEOEM               3   /* 管件名称表 */
-#define T_TUBESIZE              4   /* 管件规格表 */
-#define T_TUBEMATER             5   /* 材质钢级表 */
-#define T_TUBECOUPL             6   /* 接箍规格表 */
-#define T_GLBCFG                7   /* 全局配置表 */
-#define T_SHOWCFG               8   /* 显示参数配置表 */
-#define T_SHOWOPTION            9   /* 显示参数选项表 */
-#define T_TUBECFG               10  /* 系统管材配置表 */
-#define T_VALTORQUE             11  /* 扭矩控制值配置表 */
-#define T_VALTURN               12  /* 周数控制值配置表 */
-#define T_TORQUECFG             13  /* 程序参数值配置表 */
-#define T_XLSSTATCFG            14  /* 导出excel统计配置表 */
-#define T_VALVECFG              15  /* 比例阀配置表 */
+#define T_GLBCFG                2   /* 全局配置表 */
+#define T_SHOWCFG               3   /* 显示参数配置表 */
+#define T_SHOWOPTION            4   /* 显示参数选项表 */
+#define T_VALTORQUE             5   /* 扭矩控制值配置表 */
+#define T_VALTURN               6   /* 周数控制值配置表 */
+#define T_TORQUECFG             7   /* 程序参数值配置表 */
+#define T_XLSSTATCFG            8   /* 导出excel统计配置表 */
+#define T_VALVECFG              9   /* 比例阀配置表 */
 #define MAXTABLENUM             (T_VALVECFG +1)
 
 #define DB_INVALID_VAL          -1
@@ -471,49 +464,6 @@ using namespace std;
 #pragma endregion
 
 #pragma region SHOW PARAMETER
-//#define         MAXNAMENUM              15
-/* 通用 6 */
-#define         COMMPARA_WELL           1   /* 施工井号 */
-#define         COMMPARA_TEAM           2   /* 作 业 队 */
-#define         COMMPARA_CONTRACT       3   /* 合同号 */
-#define         COMMPARA_OPERATOR       4   /* 操作员 */
-#define         COMMPARA_BELTLINE       5   /* 生产线号 */
-#define         COMMPARA_STAND          6   /* 执行标准 */
-#define         COMMPARA_OPERATION      7   /* 作业方式 */
-#define         COMMPARA_PARTYA         8   /* 甲方 */
-#define         COMMPARA_CASINGTEAM     9   /* 油套管队 */
-#define         COMMPARA_SHIFTLEADER    10  /* 当班班长 */
-/* 管体参数  */
-/* 宝钢 7 */
-#define         TUBEPARA_DIAMETER       100 /* 管体外径 */
-#define         TUBEPARA_THICKEN        101 /* 管体壁厚 */
-#define         TUBEPARA_GRADE          102 /* 管体钢级 */
-#define         TUBEPARA_ENDTYPE        103 /* 管端类型 */
-#define         TUBEPARA_TUBENO         104 /* 管体号 */
-#define         TUBEPARA_STOVE          105 /* 管体炉号 */
-#define         TUBEPARA_BATCH          106 /* 管体批号 */
-/* 凯泰名称 3 */
-#define         TUBEPARA_NAME           120 /* 管件名称 */
-#define         TUBEPARA_MAKEUPTYPE     121 /* 上扣类型 */
-#define         TUBEPARA_BUCKLETYPE     122 /* 扣型材质 */
-#define         TUBEPARA_FACTORY        123 /* 管件厂家 */
-#define         TUBEPARA_RUNNINGNO      124 /* 入井序号 */
-/* 接箍参数  */
-/* 宝钢 6 */
-#define         COUPPARA_DIAMETER       201 /* 接箍外径 */
-#define         COUPPARA_LENGTH         202 /* 接箍长度 */
-#define         COUPPARA_MATER          203 /* 接箍材质 */
-#define         COUPPARA_STOVE          204 /* 接箍炉号 */
-#define         COUPPARA_BATCH          205 /* 接箍批号 */
-#define         COUPPARA_COUPNO         206 /* 接箍号 */
-/* 凯泰名称 3 */
-#define         COUPPARA_WEIGHT         220 /* 重量 */
-#define         COUPPARA_LUBRICANT      221 /* 润滑脂 */
-#define         COUPPARA_COUPLING       222 /* 接箍参数 */
-#define         COUPPARA_THREADDOPE     223 /* 丝扣油 */
-#define         COUPPARA_HANDDEVICE     224 /* 悬吊工具 */
-#define         COUPPARA_HYDTONG        225 /* 液压钳 */
-#define         COUPPARA_OEM            226 /* 厂家 */
 
 //#define       HALFPARALEN             25
 //#define       MAXPARALEN              50
@@ -525,9 +475,9 @@ using namespace std;
 #define         MAINSHOWWELL            6   /* 第6个主界面显示参数为入井序号(6) */
 
 /* 15个参数, 4~7固定 */
-#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
-#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
-#define         TUBESN                  9   /* 管体序号 */
+//#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
+//#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
+//#define         TUBESN                  9   /* 管体序号 */
 #define         TALLYNO                 10  /* 入井序号 */
 
 /* 输出excel统计报告常量 */
@@ -693,6 +643,7 @@ typedef struct tagPORTCFG
     UINT        nBand;          /* 波特率 */
 }PORTCFG;
 
+#if 0
 #define MAXTUBEPARALEN   51
 typedef struct tagFixTubePara
 {
@@ -707,6 +658,7 @@ typedef struct tagFixTubeInfo
     UINT        nNum;
     FIXTUBEPARA* ptPara;
 }FIXTUBEINFO;
+
 
 //#define  TUBECFGTORQNUM         6
 #define  HALFTUBETORQNUM        3
@@ -734,7 +686,7 @@ typedef struct tagTubeCfg
 #else
     UINT    nTorqVal[MAXTUBETORQNUM];
 #endif
-}TUBECFG;
+}TUBECFG;// DRILLCFG
 
 typedef struct tagFixTubeCfg
 {
@@ -742,7 +694,7 @@ typedef struct tagFixTubeCfg
     UINT        nNum;
     TUBECFG* ptCfg;
 }FIXTUBECFG;
-
+#endif
 #define MAXMEMOLEN              128
 typedef struct tagCOMMONCFG
 {
@@ -774,7 +726,7 @@ typedef struct tagPARACFG
 {
     CONTROLPARA tCtrl;
     COMMONCFG   tComm;
-    TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
+    //TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
 
     string      strAlias;
     string      strValue[MAXPARANUM];   /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */
@@ -847,7 +799,7 @@ typedef struct tagTorqCfgID
 {
     UINT        nTorqueID;
     UINT        nTurnID;
-    UINT        nTubeID;
+    //UINT        nTubeID;
     string      strOptionID;
 }TORQCFGID;
 
@@ -1015,8 +967,7 @@ typedef struct tagCalibCtrl
 #define         MAXNAMELEN              32
 typedef struct tagSHOWPARANAME
 {
-    WORD        nNameID;
-    string      strName[LANGUAGE_NUM+1];
+    string      strName[LANGUAGE_NUM];
 }SHOWPARANAME;
 
 
@@ -1419,12 +1370,12 @@ extern const string         g_strPortOpr[];
 extern const UINT           g_nMainNameNO[];
 
 extern const SHOWPARANAME   g_tNameInfo[];
-extern FIXTUBEPARA          g_tDefFactory[];
-extern FIXTUBEPARA          g_tDefOEM[];
-extern FIXTUBEPARA          g_tDefSize[];
-extern FIXTUBEPARA          g_tDefMater[];
-extern FIXTUBEPARA          g_tDefCoupl[];
-extern TUBECFG              g_tDefTubeCfg[];
+//extern FIXTUBEPARA          g_tDefFactory[];
+//extern FIXTUBEPARA          g_tDefOEM[];
+//extern FIXTUBEPARA          g_tDefSize[];
+//extern FIXTUBEPARA          g_tDefMater[];
+//extern FIXTUBEPARA          g_tDefCoupl[];
+//extern TUBECFG              g_tDefTubeCfg[];
 
 extern TORQUEDATA           g_tReadData;
 extern GLBCFG               g_tGlbCfg;

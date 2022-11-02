@@ -182,7 +182,7 @@ protected:
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
     afx_msg void OnSegcalib();
-    afx_msg void OnTubeCfg();
+    //afx_msg void OnTubeCfg();
     afx_msg void OnGlbCfg();
     DECLARE_MESSAGE_MAP()
 
@@ -310,7 +310,7 @@ private:
     int             m_iTorqBreakCnt;
     int             m_iMaxReadTimes;    /* 串口最大读取次数 */
     
-    CString         m_strTubeNO2;       /* 管体编号 第二段 */
+    //CString         m_strTubeNO2;       /* 管体编号 第二段 */
     BOOL            m_bCanModLastData;  /* 复位时间前，可以修改最后一条数据 */
 
     BOOL            m_bValveStatus[VALVEMAXNUM];

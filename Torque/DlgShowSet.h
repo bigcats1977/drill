@@ -49,6 +49,9 @@ protected:
     afx_msg void OnBnClickedRadioshowfile13();
     afx_msg void OnBnClickedRadioshowfile14();
     afx_msg void OnBnClickedRadioshowfile15();
+    afx_msg void OnBnClickedRadioshowfile16();
+    afx_msg void OnBnClickedRadioshowfile17();
+    afx_msg void OnBnClickedRadioshowfile18();
     afx_msg void OnBnClickedRadioshowstat1();
     afx_msg void OnBnClickedRadioshowstat2();
     afx_msg void OnBnClickedRadioshowstat3();
@@ -64,6 +67,9 @@ protected:
     afx_msg void OnBnClickedRadioshowstat13();
     afx_msg void OnBnClickedRadioshowstat14();
     afx_msg void OnBnClickedRadioshowstat15();
+    afx_msg void OnBnClickedRadioshowstat16();
+    afx_msg void OnBnClickedRadioshowstat17();
+    afx_msg void OnBnClickedRadioshowstat18();
     afx_msg void OnBnClickedChecklist1();
     afx_msg void OnBnClickedChecklist2();
     afx_msg void OnBnClickedChecklist3();
@@ -79,6 +85,9 @@ protected:
     afx_msg void OnBnClickedChecklist13();
     afx_msg void OnBnClickedChecklist14();
     afx_msg void OnBnClickedChecklist15();
+    afx_msg void OnBnClickedChecklist16();
+    afx_msg void OnBnClickedChecklist17();
+    afx_msg void OnBnClickedChecklist18();
     afx_msg void OnBnClickedCheckmain1();
     afx_msg void OnBnClickedCheckmain2();
     afx_msg void OnBnClickedCheckmain3();
@@ -94,7 +103,9 @@ protected:
     afx_msg void OnBnClickedCheckmain13();
     afx_msg void OnBnClickedCheckmain14();
     afx_msg void OnBnClickedCheckmain15();
-
+    afx_msg void OnBnClickedCheckmain16();
+    afx_msg void OnBnClickedCheckmain17();
+    afx_msg void OnBnClickedCheckmain18();
 	DECLARE_MESSAGE_MAP()
 
 private:
