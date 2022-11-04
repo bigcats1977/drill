@@ -184,18 +184,6 @@ void CDlgHisGrp::EmptyIPEdit()
 void CDlgHisGrp::UpdateDlgLabel()
 {
     m_strLBG1 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
-    /*switch(g_tGlbCfg.nLangType)
-    {
-        case LANGUAGE_CHINESE:
-            m_strLBG1.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit);
-            break;
-        case LANGUAGE_ENGLISH:
-            m_strLBG1.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit);
-            break;
-        case LANGUAGE_RUSSIAN:
-            m_strLBG1.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", g_tGlbCfg.strUnit);
-            break;
-    }*/
     m_strLBG10 = g_tGlbCfg.strUnit.c_str();
     m_strLBG22 = g_tGlbCfg.strUnit.c_str();
     m_strLBG20 = g_tGlbCfg.strUnit.c_str();
@@ -220,7 +208,7 @@ void CDlgHisGrp::SetCurEdit()
     /* 显示参数 */
     /* 20221006 老版本i-1；新版本跳过0 厂家从1开始
       最大值 老版本通过tshow_size()控制， 新版本根据MAXPARANUM 避免越界*/
-    for (i = 1; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
+    for (i = 0; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         m_strHisShowName[i]  = theApp.GetTorqShowName(m_ptCurTorq, i);
         m_strHisShowValue[i] = theApp.GetTorqShowValue(m_ptCurTorq, i);
@@ -323,7 +311,7 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG *ptCfg)
     m_wndLineHis.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
     m_wndLineHis.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
     m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
-    m_wndLineHis.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* 控制周数 */
+    m_wndLineHis.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];         /* 控制周数 */
     m_wndLineHis.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
     m_wndLineHis.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
     m_wndLineHis.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */

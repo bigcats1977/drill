@@ -20,7 +20,6 @@ void CDBValTorque::Empty()
     _lsAutoIndex.clear();
 
     _lsTorqueVal.clear();
-    //_lsTorqueVal.resize(MAXTORQCONFNUM);
 }
 
 void CDBValTorque::GetTable()

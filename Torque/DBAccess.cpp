@@ -8,28 +8,20 @@
 
 CDBAccess::CDBAccess()
 {
-
 }
 
 CDBAccess::~CDBAccess()
 {
-
 }
 
 bool CDBAccess::InitDBHandle()
 {
-    UINT i = 0;
-
     COMP_BFALSE_R(m_bValidDBFile, false);
 
     m_tDBGlbCfg = CDBGlbCfg();
     m_tDBShowName = CDBShowName();
     m_tDBShowCfg = CDBShowCfg();
     m_tDBShowOpt = CDBShowOption();
-
-    /*for (i = 0; i < MAXTUBECFGNUM; i++)
-        m_tDBTubeText[i] = CDBText(T_TUBEFACTORY + i);
-    m_tDBTubeCfg = CDBTubeCfg();*/
 
     m_tDBValTorque = CDBValTorque();
     m_tDBValTurn = CDBValTurn();
@@ -101,18 +93,6 @@ bool CDBAccess::InitConfigFromDB(UINT &initstep)
         theApp.SaveMessage("ReadTorqCfgPara fail!!");
         // return false;
     }
-
-    /*if (!LoadTubingInfo())
-    {
-        theApp.SaveMessage("LoadTubingInfo fail!!");
-        return false;
-    }
-    if (!LoadTubingCfg())
-    {
-        theApp.SaveMessage("LoadTubingCfg fail!!");
-        return false;
-    }
-    initstep++;*/
 
     if (!ReadValvePara(&theApp.m_tValveCfg))
     {
@@ -188,7 +168,6 @@ bool CDBAccess::UpdateGlobalPara()
     m_tDBGlbCfg.Reload();
     return true;
 }
-
 
 vector<string> CDBAccess::GetNamesByIndexs(string indexs)
 {
@@ -267,7 +246,6 @@ bool CDBAccess::UpdateShowPara(SHOWCFG* ptShow)
     return true;
 }
 
-
 bool CDBAccess::UpdateShowName(SHOWCFG* ptShow)
 {
     int i = 0;
@@ -277,7 +255,7 @@ bool CDBAccess::UpdateShowName(SHOWCFG* ptShow)
     COMP_BFALSE_R(m_bValidDBFile, false);
 
     // update show name
-    for (i = 1; i < MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         index = m_tDBShowName.UpdateShowName(i, ptShow->strShow[i]);
         if (index == DB_INVALID_VAL)
@@ -298,26 +276,7 @@ vector<string> CDBAccess::GetOptionsByIndex(UINT showIndex)
     COMP_BFALSE_R(m_bValidDBFile, lsOptions);
     return m_tDBShowOpt.GetOptionsByNameIndex(showIndex);
 }
-#if 0
-bool CDBAccess::ReadTubeInfo(TUBECFG* ptTube, bool bIndex)
-{
-    int index = 0;
-    ASSERT_NULL_R(ptTube, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
 
-    // by index
-    if (bIndex == 0)
-    {
-        return m_tDBTubeCfg.QueryTubeByIndex(ptTube);
-    }
-
-    index = m_tDBTubeCfg.QueryTubeByInfo(ptTube);
-    if (index > 0)
-        return true;
-
-    return false;
-}
-#endif
 vector<int> CDBAccess::ReadCurShowIndex()
 {
     vector<int> lsIndexs;
@@ -370,14 +329,9 @@ bool CDBAccess::ReadTorqCfgPara(int iAlias, PARACFG* ptCfg)
     COMP_BFALSE_R(m_tDBValTorque.GetTorqValById(tCfgID.nTorqueID, &ptCfg->tCtrl.fTorqConf[0]), false);
     COMP_BFALSE_R(m_tDBValTurn.GetTurnValById(tCfgID.nTurnID, &ptCfg->tCtrl.fTurnConf[0]), false);
     COMP_BFALSE_R(m_tDBShowOpt.GetOptionsByNOS(tCfgID.strOptionID, ptCfg->strValue), false);
-    /*if (tCfgID.nTubeID > 0)
-    {
-        COMP_BFALSE_R(m_tDBTubeCfg.QueryTubeByInfo(&ptCfg->tTubeCfg), false);
-    }*/
 
     return true;
 }
-
 
 int CDBAccess::ReadTorqCfgPara(string sAlias, PARACFG* ptCfg)
 {
@@ -409,231 +363,6 @@ bool CDBAccess::DeleteAlias(string sAlias)
     
     return true;
 }
-#if 0
-bool CDBAccess::InsertTubeName(UINT TubeKind, int NO, vector<string> Names)
-{
-    bool bRes = false;
-
-    COMP_BFALSE_R(m_bValidDBFile, false);
-    COMP_BGE_R(TubeKind, MAXTUBECFGNUM, false);
-
-    bRes = m_tDBTubeText[TubeKind].InsertNames(NO, Names);
-    COMP_BFALSE_R(bRes, false);
-
-    m_tDBTubeText[TubeKind].Reload();
-    LoadTubingInfo();
-
-    return true;
-}
-
-bool CDBAccess::UpdateTubeName(UINT TubeKind, int NO, vector<string> Names)
-{
-    bool bRes = false;
-
-    COMP_BFALSE_R(m_bValidDBFile, false);
-    COMP_BGE_R(TubeKind, MAXTUBECFGNUM, false);
-
-    bRes = m_tDBTubeText[TubeKind].UpdateNames(NO, Names);
-    COMP_BFALSE_R(bRes, false);
-
-    m_tDBTubeText[TubeKind].Reload();
-    LoadTubingInfo();
-    return true;
-}
-
-bool CDBAccess::CheckTubeNO(UINT TubeKind, int NO)
-{
-    COMP_BFALSE_R(m_bValidDBFile, false);
-    COMP_BGE_R(TubeKind, MAXTUBECFGNUM, false);
-
-    return m_tDBTubeText[TubeKind].CheckNO(NO);
-}
-
-int CDBAccess::InsertTubeCfg(TUBECFG* ptTube)
-{
-    int index = DB_INVALID_VAL;
-    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
-    ASSERT_NULL_R(ptTube, DB_INVALID_VAL);
-
-    index = m_tDBTubeCfg.InsertTubeCfg(ptTube);
-    COMP_BLE_R(index, 0, index);
-
-    m_tDBTubeCfg.Reload();
-    LoadTubingCfg();
-
-    return index;
-}
-
-bool CDBAccess::DeleteTubeCfg(TUBECFG* ptTube)
-{
-    bool bRes = false;
-
-    ASSERT_NULL_R(ptTube, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
-
-    bRes = m_tDBTubeCfg.DeleteTubeCfg(ptTube);
-    COMP_BFALSE_R(bRes, false);
-    
-    m_tDBTubeCfg.Reload();
-    LoadTubingCfg();
-
-    return true;
-}
-
-bool CDBAccess::UpdateTubeCfg(TUBECFG* ptTube)
-{
-    bool bRes = false;
-
-    ASSERT_NULL_R(ptTube, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
-
-    bRes = m_tDBTubeCfg.UpdateTubeCfg(ptTube);
-    COMP_BFALSE_R(bRes, false);
-
-    m_tDBTubeCfg.Reload();
-    LoadTubingCfg();
-
-    return true;
-}
-
-bool CDBAccess::GetInitTube(TUBECFG* ptTube)
-{
-    UINT i = 0;
-
-    ASSERT_NULL_R(ptTube, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
-
-    for (i = 0; i < MAXTUBECFGNUM; i++)
-    {
-        ptTube->nFixTube[i] = m_tDBTubeCfg._lsFixTube[i][0];
-    }
-    for (i = 0; i < MAXTUBETORQNUM; i++)
-    {
-        ptTube->nTorqVal[i] = m_tDBTubeCfg._lsTorqVal[i][0];
-    }
-    return true;
-}
-
-int CDBAccess::QueryIndexByInfo(TUBECFG* ptTube)
-{
-    ASSERT_NULL_R(ptTube, DB_INVALID_VAL);
-    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
-
-    return m_tDBTubeCfg.QueryTubeByInfo(ptTube);
-}
-
-bool CDBAccess::LoadTubingInfo()
-{
-    int i = 0;
-    int count = 0;
-    int m = 0, n = 0;
-    FIXTUBEPARA* ptPara = NULL;
-    FIXTUBEINFO* ptFixInfo = &g_cTubing.m_tTubInfo[0];
-
-    COMP_BFALSE_R(m_bValidDBFile, false);
-
-    // load tubbing Info data
-    for (i = 0; i < MAXTUBECFGNUM; i++)
-    {
-        if (!m_tDBTubeText[i].Valid())
-        {
-            g_cTubing.GetTubParaAddr(i, &ptFixInfo[i]);
-            continue;
-        }
-
-        if (ptFixInfo[i].bDbData && ptFixInfo[i].ptPara != NULL)
-        {
-            delete[]  ptFixInfo[i].ptPara;
-            ptFixInfo[i].nNum = 0;
-            ptFixInfo[i].ptPara = NULL;
-        }
-        count = m_tDBTubeText[i]._Count;
-        ptPara = new FIXTUBEPARA[count];
-        // memset string 变量，导致内存泄漏
-        // memset(ptPara, 0, count * sizeof(FIXTUBEPARA));
-        ptFixInfo[i].bDbData = true;
-        ptFixInfo[i].nNum = count;
-        ptFixInfo[i].ptPara = ptPara;
-        for (m = 0; m < count; m++)
-        {
-            for (n = 0; n <= LANGUAGE_NUM; n++)
-            {
-                if (n == 0)
-                {
-                    ptPara->nNO = m_tDBTubeText[i]._lsNO[m];
-                }
-                else
-                {
-                    //lstrcpyn(ptPara->aucName[n - 1], theApp.m_tDBTubeText[i]._lsName[n - 1][m].c_str(), MAXTUBEPARALEN);
-                    ptPara->strName[n - 1] = m_tDBTubeText[i]._lsName[n - 1][m];
-                }
-            }
-            ptPara++;
-        }
-    }
-
-    return true;
-}
-
-bool CDBAccess::LoadTubingCfg()
-{
-    int  i = 0;
-    UINT j = 0;
-    int count;
-    TUBECFG* ptCfg = NULL;
-    FIXTUBECFG* ptFixCfg = &g_cTubing.m_tTubCfg;
-
-    COMP_BFALSE_R(m_bValidDBFile, false);
-
-    count = m_tDBTubeCfg._Count;
-    if (!m_tDBTubeCfg.Valid() || count <= 0)
-    {
-        ptFixCfg->nNum = MAXDEFTUBECFGNUM;
-        ptFixCfg->ptCfg = &g_tDefTubeCfg[0];
-        return true;
-    }
-
-    if (ptFixCfg->bDbData && ptFixCfg->ptCfg != NULL)
-    {
-        delete[] ptFixCfg->ptCfg;
-        ptFixCfg->nNum = 0;
-        ptFixCfg->ptCfg = NULL;
-    }
-
-    ptCfg = new TUBECFG[count];
-    memset(ptCfg, 0, count * sizeof(TUBECFG));
-    ptFixCfg->bDbData = true;
-    ptFixCfg->nNum = count;
-    ptFixCfg->ptCfg = ptCfg;
-
-    for (i = 0; i < count; i++)
-    {
-        for (j = 0; j < MAXTUBECFGNUM; j++)
-        {
-            ptCfg->nFixTube[j] = theDB.m_tDBTubeCfg._lsFixTube[i][j];
-        }
-
-        for (j = 0; j < MAXTUBETORQNUM; j++)
-        {
-            ptCfg->nTorqVal[j] = theDB.m_tDBTubeCfg._lsTorqVal[i][j];
-        }
-
-        ptCfg++;
-    }
-
-    return true;
-}
-#endif
-bool CDBAccess::ReadValvePara(VALVECFG* ptCfg)
-{
-    ASSERT_NULL_R(ptCfg, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
-
-    COMP_BFALSE_R(m_tDBValveCfg.GetGlbCfg(ptCfg), false);
-
-    return true;
-}
-
 
 int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
 {
@@ -653,10 +382,6 @@ int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
     tCfgID.nTurnID = m_tDBValTurn.GetIndexByInfo(&ptCfg->tCtrl);
     COMP_BLE_R(tCfgID.nTurnID, 0, DB_INVALID_VAL);
 
-    // fix tube config
-    /*tCfgID.nTubeID = m_tDBTubeCfg.GetTubeIndexByInfo(&ptCfg->tTubeCfg);
-    COMP_BL_R(tCfgID.nTubeID, 0, DB_INVALID_VAL);*/
-
     // show value save
     tCfgID.strOptionID = m_tDBShowOpt.GetNOsByOptions(&ptShow->nShow[0], &ptCfg->strValue[0]);
 
@@ -665,7 +390,6 @@ int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     m_tDBValTorque.Reload();
     m_tDBValTurn.Reload();
-    //m_tDBTubeCfg.Reload();
     m_tDBShowOpt.Reload();
     m_tDBTorqueCfg.Reload();
 
@@ -673,7 +397,6 @@ int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     return AliasID;
 }
-
 
 vector<string> CDBAccess::ReadAllAlias()
 {
@@ -693,6 +416,16 @@ vector<string> CDBAccess::ReadAllAlias()
     }
 
     return strAlias;
+}
+
+bool CDBAccess::ReadValvePara(VALVECFG* ptCfg)
+{
+    ASSERT_NULL_R(ptCfg, false);
+    COMP_BFALSE_R(m_bValidDBFile, false);
+
+    COMP_BFALSE_R(m_tDBValveCfg.GetGlbCfg(ptCfg), false);
+
+    return true;
 }
 
 bool CDBAccess::UpdateValvePara(VALVECFG* ptCfg)

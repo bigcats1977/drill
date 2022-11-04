@@ -68,7 +68,6 @@ public:
     void        FillWriteCalib();
     void        FillCtrlCalib();
     void        FillReadCalib();
-    //void        FillValveZoom();
 
     /* 收集数据(包括测试函数) */
     BOOL        CollectPort(COLLECTDATA* ptCollData);
@@ -155,8 +154,6 @@ protected:
     afx_msg void OnUpdateLangChn(CCmdUI *pCmdUI);
     afx_msg void OnLangEng();
     afx_msg void OnUpdateLangEng(CCmdUI *pCmdUI);
-    /*afx_msg void OnLangRus();
-    afx_msg void OnUpdateLangRus(CCmdUI *pCmdUI);*/
     afx_msg void OnVerBigTorq();
     afx_msg void OnUpdateVerBigTorq(CCmdUI *pCmdUI);
     afx_msg void OnVerUnitNm();
@@ -174,7 +171,6 @@ protected:
     //}}AFX_MSG
     afx_msg LRESULT CollectTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT GuardTimerOut(WPARAM wParam, LPARAM lParam);
-    //afx_msg LRESULT ResetTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT PortBuffTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT SaveDataTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT SaveDebugTimerOut(WPARAM wParam, LPARAM lParam);
@@ -182,7 +178,6 @@ protected:
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
     afx_msg void OnSegcalib();
-    //afx_msg void OnTubeCfg();
     afx_msg void OnGlbCfg();
     DECLARE_MESSAGE_MAP()
 
@@ -208,7 +203,6 @@ private:
     BOOL CheckDataValid();
     static void HRTReadPort(CWnd *pUser);  /* 读取串口定时器Timer1到时 */
     static void HRTGuard(CWnd *pUser);     /* 保护复位定时器Timer2到时 */
-    //static void HRTGuardRead(CWnd *pUser); /* 复位时读取串口定时器Timer4到时 */
     static void HRTPortBuff(CWnd *pUser);  /* 读串口前缓冲区有数据等待单片机写定时器Timer7到时 */
     static void HRTSaveData(CWnd *pUser);  /* 保存数据定时器Timer8?到时 */
     static void HRTSaveDebug(CWnd *pUser); /* 定时保存CRC错误和调试信息定时器 */
@@ -272,7 +266,6 @@ private:
     int             m_iShowPlus;        /* 显示前的脉冲数，实际脉冲需要减掉显示脉冲，才能计算圈数 */
     int             m_iPriorCnt;        /* 之前屏的点数 */
     int             m_iPriorPlus;       /* 上一次脉冲数 */
-    //int             m_iReadTimes;       /* 读端口次数 */
     __time64_t      m_tStartTime;       /* 开始上扣的时间 */
 
     /* 设置定时读取串口时的状态 */
@@ -296,7 +289,6 @@ private:
     /* 高精度定时器 */
     CHighResTimer   m_hrtReadPort;      /* 串口定时器 */
     CHighResTimer   m_hrtGuard;         /* 保护复位定时器 */
-    //CHighResTimer   m_hrtGuardRead;     /* 复位时读取串口定时器 */
     CHighResTimer   m_hrtPortBuff;      /* 串口缓冲满 */
     CHighResTimer   m_hrtSaveData;      /* 保存数据定时器 */
     CHighResTimer   m_hrtSaveDebug;     /* 定时保存CRC错误和调试信息定时器 */
@@ -310,7 +302,6 @@ private:
     int             m_iTorqBreakCnt;
     int             m_iMaxReadTimes;    /* 串口最大读取次数 */
     
-    //CString         m_strTubeNO2;       /* 管体编号 第二段 */
     BOOL            m_bCanModLastData;  /* 复位时间前，可以修改最后一条数据 */
 
     BOOL            m_bValveStatus[VALVEMAXNUM];

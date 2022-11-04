@@ -79,19 +79,6 @@ public:
     int     GetQualityIndex(TorqData::Torque *ptTorq);
     void    GetCurWellFile();
     void    GetCurNum();
-    /*void    ReadPara(string strParaName, PARACFG *ptCfg, BOOL bNeedWrite = TRUE);
-    void    WritePara(string strParaName, PARACFG *ptCfg);*/
-
-
-
-    //BOOL    UpdateShowPara(UINT nLang, SHOWCFG* ptShow);
-    //void    WriteXlsStatPara(string strParaName, XLSSTATCFG *ptStat);
-    //void    WritePortPara(string strParaName, PORTCFG *ptPort);
-    //void    WriteOneTubing(string strParaName, string strLang, unsigned string_ID, CString strValue);
-    //void    WriteFixTubingPara(string strParaName, string strLang, TUBINGCFG *ptTubing);
-    //void    WriteValvePara(string strParaName, VALVECFG *ptValve);
-    //void    WriteParaFileName(string strFileName);
-    //void    WriteCalibPara(string strParaName, CALIBCFG *ptCalib);
     BOOL    CheckReg(CString strReg[]);
     BOOL    GetVolMacFromRegStr(CString strReg[], DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
     BOOL    GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
@@ -122,7 +109,6 @@ public:
     DWORD   GetQuality(TorqData::Torque *ptTorq);
     DWORD   JudgeQuality(TorqData::Torque *ptTorq, int iShackle = 0);
     BOOL    ReadHisTorqFromFile(CString strDataName);
-    //BOOL    InsertShowOption(SHOWCFG *ptShow, WORD wShowName, CString strOption, CComboBox *ptcbOption);
     CString GetStatType(TorqData::Torque *ptTorq, WORD wPlace);
     CString GetTorqSimpDate(TorqData::Torque *ptTorq);
     CString GetTorqFullDate(TorqData::Torque *ptTorq);
@@ -133,7 +119,6 @@ public:
     string  LoadstringFromRes(unsigned string_ID, int val);
     string  LoadstringFromRes(unsigned string_ID, double val);
     string  LoadstringFromRes(unsigned string_ID, string val);
-    //BOOL    LoadstringFromRes( unsigned string_ID , string &strValue);
     void    GetShowDataRange(DRAWTORQDATA *ptDraw, int &iBegin, int &iEnd, SPLITPOINT *ptSplit, UINT nMulti=1);
     void    IncTorqNo();
     CString GetSaveDataPath();
@@ -150,16 +135,7 @@ public:
     int     SeekFileLen(CFile &file);
     void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq);
     int     GetMainWellIndex();
-    //int     GetMainTubeIndex();
     int     GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq);
-    //void    UpdateAutoSaveFileName();
-    /*string  GetTubeFactoryValue();
-    string  GetTubeOEMValue();
-    string  GetTubeSizeValue();
-    string  GetTubeMaterValue();
-    string  GetTubeCouplValue();
-    BOOL    IsFixTube();
-    BOOL    CheckFixTube(PARACFG* ptCfg);*/
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque *ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex);
@@ -173,19 +149,13 @@ public:
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
 
     PARACFG         m_tParaCfg;
-    //PORTCFG         m_tPortCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
     SHOWCFG         *m_ptCurShow;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     DBREG           m_tdbReg;
     VALVECFG        m_tValveCfg;        /* 阀值配置 */
-    //CALIBCFG        m_tCalibCfg;        /* 校准参数配置 */
     string          m_strDllFile;       /* 动态链接库文件名称 */
     string          m_strAppPath;
-    /*string          m_strParaFile;       保存系统产生配置文件
-                                           和.exe同路径，后缀名为.ini */
-    /*string          m_strShowFile;      保存系统产生的显示参数配置文件，隐藏 
-                                             和.exe同路径，后缀名为.ini */
     string          m_strRegFile;       /* 保存注册信息的文件，隐藏
                                            和.exe同路径，后缀名为.dat */
     string          m_strDataPath;
@@ -198,38 +168,17 @@ public:
     string          m_strFileTitle;     /* 读取历史文件纯名称 */
     string          m_strAutoSaveFile;  /* CTRL+SHIFT+T 保存的数据文件名称?
                                            在data个路径下，后缀名修改为.dbg */
-    //string          m_strParity;        /* 串口奇偶校验的字符串 */
-    //BOOL            m_bBigTorq;         /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
-    //BOOL            m_bShackle;         /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
-    //BOOL            m_bCheckIP;         /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 */
-    //BOOL            m_bFirstRun;      /* 是否第一次运行，是的话运行DlgBear */
-    //BOOL            m_bFileBehindDate;  /* 日期在文件命名的后面 */
     UINT            m_nTorqMulti;       /* BigTorq: True:10; False:1*/
-    //UINT            m_nTestFunc;        /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据; 4: 多组历史数据*/
-    //UINT            m_nColletTime;      /* 定时收集数据的时间，ms，默认250 */
-    //UINT            m_nSaveTime;        /* 大于显示扭矩后保存数据的时间，默认30s */
-    //UINT            m_nReset;           /* 复位时间，默认10s */
-    //UINT            m_nImgNum;          /* 批量导出图形时，一个jpg文件中包含多少个图形 */
-    //UINT            m_nZoomIn;          /* 图形放大倍数 */
-    /*UINT            m_nIPShowMode;      /*  1: 只画数据中的拐点
-                                            2: 只画计算拐点
-                                            3: 数据拐点和计算拐点都画*/
-    //double          m_fIPDeltaVal;      /* 默认0.7 */
     UINT            m_nCurNO;           /* 当前扭矩的序号，更换文件清零 */
     DWORD           m_dwTotalTorqNum;   /* 扭矩上扣最大数目 */
-    //BOOL            m_bParaChg;         /* 参数设置以及修改，需要将参数写入文件 */
     UINT            m_nPBHead;
     BOOL            m_bShowCRC;
-    //UINT            m_nTorqUnit;
-    //CString         m_strUnit;
     SAVELOGDATA     m_tSaveLog;
     CFile           m_SaveLogFile;
     CString         m_strDbgHead[DBG_MAXNUM];
-    //string          m_strPassWord;
 
     /* 多语言支持 */
     HINSTANCE       m_hLangDLL[LANGUAGE_NUM];
-    //UINT            m_nLangType;        /* 当前语言类型 */
 
     BYTE            m_ucDPILevel;
     UINT            m_nScreenX;
@@ -288,54 +237,26 @@ private:
     void InitLanguage();
     void InitDefaultConfig(int initstep);
     
-    //void InitDBHandle();
     void InitConfigFromDB();
     void InitGlobalPara();
     void InitShowPara(SHOWCFG *ptShow, UINT nLang= LANGUAGE_CURRENT);
     void InitTorqCfgPara(PARACFG *ptCfg);
     void InitXlsStatPara(XLSSTATCFG* ptStat);
     void InitValvePara(VALVECFG* ptCfg);
-    /*void ReadTorquePara (string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm);
-    void ReadCircuitPara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm);
-    void ReadRpmPara    (string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm);*/
-    //void ReadPortPara   (string strParaName, PORTCFG     *ptPort);
-    //void ReadFixTubingPara(string strParaName, string strLang, TUBINGCFG *ptTubing);
-    //void ReadXlsStatPara();
-    //void ReadValvePara  (string strParaName, VALVECFG    *ptValve);
-    //void ReadCalibPara  (string strParaName, CALIBCFG    *ptCalib);
-    //void ReadOtherPara  (string strParaName, PARACFG     *ptCfg);
-    //void CheckParaFileName(void);
-
-    /*void WriteTorquePara (string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm);
-    void WriteCircuitPara(string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm);
-    void WriteRpmPara    (string strParaName, CONTROLPARA *ptCtrl, COMMONCFG *ptComm);
-    void WriteOtherPara  (string strParaName, PARACFG     *ptCfg);*/
 
     void AdjustTorquePara (CONTROLPARA *ptCtrl);
     void AdjustCircuitPara(CONTROLPARA *ptCtrl);
-    //void AdjustPortPara   (PORTCFG *ptPort);
-    //void AdjustOtherPara  (PARACFG *ptCfg);
 
     BOOL JudgeTranslate(TorqData::Torque *ptTorq);
-    //string GetFixTubeValue(UINT nShowIndex, UINT nCurNO, FIXTUBEINFO *ptFix);
     WORD GetIPPlace(int iCurPnt, int iInterval);
 
-    //BOOL UpdateShowName(UINT nLang, WORD wNum, string name[]);
     BOOL UpdateCurOptions(WORD wNum, string value[], UINT nLang = LANGUAGE_CURRENT);
     BOOL GetOptionIDbyValue(string name, string value, UINT nLang = LANGUAGE_CURRENT);
 
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char * bmp);
-
-
-    /* array */
-    /*string   m_slParity[3];
-    BYTE     m_ucParity[3];*/
-    
+        
     /* 找不到MAC时的默认MAC */
     BYTE     m_ucDefaultMac[5];
-    /* 串口有效波特率 */
-    //UINT     m_nBand[10];
-
 
     /* 计算拐点的全局变量 */
     double  m_fAdjSlope[COLLECTPOINTS];             //相邻点斜率

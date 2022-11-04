@@ -23,8 +23,8 @@ CDlgScm::CDlgScm(CWnd* pParent /*=NULL*/)
     m_fControl  = 0.0;
     m_fShow     = 0.0;
     m_fSpeed    = 0.0;
-    m_fLower    = 0.0;
-    m_fUpper    = 0.0;
+    //m_fLower    = 0.0;
+    //m_fUpper    = 0.0;
     m_tDate     = 0;
     m_tTime     = 0;
     //}}AFX_DATA_INIT
@@ -45,8 +45,8 @@ void CDlgScm::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDITSCMCONTROL, m_fControl);
     DDX_Text(pDX, IDC_EDITSCMSHOW, m_fShow);
     DDX_Text(pDX, IDC_EDITSCMSPEED, m_fSpeed);
-    DDX_Text(pDX, IDC_EDITSCMLOWER, m_fLower);
-    DDX_Text(pDX, IDC_EDITSCMUPPER, m_fUpper);
+    //DDX_Text(pDX, IDC_EDITSCMLOWER, m_fLower);
+    //DDX_Text(pDX, IDC_EDITSCMUPPER, m_fUpper);
     DDX_DateTimeCtrl(pDX, IDC_DTPDATE, m_tDate);
     DDX_DateTimeCtrl(pDX, IDC_DTPTIME, m_tTime);
     //}}AFX_DATA_MAP
@@ -79,8 +79,8 @@ void CDlgScm::OnScminitial()
     CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],   m_fControl, bChanged);
     CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN], m_fSpeed,   bChanged);
     CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],      m_fShow,    bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT],m_fUpper,   bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT],m_fLower,   bChanged);
+    //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT],m_fUpper,   bChanged);
+    //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT],m_fLower,   bChanged);
 
     if(bChanged)
     {
@@ -134,8 +134,8 @@ BOOL CDlgScm::OnInitDialog()
     m_fControl   = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_CONTROL];
     m_fSpeed     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN];
     m_fShow      = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SHOW];
-    m_fUpper     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT];
-    m_fLower     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT];
+    //m_fUpper     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT];
+    //m_fLower     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT];
 
     m_tDate      = CTime::GetCurrentTime();
     m_tTime      = m_tDate;

@@ -116,7 +116,9 @@ private:
     BOOL        m_bHisList[MAXPARANUM];
     BOOL        m_bHisMain[MAXPARANUM];
 
+    void        UpdateShowFile(int iCtrlIdx);
     void        JudgeShowRadio(int iCtrlIdx);
+    void        UpdateShowStat(int iCtrlIdx);
     void        JudgeStatRadio(int iCtrlIdx);
     void        JudgeListCheck(int iCtrlIdx);
     void        JudgeMainCheck(int iCtrlIdx);

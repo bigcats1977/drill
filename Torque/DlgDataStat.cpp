@@ -163,7 +163,7 @@ BOOL CDlgDataStat::OnInitDialog()
     theApp.AdaptDlgCtrlSize(this, 0);
 
     ptCtrl = &theApp.m_tParaCfg.tCtrl;
-    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], 
+    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT],
                   ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],
                   ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
     InitLabelInfo();
@@ -310,7 +310,7 @@ void CDlgDataStat::GetStatType()
 
     m_cbStatType.ResetContent();
     ptTorq = &g_tReadData.tData[g_tReadData.nTotal-1];    
-    for(i=1; i<=ptTorq->tshow_size() && i<MAXPARANUM; i++)
+    for(i=0; i<=ptTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         m_cbStatType.AddString(theApp.GetTorqShowName(ptTorq, i));
     }

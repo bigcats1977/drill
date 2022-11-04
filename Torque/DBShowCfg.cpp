@@ -10,8 +10,6 @@ CDBShowCfg::CDBShowCfg()
 CDBShowCfg::~CDBShowCfg()
 {
     Empty();
-
-    //_lsFixTube.clear();
 }
 
 void CDBShowCfg::Empty()
@@ -22,22 +20,11 @@ void CDBShowCfg::Empty()
     _lsMainNum.clear();
     _lsFileName.clear();
     _lsStatType.clear();
-    //_lsIsFixTube.clear();
-    //_lsValParaID.clear();
     _lsAliasID.clear();
 
     _lsShowPara.clear();
     _lsListNO.clear();
     _lsMainNO.clear();
-    //_lsShowValue.clear();
-
-    //_lsFixTube.clear();
-    //_lsFixTube.resize(MAXTUBECFGNUM);
-    /*_lsFactory.clear();
-    _lsOEM.clear();
-    _lsSize.clear();
-    _lsMaterial.clear();
-    _lsCoupling.clear();*/
 }
 
 void CDBShowCfg::GetTable()
@@ -60,7 +47,6 @@ void CDBShowCfg::GetTable()
 
     nIndex = col;
 
-    //_lsFixTube.resize(_Count);
     for (m = 0; m < row; m++)
     {
         _Sqlite->GetValue(pResult[nIndex++], Value);
@@ -75,8 +61,6 @@ void CDBShowCfg::GetTable()
         _lsFileName.push_back(Value);
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsStatType.push_back(Value);
-        //_Sqlite->GetValue(pResult[nIndex++], Value);
-        //_lsIsFixTube.push_back(Value);
 
         if (!_Sqlite->GetValue(pResult[nIndex++], Value))
             Value = 0;
@@ -88,14 +72,6 @@ void CDBShowCfg::GetTable()
         _lsListNO.push_back(Content);
         _Sqlite->GetValue(pResult[nIndex++], Content);
         _lsMainNO.push_back(Content);
-        //_Sqlite->GetValue(pResult[nIndex++], Content);
-        //_lsShowValue.push_back(Content);
-        
-        /*for (n = 0; n < MAXTUBECFGNUM; n++)
-        {
-            _Sqlite->GetValue(pResult[nIndex++], Value);
-            _lsFixTube[m].push_back(Value);
-        }*/
     }
 
     _Sqlite->FreeResult(&pResult);
@@ -103,7 +79,6 @@ void CDBShowCfg::GetTable()
 
 BOOL CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
 {
-    int i = 0;
     string condition;
     string lsNO;
     vector<string> fields;
@@ -156,7 +131,6 @@ BOOL CDBShowCfg::UpdateAlias(UINT Alias)
 
     condition = "LangType=" + to_string(*_CurLang);
 
-
     fields.push_back("AliasID");
     if (Alias == 0)
         values.push_back(NULLSTR);
@@ -165,39 +139,3 @@ BOOL CDBShowCfg::UpdateAlias(UINT Alias)
 
     return _Sqlite->UpdateFields(g_tTableName[_TableIndex], condition, fields, values);
 }
-#if 0
-BOOL CDBShowCfg::UpdateShowValue(string curOption, SHOWCFG* ptShow)
-{
-    int i = 0;
-    string condition;
-    vector<string> fields;
-    vector<string> values;
-
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    ASSERT_NULL_R(ptShow, FALSE);
-
-    condition = "LangType=" + to_string(*_CurLang);
-
-    fields.push_back("IsFixTube");
-    values.push_back(to_string(ptShow->bFixTube));
-
-    fields.push_back("ValParaID");
-    values.push_back(to_string(ptShow->iValParaID));
-
-    if (curOption.size() > 0)
-    {
-        fields.push_back("ShowValues");
-        values.push_back(curOption);
-    }
-    if (ptShow->bFixTube)
-    {
-        for (i = 0; i < MAXTUBECFGNUM; i++)
-        {
-            fields.push_back("FixTube" + to_string(i+1));
-            values.push_back(to_string(ptShow->tTubeCfg.nFixTube[i]));
-        }
-    }
-
-    return _Sqlite->UpdateFields(g_tTableName[_TableIndex], condition, fields, values);
-}
-#endif

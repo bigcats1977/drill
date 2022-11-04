@@ -256,29 +256,11 @@ BOOL CDlgShowSet::OnInitDialog()
     for(i=0; i<m_tempShow.nListNum; i++)
     {
         m_bHisList[m_tempShow.nList[i]] = m_bList[m_tempShow.nList[i]] = TRUE;
-        /*strList = theApp.GetListShowName(&m_tempShow,i);
-        for(j=1; j< m_tempShow.wParaNum && j<MAXPARANUM; j++)
-        {
-            if(strList == m_tempShow.strShow[j])
-            {
-                m_bHisList[j] = m_bList[j] = TRUE;
-                break;
-            }
-        }*/
     }
     
     for(i=0; i< m_tempShow.nMainNum; i++)
     {
         m_bHisMain[m_tempShow.nMain[i]] = m_bMain[m_tempShow.nMain[i]] = TRUE;
-        /*strMain = theApp.GetMainShowName(&m_tempShow,i);
-        for(j=1; j< m_tempShow.wParaNum && j<MAXPARANUM; j++)
-        {
-            if(strMain == m_tempShow.strShow[j])
-            {
-                m_bHisMain[j] = m_bMain[j] = TRUE;
-                break;
-            }
-        }*/
     }
 
     UpdateData(FALSE);
@@ -290,17 +272,16 @@ BOOL CDlgShowSet::OnInitDialog()
 void CDlgShowSet::OnBnClickedUpdateshow()
 {
     WORD    i = 0;
-    //int     iShow = 0;
-    int     iList = 0;  // not include 0 factory
-    int     iMain = 1;  // include 0 factory
+    int     iList = 0;
+    int     iMain = 0;
 
     UpdateData(TRUE);
 
-    for (i = 1; i < MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         if (m_strShowName[i].IsEmpty())
         {
-            GetDlgItem(IDC_EDSHOWNAME1 + i - 1)->SetFocus();
+            GetDlgItem(IDC_EDSHOWNAME1 + i)->SetFocus();
             AfxMessageBox(theApp.LoadstringFromRes(IDS_STRNULLSHOWNAME).c_str());
             return;
         }
@@ -353,7 +334,7 @@ BOOL CDlgShowSet::CheckShowCfgChanged()
         return TRUE;
     }
 
-    for (i = 1; i < MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         if (m_tempShow.strShow[i] != ptCurShow->strShow[i])
             return TRUE;
@@ -420,7 +401,7 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     case IDC_EDSHOWNAME17:
     case IDC_EDSHOWNAME18:
         //UpdateData(TRUE);
-        iIndex = iCtrlID - IDC_EDSHOWNAME1+1;
+        iIndex = iCtrlID - IDC_EDSHOWNAME1;
         //JUDGE_STRPARA_CHANGE(m_strShowName[iIndex], ptShow->tShow[iIndex].strName.c_str());
         JUDGE_STRPARA_CHANGE(strContent, ptShow->strShow[iIndex].c_str());
         break;
@@ -455,132 +436,87 @@ void CDlgShowSet::JudgeShowRadio(int iCtrlIdx)
     m_rdShowName[iCtrlIdx].SetForeColor(clrCtrl);
     m_rdShowName[iCtrlIdx].Invalidate();
 }
+void CDlgShowSet::UpdateShowFile(int iCtrlIdx)
+{
+    COMP_BL(iCtrlIdx, 0);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
 
+    UpdateData(TRUE);
+    JudgeShowRadio(iCtrlIdx);
+    JudgeShowRadio(m_iPriorShowCtrlID);
+    m_iPriorShowCtrlID = iCtrlIdx;
+}
 void CDlgShowSet::OnBnClickedRadioshowfile1()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(0);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 0;
+    UpdateShowFile(0);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile2()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(1);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 1;
+    UpdateShowFile(1);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile3()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(2);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 2;
+    UpdateShowFile(2);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile4()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(3);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 3;
+    UpdateShowFile(3);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile5()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(4);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 4;
+    UpdateShowFile(4);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile6()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(5);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 5;
+    UpdateShowFile(5);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile7()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(6);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 6;
+    UpdateShowFile(6);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile8()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(7);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 7;
+    UpdateShowFile(7);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile9()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(8);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 8;
+    UpdateShowFile(8);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile10()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(9);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 9;
+    UpdateShowFile(9);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile11()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(10);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 10;
+    UpdateShowFile(10);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile12()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(11);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 11;
+    UpdateShowFile(11);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile13()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(12);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 12;
+    UpdateShowFile(12);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile14()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(13);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 13;
+    UpdateShowFile(13);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile15()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(14);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 14;
+    UpdateShowFile(14);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile16()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(15);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 15;
+    UpdateShowFile(15);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile17()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(16);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 16;
+    UpdateShowFile(16);
 }
 void CDlgShowSet::OnBnClickedRadioshowfile18()
 {
-    UpdateData(TRUE);
-    JudgeShowRadio(17);
-    JudgeShowRadio(m_iPriorShowCtrlID);
-    m_iPriorShowCtrlID = 17;
+    UpdateShowFile(17);
 }
 
 void CDlgShowSet::JudgeStatRadio(int iCtrlIdx)
@@ -603,135 +539,87 @@ void CDlgShowSet::JudgeStatRadio(int iCtrlIdx)
     m_rdStatName[iCtrlIdx].SetForeColor(clrCtrl);
     m_rdStatName[iCtrlIdx].Invalidate();
 }
+void CDlgShowSet::UpdateShowStat(int iCtrlIdx)
+{
+    COMP_BL(iCtrlIdx, 0);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
 
+    UpdateData(TRUE);
+    JudgeStatRadio(iCtrlIdx);
+    JudgeStatRadio(m_iPriorStatCtrlID);
+    m_iPriorStatCtrlID = iCtrlIdx;
+}
 void CDlgShowSet::OnBnClickedRadioshowstat1()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(0);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 0;
+    UpdateShowStat(0);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat2()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(1);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 1;
+    UpdateShowStat(1);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat3()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(2);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 2;
+    UpdateShowStat(2);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat4()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(3);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 3;
+    UpdateShowStat(3);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat5()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(4);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 4;
+    UpdateShowStat(4);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat6()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(5);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 5;
+    UpdateShowStat(5);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat7()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(6);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 6;
+    UpdateShowStat(6);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat8()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(7);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 7;
+    UpdateShowStat(7);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat9()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(8);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 8;
+    UpdateShowStat(8);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat10()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(9);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 9;
+    UpdateShowStat(9);
 }
-
 void CDlgShowSet::OnBnClickedRadioshowstat11()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(10);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 10;
+    UpdateShowStat(10);
 }
-
 void CDlgShowSet::OnBnClickedRadioshowstat12()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(11);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 11;
+    UpdateShowStat(11);
 }
-
 void CDlgShowSet::OnBnClickedRadioshowstat13()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(12);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 12;
+    UpdateShowStat(12);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat14()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(13);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 13;
+    UpdateShowStat(13);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat15()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(14);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 14;
+    UpdateShowStat(14);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat16()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(15);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 15;
+    UpdateShowStat(15);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat17()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(16);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 16;
+    UpdateShowStat(16);
 }
 void CDlgShowSet::OnBnClickedRadioshowstat18()
 {
-    UpdateData(TRUE);
-    JudgeStatRadio(17);
-    JudgeStatRadio(m_iPriorStatCtrlID);
-    m_iPriorStatCtrlID = 17;
+    UpdateShowStat(17);
 }
 
 void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
@@ -740,6 +628,7 @@ void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
 
     COMP_BL(iCtrlIdx, 0);
     COMP_BGE(iCtrlIdx, MAXPARANUM);
+    UpdateData(TRUE);
     
     clrCtrl = m_clrNormal;
     if (m_bHisList[iCtrlIdx] != m_bList[iCtrlIdx])
@@ -752,93 +641,74 @@ void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
 }
 void CDlgShowSet::OnBnClickedChecklist1()
 {
-    UpdateData(TRUE);
     JudgeListCheck(0);
 }
 void CDlgShowSet::OnBnClickedChecklist2()
 {
-    UpdateData(TRUE);
     JudgeListCheck(1);
 }
 void CDlgShowSet::OnBnClickedChecklist3()
 {
-    UpdateData(TRUE);
     JudgeListCheck(2);
 }
 void CDlgShowSet::OnBnClickedChecklist4()
 {
-    UpdateData(TRUE);
     JudgeListCheck(3);
 }
 void CDlgShowSet::OnBnClickedChecklist5()
 {
-    UpdateData(TRUE);
     JudgeListCheck(4);
 }
 void CDlgShowSet::OnBnClickedChecklist6()
 {
-    UpdateData(TRUE);
     JudgeListCheck(5);
 }
 void CDlgShowSet::OnBnClickedChecklist7()
 {
-    UpdateData(TRUE);
     JudgeListCheck(6);
 }
 void CDlgShowSet::OnBnClickedChecklist8()
 {
-    UpdateData(TRUE);
     JudgeListCheck(7);
 }
 void CDlgShowSet::OnBnClickedChecklist9()
 {
-    UpdateData(TRUE);
     JudgeListCheck(8);
 }
-
 void CDlgShowSet::OnBnClickedChecklist10()
 {
-    UpdateData(TRUE);
     JudgeListCheck(9);
 }
 void CDlgShowSet::OnBnClickedChecklist11()
 {
-    UpdateData(TRUE);
     JudgeListCheck(10);
 }
 void CDlgShowSet::OnBnClickedChecklist12()
 {
-    UpdateData(TRUE);
     JudgeListCheck(11);
 }
 void CDlgShowSet::OnBnClickedChecklist13()
 {
-    UpdateData(TRUE);
     JudgeListCheck(12);
 }
 void CDlgShowSet::OnBnClickedChecklist14()
 {
-    UpdateData(TRUE);
     JudgeListCheck(13);
 }
 void CDlgShowSet::OnBnClickedChecklist15()
 {
-    UpdateData(TRUE);
     JudgeListCheck(14);
 }
 void CDlgShowSet::OnBnClickedChecklist16()
 {
-    UpdateData(TRUE);
     JudgeListCheck(15);
 }
 void CDlgShowSet::OnBnClickedChecklist17()
 {
-    UpdateData(TRUE);
     JudgeListCheck(16);
 }
 void CDlgShowSet::OnBnClickedChecklist18()
 {
-    UpdateData(TRUE);
     JudgeListCheck(17);
 }
 
@@ -848,6 +718,8 @@ void CDlgShowSet::JudgeMainCheck(int iCtrlIdx)
 
     COMP_BL(iCtrlIdx, 0);
     COMP_BGE(iCtrlIdx, MAXPARANUM);
+
+    UpdateData(TRUE);
     
     clrCtrl = m_clrNormal;
     if (m_bHisMain[iCtrlIdx] != m_bMain[iCtrlIdx])
@@ -860,91 +732,73 @@ void CDlgShowSet::JudgeMainCheck(int iCtrlIdx)
 }
 void CDlgShowSet::OnBnClickedCheckmain1()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(0);
 }
 void CDlgShowSet::OnBnClickedCheckmain2()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(1);
 }
 void CDlgShowSet::OnBnClickedCheckmain3()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(2);
 }
 void CDlgShowSet::OnBnClickedCheckmain4()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(3);
 }
 void CDlgShowSet::OnBnClickedCheckmain5()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(4);
 }
 void CDlgShowSet::OnBnClickedCheckmain6()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(5);
 }
 void CDlgShowSet::OnBnClickedCheckmain7()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(6);
 }
 void CDlgShowSet::OnBnClickedCheckmain8()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(7);
 }
 void CDlgShowSet::OnBnClickedCheckmain9()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(8);
 }
 void CDlgShowSet::OnBnClickedCheckmain10()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(9);
 }
 void CDlgShowSet::OnBnClickedCheckmain11()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(10);
 }
 void CDlgShowSet::OnBnClickedCheckmain12()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(11);
 }
 void CDlgShowSet::OnBnClickedCheckmain13()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(12);
 }
 void CDlgShowSet::OnBnClickedCheckmain14()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(13);
 }
 void CDlgShowSet::OnBnClickedCheckmain15()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(14);
 }
 void CDlgShowSet::OnBnClickedCheckmain16()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(15);
 }
 void CDlgShowSet::OnBnClickedCheckmain17()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(16);
 }
 void CDlgShowSet::OnBnClickedCheckmain18()
 {
-    UpdateData(TRUE);
     JudgeMainCheck(17);
 }

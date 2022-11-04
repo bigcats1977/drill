@@ -278,7 +278,6 @@ VOID CDlgHisList::ShowHisTorqList()
     WORD        wSchPos= 0;
     int         iIPTorq= 0;
     CStringList slShow;
-    //UINT        nCount;
     DWORD       dwQuality = 0;
     TorqData::Torque *ptTorq = NULL;
 
@@ -1239,7 +1238,7 @@ void CDlgHisList::WriteSummarySheet()
     /* B7: 6个显示参数，可选, 3/4为多个值 */
     iRow = 7;
     iIndex = 0;
-    for(i=1; i<MAXPARANUM; i++)
+    for(i=0; i<MAXPARANUM; i++)
     {
         if(!m_ptStat->bSummary[i])
             continue;

@@ -15,13 +15,11 @@ public:
     vector<string> GetNamesByIndexs(string indexs);
     vector<string> GetNamesByNOs(string NOs, UINT nLang=LANGUAGE_CURRENT);
     vector<int> GetIndexsByNOs(string NOs);
-    //BOOL    UpdateBulkNames(WORD wNum, string names[]);
     int     UpdateShowName(int NO, string Name);
 
 private:
     void Empty();
     void GetTable();
-    //string GetNameByLangNO(UINT NO);
     int GetNOByName(string Name, int &Index);
 };
 

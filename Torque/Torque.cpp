@@ -4,14 +4,12 @@
 #include "stdafx.h"
 #include "Torque.h"
 #include "TorqueDlg.h"
-//#include "CoolControlsManager.h"
 #include "Winver.h"
 #include "Windows.h"
 #include "math.h"
 #include "lodepng.h"
 #include "CrashHandler.h"
 #include "DlgPassword.h"
-//#include "TubeCfg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -20,7 +18,6 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //#define     TEST_QUALITY
-//extern CTubeCfg    g_cTubing;
 
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueApp
@@ -93,7 +90,6 @@ void CTorqueApp::InitLanguage()
 
     m_hLangDLL[LANGUAGE_CHINESE] = ::LoadLibrary(CHNDLLNAME);
     m_hLangDLL[LANGUAGE_ENGLISH] = ::LoadLibrary(ENGDLLNAME);
-    //m_hLangDLL[LANGUAGE_RUSSIAN] = ::LoadLibrary(RUSDLLNAME);
 }
 
 void CTorqueApp::ClearTorqCfgPara(PARACFG* ptCfg)
@@ -102,7 +98,6 @@ void CTorqueApp::ClearTorqCfgPara(PARACFG* ptCfg)
 
     memset(&m_tParaCfg.tCtrl, 0, sizeof(CONTROLPARA));
     memset(&m_tParaCfg.tComm, 0, sizeof(COMMONCFG));
-    //memset(&ptCfg->tTubeCfg, 0, sizeof(TUBECFG));
     m_tParaCfg.strAlias.clear();
     m_tParaCfg.strMemo.clear();
     for (i = 0; i < MAXPARANUM; i++)
@@ -302,7 +297,6 @@ BOOL CTorqueApp::InitInstance()
     /* 动态链接库路径 */
     m_strDllFile   = m_strAppPath + CHNDLLNAME;
 
-
     /*构造保存正常Log数据的文件路径*/
     m_strLogFile = m_strLogPath;
     m_strLogFile += time.Format(IDS_STRDATEFORM);
@@ -331,10 +325,6 @@ BOOL CTorqueApp::InitInstance()
     /* 获取当前数据序号 */
     GetCurNum();
 
-    //启用CCoolControlsManager
-    //GetCtrlManager().InstallHook();
-    //CoInitialize(NULL);
-
     m_dwTotalTorqNum = 0;
     /*检查注册情况*/
     CheckAppReg();
@@ -347,18 +337,6 @@ BOOL CTorqueApp::InitInstance()
 
     if(0 == m_dwTotalTorqNum)
         m_dwTotalTorqNum = m_nCurNO;
-
-#if 0
-    HWND oldHWnd = NULL;
-    EnumWindows(EnumWndProc,(LPARAM)&oldHWnd);    //枚举所有运行的窗口
-    if(oldHWnd != NULL)
-    {
-        /*AfxMessageBox("本程序已经在运行了");*/
-        ::ShowWindow(oldHWnd,SW_SHOWNORMAL);          //激活找到的前一个程序
-        ::SetForegroundWindow(oldHWnd);                //把它设为前景窗口
-        return false;                                  //退出本次运行
-    }
-#endif
 
     CTorqueDlg dlg;
     m_pMainWnd = &dlg;
@@ -495,7 +473,7 @@ void CTorqueApp::InitShowPara(SHOWCFG *ptShow, UINT nLang)
     }
 
     ptShow->nParaNum = MAXPARANUM;
-    ptShow->nListNum = MAXPARANUM-1;
+    ptShow->nListNum = MAXPARANUM;
     ptShow->nMainNum = MAXMAINPARA;
     ptShow->nFileName = 1;
     ptShow->nStatType = 5;
@@ -526,10 +504,6 @@ void CTorqueApp::InitDefaultConfig(int initStep)
     {
         InitTorqCfgPara(&m_tParaCfg);
     }
-    /*if (initStep < 4)
-    {
-        g_cTubing.InitConfig();
-    }*/
     if (initStep & 16)
     {
         InitValvePara(&m_tValveCfg);
@@ -672,12 +646,9 @@ void CTorqueApp::AdjustTorquePara(CONTROLPARA *ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
 
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT], ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT],   DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT], DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],    DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT], DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],    DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL], ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT],   DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL], DIFF_TORQUE);
     CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],       ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
     CHECK_PARA_LOW(ptCtrl->fTorqConf[INDEX_TORQ_BEAR],      ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
 }
@@ -705,9 +676,6 @@ void CTorqueApp::AdjustParaValue(PARACFG *ptCfg)
 
     /* 扭拧周数 相差0.1 */
     AdjustCircuitPara(ptCtrl);
-
-    /* 其他参数 */
-    //AdjustOtherPara(ptCfg);
 }
 
 /* 从原始注册码解密运算 */
@@ -944,7 +912,7 @@ int CTorqueApp::GetMainWellIndex()
     
     strWellName = GetMainShowName(m_ptCurShow, MAINSHOWWELL);
 
-    for(i=1; i< m_ptCurShow->nParaNum && i<MAXPARANUM; i++)
+    for(i=0; i< m_ptCurShow->nParaNum && i<MAXPARANUM; i++)
     {
         if(strWellName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
         {
@@ -974,24 +942,7 @@ int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
     }
     return -1;
 }
-#if 0
-int CTorqueApp::GetMainTubeIndex()
-{
-    UINT        i = 0;
-    string      strTubeName;
-    
-    strTubeName = m_tShowCfg[g_tGlbCfg.nLangType].nMain[MAINSHOWTUBE];
 
-    for(i=1; i<m_tShowCfg[g_tGlbCfg.nLangType].nParaNum && i<MAXPARANUM; i++)
-    {
-        if(0 == strTubeName.compare(m_tShowCfg[g_tGlbCfg.nLangType].strShow[i]))
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-#endif
 /* 获取当前扭矩的序号 */
 void CTorqueApp::GetCurNum()
 {
@@ -2194,11 +2145,9 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
         if(iSearchPnt == iInterval && ptTorq->ftorque(i) > fBgnTorqPct * fCtrlTor)
             iSearchPnt = i;
         m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1))/fCtrlTor;
-        //m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1));
         m_fAdjInfPnt[i] = m_fAdjSlope[i] - m_fAdjSlope[i-1];
 
         m_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/fCtrlTor;
-        //m_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/(iInterval-1);
         m_fIntInfPnt[i] = m_fIntSlope[i] - m_fIntSlope[i-1];
 
         if(fabs(m_fAdjInfPnt[i]) < 0.00001) m_fAdjInfPnt[i] = 0;
@@ -2214,7 +2163,6 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
     //nIPBegin = iInterval;
 #endif
 
-#if 1
     /*  new test argorithm */
     /* 圈数差值 0.01~0.25 */
     iIPBegin = (int)(ptTorq->ftorque_size() - 0.25 * MAXLINEITEM / ptTorq->fmaxcir());
@@ -2255,40 +2203,7 @@ WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
             break;
         }
     }
-#else
-    /*  old argorithm */
-    /* 圈数差值 0.01~0.25 */
-    iIPBegin = (UINT)(ptTorq->ftorque_size() - 0.25 * MAXLINEITEM / ptTorq->fmaxcir());
-    if(iIPBegin < iInterval)
-        iIPBegin = iInterval;
-    for(i= iIPBegin +1; i<int(ptTorq->ftorque_size()-1); i++)
-    {
-        if (m_fIntInfPnt[i] < fStandValue)
-            continue;
 
-        wTmpPos = i - 1;
-        fTmpAdjInfPnt = 0;
-        for (j = i - 1; j >= int(i - iInterval + 1); j--)
-        {
-            if (fTmpAdjInfPnt < m_fAdjInfPnt[j])
-            {
-                fTmpAdjInfPnt = m_fAdjInfPnt[j];
-                wTmpPos = j;
-            }
-        }
-
-        if(m_fAdjInfPnt[wTmpPos] < m_fAdjInfPnt[i]*0.5)
-            wTmpPos = i - 1;
-        /* 最佳扭矩的10~~70% */
-        if (ptTorq->ftorque(wTmpPos) < (0.1*fCtrlTor))
-            continue;
-        if (ptTorq->ftorque(wTmpPos) > (0.7*fCtrlTor))
-            return 0;
-
-        wIPPos = wTmpPos;
-        break;
-    }
-#endif
     return wIPPos;
 }
 
@@ -2303,9 +2218,6 @@ WORD CTorqueApp::SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP)
     double  fBestTorq = 0;
     int     iInterval = 2;
     WORD    wTmpPos   = 0;
-    //double  fLowValue = 0.07;//0.03;
-    //double  fHighValue = 0.35;//0.05;
-    //double  fDeltaVal   = 0.1;//0.07;
     int     iFoundNum   = 0;
     int     iMinIPPnt   = 10;
     
@@ -2317,15 +2229,6 @@ WORD CTorqueApp::SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP)
 
     if(VERSION_RECPLUS(ptTorq))
         return SearchIP4RECPLUS(ptTorq);
-
-#if 0
-    /* 获得拐点扭矩 */
-    wIPPos = ptTorq->dwippos();
-    if(wIPPos > 0 && wIPPos < ptTorq->ftorque_size())
-    {
-        return wIPPos;
-    }
-#endif
 
     COMP_BLE_R(ptTorq->ftorque_size(), iMinIPPnt, 0)
     fBestTorq = GetOptTorq(ptTorq);
@@ -2347,19 +2250,9 @@ WORD CTorqueApp::SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP)
         iIPBegin = iMinIPPnt;
     for(i= iIPBegin; i<ptTorq->ftorque_size()-1; i++)
     {
-        /*if (m_fAdjSlope[i] < fLowValue)
-        {
-            iFoundNum = 0;
-            continue;
-        }
-        iFoundNum ++;*/
-
-        //if(iFoundNum >= 2 || m_fAdjSlope[i] > fHighValue)
-        //if((m_fAdjSlope[i] + m_fAdjSlope[i+1]) > 2*fLowValue || m_fAdjSlope[i] > fHighValue)
         if((m_fAdjSlope[i] + m_fAdjSlope[i+1]) >= g_tGlbCfg.fIPDeltaVal)
         {
             wTmpPos = i - 1;
-            //wTmpPos = i;
 
             /* 最佳扭矩的5~70% */
             /* 小于5%，往后找 */
@@ -2842,7 +2735,6 @@ int CTorqueApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lp
     int         iY          = 0;
     int         iWidth      = 0;    // 位图宽度和高度
     int         iHeight     = 0;
-    //double      fFactor     = 1.0f;
     BOOL        bMemDC      = FALSE;
     BOOL        bBitmap     = FALSE;
 
@@ -3932,54 +3824,7 @@ void CTorqueApp::SaveAllData(CString strDataName)
 
     file.Close();
 }
-#if 0
-string CTorqueApp::GetFixTubeValue(UINT nShowIndex, UINT nCurNO, FIXTUBEINFO *ptFix)
-{
-    UINT    i = 0;
 
-    COMP_BGE_R(nShowIndex, MAXPARANUM, NULLSTR);
-    ASSERT_NULL_R(ptFix, NULLSTR);
-
-    if (!IsFixTube())
-    {
-        return m_tParaCfg.strValue[nShowIndex];
-    }
-
-    for (i = 0; i < ptFix->nNum; i++)
-    {
-        if (nCurNO == ptFix->ptPara[i].nNO)
-        {
-            return ptFix->ptPara[i].strName[g_tGlbCfg.nLangType];
-        }
-    }
-    return "";
-}
-
-string CTorqueApp::GetTubeFactoryValue()
-{
-    return GetFixTubeValue(INDEX_SHOW_FACTORY, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_FACTORY], &g_cTubing.m_tTubInfo[INDEX_TUBE_FACTORY]);
-}
-
-string CTorqueApp::GetTubeOEMValue()
-{
-    return GetFixTubeValue(INDEX_SHOW_OEM, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_OEM], &g_cTubing.m_tTubInfo[INDEX_TUBE_OEM]);
-}
-
-string CTorqueApp::GetTubeSizeValue()
-{
-    return GetFixTubeValue(INDEX_SHOW_SIZE, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_SIZE], &g_cTubing.m_tTubInfo[INDEX_TUBE_SIZE]);
-}
-
-string CTorqueApp::GetTubeMaterValue()
-{
-    return GetFixTubeValue(INDEX_SHOW_MATER, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_MATER], &g_cTubing.m_tTubInfo[INDEX_TUBE_MATER]);
-}
-
-string CTorqueApp::GetTubeCouplValue()
-{
-    return GetFixTubeValue(INDEX_SHOW_COUPL, m_tParaCfg.tTubeCfg.nFixTube[INDEX_TUBE_COUPL], &g_cTubing.m_tTubInfo[INDEX_TUBE_COUPL]);
-}
-#endif
 CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
 {
     ASSERT_NULL_R(ptTorq, NULLSTR);
@@ -4027,19 +3872,7 @@ string CTorqueApp::GetMainShowName(SHOWCFG* ptShow, UINT NO)
 
     return ptShow->strShow[ptShow->nMain[NO]];
 }
-#if 0
-BOOL CTorqueApp::IsFixTube()
-{
-    return CheckFixTube(&m_tParaCfg);
-}
 
-BOOL CTorqueApp::CheckFixTube(PARACFG* ptCfg)
-{
-    ASSERT_NULL_R(ptCfg, FALSE);
-    COMP_BG_R(ptCfg->tTubeCfg.nIndex, 0, TRUE);
-    return FALSE;
-}
-#endif
 /* \/:*?"<>| 加 . */
 BOOL CTorqueApp::FindNotFileChar(CString strFileName)
 {

@@ -29,8 +29,8 @@ public:
     double      m_fControl;
     double      m_fShow;
     double      m_fSpeed;
-    double      m_fLower;
-    double      m_fUpper;
+    /*double      m_fLower;
+    double      m_fUpper;*/
     CTime       m_tDate;
     CTime       m_tTime;
     //}}AFX_DATA

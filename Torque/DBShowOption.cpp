@@ -145,7 +145,6 @@ vector<string> CDBShowOption::GetOptionsByNOs(string NOs)
     return lsOptions;
 }
 
-
 BOOL CDBShowOption::GetOptionsByNOS(string NOs, string Values[])
 {
     int i = 0;

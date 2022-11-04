@@ -19,7 +19,6 @@ void CDBValTurn::Empty()
     _lsAutoIndex.clear();
 
     _lsTurnVal.clear();
-    //_lsTurnVal.resize(MAXTURNCONFNUM);
 }
 
 void CDBValTurn::GetTable()

@@ -12,16 +12,13 @@
 #include "DlgHisGrp.h"
 #include "DlgHisSumup.h"
 #include "DlgDataStat.h"
-//#include "DlgBear.h"
 #include "DlgShowSet.h"
 #include "DlgModPW.h"
 #include "DlgValveSet.h"
 #include "DlgMainShowSet.h"
 #include "DlgRemark.h"
 #include "DlgSegCabl.h"
-//#include "DlgTubeCfg.h"
 #include "DlgGlbCfg.h"
-//#include "DlgApi.h"
 #include <Nb30.h>
 #include <ctime>
 
@@ -480,8 +477,6 @@ CTorqueDlg::CTorqueDlg(CWnd* pParent /*=NULL*/)
     m_nCRCERR       = 0;
     m_nClashERR     = 0;
     m_nInterval     = 20;//时间需要修改20191208
-    //m_strCircle     = _T("0");
-    //m_strTubeNO2    = _T("");
     m_iShackle      = 0;
     m_strRecvData   = _T("");
     m_strQuality    = _T("");
@@ -518,7 +513,6 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_YAXIS1, m_yAxis1);
     DDX_Control(pDX, IDC_XAXIS2, m_xAxis2);
     DDX_Control(pDX, IDC_YAXIS2, m_yAxis2);
-    //DDX_Text(pDX, IDC_EDITCIRCLE, m_strCircle);
     DDX_Text(pDX, IDC_EDITTORQUE, m_strTorque);
     DDX_Check(pDX, IDC_CHECKCOMM, m_bComm);
     DDX_Text(pDX, IDC_EDITCURNUM, m_nCur);
@@ -544,7 +538,6 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDMAINSHOW5, m_strMainValue[5]);
     DDX_Text(pDX, IDC_EDMAINSHOW6, m_strMainValue[6]);
     DDX_Text(pDX, IDC_EDMAINSHOW7, m_strMainValue[7]);
-    //DDX_Text(pDX, IDC_EDMAINSHOW52, m_strTubeNO2);
     DDX_Text(pDX, IDC_STATIC_M2, m_strLBM2);
     DDX_Text(pDX, IDC_STATIC_M9, m_strLBM9);
     //}}AFX_DATA_MAP
@@ -570,7 +563,6 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_BN_CLICKED(IDC_BTRUN, OnBtrun)
     ON_MESSAGE(WM_COLLECTTIMEROUT,CollectTimerOut)
     ON_MESSAGE(WM_GUARDTIMEROUT,GuardTimerOut)
-    //ON_MESSAGE(WM_GUARDREADTIMEROUT,ResetTimerOut)
     ON_MESSAGE(WM_PORTBUFFTIMEROUT,PortBuffTimerOut)
     ON_MESSAGE(WM_SAVEDATATIMEROUT,SaveDataTimerOut)
     ON_MESSAGE(WM_SAVEDEBUGTIMEROUT,SaveDebugTimerOut)
@@ -581,8 +573,6 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_UPDATE_COMMAND_UI(ID_LANG_CHN, OnUpdateLangChn)
     ON_COMMAND(ID_LANG_ENG, OnLangEng)
     ON_UPDATE_COMMAND_UI(ID_LANG_ENG, OnUpdateLangEng)
-    /*ON_COMMAND(ID_LANG_RUS, OnLangRus)
-    ON_UPDATE_COMMAND_UI(ID_LANG_RUS, OnUpdateLangRus)*/
     ON_COMMAND(ID_VER_BIGTORQ, OnVerBigTorq)
     ON_UPDATE_COMMAND_UI(ID_VER_BIGTORQ, OnUpdateVerBigTorq)
     ON_COMMAND(ID_VER_UNIT_NM, OnVerUnitNm)
@@ -603,7 +593,6 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_BN_CLICKED(IDC_BTNQUALITY, &CTorqueDlg::OnBnClickedBtnquality)
     ON_BN_CLICKED(IDC_BTNSHOWSET, &CTorqueDlg::OnBnClickedBtnshowset)
     ON_COMMAND(ID_SEGCALIB, &CTorqueDlg::OnSegcalib)
-    //ON_COMMAND(ID_TUBECFG, &CTorqueDlg::OnTubeCfg)
     ON_COMMAND(ID_GLBCFG, &CTorqueDlg::OnGlbCfg)
 END_MESSAGE_MAP()
 
@@ -653,11 +642,6 @@ void CTorqueDlg::InitMainShowPara()
         m_strMainValue[i] = theApp.m_tParaCfg.strValue[m_ptShow->nMain[i]].c_str();
     }
 
-    //m_strMainValue[1] = theApp.GetTubeOEMValue().c_str();
-    //m_strMainValue[2] = theApp.GetTubeSizeValue().c_str();
-    //m_strMainValue[3] = theApp.GetTubeMaterValue().c_str();
-    //m_strMainValue[4] = theApp.GetTubeCouplValue().c_str();
-
     UpdateData(FALSE);
 }
 
@@ -665,21 +649,6 @@ void CTorqueDlg::UpdateDlgLabel()
 {
     m_strLBM2 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
     m_strLBM9 = theApp.LoadstringFromRes(IDS_STRTORQUNIT, g_tGlbCfg.strUnit).c_str();
-    /*switch(g_tGlbCfg.nLangType)
-    {
-        case LANGUAGE_CHINESE:
-            m_strLBM2.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", theApp.m_strUnit);
-            m_strLBM9.Format("扭矩(%s)", theApp.m_strUnit);
-            break;
-        case LANGUAGE_ENGLISH:
-            m_strLBM2.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", theApp.m_strUnit);
-            m_strLBM9.Format("Torque(%s)", theApp.m_strUnit);
-            break;
-        case LANGUAGE_RUSSIAN:
-            m_strLBM2.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", theApp.m_strUnit);
-            m_strLBM9.Format("Крутмом(%s)", theApp.m_strUnit);
-            break;
-    }*/
 }
 
 void CTorqueDlg::InitDlgControl()
@@ -729,9 +698,7 @@ BOOL CTorqueDlg::OnInitDialog()
 {
     CRect       rcTmp;
     CString     strAboutMenu;
-    CMenu       *pSysMenu = NULL;
-    //CDlgBear    dlgBear;
-    
+    CMenu       *pSysMenu = NULL;    
 
     CDialog::OnInitDialog();
 
@@ -767,17 +734,7 @@ BOOL CTorqueDlg::OnInitDialog()
     SetMenu(&m_tMenu[g_tGlbCfg.nLangType]);
 
     m_iShackle = g_tGlbCfg.bShackle;
-#if 0
-    if(theApp.m_bFirstRun)
-    {
-        /* 显示选择大扭矩对话框，定时自动关闭 */
-        dlgBear.m_bBigTorq = theApp.m_bBigTorq;
-        dlgBear.m_bShackle = m_iShackle;
-        dlgBear.DoModal();
-        m_iShackle = dlgBear.m_bShackle;
-        theApp.m_bFirstRun = FALSE;
-    }
-#endif
+
     // TODO: Add extra initialization here
     /* 状态栏处理 */
     m_StatusBar.CreateEx(this,SBT_TOOLTIPS,WS_CHILD|WS_VISIBLE|CBRS_BOTTOM,AFX_IDW_STATUS_BAR);
@@ -1660,7 +1617,6 @@ void CTorqueDlg::FinishSetStatus()
     return;
 }
 
-
 /* 从collectData获取最后MAXPOINT保存到saveData */
 /* 3.20 所有数据都保存，显示时再分屏处理 */
 /* 3.22 SaveData所有串口收集的数据都保存，去掉重复项 */
@@ -1807,7 +1763,6 @@ BOOL CTorqueDlg::ClearExcepTorq(int iOrgTorq, int& iDestTorq)
 
     return TRUE;
 }
-
 
 double CTorqueDlg::OverTorqOpt(double fTorq, BYTE ucStatus)
 {
@@ -2420,25 +2375,6 @@ LRESULT CTorqueDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-/* 复位时读取串口定时器Timer4到时 */
-#if 0
-LRESULT CTorqueDlg::ResetTimerOut(WPARAM wParam, LPARAM lParam)
-{
-    m_nClashSta = RS_NORMAL;
-
-    COMP_BFALSE_R(TimeReadPort(RS_READ_RESET), 0);
-    /* 3.21之后版本，速度后增加2字节表示阀门状态 */
-    if(m_wRcvLen >= PORT_VALIDLEN + 2)
-    {
-        LightValveStatus(&m_ucRcvByte[PORT_DATAPLACE+PORT_DATALEN]);
-    }
-
-    /* bRead && bData, 往下处理数据 */
-    theApp.SaveResetData(m_ucRcvByte, m_wRcvLen);
-
-    return 0;
-}
-#endif
 /* 读串口前缓冲区有数据等待单片机写定时器Timer7到时，读掉Inque缓冲，然后重新发送消息 */
 LRESULT CTorqueDlg::PortBuffTimerOut(WPARAM wParam, LPARAM lParam)
 {
@@ -2633,7 +2569,6 @@ BOOL CTorqueDlg::RunIniAutoFile()
 void CTorqueDlg::RunTorque()
 {
     BOOL    bInit = FALSE;
-    //string strBtnText;
     CString strInfo;
 
     if(!m_bComm)
@@ -2641,7 +2576,6 @@ void CTorqueDlg::RunTorque()
         m_bComm = ChangeCommParam();
         if(!m_bComm)
         {
-            //strBtnText.Format(IDS_STRMAINRUN);
             m_btnRun.SetIconAndText(IDI_RUN, IDS_STRMAINRUN);
             m_btnRun.SetWindowText(theApp.LoadstringFromRes(IDS_STRMAINRUN).c_str());
             m_bRunStatus = FALSE;
@@ -2677,7 +2611,6 @@ void CTorqueDlg::RunTorque()
     /* 界面设置 */
     StopPlayAlam();
 
-    //strBtnText.Format(IDS_STRMAINSTOP);
     m_btnRun.SetIconAndText(IDI_STOP, IDS_STRMAINSTOP);
     m_btnRun.SetWindowText(theApp.LoadstringFromRes(IDS_STRMAINSTOP).c_str());
 
@@ -2688,7 +2621,6 @@ void CTorqueDlg::RunTorque()
 
     /* 关键变量初始化 */
     m_strTorque = _T("0");
-    //m_strCircle = _T("0");
     m_fRpm      = 0;
     m_iRecPNum  = 0;
     m_iShowPlus = 0;
@@ -2700,7 +2632,6 @@ void CTorqueDlg::RunTorque()
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
     /* 定时保存CRC和调试信息 */
     m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
-    //SetTimer(AUTOSAVE_TIMER, AUTOSAVE_TLEN, NULL);
     m_bCanModLastData = FALSE;
     GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
 
@@ -2772,10 +2703,6 @@ void CTorqueDlg::StopTorque()
 
     KillAllTimer();
 
-    /* 设置保护复位时间 */
-    //SetTimer(GUARD_TIMER,theApp.m_nReset*1000,NULL);
-
-    //strBtnText.Format(IDS_STRMAINRUN);
     m_btnRun.SetIconAndText(IDI_RUN, IDS_STRMAINRUN);
     m_btnRun.SetWindowText(theApp.LoadstringFromRes(IDS_STRMAINRUN).c_str());
     theApp.SaveAppStatus(STATUS_STOP, __FUNCTION__);
@@ -2813,7 +2740,6 @@ void CTorqueDlg::OnBtrun()
     if(g_tGlbCfg.nTest == COLL_HISTORY)
     {
         strInfo = theApp.LoadstringFromRes(IDS_STRINFCOLLHISTEST);
-        //strInfo.Format(IDS_STRINFCOLLHISTEST);
         theApp.SaveShowMessage(strInfo.c_str());
         return;
     }
@@ -2927,9 +2853,6 @@ void CTorqueDlg::SendValveCommand()
         Sleep(PORTSENDTIME);
     }
 
-    // SendData(SCMVZOOM);
-    //Sleep(PORTSENDTIME);
-
     EndWaitCursor();
 
     return;
@@ -2952,12 +2875,9 @@ void CTorqueDlg::OnSetpara()
     BOOL        bComm     = FALSE;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSETPARA));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNSETPARA);
 
     dlgParaSet.m_tempCfg  = theApp.m_tParaCfg;
-    //dlgParaSet.m_ucPort   = g_tGlbCfg.nPortNO;
     dlgParaSet.m_tempShow = *m_ptShow;
-    //dlgParaSet.m_tCurTub  = theApp.m_tParaCfg.tTubeCfg;
     dlgParaSet.DoModal();
     if(!dlgParaSet.m_bParaChg)
         return;
@@ -2975,7 +2895,6 @@ void CTorqueDlg::OnSetpara()
 
     theApp.m_tParaCfg     = dlgParaSet.m_tempCfg;
     *m_ptShow          = dlgParaSet.m_tempShow;
-    //theApp.m_tParaCfg.tTubeCfg   = dlgParaSet.m_tCurTub;
     /* 井名发生变化，数据记录文件名称和数据序号需要变化 */
     ReGetTorqNo();
 
@@ -2985,13 +2904,6 @@ void CTorqueDlg::OnSetpara()
         Invalidate(TRUE);
         SendAllCommand();
     }
-
-    //if(dlgParaSet.m_ucPort != g_tGlbCfg.nPortNO)
-    //{
-    //    m_bComm = ChangeCommParam();
-    //    /*theApp.m_tPortCfg.ucPortNo = dlgParaSet.m_ucPort;
-    //    theApp.WritePortPara(theApp.m_strParaFile, &theApp.m_tPortCfg);*/
-    //}
 
     /*显示参数*/
     InitMainShowPara();
@@ -3021,34 +2933,11 @@ void CTorqueDlg::OnBnClickedBtnshowset()
     //SHOWCFG     *ptCurShow = NULL;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSHOWPARA));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNSETPARA);
 
     dlgMain.m_tempCfg = *m_ptCfg;
     dlgMain.m_ptShow  = m_ptShow;
-    //dlgMain.m_tCurTub  = theApp.m_ptCurShow->tTubeCfg;
-    //dlgMain.m_strTubeNO2  = m_strTubeNO2;
     if (IDOK != dlgMain.DoModal())
         return;
-#if 0
-    ptCurShow = &dlgMain.m_tempShow;
-    
-    /* 如果文件名称发生变化，文件重新修改了，不更新最后的数据 */
-    if(0 != ptCurShow->strValue[m_ptShowCfg->nFileName].compare(
-            m_ptShowCfg->strValue[m_ptShowCfg->nFileName]))
-    {
-        bFileChg = TRUE;
-    }
-    
-    *m_ptShowCfg = dlgMain.m_tempShow;
-    theApp.m_ptCurShow->tTubeCfg = dlgMain.m_tCurTub;
-    m_strTubeNO2 = dlgMain.m_strTubeNO2;
-
-    /* 文件名称发生变化，数据记录文件名称和数据序号需要变化 */
-    if(bFileChg)
-        ReGetTorqNo();
-    theApp.WritePara(theApp.m_strParaFile, &theApp.m_tParaCfg);
-#endif
-    //m_strTubeNO2 = dlgMain.m_strTubeNO2;
     theDB.UpdateShowPara(m_ptShow);
 
     /*显示参数*/
@@ -3072,7 +2961,6 @@ void CTorqueDlg::OnSetShow()
     COMP_BFALSE(theApp.CheckPassWord());
 
     dlgShow.m_tempShow = *m_ptShow;
-    //dlgShow.m_nLangType = theApp.m_nLangType;
     dlgShow.DoModal();
 
     if (!dlgShow.m_bModified)
@@ -3083,7 +2971,6 @@ void CTorqueDlg::OnSetShow()
 
     /*显示参数*/
     // dlgShow已经更新数据库
-    // theApp.WriteShowPara();
     theApp.SaveAppStatus(STATUS_SETSHOW, __FUNCTION__);
 
     //销毁当前窗口
@@ -3178,16 +3065,12 @@ BOOL CTorqueDlg::PreTranslateMessage(MSG* pMsg)
 
 BOOL CTorqueDlg::ChangeCommParam(BOOL bUpdateText)
 {
-    //PORTCFG tPort;
-    //CString strShow;
-
     if(g_tGlbCfg.nTest > COLL_PORT)
     {
         if(bUpdateText)
             SetCommShowInfo(g_tGlbCfg.nTest+1);
         return TRUE;
     }
-    //tPort = theApp.m_tPortCfg;
 #if 0
     CLOSE_PORTCOMM();
     g_lpNewComThread = new CNewComThread();
@@ -3474,21 +3357,6 @@ void CTorqueDlg::FillReadCalib()
     *pPlace++ = theApp.m_tCalibCtrl.tInfo.ucSegNO;
 }
 
-#if 0
-/* 设置阀放大倍数参数 */
-void CTorqueDlg::FillValveZoom()
-{
-    BYTE    *pPlace  = NULL;
-
-    FillWriteCommand(COM_VZOOM);
-
-    /* 倍数1~30 */
-    pPlace = &MODBUS_CONTENT;
-    *pPlace++ = theApp.m_tValveCfg.ucZoomRatio;
-    *pPlace++ = 0;
-    *pPlace++ = 0;
-}
-#endif
 /*           单片机控制数据
     #define SCMREAD         15  *读取数据*
     #define SCMADJUST       16  *校准*
@@ -3515,7 +3383,6 @@ void CTorqueDlg::FillValveZoom()
     #define SCMCALIBCTRL    37  * 分段校准控制
     #define SCMREADCALIB    38  * 读分段校准 **/
     // #define SCMVZOOM        34  * 放大倍数 *
-
 WORD CTorqueDlg::FillSendByte( UINT nParaType )
 {
     int     i           = 0;
@@ -3699,14 +3566,7 @@ void CTorqueDlg::ReStart()
     m_strQuality.Empty();
     m_tSaveData.Clear();
 }
-/*
-void CTorqueDlg::OnStand()
-{
-    CDlgAPI dlgApi;
 
-    dlgApi.DoModal();
-}
-*/
 void CTorqueDlg::OnHistorylist()
 {
     CDlgHisList     dlgList;
@@ -3715,9 +3575,6 @@ void CTorqueDlg::OnHistorylist()
     CMySheet        sheet(theApp.LoadstringFromRes(IDS_STRMAINVIEWHIS).c_str(),this);
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNVIEWHIS));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNVIEWHIS);
-
-    //sheet.m_psh.dwFlags |= PSH_NOAPPLYNOW;
 
     theApp.SaveAppStatus(STATUS_HISTORY, __FUNCTION__);
 
@@ -3738,7 +3595,6 @@ void CTorqueDlg::OnHistorystat()
     CDlgDataStat     dlgDataStat;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNVIEWHIS));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNVIEWHIS);
 
     COMP_BFALSE(theApp.CheckPassWord());
 
@@ -3759,7 +3615,6 @@ void CTorqueDlg::OnShowtest()
 void CTorqueDlg::OnCollectdata()
 {
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNCOLLHIS));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNCOLLHIS);
 
     m_pdlgCollect = (CDlgCollect*)GetDlgPoint(m_pdlgCollect,
                                               DLG_COLLECTDATA,
@@ -3849,29 +3704,21 @@ void CTorqueDlg::RestartComm()
 */
 void CTorqueDlg::SetCommShowInfo(UINT nStatus)
 {
-    //CString strShow;
-    //CString strBtnText;
-    //PORTCFG port;
     string  strShow;
     string  strBtnText;
-    
-    //port = theApp.m_tPortCfg;
 
     if(nStatus == RS_COMM_CLOSE)
     {
         m_cbComm.SetSameIcon(IDI_LEDREDON);
         m_CommStatus.SetIcon(AfxGetApp()->LoadIcon(IDI_MODBUSCLOSE));
-        //strBtnText.Format(IDS_STRMAINOPENPORT);
         strBtnText = theApp.LoadstringFromRes(IDS_STRMAINOPENPORT);
         strShow = theApp.LoadstringFromRes(IDS_STRMAINPORTCLOSE, (int)g_tGlbCfg.nPortNO);
-        //strShow.Format( IDS_STRMAINPORTCLOSE, g_tGlbCfg.nPortNO);
         m_StatusBar.SetPaneText(0, strShow.c_str(), TRUE);
         return;
     }
 
     m_cbComm.SetSameIcon(IDI_LEDON);
     m_CommStatus.SetIcon(AfxGetApp()->LoadIcon(IDI_MODBUSOPEN));
-    //strBtnText.Format(IDS_STRMAINCLOSEPORT);
     strBtnText = theApp.LoadstringFromRes(IDS_STRMAINCLOSEPORT);
 
     if(nStatus == RS_COMM_OPEN)
@@ -3887,7 +3734,6 @@ void CTorqueDlg::SetCommShowInfo(UINT nStatus)
     else
     {
         strShow = theApp.LoadstringFromRes((IDS_STRMAINPORTSIMRAND + nStatus - RS_COMM_RAND), (int)g_tGlbCfg.nPortNO);
-        //strShow.Format( (IDS_STRMAINPORTSIMRAND + nStatus - RS_COMM_RAND) , g_tGlbCfg.nPortNO );
     }
 
     m_StatusBar.SetPaneText(0, strShow.c_str(), TRUE);
@@ -4012,7 +3858,6 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque *ptPBData)
     m_ptComm->dwSeqNo = m_nCur;
 
     theApp.IncTorqNo();
-    //m_nCurTubeNO++;
     m_nTotal = theApp.m_dwTotalTorqNum;
 
     /* 更新文件数据数目 */
@@ -4056,37 +3901,12 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
 
         switch(i)
         {
-#if 0
-            /* 管体序号 */
-            case TUBESN:
-                strWholeTube = m_ptCfg->strValue[i] + "-" + m_strTubeNO2.GetBuffer(0);
-                //_itoa_s(m_nCurTubeNO, cTemp, 10, 10);
-                strVal = strWholeTube;
-                break;
-#endif
             /* 入井序号 */
             case TALLYNO:
                 if(QUA_RESU_GOOD == ptPBData->dwquality())
                     strVal = strRunningNO.GetBuffer(0);
                 break;
-#if 0
-            /* 管件厂家 */
-            case FIXSHOWBEGIN:
-                strVal = theApp.GetTubeOEMValue();
-                break;
-            /* 管件规格 */
-            case FIXSHOWBEGIN+1:
-                strVal = theApp.GetTubeSizeValue();
-                break;
-            /* 扣型材质 */
-            case FIXSHOWBEGIN+2:
-                strVal = theApp.GetTubeMaterValue();
-                break;
-            /* 接箍规格 */
-            case FIXSHOWBEGIN+3:
-                strVal = theApp.GetTubeCouplValue();
-                break;
-#endif
+
             default:
                 strVal = m_ptCfg->strValue[i];
                 break;
@@ -4104,12 +3924,10 @@ void CTorqueDlg::KillAllTimer()
 {
     m_hrtReadPort.KillTimer();
     m_hrtGuard.KillTimer();
-    //m_hrtGuardRead.KillTimer();
     m_hrtPortBuff.KillTimer();
     m_hrtSaveData.KillTimer();
     m_hrtSaveDebug.KillTimer();
     m_hrtReadValve.KillTimer();
-    //KillTimer(AUTOSAVE_TIMER);
 }
 
 /* 填写WORD16到字节中 */
@@ -4262,16 +4080,6 @@ void CTorqueDlg::OnUpdateLangEng(CCmdUI *pCmdUI)
     pCmdUI->SetCheck((g_tGlbCfg.nLangType == LANGUAGE_ENGLISH));
 }
 
-//void CTorqueDlg::OnLangRus()
-//{
-//    UpdCfgLangChg(LANGUAGE_RUSSIAN);
-//}
-//
-//void CTorqueDlg::OnUpdateLangRus(CCmdUI *pCmdUI)
-//{
-//    pCmdUI->SetCheck((g_tGlbCfg.nLangType == LANGUAGE_RUSSIAN));
-//}
-
 void CTorqueDlg::OnVerBigTorq()
 {
     CString  strValue;
@@ -4293,10 +4101,6 @@ void CTorqueDlg::OnVerBigTorq()
     theApp.ShowMainTitle();
 
     theDB.UpdateGlobalPara();
-
-    /*save into ini*/
-    /*strValue.Format("%d",theApp.m_bBigTorq);
-    theApp.WriteConfigStr(IDS_STRPNADJUST,IDS_STRPIBIGTORQ,strValue,theApp.m_strParaFile);*/
 }
 
 void CTorqueDlg::OnUpdateVerBigTorq(CCmdUI *pCmdUI)
@@ -4329,13 +4133,8 @@ void CTorqueDlg::UnitChangeTorq()
     tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERTAI]     = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERTAI]);
     
     theApp.m_tParaCfg = tCurCfg;
-    
-    /*save into ini*/
-    //theApp.WritePara(theApp.m_strParaFile, &theApp.m_tParaCfg);
 
     theDB.UpdateGlobalPara();
-    /*strValue.Format("%d",theApp.m_nTorqUnit);
-    theApp.WriteConfigStr(IDS_STRPNADJUST,IDS_STRPITORQUNIT,strValue,theApp.m_strParaFile);*/
 
     theApp.SaveAppStatus(STATUS_CHGUNIT, __FUNCTION__);
 
@@ -4347,7 +4146,6 @@ void CTorqueDlg::UnitChangeTorq()
 void CTorqueDlg::OnVerUnitNm()
 {
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNCHGUNIT));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNSETPARA);
 
     if(0 == g_tGlbCfg.nTorqUnit)
         return;
@@ -4368,7 +4166,6 @@ void CTorqueDlg::OnUpdateVerUnitNm(CCmdUI *pCmdUI)
 void CTorqueDlg::OnVerUnitLbft()
 {
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNCHGUNIT));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNSETPARA);
 
     if(1 == g_tGlbCfg.nTorqUnit)
         return;
@@ -4397,27 +4194,17 @@ void CTorqueDlg::OnValveset()
     CDlgValveSet dlgValveSet;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSETPARA));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNSETPARA);
 
     dlgValveSet.m_tempValve = theApp.m_tValveCfg;
 
     if(IDOK != dlgValveSet.DoModal())
         return;
 
-    /* 比较参数是否发生变化，如果变化，需要修改参数马上生效 */
-    /*COMP_BTRUE(CompSysPara((BYTE*)&dlgValveSet.m_tempValve,
-                            (BYTE*)&theApp.m_tValveCfg,
-                            sizeof(VALVECFG)));
-
-    theApp.m_tValveCfg = dlgValveSet.m_tempValve;
-    theApp.WriteValvePara(theApp.m_strParaFile, &theApp.m_tValveCfg);*/
-
     theApp.SaveAppStatus(STATUS_SETVALVE, __FUNCTION__);
 
     SendValveCommand();
 
     UpdateData(FALSE);
-    
 }
 
 void CTorqueDlg::OnBnClickedSetippoint()
@@ -4430,7 +4217,6 @@ void CTorqueDlg::OnBnClickedSetippoint()
 
     theDB.UpdateGlobalPara();
 }
-
 
 void CTorqueDlg::OnBnClickedSettoolbuck()
 {
@@ -4460,8 +4246,6 @@ void CTorqueDlg::OnBnClickedBtnquality()
 
     //杀复位定时器
     m_hrtGuard.KillTimer();
-    //复位时间定时获取数据
-    //m_hrtGuardRead.KillTimer();
 
     if(IDOK != dlgRemark.DoModal())
     {
@@ -4541,13 +4325,10 @@ void CTorqueDlg::OnBnClickedRadiobuckle()
     g_tGlbCfg.bShackle = FALSE;
     /*save into ini*/
     theDB.UpdateGlobalPara();
-    /*strValue.Format("%d",theApp.m_bShackle);
-    theApp.WriteConfigStr(IDS_STRPNADJUST,IDS_STRPISHACKLE,strValue,theApp.m_strParaFile);*/
 
     ResetLineChart();
     UpdateData(FALSE);
 }
-
 
 void CTorqueDlg::OnBnClickedRadioshackle()
 {
@@ -4577,8 +4358,6 @@ void CTorqueDlg::OnBnClickedRadioshackle()
     g_tGlbCfg.bShackle = TRUE;
     /*save into ini*/
     theDB.UpdateGlobalPara();
-    /*strValue.Format("%d",theApp.m_bShackle);
-    theApp.WriteConfigStr(IDS_STRPNADJUST,IDS_STRPISHACKLE,strValue,theApp.m_strParaFile);*/
 
     ResetLineChart();
     UpdateData(FALSE);
@@ -4640,20 +4419,12 @@ void CTorqueDlg::StopGetValveStatus()
 
 void CTorqueDlg::OnSegcalib()
 {
-    //CDlgSegCabl dlgCab;
-
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNCALIB));
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNCALIB);
 
     COMP_BFALSE(theApp.CheckPassWord());
 
     theApp.SaveAppStatus(STATUS_CALIB, __FUNCTION__);
-/*
-    StopGetValveStatus();
-    dlgCab.DoModal();
 
-    StartGetValveStatus();
-*/
     m_pdlgCalib = (CDlgSegCabl*)GetDlgPoint(m_pdlgCalib,
                                               DLG_SEGCALIB,
                                               IDD_DLGSEGCALIB);
@@ -4663,22 +4434,3 @@ void CTorqueDlg::OnSegcalib()
 
     m_pdlgCalib->ShowWindow(SW_SHOW);
 }
-
-#if 0
-void CTorqueDlg::OnTubeCfg()
-{
-    CDlgTubeCfg     dlgTubeCfg;
-
-    COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNVIEWHIS));
-
-    COMP_BFALSE(theDB.m_bValidDBFile);
-
-    //JUDGE_RUN_STATUS(IDS_STRINFRUNNVIEWHIS);
-
-    //COMP_BFALSE(theApp.CheckPassWord());
-
-    theApp.SaveAppStatus(STATUS_TUBECFG, __FUNCTION__);
-
-    dlgTubeCfg.DoModal();
-}
-#endif

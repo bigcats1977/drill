@@ -97,9 +97,6 @@ vector<string> CDBShowName::GetNamesByNOs(string NOs, UINT nLang)
     if (lsNO.size() <= 0)
         return lsNames;
 
-    //最开始插入0：Factory
-    //lsNO.insert(lsNO.begin(), 0);
-
     // get ID's text
     for (i = 0; i < (int)lsNO.size(); i++)
     {
@@ -119,7 +116,6 @@ vector<string> CDBShowName::GetNamesByNOs(string NOs, UINT nLang)
     return lsNames;
 }
 
-
 vector<string> CDBShowName::GetNamesByIndexs(string indexs)
 {
     int i = 0;
@@ -134,9 +130,6 @@ vector<string> CDBShowName::GetNamesByIndexs(string indexs)
     lsIndex = GetIDFromList(indexs);
     if (lsIndex.size() <= 0)
         return lsNames;
-
-    //最开始插入0：Factory
-    //lsNO.insert(lsNO.begin(), 0);
 
     // get index's text
     for (i = 0; i < (int)lsIndex.size(); i++)
@@ -168,9 +161,6 @@ vector<int> CDBShowName::GetIndexsByNOs(string NOs)
         return lsIndexs;
 
     lsNO = GetIDFromList(NOs);
-
-    //最开始插入0：Factory
-    //lsNO.insert(lsNO.begin(), 0);
 
     // get ID's text
     for (i = 0; i < (int)lsNO.size(); i++)
@@ -301,4 +291,3 @@ int CDBShowName::UpdateShowName(int NO, string Name)
 
     return Index;
 }
-
