@@ -2988,6 +2988,7 @@ int CTorqueApp::SeekFileLen(CFile &file)
     int     iFilePos = 0;
     UINT    nLeng    = 0;
     UINT    nNextLen = 0;
+    char    cTmpRead[4] = { 0 };
     
     iFileLen = (int)file.GetLength();
     iFilePos = (int)file.GetPosition();
@@ -2996,6 +2997,11 @@ int CTorqueApp::SeekFileLen(CFile &file)
     {
         return -1;
     }
+
+    /* 20221114 文件在中间出现PBHEADLEN，尽量跳过 */
+    file.Read(cTmpRead, 4);
+    if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) != 0)
+        file.Seek(iFilePos, CFile::begin);
     
     /* 跳过实际的长度，包括可能的尾巴 */
     file.Read(&nLeng,sizeof(UINT));
