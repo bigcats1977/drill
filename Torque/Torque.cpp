@@ -905,16 +905,16 @@ void CTorqueApp::CreateNewWellFile()
     return;
 }
 
-int CTorqueApp::GetMainWellIndex()
+int CTorqueApp::GetMainTallyIndex()
 {
     UINT        i = 0;
-    string      strWellName;
+    string      strTallyName;
     
-    strWellName = GetMainShowName(m_ptCurShow, MAINSHOWWELL);
+    strTallyName = GetMainShowName(m_ptCurShow, MAINSHOWTALLY);
 
     for(i=0; i< m_ptCurShow->nParaNum && i<MAXPARANUM; i++)
     {
-        if(strWellName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
+        if(strTallyName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
         {
             return i;
         }
@@ -922,7 +922,7 @@ int CTorqueApp::GetMainWellIndex()
     return -1;
 }
 
-int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
+int CTorqueApp::GetMainTallyIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
 {
     int         i = 0;
     string      strWellName;
@@ -947,11 +947,11 @@ int CTorqueApp::GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
 void CTorqueApp::GetCurNum()
 {
     CFile   file;
-    int     iWellIndex = -1;
-    TorqData::Torque *ptTorq = NULL;
-    int     iWellNO = 0;
+    int     iTallyIndex = -1;
+    int     iTallyNO= 0;
     int     i       = 0;
     CString strNumInfo;
+    TorqData::Torque* ptTorq = NULL;
 
     m_nCurNO = 0;
 
@@ -973,18 +973,18 @@ void CTorqueApp::GetCurNum()
 
     if(m_nCurNO > 0 && ReadHisTorqFromFile(m_strDataFile.c_str()))
     {
-        iWellIndex = GetMainWellIndex();
-        if(iWellIndex >= 0)
+        iTallyIndex = GetMainTallyIndex();
+        if(iTallyIndex >= 0)
         {
             /* 从后往前找最新的入井序号 */
             for(i=g_tReadData.nTotal - 1; i>=0; i--)
             {
                 ptTorq = &g_tReadData.tData[i];
-                if(iWellIndex >= ptTorq->tshow_size())
+                if(iTallyIndex >= ptTorq->tshow_size())
                     continue;
 
-                iWellNO = atoi(GetTorqShowValue(ptTorq, iWellIndex));
-                if(iWellNO > 0)
+                iTallyNO = atoi(GetTorqShowValue(ptTorq, iTallyIndex));
+                if(iTallyNO > 0)
                     break;
             }
             /* else iWellNO is 0*/
@@ -996,8 +996,8 @@ void CTorqueApp::GetCurNum()
     SaveMessage(strNumInfo);
 
     m_nCurRunningNO = m_nCurNO + 1;
-    if(iWellNO >= 0)
-        m_nCurRunningNO = iWellNO + 1;
+    if(iTallyNO >= 0)
+        m_nCurRunningNO = iTallyNO + 1;
 
     return;
 }
@@ -3090,7 +3090,7 @@ BOOL CTorqueApp::ReadHisTorqFromFile(CString strDataName)
     COMP_BFALSE_R(GetTorqDataFromFile(strDataName), FALSE);
 
     /* 没有更新入井序号，直接返回正确，否则重新读一次 */
-    COMP_BFALSE_R(ReCalWellNO(strDataName), TRUE);
+    COMP_BFALSE_R(ReCalTallyNO(strDataName), TRUE);
 
     return GetTorqDataFromFile(strDataName);
 }
@@ -3748,12 +3748,21 @@ int CTorqueApp::SplitString(CString strSource, CStringList &slList)
     return -2;
 }
 
+bool CTorqueApp::HaveTallyNO(TorqData::Torque* ptTorq)
+{
+    ASSERT_NULL_R(ptTorq, false);
+
+    if (!ptTorq->bshackle() && QUA_RESU_GOOD == ptTorq->dwquality())
+        return true;
+    return false;
+}
+
 /* 返回是否有修改 
    20200302 每次都从最开始重新计算 */
-BOOL CTorqueApp::ReCalWellNO(CString strDataName)
+BOOL CTorqueApp::ReCalTallyNO(CString strDataName)
 {
     int     i          = 0;
-    int     iWellIndex = -1;
+    int     iTallyIndex= -1;
     UINT    nRunningNO = 1;
     BOOL    bModified  = FALSE;
     CString strRunningNO;
@@ -3761,9 +3770,9 @@ BOOL CTorqueApp::ReCalWellNO(CString strDataName)
     TorqData::Torque    *ptTorq         = NULL;
     TorqData::ShowInfo  *ptRunningShow  = NULL;
 
-    iWellIndex = GetMainWellIndexfromData(MAINSHOWWELL, &g_tReadData.tData[0]);
+    iTallyIndex = GetMainTallyIndexfromData(MAINSHOWTALLY, &g_tReadData.tData[0]);
 
-    COMP_BL_R(iWellIndex, 0, FALSE);
+    COMP_BL_R(iTallyIndex, 0, FALSE);
 
     BeginWaitCursor();
     /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
@@ -3771,9 +3780,9 @@ BOOL CTorqueApp::ReCalWellNO(CString strDataName)
     {
         ptTorq = &g_tReadData.tData[i-1];
 
-        strOldNO = GetTorqShowValue(ptTorq, iWellIndex);
-        ptRunningShow = ptTorq->mutable_tshow(iWellIndex);
-        if(QUA_RESU_GOOD == ptTorq->dwquality())
+        strOldNO = GetTorqShowValue(ptTorq, iTallyIndex);
+        ptRunningShow = ptTorq->mutable_tshow(iTallyIndex);
+        if(HaveTallyNO(ptTorq))
         {
             strRunningNO.Format("%d", nRunningNO++);
         }

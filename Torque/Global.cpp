@@ -16,27 +16,27 @@ const string  g_tTableName[MAXTABLENUM] = {
 
 /* 默认显示参数名称，没有数据库时使用这些名称 */
 const SHOWPARANAME g_tNameInfo[MAXPARANUM] = {
-    /* 0  */    {"钻杆厂家",     "Factory"   },
-    /* 1  */    {"钻杆材质",     "WellNo."   },
-    /* 2  */    {"钻杆规格",     "OperType"  },
-    /* 3  */    {"钻杆级别",     "Company"   },
-    /* 4  */    {"接头外径(入)", "DrillGrade"},
-    /* 5  */    {"接头外径(出)", "DrillSpec" },
-    /* 6  */    {"油田名称",     "Material"  },
-    /* 7  */    {"甲方名称",     "Driller"   },
-    /* 8  */    {"井号",         "Contract" },
-    /* 9  */    {"勘探公司",     "TubingSN"  },
-    /* 10 */    {"钻井队号",     "DrillNO"   },
-    /* 11 */    {"司钻",         "ThreadDope"},
-    /* 12 */    {"操作工",       "Elevator"  },
-    /* 13 */    {"钻杆钳",       "TRSTeam"   },
-    /* 14 */    {"丝扣油",       "TRSSpv."   },
-    /* 15 */    {"单根立柱",     "HYDTong"   },
-    /* 16 */    {"入井序号",     "TallyNO"   },
-    /* 17 */    {"当前井深",     "WellHeight"},
+    /* 0  */    {"钻杆厂家",        "DPFactory" },
+    /* 1  */    {"钻杆材质",        "DPMaterial"},
+    /* 2  */    {"钻杆规格",        "DPSize"    },
+    /* 3  */    {"钻杆级别",        "DPLevel"   },
+    /* 4  */    {"接头外径",        "JointOD"   },
+    /* 5  */    {"油田名称",        "OilField"  },
+    /* 6  */    {"甲方名称",        "Company"   },
+    /* 7  */    {"井号",            "WellNO"   },
+    /* 8  */    {"勘探公司",        "ExplCorp"  },
+    /* 9  */    {"钻井队号",        "DrillTeam" },
+    /* 10 */    {"司钻",           "Driller"   },
+    /* 11 */    {"操作工",          "TRS OP."   },
+    /* 12 */    {"钻杆钳",          "DPTong"    },
+    /* 13 */    {"丝扣油",          "ThreadDope"},
+    /* 14 */    {"单根立柱",        "SGLStands" },
+    /* 15 */    {"入井序号",        "TallyNO"   },
+    /* 16 */    {"当前井深",        "Depth"     },
+    /* 17 */    {"保留",            "Reserve"  },
 };
 
-const UINT g_nMainNameNO[MAXMAINPARA] = { 0, 4, 5, 6, 7, 9, 10, 14 };
+const UINT g_nMainNameNO[MAXMAINPARA] = { 0,1,2,3,6,7,10,15 };
 #if 0
 /* 默认厂家名称表 */
 FIXTUBEPARA     g_tDefFactory[MAXDEFFACTORYNUM] = {

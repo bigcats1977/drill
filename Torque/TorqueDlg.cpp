@@ -615,7 +615,7 @@ void CTorqueDlg::InitVariant()
     m_bRunStatus= FALSE;
     m_bAlarm    = FALSE;
     m_bCanModLastData   = FALSE;
-    m_strMainValue[MAINSHOWWELL].Format("%d", theApp.m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
     m_iMaxReadTimes = (int)ceil(MAXCOMMBREAKTIME / g_tGlbCfg.nCollectDur) + 1;
 
     m_ptPortData = (PORTDATA*)(new BYTE[sizeof(PORTDATA)]);
@@ -636,7 +636,7 @@ void CTorqueDlg::InitMainShowPara()
         //{
         //    continue;
         //}
-        if(i == MAINSHOWWELL)  // 第5个为入井序号，不需要使用combobox
+        if(i == MAINSHOWTALLY)  // 第5个为入井序号，不需要使用combobox
             continue;
 
         m_strMainValue[i] = theApp.m_tParaCfg.strValue[m_ptShow->nMain[i]].c_str();
@@ -2354,7 +2354,7 @@ LRESULT CTorqueDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     m_strQuality.Empty();
     m_tSaveData.Clear();
 
-    m_strMainValue[MAINSHOWWELL].Format("%d", theApp.m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
     m_bCanModLastData = FALSE;
     GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
     Invalidate(TRUE);
@@ -2721,7 +2721,7 @@ void CTorqueDlg::StopTorque()
         theApp.m_nCurRunningNO++;
     }
     m_nCur = theApp.m_nCurNO + 1;
-    m_strMainValue[MAINSHOWWELL].Format("%d", theApp.m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
     
     m_tSaveData.Clear();
     m_strQuality.Empty();
@@ -2866,7 +2866,7 @@ void CTorqueDlg::ReGetTorqNo()
 {
     theApp.GetCurNum();
     m_nCur = theApp.m_nCurNO + 1;
-    m_strMainValue[MAINSHOWWELL].Format("%d", theApp.m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
 }
 
 void CTorqueDlg::OnSetpara()
@@ -2928,12 +2928,6 @@ void CTorqueDlg::OnGlbCfg()
 void CTorqueDlg::OnBnClickedBtnshowset()
 {
     CDlgMainShowSet dlgMain;
-    int         iWellIndex  = -1;
-    CString     strOld, strNew;
-    CString     strOther;
-    CString     strRunningNO;
-    BOOL        bFileChg = FALSE;
-    //SHOWCFG     *ptCurShow = NULL;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSHOWPARA));
 
@@ -3906,7 +3900,7 @@ void CTorqueDlg::SetShowPara(TorqData::Torque *ptPBData)
         {
             /* 入井序号 */
             case TALLYNO:
-                if(QUA_RESU_GOOD == ptPBData->dwquality())
+                if(theApp.HaveTallyNO(ptPBData))
                     strVal = strRunningNO.GetBuffer(0);
                 break;
 
@@ -4280,9 +4274,9 @@ void CTorqueDlg::OnBnClickedBtnquality()
         /* 扭矩质量属性发生变化，需要修改入井序号 */
         if(iQuality != dlgRemark.m_iQuality)
         {
-            ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainWellIndex());
+            ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainTallyIndex());
             strRunningNO.Format("%d", theApp.m_nCurRunningNO);
-            if(QUA_RESU_GOOD == dlgRemark.m_iQuality)
+            if(theApp.HaveTallyNO(&m_tSaveData))
                 ptRunningShow->set_strvalue(strRunningNO.GetBuffer());
             else
                 ptRunningShow->set_strvalue(NULLSTR);

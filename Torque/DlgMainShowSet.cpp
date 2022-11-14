@@ -98,7 +98,7 @@ void CDlgMainShowSet::InitMainShowPara()
     for(i=0; i< m_ptShow->nMainNum && i<MAXMAINPARA; i++)
     {
         m_strMainShow[i] = theApp.GetMainShowName(theApp.m_ptCurShow, i).c_str();
-        if (i == MAINSHOWWELL)  //入井序号跳过
+        if (i == MAINSHOWTALLY)  //入井序号跳过
             continue;
 
         m_cbMainOption[i].ResetContent();
@@ -126,7 +126,7 @@ BOOL CDlgMainShowSet::GetParaValue()
         
     for (i = 0; i<= m_ptShow->nMainNum && i<MAXMAINPARA; i++)
     {
-        if(i == MAINSHOWWELL)  // 第6个为入井序号，不需要使用combobox
+        if(i == MAINSHOWTALLY)  // 第6个为入井序号，不需要使用combobox
             continue;
         m_tempCfg.strValue[m_ptShow->nMain[i]] = m_strMainOption[i];
     }

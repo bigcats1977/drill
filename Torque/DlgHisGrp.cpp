@@ -731,9 +731,7 @@ void CDlgHisGrp::OnModRemark()
     WORD        wIPPos      = 0;
     WORD        wSchPos     = 0;
     UINT        nShoulder   = 0;
-    int         iWellIndex  = -1;
     int         iCause      = 0;
-    CPropertySheet   *pSheet = NULL;
 
     ASSERT_NULL(m_ptCurTorq);
 
@@ -771,14 +769,22 @@ void CDlgHisGrp::OnModRemark()
     {
         theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur,m_ptCurTorq);
         ShowCurData(FALSE);
+
+        /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
+        if(iQuality != dlgRemark.m_iQuality)
+            UpdateTallyNO();
     }
+}
 
-    /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
-    COMP_BE(iQuality, dlgRemark.m_iQuality);
+void CDlgHisGrp::UpdateTallyNO()
+{
+    int         iTallyIndex = -1;
+    CPropertySheet* pSheet = NULL;
 
-    iWellIndex = theApp.GetMainWellIndexfromData(MAINSHOWWELL, m_ptCurTorq);
-    COMP_BE(iWellIndex, -1);
+    iTallyIndex = theApp.GetMainTallyIndexfromData(MAINSHOWTALLY, m_ptCurTorq);
+    COMP_BE(iTallyIndex, -1);
 
+    // Reload file and recal Tally NO
     pSheet = (CPropertySheet*)GetOwner();
     pSheet->SetActivePage(0);
 }
@@ -820,7 +826,7 @@ LRESULT CDlgHisGrp::InterPtChange(WPARAM wParam, LPARAM lParam)
 
     ASSERT_ZERO_R(lParam, 0);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur,m_ptCurTorq);
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
     UpdateData(FALSE);
 
     return 0;
@@ -1072,6 +1078,9 @@ void CDlgHisGrp::OnBnClickedCheckippoint()
     DrawCurTorque();
 
     UpdateData(FALSE);
+
+	/* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
+	UpdateTallyNO();
 }
 
 void CDlgHisGrp::OnBnClickedChecktoolbuck()
@@ -1112,6 +1121,9 @@ void CDlgHisGrp::OnBnClickedCheckshackle()
     DrawCurTorque();
 
     UpdateData(FALSE);
+
+	/* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
+	UpdateTallyNO();
 }
 
 void CDlgHisGrp::OnEnKillfocusHismemo()

@@ -472,7 +472,7 @@ using namespace std;
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
 #define         MAXOPTIONNUM            50
 //#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
-#define         MAINSHOWWELL            7   /* 第6个主界面显示参数为入井序号(7) */
+#define         MAINSHOWTALLY           7   /* 第6个主界面显示参数为入井序号(7) */
 
 /* 15个参数, 4~7固定 */
 //#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */

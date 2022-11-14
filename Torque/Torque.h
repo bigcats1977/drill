@@ -134,8 +134,8 @@ public:
     int     SeekPBDataPos(CFile &file, int iCurPos);
     int     SeekFileLen(CFile &file);
     void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq);
-    int     GetMainWellIndex();
-    int     GetMainWellIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq);
+    int     GetMainTallyIndex();
+    int     GetMainTallyIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq);
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque *ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex);
@@ -147,6 +147,7 @@ public:
     void ClearTorqCfgPara(PARACFG* ptCfg);
     BOOL SetShowNameFromID(string lsID, SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
+    bool HaveTallyNO(TorqData::Torque* ptTorq);
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
@@ -223,7 +224,7 @@ private:
     void CreateNewWellFile();
     BOOL TimeValidWell(CString strFileName);
     BOOL GetTorqDataFromFile(CString strDataName);
-    BOOL ReCalWellNO(CString strDataName);
+    BOOL ReCalTallyNO(CString strDataName);
     void SaveAllData(CString strDataName);
 
     /* 将列表内容导出到excle表格中 */

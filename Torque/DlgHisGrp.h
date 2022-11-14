@@ -99,6 +99,7 @@ private:
     BOOL    JudgeValidPosition(int iPos);
     BOOL    GetCirRange(double *fMin, double *fMax);
     WORD    DrawCurInflection(int iBegin, int iEnd);
+    void    UpdateTallyNO();
 
     /* 清空EDIT控件信息 */
     void    EmptyEdit();
