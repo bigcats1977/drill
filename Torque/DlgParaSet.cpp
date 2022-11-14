@@ -243,7 +243,7 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
     m_strMemo = ptCfg->strMemo.c_str();
     m_strParaAlias = ptCfg->strAlias.c_str();
     
-    lsShowIndex = theDB.ReadCurShowIndex();
+    lsShowIndex = theDB.ReadCurOptionIndex();
 
     for(i=0; i<MAXPARANUM; i++)   //  i<ptShow->wParaNum+1 && 
     {

@@ -92,10 +92,10 @@ BOOL CDlgHisList::OnInitDialog()
     m_iWidth = (int)(rcView.Width()/12.17);
     m_listHis.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_UNDERLINEHOT);
     /* 20220922 钻杆版本无最大/最小扭矩 */
+    /* 20221113 去掉斜坡因子 */
     snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), 
                     int(0.8 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
-                    int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
-                    int(2 * m_iWidth));
+                    int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));
     /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
                    int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
                    int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
@@ -254,7 +254,7 @@ void CDlgHisList::OnBnClickedBtnexport()
 /*"序号,%d;施工时间,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;
    管件名称,%d;上扣类型,%d;重量,%d;接箍规格,%d;备注,%d;"*/
 /* "序号,%d;施工时间,%d;控制扭矩,%d;最佳扭矩,%d;
-    实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
+    实际扭矩,%d;实际周数,%d;拐点扭矩,%d;备注,%d;" */ // 斜坡因子,%d;
 VOID CDlgHisList::ShowHisTorqList()
 {
     UINT        i       = 0;
@@ -269,9 +269,9 @@ VOID CDlgHisList::ShowHisTorqList()
     CString     strCtrlTorq, strOptTorq;
     CString     strTorq;
     CString     strShoulder;
-    CString     strSlope;
+    //CString     strSlope;
     CString     strShowPara[MAXPARANUM];
-    double      fSlope;
+    //double      fSlope;
     CString     strMin,strMax;
     CString     strMemo;
     WORD        wIPPos = 0;
@@ -313,16 +313,16 @@ VOID CDlgHisList::ShowHisTorqList()
         if(wIPPos == 0)
         {
             strShoulder.Empty();
-            strSlope.Empty();
+            //strSlope.Empty();
         }
         else
         {
             strShoulder.Format("%d", iIPTorq);
-            fSlope = theApp.GetFlopeFactor(ptTorq, wIPPos, iIPTorq);
+            /*fSlope = theApp.GetFlopeFactor(ptTorq, wIPPos, iIPTorq);
             if( fSlope < 0)
                 strSlope.Empty();
             else
-                strSlope.Format("%.3f", fSlope);
+                strSlope.Format("%.3f", fSlope);*/
         }
 
         strMin.Format("%d", (int)ptTorq->flowerlimit());
@@ -341,7 +341,7 @@ VOID CDlgHisList::ShowHisTorqList()
         slShow.AddTail(strTorq);
         slShow.AddTail(strCir);
         slShow.AddTail(strShoulder);
-        slShow.AddTail(strSlope);
+        //slShow.AddTail(strSlope);
         slShow.AddTail(strMemo);
 
         // List[j] = 1~15
@@ -371,7 +371,7 @@ VOID CDlgHisList::ShowHisTorqList()
                 m_ptStatTorq = ptTorq;
         }
     }
-
+    
     GetDlgItem(IDC_BTNEXPORT)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNIMGEXP)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNGRAPHEXP)->EnableWindow(m_listHis.GetItemCount() > 0);

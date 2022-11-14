@@ -77,8 +77,8 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKMAIN16, m_bMain[15]);
     DDX_Check(pDX, IDC_CHECKMAIN17, m_bMain[16]);
     DDX_Check(pDX, IDC_CHECKMAIN18, m_bMain[17]);
-    DDX_Radio(pDX, IDC_RADIOSHOWFILE0, m_iFileName);
-    DDX_Radio(pDX, IDC_RADIOSHOWSTAT0, m_iShowStat);
+    DDX_Radio(pDX, IDC_RADIOSHOWFILE1, m_iFileName);
+    DDX_Radio(pDX, IDC_RADIOSHOWSTAT1, m_iShowStat);
     DDX_Control(pDX, IDC_RADIOSHOWFILE1, m_rdShowName[0]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE2, m_rdShowName[1]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE3, m_rdShowName[2]);

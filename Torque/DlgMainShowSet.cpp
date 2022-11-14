@@ -47,7 +47,7 @@ void CDlgMainShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_CBString(pDX, IDC_CBMAINPARA5, m_strMainOption[4]);
     DDX_CBString(pDX, IDC_CBMAINPARA6, m_strMainOption[5]);
     DDX_CBString(pDX, IDC_CBMAINPARA7, m_strMainOption[6]);
-    DDX_CBString(pDX, IDC_CBMAINPARA7, m_strMainOption[7]);
+    DDX_CBString(pDX, IDC_CBMAINPARA8, m_strMainOption[7]);
 }
 
 
@@ -61,7 +61,7 @@ BEGIN_MESSAGE_MAP(CDlgMainShowSet, CDialogEx)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA5, &CDlgMainShowSet::OnCbnKillfocusCbmainpara5)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA6, &CDlgMainShowSet::OnCbnKillfocusCbmainpara6)
     ON_CBN_KILLFOCUS(IDC_CBMAINPARA7, &CDlgMainShowSet::OnCbnKillfocusCbmainpara7)
-    ON_CBN_KILLFOCUS(IDC_CBMAINPARA7, &CDlgMainShowSet::OnCbnKillfocusCbmainpara8)
+    ON_CBN_KILLFOCUS(IDC_CBMAINPARA8, &CDlgMainShowSet::OnCbnKillfocusCbmainpara8)
 END_MESSAGE_MAP()
 
 
@@ -88,11 +88,13 @@ void CDlgMainShowSet::InitMainShowPara()
     WORD    i = 0;
     WORD    j = 0;
     WORD    k = 0;
+    vector<int> lsShowIndex;
     vector<string> lsOption;
 
     m_clrNormal  = RGB(0, 0, 0); 
     m_clrChanged = RGB(255, 0, 0);
 
+    lsShowIndex = theDB.ReadCurOptionIndex(2);
     for(i=0; i< m_ptShow->nMainNum && i<MAXMAINPARA; i++)
     {
         m_strMainShow[i] = theApp.GetMainShowName(theApp.m_ptCurShow, i).c_str();
@@ -101,7 +103,9 @@ void CDlgMainShowSet::InitMainShowPara()
 
         m_cbMainOption[i].ResetContent();
 
-        lsOption = theDB.GetOptionsByIndex(m_ptShow->nMain[i]);
+        lsOption.clear();
+
+        lsOption = theDB.ReadOptionsByShowIndex(lsShowIndex[i]);
         for (j = 0; j < lsOption.size(); j++)
         {
             m_cbMainOption[i].AddString(lsOption[j].c_str());
@@ -111,7 +115,6 @@ void CDlgMainShowSet::InitMainShowPara()
                 m_strMainOption[i] = lsOption[j].c_str();
             }
         }
-        lsOption.clear();
     }
 }
 

@@ -539,7 +539,7 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDMAINSHOW6, m_strMainValue[6]);
     DDX_Text(pDX, IDC_EDMAINSHOW7, m_strMainValue[7]);
     DDX_Text(pDX, IDC_STATIC_M2, m_strLBM2);
-    DDX_Text(pDX, IDC_STATIC_M9, m_strLBM9);
+    DDX_Text(pDX, IDC_STATIC_M9, m_strTorqType);
     //}}AFX_DATA_MAP
 }
 
@@ -632,10 +632,10 @@ void CTorqueDlg::InitMainShowPara()
     {
         m_strMainName[i] = theApp.GetMainShowName(m_ptShow, i).c_str();
 
-        if(i<4) /* 管材显示参数，在后面没获取 */
-        {
-            continue;
-        }
+        //if(i<4) /* 管材显示参数，在后面没获取 */
+        //{
+        //    continue;
+        //}
         if(i == MAINSHOWWELL)  // 第5个为入井序号，不需要使用combobox
             continue;
 
@@ -648,7 +648,10 @@ void CTorqueDlg::InitMainShowPara()
 void CTorqueDlg::UpdateDlgLabel()
 {
     m_strLBM2 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
-    m_strLBM9 = theApp.LoadstringFromRes(IDS_STRTORQUNIT, g_tGlbCfg.strUnit).c_str();
+    if(m_iShackle)
+        m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
+    else
+        m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
 }
 
 void CTorqueDlg::InitDlgControl()
@@ -2343,7 +2346,7 @@ LRESULT CTorqueDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     
     m_nCur = theApp.m_nCurNO + 1;
     
-    if(QUA_RESU_GOOD == m_tSaveData.dwquality())
+    if(!m_iShackle && QUA_RESU_GOOD == m_tSaveData.dwquality())
     {
         theApp.m_nCurRunningNO++;
     }

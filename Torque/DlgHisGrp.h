@@ -36,23 +36,17 @@ public:
     CRuler      m_yHisAxis2;
     CString     m_strMemo;
     CString     m_strControl;
-    CString     m_strSlopeFactor;
     CString     m_strLowCir;
     CString     m_strQuality;
     CString     m_strTime;
     CString     m_strNo;
-    CString     m_strDeltaTorq;
-    CString     m_strDeltaCir;
     CString     m_strCir;
-    CString     m_strDeltaRatio;
-    CString     m_strIPTorq;
     BOOL        m_bCheckIP;
     BOOL        m_bToolBuck;
     BOOL        m_bShackle;
+    CString     m_strTorqType;
     CString     m_strLBG1;
     CString     m_strLBG10;
-    CString     m_strLBG22;
-    CString     m_strLBG20;
     CString     m_strHisShowName[MAXPARANUM];
     CString     m_strHisShowValue[MAXPARANUM];
     //}}AFX_DATA
@@ -85,8 +79,6 @@ protected:
     afx_msg void OnBtnprntgrp();
     afx_msg void OnBtnsaveimg();
     afx_msg void OnModRemark();
-    afx_msg void OnEnChangeHisipper();
-    afx_msg void OnEnKillfocusHisipper();
     afx_msg void OnBnClickedCheckippoint();
     afx_msg void OnEnKillfocusHismemo();
     afx_msg void OnBnClickedChecktoolbuck();
@@ -110,7 +102,6 @@ private:
 
     /* 清空EDIT控件信息 */
     void    EmptyEdit();
-    void    EmptyIPEdit();
     /* 设置EDIT控件内容 */
     void    SetCurEdit();
     /* 检查和设置当前记录有效性，使能或置灰按钮 */
@@ -120,7 +111,6 @@ private:
     SPLITPOINT  m_tCurSplit;
     DRAWTORQDATA        *m_ptCurDraw;
     TorqData::Torque    *m_ptCurTorq;
-
 };
 
 //{{AFX_INSERT_LOCATION}}

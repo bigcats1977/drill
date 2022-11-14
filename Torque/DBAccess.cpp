@@ -277,13 +277,33 @@ vector<string> CDBAccess::GetOptionsByIndex(UINT showIndex)
     return m_tDBShowOpt.GetOptionsByNameIndex(showIndex);
 }
 
-vector<int> CDBAccess::ReadCurShowIndex()
+vector<int> CDBAccess::ReadCurOptionIndex(int type)
 {
+    size_t i = 0;
     vector<int> lsIndexs;
+    vector<int> lsOpt;
     COMP_BFALSE_R(m_bValidDBFile, lsIndexs);
+    
+    lsOpt = GetIDFromList(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
+    if (lsOpt.size() <= 0)
+        return lsOpt;
 
-    if (m_tDBShowCfg._lsShowPara.size() > 0)
-        lsIndexs = GetIDFromList(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
+    switch (type) {
+    case 0: //showparas
+        return lsOpt;
+        break;
+
+    case 1: //listno
+        lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
+        break;
+
+    case 2: //mainno
+        lsIndexs = GetIDFromList(m_tDBShowCfg._lsMainNO[g_tGlbCfg.nLangType]);
+        break;
+    }
+    for (i = 0; i < lsIndexs.size(); i++) {
+        lsIndexs[i] = lsOpt[lsIndexs[i]];
+    }
 
     return lsIndexs;
 }

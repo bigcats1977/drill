@@ -109,7 +109,7 @@ public:
     CString     m_strQuality;
     int         m_iShackle;         /* 0: ио©ш,1:п╤©ш */
     CString     m_strLBM2;
-    CString     m_strLBM9;
+    CString     m_strTorqType;
     CString     m_strMainName[MAXMAINPARA];
     CString     m_strMainValue[MAXMAINPARA];
     //}}AFX_DATA

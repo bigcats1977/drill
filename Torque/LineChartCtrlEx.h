@@ -47,7 +47,6 @@ public:
 public:
     //LINECHARITEM    m_tItem;
     bool            m_bCheckIP;
-    BOOL            m_bIPLock;
     BYTE            m_uLineType;
 
     // Operations

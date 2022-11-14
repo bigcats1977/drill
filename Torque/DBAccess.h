@@ -30,7 +30,7 @@ public:
     bool    UpdateShowPara(SHOWCFG* ptShow);
     bool    UpdateShowName(SHOWCFG* ptShow);
     vector<string> GetOptionsByIndex(UINT showIndex);
-    vector<int> ReadCurShowIndex();
+    vector<int> ReadCurOptionIndex(int type = 0);
     vector<string> ReadOptionsByShowIndex(int index);
 
     bool    ReadTorqCfgPara(int iAlias, PARACFG* ptCfg);

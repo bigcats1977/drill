@@ -472,13 +472,13 @@ using namespace std;
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
 #define         MAXOPTIONNUM            50
 //#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
-#define         MAINSHOWWELL            6   /* 第6个主界面显示参数为入井序号(6) */
+#define         MAINSHOWWELL            7   /* 第6个主界面显示参数为入井序号(7) */
 
 /* 15个参数, 4~7固定 */
 //#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
 //#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
 //#define         TUBESN                  9   /* 管体序号 */
-#define         TALLYNO                 10  /* 入井序号 */
+#define         TALLYNO                 15  /* 入井序号 */
 
 /* 输出excel统计报告常量 */
 #define         MAXSUMMARYPARA          6   /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */

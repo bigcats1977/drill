@@ -53,52 +53,52 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_YHISAXIS2, m_yHisAxis2);
     DDX_Text(pDX, IDC_HISMEMO, m_strMemo);
     DDX_Text(pDX, IDC_HISCONTROL, m_strControl);
-    DDX_Text(pDX, IDC_HISSLOPEFACTOR, m_strSlopeFactor);
-    DDX_Text(pDX, IDC_HISDELTARATIO, m_strDeltaRatio);
     DDX_Text(pDX, IDC_HISQUALITY, m_strQuality);
     DDX_Text(pDX, IDC_HISTIME, m_strTime);
     DDX_Text(pDX, IDC_HISNO, m_strNo);
-    DDX_Text(pDX, IDC_HISDELTATORQ, m_strDeltaTorq);
-    DDX_Text(pDX, IDC_HISDELTACIR, m_strDeltaCir);
     DDX_Text(pDX, IDC_HISCIR, m_strCir);
-    DDX_Text(pDX, IDC_HISIPPER, m_strIPTorq);
     DDX_Check(pDX, IDC_CHECKIPPOINT, m_bCheckIP);
     DDX_Check(pDX, IDC_CHECKTOOLBUCK, m_bToolBuck);
     DDX_Check(pDX, IDC_CHECKHISSHACKLE, m_bShackle);
+    DDX_Text(pDX, IDC_STATIC_G8, m_strTorqType);
     DDX_Text(pDX, IDC_STATIC_G1, m_strLBG1);
     DDX_Text(pDX, IDC_STATIC_G10, m_strLBG10);
-    DDX_Text(pDX, IDC_STATIC_G22, m_strLBG22);
-    DDX_Text(pDX, IDC_STATIC_G20, m_strLBG20);
-    DDX_Text(pDX, IDC_HISSHOW01, m_strHisShowName[1]);
-    DDX_Text(pDX, IDC_HISSHOW02, m_strHisShowName[2]);
-    DDX_Text(pDX, IDC_HISSHOW03, m_strHisShowName[3]);
-    DDX_Text(pDX, IDC_HISSHOW04, m_strHisShowName[4]);
-    DDX_Text(pDX, IDC_HISSHOW05, m_strHisShowName[5]);
-    DDX_Text(pDX, IDC_HISSHOW06, m_strHisShowName[6]);
-    DDX_Text(pDX, IDC_HISSHOW07, m_strHisShowName[7]);
-    DDX_Text(pDX, IDC_HISSHOW08, m_strHisShowName[8]);
-    DDX_Text(pDX, IDC_HISSHOW09, m_strHisShowName[9]);
-    DDX_Text(pDX, IDC_HISSHOW10, m_strHisShowName[10]);
-    DDX_Text(pDX, IDC_HISSHOW11, m_strHisShowName[11]);
-    DDX_Text(pDX, IDC_HISSHOW12, m_strHisShowName[12]);
-    DDX_Text(pDX, IDC_HISSHOW13, m_strHisShowName[13]);
-    DDX_Text(pDX, IDC_HISSHOW14, m_strHisShowName[14]);
-    DDX_Text(pDX, IDC_HISSHOW15, m_strHisShowName[15]);
-    DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[1]);
-    DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[2]);
-    DDX_Text(pDX, IDC_HISEDIT03, m_strHisShowValue[3]);
-    DDX_Text(pDX, IDC_HISEDIT04, m_strHisShowValue[4]);
-    DDX_Text(pDX, IDC_HISEDIT05, m_strHisShowValue[5]);
-    DDX_Text(pDX, IDC_HISEDIT06, m_strHisShowValue[6]);
-    DDX_Text(pDX, IDC_HISEDIT07, m_strHisShowValue[7]);
-    DDX_Text(pDX, IDC_HISEDIT08, m_strHisShowValue[8]);
-    DDX_Text(pDX, IDC_HISEDIT09, m_strHisShowValue[9]);
-    DDX_Text(pDX, IDC_HISEDIT10, m_strHisShowValue[10]);
-    DDX_Text(pDX, IDC_HISEDIT11, m_strHisShowValue[11]);
-    DDX_Text(pDX, IDC_HISEDIT12, m_strHisShowValue[12]);
-    DDX_Text(pDX, IDC_HISEDIT13, m_strHisShowValue[13]);
-    DDX_Text(pDX, IDC_HISEDIT14, m_strHisShowValue[14]);
-    DDX_Text(pDX, IDC_HISEDIT15, m_strHisShowValue[15]);
+    DDX_Text(pDX, IDC_HISSHOW01, m_strHisShowName[0]);
+    DDX_Text(pDX, IDC_HISSHOW02, m_strHisShowName[1]);
+    DDX_Text(pDX, IDC_HISSHOW03, m_strHisShowName[2]);
+    DDX_Text(pDX, IDC_HISSHOW04, m_strHisShowName[3]);
+    DDX_Text(pDX, IDC_HISSHOW05, m_strHisShowName[4]);
+    DDX_Text(pDX, IDC_HISSHOW06, m_strHisShowName[5]);
+    DDX_Text(pDX, IDC_HISSHOW07, m_strHisShowName[6]);
+    DDX_Text(pDX, IDC_HISSHOW08, m_strHisShowName[7]);
+    DDX_Text(pDX, IDC_HISSHOW09, m_strHisShowName[8]);
+    DDX_Text(pDX, IDC_HISSHOW10, m_strHisShowName[9]);
+    DDX_Text(pDX, IDC_HISSHOW11, m_strHisShowName[10]);
+    DDX_Text(pDX, IDC_HISSHOW12, m_strHisShowName[11]);
+    DDX_Text(pDX, IDC_HISSHOW13, m_strHisShowName[12]);
+    DDX_Text(pDX, IDC_HISSHOW14, m_strHisShowName[13]);
+    DDX_Text(pDX, IDC_HISSHOW15, m_strHisShowName[14]);
+    DDX_Text(pDX, IDC_HISSHOW16, m_strHisShowName[15]);
+    DDX_Text(pDX, IDC_HISSHOW17, m_strHisShowName[16]);
+    DDX_Text(pDX, IDC_HISSHOW18, m_strHisShowName[17]);
+    DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[0]);
+    DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[1]);
+    DDX_Text(pDX, IDC_HISEDIT03, m_strHisShowValue[2]);
+    DDX_Text(pDX, IDC_HISEDIT04, m_strHisShowValue[3]);
+    DDX_Text(pDX, IDC_HISEDIT05, m_strHisShowValue[4]);
+    DDX_Text(pDX, IDC_HISEDIT06, m_strHisShowValue[5]);
+    DDX_Text(pDX, IDC_HISEDIT07, m_strHisShowValue[6]);
+    DDX_Text(pDX, IDC_HISEDIT08, m_strHisShowValue[7]);
+    DDX_Text(pDX, IDC_HISEDIT09, m_strHisShowValue[8]);
+    DDX_Text(pDX, IDC_HISEDIT10, m_strHisShowValue[9]);
+    DDX_Text(pDX, IDC_HISEDIT11, m_strHisShowValue[10]);
+    DDX_Text(pDX, IDC_HISEDIT12, m_strHisShowValue[11]);
+    DDX_Text(pDX, IDC_HISEDIT13, m_strHisShowValue[12]);
+    DDX_Text(pDX, IDC_HISEDIT14, m_strHisShowValue[13]);
+    DDX_Text(pDX, IDC_HISEDIT15, m_strHisShowValue[14]);
+    DDX_Text(pDX, IDC_HISEDIT16, m_strHisShowValue[15]);
+    DDX_Text(pDX, IDC_HISEDIT17, m_strHisShowValue[16]);
+    DDX_Text(pDX, IDC_HISEDIT18, m_strHisShowValue[17]);
     //}}AFX_DATA_MAP
 }
 
@@ -110,8 +110,6 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     ON_BN_CLICKED(IDC_BTNPRNTGRP, OnBtnprntgrp)
     ON_BN_CLICKED(IDC_BTNSAVEIMG, OnBtnsaveimg)
     ON_WM_DESTROY()
-    ON_EN_CHANGE(IDC_HISIPPER, OnEnChangeHisipper)
-    ON_BN_CLICKED(IDC_HISIPPER, OnEnKillfocusHisipper)
     ON_MESSAGE(WM_INTERPT_CHANGE,InterPtChange)
     ON_MESSAGE(WM_INTERPT_ZOOMIN,InterPtZoomIn)
     ON_MESSAGE(WM_UPDATE_SELPOS,SelPosChange)
@@ -169,24 +167,16 @@ void CDlgHisGrp::EmptyEdit()
     m_strTime       = _T("");
     m_strNo         = _T("");
     m_strCir        = _T("");
-    EmptyIPEdit();
-}
-
-void CDlgHisGrp::EmptyIPEdit()
-{
-    m_strDeltaTorq   = _T("");
-    m_strDeltaCir    = _T("");
-    m_strSlopeFactor = _T("");
-    m_strDeltaRatio  = _T("");
-    m_strIPTorq      = _T("");
 }
 
 void CDlgHisGrp::UpdateDlgLabel()
 {
     m_strLBG1 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
     m_strLBG10 = g_tGlbCfg.strUnit.c_str();
-    m_strLBG22 = g_tGlbCfg.strUnit.c_str();
-    m_strLBG20 = g_tGlbCfg.strUnit.c_str();
+    if (m_bShackle)
+        m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
+    else
+        m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
 }
 
 /* 设置EDIT控件内容 */
@@ -500,7 +490,6 @@ WORD CDlgHisGrp::DrawCurInflection(int iBegin, int iEnd)
     COMP_BL_R(iBegin, 0, 0);
     COMP_BG_R(iBegin, iEnd, 0);
 
-    EmptyIPEdit();
     COMP_BFALSE_R(m_bCheckIP, 0);
     COMP_BTRUE_R(m_ptCurTorq->bshackle(), 0);
 
@@ -546,12 +535,12 @@ WORD CDlgHisGrp::DrawCurInflection(int iBegin, int iEnd)
         m_wndLineHis.DrawInflection(wSchDraw-iBegin, fSchCir, m_ptCurTorq->ftorque(wSchPos));
     }
 
-    m_strIPTorq.Format("%d", m_nIPTorq);
-    m_strDeltaTorq.Format("%d", (int)fDeltaTorq);
-    m_strDeltaCir.Format("%.3f", fDelCir);
-    m_strSlopeFactor.Format("%.3f", fSlopeFactor);
-    /* (控制扭矩-拐点扭矩)/控制扭矩 */
-    m_strDeltaRatio.Format("%.2f%%", fDeltaTorq/fMaxTorq*100);
+    //m_strIPTorq.Format("%d", m_nIPTorq);
+    //m_strDeltaTorq.Format("%d", (int)fDeltaTorq);
+    //m_strDeltaCir.Format("%.3f", fDelCir);
+    //m_strSlopeFactor.Format("%.3f", fSlopeFactor);
+    ///* (控制扭矩-拐点扭矩)/控制扭矩 */
+    //m_strDeltaRatio.Format("%.2f%%", fDeltaTorq/fMaxTorq*100);
 
     return wIPPos;
 }
@@ -794,27 +783,6 @@ void CDlgHisGrp::OnModRemark()
     pSheet->SetActivePage(0);
 }
 
-void CDlgHisGrp::OnEnChangeHisipper()
-{
-    /* 更新m_ucIPPer的值 */
-    UpdateData(TRUE);
-    DrawCurTorque();
-    UpdateData(FALSE);
-}
-
-void CDlgHisGrp::OnEnKillfocusHisipper()
-{
-    ASSERT_NULL(m_ptCurTorq);
-
-    /* 更新m_ucIPPer的值 */
-    UpdateData(TRUE);
-    DrawCurTorque();
-
-    UpdateData(FALSE);
-
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur,m_ptCurTorq);
-}
-
 /* 左键单击 wParam :True 显示/ false: 不显示 */
 LRESULT CDlgHisGrp::SelPosChange(WPARAM wParam, LPARAM lParam)
 {
@@ -846,7 +814,7 @@ LRESULT CDlgHisGrp::InterPtChange(WPARAM wParam, LPARAM lParam)
     theApp.SetIPInfo(m_ptCurTorq, fIPTorq);
 
     m_nIPTorq = (UINT)fIPTorq;
-    m_strIPTorq.Format("%d", m_nIPTorq);
+    //m_strIPTorq.Format("%d", m_nIPTorq);
 
     DrawCurTorque();
 
@@ -1124,10 +1092,26 @@ void CDlgHisGrp::OnBnClickedCheckshackle()
 
     UpdateData(TRUE);
     m_ptCurTorq->set_bshackle(0);
-    if(m_bShackle)
+    m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
+    if (m_bShackle) {
         m_ptCurTorq->set_bshackle(1);
+        m_ptCurTorq->set_bncheckip(true);
+        m_bCheckIP = false;
+        theApp.SetIPInfo(m_ptCurTorq, 0);
+        m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
+    }
+
+    /* 质量重新判定 */
+    DWORD dwQuality = theApp.JudgeQuality(m_ptCurTorq, m_bShackle);
+    m_ptCurTorq->set_dwquality(dwQuality);
+
+    m_strQuality = theApp.GetQualityInfo(m_ptCurTorq).c_str();
 
     theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+
+    DrawCurTorque();
+
+    UpdateData(FALSE);
 }
 
 void CDlgHisGrp::OnEnKillfocusHismemo()
@@ -1169,3 +1153,4 @@ void CDlgHisGrp::OnStnClickedNextsplit()
 
     return;
 }
+

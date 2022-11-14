@@ -53,7 +53,6 @@ CLineChartCtrlEx::CLineChartCtrlEx()
     m_fLowerTai   = 200;
     m_bBear       = FALSE;
     m_bCheckIP    = FALSE;
-    m_bIPLock     = FALSE;
     //m_nTorqNo     = 1;
     m_bIPSeled    = FALSE;
     m_nSelPntNum  = 0;
@@ -738,7 +737,6 @@ void CLineChartCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
     if(m_uLineType == LINETYPE_HISG)
     {
         COMP_BFALSE(m_bCheckIP);
-        COMP_BTRUE(m_bIPLock); /* 老数据IP锁定，不能修改，只能看 */
         if(m_rcInterPt.PtInRect(point))
         {
             m_bIPSeled = TRUE;

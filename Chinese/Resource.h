@@ -229,11 +229,6 @@
 #define IDC_HISTIME                     1307
 #define IDC_HISCONTROL                  1308
 #define IDC_HISCIR                      1309
-#define IDC_HISDELTATORQ                1310
-#define IDC_HISSLOPEFACTOR              1311
-#define IDC_HISDELTARATIO               1312
-#define IDC_HISDELTACIR                 1313
-#define IDC_HISIPPER                    1314
 #define IDC_HISQUALITY                  1315
 #define IDC_HISMEMO                     1316
 #define IDC_CHECKIPPOINT                1317
@@ -254,9 +249,9 @@
 #define IDC_HISEDIT13                   1333
 #define IDC_HISEDIT14                   1334
 #define IDC_HISEDIT15                   1335
-#define IDC_HISMAXRPM                   1336
-#define IDC_HISDURATION                 1337
-#define IDC_HISIPCIR                    1338
+#define IDC_HISEDIT16                   1336
+#define IDC_HISEDIT17                   1337
+#define IDC_HISEDIT18                   1338
 #define IDC_HISSHOW01                   1341
 #define IDC_HISSHOW02                   1342
 #define IDC_HISSHOW03                   1343
@@ -272,6 +267,9 @@
 #define IDC_HISSHOW13                   1353
 #define IDC_HISSHOW14                   1354
 #define IDC_HISSHOW15                   1355
+#define IDC_HISSHOW16                   1356
+#define IDC_HISSHOW17                   1357
+#define IDC_HISSHOW18                   1358
 #define IDC_BTNPRI                      1360
 #define IDC_BTNNEXT                     1361
 #define IDC_BTNSAVEIMG                  1362
