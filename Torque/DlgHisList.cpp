@@ -112,8 +112,8 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.LoadColumnInfo();
     
     //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    /*GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);*/
+    GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -1074,7 +1074,7 @@ CString CDlgHisList::GetWellName(BOOL bSuffix)
 {
     CString strWellName;
 
-    ASSERT_NULL_R(m_ptStatTorq, strWellName)
+    ASSERT_NULL_R(m_ptStatTorq, strWellName);
 
     strWellName.Format("%s", theApp.GetTorqShowValue(m_ptStatTorq, SHOWPARA_WELLNAME));
 
@@ -1086,7 +1086,16 @@ CString CDlgHisList::GetWellName(BOOL bSuffix)
         strWellName += _T(" Well");
 
     return strWellName;
+}
 
+CString CDlgHisList::GetWellDepth()
+{
+    CString strDepth;
+
+    ASSERT_NULL_R(m_ptStatTorq, strDepth);
+
+    strDepth.Format("%s", theApp.GetTorqShowValue(m_ptStatTorq, SHOWPARA_WELLDEPTH));
+    return strDepth;
 }
 
 /* (该井于2019年 12 月16日开始作业，期间共入井
@@ -1144,7 +1153,7 @@ CString CDlgHisList::GetConsSummaryInfo()
         }
 
         /* 管件规格 */
-        strTubing = theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBETYPE);
+        strTubing = theApp.GetTorqShowValue(ptTorq, SHOWPARA_DPSIZE);
         for(j=0; j<slTubing.GetCount(); j++)
         {
             pos = slTubing.FindIndex(j);
@@ -1201,6 +1210,8 @@ void CDlgHisList::WriteCoverSheet()
     /* A4 / E11 井号 */
     SetCell(4,   1, GetWellName(FALSE));
     SetCell(11,  5, GetWellName(FALSE));
+    /* E12 井深 */
+    SetCell(12,  5, GetWellDepth());
 
     /* 27 行 D 列 D27 : 开始日期 */
     strTime.Format("'%s", theApp.GetTorqFullDate(&g_tReadData.tData[0]));
@@ -1226,10 +1237,6 @@ void CDlgHisList::WriteSummarySheet()
 
     /* B2 井名 */
     SetCell(2, 2, GetWellName(FALSE));
-
-    /* 5 行 D 列 D5 : 文件名*/
-    //SetCell(5,  4, theApp.m_strFileTitle.c_str());
-
     /* 4 行 D 列 D4 : 施工井号*/
     SetCell(4, 4, GetWellName(FALSE));
     /* H4:  开始日期         */
@@ -1248,16 +1255,22 @@ void CDlgHisList::WriteSummarySheet()
             break;
         switch(iIndex)
         {
+            case 1: // 最多显示4个值
+                /* B11:         显示参数名称1  */
+                SetMultiValue(SHOWPARA_DPMATERIAL, i, 7, MAX1VALUES);
+                iRow = 11;
+                break;
+            case 2: // 最多显示8个值
+                /* B15:         显示参数名称2  */
+                SetMultiValue(SHOWPARA_DPSIZE, i, 11, MAX2VALUES);
+                iRow = 17;
+                break;
             case 3: // 最多显示4个值
-                /* B11:         显示参数名称4  */
-                SetMultiValue(SHOWPARA_TUBEOEM, i, 11, MAX3VALUES);
-                iRow = 15;
+                /* B15:         显示参数名称3  */
+                SetMultiValue(SHOWPARA_DPLEVEL, i, 17, MAX3VALUES);
+                iRow = 21;
                 break;
-            case 4: // 最多显示8个值
-                /* B15:         显示参数名称5  */
-                SetMultiValue(SHOWPARA_TUBETYPE, i, 15, MAX4VALUES);
-                iRow = 23;
-                break;
+
             default:
                 /* B7:         显示参数名称1  */
                 strItem.Format("%d.%s", iIndex, theApp.GetTorqShowName(m_ptStatTorq, i));

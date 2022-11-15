@@ -147,7 +147,7 @@ BOOL CDBXlsStatCfg::UpdateInfo(XLSSTATCFG* ptCfg)
     values.push_back(lsCheck);
 
     lsCheck = GetListFromArray(&ptCfg->bReport[0], MAXPARANUM);
-    fields.push_back("ListNOs");
+    fields.push_back("Report");
     values.push_back(lsCheck);
 
     return _Sqlite->UpdateFields(g_tTableName[_TableIndex], condition, fields, values);

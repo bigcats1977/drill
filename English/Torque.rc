@@ -2168,7 +2168,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_STRHISGPRINTTITLE   "Print Historical Data"
-    IDS_STRHISLLISTHEAD     "NO,%d;Date/Time,%d;FastenTorq,%d;OptTorq,%d;FinalTorq,%d;FinalTrun,%d;Shoulder,%d;SlopeFac,%d;Comment,%d;"
+    IDS_STRHISLLISTHEAD     "NO,%d;Date/Time,%d;FastenTorq,%d;OptTorq,%d;FinalTorq,%d;FinalTrun,%d;Shoulder,%d;Comment,%d;"
 END
 
 STRINGTABLE

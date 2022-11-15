@@ -77,6 +77,7 @@ private:
     BOOL    SetMultiValue(int iIndex, int iSeq, int iBegin, int iMaxNum);
     int     GetParaValueInfo(int iSeq, vector<int> &listNo);
     CString GetWellName(BOOL bSuffix = TRUE);
+    CString GetWellDepth();
     void    Export1Img(UINT *pnSel, UINT nSelCount);
     void    Export2Img(UINT *pnSel, UINT nSelCount);
     void    Export3Img(UINT *pnSel, UINT nSelCount);

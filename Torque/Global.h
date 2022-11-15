@@ -348,10 +348,21 @@ using namespace std;
 #define SHEET_REPORT    _T("Page4")
 
 
-#define SHOWPARA_WELLNAME           1
-#define SHOWPARA_COMPANY            3
-#define SHOWPARA_TUBEOEM            4
-#define SHOWPARA_TUBETYPE           5
+#define SHOWPARA_WELLNAME           7
+#define SHOWPARA_WELLDEPTH          16
+#define SHOWPARA_DPMATERIAL         1
+#define SHOWPARA_DPSIZE             2
+#define SHOWPARA_DPLEVEL            3
+//#define SHOWPARA_COMPANY            3
+//#define SHOWPARA_TUBEOEM            4
+//#define SHOWPARA_TUBETYPE           5
+
+/* 输出excel统计报告常量 */
+#define         MAXSUMMARYPARA          6   /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
+#define         MAX1VALUES              4
+#define         MAX2VALUES              6
+#define         MAX3VALUES              4
+#define         MAXREPORTPARA           3   /* 报表(Page4)最多 3个显示参数 */
 
 #pragma endregion
 #if 0
@@ -479,12 +490,6 @@ using namespace std;
 //#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
 //#define         TUBESN                  9   /* 管体序号 */
 #define         TALLYNO                 15  /* 入井序号 */
-
-/* 输出excel统计报告常量 */
-#define         MAXSUMMARYPARA          6   /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
-#define         MAX3VALUES              4
-#define         MAX4VALUES              8
-#define         MAXREPORTPARA           3   /* 报表(Page4)最多 3个显示参数 */
 
 
 /* 主界面7个参数, 1~6固定 */
