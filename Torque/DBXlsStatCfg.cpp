@@ -15,10 +15,9 @@ CDBXlsStatCfg::~CDBXlsStatCfg()
 void CDBXlsStatCfg::Empty()
 {
     _lsLangType.clear();
-    _lsOperator.clear();
-    _lsTally.clear();
-    _lsSummary.clear();
-    _lsReport.clear();
+    _GenPara.clear();
+    _JobPara.clear();
+    _InfoPara.clear();
 }
 
 void CDBXlsStatCfg::GetTable()
@@ -44,85 +43,54 @@ void CDBXlsStatCfg::GetTable()
     {
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsLangType.push_back(Value);
-        _Sqlite->GetValue(pResult[nIndex++], Value);
-        _lsOperator.push_back(Value);
-        _Sqlite->GetValue(pResult[nIndex++], Value);
-        _lsTally.push_back(Value);
-
-
         _Sqlite->GetValue(pResult[nIndex++], Content);
-        _lsSummary.push_back(Content);
+        _GenPara.push_back(Content);
         _Sqlite->GetValue(pResult[nIndex++], Content);
-        _lsReport.push_back(Content);
+        _JobPara.push_back(Content);
+        _Sqlite->GetValue(pResult[nIndex++], Content);
+        _InfoPara.push_back(Content);
     }
 
     _Sqlite->FreeResult(&pResult);
 }
 
-
-BOOL CDBXlsStatCfg::SetItemValue(vector<int> lsVals, int type, BOOL* pVals)
+bool CDBXlsStatCfg::SetItemValue(vector<int> lsVals, int* pVals, int num)
 {
-    int i = 0;
-    int count = 0;
-    ASSERT_NULL_R(pVals, FALSE);
-
-    if (lsVals.size() != MAXPARANUM)
-        return FALSE;
-    for (i = 0; i < MAXPARANUM; i++)
-    {
-        if (lsVals[i] == 0)
-            pVals[i] = FALSE;
-        else
-        {
-            count++;
-            pVals[i] = TRUE;
-        }
-    }
-
-    switch (type)
-    {
-    case 0:
-        if (count > MAXSUMMARYPARA)
-            return FALSE;
-        break;
-    case 1:
-        if (count > MAXREPORTPARA)
-            return FALSE;
-        break;
-    default:
-        break;
-    }
-
-    return TRUE;
+    ASSERT_NULL_R(pVals, false);
+    if (lsVals.size() != num)
+        return false;
+    for (int i = 0; i < num; i++)
+        pVals[i] = lsVals[i];
+    return true;
 }
 
-BOOL CDBXlsStatCfg::GetInfoByLang(XLSSTATCFG *ptCfg, UINT nLang)
+bool CDBXlsStatCfg::GetInfoByLang(XLSSTATCFG *ptCfg, UINT nLang)
 {
     vector<int> lsVals;
     vector<int>::iterator it;
     int iOffset = 0;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
+    ASSERT_NULL_R(ptCfg, false);
     CheckLanguage(nLang);
 
     it = find(_lsLangType.begin(), _lsLangType.end(), nLang);
     if (it == _lsLangType.end())
-        return FALSE;
+        return false;
 
     iOffset = it - _lsLangType.begin();
 
-    lsVals = GetIDFromList(_lsSummary[iOffset]);
-    if (!SetItemValue(lsVals, 0, &ptCfg->bSummary[0]))
-        return FALSE;
-    lsVals = GetIDFromList(_lsReport[iOffset]);
-    if (!SetItemValue(lsVals, 1, &ptCfg->bReport[0]))
-        return FALSE;
+    lsVals = GetIDFromList(_GenPara[iOffset]);
+    if (!SetItemValue(lsVals, &ptCfg->GenPara[0], STATPARA_GENNUM))
+        return false;
+    lsVals = GetIDFromList(_JobPara[iOffset]);
+    if (!SetItemValue(lsVals, &ptCfg->JobPara[0], STATPARA_JOBNUM))
+        return false;
+    lsVals = GetIDFromList(_InfoPara[iOffset]);
+    if (!SetItemValue(lsVals, &ptCfg->InfoPara[0], STATPARA_INFONUM))
+        return false;
 
-    ptCfg->ucOperator = _lsOperator[iOffset];
-    ptCfg->ucTally = _lsTally[iOffset];
-
-    return TRUE;
+    return true;
 }
 BOOL CDBXlsStatCfg::UpdateInfo(XLSSTATCFG* ptCfg)
 {
@@ -132,22 +100,21 @@ BOOL CDBXlsStatCfg::UpdateInfo(XLSSTATCFG* ptCfg)
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
+    ASSERT_NULL_R(ptCfg, false);
 
     condition = "LangType=" + to_string(*_CurLang);
 
-    fields.push_back("Operator");
-    values.push_back(to_string(ptCfg->ucOperator));
-    fields.push_back("Tally");
-    values.push_back(to_string(ptCfg->ucTally));
-
-    lsCheck = GetListFromArray(&ptCfg->bSummary[0], MAXPARANUM);
-    fields.push_back("Summary");
+    lsCheck = GetListFromArray(&ptCfg->GenPara[0], STATPARA_GENNUM);
+    fields.push_back("GenPara");
     values.push_back(lsCheck);
 
-    lsCheck = GetListFromArray(&ptCfg->bReport[0], MAXPARANUM);
-    fields.push_back("Report");
+    lsCheck = GetListFromArray(&ptCfg->JobPara[0], STATPARA_JOBNUM);
+    fields.push_back("JobPara");
+    values.push_back(lsCheck);
+
+    lsCheck = GetListFromArray(&ptCfg->InfoPara[0], STATPARA_INFONUM);
+    fields.push_back("InfoPara");
     values.push_back(lsCheck);
 
     return _Sqlite->UpdateFields(g_tTableName[_TableIndex], condition, fields, values);

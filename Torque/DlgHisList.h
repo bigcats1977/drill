@@ -74,9 +74,9 @@ private:
     void    SetCell(long irow, long icolumn, double fValue);
     void    SetCell(long irow, long icolumn, int iValue);
     CString GetOperInfo(CStringList &slOper);
-    BOOL    SetMultiValue(int iIndex, int iSeq, int iBegin, int iMaxNum);
-    int     GetParaValueInfo(int iSeq, vector<int> &listNo);
-    CString GetWellName(BOOL bSuffix = TRUE);
+    BOOL    SetMultiValue(int iSeq, int iIndex, int iBegin, int iMaxNum);
+    int     GetParaValueInfo(int iIndex, vector<int> &listNo);
+    CString GetWellNO(BOOL bSuffix = TRUE);
     CString GetWellDepth();
     void    Export1Img(UINT *pnSel, UINT nSelCount);
     void    Export2Img(UINT *pnSel, UINT nSelCount);

@@ -626,19 +626,24 @@ void CTorqueApp::InitXlsStatPara(XLSSTATCFG* ptStat)
     
     memset(ptStat, 0, sizeof(XLSSTATCFG));
 
-    ptStat->ucTally    = 10;         /* 10 入井序号 */
-    ptStat->ucOperator = 14;         /* 14 队长 */
-    
-    ptStat->bSummary[2]  = TRUE;     /*  2 作业目的  */
-    ptStat->bSummary[3]  = TRUE;     /*  3 甲方      */
-    ptStat->bSummary[4]  = TRUE;     /*  4 管件名称  */
-    ptStat->bSummary[5]  = TRUE;     /*  5 规格扣型  */
-    ptStat->bSummary[12] = TRUE;     /* 12 悬吊工具  */
-    ptStat->bSummary[15] = TRUE;     /* 15 液压钳    */
-        
-    ptStat->bReport[1]  = TRUE;      /* 1 施工井号 */
-    ptStat->bReport[3]  = TRUE;      /* 3 甲方     */
-    ptStat->bReport[8]  = TRUE;      /* 8 合同号   */
+    // 7,16,6,11,15,
+    ptStat->GenPara[0]  = 7;        /* 7  井号 */
+    ptStat->GenPara[1]  = 16;       /* 16 井深 */
+    ptStat->GenPara[2]  = 6;        /* 6  甲方名称 */
+    ptStat->GenPara[3]  = 11;       /* 11 操作工 */
+    ptStat->GenPara[4]  = 15;       /* 15 入井序号 */
+
+    // 1,2,3,5,8,12,
+    ptStat->JobPara[0] = 1;         /* 1  钻杆材质 */
+    ptStat->JobPara[1] = 2;         /* 2 钻杆规格 */
+    ptStat->JobPara[2] = 3;         /* 3  钻杆级别 */
+    ptStat->JobPara[3] = 5;         /* 5 油田名称 */
+    ptStat->JobPara[4] = 8;         /* 8 勘探公司 */
+    ptStat->JobPara[5] = 12;        /* 12 钻杆钳 */
+
+    // 1,2,
+    ptStat->InfoPara[0] = 1;        /* 1  钻杆材质 */
+    ptStat->InfoPara[1] = 2;        /* 2 钻杆规格 */
 }
 
 /* 扭矩参数 相差 DIFF_TORQUE 10 */

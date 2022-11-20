@@ -348,21 +348,39 @@ using namespace std;
 #define SHEET_REPORT    _T("Page4")
 
 
-#define SHOWPARA_WELLNAME           7
-#define SHOWPARA_WELLDEPTH          16
-#define SHOWPARA_DPMATERIAL         1
-#define SHOWPARA_DPSIZE             2
-#define SHOWPARA_DPLEVEL            3
+//#define SHOWPARA_WELLNAME           7
+//#define SHOWPARA_WELLDEPTH          16
+//#define SHOWPARA_DPMATERIAL         1
+//#define SHOWPARA_DPSIZE             2
+//#define SHOWPARA_DPLEVEL            3
+
+
 //#define SHOWPARA_COMPANY            3
 //#define SHOWPARA_TUBEOEM            4
 //#define SHOWPARA_TUBETYPE           5
 
 /* 输出excel统计报告常量 */
-#define         MAXSUMMARYPARA          6   /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
+//#define         MAXSUMMARYPARA          6   /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
+//#define         MAXREPORTPARA           3   /* 报表(Page4)最多 3个显示参数 */
+
+/* 输出excel统计报告常量 */
+#define         STATPARA_GENNUM         5
+#define         STATPARA_JOBNUM         6       /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
+#define         STATPARA_INFONUM        2       /* 报表(Page4)最多 3个显示参数 */
 #define         MAX1VALUES              4
 #define         MAX2VALUES              6
 #define         MAX3VALUES              4
-#define         MAXREPORTPARA           3   /* 报表(Page4)最多 3个显示参数 */
+
+//BYTE        ucWellNO;                   /* 井号 */
+//BYTE        ucWellDepth;                /* 井深 */
+//BYTE        ucCompany;                  /* 甲方名称 */
+//BYTE        ucOperator;                 /* 当班班长(操作者)参数序号 */
+//BYTE        ucTally;                    /* 入井序号参数序号 */
+#define         STATPARA_GENWELLNO      0
+#define         STATPARA_GENWELLDEPTH   1
+#define         STATPARA_GENCOMPANY     2
+#define         STATPARA_GENOPERATOR    3
+#define         STATPARA_GENTALLY       4
 
 #pragma endregion
 #if 0
@@ -811,11 +829,14 @@ typedef struct tagTorqCfgID
 /* XLS统计结果参数配置 */
 typedef struct tagXLSSTATCFG
 {
-    //string      strName[MAXPARANUM];    /* 显示参数名称 */
-    BOOL        bSummary[MAXPARANUM];   /* 摘要(Page1)显示参数序号 */
-    BOOL        bReport[MAXPARANUM];    /* 报告(Page4)显示参数序号 */
-    BYTE        ucOperator;             /* 当班班长(操作者)参数序号 */
-    BYTE        ucTally;                /* 入井序号参数序号 */
+    //BYTE        ucWellNO;                   /* 井号 */
+    //BYTE        ucWellDepth;                /* 井深 */
+    //BYTE        ucCompany;                  /* 甲方名称 */
+    //BYTE        ucOperator;                 /* 当班班长(操作者)参数序号 */
+    //BYTE        ucTally;                    /* 入井序号参数序号 */
+    int         GenPara[STATPARA_GENNUM];
+    int         JobPara[STATPARA_JOBNUM];       /* 摘要(Page1)显示参数序号 */
+    int         InfoPara[STATPARA_INFONUM];     /* 报告(Page4)显示参数序号 */
 }XLSSTATCFG;
 
 #define     MAXNAME     50
