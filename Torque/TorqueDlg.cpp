@@ -4041,7 +4041,7 @@ void CTorqueDlg::UpdCfgLangChg(UINT nLang)
     
     theApp.LoadLanguageDll(nLang);
     SetMenu(&m_tMenu[nLang]);
-    theApp.m_ptCurShow  = &theApp.m_tShowCfg[nLang];
+    theApp.m_ptCurShow = &theApp.m_tShowCfg[nLang];
     m_ptShow         = theApp.m_ptCurShow;
     
     /* 井名发生变化，数据记录文件名称和数据序号需要变化 */
