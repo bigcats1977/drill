@@ -112,8 +112,8 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.LoadColumnInfo();
     
     //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
+    /*GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);*/
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -972,7 +972,7 @@ BOOL CDlgHisList::SetMultiValue(int iSeq, int iIndex, int iBegin, int iMaxNum)
     {
         ptTorq = &g_tReadData.tData[i];
 
-        /* 调过工具扣和备注非空的记录 */
+        /* 跳过工具扣和备注非空的记录 */
         if(ptTorq->btoolbuck())
             continue;
         if(!ptTorq->strmemo().empty())
@@ -1249,17 +1249,17 @@ void CDlgHisList::WriteSummarySheet()
         index = m_ptStat->JobPara[i];
         switch(i)
         {
-            case 1: // 最多显示4个值
+            case 0: // 最多显示4个值
                 /* B11:         显示参数名称1  */
                 SetMultiValue(i, index, 7, MAX1VALUES);
                 iRow = 11;
                 break;
-            case 2: // 最多显示8个值
+            case 1: // 最多显示6个值
                 /* B15:         显示参数名称2  */
                 SetMultiValue(i, index, 11, MAX2VALUES);
                 iRow = 17;
                 break;
-            case 3: // 最多显示4个值
+            case 2: // 最多显示4个值
                 /* B15:         显示参数名称3  */
                 SetMultiValue(i, index, 17, MAX3VALUES);
                 iRow = 21;
