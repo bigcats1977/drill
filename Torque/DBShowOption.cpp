@@ -59,7 +59,7 @@ void CDBShowOption::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-
+// 最多取前50个选项
 vector<string> CDBShowOption::GetOptionsByNameIndex(int index)
 {
     int i = 0;
@@ -69,9 +69,9 @@ vector<string> CDBShowOption::GetOptionsByNameIndex(int index)
     UINT nIndex = 0;
     string option;
     vector<string> lsOptions;
-
     condition = "LangType=" + to_string(*_CurLang) + " AND ShowIndex=" + to_string(index);
-    if (!_Sqlite->QueryTable(g_tTableName[_TableIndex], condition, row, col, &pResult))
+    //if (!_Sqlite->QueryTable(g_tTableName[_TableIndex], condition, row, col, &pResult))
+    if (!_Sqlite->QueryTableOrder(g_tTableName[_TableIndex], condition, "LastUsedTime", false, row, col, &pResult))
         return lsOptions;
 
     if (row <= 0)
@@ -81,7 +81,8 @@ vector<string> CDBShowOption::GetOptionsByNameIndex(int index)
     }
 
     nIndex = col;
-    for (i = 0; i < row; i++)
+    // 返回最新更新的50个选项
+    for (i = 0; i < row && i < MAX_SHOWOPTNUM; i++)
     {
         // NO
         nIndex++;
@@ -204,6 +205,10 @@ int CDBShowOption::GetNOByOption(int Name, string value, BOOL bIns)
     _Sqlite->GetValue(pResult[nIndex++], NO);
 
     _Sqlite->FreeResult(&pResult);
+
+    // update used time by NO
+    condition = "NO=" + to_string(NO);
+    _Sqlite->UpdateField(g_tTableName[_TableIndex], condition, "LastUsedTime", GetCurTime());
 
     return NO;
 }

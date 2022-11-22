@@ -1,5 +1,6 @@
 #pragma once
 #include "DBBase.h"
+#define MAX_SHOWOPTNUM      50
 class CDBShowOption :public CDBBase
 {
 public:

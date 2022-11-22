@@ -13,6 +13,7 @@ public:
     void CloseDB();
     BOOL GetTable(string tablename, int &row, int &col, char*** pazResult);
     BOOL QueryTable(string tablename, string condition, int& row, int& col, char*** pazResult);
+    BOOL QueryTableOrder(string tablename, string condition, string ordField, bool bASC, int& row, int& col, char*** pazResult);
     BOOL InsertRow(string tablename, vector<string> values);
     void FreeResult(char*** pazResult);
     BOOL UpdateField(string tablename, string condition, string field, string value);

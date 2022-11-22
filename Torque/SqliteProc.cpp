@@ -209,7 +209,36 @@ BOOL SqliteProc::QueryTable(string tablename, string condition, int& row, int& c
 
     sql = "SELECT * FROM " + tablename;
     if (!condition.empty())
-        sql += " WHERE " + ASCII2UTF8(condition) +";";
+        sql += " WHERE " + ASCII2UTF8(condition);
+    sql += ";";
+
+    res = sqlite3_get_table(ptCfgDB, sql.c_str(), pazResult, &row, &col, &errmsg);
+    if (res != SQLITE_OK)
+    {
+        sqlite3_free(errmsg);
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+BOOL SqliteProc::QueryTableOrder(string tablename, string condition, string ordField, bool bASC, int& row, int& col, char*** pazResult)
+{
+    int res = SQLITE_OK;
+    string sql;
+    char* errmsg = NULL;
+
+    if (!isOpen())
+        return FALSE;
+
+    sql = "SELECT * FROM " + tablename;
+    if (!condition.empty())
+        sql += " WHERE " + ASCII2UTF8(condition) + " ";
+    if(bASC)
+        sql += "ORDER BY " + ordField + " ASC";
+    else
+        sql += "ORDER BY " + ordField + " DESC";
+    sql += ";";
 
     res = sqlite3_get_table(ptCfgDB, sql.c_str(), pazResult, &row, &col, &errmsg);
     if (res != SQLITE_OK)
