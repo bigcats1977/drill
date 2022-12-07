@@ -927,22 +927,22 @@ int CTorqueApp::GetMainTallyIndex()
     return -1;
 }
 
-int CTorqueApp::GetMainTallyIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq)
+int CTorqueApp::GetMainTallyIndexfromData(UINT nTallyNO, TorqData::Torque *ptTorq)
 {
     int         i = 0;
-    string      strWellName;
+    string      strTallyName;
     string      strName;
 
     ASSERT_NULL_R(ptTorq, -1);
 
-    strWellName = GetMainShowName(m_ptCurShow, nWellNO);
-    if(strWellName.empty())
+    strTallyName = GetMainShowName(m_ptCurShow, nTallyNO);
+    if(strTallyName.empty())
         return -1;
 
     for(i=0; i< ptTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         strName = GetTorqShowName(ptTorq, i);
-        if (strName == strWellName)
+        if (strName == strTallyName)
             return i;
     }
     return -1;

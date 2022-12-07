@@ -135,7 +135,7 @@ public:
     int     SeekFileLen(CFile &file);
     void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq);
     int     GetMainTallyIndex();
-    int     GetMainTallyIndexfromData(UINT nWellNO, TorqData::Torque *ptTorq);
+    int     GetMainTallyIndexfromData(UINT nTallyNO, TorqData::Torque *ptTorq);
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque *ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex);

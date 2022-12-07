@@ -2346,7 +2346,7 @@ LRESULT CTorqueDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     
     m_nCur = theApp.m_nCurNO + 1;
     
-    if(!m_iShackle && QUA_RESU_GOOD == m_tSaveData.dwquality())
+    if(theApp.HaveTallyNO(&m_tSaveData))
     {
         theApp.m_nCurRunningNO++;
     }
@@ -2715,8 +2715,8 @@ void CTorqueDlg::StopTorque()
     DrawLastPoint();
 
     CLOSE_PORTCOMM();
-    
-    if(QUA_RESU_GOOD == m_tSaveData.dwquality())
+
+    if (theApp.HaveTallyNO(&m_tSaveData))
     {
         theApp.m_nCurRunningNO++;
     }
@@ -4276,7 +4276,7 @@ void CTorqueDlg::OnBnClickedBtnquality()
         {
             ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainTallyIndex());
             strRunningNO.Format("%d", theApp.m_nCurRunningNO);
-            if(theApp.HaveTallyNO(&m_tSaveData))
+            if (theApp.HaveTallyNO(&m_tSaveData))
                 ptRunningShow->set_strvalue(strRunningNO.GetBuffer());
             else
                 ptRunningShow->set_strvalue(NULLSTR);
