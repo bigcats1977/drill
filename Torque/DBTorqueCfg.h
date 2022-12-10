@@ -29,3 +29,4 @@ private:
     void Empty();
     void GetTable();
 };
+

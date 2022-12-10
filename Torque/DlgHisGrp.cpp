@@ -771,7 +771,7 @@ void CDlgHisGrp::OnModRemark()
         ShowCurData(FALSE);
 
         /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
-        if(iQuality != dlgRemark.m_iQuality)
+        if (iQuality != dlgRemark.m_iQuality)
             UpdateTallyNO();
     }
 }
@@ -1079,8 +1079,8 @@ void CDlgHisGrp::OnBnClickedCheckippoint()
 
     UpdateData(FALSE);
 
-	/* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
-	UpdateTallyNO();
+    /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
+    UpdateTallyNO();
 }
 
 void CDlgHisGrp::OnBnClickedChecktoolbuck()
@@ -1122,8 +1122,8 @@ void CDlgHisGrp::OnBnClickedCheckshackle()
 
     UpdateData(FALSE);
 
-	/* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
-	UpdateTallyNO();
+    /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
+    UpdateTallyNO();
 }
 
 void CDlgHisGrp::OnEnKillfocusHismemo()

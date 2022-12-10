@@ -175,7 +175,6 @@ vector<string> CDBAccess::GetNamesByIndexs(string indexs)
 
     COMP_BFALSE_R(m_bValidDBFile, lsNames);
     return m_tDBShowName.GetNamesByIndexs(indexs);
-
 }
 
 bool CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
@@ -417,6 +416,7 @@ int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     return AliasID;
 }
+
 
 vector<string> CDBAccess::ReadAllAlias()
 {

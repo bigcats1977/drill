@@ -3787,7 +3787,7 @@ BOOL CTorqueApp::ReCalTallyNO(CString strDataName)
 
         strOldNO = GetTorqShowValue(ptTorq, iTallyIndex);
         ptRunningShow = ptTorq->mutable_tshow(iTallyIndex);
-        if(HaveTallyNO(ptTorq))
+        if (HaveTallyNO(ptTorq))
         {
             strRunningNO.Format("%d", nRunningNO++);
         }

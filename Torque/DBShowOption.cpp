@@ -69,6 +69,7 @@ vector<string> CDBShowOption::GetOptionsByNameIndex(int index)
     UINT nIndex = 0;
     string option;
     vector<string> lsOptions;
+
     condition = "LangType=" + to_string(*_CurLang) + " AND ShowIndex=" + to_string(index);
     //if (!_Sqlite->QueryTable(g_tTableName[_TableIndex], condition, row, col, &pResult))
     if (!_Sqlite->QueryTableOrder(g_tTableName[_TableIndex], condition, "LastUsedTime", false, row, col, &pResult))

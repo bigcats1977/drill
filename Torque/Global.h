@@ -347,21 +347,15 @@ using namespace std;
 #define SHEET_SCATTER   _T("Page3")
 #define SHEET_REPORT    _T("Page4")
 
-
 //#define SHOWPARA_WELLNAME           7
 //#define SHOWPARA_WELLDEPTH          16
 //#define SHOWPARA_DPMATERIAL         1
 //#define SHOWPARA_DPSIZE             2
 //#define SHOWPARA_DPLEVEL            3
 
-
 //#define SHOWPARA_COMPANY            3
 //#define SHOWPARA_TUBEOEM            4
 //#define SHOWPARA_TUBETYPE           5
-
-/* 输出excel统计报告常量 */
-//#define         MAXSUMMARYPARA          6   /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
-//#define         MAXREPORTPARA           3   /* 报表(Page4)最多 3个显示参数 */
 
 /* 输出excel统计报告常量 */
 #define         STATPARA_GENNUM         5
@@ -371,11 +365,6 @@ using namespace std;
 #define         MAX2VALUES              6
 #define         MAX3VALUES              4
 
-//BYTE        ucWellNO;                   /* 井号 */
-//BYTE        ucWellDepth;                /* 井深 */
-//BYTE        ucCompany;                  /* 甲方名称 */
-//BYTE        ucOperator;                 /* 当班班长(操作者)参数序号 */
-//BYTE        ucTally;                    /* 入井序号参数序号 */
 #define         STATPARA_GENWELLNO      0
 #define         STATPARA_GENWELLDEPTH   1
 #define         STATPARA_GENCOMPANY     2
@@ -677,11 +666,10 @@ typedef struct tagFixTubePara
 
 typedef struct tagFixTubeInfo
 {
-    BOOL        bDbData;
+    bool        bDbData;
     UINT        nNum;
     FIXTUBEPARA* ptPara;
 }FIXTUBEINFO;
-
 
 //#define  TUBECFGTORQNUM         6
 #define  HALFTUBETORQNUM        3
@@ -709,13 +697,13 @@ typedef struct tagTubeCfg
 #else
     UINT    nTorqVal[MAXTUBETORQNUM];
 #endif
-}TUBECFG;// DRILLCFG
+}TUBECFG;
 
 typedef struct tagFixTubeCfg
 {
-    BOOL        bDbData;
+    bool        bDbData;
     UINT        nNum;
-    TUBECFG* ptCfg;
+    TUBECFG*    ptCfg;
 }FIXTUBECFG;
 #endif
 #define MAXMEMOLEN              128
@@ -782,10 +770,10 @@ typedef struct tagGLBCFG
     double      fRpmAdj;        /* 转速调整 */
     double      fIPDeltaVal;    /* 默认0.7 */   
 
-    BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 */
-    BOOL        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
-    BOOL        bShackle;       /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
-    BOOL        bDateBehind;    /* 日期在文件命名的后面 */
+    BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
+    bool        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
+    bool        bShackle;       /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
+    bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
     string      strDataPath;
@@ -814,7 +802,7 @@ typedef struct tagSHOWCFG
     //SHOWOPTION  tOption[MAXPARANUM];  /* 当前显示参数的可选项 +1 厂家(0)，参数设置时使用  */
 
     UINT        nAlias;
-    //BOOL        bFixTube;
+    //bool        bFixTube;
     //TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
 }SHOWCFG;
 
@@ -910,7 +898,7 @@ typedef struct tagTORQUEDATA
     UINT    nTotal;
     UINT    nQualy;
     UINT    nUnQualy;
-    BOOL    bHaveHead;  /* 文件中每个数据前面是否有头隔断 */
+    bool    bHaveHead;  /* 文件中每个数据前面是否有头隔断 */
     UINT    nTotalPlus[MAXWELLNUM];
     TorqData::Torque  tData[MAXWELLNUM];
     SPLITPOINT        tSplit[MAXWELLNUM];   // 多屏数据时，读取后设置分屏起点终点
@@ -1418,6 +1406,9 @@ string GetListFromArray(BYTE* parray, int num);
 vector<int> GetIDFromList(string lsVals);
 void CheckLanguage(UINT& nLang);
 CString GetCCBString(CComboBox* ptCCB);
+
+string UTF82ASCII(string& strUtf8Code);         //utf-8 转 ascii 
+string ASCII2UTF8(string& strAsciiCode);        //ascii 转 Utf8
 #pragma endregion
 
 

@@ -80,7 +80,7 @@ BOOL CDlgXlsStatSet::OnInitDialog()
 
     CDialog::OnInitDialog();
 
-    g_ptLast   = &g_tReadData.tData[g_tReadData.nTotal-1];
+    g_ptLast = &g_tReadData.tData[g_tReadData.nTotal - 1];
     m_ptStat = &theApp.m_tXlsStatCfg[g_tGlbCfg.nLangType];
 
     m_clrNormal  = RGB(0, 0, 0); 
@@ -120,9 +120,7 @@ void CDlgXlsStatSet::InitCBContent(CComboBox* ptCB, UINT index)
 
 void CDlgXlsStatSet::OnBnClickedOk()
 {
-    int     i       = 0;
-    int     iSummary= 0;
-    int     iReport = 0;
+    int     i = 0;
 
     UpdateData(TRUE);
 
