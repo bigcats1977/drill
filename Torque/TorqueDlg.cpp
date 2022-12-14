@@ -2874,8 +2874,8 @@ void CTorqueDlg::OnSetpara()
     CDlgParaSet dlgParaSet;
     PARACFG* ptCurCfg = NULL;
     SHOWCFG* ptCurShow = NULL;
-    BOOL        bCtrl = FALSE;
-    BOOL        bComm = FALSE;
+    //BOOL        bCtrl = FALSE;
+    //BOOL        bComm = FALSE;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSETPARA));
 
@@ -2889,19 +2889,19 @@ void CTorqueDlg::OnSetpara()
     ptCurShow = &dlgParaSet.m_tempShow;
 
     /* 比较参数是否发生变化，如果变化，需要修改参数马上生效 */
-    bCtrl = CompSysPara((BYTE*)m_ptCtrl,
-        (BYTE*)&ptCurCfg->tCtrl,
-        sizeof(CONTROLPARA));
-    bComm = CompSysPara((BYTE*)m_ptComm,
-        (BYTE*)&ptCurCfg->tComm,
-        sizeof(COMMONCFG));
+    //bCtrl = CompSysPara((BYTE*)m_ptCtrl,
+    //    (BYTE*)&ptCurCfg->tCtrl,
+    //    sizeof(CONTROLPARA));
+    //bComm = CompSysPara((BYTE*)m_ptComm,
+    //    (BYTE*)&ptCurCfg->tComm,
+    //    sizeof(COMMONCFG));
 
     theApp.m_tParaCfg = dlgParaSet.m_tempCfg;
     *m_ptShow = dlgParaSet.m_tempShow;
     /* 井名发生变化，数据记录文件名称和数据序号需要变化 */
     ReGetTorqNo();
 
-    if (!bCtrl || !bComm)
+    /*if (!bCtrl || !bComm)*/
     {
         ResetLineChart();
         Invalidate(TRUE);
