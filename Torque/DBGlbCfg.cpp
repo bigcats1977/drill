@@ -24,7 +24,7 @@ void CDBGlbCfg::Empty()
     _IPShowMode = 1;
     _ZoomIn = 5;
     _ImgNum = 8;
-    _Test = 0;
+    //_Test = 0;
 
     _Discount = 1;
     _Multi = 1;
@@ -69,7 +69,7 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _IPShowMode);
     _Sqlite->GetValue(pResult[nIndex++], _ZoomIn);
     _Sqlite->GetValue(pResult[nIndex++], _ImgNum);
-    _Sqlite->GetValue(pResult[nIndex++], _Test);
+    //_Sqlite->GetValue(pResult[nIndex++], _Test);
 
     _Sqlite->GetValue(pResult[nIndex++], _Discount);
     _Sqlite->GetValue(pResult[nIndex++], _Multi);

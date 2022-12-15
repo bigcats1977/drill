@@ -17,6 +17,7 @@ CDlgGlbCfg::CDlgGlbCfg(CWnd* pParent /*=nullptr*/)
     m_nCollect = 0;
     m_nSave = 0;
     m_bDateBehind = FALSE;
+    m_bShowTest = false;
 
     m_Baud[0] = 4800;
     m_Baud[1] = 9600;
@@ -48,6 +49,7 @@ void CDlgGlbCfg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDITSAVEDUR, m_nSave);
     DDX_Text(pDX, IDC_EDITPLUS, m_nPlus);
     DDX_Check(pDX, IDC_CHECKBEHIND, m_bDateBehind);
+    DDX_Control(pDX, IDC_COMBOTEST, m_cbTest);
 }
 
 
@@ -71,10 +73,39 @@ BOOL CDlgGlbCfg::OnInitDialog()
     /* 根据入参设置参数初始值 */
     SetParaValue(&g_tGlbCfg);
 
+    RegisterHotKey(GetSafeHwnd(), 1, (MOD_CONTROL | MOD_ALT), UINT('I'));
+
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+BOOL CDlgGlbCfg::PreTranslateMessage(MSG* pMsg)
+{
+    ASSERT_NULL_R(pMsg, FALSE);
+
+    if (pMsg->message == WM_HOTKEY)
+    {
+        if (pMsg->wParam == 1 &&
+            LOWORD(pMsg->lParam) == (MOD_CONTROL | MOD_ALT))
+        {
+            if (HIWORD(pMsg->lParam) == UINT('I'))
+            {
+                ShowTestFunc();
+                return TRUE;
+            }
+        }
+    }
+
+    return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CDlgGlbCfg::ShowTestFunc()
+{
+    m_bShowTest = !m_bShowTest;
+    GetDlgItem(IDC_STATICTEST)->ShowWindow(m_bShowTest);
+    GetDlgItem(IDC_COMBOTEST)->ShowWindow(m_bShowTest);
 }
 
 void CDlgGlbCfg::SelComboItem(CComboBox* ptCCB, map<int, int> Items, int val)
@@ -104,6 +135,7 @@ BOOL CDlgGlbCfg::GetParaValue(GLBCFG *ptCfg)
     ptCfg->nPortNO = m_cbPort.GetCurSel() + 1;
     ptCfg->nBaudRate = m_Baud[m_cbBaud.GetCurSel()];
     ptCfg->nImgNum = m_ImgNum[m_cbImgNum.GetCurSel()];
+    ptCfg->nTest = m_cbTest.GetCurSel();
 
     ptCfg->nPlusPerTurn = m_nPlus;
 
@@ -124,6 +156,10 @@ void CDlgGlbCfg::SetParaValue(GLBCFG *ptCfg)
     m_cbPort.SetCurSel(ptCfg->nPortNO - 1);
     SelComboItem(&m_cbBaud, m_Baud, ptCfg->nBaudRate);
     SelComboItem(&m_cbImgNum, m_ImgNum, ptCfg->nImgNum);
+    if (ptCfg->nTest < 4)
+        m_cbTest.SetCurSel(ptCfg->nTest);
+    else
+        m_cbTest.SetCurSel(0);
 
     m_nPlus = ptCfg->nPlusPerTurn;
     m_nReset = ptCfg->nResetDur;

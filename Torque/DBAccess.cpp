@@ -136,7 +136,7 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.nIPShowMode = m_tDBGlbCfg._IPShowMode;
     g_tGlbCfg.nZoomIn = m_tDBGlbCfg._ZoomIn;
     g_tGlbCfg.nImgNum = m_tDBGlbCfg._ImgNum;
-    g_tGlbCfg.nTest = m_tDBGlbCfg._Test;
+    //g_tGlbCfg.nTest = m_tDBGlbCfg._Test;
 
     g_tGlbCfg.fDiscount = m_tDBGlbCfg._Discount;
     g_tGlbCfg.fMulti = m_tDBGlbCfg._Multi;

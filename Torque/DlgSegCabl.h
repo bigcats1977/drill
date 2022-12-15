@@ -41,6 +41,7 @@ public:
     afx_msg void OnBnClickedBtncalibread();
     afx_msg void OnBnClickedBtncalibimp();
     afx_msg LRESULT ProcReadCalib(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnDestroy();
 
 private:
@@ -56,6 +57,4 @@ private:
     void        InitTestData();
     BOOL        GetCalibInfoFromExcel(CString strName);
     BOOL        CheckCalib(CALIBINFO *ptInfo);
-public:
-    afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

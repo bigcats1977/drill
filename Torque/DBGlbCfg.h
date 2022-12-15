@@ -15,7 +15,7 @@ public:
     UINT    _IPShowMode;
     UINT    _ZoomIn;
     UINT    _ImgNum;
-    UINT    _Test;
+    //UINT    _Test;
 
     double  _Discount;
     double  _Multi;

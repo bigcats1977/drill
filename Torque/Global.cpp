@@ -628,7 +628,7 @@ const UINT   g_nValidLen[REGCODESEGNUM] = {
 /* 读取的历史保存的扭矩控制数据，包括文件名称，数据个数等信息 */
 TORQUEDATA      g_tReadData;
 
-GLBCFG          g_tGlbCfg;
+GLBCFG          g_tGlbCfg = { 0 };
 
 //添加的标识只运行一次的属性名
 string  g_strPropName   = _T("Torque.exe");     //自己定义一个属性名
