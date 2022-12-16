@@ -4091,10 +4091,6 @@ void CTorqueDlg::OnVerBigTorq()
 
     g_tGlbCfg.bBigTorq = !g_tGlbCfg.bBigTorq;
 
-    theApp.m_nTorqMulti = 1;
-    if (g_tGlbCfg.bBigTorq)
-        theApp.m_nTorqMulti = 10;
-
     theApp.ShowMainTitle();
 
     theDB.UpdateGlobalPara();

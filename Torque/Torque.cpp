@@ -1432,13 +1432,17 @@ void CTorqueApp::ShowMainTitle()
     string strAppName;
     CWnd    *m_pCWnd = AfxGetMainWnd();
 
+    m_nTorqMulti = 1;
+
     if(m_tdbReg.bReged)
     {
         strAppName = LoadstringFromRes(IDS_STRTITLE);
         //strAppName.Format(IDS_STRTITLE);
-        if(g_tGlbCfg.bBigTorq)
+        if (g_tGlbCfg.bBigTorq) {
+            theApp.m_nTorqMulti = 10;
             strAppName = LoadstringFromRes(IDS_STRBIGTITLE);
             //strAppName.Format(IDS_STRBIGTITLE);
+        }
         ::SetWindowText(*m_pCWnd,strAppName.c_str());
         return;
     }
@@ -1446,9 +1450,12 @@ void CTorqueApp::ShowMainTitle()
     /* else */
     strAppName = LoadstringFromRes(IDS_STRTRYOUT);
     //strAppName.Format(IDS_STRTRYOUT);
-    if(g_tGlbCfg.bBigTorq)
+    if (g_tGlbCfg.bBigTorq)
+    {
+        theApp.m_nTorqMulti = 10;
         strAppName = LoadstringFromRes(IDS_STRBIGTRYOUT);
         //strAppName.Format(IDS_STRBIGTRYOUT);
+    }
 
     ::SetWindowText(*m_pCWnd,strAppName.c_str());
     return;
