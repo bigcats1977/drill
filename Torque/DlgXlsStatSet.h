@@ -23,9 +23,9 @@ public:
     CColorComboBox  m_cbGenParaName[STATPARA_GENNUM];
     int m_iGenParaIndex[STATPARA_GENNUM];
     CColorComboBox  m_cbJobParaName[STATPARA_JOBNUM];
-    int m_iJobParaIndex[STATPARA_GENNUM];
+    int m_iJobParaIndex[STATPARA_JOBNUM];
     CColorComboBox  m_cbInfoParaName[STATPARA_INFONUM];
-    int m_iInfoParaIndex[STATPARA_GENNUM];
+    int m_iInfoParaIndex[STATPARA_INFONUM];
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
