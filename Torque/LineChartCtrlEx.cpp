@@ -37,19 +37,19 @@ CLineChartCtrlEx::CLineChartCtrlEx()
     m_uLineType   = LINETYPE_MAIN;
     m_iChartHeight= 400;
 
-    m_fUpperLimit = 2500;   /* 最大扭矩 */
-    m_fLowerLimit = 1800;   /* 最小扭矩 */
+    //m_fUpperLimit = 2500;   /* 最大扭矩 */
+    //m_fLowerLimit = 1800;   /* 最小扭矩 */
     m_fOptTorq    = 2000;   /* 最佳扭矩 */
-    m_fSpeedDown  = 300;    /* 减速扭矩 */
+    //m_fSpeedDown  = 300;    /* 减速扭矩 */
     m_fShow       = 100;    /* 显示扭矩 */
-    m_fBear       = 1500;   /* 肩负扭矩 */
+    //m_fBear       = 1500;   /* 肩负扭矩 */
     m_fControlCir = 2;      /* 控制周数 */
     m_fUpperCir   = 4.5;    /* 上限周数 */
     m_fLowerCir   = 0.1;    /* 下限周数 */
     m_fMaxCir     = 5;      /* 最大周数 */
     m_fWidthCir   = 5;
     m_fMaxLimit   = 5000;   /* 最大上限 */
-    m_bBear       = FALSE;
+    //m_bBear       = FALSE;
     //m_nTorqNo     = 1;
     m_nSelPntNum  = 0;
     m_nStartPoint = 0;
@@ -466,35 +466,6 @@ void CLineChartCtrlEx::DrawShowLine()
     m_MemDC.SelectObject(pOldPen);
 }
 
-void CLineChartCtrlEx::DrawBearLine()
-{
-    int     x        = 0;
-    int     y        = 0;
-    CPen    *pOldPen = NULL;
-    //CString strTemp;
-    COLORREF clrBear = LC_BEARCOLOR;
-
-    COMP_BFALSE(m_bBear);
-    
-    if(LINETYPE_HISG == m_uLineType)
-    {
-        clrBear = CTRLBKCOLOR;
-    }
-    CPen    penBear(PS_DOT,1,clrBear);
-
-    pOldPen = m_MemDC.SelectObject(&penBear);
-
-    /* ----- */
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fBear)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示肩负扭矩值 */
-    //strTemp.Format(IDS_STRLCXBEAR, m_fBear);
-    //ShowContent(clrBear, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrBear, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXBEAR, m_fBear));
-
-    m_MemDC.SelectObject(pOldPen);
-}
-
 void CLineChartCtrlEx::DrawBkLine()
 {
     int         iOldMode  = 0;
@@ -531,9 +502,6 @@ void CLineChartCtrlEx::DrawBkLine()
 
     /*显示扭矩*/
     DrawShowLine();
-
-    /*肩负扭矩*/
-    DrawBearLine();
 
     m_MemDC.SetBkMode(iOldMode);
     m_MemDC.SelectObject(&pOldFont);

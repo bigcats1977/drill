@@ -316,26 +316,30 @@ using namespace std;
 #define VALVESTATUS_MAKEUP      0x0010
 #define VALVESTATUS_BREAKOUT    0x0020
 
+#define RATIO_OPTSHOULD         0.3
+#define RATIO_LOWERLIMIT        0.9
+#define RATIO_UPPERLIMIT        1.1
+#define RATIO_MAXLIMIT          1.3
 #define INDEX_TORQ_MAXLIMIT         0       /* 最大上限 */
-#define INDEX_TORQ_UPPERLIMIT       1       /* 最大扭矩 */
-#define INDEX_TORQ_CONTROL          2       /* 控制扭矩 */
-#define INDEX_TORQ_OPTIMAL          3       /* 最佳扭矩 */
-#define INDEX_TORQ_LOWERLIMIT       4       /* 最小扭矩 */
-#define INDEX_TORQ_SPEEDDOWN        5       /* 减速扭矩 */
-#define INDEX_TORQ_SHOW             6       /* 显示扭矩 */
-#define INDEX_TORQ_BEAR             7       /* 肩负扭矩 */
-#define INDEX_TORQ_UPPERTAI         8       /* 最大台阶扭矩 */
-#define INDEX_TORQ_LOWERTAI         9       /* 最小台阶扭矩 */
-#define MAXTORQCONFNUM              (INDEX_TORQ_LOWERTAI+1)
+//#define INDEX_TORQ_UPPERLIMIT       1       /* 最大扭矩 */
+#define INDEX_TORQ_CONTROL          1       /* 控制扭矩 */
+#define INDEX_TORQ_OPTIMAL          2       /* 最佳扭矩 */
+//#define INDEX_TORQ_LOWERLIMIT       4       /* 最小扭矩 */
+//#define INDEX_TORQ_SPEEDDOWN        3       /* 减速扭矩 */
+#define INDEX_TORQ_SHOW             3       /* 显示扭矩 */
+//#define INDEX_TORQ_BEAR             7       /* 肩负扭矩 */
+//#define INDEX_TORQ_UPPERTAI         8       /* 最大台阶扭矩 */
+//#define INDEX_TORQ_LOWERTAI         9       /* 最小台阶扭矩 */
+#define MAXTORQCONFNUM              (INDEX_TORQ_SHOW+1)
 
 
 #define INDEX_TURN_MAXLIMIT         0       /* 最大周数 */
 #define INDEX_TURN_UPPERLIMIT       1       /* 上限周数 */
 #define INDEX_TURN_CONTROL          2       /* 控制周数 */
 #define INDEX_TURN_LOWERLIMIT       3       /* 下限周数 */
-#define INDEX_TURN_MAXDELTA         4       /* 最大Delta周数0.1 */
-#define INDEX_TURN_MINDELTA         5       /* 最大Delta周数0.1 */
-#define MAXTURNCONFNUM              (INDEX_TURN_MINDELTA+1)
+//#define INDEX_TURN_MAXDELTA         4       /* 最大Delta周数0.1 */
+//#define INDEX_TURN_MINDELTA         5       /* 最大Delta周数0.1 */
+#define MAXTURNCONFNUM              (INDEX_TURN_LOWERLIMIT+1)
 
 #pragma endregion
 
@@ -636,9 +640,9 @@ typedef struct tagCONTROLPARA
     //double      fPlus;        /* 周脉冲数 */
     /* 满屏转速 */
     double      fFullRPM;       /* 画图上的最大转速 */
-    double      fMinShlSlope;   /* 最小肩负斜率5.0 */
+    //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
 
-    WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
+    //WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
     BYTE        ucVer;        /* 0: 2017年数据结构
                                  1: 显示参数名称长度固定25；最多30个显示参数；NLV格式: 显示参数的值长度根据L
                                     0～14：正常显示名称，15 Factory
@@ -724,7 +728,7 @@ typedef struct tagCOMMONCFG
 
     /* 开关值设置，每个开关值使用一个BIT位 */
     /* BIT位定义 最多8*32个 */
-    DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
+    //DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
     DWORD       bToolBuck : 1;    /* 是否为工具扣,默认为否 */
     DWORD       bRsv : 30;
     DWORD       dwRsv2[7];
@@ -877,8 +881,8 @@ typedef struct tagCOLLECTDATA
 typedef struct tagSTATCFG
 {
     double  fCtrlRange[STATRANGENUM];       /* 控件扭矩范围 */
-    double  fShouldRange[STATRANGENUM];     /* 拐点扭矩统计范围 */
-    double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
+    //double  fShouldRange[STATRANGENUM];     /* 拐点扭矩统计范围 */
+    //double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
 }STATCFG;
 
 #define     MAXSPLIITNUM        10

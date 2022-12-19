@@ -56,12 +56,8 @@ PROTOBUF_CONSTEXPR Torque::Torque(
   , /*decltype(_impl_.btoolbuck_)*/false
   , /*decltype(_impl_.bshackle_)*/false
   , /*decltype(_impl_.fmaxlimit_)*/0
-  , /*decltype(_impl_.fupperlimit_)*/0
   , /*decltype(_impl_.fcontrol_)*/0
-  , /*decltype(_impl_.flowerlimit_)*/0
-  , /*decltype(_impl_.fspeeddown_)*/0
   , /*decltype(_impl_.fshow_)*/0
-  , /*decltype(_impl_.fbear_)*/0
   , /*decltype(_impl_.fopttorq_)*/0
   , /*decltype(_impl_.fmaxcir_)*/0
   , /*decltype(_impl_.fuppercir_)*/0
@@ -123,12 +119,8 @@ const uint32_t TableStruct_DrillData_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.bshackle_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwtorqunit_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxlimit_),
-  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fupperlimit_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fcontrol_),
-  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.flowerlimit_),
-  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fspeeddown_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fshow_),
-  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fbear_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fopttorq_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxcir_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fuppercir_),
@@ -153,7 +145,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_DrillData_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\017DrillData.proto\022\010TorqData\"-\n\010ShowInfo\022"
-  "\020\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\255\005\n\006T"
+  "\020\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\340\004\n\006T"
   "orque\022\017\n\007coltime\030\001 \001(\006\022\017\n\007dwSeqNo\030\002 \001(\005\022"
   "\021\n\tdwQuality\030\003 \001(\005\022\020\n\010fMaxTorq\030\005 \001(\001\022\023\n\007"
   "fTorque\030\006 \003(\001B\002\020\001\022\020\n\004fRpm\030\007 \003(\001B\002\020\001\022!\n\005t"
@@ -163,19 +155,17 @@ const char descriptor_table_protodef_DrillData_2eproto[] PROTOBUF_SECTION_VARIAB
   "olTime\030\017 \001(\014\022\r\n\005dwVer\030\020 \001(\005\022\021\n\tbToolBuck"
   "\030\025 \001(\010\022\017\n\007strMemo\030\026 \001(\014\022\021\n\tstrRemark\030\027 \001"
   "(\014\022\020\n\010bShackle\030\031 \001(\010\022\022\n\ndwTorqUnit\030\033 \001(\005"
-  "\022\021\n\tfMaxLimit\030\037 \001(\001\022\023\n\013fUpperLimit\030  \001(\001"
-  "\022\020\n\010fControl\030! \001(\001\022\023\n\013fLowerLimit\030\" \001(\001\022"
-  "\022\n\nfSpeedDown\030# \001(\001\022\r\n\005fShow\030$ \001(\001\022\r\n\005fB"
-  "ear\030% \001(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007fMaxCir\030)"
-  " \001(\001\022\021\n\tfUpperCir\030* \001(\001\022\023\n\013fControlCir\030+"
-  " \001(\001\022\021\n\tfLowerCir\030, \001(\001\022\r\n\005fPlus\0303 \001(\001\022\017"
-  "\n\007fMaxRPM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n\007fRpmAdj"
-  "\0306 \001(\001\022\016\n\006fMulti\0307 \001(\001\022\022\n\nfMakeupDur\030I \001"
-  "(\001b\006proto3"
+  "\022\021\n\tfMaxLimit\030\037 \001(\001\022\020\n\010fControl\030! \001(\001\022\r\n"
+  "\005fShow\030$ \001(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007fMaxCi"
+  "r\030) \001(\001\022\021\n\tfUpperCir\030* \001(\001\022\023\n\013fControlCi"
+  "r\030+ \001(\001\022\021\n\tfLowerCir\030, \001(\001\022\r\n\005fPlus\0303 \001("
+  "\001\022\017\n\007fMaxRPM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n\007fRpm"
+  "Adj\0306 \001(\001\022\016\n\006fMulti\0307 \001(\001\022\022\n\nfMakeupDur\030"
+  "I \001(\001b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_DrillData_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_DrillData_2eproto = {
-    false, false, 770, descriptor_table_protodef_DrillData_2eproto,
+    false, false, 693, descriptor_table_protodef_DrillData_2eproto,
     "DrillData.proto",
     &descriptor_table_DrillData_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_DrillData_2eproto::offsets,
@@ -468,12 +458,8 @@ Torque::Torque(const Torque& from)
     , decltype(_impl_.btoolbuck_){}
     , decltype(_impl_.bshackle_){}
     , decltype(_impl_.fmaxlimit_){}
-    , decltype(_impl_.fupperlimit_){}
     , decltype(_impl_.fcontrol_){}
-    , decltype(_impl_.flowerlimit_){}
-    , decltype(_impl_.fspeeddown_){}
     , decltype(_impl_.fshow_){}
-    , decltype(_impl_.fbear_){}
     , decltype(_impl_.fopttorq_){}
     , decltype(_impl_.fmaxcir_){}
     , decltype(_impl_.fuppercir_){}
@@ -543,12 +529,8 @@ inline void Torque::SharedCtor(
     , decltype(_impl_.btoolbuck_){false}
     , decltype(_impl_.bshackle_){false}
     , decltype(_impl_.fmaxlimit_){0}
-    , decltype(_impl_.fupperlimit_){0}
     , decltype(_impl_.fcontrol_){0}
-    , decltype(_impl_.flowerlimit_){0}
-    , decltype(_impl_.fspeeddown_){0}
     , decltype(_impl_.fshow_){0}
-    , decltype(_impl_.fbear_){0}
     , decltype(_impl_.fopttorq_){0}
     , decltype(_impl_.fmaxcir_){0}
     , decltype(_impl_.fuppercir_){0}
@@ -795,14 +777,6 @@ const char* Torque::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // double fUpperLimit = 32;
-      case 32:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 1)) {
-          _impl_.fupperlimit_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
-        } else
-          goto handle_unusual;
-        continue;
       // double fControl = 33;
       case 33:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 9)) {
@@ -811,34 +785,10 @@ const char* Torque::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // double fLowerLimit = 34;
-      case 34:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
-          _impl_.flowerlimit_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
-        } else
-          goto handle_unusual;
-        continue;
-      // double fSpeedDown = 35;
-      case 35:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
-          _impl_.fspeeddown_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
-        } else
-          goto handle_unusual;
-        continue;
       // double fShow = 36;
       case 36:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
           _impl_.fshow_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
-        } else
-          goto handle_unusual;
-        continue;
-      // double fBear = 37;
-      case 37:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 41)) {
-          _impl_.fbear_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
           ptr += sizeof(double);
         } else
           goto handle_unusual;
@@ -1085,16 +1035,6 @@ uint8_t* Torque::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(31, this->_internal_fmaxlimit(), target);
   }
 
-  // double fUpperLimit = 32;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fupperlimit = this->_internal_fupperlimit();
-  uint64_t raw_fupperlimit;
-  memcpy(&raw_fupperlimit, &tmp_fupperlimit, sizeof(tmp_fupperlimit));
-  if (raw_fupperlimit != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteDoubleToArray(32, this->_internal_fupperlimit(), target);
-  }
-
   // double fControl = 33;
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fcontrol = this->_internal_fcontrol();
@@ -1105,26 +1045,6 @@ uint8_t* Torque::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(33, this->_internal_fcontrol(), target);
   }
 
-  // double fLowerLimit = 34;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_flowerlimit = this->_internal_flowerlimit();
-  uint64_t raw_flowerlimit;
-  memcpy(&raw_flowerlimit, &tmp_flowerlimit, sizeof(tmp_flowerlimit));
-  if (raw_flowerlimit != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteDoubleToArray(34, this->_internal_flowerlimit(), target);
-  }
-
-  // double fSpeedDown = 35;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fspeeddown = this->_internal_fspeeddown();
-  uint64_t raw_fspeeddown;
-  memcpy(&raw_fspeeddown, &tmp_fspeeddown, sizeof(tmp_fspeeddown));
-  if (raw_fspeeddown != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteDoubleToArray(35, this->_internal_fspeeddown(), target);
-  }
-
   // double fShow = 36;
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fshow = this->_internal_fshow();
@@ -1133,16 +1053,6 @@ uint8_t* Torque::_InternalSerialize(
   if (raw_fshow != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(36, this->_internal_fshow(), target);
-  }
-
-  // double fBear = 37;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fbear = this->_internal_fbear();
-  uint64_t raw_fbear;
-  memcpy(&raw_fbear, &tmp_fbear, sizeof(tmp_fbear));
-  if (raw_fbear != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteDoubleToArray(37, this->_internal_fbear(), target);
   }
 
   // double fOptTorq = 40;
@@ -1400,15 +1310,6 @@ size_t Torque::ByteSizeLong() const {
     total_size += 2 + 8;
   }
 
-  // double fUpperLimit = 32;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fupperlimit = this->_internal_fupperlimit();
-  uint64_t raw_fupperlimit;
-  memcpy(&raw_fupperlimit, &tmp_fupperlimit, sizeof(tmp_fupperlimit));
-  if (raw_fupperlimit != 0) {
-    total_size += 2 + 8;
-  }
-
   // double fControl = 33;
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fcontrol = this->_internal_fcontrol();
@@ -1418,39 +1319,12 @@ size_t Torque::ByteSizeLong() const {
     total_size += 2 + 8;
   }
 
-  // double fLowerLimit = 34;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_flowerlimit = this->_internal_flowerlimit();
-  uint64_t raw_flowerlimit;
-  memcpy(&raw_flowerlimit, &tmp_flowerlimit, sizeof(tmp_flowerlimit));
-  if (raw_flowerlimit != 0) {
-    total_size += 2 + 8;
-  }
-
-  // double fSpeedDown = 35;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fspeeddown = this->_internal_fspeeddown();
-  uint64_t raw_fspeeddown;
-  memcpy(&raw_fspeeddown, &tmp_fspeeddown, sizeof(tmp_fspeeddown));
-  if (raw_fspeeddown != 0) {
-    total_size += 2 + 8;
-  }
-
   // double fShow = 36;
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fshow = this->_internal_fshow();
   uint64_t raw_fshow;
   memcpy(&raw_fshow, &tmp_fshow, sizeof(tmp_fshow));
   if (raw_fshow != 0) {
-    total_size += 2 + 8;
-  }
-
-  // double fBear = 37;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fbear = this->_internal_fbear();
-  uint64_t raw_fbear;
-  memcpy(&raw_fbear, &tmp_fbear, sizeof(tmp_fbear));
-  if (raw_fbear != 0) {
     total_size += 2 + 8;
   }
 
@@ -1633,13 +1507,6 @@ void Torque::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
     _this->_internal_set_fmaxlimit(from._internal_fmaxlimit());
   }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fupperlimit = from._internal_fupperlimit();
-  uint64_t raw_fupperlimit;
-  memcpy(&raw_fupperlimit, &tmp_fupperlimit, sizeof(tmp_fupperlimit));
-  if (raw_fupperlimit != 0) {
-    _this->_internal_set_fupperlimit(from._internal_fupperlimit());
-  }
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fcontrol = from._internal_fcontrol();
   uint64_t raw_fcontrol;
   memcpy(&raw_fcontrol, &tmp_fcontrol, sizeof(tmp_fcontrol));
@@ -1647,32 +1514,11 @@ void Torque::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
     _this->_internal_set_fcontrol(from._internal_fcontrol());
   }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_flowerlimit = from._internal_flowerlimit();
-  uint64_t raw_flowerlimit;
-  memcpy(&raw_flowerlimit, &tmp_flowerlimit, sizeof(tmp_flowerlimit));
-  if (raw_flowerlimit != 0) {
-    _this->_internal_set_flowerlimit(from._internal_flowerlimit());
-  }
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fspeeddown = from._internal_fspeeddown();
-  uint64_t raw_fspeeddown;
-  memcpy(&raw_fspeeddown, &tmp_fspeeddown, sizeof(tmp_fspeeddown));
-  if (raw_fspeeddown != 0) {
-    _this->_internal_set_fspeeddown(from._internal_fspeeddown());
-  }
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fshow = from._internal_fshow();
   uint64_t raw_fshow;
   memcpy(&raw_fshow, &tmp_fshow, sizeof(tmp_fshow));
   if (raw_fshow != 0) {
     _this->_internal_set_fshow(from._internal_fshow());
-  }
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_fbear = from._internal_fbear();
-  uint64_t raw_fbear;
-  memcpy(&raw_fbear, &tmp_fbear, sizeof(tmp_fbear));
-  if (raw_fbear != 0) {
-    _this->_internal_set_fbear(from._internal_fbear());
   }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fopttorq = from._internal_fopttorq();

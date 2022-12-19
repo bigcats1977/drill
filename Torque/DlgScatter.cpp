@@ -62,12 +62,10 @@ void CDlgScatter::ResetScatLineByData(TorqData::Torque *ptTorq)
     CHECK_VALUE_LOW(m_fFullCir, ptTorq->fmaxcir());
 
     m_wndLineScat.RemoveAt();
-    m_wndLineScat.m_fUpperLimit = ptTorq->fupperlimit();    /* 最大扭矩 */
-    m_wndLineScat.m_fLowerLimit = ptTorq->flowerlimit();    /* 最小扭矩 */
     m_wndLineScat.m_fOptTorq    = theApp.GetOptTorq(ptTorq);/* 最佳扭矩 */
-    m_wndLineScat.m_fSpeedDown  = ptTorq->fspeeddown();     /* 减速扭矩 */
+    //m_wndLineScat.m_fSpeedDown  = ptTorq->fspeeddown();     /* 减速扭矩 */
     m_wndLineScat.m_fShow = ptTorq->fshow();                /* 显示扭矩 */
-    m_wndLineScat.m_fBear = ptTorq->fbear();                /* 肩负扭矩 */
+    //m_wndLineScat.m_fBear = ptTorq->fbear();                /* 肩负扭矩 */
     m_wndLineScat.m_fControlCir = ptTorq->fcontrolcir();    /* 控制周数 */
     m_wndLineScat.m_fUpperCir   = ptTorq->fuppercir();      /* 上限周数 */
     m_wndLineScat.m_fLowerCir   = ptTorq->flowercir();      /* 下限周数 */
@@ -95,19 +93,19 @@ void CDlgScatter::ResetScatLine(PARACFG *ptCfg)
     ptComm = &ptCfg->tComm;
 
     m_wndLineScat.RemoveAt();
-    m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
-    m_wndLineScat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
+    //m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
+    //m_wndLineScat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
     m_wndLineScat.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
-    m_wndLineScat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
+    //m_wndLineScat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
     m_wndLineScat.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
-    m_wndLineScat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    //m_wndLineScat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
     m_wndLineScat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* 控制周数 */
     m_wndLineScat.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
     m_wndLineScat.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
     m_wndLineScat.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
     m_wndLineScat.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
-    m_wndLineScat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
-    m_wndLineScat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
+    //m_wndLineScat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
+    //m_wndLineScat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
 
     m_wndLineScat.SetBkColor(RGB(255, 255, 255));
     m_wndLineScat.m_bBKLine = FALSE;

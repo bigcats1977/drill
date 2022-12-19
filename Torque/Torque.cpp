@@ -116,25 +116,25 @@ void CTorqueApp::InitTorqCfgPara(PARACFG* ptCfg)
     ptCtrl = &ptCfg->tCtrl;
 
     ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] = stod(LoadstringFromRes(IDS_STRPVMAXBOUND));
-    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT] = stod(LoadstringFromRes(IDS_STRPVUPLIMIT));
+    //ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT] = stod(LoadstringFromRes(IDS_STRPVUPLIMIT));
     ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] = stod(LoadstringFromRes(IDS_STRPVCONTROL));
     ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] = stod(LoadstringFromRes(IDS_STRPVOPTTORQ));
-    ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT] = stod(LoadstringFromRes(IDS_STRPVLOWLIMIT));
-    ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN] = stod(LoadstringFromRes(IDS_STRPVSPEEDDOWN));
+    //ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT] = stod(LoadstringFromRes(IDS_STRPVLOWLIMIT));
+    //ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN] = stod(LoadstringFromRes(IDS_STRPVSPEEDDOWN));
     ptCtrl->fTorqConf[INDEX_TORQ_SHOW] = stod(LoadstringFromRes(IDS_STRPVSHOW));
-    ptCtrl->fTorqConf[INDEX_TORQ_BEAR] = stod(LoadstringFromRes(IDS_STRPVBEAR));
+    /*ptCtrl->fTorqConf[INDEX_TORQ_BEAR] = stod(LoadstringFromRes(IDS_STRPVBEAR));
     ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI] = stod(LoadstringFromRes(IDS_STRPVUPTAI));
-    ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI] = stod(LoadstringFromRes(IDS_STRPVLOWTAI));
+    ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI] = stod(LoadstringFromRes(IDS_STRPVLOWTAI));*/
 
     ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] = stod(LoadstringFromRes(IDS_STRPVMAXCIR));
     ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT] = stod(LoadstringFromRes(IDS_STRPVUPCIR));
     ptCtrl->fTurnConf[INDEX_TURN_CONTROL] = stod(LoadstringFromRes(IDS_STRPVCTRLCIR));
     ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT] = stod(LoadstringFromRes(IDS_STRPVLOWCIR));
-    ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA] = stod(LoadstringFromRes(IDS_STRPVMAXDELTACIR));
-    ptCtrl->fTurnConf[INDEX_TURN_MINDELTA] = stod(LoadstringFromRes(IDS_STRPVMINDELTACIR));
+    /*ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA] = stod(LoadstringFromRes(IDS_STRPVMAXDELTACIR));
+    ptCtrl->fTurnConf[INDEX_TURN_MINDELTA] = stod(LoadstringFromRes(IDS_STRPVMINDELTACIR));*/
 
     ptCtrl->fFullRPM = stod(LoadstringFromRes(IDS_STRPVMAXRPM));
-    ptCtrl->fMinShlSlope = stod(LoadstringFromRes(IDS_STRPVMINSHLSLOPE));
+    //ptCtrl->fMinShlSlope = stod(LoadstringFromRes(IDS_STRPVMINSHLSLOPE));
 }
 
 void CTorqueApp::InitValvePara(VALVECFG* ptCfg)
@@ -651,11 +651,11 @@ void CTorqueApp::AdjustTorquePara(CONTROLPARA *ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
 
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL], ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT],   DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL], DIFF_TORQUE);
-    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],       ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
-    CHECK_PARA_LOW(ptCtrl->fTorqConf[INDEX_TORQ_BEAR],      ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL], ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL], ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], DIFF_TORQUE);
+    CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SHOW], ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL], DIFF_TORQUE);
+    //CHECK_PARA_UP(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],       ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
+    //CHECK_PARA_LOW(ptCtrl->fTorqConf[INDEX_TORQ_BEAR],      ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
 }
 
 /* 周参数 相差 DIFF_CIRCUIT 0.1 */
@@ -2145,8 +2145,8 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
         GET_CTRL_TORQ(fMaxTorq, ptTorq);
         fCircle = GetCir(ptTorq);
 
-        SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
-        SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
+        //SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
+        //SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
         /* 实际的起始扭矩大于最佳扭矩的15% */
         SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
 
@@ -2821,13 +2821,13 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
 
             ptTorq->set_fmaxtorq(fRatio*ptTorq->fmaxtorq());
             ptTorq->set_fmaxlimit(fRatio*ptTorq->fmaxlimit());
-            ptTorq->set_fupperlimit(fRatio*ptTorq->fupperlimit());
+            //ptTorq->set_fupperlimit(fRatio*ptTorq->fupperlimit());
             ptTorq->set_fcontrol(fRatio*ptTorq->fcontrol());
             ptTorq->set_fopttorq(fRatio*ptTorq->fopttorq());
-            ptTorq->set_flowerlimit(fRatio*ptTorq->flowerlimit());
-            ptTorq->set_fspeeddown(fRatio*ptTorq->fspeeddown());
+            //ptTorq->set_flowerlimit(fRatio*ptTorq->flowerlimit());
+            //ptTorq->set_fspeeddown(fRatio*ptTorq->fspeeddown());
             ptTorq->set_fshow(fRatio*ptTorq->fshow());
-            ptTorq->set_fbear(fRatio*ptTorq->fbear());
+            //ptTorq->set_fbear(fRatio*ptTorq->fbear());
 
             for(j=0; j<ptTorq->ftorque_size(); j++)
             {

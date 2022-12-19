@@ -29,16 +29,16 @@ void CDlgStatSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDCTRLMIN, m_fCtrlRange[0]);
     DDX_Text(pDX, IDC_EDCTRLRANG1, m_fCtrlRange[1]);
     DDX_Text(pDX, IDC_EDCTRLMAX, m_fCtrlRange[2]);
-    DDX_Text(pDX, IDC_EDSHOULDZERO, m_fShouldZero);
-    DDX_Text(pDX, IDC_EDSHOULDUPPER, m_fShouldMax);
-    DDX_Text(pDX, IDC_EDSHOULDMIN, m_fShouldRange[0]);
-    DDX_Text(pDX, IDC_EDSHOULDRANG1, m_fShouldRange[1]);
-    DDX_Text(pDX, IDC_EDSHOULDMAX, m_fShouldRange[2]);
-    DDX_Text(pDX, IDC_EDDELTAZERO, m_fDeltaZero);
-    DDX_Text(pDX, IDC_EDDELTAUPPER, m_fDeltaMax);
-    DDX_Text(pDX, IDC_EDDELTAMIN, m_fDeltaRange[0]);
-    DDX_Text(pDX, IDC_EDDELTARANG1, m_fDeltaRange[1]);
-    DDX_Text(pDX, IDC_EDDELTAMAX, m_fDeltaRange[2]);
+    //DDX_Text(pDX, IDC_EDSHOULDZERO, m_fShouldZero);
+    //DDX_Text(pDX, IDC_EDSHOULDUPPER, m_fShouldMax);
+    //DDX_Text(pDX, IDC_EDSHOULDMIN, m_fShouldRange[0]);
+    //DDX_Text(pDX, IDC_EDSHOULDRANG1, m_fShouldRange[1]);
+    //DDX_Text(pDX, IDC_EDSHOULDMAX, m_fShouldRange[2]);
+    //DDX_Text(pDX, IDC_EDDELTAZERO, m_fDeltaZero);
+    //DDX_Text(pDX, IDC_EDDELTAUPPER, m_fDeltaMax);
+    //DDX_Text(pDX, IDC_EDDELTAMIN, m_fDeltaRange[0]);
+    //DDX_Text(pDX, IDC_EDDELTARANG1, m_fDeltaRange[1]);
+    //DDX_Text(pDX, IDC_EDDELTAMAX, m_fDeltaRange[2]);
 }
 
 
@@ -47,12 +47,12 @@ BEGIN_MESSAGE_MAP(CDlgStatSet, CDialogEx)
     ON_EN_KILLFOCUS(IDC_EDCTRLMIN, &CDlgStatSet::OnEnKillfocusEdctrlmin)
     ON_EN_KILLFOCUS(IDC_EDCTRLRANG1, &CDlgStatSet::OnEnKillfocusEdctrlrang1)
     ON_EN_KILLFOCUS(IDC_EDCTRLMAX, &CDlgStatSet::OnEnKillfocusEdctrlmax)
-    ON_EN_KILLFOCUS(IDC_EDDELTAMIN, &CDlgStatSet::OnEnKillfocusEddeltamin)
-    ON_EN_KILLFOCUS(IDC_EDDELTARANG1, &CDlgStatSet::OnEnKillfocusEddeltarang1)
-    ON_EN_KILLFOCUS(IDC_EDDELTAMAX, &CDlgStatSet::OnEnKillfocusEddeltamax)
-    ON_EN_KILLFOCUS(IDC_EDSHOULDMIN, &CDlgStatSet::OnEnKillfocusEdshouldmin)
-    ON_EN_KILLFOCUS(IDC_EDSHOULDRANG1, &CDlgStatSet::OnEnKillfocusEdshouldrang1)
-    ON_EN_KILLFOCUS(IDC_EDSHOULDMAX, &CDlgStatSet::OnEnKillfocusEdshouldmax)
+    //ON_EN_KILLFOCUS(IDC_EDDELTAMIN, &CDlgStatSet::OnEnKillfocusEddeltamin)
+    //ON_EN_KILLFOCUS(IDC_EDDELTARANG1, &CDlgStatSet::OnEnKillfocusEddeltarang1)
+    //ON_EN_KILLFOCUS(IDC_EDDELTAMAX, &CDlgStatSet::OnEnKillfocusEddeltamax)
+    //ON_EN_KILLFOCUS(IDC_EDSHOULDMIN, &CDlgStatSet::OnEnKillfocusEdshouldmin)
+    //ON_EN_KILLFOCUS(IDC_EDSHOULDRANG1, &CDlgStatSet::OnEnKillfocusEdshouldrang1)
+    //ON_EN_KILLFOCUS(IDC_EDSHOULDMAX, &CDlgStatSet::OnEnKillfocusEdshouldmax)
 END_MESSAGE_MAP()
 
 
@@ -68,7 +68,7 @@ void CDlgStatSet::InitCtrl()
         m_fCtrlRange[i] = m_tempStat.fCtrlRange[i];
     }
 }
-
+#if 0
 void CDlgStatSet::InitShould()
 {
     int     i = 0;
@@ -92,14 +92,14 @@ void CDlgStatSet::InitDelta()
         m_fDeltaRange[i] = m_tempStat.fDeltaRange[i];
     }
 }
-
+#endif
 BOOL CDlgStatSet::OnInitDialog()
 {
     CDialog::OnInitDialog();
     
     InitCtrl();
-    InitShould();
-    InitDelta();
+    //InitShould();
+    //InitDelta();
 
     UpdateData(FALSE);
 
@@ -116,8 +116,8 @@ void CDlgStatSet::OnBnClickedOk()
     for(i=0; i<STATRANGENUM; i++)
     {
         m_tempStat.fCtrlRange[i]   = m_fCtrlRange[i];
-        m_tempStat.fShouldRange[i] = m_fShouldRange[i];
-        m_tempStat.fDeltaRange[i]  = m_fDeltaRange[i];
+        //m_tempStat.fShouldRange[i] = m_fShouldRange[i];
+        //m_tempStat.fDeltaRange[i]  = m_fDeltaRange[i];
     }
     
     CDialog::OnOK();
@@ -161,7 +161,7 @@ void CDlgStatSet::OnEnKillfocusEdctrlmax()
         return;
     }
 }
-
+#if 0
 void CDlgStatSet::OnEnKillfocusEdshouldmin()
 {
     double fOld = m_fShouldRange[0];
@@ -239,4 +239,4 @@ void CDlgStatSet::OnEnKillfocusEddeltamax()
         return;
     }
 }
-
+#endif

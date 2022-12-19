@@ -59,11 +59,11 @@ protected:
     BOOL                m_bAlignShow;
     
     CTChart             m_tccCtrl;
-    CTChart             m_tccShould;
-    CTChart             m_tccDelta;
+    //CTChart             m_tccShould;
+    //CTChart             m_tccDelta;
     CString             m_strCtrlLabel[MAXSTATLEVEL];
-    CString             m_strShouldLabel[MAXSTATLEVEL];
-    CString             m_strDeltaLabel[MAXSTATLEVEL];
+    //CString             m_strShouldLabel[MAXSTATLEVEL];
+    //CString             m_strDeltaLabel[MAXSTATLEVEL];
     COLORREF            m_clrLabel[MAXSTATLEVEL];
 
 
@@ -84,8 +84,8 @@ private:
     BOOL IsSelType(TorqData::Torque *ptTorq);   /* 是否是选中的类型 */
     
     CString             m_strCtrlRatio[MAXSTATLEVEL];
-    CString             m_strInflRatio[MAXSTATLEVEL];
-    CString             m_strDeltRatio[MAXSTATLEVEL];
+    //CString             m_strInflRatio[MAXSTATLEVEL];
+    //CString             m_strDeltRatio[MAXSTATLEVEL];
 
     CStringList         m_slStatType;
     WORD                m_nStatType;

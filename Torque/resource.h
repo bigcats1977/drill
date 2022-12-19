@@ -12,7 +12,6 @@
 #define IDR_MAINMENU_ENG                106
 #define IDD_TORQUE_DIALOG               120
 #define IDD_DLGAPI                      121
-#define IDD_DLGBEAR                     122
 #define IDD_DLGCOLLECT                  123
 #define IDD_DLGHISGRP                   124
 #define IDD_DLGHISLIST                  125
@@ -83,8 +82,6 @@
 #define IDC_REG4                        1006
 #define IDC_REG5                        1007
 #define IDC_REG6                        1008
-#define IDC_CHECKBIGTORQ                1040
-#define IDC_CHECKSHACKLE                1041
 #define IDC_BTRUN                       1050
 #define IDC_BTNPORT                     1051
 #define IDC_LINE_TORQUE                 1052

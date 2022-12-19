@@ -24,9 +24,6 @@
     <ClInclude Include="CrashHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgBear.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgCollect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -403,9 +400,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CrashHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgBear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgCollect.cpp">

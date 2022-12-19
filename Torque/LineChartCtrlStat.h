@@ -64,23 +64,23 @@ public:
 
 public:
     /* 扭矩显示相关参数 */
-    double       m_fUpperLimit; /* 最大扭矩 */
-    double       m_fLowerLimit; /* 最小扭矩 */
+    //double       m_fUpperLimit; /* 最大扭矩 */
+    //double       m_fLowerLimit; /* 最小扭矩 */
     double       m_fOptTorq;    /* 最佳扭矩 */
-    double       m_fSpeedDown;  /* 减速扭矩 */
+    //double       m_fSpeedDown;  /* 减速扭矩 */
     double       m_fShow;       /* 显示扭矩 */
     double       m_fControlCir; /* 控制周数 */
     double       m_fUpperCir;   /* 上限周数 */
     double       m_fLowerCir;   /* 下限周数 */
     double       m_fMaxCir;     /* 最大周数 */
     double       m_fMaxLimit;   /* 最大上限 */
-    double       m_fBear;       /* 肩负扭矩 */
+    //double       m_fBear;       /* 肩负扭矩 */
 
-    double       m_fUpperTai;   /* 最大台矩 */
+    //double       m_fUpperTai;   /* 最大台矩 */
     //double       m_fCtrlTai;  /* 最佳台矩 即为减速扭矩，直接使用减速扭矩 */
-    double       m_fLowerTai;   /* 最小台矩 */
+    //double       m_fLowerTai;   /* 最小台矩 */
 
-    BOOL         m_bBear;
+    //BOOL         m_bBear;
     BOOL         m_bAlign;      /* 按扭矩对齐 */
     BOOL         m_bScatter;
 
@@ -98,9 +98,9 @@ private:
     void    ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset=0);
     void    DrawControlLine();
     void    DrawAlarmLine();
-    void    DrawTaiLine();
+    //void    DrawTaiLine();
     void    DrawShowLine();
-    void    DrawBearLine();
+    //void    DrawBearLine();
     void    DrawScatter(int x, int y, BOOL bAccept,BOOL bIP);
 };
 

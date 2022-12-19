@@ -38,16 +38,16 @@ public:
     double      m_fMaxLimit;
     double      m_fMaxRPM;
     double      m_fShow;
-    double      m_fSpeedDown;
+    //double      m_fSpeedDown;
     double      m_fUpperCir;
     //double      m_fUpperLimit;
     CString     m_strParaAlias;
     CColorComboBox m_cbAlias;
-    double      m_fLowerTai;
-    double      m_fUpperTai;
-    double      m_fMinShlSlope;
-    double      m_fMaxDeltaCir;
-    double      m_fMinDeltaCir;
+    //double      m_fLowerTai;
+    //double      m_fUpperTai;
+    //double      m_fMinShlSlope;
+    //double      m_fMaxDeltaCir;
+    //double      m_fMinDeltaCir;
     CString     m_strMemo;
     CString     m_strLBM10;
     CString     m_strSetShowName[MAXPARANUM];
@@ -62,14 +62,14 @@ public:
     CNumEdit    m_neMaxLimit;
     CNumEdit    m_neMaxRPM;
     CNumEdit    m_neShow;
-    CNumEdit    m_neSpeedDown;
+    //CNumEdit    m_neSpeedDown;
     CNumEdit    m_neUpperCir;
     //CNumEdit    m_neUpperLimit;
-    CNumEdit    m_neLowerTai;
-    CNumEdit    m_neUpperTai;
-    CNumEdit    m_neMinShlSlope;
-    CNumEdit    m_neMaxDeltaCir;
-    CNumEdit    m_neMinDeltaCir;
+    //CNumEdit    m_neLowerTai;
+    //CNumEdit    m_neUpperTai;
+    //CNumEdit    m_neMinShlSlope;
+    //CNumEdit    m_neMaxDeltaCir;
+    //CNumEdit    m_neMinDeltaCir;
     //}}AFX_DATA
 
 

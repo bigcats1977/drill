@@ -233,12 +233,10 @@ void CDlgHisGrp::ResetHisLineByCurData()
 
     m_wndLineHis.RemoveAt();
     m_wndRpmHis.RemoveAt();
-    m_wndLineHis.m_fUpperLimit  = m_ptCurTorq->fupperlimit();       /* 最大扭矩 */
-    m_wndLineHis.m_fLowerLimit  = m_ptCurTorq->flowerlimit();       /* 最小扭矩 */
     m_wndLineHis.m_fOptTorq     = theApp.GetOptTorq(m_ptCurTorq);   /* 最佳扭矩 */
-    m_wndLineHis.m_fSpeedDown   = m_ptCurTorq->fspeeddown();        /* 减速扭矩 */
+    //m_wndLineHis.m_fSpeedDown   = m_ptCurTorq->fspeeddown();        /* 减速扭矩 */
     m_wndLineHis.m_fShow        = m_ptCurTorq->fshow();             /* 显示扭矩 */
-    m_wndLineHis.m_fBear        = m_ptCurTorq->fbear();             /* 肩负扭矩 */
+    //m_wndLineHis.m_fBear        = m_ptCurTorq->fbear();             /* 肩负扭矩 */
     m_wndLineHis.m_fControlCir  = theApp.GetCtrlCir(m_ptCurTorq);   /* 控制时间 */
     m_wndLineHis.m_fUpperCir    = theApp.GetUpperCir(m_ptCurTorq);  /* 上限时间 */
     m_wndLineHis.m_fLowerCir    = theApp.GetLowerCir(m_ptCurTorq);  /* 下限时间 */
@@ -284,19 +282,19 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG *ptCfg)
     ptCtrl = &ptCfg->tCtrl;
     ptComm = &ptCfg->tComm;
 
-    m_wndLineHis.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
-    m_wndLineHis.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
+    //m_wndLineHis.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
+    //m_wndLineHis.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
     m_wndLineHis.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
-    m_wndLineHis.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
+    //m_wndLineHis.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
     m_wndLineHis.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
-    m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    //m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
     m_wndLineHis.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];         /* 控制周数 */
     m_wndLineHis.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
     m_wndLineHis.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
     m_wndLineHis.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
     m_wndLineHis.m_fWidthCir   = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_wndLineHis.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
-    m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    //m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
 
     m_wndLineHis.Add(RGB(255,255,255),ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_HISG);
     m_xHisAxis1.SetTickPara(10,ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);

@@ -520,7 +520,6 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_DATASHOW, m_strRecvData);
     DDX_Text(pDX, IDC_EDITCLASH, m_nClashERR);
     DDX_Text(pDX, IDC_EDITTOTAL, m_nTotal);
-    DDX_Check(pDX, IDC_SETIPPOINT, g_tGlbCfg.bCheckIP);
     DDX_Check(pDX, IDC_SETTOOLBUCK, m_bToolBuck);
     DDX_Text(pDX, IDC_QUALITY, m_strQuality);
     DDX_Radio(pDX, IDC_RADIOBUCKLE, m_iShackle);
@@ -1537,13 +1536,13 @@ void CTorqueDlg::SetTorqDataCfg(TorqData::Torque *ptPBData)
     ptPBData->set_dwver(m_ptCtrl->ucVer);
 
     ptPBData->set_fmaxlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
-    ptPBData->set_fupperlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
+    //ptPBData->set_fupperlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
     ptPBData->set_fcontrol(m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]);
     ptPBData->set_fopttorq(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
-    ptPBData->set_flowerlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
-    ptPBData->set_fspeeddown(m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
+    //ptPBData->set_flowerlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
+    //ptPBData->set_fspeeddown(m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
     ptPBData->set_fshow(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
-    ptPBData->set_fbear(m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR]);
+    //ptPBData->set_fbear(m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR]);
 
     ptPBData->set_fmaxcir(m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     ptPBData->set_fuppercir(m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
@@ -1648,7 +1647,7 @@ void CTorqueDlg::FinishControl()
     // DrawInflectionPoint();
 
     /* 大于减速扭矩才存盘 */
-    if(m_ptComm->fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN])
+    if(m_ptComm->fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_OPTSHOULD)
     {
         SaveIntoData(&m_tSaveData);
     }
@@ -1761,38 +1760,38 @@ double CTorqueDlg::OverTorqOpt(double fTorq, BYTE ucStatus)
     return fTorq;
 
     /* 小于最小扭矩，直接返回 */
-    COMP_BLE_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT], fTorq);
+    COMP_BLE_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_LOWERLIMIT, fTorq);
 
     /* 扭矩超过25%，不作优化 */
-    COMP_BG_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT] * 1.25, fTorq);
+    COMP_BG_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT * 1.25, fTorq);
 
     /* 控制扭矩大于5000 直接返回 */
     COMP_BG_R(theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_CONTROL], SWITCHLOWLIMIT, fTorq);
 
     srand((unsigned)time(NULL));
     fPostTorq = fTorq;
-    fRandTorq = rand() * (theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT]/100) / RAND_MAX;
+    fRandTorq = rand() * (theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT/100) / RAND_MAX;
 
     /* 上扣完成状态 3，4，直接修改为最大扭矩下的值 */
     if (ucStatus >= PLCSTATUS_UNLOAD)
     {
         /* 小于最大扭矩，不处理直接返回，后续的上扣扭矩肯定大于最大扭矩
            即使当前上扣扭矩小于最小扭矩，不是过充，不考虑 */
-        COMP_BLE_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT], fTorq);
+        COMP_BLE_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT, fTorq);
 
         /* 取控制扭矩和上扣扭矩均值，如果小于最大扭矩，则OK */
-        fPostTorq = (theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]+ fTorq) / 2;
-        COMP_BLE_R(fPostTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT], fPostTorq);
+        fPostTorq = (theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_CONTROL]+ fTorq) / 2;
+        COMP_BLE_R(fPostTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT, fPostTorq);
 
         /* 超过上面的均值，最大扭矩-1%的控制扭矩随机值作为上扣扭矩 */
-        fPostTorq = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT] - fRandTorq;
+        fPostTorq = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT - fRandTorq;
         return fPostTorq;
     }
 
     /* 状态为运行态 0，1，2，保证在最佳扭矩下 */
     /* 20220221 压在最小扭矩==》最佳扭矩下  */
     /* 大于最小扭矩和最佳扭矩均值才处理 */
-    COMP_BL_R(fTorq, ((theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT]+ theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL])/2), fTorq);
+    COMP_BL_R(fTorq, ((theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_LOWERLIMIT+ theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL])/2), fTorq);
 
     /* m_fOutTorque 小于最佳扭矩，和当前扭矩取均值，如果小于控制扭矩则OK */
     fPostTorq = (m_fOutTorque + fTorq) / 2;
@@ -2184,7 +2183,7 @@ int CTorqueDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         {
             if (m_iShackle > 0)
             {
-                if (m_ptComm->fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN] && fCurCir >= 0.01)
+                if (m_ptComm->fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]* RATIO_OPTSHOULD && fCurCir >= 0.01)
                 {
                     strInfo.Format("< ShowTorq FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
                     theApp.SaveMessage(strInfo);
@@ -2513,9 +2512,9 @@ BOOL CTorqueDlg::RunInitRand()
         {
             if (iCtrl == -1)
             {
-                if (m_fTestTorq[i] < m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN])
+                if (m_fTestTorq[i] < m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD)
                 {
-                    m_fTestTorq[i] = m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];
+                    m_fTestTorq[i] = m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD;
                     m_iTestPlus[i] = m_iTestPlus[i - 1];
                 }
             }
@@ -2655,7 +2654,7 @@ void CTorqueDlg::DrawLastPoint()
         FinishSetStatus();
 
         /* 大于减速扭矩才存盘 */
-        if (m_ptComm->fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN])
+        if (m_ptComm->fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD)
         {
             SaveIntoData(&m_tSaveData);
         }
@@ -2759,19 +2758,19 @@ void CTorqueDlg::ResetLineChart()//BOOL bRedraw)
     m_wndTorque.RemoveAt();
     m_wndRpm.RemoveAt();
 
-    m_wndTorque.m_fUpperLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
-    m_wndTorque.m_fLowerLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
+    //m_wndTorque.m_fUpperLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
+    //m_wndTorque.m_fLowerLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
     m_wndTorque.m_fOptTorq = m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
-    m_wndTorque.m_fSpeedDown = m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
+    //m_wndTorque.m_fSpeedDown = m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
     m_wndTorque.m_fShow = m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
-    m_wndTorque.m_fBear = m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
+    //m_wndTorque.m_fBear = m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
     m_wndTorque.m_fControlCir = m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* 控制周数 */
     m_wndTorque.m_fUpperCir = m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
     m_wndTorque.m_fLowerCir = m_ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
     m_wndTorque.m_fMaxCir = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
     m_wndTorque.m_fWidthCir = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_wndTorque.m_fMaxLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
-    m_wndTorque.m_bBear = m_ptComm->bBear;
+    //m_wndTorque.m_bBear = m_ptComm->bBear;
 
     m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_MAIN);
     m_xAxis1.SetTickPara(10, m_wndTorque.m_fMaxCir);
@@ -3153,7 +3152,7 @@ void CTorqueDlg::FillSpeed()
     FillWriteCommand(COM_SPEED);
 
     /* 3.17和4.17合一，扭矩需要乘倍率 */
-    FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN] / theApp.m_nTorqMulti));
+    FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD / theApp.m_nTorqMulti));
 }
 
 /* 控制扭矩 */
@@ -3195,7 +3194,7 @@ void CTorqueDlg::FillUpper()
     FillWriteCommand(COM_UPPER);
 
     /* 3.17和4.17合一，扭矩需要乘倍率 */
-    FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT] / theApp.m_nTorqMulti));
+    FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT / theApp.m_nTorqMulti));
 }
 
 /* 最小扭矩 */
@@ -3204,7 +3203,7 @@ void CTorqueDlg::FillLower()
     FillWriteCommand(COM_LOWER);
 
     /* 3.17和4.17合一，扭矩需要乘倍率 */
-    FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT] / theApp.m_nTorqMulti));
+    FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT / theApp.m_nTorqMulti));
 }
 
 /* 打折系数 */
@@ -4078,16 +4077,16 @@ void CTorqueDlg::UnitChangeTorq()
         fRatio = NM2LBFT;
 
     tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT]);
-    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT]);
+    //tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT]);
     tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_CONTROL] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_CONTROL]);
     tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]);
-    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT]);
-    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN]);
+    //tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT]);
+    //tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN]);
     tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_SHOW] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_SHOW]);
-    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_BEAR] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_BEAR]);
+    //tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_BEAR] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_BEAR]);
 
-    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERTAI] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERTAI]);
-    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERTAI] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERTAI]);
+    /*tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERTAI] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_LOWERTAI]);
+    tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERTAI] = round(fRatio * tCurCfg.tCtrl.fTorqConf[INDEX_TORQ_UPPERTAI]);*/
 
     theApp.m_tParaCfg = tCurCfg;
 
@@ -4252,8 +4251,6 @@ void CTorqueDlg::OnBnClickedRadiobuckle()
     }
 
     m_iShackle = 0;
-    GetDlgItem(IDC_SETIPPOINT)->EnableWindow(TRUE);
-
     g_tGlbCfg.bShackle = FALSE;
     /*save into ini*/
     theDB.UpdateGlobalPara();
@@ -4285,7 +4282,6 @@ void CTorqueDlg::OnBnClickedRadioshackle()
     }
 
     m_iShackle = 1;
-    GetDlgItem(IDC_SETIPPOINT)->EnableWindow(FALSE);
 
     g_tGlbCfg.bShackle = TRUE;
     /*save into ini*/

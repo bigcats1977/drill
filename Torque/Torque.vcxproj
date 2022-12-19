@@ -239,7 +239,6 @@
     <ClInclude Include="CWorkbooks.h" />
     <ClInclude Include="CWorksheet.h" />
     <ClInclude Include="CWorksheets.h" />
-    <ClInclude Include="DlgBear.h" />
     <ClInclude Include="DlgCollect.h" />
     <ClInclude Include="DlgDataStat.h" />
     <ClInclude Include="DlgFuncTest.h" />
@@ -357,7 +356,6 @@
     <ClCompile Include="ColorComboBox.cpp" />
     <ClCompile Include="ColorRadio.cpp" />
     <ClCompile Include="CrashHandler.cpp" />
-    <ClCompile Include="DlgBear.cpp" />
     <ClCompile Include="DlgCollect.cpp" />
     <ClCompile Include="DlgDataStat.cpp" />
     <ClCompile Include="DlgFuncTest.cpp" />

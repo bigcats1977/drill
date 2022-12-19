@@ -368,12 +368,8 @@ class Torque final :
     kBToolBuckFieldNumber = 21,
     kBShackleFieldNumber = 25,
     kFMaxLimitFieldNumber = 31,
-    kFUpperLimitFieldNumber = 32,
     kFControlFieldNumber = 33,
-    kFLowerLimitFieldNumber = 34,
-    kFSpeedDownFieldNumber = 35,
     kFShowFieldNumber = 36,
-    kFBearFieldNumber = 37,
     kFOptTorqFieldNumber = 40,
     kFMaxCirFieldNumber = 41,
     kFUpperCirFieldNumber = 42,
@@ -612,15 +608,6 @@ class Torque final :
   void _internal_set_fmaxlimit(double value);
   public:
 
-  // double fUpperLimit = 32;
-  void clear_fupperlimit();
-  double fupperlimit() const;
-  void set_fupperlimit(double value);
-  private:
-  double _internal_fupperlimit() const;
-  void _internal_set_fupperlimit(double value);
-  public:
-
   // double fControl = 33;
   void clear_fcontrol();
   double fcontrol() const;
@@ -630,24 +617,6 @@ class Torque final :
   void _internal_set_fcontrol(double value);
   public:
 
-  // double fLowerLimit = 34;
-  void clear_flowerlimit();
-  double flowerlimit() const;
-  void set_flowerlimit(double value);
-  private:
-  double _internal_flowerlimit() const;
-  void _internal_set_flowerlimit(double value);
-  public:
-
-  // double fSpeedDown = 35;
-  void clear_fspeeddown();
-  double fspeeddown() const;
-  void set_fspeeddown(double value);
-  private:
-  double _internal_fspeeddown() const;
-  void _internal_set_fspeeddown(double value);
-  public:
-
   // double fShow = 36;
   void clear_fshow();
   double fshow() const;
@@ -655,15 +624,6 @@ class Torque final :
   private:
   double _internal_fshow() const;
   void _internal_set_fshow(double value);
-  public:
-
-  // double fBear = 37;
-  void clear_fbear();
-  double fbear() const;
-  void set_fbear(double value);
-  private:
-  double _internal_fbear() const;
-  void _internal_set_fbear(double value);
   public:
 
   // double fOptTorq = 40;
@@ -801,12 +761,8 @@ class Torque final :
     bool btoolbuck_;
     bool bshackle_;
     double fmaxlimit_;
-    double fupperlimit_;
     double fcontrol_;
-    double flowerlimit_;
-    double fspeeddown_;
     double fshow_;
-    double fbear_;
     double fopttorq_;
     double fmaxcir_;
     double fuppercir_;
@@ -1510,26 +1466,6 @@ inline void Torque::set_fmaxlimit(double value) {
   // @@protoc_insertion_point(field_set:TorqData.Torque.fMaxLimit)
 }
 
-// double fUpperLimit = 32;
-inline void Torque::clear_fupperlimit() {
-  _impl_.fupperlimit_ = 0;
-}
-inline double Torque::_internal_fupperlimit() const {
-  return _impl_.fupperlimit_;
-}
-inline double Torque::fupperlimit() const {
-  // @@protoc_insertion_point(field_get:TorqData.Torque.fUpperLimit)
-  return _internal_fupperlimit();
-}
-inline void Torque::_internal_set_fupperlimit(double value) {
-  
-  _impl_.fupperlimit_ = value;
-}
-inline void Torque::set_fupperlimit(double value) {
-  _internal_set_fupperlimit(value);
-  // @@protoc_insertion_point(field_set:TorqData.Torque.fUpperLimit)
-}
-
 // double fControl = 33;
 inline void Torque::clear_fcontrol() {
   _impl_.fcontrol_ = 0;
@@ -1550,46 +1486,6 @@ inline void Torque::set_fcontrol(double value) {
   // @@protoc_insertion_point(field_set:TorqData.Torque.fControl)
 }
 
-// double fLowerLimit = 34;
-inline void Torque::clear_flowerlimit() {
-  _impl_.flowerlimit_ = 0;
-}
-inline double Torque::_internal_flowerlimit() const {
-  return _impl_.flowerlimit_;
-}
-inline double Torque::flowerlimit() const {
-  // @@protoc_insertion_point(field_get:TorqData.Torque.fLowerLimit)
-  return _internal_flowerlimit();
-}
-inline void Torque::_internal_set_flowerlimit(double value) {
-  
-  _impl_.flowerlimit_ = value;
-}
-inline void Torque::set_flowerlimit(double value) {
-  _internal_set_flowerlimit(value);
-  // @@protoc_insertion_point(field_set:TorqData.Torque.fLowerLimit)
-}
-
-// double fSpeedDown = 35;
-inline void Torque::clear_fspeeddown() {
-  _impl_.fspeeddown_ = 0;
-}
-inline double Torque::_internal_fspeeddown() const {
-  return _impl_.fspeeddown_;
-}
-inline double Torque::fspeeddown() const {
-  // @@protoc_insertion_point(field_get:TorqData.Torque.fSpeedDown)
-  return _internal_fspeeddown();
-}
-inline void Torque::_internal_set_fspeeddown(double value) {
-  
-  _impl_.fspeeddown_ = value;
-}
-inline void Torque::set_fspeeddown(double value) {
-  _internal_set_fspeeddown(value);
-  // @@protoc_insertion_point(field_set:TorqData.Torque.fSpeedDown)
-}
-
 // double fShow = 36;
 inline void Torque::clear_fshow() {
   _impl_.fshow_ = 0;
@@ -1608,26 +1504,6 @@ inline void Torque::_internal_set_fshow(double value) {
 inline void Torque::set_fshow(double value) {
   _internal_set_fshow(value);
   // @@protoc_insertion_point(field_set:TorqData.Torque.fShow)
-}
-
-// double fBear = 37;
-inline void Torque::clear_fbear() {
-  _impl_.fbear_ = 0;
-}
-inline double Torque::_internal_fbear() const {
-  return _impl_.fbear_;
-}
-inline double Torque::fbear() const {
-  // @@protoc_insertion_point(field_get:TorqData.Torque.fBear)
-  return _internal_fbear();
-}
-inline void Torque::_internal_set_fbear(double value) {
-  
-  _impl_.fbear_ = value;
-}
-inline void Torque::set_fbear(double value) {
-  _internal_set_fbear(value);
-  // @@protoc_insertion_point(field_set:TorqData.Torque.fBear)
 }
 
 // double fOptTorq = 40;

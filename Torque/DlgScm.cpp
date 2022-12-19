@@ -77,7 +77,7 @@ void CDlgScm::OnScminitial()
 
     BeginWaitCursor();
     CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],   m_fControl, bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN], m_fSpeed,   bChanged);
+    //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN], m_fSpeed,   bChanged);
     CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],      m_fShow,    bChanged);
     //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT],m_fUpper,   bChanged);
     //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT],m_fLower,   bChanged);
@@ -132,7 +132,7 @@ BOOL CDlgScm::OnInitDialog()
 
     m_fMulti     = 1.0/*m_ptParaCfg->fMulti*/;
     m_fControl   = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_CONTROL];
-    m_fSpeed     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SPEEDDOWN];
+    m_fSpeed     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]* RATIO_OPTSHOULD;
     m_fShow      = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SHOW];
     //m_fUpper     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT];
     //m_fLower     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT];

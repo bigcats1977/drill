@@ -40,20 +40,20 @@ CLineChartCtrlStat::CLineChartCtrlStat()
 {
     m_iChartHeight= 400;
 
-    m_fUpperLimit = 2500;   /* 最大扭矩 */
-    m_fLowerLimit = 1800;   /* 最小扭矩 */
+    //m_fUpperLimit = 2500;   /* 最大扭矩 */
+    //m_fLowerLimit = 1800;   /* 最小扭矩 */
     m_fOptTorq    = 2000;   /* 最佳扭矩 */
-    m_fSpeedDown  = 300;    /* 减速扭矩 */
+    //m_fSpeedDown  = 300;    /* 减速扭矩 */
     m_fShow       = 100;    /* 显示扭矩 */
-    m_fBear       = 1500;   /* 肩负扭矩 */
+    //m_fBear       = 1500;   /* 肩负扭矩 */
     m_fControlCir = 2;      /* 控制周数 */
     m_fUpperCir   = 4.5;    /* 上限周数 */
     m_fLowerCir   = 0.1;    /* 下限周数 */
     m_fMaxCir     = 5;      /* 最大周数 */
     m_fMaxLimit   = 5000;   /* 最大上限 */
-    m_fUpperTai   = 900;
-    m_fLowerTai   = 200;
-    m_bBear       = FALSE;
+    //m_fUpperTai   = 900;
+    //m_fLowerTai   = 200;
+    //m_bBear       = FALSE;
     m_bScatter    = FALSE;
 
     CLineChartCtrlStat::RegisterWndClass(AfxGetInstanceHandle());
@@ -257,36 +257,6 @@ void CLineChartCtrlStat::DrawAlarmLine()
     m_MemDC.SelectObject(pOldPen);
 }
 
-void CLineChartCtrlStat::DrawTaiLine()
-{
-    int     x        = 0;
-    int     y        = 0;
-    CPen    penTai  (PS_DOT, 1, LC_TAICOLOR);
-    CPen    *pOldPen = NULL;
-    //CString strTemp;
-
-    pOldPen = m_MemDC.SelectObject(&penTai);
-    
-    /*最大台阶扭矩*/
-    /* ----- */    
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fUpperTai)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示最大台阶扭矩值 */
-    //strTemp.Format(IDS_STRLCXUPTAI, m_fUpperTai);
-    //ShowContent(LC_TAICOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_TAICOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPTAI, m_fUpperTai));
-    /*最小台阶扭矩*/
-    /* ----- */
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fLowerTai)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示最小台阶扭矩值 */
-    //strTemp.Format(IDS_STRLCXLOWTAI, m_fLowerTai);
-    //ShowContent(LC_TAICOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_TAICOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWTAI, m_fLowerTai));
-
-    m_MemDC.SelectObject(pOldPen);
-}
-
 void CLineChartCtrlStat::DrawShowLine()
 {
     int     x        = 0;
@@ -304,29 +274,6 @@ void CLineChartCtrlStat::DrawShowLine()
     //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
     //ShowContent(LC_SHOWCOLOR, y-CONT_YOFFSET, strTemp);
     ShowContent(LC_SHOWCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXSHOW, m_fShow));
-
-    m_MemDC.SelectObject(pOldPen);
-}
-
-void CLineChartCtrlStat::DrawBearLine()
-{
-    int     x        = 0;
-    int     y        = 0;
-    CPen    penBear(PS_DOT,1,LC_BEARCOLOR);
-    CPen    *pOldPen = NULL;
-    //CString strTemp;
-
-    pOldPen = m_MemDC.SelectObject(&penBear);
-
-    COMP_BFALSE(m_bBear);
-
-    /* ----- */
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fBear)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示肩负扭矩值 */
-    //strTemp.Format(IDS_STRLCXBEAR, m_fBear);
-    //ShowContent(LC_BEARCOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_BEARCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXBEAR, m_fBear));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -364,9 +311,6 @@ void CLineChartCtrlStat::DrawBkLine()
 
     /*显示扭矩*/
     DrawShowLine();
-
-    /*肩负扭矩*/
-    DrawBearLine();
 
     m_MemDC.SetBkMode(iOldMode);
     m_MemDC.SelectObject(&pOldFont);

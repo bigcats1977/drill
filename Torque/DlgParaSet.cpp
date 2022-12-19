@@ -33,14 +33,14 @@ CDlgParaSet::CDlgParaSet(CWnd* pParent /*=NULL*/)
     m_fMaxLimit     = 0.0;
     m_fMaxRPM       = 0.0;
     m_fShow         = 0.0;
-    m_fSpeedDown    = 0.0;
+    //m_fSpeedDown    = 0.0;
     m_fUpperCir     = 0.0;
     //m_fUpperLimit   = 0.0;
-    m_fLowerTai     = 0.0f;
-    m_fUpperTai     = 0.0f;
-    m_fMinShlSlope  = 0.0f;
-    m_fMaxDeltaCir  = 0.0f;
-    m_fMinDeltaCir  = 0.0f;
+    //m_fLowerTai     = 0.0f;
+    //m_fUpperTai     = 0.0f;
+    //m_fMinShlSlope  = 0.0f;
+    //m_fMaxDeltaCir  = 0.0f;
+    //m_fMinDeltaCir  = 0.0f;
 
     m_bParaChg = false;
 
@@ -70,24 +70,24 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDITMAXRPM, m_neMaxRPM);
     DDX_Text(pDX, IDC_EDITSHOWTORQ, m_fShow);
     DDX_Control(pDX, IDC_EDITSHOWTORQ, m_neShow);
-    DDX_Text(pDX, IDC_EDITSPEEDTORQ, m_fSpeedDown);
-    DDX_Control(pDX, IDC_EDITSPEEDTORQ, m_neSpeedDown);
+    //DDX_Text(pDX, IDC_EDITSPEEDTORQ, m_fSpeedDown);
+    //DDX_Control(pDX, IDC_EDITSPEEDTORQ, m_neSpeedDown);
     DDX_Text(pDX, IDC_EDITUPPERCIR, m_fUpperCir);
     DDX_Control(pDX, IDC_EDITUPPERCIR, m_neUpperCir);
     /*DDX_Text(pDX, IDC_EDITUPPERTORQ, m_fUpperLimit);
     DDX_Control(pDX, IDC_EDITUPPERTORQ, m_neUpperLimit);*/
     DDX_Control(pDX, IDC_CBALIAS, m_cbAlias);
     DDX_Text(pDX, IDC_CBALIAS, m_strParaAlias);
-    DDX_Text(pDX, IDC_EDITLOWERTAI, m_fLowerTai);
-    DDX_Control(pDX, IDC_EDITLOWERTAI, m_neLowerTai);
-    DDX_Text(pDX, IDC_EDITUPPERTAI, m_fUpperTai);
-    DDX_Control(pDX, IDC_EDITUPPERTAI, m_neUpperTai);
-    DDX_Text(pDX, IDC_EDITMINSHLSLOPE, m_fMinShlSlope);
-    DDX_Control(pDX, IDC_EDITMINSHLSLOPE, m_neMinShlSlope);
-    DDX_Text(pDX, IDC_EDITMAXDELTACIR, m_fMaxDeltaCir);
-    DDX_Control(pDX, IDC_EDITMAXDELTACIR, m_neMaxDeltaCir);
-    DDX_Text(pDX, IDC_EDITMINDELTACIR, m_fMinDeltaCir);
-    DDX_Control(pDX, IDC_EDITMINDELTACIR, m_neMinDeltaCir);
+    //DDX_Text(pDX, IDC_EDITLOWERTAI, m_fLowerTai);
+    //DDX_Control(pDX, IDC_EDITLOWERTAI, m_neLowerTai);
+    //DDX_Text(pDX, IDC_EDITUPPERTAI, m_fUpperTai);
+    //DDX_Control(pDX, IDC_EDITUPPERTAI, m_neUpperTai);
+    //DDX_Text(pDX, IDC_EDITMINSHLSLOPE, m_fMinShlSlope);
+    //DDX_Control(pDX, IDC_EDITMINSHLSLOPE, m_neMinShlSlope);
+    //DDX_Text(pDX, IDC_EDITMAXDELTACIR, m_fMaxDeltaCir);
+    //DDX_Control(pDX, IDC_EDITMAXDELTACIR, m_neMaxDeltaCir);
+    //DDX_Text(pDX, IDC_EDITMINDELTACIR, m_fMinDeltaCir);
+    //DDX_Control(pDX, IDC_EDITMINDELTACIR, m_neMinDeltaCir);
     DDX_Text(pDX, IDC_EDITMEMO, m_strMemo);
     DDX_Text(pDX, IDC_STATIC_M10, m_strLBM10);
     DDX_Text(pDX, IDC_SHOWSET01, m_strSetShowName[0]);
@@ -222,24 +222,16 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
     ptCtrl = &ptCfg->tCtrl;
 
     m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];
-    //m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];
     m_fControl = ptCtrl->fTorqConf[INDEX_TORQ_CONTROL];
     m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];
-    //m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];
-    m_fSpeedDown = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];
     m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];
-    m_fUpperTai = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];
-    m_fLowerTai = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];
 
     m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];
     m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];
     m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];
-    m_fMaxDeltaCir = ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA];
-    m_fMinDeltaCir = ptCtrl->fTurnConf[INDEX_TURN_MINDELTA];
 
     m_fMaxRPM = ptCtrl->fFullRPM;
-    m_fMinShlSlope = ptCtrl->fMinShlSlope;
     m_strMemo = ptCfg->strMemo.c_str();
     m_strParaAlias = ptCfg->strAlias.c_str();
     
@@ -349,25 +341,25 @@ BOOL CDlgParaSet::GetParaValue(PARACFG *ptCfg)
     }
 
     ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]    = m_fMaxLimit;
-    ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]  = HAND_CEIL(m_fOptTorq * 1.1);
+    //ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]  = HAND_CEIL(m_fOptTorq * RATIO_UPPERLIMIT);
     ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]     = m_fControl;
     ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]     = m_fOptTorq;
-    ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]  = HAND_FLOOR(m_fOptTorq * 0.9);
-    ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]   = m_fSpeedDown;
+    //ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]  = HAND_FLOOR(m_fOptTorq * RATIO_LOWERLIMIT);
+    //ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]   = m_fSpeedDown;
     ptCtrl->fTorqConf[INDEX_TORQ_SHOW]        = m_fShow;
-    ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]    = m_fUpperTai;
-    ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]    = m_fLowerTai;
+    //ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]    = m_fUpperTai;
+    //ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]    = m_fLowerTai;
 
     ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]      = m_fMaxCir;
     ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]    = m_fUpperCir;
     ptCtrl->fTurnConf[INDEX_TURN_CONTROL]       = m_fControlCir;
     ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT]    = m_fLowerCir;
-    ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]      = m_fMaxDeltaCir;
-    ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]      = m_fMinDeltaCir;
+  /*  ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]      = m_fMaxDeltaCir;
+    ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]      = m_fMinDeltaCir;*/
 
     ptCtrl->fFullRPM      = m_fMaxRPM;
 
-    ptCtrl->fMinShlSlope = m_fMinShlSlope;
+    //ptCtrl->fMinShlSlope = m_fMinShlSlope;
     ptCfg->strMemo = m_strMemo.GetBuffer(0);
     //lstrcpyn(ptComm->aucMemo, m_strMemo, MAXMEMOLEN);
 
@@ -412,7 +404,7 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     case IDC_EDITMAXTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
         break;
-    case IDC_EDITUPPERTAI:
+    /*case IDC_EDITUPPERTAI:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]);
         break;
     case IDC_EDITSPEEDTORQ:
@@ -429,7 +421,7 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     case IDC_EDITMINDELTACIR:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
-        break;
+        break;*/
 
     // Å¤Å¡ÖÜÊý
     case IDC_EDITUPPERCIR:
@@ -558,9 +550,7 @@ void CDlgParaSet::OnKillfocusEditopttorq()
     COMP_BE(oldOptTorq, m_fOptTorq);
 
     m_fControl      = m_fOptTorq;
-    m_fMaxLimit     = HAND_CEIL (m_fOptTorq * 1.3);
-    /*m_fUpperLimit   = HAND_CEIL (m_fOptTorq * 1.1);
-    m_fLowerLimit   = HAND_FLOOR(m_fOptTorq * 0.9);*/
+    m_fMaxLimit     = HAND_CEIL (m_fOptTorq * RATIO_MAXLIMIT);
     UpdateData(FALSE);
 }
 

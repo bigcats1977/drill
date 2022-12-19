@@ -10,7 +10,7 @@ public:
     vector<int>     _lsTorqueID;
     vector<int>     _lsTurnID;
     vector<double>  _lsFullRPM;
-    vector<double>  _lsMinShlSlope;
+    //vector<double>  _lsMinShlSlope;
 
     vector<string>  _lsOptionID;
     vector<string>  _lsComment;

@@ -75,21 +75,21 @@ public:
 
 public:
     /* 扭矩显示相关参数 */
-    double       m_fUpperLimit; /* 最大扭矩 */
-    double       m_fLowerLimit; /* 最小扭矩 */
+    //double       m_fUpperLimit; /* 最大扭矩 */
+    //double       m_fLowerLimit; /* 最小扭矩 */
     double       m_fOptTorq;    /* 最佳扭矩 */
-    double       m_fSpeedDown;  /* 减速扭矩 */
+    //double       m_fSpeedDown;  /* 减速扭矩 */
     double       m_fShow;       /* 显示扭矩 */
     double       m_fControlCir; /* 控制周数 */
     double       m_fUpperCir;   /* 上限周数 */
     double       m_fLowerCir;   /* 下限周数 */
     double       m_fMaxCir;     /* 最大周数 */
     double       m_fMaxLimit;   /* 最大上限 */
-    double       m_fBear;       /* 肩负扭矩 */
+    //double       m_fBear;       /* 肩负扭矩 */
     double       m_fWidthCir;   /* 画图的真实宽度的周数，一般等于m_fMaxCir，因为左边界为0
                                    对于放大的图, 左边m_fMinCir非0, 该参数小于m_fMaxCir */
 
-    BOOL         m_bBear;
+    //BOOL         m_bBear;
 
     // Generated message map functions
 protected:
@@ -109,7 +109,7 @@ private:
     void    DrawControlLine();
     void    DrawAlarmLine();
     void    DrawShowLine();
-    void    DrawBearLine();
+    //void    DrawBearLine();
     void    ShowTorqNo();
     void    EraseLastOne();
     void    ShowVarPntText(COLORREF clrText, int x, int y, CString strContent);
