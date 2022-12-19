@@ -118,8 +118,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->nZoomIn));
     fields.push_back("ImgNum");
     values.push_back(to_string(ptfg->nImgNum));
-    fields.push_back("Test");
-    values.push_back(to_string(ptfg->nTest));
+    /*fields.push_back("Test");
+    values.push_back(to_string(ptfg->nTest));*/
 
     fields.push_back("Discount");
     values.push_back(to_string(ptfg->fDiscount));

@@ -910,16 +910,16 @@ void CTorqueApp::CreateNewWellFile()
     return;
 }
 
-int CTorqueApp::GetMainTallyIndex()
+int CTorqueApp::GetMainIndex(UINT nNO)
 {
     UINT        i = 0;
-    string      strTallyName;
+    string      strFindName;
     
-    strTallyName = GetMainShowName(m_ptCurShow, MAINSHOWTALLY);
+    strFindName = GetMainShowName(m_ptCurShow, nNO);
 
     for(i=0; i< m_ptCurShow->nParaNum && i<MAXPARANUM; i++)
     {
-        if(strTallyName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
+        if(strFindName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
         {
             return i;
         }
@@ -927,22 +927,22 @@ int CTorqueApp::GetMainTallyIndex()
     return -1;
 }
 
-int CTorqueApp::GetMainTallyIndexfromData(UINT nTallyNO, TorqData::Torque *ptTorq)
+int CTorqueApp::GetMainIndexfromData(UINT nNO, TorqData::Torque *ptTorq)
 {
     int         i = 0;
-    string      strTallyName;
+    string      strFindName;
     string      strName;
 
     ASSERT_NULL_R(ptTorq, -1);
 
-    strTallyName = GetMainShowName(m_ptCurShow, nTallyNO);
-    if(strTallyName.empty())
+    strFindName = GetMainShowName(m_ptCurShow, nNO);
+    if(strFindName.empty())
         return -1;
 
     for(i=0; i< ptTorq->tshow_size() && i<MAXPARANUM; i++)
     {
         strName = GetTorqShowName(ptTorq, i);
-        if (strName == strTallyName)
+        if (strName == strFindName)
             return i;
     }
     return -1;
@@ -978,7 +978,7 @@ void CTorqueApp::GetCurNum()
 
     if(m_nCurNO > 0 && ReadHisTorqFromFile(m_strDataFile.c_str()))
     {
-        iTallyIndex = GetMainTallyIndex();
+        iTallyIndex = GetMainIndex(MAINSHOWTALLY);
         if(iTallyIndex >= 0)
         {
             /* 从后往前找最新的入井序号 */
@@ -1438,8 +1438,10 @@ void CTorqueApp::ShowMainTitle()
     {
         strAppName = LoadstringFromRes(IDS_STRTITLE);
         //strAppName.Format(IDS_STRTITLE);
-        if (g_tGlbCfg.bBigTorq) {
-            theApp.m_nTorqMulti = 10;
+        
+        if(g_tGlbCfg.bBigTorq)
+        {
+            m_nTorqMulti = 10;
             strAppName = LoadstringFromRes(IDS_STRBIGTITLE);
             //strAppName.Format(IDS_STRBIGTITLE);
         }
@@ -1452,7 +1454,7 @@ void CTorqueApp::ShowMainTitle()
     //strAppName.Format(IDS_STRTRYOUT);
     if (g_tGlbCfg.bBigTorq)
     {
-        theApp.m_nTorqMulti = 10;
+        m_nTorqMulti = 10;
         strAppName = LoadstringFromRes(IDS_STRBIGTRYOUT);
         //strAppName.Format(IDS_STRBIGTRYOUT);
     }
@@ -3011,9 +3013,9 @@ int CTorqueApp::SeekFileLen(CFile &file)
     }
 
     /* 20221114 文件在中间出现PBHEADLEN，尽量跳过 */
-    file.Read(cTmpRead, 4);
+    /*file.Read(cTmpRead, 4);
     if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) != 0)
-        file.Seek(iFilePos, CFile::begin);
+        file.Seek(iFilePos, CFile::begin);*/
     
     /* 跳过实际的长度，包括可能的尾巴 */
     file.Read(&nLeng,sizeof(UINT));
@@ -3076,16 +3078,17 @@ int  CTorqueApp::SeekPBDataPos(CFile &file, int iCurPos)
     int     iFileLen = 0;
     char    cTmpRead[100];
 
-    COMP_BFALSE_R(g_tReadData.bHaveHead, 0);
+    // 无论有无head都找
+    //COMP_BFALSE_R(g_tReadData.bHaveHead, 0);
     
     iFileLen = (int)file.GetLength();
     if((iCurPos+MIN_TORQDATALEN) >= iFileLen)
         return -1;
 
-    file.Read(cTmpRead,100);
+    file.Read(cTmpRead, MAXSKIPLEN);
 
     /* 查找数据文件头 */
-    for(i=0; i<100-PBHEADLEN; i++)
+    for(i=0; i< MAXSKIPLEN -PBHEADLEN; i++)
     {
         if(memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) == 0)
         {
@@ -3094,7 +3097,13 @@ int  CTorqueApp::SeekPBDataPos(CFile &file, int iCurPos)
         }
     }
 
-    return -1;
+    if(g_tReadData.bHaveHead)
+        return -1;
+    else // 没有pbhead
+    {
+        file.Seek(iCurPos, CFile::begin);
+        return 0;
+    }
 }
 
 BOOL CTorqueApp::ReadHisTorqFromFile(CString strDataName)
@@ -3782,8 +3791,7 @@ BOOL CTorqueApp::ReCalTallyNO(CString strDataName)
     TorqData::Torque    *ptTorq         = NULL;
     TorqData::ShowInfo  *ptRunningShow  = NULL;
 
-    iTallyIndex = GetMainTallyIndexfromData(MAINSHOWTALLY, &g_tReadData.tData[0]);
-
+    iTallyIndex = GetMainIndexfromData(MAINSHOWTALLY, &g_tReadData.tData[0]);
     COMP_BL_R(iTallyIndex, 0, FALSE);
 
     BeginWaitCursor();

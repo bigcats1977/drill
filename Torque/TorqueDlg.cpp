@@ -2355,8 +2355,7 @@ LRESULT CTorqueDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     m_tSaveData.Clear();
 
     m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
-    m_bCanModLastData = FALSE;
-    GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
+    CanModLastData(FALSE);
     Invalidate(TRUE);
 
     //杀复位定时器
@@ -2635,8 +2634,7 @@ void CTorqueDlg::RunTorque()
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
     /* 定时保存CRC和调试信息 */
     m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
-    m_bCanModLastData = FALSE;
-    GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
+    CanModLastData(FALSE);
 
     theApp.SaveAppStatus(STATUS_RUN, __FUNCTION__);
     Invalidate(TRUE);
@@ -2725,8 +2723,7 @@ void CTorqueDlg::StopTorque()
 
     m_tSaveData.Clear();
     m_strQuality.Empty();
-    m_bCanModLastData = FALSE;
-    GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
+    CanModLastData(FALSE);
 
     m_bComm = FALSE;
     SetCommShowInfo(RS_COMM_CLOSE);
@@ -2874,8 +2871,6 @@ void CTorqueDlg::OnSetpara()
     CDlgParaSet dlgParaSet;
     PARACFG* ptCurCfg = NULL;
     SHOWCFG* ptCurShow = NULL;
-    //BOOL        bCtrl = FALSE;
-    //BOOL        bComm = FALSE;
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSETPARA));
 
@@ -2887,14 +2882,6 @@ void CTorqueDlg::OnSetpara()
 
     ptCurCfg = &dlgParaSet.m_tempCfg;
     ptCurShow = &dlgParaSet.m_tempShow;
-
-    /* 比较参数是否发生变化，如果变化，需要修改参数马上生效 */
-    //bCtrl = CompSysPara((BYTE*)m_ptCtrl,
-    //    (BYTE*)&ptCurCfg->tCtrl,
-    //    sizeof(CONTROLPARA));
-    //bComm = CompSysPara((BYTE*)m_ptComm,
-    //    (BYTE*)&ptCurCfg->tComm,
-    //    sizeof(COMMONCFG));
 
     theApp.m_tParaCfg = dlgParaSet.m_tempCfg;
     *m_ptShow = dlgParaSet.m_tempShow;
@@ -3078,11 +3065,11 @@ BOOL CTorqueDlg::ChangeCommParam(BOOL bUpdateText)
         return FALSE;
     }
 
-    if (g_lpNewComThread->InitComm(tPort.ucPortNo,
-        tPort.nBand,
-        tPort.ucParity,
-        tPort.ucDataBit,
-        tPort.ucStopBit))
+    if ( g_lpNewComThread->InitComm(tPort.ucPortNo,
+                                    tPort.nBand,
+                                    tPort.ucParity,
+                                    tPort.ucDataBit,
+                                    tPort.ucStopBit))
     {
         g_lpNewComThread->Set_TimeInterval(m_nInterval);
 
@@ -3873,8 +3860,7 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque* ptPBData)
 
     delete pcBuff;
 
-    m_bCanModLastData = TRUE;
-    GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
+    CanModLastData(TRUE);
     return;
 }
 
@@ -3882,13 +3868,10 @@ void CTorqueDlg::SetShowPara(TorqData::Torque* ptPBData)
 {
     UINT    i = 0;
     TorqData::ShowInfo* pbShow = NULL;
-    CString strRunningNO;
     string  strWholeTube;
     string  strName, strVal;
 
     ASSERT_NULL(ptPBData);
-
-    strRunningNO.Format("%d", theApp.m_nCurRunningNO);
 
     for (i = 0; i < m_ptShow->nParaNum && i < MAXPARANUM; i++)
     {
@@ -3898,10 +3881,10 @@ void CTorqueDlg::SetShowPara(TorqData::Torque* ptPBData)
 
         switch (i)
         {
-            /* 入井序号 */
+        /* 入井序号 */
         case TALLYNO:
             if (theApp.HaveTallyNO(ptPBData))
-                strVal = strRunningNO.GetBuffer(0);
+                strVal = to_string(theApp.m_nCurRunningNO);
             break;
 
         default:
@@ -3958,9 +3941,9 @@ void CTorqueDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
     ASSERT(pPopupMenu != NULL);
     ASSERT_NULL(pPopupMenu)
-        // Check the enabled state of various menu items.
+    // Check the enabled state of various menu items.
 
-        state.m_pMenu = pPopupMenu;
+    state.m_pMenu = pPopupMenu;
     ASSERT(state.m_pOther == NULL);
     ASSERT(state.m_pParentMenu == NULL);
 
@@ -4219,7 +4202,6 @@ void CTorqueDlg::OnBnClickedSettoolbuck()
 void CTorqueDlg::OnBnClickedBtnquality()
 {
     int         iQuality = 0;
-    CString     strRunningNO;
     CDlgRemark  dlgRemark;
     BOOL        bModified = FALSE;
     int         i = 0;
@@ -4270,10 +4252,9 @@ void CTorqueDlg::OnBnClickedBtnquality()
         /* 扭矩质量属性发生变化，需要修改入井序号 */
         if (iQuality != dlgRemark.m_iQuality)
         {
-            ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainTallyIndex());
-            strRunningNO.Format("%d", theApp.m_nCurRunningNO);
+            ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainIndex(MAINSHOWTALLY));
             if (theApp.HaveTallyNO(&m_tSaveData))
-                ptRunningShow->set_strvalue(strRunningNO.GetBuffer());
+                ptRunningShow->set_strvalue(to_string(theApp.m_nCurRunningNO));
             else
                 ptRunningShow->set_strvalue(NULLSTR);
         }
@@ -4408,6 +4389,13 @@ void CTorqueDlg::StopGetValveStatus()
 {
     m_hrtReadValve.KillTimer();
     m_iValveBreakCnt = (int)ceil(MAXCOMMBREAKTIME / READVALVE_LEN);
+}
+
+void CTorqueDlg::CanModLastData(BOOL bCan)
+{
+    m_bCanModLastData = bCan;
+    GetDlgItem(IDC_BTNQUALITY)->EnableWindow(m_bCanModLastData);
+    GetDlgItem(IDC_SETTOOLBUCK)->EnableWindow(!m_bCanModLastData);
 }
 
 void CTorqueDlg::OnSegcalib()

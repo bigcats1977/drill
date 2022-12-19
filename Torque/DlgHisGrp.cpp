@@ -781,7 +781,7 @@ void CDlgHisGrp::UpdateTallyNO()
     int         iTallyIndex = -1;
     CPropertySheet* pSheet = NULL;
 
-    iTallyIndex = theApp.GetMainTallyIndexfromData(MAINSHOWTALLY, m_ptCurTorq);
+    iTallyIndex = theApp.GetMainIndexfromData(MAINSHOWTALLY, m_ptCurTorq);
     COMP_BE(iTallyIndex, -1);
 
     // Reload file and recal Tally NO

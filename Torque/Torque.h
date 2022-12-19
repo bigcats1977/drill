@@ -134,8 +134,8 @@ public:
     int     SeekPBDataPos(CFile &file, int iCurPos);
     int     SeekFileLen(CFile &file);
     void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq);
-    int     GetMainTallyIndex();
-    int     GetMainTallyIndexfromData(UINT nTallyNO, TorqData::Torque *ptTorq);
+    int     GetMainIndex(UINT nNO);
+    int     GetMainIndexfromData(UINT nNO, TorqData::Torque *ptTorq);
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque *ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex);
