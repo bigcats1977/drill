@@ -567,7 +567,7 @@ using namespace std;
 #define QUA_HIGHT_DELTATURN     0x00001000
 #define QUA_LOW_SLOPE           0x00002000
 #define QUA_OTHER_CAUSE         0x00004000
-#define QUA_SHACK_INSPECT       0x00008000  /* 卸扣检查 手工设置 shackle inspection */
+#define QUA_BREAKOUT_INSPECT       0x00008000  /* 卸扣检查 手工设置 shackle inspection */
 #define QUA_GALLING             0x00010000  /* 粘扣 手工设置 */
 #define QUA_THREADNOTCLEAN      0x00020000  /* 丝扣清洗不干净 手工设置 */
 #define QUA_GASSEALINSPECT      0x00040000  /* 气检不合格   手工设置 */
@@ -776,7 +776,7 @@ typedef struct tagGLBCFG
 
     BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
     bool        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
-    bool        bShackle;       /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
+    bool        bBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;

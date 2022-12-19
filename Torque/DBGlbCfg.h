@@ -24,7 +24,7 @@ public:
 
     BOOL    _CheckIP;
     BOOL    _BigTorq;
-    BOOL    _Shackle;
+    BOOL    _BreakOut;
     BOOL    _DateBehind;
 
     string  _Password;

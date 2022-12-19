@@ -33,7 +33,7 @@ void CDBGlbCfg::Empty()
 
     _CheckIP = 1;
     _BigTorq = 0;
-    _Shackle = 0;
+    _BreakOut = 0;
     _DateBehind = 0;
 
     _Password.clear();
@@ -78,7 +78,7 @@ void CDBGlbCfg::GetTable()
 
     _Sqlite->GetValue(pResult[nIndex++], _CheckIP);
     _Sqlite->GetValue(pResult[nIndex++], _BigTorq);
-    _Sqlite->GetValue(pResult[nIndex++], _Shackle);
+    _Sqlite->GetValue(pResult[nIndex++], _BreakOut);
     _Sqlite->GetValue(pResult[nIndex++], _DateBehind);
 
     _Sqlite->GetValue(pResult[nIndex++], _Password);
@@ -134,8 +134,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->bCheckIP));
     fields.push_back("BigTorq");
     values.push_back(to_string(ptfg->bBigTorq));
-    fields.push_back("Shackle");
-    values.push_back(to_string(ptfg->bShackle));
+    fields.push_back("BreakOut");
+    values.push_back(to_string(ptfg->bBreakOut));
     fields.push_back("DateBehind");
     values.push_back(to_string(ptfg->bDateBehind));
 

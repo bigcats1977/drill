@@ -111,8 +111,8 @@
 #define IDC_SETTOOLBUCK                 1076
 #define IDC_BTNQUALITY                  1077
 #define IDC_QUALITY                     1078
-#define IDC_RADIOSHACKLE                1079
-#define IDC_RADIOBUCKLE                 1080
+#define IDC_RADIOBREAKOUT               1079
+#define IDC_RADIOMAKEUP                 1080
 #define IDC_MAINSHOW1                   1081
 #define IDC_MAINSHOW2                   1082
 #define IDC_MAINSHOW3                   1083
@@ -125,7 +125,7 @@
 #define IDC_EDMAINSHOW3                 1090
 #define IDC_EDMAINSHOW4                 1091
 #define IDC_EDMAINSHOW5                 1092
-#define IDC_EDMAINSHOW52                1093
+#define IDC_BTNHISFILE                  1093
 #define IDC_EDMAINSHOW6                 1094
 #define IDC_EDMAINSHOW7                 1095
 #define IDC_BTNSHOWSET                  1096
@@ -146,6 +146,7 @@
 #define IDC_EDITCONTROLCIR              1111
 #define IDC_EDITMAXRPM                  1113
 #define IDC_EDITMAXCIR                  1114
+#define IDC_EDHISFILE                   1115
 #define IDC_EDITMEMO                    1117
 #define IDC_EDITMINSHLSLOPE             1120
 #define IDC_CBPARA01                    1121
@@ -226,11 +227,12 @@
 #define IDC_HISTIME                     1307
 #define IDC_HISCONTROL                  1308
 #define IDC_HISCIR                      1309
+#define IDC_HISBREAKOUT                 1310
 #define IDC_HISQUALITY                  1315
 #define IDC_HISMEMO                     1316
 #define IDC_CHECKIPPOINT                1317
 #define IDC_CHECKTOOLBUCK               1318
-#define IDC_CHECKHISSHACKLE             1319
+#define IDC_CHECKHISBREAKOUT            1319
 #define IDC_HISEDIT01                   1321
 #define IDC_HISEDIT02                   1322
 #define IDC_HISEDIT03                   1323
@@ -327,6 +329,7 @@
 #define IDC_STATIC_G13                  1549
 #define IDC_STATIC_G14                  1550
 #define IDC_STATIC_G15                  1551
+#define IDC_STATIC_G11                  1551
 #define IDC_STATIC_G16                  1552
 #define IDC_STATIC_G17                  1553
 #define IDC_STATIC_G18                  1554
@@ -599,7 +602,6 @@
 #define ID_LANG_ENG                     32785
 #define ID_LANG_RUS                     32786
 #define ID_SETSHOW                      32787
-#define ID_VER_SHACKLE                  32788
 #define ID_VER_BIGTORQ                  32789
 #define ID_MODPW                        32790
 #define ID_VER_IPPOINT                  32791
@@ -755,7 +757,7 @@
 #define IDS_STRPITEST                   50853
 #define IDS_STRPICOLLTIME               50854
 #define IDS_STRPIAUTOSAVE               50855
-#define IDS_STRPISHACKLE                50857
+#define IDS_STRPIBREAKOUT               50857
 #define IDS_STRPIIPPOINT                50858
 #define IDS_STRPIFILEDATEBEHIND         50859
 #define IDS_STRPITORQUNIT               50860
@@ -817,7 +819,7 @@
 #define IDS_STRMARKHIGHDELTATURN        51413
 #define IDS_STRMARKLOWSLOPE             51414
 #define IDS_STRMARKOTHERCAUSE           51415
-#define IDS_STRMARKSHACKINSPECT         51416
+#define IDS_STRMARKBREAKOUTINSPECT      51416
 #define IDS_STRMARKGALLING              51417
 #define IDS_STRMARKTHREADNOTCLEAN       51418
 #define IDS_STRMARKGASSEALINSPECT       51419

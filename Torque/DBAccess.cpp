@@ -145,7 +145,7 @@ bool CDBAccess::ReadGlobalPara()
 
     g_tGlbCfg.bCheckIP = m_tDBGlbCfg._CheckIP;
     g_tGlbCfg.bBigTorq = m_tDBGlbCfg._BigTorq;
-    g_tGlbCfg.bShackle = m_tDBGlbCfg._Shackle;
+    g_tGlbCfg.bBreakOut = m_tDBGlbCfg._BreakOut;
     g_tGlbCfg.bDateBehind = m_tDBGlbCfg._DateBehind;
 
     g_tGlbCfg.strPassWord = m_tDBGlbCfg._Password;

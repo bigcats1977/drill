@@ -107,9 +107,10 @@ public:
     UINT        m_nTotal;    
     BOOL        m_bToolBuck;        /* 是否为工具扣 */
     CString     m_strQuality;
-    int         m_iShackle;         /* 0: 上扣,1:卸扣 */
+    int         m_iBreakout;         /* 0: 上扣,1:卸扣 */
     CString     m_strLBM2;
     CString     m_strTorqType;
+    CString     m_strBreakoutFile;
     CString     m_strMainName[MAXMAINPARA];
     CString     m_strMainValue[MAXMAINPARA];
     //}}AFX_DATA
@@ -164,8 +165,9 @@ protected:
     afx_msg void OnValveset();
     afx_msg void OnBnClickedSettoolbuck();
     afx_msg void OnBnClickedBtnquality();
-    afx_msg void OnBnClickedRadiobuckle();
-    afx_msg void OnBnClickedRadioshackle();
+    afx_msg void OnBnClickedBtnHisFile();
+    afx_msg void OnBnClickedRadiomakeup();
+    afx_msg void OnBnClickedRadiobreakout();
     afx_msg void OnBnClickedBtnshowset();
     //}}AFX_MSG
     afx_msg LRESULT CollectTimerOut(WPARAM wParam, LPARAM lParam);

@@ -477,7 +477,7 @@ CTorqueDlg::CTorqueDlg(CWnd* pParent /*=NULL*/)
     m_nCRCERR       = 0;
     m_nClashERR     = 0;
     m_nInterval     = 20;//时间需要修改20191208
-    m_iShackle      = 0;
+    m_iBreakout      = 0;
     m_strRecvData   = _T("");
     m_strQuality    = _T("");
     //}}AFX_DATA_INIT
@@ -522,7 +522,7 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDITTOTAL, m_nTotal);
     DDX_Check(pDX, IDC_SETTOOLBUCK, m_bToolBuck);
     DDX_Text(pDX, IDC_QUALITY, m_strQuality);
-    DDX_Radio(pDX, IDC_RADIOBUCKLE, m_iShackle);
+    DDX_Radio(pDX, IDC_RADIOMAKEUP, m_iBreakout);
     DDX_Text(pDX, IDC_MAINSHOW1, m_strMainName[1]);
     DDX_Text(pDX, IDC_MAINSHOW2, m_strMainName[2]);
     DDX_Text(pDX, IDC_MAINSHOW3, m_strMainName[3]);
@@ -539,6 +539,7 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDMAINSHOW7, m_strMainValue[7]);
     DDX_Text(pDX, IDC_STATIC_M2, m_strLBM2);
     DDX_Text(pDX, IDC_STATIC_M9, m_strTorqType);
+    DDX_Text(pDX, IDC_EDHISFILE, m_strBreakoutFile);
     //}}AFX_DATA_MAP
 }
 
@@ -586,10 +587,11 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_COMMAND(ID_MODPW, &CTorqueDlg::OnModpw)
     ON_COMMAND(ID_VALVESET, &CTorqueDlg::OnValveset)
     ON_BN_CLICKED(IDC_SETTOOLBUCK, &CTorqueDlg::OnBnClickedSettoolbuck)
-    ON_BN_CLICKED(IDC_RADIOBUCKLE, &CTorqueDlg::OnBnClickedRadiobuckle)
-    ON_BN_CLICKED(IDC_RADIOSHACKLE, &CTorqueDlg::OnBnClickedRadioshackle)
+    ON_BN_CLICKED(IDC_RADIOMAKEUP, &CTorqueDlg::OnBnClickedRadiomakeup)
+    ON_BN_CLICKED(IDC_RADIOBREAKOUT, &CTorqueDlg::OnBnClickedRadiobreakout)
     ON_BN_CLICKED(IDC_BTNQUALITY, &CTorqueDlg::OnBnClickedBtnquality)
     ON_BN_CLICKED(IDC_BTNSHOWSET, &CTorqueDlg::OnBnClickedBtnshowset)
+    ON_BN_CLICKED(IDC_BTNHISFILE, &CTorqueDlg::OnBnClickedBtnHisFile)
     ON_COMMAND(ID_SEGCALIB, &CTorqueDlg::OnSegcalib)
     ON_COMMAND(ID_GLBCFG, &CTorqueDlg::OnGlbCfg)
 END_MESSAGE_MAP()
@@ -646,7 +648,7 @@ void CTorqueDlg::InitMainShowPara()
 void CTorqueDlg::UpdateDlgLabel()
 {
     m_strLBM2 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
-    if(m_iShackle)
+    if(m_iBreakout)
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
     else
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
@@ -734,7 +736,7 @@ BOOL CTorqueDlg::OnInitDialog()
     //m_tMenu[LANGUAGE_RUSSIAN].LoadMenu(IDR_MAINMENU_RUS);
     SetMenu(&m_tMenu[g_tGlbCfg.nLangType]);
 
-    m_iShackle = g_tGlbCfg.bShackle;
+    m_iBreakout = g_tGlbCfg.bBreakOut;
 
     // TODO: Add extra initialization here
     /* 状态栏处理 */
@@ -862,7 +864,7 @@ void CTorqueDlg::CalcPointNum(COLLECTDATA *ptCollData, ORGDATA *ptOrgData)
     iPlus = ptCollData->nOrgPlus - m_iShowPlus;
     if(iPlus < 0)
     {
-        //if(1 == m_iShackle)
+        //if(1 == m_iBreakout)
         //    ptCollData->ucStatus = PLCSTATUS_BREAKOUT;  /* FE:卸扣结束254 */
         iPlus = 0;
         //m_iOutPoints = 0;
@@ -1052,7 +1054,7 @@ BOOL CTorqueDlg::CollectRandData(COLLECTDATA* ptCollData)
 
     /* 根据Plus计算数据的点数 */
     CalcPointNum(ptCollData, NULL);
-    if(0 == m_iShackle)
+    if(0 == m_iBreakout)
     {
         ptCollData->ucStatus = PLCSTATUS_NORMAL;
         if(ptCollData->fTorque > m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL])
@@ -1571,7 +1573,7 @@ void CTorqueDlg::FinishSetStatus()
 
     SetTorqDataCfg(&m_tSaveData);
 
-    if(m_iShackle == 0)
+    if(m_iBreakout == 0)
     {
         for(i = m_tCollData.nAllCount - 1; i>0; i--)
         {
@@ -1589,7 +1591,7 @@ void CTorqueDlg::FinishSetStatus()
     }
     
     /* 质量判定 */
-    dwQuality = theApp.JudgeQuality(&m_tSaveData, m_iShackle);
+    dwQuality = theApp.JudgeQuality(&m_tSaveData, m_iBreakout);
     SetQuality(dwQuality);
     m_strQuality    = theApp.GetQualityInfo(&m_tSaveData).c_str();
     if(dwQuality != QUA_RESU_GOOD)
@@ -1739,7 +1741,7 @@ BOOL CTorqueDlg::ClearExcepTorq(int iOrgTorq, int& iDestTorq)
 
     ASSERT_ZERO_R(iDestTorq, TRUE);
 
-    if(m_iShackle > 0)
+    if(m_iBreakout > 0)
     {
         COMP_BFALSE_R(bOdd, FALSE);
     }
@@ -2181,7 +2183,7 @@ int CTorqueDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         /* 如果从大于减速扭矩到小于显示扭矩，也保存数据 */
         if (tCollData[i].fTorque < m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW])
         {
-            if (m_iShackle > 0)
+            if (m_iBreakout > 0)
             {
                 if (m_ptComm->fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]* RATIO_OPTSHOULD && fCurCir >= 0.01)
                 {
@@ -2224,7 +2226,7 @@ int CTorqueDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         if (tCollData[i].nOrgPlus > (UINT)m_iPriorPlus)
             m_iPriorPlus = tCollData[i].nOrgPlus;
 
-        if (m_iShackle > 0)
+        if (m_iBreakout > 0)
         {
             if (!m_hrtSaveData.ValidTimer())
             {
@@ -2265,7 +2267,7 @@ int CTorqueDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     if (nDataNum > 0)
     {
         /* for 卸扣 */
-        if (m_iShackle > 0)
+        if (m_iBreakout > 0)
             m_strTorque.Format("%.0f / %.0f", tCollData[nDataNum - 1].fTorque, m_ptComm->fMaxTorq);
         else if (bHaveS3)
             m_strTorque.Format("%.0f", m_ptComm->fMaxTorq);
@@ -2508,7 +2510,7 @@ BOOL CTorqueDlg::RunInitRand()
     {
         fTorq = rand() * 100.0 / RAND_MAX;
         m_fTestTorq[i] = m_fTestTorq[i - 1] + fTorq * iCtrl;
-        if (m_iShackle > 0)
+        if (m_iBreakout > 0)
         {
             if (iCtrl == -1)
             {
@@ -3793,7 +3795,7 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque* ptPBData)
     ptPBData->set_coltime(curTime);
     ptPBData->set_dwseqno(m_nCur);
     ptPBData->set_fmaxtorq(m_ptComm->fMaxTorq);
-    ptPBData->set_bshackle(m_iShackle > 0);
+    ptPBData->set_bbreakout(m_iBreakout > 0);
     ptPBData->set_dwtorqunit(g_tGlbCfg.nTorqUnit);
     duration = _difftime64(curTime, m_tStartTime);
     ptPBData->set_fmakeupdur(_difftime64(curTime, m_tStartTime));
@@ -4228,13 +4230,17 @@ void CTorqueDlg::OnBnClickedBtnquality()
     GuardTimerOut(0, 0);
 }
 
-void CTorqueDlg::OnBnClickedRadiobuckle()
+void CTorqueDlg::OnBnClickedBtnHisFile()
+{
+}
+
+void CTorqueDlg::OnBnClickedRadiomakeup()
 {
     string  strShow;
     CString strValue;
     string  strInfo;
 
-    ASSERT_ZERO(m_iShackle);
+    ASSERT_ZERO(m_iBreakout);
     if (m_bRunStatus)
     {
         strShow = theApp.LoadstringFromRes(IDS_STRINFRUNNSWITCH);
@@ -4250,8 +4256,8 @@ void CTorqueDlg::OnBnClickedRadiobuckle()
         return;
     }
 
-    m_iShackle = 0;
-    g_tGlbCfg.bShackle = FALSE;
+    m_iBreakout = 0;
+    g_tGlbCfg.bBreakOut = FALSE;
     /*save into ini*/
     theDB.UpdateGlobalPara();
 
@@ -4259,13 +4265,13 @@ void CTorqueDlg::OnBnClickedRadiobuckle()
     UpdateData(FALSE);
 }
 
-void CTorqueDlg::OnBnClickedRadioshackle()
+void CTorqueDlg::OnBnClickedRadiobreakout()
 {
     string  strShow;
     CString strValue;
     string  strInfo;
 
-    COMP_BG(m_iShackle, 0);
+    COMP_BG(m_iBreakout, 0);
     if (m_bRunStatus)
     {
         strShow = theApp.LoadstringFromRes(IDS_STRINFRUNNSWITCH);
@@ -4281,9 +4287,9 @@ void CTorqueDlg::OnBnClickedRadioshackle()
         return;
     }
 
-    m_iShackle = 1;
+    m_iBreakout = 1;
 
-    g_tGlbCfg.bShackle = TRUE;
+    g_tGlbCfg.bBreakOut = TRUE;
     /*save into ini*/
     theDB.UpdateGlobalPara();
 

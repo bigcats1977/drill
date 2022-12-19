@@ -533,7 +533,7 @@ void CTorqueApp::InitGlobalPara()
 
     g_tGlbCfg.bCheckIP = 1;
     g_tGlbCfg.bBigTorq = 0;
-    g_tGlbCfg.bShackle = 0;
+    g_tGlbCfg.bBreakOut = 0;
     g_tGlbCfg.bDateBehind = 0;
 
     g_tGlbCfg.strPassWord = LoadstringFromRes(IDS_STRPVPASSWORD);
@@ -2101,13 +2101,13 @@ DWORD CTorqueApp::GetQuality(TorqData::Torque *ptTorq)
 {
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
-    if(ptTorq->bshackle())
+    if(ptTorq->bbreakout())
         return QUA_RESU_GOOD;
     
 #ifndef TEST_QUALITY
     return ptTorq->dwquality();
 #else
-    return JudgeQuality(ptTorq, ptTorq->bshackle());
+    return JudgeQuality(ptTorq, ptTorq->bbreakout());
 #endif
 }
 
@@ -2122,7 +2122,7 @@ DWORD CTorqueApp::GetQuality(TorqData::Torque *ptTorq)
 不合格-工厂端位移
 ***-*****位置不够"-"可以不要
 */
-DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
+DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut)
 {
     DWORD       dwQuality   = QUA_RESU_BAD; /* 默认质量NOK */
     WORD        wIPPos      = 0;
@@ -2139,7 +2139,7 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
     dwQuality = QUA_RESU_GOOD;
-    if (iShackle <= 0)
+    if (iBreakOut <= 0)
     {
 
         GET_CTRL_TORQ(fMaxTorq, ptTorq);
@@ -2759,7 +2759,7 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
                                   ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
-        if(ptTorq->bshackle())   /* 从前往后分屏 */
+        if(ptTorq->bbreakout())   /* 从前往后分屏 */
         {
             if(iTotalPnt > MAXLINEITEM)
             {
@@ -3308,7 +3308,7 @@ bool CTorqueApp::HaveTallyNO(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL_R(ptTorq, false);
 
-    if (!ptTorq->bshackle() && QUA_RESU_GOOD == ptTorq->dwquality())
+    if (!ptTorq->bbreakout() && QUA_RESU_GOOD == ptTorq->dwquality())
         return true;
     return false;
 }

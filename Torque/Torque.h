@@ -99,7 +99,7 @@ public:
     double  GetCir(TorqData::Torque *ptTorq);
     void    SaveTorqNum();
     DWORD   GetQuality(TorqData::Torque *ptTorq);
-    DWORD   JudgeQuality(TorqData::Torque *ptTorq, int iShackle = 0);
+    DWORD   JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut = 0);
     BOOL    ReadHisTorqFromFile(CString strDataName);
     CString GetStatType(TorqData::Torque *ptTorq, WORD wPlace);
     CString GetTorqSimpDate(TorqData::Torque *ptTorq);
