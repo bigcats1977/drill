@@ -162,7 +162,6 @@ protected:
     afx_msg void OnUpdateVerUnitLbft(CCmdUI *pCmdUI);
     afx_msg void OnModpw();
     afx_msg void OnValveset();
-    afx_msg void OnBnClickedSetippoint();
     afx_msg void OnBnClickedSettoolbuck();
     afx_msg void OnBnClickedBtnquality();
     afx_msg void OnBnClickedRadiobuckle();
@@ -250,6 +249,7 @@ private:
     int  GetIPPlus(TorqData::Torque *ptTorq, WORD wIPPos);
     double OverTorqOpt(double fTorq, BYTE ucStatus);
     BOOL   JudgeRunStatus(unsigned wInfo);
+    void   CanModLastData(BOOL bCan);
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/

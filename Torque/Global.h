@@ -17,7 +17,7 @@
 
 using namespace std;
 
-#include "TorqData.pb.h"
+#include "DrillData.pb.h"
 
 /* 程序的常用全局宏定义 */
 #pragma region MACRO DEFINE

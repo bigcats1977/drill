@@ -73,8 +73,6 @@ void CDlgScatter::ResetScatLineByData(TorqData::Torque *ptTorq)
     m_wndLineScat.m_fLowerCir   = ptTorq->flowercir();      /* 下限周数 */
     m_wndLineScat.m_fMaxCir     = m_fFullCir;               /* 最大周数 */
     m_wndLineScat.m_fMaxLimit   = m_fFullTorq;              /* 最大上限 */
-    m_wndLineScat.m_fUpperTai   = ptTorq->fuppertai();      /* 最大台阶 */
-    m_wndLineScat.m_fLowerTai   = ptTorq->flowertai();      /* 最小台阶 */
 
     m_wndLineScat.SetBkColor(RGB(255, 255, 255));
     m_wndLineScat.m_bBKLine = FALSE;

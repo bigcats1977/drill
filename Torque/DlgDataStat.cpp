@@ -249,8 +249,6 @@ void CDlgDataStat::ResetStatLineByData(TorqData::Torque *ptTorq)
     m_wndLineStat.m_fLowerCir   = theApp.GetLowerCir(ptTorq);/* 下限周数 */
     m_wndLineStat.m_fMaxCir     = theApp.GetMaxCir(ptTorq);  /* 最大周数 */
     m_wndLineStat.m_fMaxLimit   = ptTorq->fmaxlimit();       /* 最大上限 */
-    m_wndLineStat.m_fUpperTai   = ptTorq->fuppertai();       /* 最大台阶 */
-    m_wndLineStat.m_fLowerTai   = ptTorq->flowertai();       /* 最小台阶 */
 
     m_wndLineStat.SetBkColor(RGB(255, 255, 255));
     m_wndLineStat.m_bBKLine = FALSE;
@@ -535,7 +533,7 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         {
             nCtrl[ucLevel-1]++;
         }
-        
+#if 0
         fInflTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
         /* 有拐点扭矩才求拐点百分比和delta */
         if(fInflTorq > 0)
@@ -553,8 +551,8 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
                 nDelt[ucLevel-1]++;
             }
         }
+#endif
     }
-
     DrawStatFlow(&m_tccCtrl,   m_strCtrlRatio,  m_strCtrlLabel,   &nCtrl[0]);
     DrawStatFlow(&m_tccShould, m_strInflRatio,  m_strShouldLabel, &nInfl[0]);
     DrawStatFlow(&m_tccDelta,  m_strDeltRatio,  m_strDeltaLabel,  &nDelt[0]);

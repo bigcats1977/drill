@@ -222,6 +222,7 @@
     <ClInclude Include="DBValveCfg.h" />
     <ClInclude Include="DBXlsStatCfg.h" />
     <ClInclude Include="DlgGlbCfg.h" />
+    <ClInclude Include="DrillData.pb.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="DlgSegCabl.h" />
     <ClInclude Include="CFont0.h" />
@@ -279,7 +280,6 @@
     <ClInclude Include="TeeChart\page.h" />
     <ClInclude Include="TeeChart\series.h" />
     <ClInclude Include="TeeChart\tchart.h" />
-    <ClInclude Include="TorqData.pb.h" />
     <ClInclude Include="Torque.h" />
     <ClInclude Include="TorqueDlg.h" />
   </ItemGroup>
@@ -349,6 +349,7 @@
     <ClCompile Include="DBValveCfg.cpp" />
     <ClCompile Include="DBXlsStatCfg.cpp" />
     <ClCompile Include="DlgGlbCfg.cpp" />
+    <ClCompile Include="DrillData.pb.cc" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="DlgSegCabl.cpp" />
     <ClCompile Include="DlgXlsStatSet.cpp" />
@@ -395,7 +396,6 @@
     <ClCompile Include="TeeChart\page.cpp" />
     <ClCompile Include="TeeChart\series.cpp" />
     <ClCompile Include="TeeChart\tchart.cpp" />
-    <ClCompile Include="TorqData.pb.cc" />
     <ClCompile Include="Torque.cpp" />
     <ClCompile Include="TorqueDlg.cpp" />
   </ItemGroup>

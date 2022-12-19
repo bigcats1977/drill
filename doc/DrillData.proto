@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package TorqData;  
+
+message ShowInfo
+{
+   bytes    strValue    = 2;
+   bytes    strName     = 3;
+}
+
+message Torque {
+   fixed64  coltime     = 1;
+   int32    dwSeqNo     = 2;
+   int32    dwQuality   = 3; 
+   // int32    dwIPPos     = 4;
+   double   fMaxTorq    = 5;
+   
+   repeated double  fTorque   = 6 [packed=true];
+   repeated double  fRpm      = 7 [packed=true];
+   repeated ShowInfo tShow    = 8;
+   fixed64  begintime   = 9;
+   // int32    dwIPTorq    = 10;
+   int32    dwTotalPlus = 11;
+   //int32    dwIPPlus    = 12;
+   repeated int32   dwDelPlus  = 13[packed=true];
+   int32    dwColInter  = 14;
+   bytes    llColTime   = 15;
+   int32    dwVer       = 16;
+   
+   bool     bToolBuck   = 21;
+   bytes    strMemo     = 22;
+   bytes    strRemark   = 23;
+   //bool     bNCheckIP   = 24;
+   bool     bShackle    = 25;
+   //bool     bTimeLine   = 26;
+   int32    dwTorqUnit  = 27;    
+     
+   double   fMaxLimit   = 31;  
+   double   fUpperLimit = 32; 
+   double   fControl    = 33;
+   double   fLowerLimit = 34;
+   double   fSpeedDown  = 35;
+   double   fShow       = 36;
+   double   fBear       = 37;
+   //double   fUpperTai   = 38; 
+   //double   fLowerTai   = 39;
+   double   fOptTorq    = 40;
+  
+   double   fMaxCir     = 41;
+   double   fUpperCir   = 42;
+   double   fControlCir = 43;
+   double   fLowerCir   = 44;
+   //double   fMaxTime    = 45;
+   //double   fUpperTime  = 46;
+   //double   fControlTime= 47;
+   //double   fLowerTime  = 48;
+   
+   double   fPlus       = 51;
+   double   fMaxRPM     = 52;
+   double   fCut        = 53;
+   double   fRpmAdj     = 54;
+   double   fMulti      = 55;
+
+   //double   fMinShlSlope= 70;
+   //double   fMaxDeltaCir= 71;
+   //double   fMinDeltaCir= 72;
+   double   fMakeupDur  = 73;
+}

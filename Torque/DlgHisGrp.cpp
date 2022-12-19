@@ -25,14 +25,12 @@ IMPLEMENT_DYNCREATE(CDlgHisGrp, CPropertyPage)
         GetDlgItem(IDC_BTNNEXT)->ShowWindow((bShow));       \
         GetDlgItem(IDC_BTNPRNTGRP)->ShowWindow((bShow));    \
         GetDlgItem(IDC_BTNSAVEIMG)->ShowWindow((bShow));    \
-        GetDlgItem(IDC_CHECKIPPOINT)->ShowWindow((bShow));  \
     }
 
 CDlgHisGrp::CDlgHisGrp() : CPropertyPage(CDlgHisGrp::IDD)
 {
     //{{AFX_DATA_INIT(CDlgHisGrp)
     EmptyEdit();
-    m_bCheckIP  = TRUE;
     m_bToolBuck = FALSE;
     m_bShackle  = FALSE;
     //}}AFX_DATA_INIT
@@ -57,7 +55,6 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HISTIME, m_strTime);
     DDX_Text(pDX, IDC_HISNO, m_strNo);
     DDX_Text(pDX, IDC_HISCIR, m_strCir);
-    DDX_Check(pDX, IDC_CHECKIPPOINT, m_bCheckIP);
     DDX_Check(pDX, IDC_CHECKTOOLBUCK, m_bToolBuck);
     DDX_Check(pDX, IDC_CHECKHISSHACKLE, m_bShackle);
     DDX_Text(pDX, IDC_STATIC_G8, m_strTorqType);
@@ -110,10 +107,8 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     ON_BN_CLICKED(IDC_BTNPRNTGRP, OnBtnprntgrp)
     ON_BN_CLICKED(IDC_BTNSAVEIMG, OnBtnsaveimg)
     ON_WM_DESTROY()
-    ON_MESSAGE(WM_INTERPT_CHANGE,InterPtChange)
     ON_MESSAGE(WM_INTERPT_ZOOMIN,InterPtZoomIn)
     ON_MESSAGE(WM_UPDATE_SELPOS,SelPosChange)
-    ON_BN_CLICKED(IDC_CHECKIPPOINT, OnBnClickedCheckippoint)
     ON_BN_CLICKED(IDC_CHECKTOOLBUCK, &CDlgHisGrp::OnBnClickedChecktoolbuck)
     ON_BN_CLICKED(IDC_BTNREMARK, OnModRemark)
     ON_EN_KILLFOCUS(IDC_HISMEMO, &CDlgHisGrp::OnEnKillfocusHismemo)
@@ -190,10 +185,7 @@ void CDlgHisGrp::SetCurEdit()
     m_strNo.Format("%d", g_tReadData.nCur);
     m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
     m_bToolBuck = m_ptCurTorq->btoolbuck();
-    m_bCheckIP  = !m_ptCurTorq->bncheckip();
     m_bShackle  = m_ptCurTorq->bshackle();
-    if(m_bShackle)
-        m_bCheckIP = FALSE;
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     /* 显示参数 */
     /* 20221006 老版本i-1；新版本跳过0 厂家从1开始
@@ -253,9 +245,6 @@ void CDlgHisGrp::ResetHisLineByCurData()
     m_wndLineHis.m_fMaxCir      = theApp.GetMaxCir(m_ptCurTorq);    /* 最大时间 */
     m_wndLineHis.m_fWidthCir    = theApp.GetMaxCir(m_ptCurTorq);
     m_wndLineHis.m_fMaxLimit    = m_ptCurTorq->fmaxlimit();         /* 最大上限 */
-    m_wndLineHis.m_fUpperTai    = m_ptCurTorq->fuppertai();         /* 最大台阶 */
-    m_wndLineHis.m_fLowerTai    = m_ptCurTorq->flowertai();         /* 最小台阶 */
-    m_wndLineHis.m_bCheckIP     = !m_ptCurTorq->bncheckip();
 
     m_wndLineHis.SetBkColor(RGB(255,255,255));
     m_wndLineHis.m_bBKLine = FALSE;
@@ -308,9 +297,6 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG *ptCfg)
     m_wndLineHis.m_fWidthCir   = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_wndLineHis.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
-    m_wndLineHis.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
-    m_wndLineHis.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
-    m_wndLineHis.m_bCheckIP    = false;
 
     m_wndLineHis.Add(RGB(255,255,255),ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_HISG);
     m_xHisAxis1.SetTickPara(10,ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
@@ -427,7 +413,6 @@ void CDlgHisGrp::DrawCurTorque()
 {
     int     i   = 0;
     double  fTorq  = 0;
-    WORD    wIPPos = 0;
     int     iBegin = 0;
     int     iEnd   = 0;
     UINT    nBeginPos = 0;
@@ -468,81 +453,7 @@ void CDlgHisGrp::DrawCurTorque()
 
     m_nBeginPos = iBegin;
 
-    wIPPos = DrawCurInflection(iBegin, iEnd);
-
     return;
-}
-
-WORD CDlgHisGrp::DrawCurInflection(int iBegin, int iEnd)
-{
-    int     i = 0;
-    WORD    wIPPos      = 0;
-    WORD    wSchPos     = 0;
-    WORD    wIPDraw     = 0;
-    WORD    wSchDraw    = 0;
-    double  fDelCir     = 0;
-    double  fSchCir     = 0;
-    double  fMaxTorq    = 0;
-    double  fDeltaTorq  = 0;
-    double  fSlopeFactor= 0;
-
-    ASSERT_NULL_R(m_ptCurTorq, 0);
-    COMP_BL_R(iBegin, 0, 0);
-    COMP_BG_R(iBegin, iEnd, 0);
-
-    COMP_BFALSE_R(m_bCheckIP, 0);
-    COMP_BTRUE_R(m_ptCurTorq->bshackle(), 0);
-
-    m_nIPTorq = 0;
-
-    m_nIPTorq = theApp.GetIPTorq(m_ptCurTorq, wIPPos, wSchPos);
-    if(m_nIPTorq == 0 || wIPPos == 0 || m_ptCurTorq->bshackle())
-    {
-        return 0;
-    }
-
-    wIPDraw      = wIPPos;
-    wSchDraw     = wSchPos;
-    GET_CTRL_TORQ(fMaxTorq, m_ptCurTorq);
-    fDeltaTorq   = fMaxTorq - m_nIPTorq;
-    fDelCir      = theApp.GetIPDelCir(m_ptCurTorq, wIPPos);
-    fSchCir      = THOUSANDTH((m_ptCurTorq->ftorque_size() - wSchPos)*m_ptCurTorq->fmaxcir()/MAXLINEITEM);
-    fSlopeFactor = theApp.GetFlopeFactor(m_ptCurTorq, wIPPos, m_nIPTorq);
-
-    if(VERSION_RECPLUS(m_ptCurTorq))   // for 3.22
-    {
-        wIPDraw = (int)ceil(m_ptCurTorq->dwipplus() / m_ptCurTorq->fplus() / m_ptCurTorq->fmaxcir() * MAXLINEITEM);
-
-        wSchDraw = 0;
-        for(i=0; i<=wSchPos; i++)
-        {
-            wSchDraw += m_ptCurTorq->dwdelplus(i);
-        }
-        fSchCir  = THOUSANDTH((m_ptCurTorq->dwtotalplus() - wSchDraw)/ m_ptCurTorq->fplus());
-        wSchDraw = (int)ceil(wSchDraw / m_ptCurTorq->fplus() / m_ptCurTorq->fmaxcir() * MAXLINEITEM);
-    }
-
-    if( (g_tGlbCfg.nIPShowMode & 0x01) &&
-        (wIPDraw > iBegin) &&
-        (wIPDraw < iEnd))
-    {
-        m_wndLineHis.DrawInflection(wIPDraw-iBegin, fDelCir, m_nIPTorq);
-    }
-    if( (g_tGlbCfg.nIPShowMode & 0x02) &&
-        (wSchDraw > iBegin) &&
-        (wSchDraw < iEnd))
-    {
-        m_wndLineHis.DrawInflection(wSchDraw-iBegin, fSchCir, m_ptCurTorq->ftorque(wSchPos));
-    }
-
-    //m_strIPTorq.Format("%d", m_nIPTorq);
-    //m_strDeltaTorq.Format("%d", (int)fDeltaTorq);
-    //m_strDeltaCir.Format("%.3f", fDelCir);
-    //m_strSlopeFactor.Format("%.3f", fSlopeFactor);
-    ///* (控制扭矩-拐点扭矩)/控制扭矩 */
-    //m_strDeltaRatio.Format("%.2f%%", fDeltaTorq/fMaxTorq*100);
-
-    return wIPPos;
 }
 
 /* 检查nCur，并enable/disable按钮 */
@@ -738,16 +649,9 @@ void CDlgHisGrp::OnModRemark()
     iQuality   = dlgRemark.m_iQuality  = m_ptCurTorq->dwquality() & QUA_RESU_QUALITYBIT;
     iCause     = dlgRemark.m_iCause    = theApp.GetQualityIndex(m_ptCurTorq);
 
-    nShoulder = dlgRemark.m_nShoulder = theApp.GetIPTorq(m_ptCurTorq, wIPPos, wSchPos);
+    //nShoulder = dlgRemark.m_nShoulder = theApp.GetIPTorq(m_ptCurTorq, wIPPos, wSchPos);
 
     COMP_BNE(dlgRemark.DoModal(), IDOK);
-
-    /* 修改拐点扭矩 */
-    if(nShoulder != dlgRemark.m_nShoulder)
-    {
-        bModified = TRUE;
-        theApp.SetIPInfo(m_ptCurTorq, dlgRemark.m_nShoulder);
-    }
 
     /* 修改了质量属性 */
     if(iQuality != dlgRemark.m_iQuality || iCause != dlgRemark.m_iCause)
@@ -798,35 +702,6 @@ LRESULT CDlgHisGrp::SelPosChange(WPARAM wParam, LPARAM lParam)
     if(wParam > 0)
         m_wndLineHis.DrawSelInfo(m_nBeginPos, m_ptCurDraw->wCount);
 
-    UpdateData(FALSE);
-
-    return 0;
-}
-
-/* wParam= nPos
-lParam 1: 右键up */
-LRESULT CDlgHisGrp::InterPtChange(WPARAM wParam, LPARAM lParam)
-{
-    WORD    wIPPos = 0;
-    double  fIPTorq = 0;
-
-    ASSERT_NULL_R(m_ptCurDraw, 0);
-    ASSERT_NULL_R(m_ptCurTorq, 0);
-
-
-    wIPPos  = wParam + m_nBeginPos;
-    fIPTorq = m_ptCurDraw->fTorque[wIPPos];
-
-    theApp.SetIPInfo(m_ptCurTorq, fIPTorq);
-
-    m_nIPTorq = (UINT)fIPTorq;
-    //m_strIPTorq.Format("%d", m_nIPTorq);
-
-    DrawCurTorque();
-
-    ASSERT_ZERO_R(lParam, 0);
-
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
     UpdateData(FALSE);
 
     return 0;
@@ -1047,42 +922,6 @@ void CDlgHisGrp::PrintLineImg(UINT *pnSel, UINT nSelCount)
     return;
 }
 
-void CDlgHisGrp::OnBnClickedCheckippoint()
-{
-    DWORD   dwQuality   = 0;
-    WORD    wIPPos      = 0;
-
-    ASSERT_NULL(m_ptCurTorq);
-
-    UpdateData(TRUE);
-    if(!m_bCheckIP)
-    {
-        m_ptCurTorq->set_bncheckip(true);
-        theApp.SetIPInfo(m_ptCurTorq, 0);
-    }
-    else    /* 重新搜索拐点 */
-    {
-        m_ptCurTorq->set_bncheckip(false);
-        wIPPos = theApp.SearchDeltaIP(m_ptCurTorq, m_bCheckIP);
-        theApp.SetIPInfo(m_ptCurTorq, m_ptCurTorq->ftorque(wIPPos));
-    }
-
-    /* 质量重新判定 */
-    dwQuality = theApp.JudgeQuality(m_ptCurTorq, m_bShackle);
-    m_ptCurTorq->set_dwquality(dwQuality);
-
-    m_strQuality    = theApp.GetQualityInfo(m_ptCurTorq).c_str();
-
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
-
-    DrawCurTorque();
-
-    UpdateData(FALSE);
-
-    /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
-    UpdateTallyNO();
-}
-
 void CDlgHisGrp::OnBnClickedChecktoolbuck()
 {
     ASSERT_NULL(m_ptCurTorq);
@@ -1104,9 +943,6 @@ void CDlgHisGrp::OnBnClickedCheckshackle()
     m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
     if (m_bShackle) {
         m_ptCurTorq->set_bshackle(1);
-        m_ptCurTorq->set_bncheckip(true);
-        m_bCheckIP = false;
-        theApp.SetIPInfo(m_ptCurTorq, 0);
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
     }
 

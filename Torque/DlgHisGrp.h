@@ -41,7 +41,6 @@ public:
     CString     m_strTime;
     CString     m_strNo;
     CString     m_strCir;
-    BOOL        m_bCheckIP;
     BOOL        m_bToolBuck;
     BOOL        m_bShackle;
     CString     m_strTorqType;
@@ -79,12 +78,10 @@ protected:
     afx_msg void OnBtnprntgrp();
     afx_msg void OnBtnsaveimg();
     afx_msg void OnModRemark();
-    afx_msg void OnBnClickedCheckippoint();
     afx_msg void OnEnKillfocusHismemo();
     afx_msg void OnBnClickedChecktoolbuck();
     afx_msg void OnStnClickedPriorsplit();
     afx_msg void OnStnClickedNextsplit();
-    afx_msg LRESULT InterPtChange(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT SelPosChange(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT InterPtZoomIn(WPARAM wParam, LPARAM lParam);
     afx_msg void OnBnClickedCheckshackle();
@@ -98,7 +95,6 @@ private:
     void    UpdateDlgLabel();
     BOOL    JudgeValidPosition(int iPos);
     BOOL    GetCirRange(double *fMin, double *fMax);
-    WORD    DrawCurInflection(int iBegin, int iEnd);
     void    UpdateTallyNO();
 
     /* 清空EDIT控件信息 */

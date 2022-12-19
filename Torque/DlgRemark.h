@@ -23,7 +23,6 @@ public:
     enum { IDD = IDD_DLGREMARK };
     int     m_iQuality;
     CComboBox m_cbRemark;
-    UINT    m_nShoulder;
     //}}AFX_DATA
     int     m_iCause;
     int     m_lsCause[MAX_USE_CAUSE];

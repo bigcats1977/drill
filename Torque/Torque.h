@@ -96,14 +96,6 @@ public:
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
     BOOL    SaveBmp(HBITMAP hBitmap, CString FileName);
     BOOL    SavePNG(HBITMAP hBitmap, CString FileName);
-    WORD    SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP);
-    WORD    SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP);
-    WORD    SearchIP4RECPLUS(TorqData::Torque *ptTorq);
-    int     GetIPPlus(TorqData::Torque *ptTorq, WORD wIPPos);
-    BOOL    SetIPInfo(TorqData::Torque *ptTorq, double fIPTorq);
-    double  GetFlopeFactor(TorqData::Torque *ptTorq, WORD wIPPos, UINT nIPTorq);
-    UINT    GetIPTorq(TorqData::Torque *ptTorq, WORD &wIPPos, WORD &wSchPos);
-    double  GetIPDelCir(TorqData::Torque *ptTorq, WORD wIPPos);
     double  GetCir(TorqData::Torque *ptTorq);
     void    SaveTorqNum();
     DWORD   GetQuality(TorqData::Torque *ptTorq);

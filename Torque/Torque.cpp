@@ -2097,428 +2097,6 @@ WORD CTorqueApp::GetIPPlace(int iCurPnt, int iInterval)
     return 0;
 }
 
-/* 获取或者查找拐点的位置 */
-/* 在离控制扭矩0.1周内查找拐点，如果找不到则不找
-   daqing: 无论如何找到一个拐点，后续根据拐点位置判别是否合格 */
-/* 20200306拐点扭矩选择范围: 最佳扭矩的10~~70%, 圈数差值 0.01~0.25 */
-WORD CTorqueApp::SearchIPPoint(TorqData::Torque *ptTorq, BOOL bCheckIP)
-{
-    int     i         = 0;
-    int     j         = 0;
-    int     iIPBegin  = 0;
-    int     iIPEnd    = 0;
-    WORD    wIPPos    = 0;
-    int     iInterval = 5;
-    double  fCtrlTor  = 0;
-    WORD    wTmpPos   = 0;
-    double  fTmpAdjInfPnt = 0;
-    double  fStandValue = 0.01;
-    double  fBgnTorqPct  = 0.3; // 40%
-    double  fChkIntSlope = 0.04;
-    int     iSearchPnt = 0;
-
-    ASSERT_NULL_R(ptTorq, 0);
-    ASSERT_ZERO_R(ptTorq->ftorque_size(), 0);
-    COMP_BTRUE_R(ptTorq->btimeline(), 0);
-    /* 斜率比为0，不需要找拐点，直接返回 */
-
-    GET_CTRL_TORQ(fCtrlTor, ptTorq);
-    ASSERT_ZERO_R(fCtrlTor, 0);
-    COMP_BFALSE_R(bCheckIP, 0);
-
-    /* 获得拐点扭矩 */
-    wIPPos = ptTorq->dwippos();
-    if(wIPPos > 0 && wIPPos < ptTorq->ftorque_size())
-    {
-        return wIPPos;
-    }
-
-    /* 在扭矩曲线上取任意相邻两点连线斜率与之前相隔若干点的相邻两点连线斜率的比值达到一定的倍数时，
-       确定所取两点之一为拐点。 */
-    /**  斜率的斜率/控制扭矩 >1%  / iInterval(5) 
-        往回找相邻点斜率的斜率的最大值 
-        如果最大相邻拐点 大于 斜率的斜率的50%，则该最大值为拐点；否则斜率的斜率前一个点为拐点*/
-    memset(m_fAdjSlope, 0, sizeof(double)*COLLECTPOINTS);   //相邻点斜率
-    memset(m_fAdjInfPnt, 0, sizeof(double)*COLLECTPOINTS);  //相邻点拐点
-    memset(m_fIntSlope, 0, sizeof(double)*COLLECTPOINTS);   //间隔点斜率
-    memset(m_fIntInfPnt, 0, sizeof(double)*COLLECTPOINTS);  //间隔点拐点
-    
-    fStandValue = 0.009;
-    if(ptTorq->fmaxcir() != 5)
-        fStandValue = fStandValue * atan(ptTorq->fmaxcir()) / atan(5.0) *0.95;
-
-    //iInterval = (UINT)(iInterval * 5 / ptTorq->fmaxcir());
-    /* 扭矩点数小于间隔，直接返回0 */
-    COMP_BLE_R(ptTorq->ftorque_size(), iInterval, 0);
-
-    iSearchPnt = iInterval;
-    m_fAdjSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(iInterval-1))/fCtrlTor;
-    m_fIntSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(1))/fCtrlTor;
-    for(i=iInterval+1; i<int(ptTorq->ftorque_size()-1); i++)
-    {
-        if(iSearchPnt == iInterval && ptTorq->ftorque(i) > fBgnTorqPct * fCtrlTor)
-            iSearchPnt = i;
-        m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-1))/fCtrlTor;
-        m_fAdjInfPnt[i] = m_fAdjSlope[i] - m_fAdjSlope[i-1];
-
-        m_fIntSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval+1))/fCtrlTor;
-        m_fIntInfPnt[i] = m_fIntSlope[i] - m_fIntSlope[i-1];
-
-        if(fabs(m_fAdjInfPnt[i]) < 0.00001) m_fAdjInfPnt[i] = 0;
-        if(fabs(m_fIntInfPnt[i]) < 0.00001) m_fIntInfPnt[i] = 0;
-    }
-#if 0    
-    /* 从控制扭矩往回退0.1周 */
-    nIPBegin = (UINT)(ptTorq->ftorque_size() - 0.15 * MAXLINEITEM / ptTorq->fmaxcir());
-    nIPEnd   = (UINT)(ptTorq->ftorque_size() - 0.03 * MAXLINEITEM / ptTorq->fmaxcir());
-    if (nIPBegin < iInterval)
-        nIPBegin = iInterval;
-#else
-    //nIPBegin = iInterval;
-#endif
-
-    /*  new test argorithm */
-    /* 圈数差值 0.01~0.25 */
-    iIPBegin = (int)(ptTorq->ftorque_size() - 0.25 * MAXLINEITEM / ptTorq->fmaxcir());
-
-    /* 先从40%控制扭矩位置往后找 */
-    if(iIPBegin < iSearchPnt)
-        iIPBegin = iSearchPnt;
-    if(iIPBegin < iInterval)
-        iIPBegin = iInterval;
-    for(i= iIPBegin; i<ptTorq->ftorque_size()-1; i++)
-    {
-        if (m_fIntSlope[i] < fChkIntSlope)
-            continue;
-
-        wTmpPos = GetIPPlace(i, iInterval);
-        if(wTmpPos > 0)
-        {
-            wIPPos = wTmpPos;
-            break;
-        }
-    }
-    COMP_BG_R(wIPPos, 0, wIPPos);
-
-    /* 找不到，再从40%控制扭矩位置往前找 */
-    iIPBegin = (UINT)(ptTorq->ftorque_size() - 0.25 * MAXLINEITEM / ptTorq->fmaxcir());
-    if(iIPBegin < iInterval)
-        iIPBegin = iInterval;
-    
-    for(i= iSearchPnt-1; i>iIPBegin; i--)
-    {
-        if (m_fIntSlope[i] < fChkIntSlope)
-            continue;
-
-        wTmpPos = GetIPPlace(i, iInterval);
-        if(wTmpPos > 0)
-        {
-            wIPPos = wTmpPos;
-            break;
-        }
-    }
-
-    return wIPPos;
-}
-
-/* Tn+2 - Tn > Delta 110 
-   Diff / CtrlTorq > 0.03 两个0.07 */
-/* 20200311 最佳扭矩的5~70%, 圈数差值 0.01~0.25 */
-WORD CTorqueApp::SearchDeltaIP(TorqData::Torque *ptTorq, BOOL bCheckIP)
-{
-    int     i         = 0;
-    int     iIPBegin  = 0;
-    WORD    wIPPos    = 0;
-    double  fBestTorq = 0;
-    int     iInterval = 2;
-    WORD    wTmpPos   = 0;
-    int     iFoundNum   = 0;
-    int     iMinIPPnt   = 10;
-    
-    ASSERT_NULL_R(ptTorq, 0);
-    ASSERT_ZERO_R(ptTorq->ftorque_size(), 0);
-    COMP_BTRUE_R(ptTorq->btimeline(), 0);
-    
-    COMP_BFALSE_R(bCheckIP, 0);
-
-    if(VERSION_RECPLUS(ptTorq))
-        return SearchIP4RECPLUS(ptTorq);
-
-    COMP_BLE_R(ptTorq->ftorque_size(), iMinIPPnt, 0)
-    fBestTorq = GetOptTorq(ptTorq);
-    ASSERT_ZERO_R(fBestTorq, 0);
-
-    /* 相差两个点的扭矩差/ 控制扭矩 > 0.03 两次；从第6个数据开始，找到往回走一步 */
-    memset(m_fAdjSlope, 0, sizeof(double)*COLLECTPOINTS);   //相邻点斜率
-
-
-    m_fAdjSlope[iInterval] = (ptTorq->ftorque(iInterval) - ptTorq->ftorque(0))/fBestTorq;
-    for(i=iInterval+1; i<int(ptTorq->ftorque_size()-1); i++)
-    {
-        m_fAdjSlope[i]  = (ptTorq->ftorque(i) - ptTorq->ftorque(i-iInterval))/fBestTorq;
-    }
-
-    /* 圈数差值 0.01~0.25 */
-    iIPBegin = (int)(ptTorq->ftorque_size() - 0.25 * MAXLINEITEM / ptTorq->fmaxcir());
-    if(iIPBegin < iMinIPPnt)
-        iIPBegin = iMinIPPnt;
-    for(i= iIPBegin; i<ptTorq->ftorque_size()-1; i++)
-    {
-        if((m_fAdjSlope[i] + m_fAdjSlope[i+1]) >= g_tGlbCfg.fIPDeltaVal)
-        {
-            wTmpPos = i - 1;
-
-            /* 最佳扭矩的5~70% */
-            /* 小于5%，往后找 */
-            if (ptTorq->ftorque(wTmpPos) < (0.05*fBestTorq))
-            {
-                wIPPos = wTmpPos - 1;
-                continue;
-            }
-            /* 大于70%，往前一个,跳出 */
-            if (ptTorq->ftorque(wTmpPos) > (0.7*fBestTorq))
-                wIPPos = wTmpPos - 1;
-
-            /* 找到 */
-            wIPPos = wTmpPos;
-            break;
-        }
-    }
-
-    return wIPPos;
-}
-
-/*  ΔTorq / ΔCir > ??
-    0.01圈的扭矩值差值,和控制扭矩进行比值，然后进行比较，即ΔCir=0.01时的扭矩差值
-*/
-WORD  CTorqueApp::SearchIP4RECPLUS(TorqData::Torque *ptTorq)
-{
-    int     i           = 0;
-    int     j           = 0;
-    int     iIPBegin    = 0;
-    WORD    wIPPos      = 0;
-    double  fBestTorq   = 0;
-    WORD    wTmpPos     = 0;
-    int     iInterval   = 5;
-    double  fDelTorq    = 0;
-    double  fDelta      = 0;
-    UINT    nBeginPlus  = 0;
-    UINT    nCurPlus    = 0;
-    double  fCompPlus   = 0;
-    int     iDelPlus    = 0;
-    
-    ASSERT_NULL_R(ptTorq, 0);
-    ASSERT_ZERO_R(ptTorq->ftorque_size(), 0);
-    COMP_BTRUE_R(ptTorq->btimeline(), 0);
-    COMP_BFALSE_R(VERSION_RECPLUS(ptTorq), 0);
-
-    COMP_BLE_R(ptTorq->ftorque_size(), iInterval, 0);
-    fBestTorq = GetOptTorq(ptTorq);
-    ASSERT_ZERO_R(fBestTorq, 0);
-
-    /* 圈数差值 0.01~0.25 */
-    nCurPlus   = ptTorq->dwtotalplus();
-    fCompPlus  = ptTorq->fplus() / 100; /* 0.01圈 */
-    nBeginPlus = (UINT)(ptTorq->dwtotalplus() - 0.25 * ptTorq->fplus());
-    for(i=ptTorq->ftorque_size()-1; i>0; i--)
-    {
-        nCurPlus -= ptTorq->dwdelplus(i);
-        if(nCurPlus < nBeginPlus)
-        {
-            iIPBegin = i - 1;
-            break;
-        }
-    }
-    if(iIPBegin < iInterval)
-        iIPBegin = iInterval;
-    for(i= iIPBegin; i<ptTorq->ftorque_size()-1; i++)
-    {
-        if (0 == ptTorq->dwdelplus(i))
-            continue;
-        iDelPlus = 0;
-        for(j=i; j>0; j--)
-        {
-            iDelPlus += ptTorq->dwdelplus(i);
-            if(iDelPlus > fCompPlus)
-                break;
-        }
-        if(j == 0)
-            continue;
-
-        fDelTorq = ptTorq->ftorque(i) - ptTorq->ftorque(j);
-        fDelta   = fDelTorq / fBestTorq;
-        if(fDelta >= g_tGlbCfg.fIPDeltaVal)
-        {
-            wTmpPos = i - 1;
-
-            /* 最佳扭矩的5~70% */
-            /* 小于5%，往后找 */
-            if (ptTorq->ftorque(wTmpPos) < (0.05*fBestTorq))
-            {
-                wIPPos = wTmpPos - 1;
-                continue;
-            }
-            /* 大于70%，往前一个,跳出 */
-            if (ptTorq->ftorque(wTmpPos) > (0.7*fBestTorq))
-                wIPPos = wTmpPos - 1;
-
-            /* 找到 */
-            wIPPos = wTmpPos;
-            break;
-        }
-    }
-
-    return wIPPos;
-}
-
-int CTorqueApp::GetIPPlus(TorqData::Torque *ptTorq, WORD wIPPos)
-{
-    int     i       = 0;
-    int     iIPPlus = 0;
-
-    ASSERT_NULL_R(ptTorq, iIPPlus);
-    ASSERT_ZERO_R(wIPPos, iIPPlus);
-    ASSERT_ZERO_R(ptTorq->dwdelplus_size(), iIPPlus);
-    COMP_BGE_R(wIPPos, (ptTorq->dwdelplus_size()-1), iIPPlus);
-    
-    iIPPlus = ptTorq->dwtotalplus();
-
-    for(i=ptTorq->dwdelplus_size()-1; i>wIPPos; i--)
-    {
-        iIPPlus -= ptTorq->dwdelplus(i);
-    }
-    COMP_BLE_R(iIPPlus, 0, 0);
-
-    return iIPPlus;
-}
-
-BOOL CTorqueApp::SetIPInfo(TorqData::Torque *ptTorq, double fIPTorq)
-{
-    int     i       = 0;
-    WORD    wIPPos  = 0;
-    WORD    wIPPlus = 0;
-
-    ASSERT_NULL_R(ptTorq, FALSE);
-    ASSERT_ZERO_R(ptTorq->ftorque_size(), FALSE);
-    COMP_BGE_R(fIPTorq, ptTorq->ftorque(ptTorq->ftorque_size()-1), FALSE);
-
-    // ipTorq为0或者wIPPos为0
-    if(fIPTorq <= 0 || fIPTorq == ptTorq->ftorque(0)) 
-    {
-        ptTorq->set_dwippos(0);
-        ptTorq->set_dwiptorq(0);
-        ptTorq->set_dwipplus(0);
-        return TRUE;
-    }
-
-    for(i=0; i<ptTorq->ftorque_size(); i++)
-    {
-        if(ptTorq->ftorque(i) >= fIPTorq)
-        {
-            wIPPos = i;
-            fIPTorq = ptTorq->ftorque(i);
-            break;
-        }
-    }
-
-    ptTorq->set_dwippos(wIPPos);
-    if(VERSION_RECPLUS(ptTorq))
-    {
-        ptTorq->set_dwiptorq((int)fIPTorq);
-        wIPPlus = GetIPPlus(ptTorq, wIPPos);
-        ptTorq->set_dwipplus(wIPPlus);
-    }
-
-    return TRUE;
-}
-
-/* 斜坡因子=(控制扭矩-拐点扭矩)/((控制周数-拐点时周数)*最佳扭矩) */
-double CTorqueApp::GetFlopeFactor(TorqData::Torque *ptTorq, WORD wIPPos, UINT nIPTorq)
-{
-    double fMaxTorq   = 0;
-    double fDeltaTorq = 0;
-    double fDeltaTurn = 0;
-    double fSlope     = 0;
-    int    nCount     = 0;
-
-    ASSERT_NULL_R(ptTorq, -1);
-    ASSERT_ZERO_R(wIPPos, -1);
-    COMP_BLE_R(GetOptTorq(ptTorq), 0, -1);
-    nCount = ptTorq->ftorque_size();
-    ASSERT_ZERO_R(nCount, -1);
-    COMP_BGE_R(wIPPos, nCount, -1);
-
-    GET_CTRL_TORQ(fMaxTorq, ptTorq);
-    fDeltaTorq = fMaxTorq - nIPTorq;
-    fDeltaTurn = GetIPDelCir(ptTorq, wIPPos);
-
-    fSlope = THOUSANDTH(fDeltaTorq / (fDeltaTurn * GetOptTorq(ptTorq)));
-
-    return fSlope;
-}
-
-/* 20200412 GetIPTorq可能返回两个拐点: 
-   1. 数据中的dwippos
-   2. SearchDeltaIP根据数据计算 */
-UINT CTorqueApp::GetIPTorq(TorqData::Torque *ptTorq, WORD &wIPPos, WORD &wSchPos)
-{
-    int     i       = 0;
-    UINT    nIPTorq = 0;
-
-    wIPPos = 0;
-    ASSERT_NULL_R(ptTorq, 0);
-    
-    if(!VERSION_RECPLUS(ptTorq))
-    {
-        wIPPos = ptTorq->dwippos();
-        if(wIPPos >= ptTorq->ftorque_size())
-            wIPPos = 0;
-
-        if(wIPPos > 0)
-            nIPTorq = (UINT)ptTorq->ftorque(wIPPos);
-    }
-    else
-    {
-        nIPTorq = ptTorq->dwiptorq();
-        for (i = ptTorq->ftorque_size()-1; i > 0; i--)
-        {
-            if ((UINT)ptTorq->ftorque(i) <= nIPTorq)
-            {
-                wIPPos = i;
-                break;
-            }
-        }
-    }
-
-    /* 实验版本，如果wIPPos 为0 则按数据中找拐点的方法处理或者直接获取 */
-    wSchPos = SearchDeltaIP(ptTorq, !(ptTorq->bncheckip()));
-    if(wIPPos == 0 && wSchPos != 0)
-    {
-        wIPPos = wSchPos;
-        SetIPInfo(ptTorq, ptTorq->ftorque(wIPPos));
-        nIPTorq = (UINT)ptTorq->ftorque(wSchPos);
-    }
-
-    return nIPTorq;
-}
-
-double CTorqueApp::GetIPDelCir(TorqData::Torque *ptTorq, WORD wIPPos)
-{
-    double fDelCir = 0;
-
-    ASSERT_NULL_R(ptTorq, 0);
-    ASSERT_ZERO_R(wIPPos, 0);
-    COMP_BGE_R(wIPPos, ptTorq->ftorque_size(), 0);
-    
-    fDelCir    = THOUSANDTH((ptTorq->ftorque_size() - wIPPos)*ptTorq->fmaxcir()/MAXLINEITEM);
-    if(VERSION_RECPLUS(ptTorq))   // for 3.22
-    {
-        fDelCir  = THOUSANDTH((ptTorq->dwtotalplus() - ptTorq->dwipplus()) / ptTorq->fplus());
-    }
-
-    return fDelCir;
-}
-
 DWORD CTorqueApp::GetQuality(TorqData::Torque *ptTorq)
 {
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
@@ -2560,61 +2138,28 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iShackle)
 
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
-    if(iShackle > 0)
+    dwQuality = QUA_RESU_GOOD;
+    if (iShackle <= 0)
     {
-        dwQuality = QUA_RESU_GOOD;
-        goto ENDJUDGE;
-    }
 
-    GET_CTRL_TORQ(fMaxTorq, ptTorq);
-    fCircle  = GetCir(ptTorq);
+        GET_CTRL_TORQ(fMaxTorq, ptTorq);
+        fCircle = GetCir(ptTorq);
 
-    SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
-    SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
-    /* 实际的起始扭矩大于最佳扭矩的15% */
-    SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
+        SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
+        SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
+        /* 实际的起始扭矩大于最佳扭矩的15% */
+        SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
 
-    /* 超过台阶再平移周数超过0.2 */
-    SET_QUALITY_BIT(JudgeTranslate(ptTorq), QUA_TRANSLATE, dwQuality);
-    
-    /* 图形周数小于0.20或者贴边 */
-    SET_QUALITY_BIT(fCircle < ptTorq->flowercir(), QUA_CIRC_LESS_LIMIT, dwQuality);
+        /* 超过台阶再平移周数超过0.2 */
+        SET_QUALITY_BIT(JudgeTranslate(ptTorq), QUA_TRANSLATE, dwQuality);
 
-    if(ptTorq->bncheckip())
-    {
-        goto ENDJUDGE;
-    }
+        /* 图形周数小于0.20或者贴边 */
+        SET_QUALITY_BIT(fCircle < ptTorq->flowercir(), QUA_CIRC_LESS_LIMIT, dwQuality);
 
-    fIPTorq = GetIPTorq(ptTorq, wIPPos, wSchPos);
-    /* 没有找到拐点，且需要找到拐点时，其他错误 */
-    if(wIPPos == 0) 
-    {
-        SET_QUALITY_BIT(TRUE, QUA_OTHER_CAUSE, dwQuality);
-        goto ENDJUDGE;
-    }
-
-    /* 拐点扭矩范围 */
-    /* 超拐点扭矩 / 拐点扭矩小 */
-    SET_QUALITY_BIT(fIPTorq < ptTorq->flowertai(), QUA_LOW_SHOULD, dwQuality);
-    SET_QUALITY_BIT(fIPTorq > ptTorq->fuppertai(), QUA_HIGHT_SHOULD, dwQuality);
-    
-    fMinDelCir = (ptTorq->fmindeltacir() > 0) ? ptTorq->fmindeltacir() : 0.01;
-    fMaxDelCir = (ptTorq->fmaxdeltacir() > 0) ? ptTorq->fmaxdeltacir() : 0.1;
-    fMinSlope  = (ptTorq->fminshlslope() > 0) ? ptTorq->fminshlslope() : 5.0;
-    
-    fDeltaCir  = GetIPDelCir(ptTorq, wIPPos);
-    /*  拐点斜率小    （实际拐点斜率数值小于设置的拐点斜率数值时 */
-    fSlopeFactor = GetFlopeFactor(ptTorq, wIPPos, (UINT)fIPTorq);
-    SET_QUALITY_BIT(fSlopeFactor < fMinSlope, QUA_LOW_SLOPE, dwQuality);
-
-    /* 超周数差值  周数差值超过设置的最大周数差值时----判废 */
-    SET_QUALITY_BIT(fDeltaCir < fMinDelCir, QUA_OTHER_CAUSE, dwQuality);
-    SET_QUALITY_BIT(fDeltaCir > fMaxDelCir, QUA_HIGHT_DELTATURN, dwQuality);
-
-ENDJUDGE:
-    if(dwQuality == 0)
-    {
-        return QUA_RESU_GOOD;
+        if (dwQuality == 0)
+        {
+            return QUA_RESU_GOOD;
+        }
     }
 
     return dwQuality;
@@ -2638,8 +2183,8 @@ BOOL CTorqueApp::JudgeTranslate(TorqData::Torque *ptTorq)
     for(i= ptTorq->ftorque_size() -1; i>iTranCount; i--)
     {
         //if(ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // 小于控制扭矩的15%
-        if(ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
-            break;
+        //if(ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
+        //    break;
 
         fTemp = (ptTorq->ftorque(i) - ptTorq->ftorque(i- iTranCount)) / fCtrlTorq;
         if (fTemp < 0.005)
@@ -3283,8 +2828,6 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
             ptTorq->set_fspeeddown(fRatio*ptTorq->fspeeddown());
             ptTorq->set_fshow(fRatio*ptTorq->fshow());
             ptTorq->set_fbear(fRatio*ptTorq->fbear());
-            ptTorq->set_fuppertai(fRatio*ptTorq->fuppertai());
-            ptTorq->set_flowertai(fRatio*ptTorq->flowertai());
 
             for(j=0; j<ptTorq->ftorque_size(); j++)
             {
@@ -3664,8 +3207,6 @@ double CTorqueApp::GetMaxCir(TorqData::Torque  *ptTorq)
     ASSERT_NULL_R(ptTorq, fMaxCir);
 
     fMaxCir = ptTorq->fmaxcir();
-    if(ptTorq->btimeline())
-        fMaxCir = ptTorq->fmaxtime();
 
     return fMaxCir;
 }
@@ -3677,8 +3218,6 @@ double CTorqueApp::GetCtrlCir(TorqData::Torque  *ptTorq)
     ASSERT_NULL_R(ptTorq, fCtrlCir);
 
     fCtrlCir = ptTorq->fcontrolcir();
-    if(ptTorq->btimeline())
-        fCtrlCir = ptTorq->fcontroltime();
 
     return fCtrlCir;
 }
@@ -3690,8 +3229,6 @@ double CTorqueApp::GetUpperCir(TorqData::Torque  *ptTorq)
     ASSERT_NULL_R(ptTorq, fUpperCir);
 
     fUpperCir = ptTorq->fuppercir();
-    if(ptTorq->btimeline())
-        fUpperCir = ptTorq->fuppertime();
 
     return fUpperCir;
 }
@@ -3703,8 +3240,6 @@ double CTorqueApp::GetLowerCir(TorqData::Torque  *ptTorq)
     ASSERT_NULL_R(ptTorq, fLowerCir);
 
     fLowerCir = ptTorq->flowercir();
-    if(ptTorq->btimeline())
-        fLowerCir = ptTorq->flowertime();
 
     return fLowerCir;
 }

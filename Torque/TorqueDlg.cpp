@@ -586,7 +586,6 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_WM_INITMENUPOPUP()
     ON_COMMAND(ID_MODPW, &CTorqueDlg::OnModpw)
     ON_COMMAND(ID_VALVESET, &CTorqueDlg::OnValveset)
-    ON_BN_CLICKED(IDC_SETIPPOINT, &CTorqueDlg::OnBnClickedSetippoint)
     ON_BN_CLICKED(IDC_SETTOOLBUCK, &CTorqueDlg::OnBnClickedSettoolbuck)
     ON_BN_CLICKED(IDC_RADIOBUCKLE, &CTorqueDlg::OnBnClickedRadiobuckle)
     ON_BN_CLICKED(IDC_RADIOSHACKLE, &CTorqueDlg::OnBnClickedRadioshackle)
@@ -1533,7 +1532,6 @@ void CTorqueDlg::SetTorqDataCfg(TorqData::Torque *ptPBData)
 {
     ASSERT_NULL(ptPBData);
     ptPBData->set_btoolbuck(m_bToolBuck);
-    ptPBData->set_bncheckip(!g_tGlbCfg.bCheckIP);
     ptPBData->set_strmemo(m_ptCfg->strMemo);
     ptPBData->set_strremark(m_ptCfg->strRemark);
     ptPBData->set_dwver(m_ptCtrl->ucVer);
@@ -1546,15 +1544,11 @@ void CTorqueDlg::SetTorqDataCfg(TorqData::Torque *ptPBData)
     ptPBData->set_fspeeddown(m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
     ptPBData->set_fshow(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
     ptPBData->set_fbear(m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR]);
-    ptPBData->set_fuppertai(m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]);
-    ptPBData->set_flowertai(m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]);
 
     ptPBData->set_fmaxcir(m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     ptPBData->set_fuppercir(m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
     ptPBData->set_fcontrolcir(m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL]);
     ptPBData->set_flowercir(m_ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT]);
-    ptPBData->set_fmaxdeltacir(m_ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]);
-    ptPBData->set_fmindeltacir(m_ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
 
     ptPBData->set_fmaxrpm(m_ptCtrl->fFullRPM);
 
@@ -1562,8 +1556,6 @@ void CTorqueDlg::SetTorqDataCfg(TorqData::Torque *ptPBData)
     ptPBData->set_fcut(g_tGlbCfg.fDiscount);
     ptPBData->set_frpmadj(g_tGlbCfg.fRpmAdj);
     ptPBData->set_fmulti(g_tGlbCfg.fMulti);
-
-    ptPBData->set_fminshlslope(m_ptCtrl->fMinShlSlope);
 }
 
 /*扭矩控制完成，LastPoint设置为TRUE，判断控制质量并存盘*/
@@ -1582,9 +1574,6 @@ void CTorqueDlg::FinishSetStatus()
 
     if(m_iShackle == 0)
     {
-        wIPPos= theApp.SearchDeltaIP(&m_tSaveData, g_tGlbCfg.bCheckIP);
-        theApp.SetIPInfo(&m_tSaveData, m_tSaveData.ftorque(wIPPos));
-
         for(i = m_tCollData.nAllCount - 1; i>0; i--)
         {
             if(m_tCollData.fTorque[i] <= m_tSaveData.ftorque(wIPPos))
@@ -1598,10 +1587,6 @@ void CTorqueDlg::FinishSetStatus()
                 break;
             }
         }
-
-        wIPPlus = theApp.GetIPPlus(&m_tSaveData, wIPPos);
-        fDelCir = (m_tSaveData.dwtotalplus() - wIPPlus) / m_tSaveData.fplus();
-        m_wndTorque.DrawInflection(iCurIPPos, fDelCir, m_tSaveData.ftorque(wIPPos));
     }
     
     /* 质量判定 */
@@ -2787,10 +2772,6 @@ void CTorqueDlg::ResetLineChart()//BOOL bRedraw)
     m_wndTorque.m_fWidthCir = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_wndTorque.m_fMaxLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     m_wndTorque.m_bBear = m_ptComm->bBear;
-    m_wndTorque.m_bCheckIP = g_tGlbCfg.bCheckIP;
-
-    m_wndTorque.m_fUpperTai = m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];
-    m_wndTorque.m_fLowerTai = m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];
 
     m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_MAIN);
     m_xAxis1.SetTickPara(10, m_wndTorque.m_fMaxCir);
@@ -4183,17 +4164,6 @@ void CTorqueDlg::OnValveset()
     UpdateData(FALSE);
 }
 
-void CTorqueDlg::OnBnClickedSetippoint()
-{
-    g_tGlbCfg.bCheckIP = !g_tGlbCfg.bCheckIP;
-
-    m_wndTorque.m_bCheckIP = g_tGlbCfg.bCheckIP;
-    m_wndTorque.DrawBkLine();
-    m_wndTorque.Invalidate();
-
-    theDB.UpdateGlobalPara();
-}
-
 void CTorqueDlg::OnBnClickedSettoolbuck()
 {
     m_bToolBuck = !m_bToolBuck;
@@ -4205,9 +4175,6 @@ void CTorqueDlg::OnBnClickedBtnquality()
     CDlgRemark  dlgRemark;
     BOOL        bModified = FALSE;
     int         i = 0;
-    WORD        wIPPos = 0;
-    WORD        wSchPos = 0;
-    UINT        nShoulder = 0;
     int         iCause = 0;
     TorqData::ShowInfo* ptRunningShow = NULL;
 
@@ -4217,8 +4184,6 @@ void CTorqueDlg::OnBnClickedBtnquality()
     iQuality = dlgRemark.m_iQuality = m_tSaveData.dwquality() & QUA_RESU_QUALITYBIT;
     iCause = dlgRemark.m_iCause = theApp.GetQualityIndex(&m_tSaveData);
 
-    nShoulder = dlgRemark.m_nShoulder = theApp.GetIPTorq(&m_tSaveData, wIPPos, wSchPos);
-
     //杀复位定时器
     m_hrtGuard.KillTimer();
 
@@ -4226,13 +4191,6 @@ void CTorqueDlg::OnBnClickedBtnquality()
     {
         GuardTimerOut(0, 0);
         return;
-    }
-
-    /* 修改拐点扭矩 */
-    if (nShoulder != dlgRemark.m_nShoulder)
-    {
-        bModified = TRUE;
-        theApp.SetIPInfo(&m_tSaveData, dlgRemark.m_nShoulder);
     }
 
     /* 修改了质量属性 */

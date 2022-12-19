@@ -46,7 +46,6 @@ public:
 // Attributes
 public:
     //LINECHARITEM    m_tItem;
-    bool            m_bCheckIP;
     BYTE            m_uLineType;
 
     // Operations
@@ -66,7 +65,6 @@ public:
     BOOL    Add(COLORREF clrLine, double fUpper, double fLower, BYTE uType = LINETYPE_MAIN);
     void    DrawBkLine();
     void    FinishDraw();
-    void    DrawInflection(int iIPPos, double fDelIPCir, double fSetIPTorq = -1);//, COLORREF clrIP = IP_INFCOLOR);
     void    DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMaxCir, double fDeltaCir, double fSetZoomTorq = -1);
     void    DrawSelInfo(UINT nBeginPos, UINT nTotal);
     void    DrawZoomBkLine();
@@ -91,10 +89,6 @@ public:
     double       m_fWidthCir;   /* 画图的真实宽度的周数，一般等于m_fMaxCir，因为左边界为0
                                    对于放大的图, 左边m_fMinCir非0, 该参数小于m_fMaxCir */
 
-    double       m_fUpperTai;   /* 最大台矩 */
-    //double       m_fCtrlTai;  /* 最佳台矩 即为减速扭矩，直接使用减速扭矩 */
-    double       m_fLowerTai;   /* 最小台矩 */
-
     BOOL         m_bBear;
 
     // Generated message map functions
@@ -102,9 +96,7 @@ protected:
     //{{AFX_MSG(CLineChartCtrlEx)
     afx_msg void OnPaint();
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-    afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
@@ -116,7 +108,6 @@ private:
     void    DrawVLine(int x);
     void    DrawControlLine();
     void    DrawAlarmLine();
-    void    DrawTaiLine();
     void    DrawShowLine();
     void    DrawBearLine();
     void    ShowTorqNo();
@@ -128,7 +119,6 @@ private:
     CBitmap     m_bpWCross;
     BITMAP      m_bmpInfo;
     CRect       m_rcInterPt;
-    BOOL        m_bIPSeled;
     UINT        m_nSelPntNum;
     UINT        m_nSelPos[MAX_SHOWSELPOINTNUM];
         

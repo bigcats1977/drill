@@ -308,23 +308,6 @@ VOID CDlgHisList::ShowHisTorqList()
         GET_CTRL_TORQ(fTorque, ptTorq);
         strTorq.Format("%d", (int)fTorque);
 
-        /* 获得拐点扭矩 */
-        iIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
-        if(wIPPos == 0)
-        {
-            strShoulder.Empty();
-            //strSlope.Empty();
-        }
-        else
-        {
-            strShoulder.Format("%d", iIPTorq);
-            /*fSlope = theApp.GetFlopeFactor(ptTorq, wIPPos, iIPTorq);
-            if( fSlope < 0)
-                strSlope.Empty();
-            else
-                strSlope.Format("%.3f", fSlope);*/
-        }
-
         strMin.Format("%d", (int)ptTorq->flowerlimit());
         strMax.Format("%d", (int)ptTorq->fupperlimit());
 
@@ -464,9 +447,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     int         j = 0;
     UINT        index = 0;
     int         iLen    = 0;
-    WORD        wIPPos  = 0;
     WORD        wSchPos = 0;
-    UINT        nIPTorq = 0;
     double      fCtrlTorq = 0;
     CFile       file;
     CString     strOrgData;
@@ -497,12 +478,9 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     /* construct NULL head */
     ptTorq   = &g_tReadData.tData[0];
     strTime = theApp.GetTorqCollTime(ptTorq);
-    nIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
-    iHeadLen = sprintf_s(aucHead, SPRINTFLEN, "%5d; %s; %3d; %5d; %5.0f; Torq: ", 
+    iHeadLen = sprintf_s(aucHead, SPRINTFLEN, "%5d; %s; %5.0f; Torq: ", 
                      (1), 
                      (LPSTR)(LPCTSTR)strTime,
-                     wIPPos,
-                     nIPTorq,
                      fCtrlTorq);
 
     memset(aucHead, 0, SPRINTFLEN+1);
@@ -520,14 +498,11 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
         ptTorq   = &g_tReadData.tData[index];
 
         strTime = theApp.GetTorqCollTime(ptTorq);
-        nIPTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
         GET_CTRL_TORQ(fCtrlTorq, ptTorq);
 
-        iLen = sprintf_s(pPrnData, SPRINTFLEN, "%5d; %s; %3d; %5d; %5.0f; Torq: ", 
+        iLen = sprintf_s(pPrnData, SPRINTFLEN, "%5d; %s; %5.0f; Torq: ", 
                          (index+1),
                          (LPSTR)(LPCTSTR)strTime,
-                         wIPPos,
-                         nIPTorq,
                          fCtrlTorq);
         g_tOrgData.iCur += iLen;
         pPrnData += iLen;
@@ -1517,21 +1492,21 @@ void  CDlgHisList::FillReportHead(int &iRow, TorqData::Torque *ptHeadTorq)
     /* :  最大扭矩  */
     //SetCell(iRow, iCol++, ptHeadTorq->fupperlimit());
     /* :  最小拐点  */
-    SetCell(iRow, iCol++, ptHeadTorq->flowertai());
+    SetCell(iRow, iCol++, 0);
     iCol++;
     /* :  最大拐点  */
-    SetCell(iRow, iCol++, ptHeadTorq->fuppertai());
+    SetCell(iRow, iCol++, 0);
     iCol++;
     /* :  最小周数  */
     SetCell(iRow, iCol++, ptHeadTorq->flowercir());
     /* :  最大周数  */
     SetCell(iRow, iCol++, ptHeadTorq->fuppercir());
     /* :  最小周数差*/
-    SetCell(iRow, iCol++, ptHeadTorq->fmindeltacir());
+    SetCell(iRow, iCol++, 0);
     /* :  最大周数差*/
-    SetCell(iRow, iCol++, ptHeadTorq->fmaxdeltacir());
+    SetCell(iRow, iCol++, 0);
     /* :  最小斜度  */
-    SetCell(iRow, iCol++, ptHeadTorq->fminshlslope());
+    SetCell(iRow, iCol++, 0);
     iRow++;
 }
 
@@ -1541,8 +1516,6 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
     int         iCol        = 0;
     double      fTorque     = 0;
     double      fCir        = 0;
-    double      fShlTorq    = 0;
-    double      fDelCir     = 0;
     WORD        wIPPos      = 0;
     WORD        wSchPos     = 0;
     DWORD       dwQuality   = 0;
@@ -1586,17 +1559,7 @@ void CDlgHisList::FillReportData(int &iRow, TorqData::Torque *ptHeadTorq)
         fCir = theApp.GetCir(ptTorq);
         SetCell(iRow, iCol++, fCir);
         
-        fShlTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos); // IP Torq
-        fDelCir  = theApp.GetIPDelCir(ptTorq, wIPPos);
-        if(wIPPos != 0)
-        {
-            /* G should Torq */
-            SetCell(iRow, iCol++, (int)fShlTorq);
-            /* H Delta Turn */
-            SetCell(iRow, iCol++, fDelCir);
-        }
-        else
-            iCol += 2;
+        iCol += 2;
 
         /* I 入井序号 显示参数10 */
         SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, m_ptStat->GenPara[STATPARA_GENTALLY]));

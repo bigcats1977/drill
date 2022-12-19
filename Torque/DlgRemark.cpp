@@ -20,7 +20,6 @@ CDlgRemark::CDlgRemark(CWnd* pParent /*=NULL*/)
 {
     //{{AFX_DATA_INIT(CDlgRemark)
     m_iQuality = 0;
-    m_nShoulder= 0;
     //}}AFX_DATA_INIT
 }
 
@@ -31,7 +30,6 @@ void CDlgRemark::DoDataExchange(CDataExchange* pDX)
     //{{AFX_DATA_MAP(CDlgRemark)
     DDX_Radio(pDX, IDC_RADIONOQUALITY, m_iQuality);
     DDX_Control(pDX, IDC_COMBOREMARK, m_cbRemark);
-    DDX_Text(pDX, IDC_EDITSHOULDER, m_nShoulder);
     //}}AFX_DATA_MAP
 }
 

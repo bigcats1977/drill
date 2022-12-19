@@ -49,12 +49,8 @@ CLineChartCtrlEx::CLineChartCtrlEx()
     m_fMaxCir     = 5;      /* 最大周数 */
     m_fWidthCir   = 5;
     m_fMaxLimit   = 5000;   /* 最大上限 */
-    m_fUpperTai   = 900;
-    m_fLowerTai   = 200;
     m_bBear       = FALSE;
-    m_bCheckIP    = FALSE;
     //m_nTorqNo     = 1;
-    m_bIPSeled    = FALSE;
     m_nSelPntNum  = 0;
     m_nStartPoint = 0;
     memset(m_nSelPos, 0, sizeof(UINT)*MAX_SHOWSELPOINTNUM);
@@ -441,54 +437,6 @@ void CLineChartCtrlEx::DrawAlarmLine()
     m_MemDC.SelectObject(pOldPen);
 }
 
-void CLineChartCtrlEx::DrawTaiLine()
-{
-    int     x        = 0;
-    int     y        = 0;
-    CPen    *pOldPen = NULL;
-    //CString strTemp;
-    COLORREF clrTai = LC_TAICOLOR;
-
-    COMP_BFALSE(m_bCheckIP);
-    
-    if(LINETYPE_HISG == m_uLineType)
-    {
-        clrTai = CTRLBKCOLOR;
-    }
-    CPen    penTai  (PS_DOT, 1, clrTai);
-
-    pOldPen = m_MemDC.SelectObject(&penTai);
-    
-    /*最大台阶扭矩*/
-    /* ----- */    
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fUpperTai)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示最大台阶扭矩值 */
-    //strTemp.Format(IDS_STRLCXUPTAI, m_fUpperTai);
-    //ShowContent(clrTai, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrTai, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPTAI, m_fUpperTai));
-#if 0
-    /* 显示减速扭矩 */
-    /*最佳台阶扭矩(减速扭矩) */
-    /* ----- */
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fSpeedDown)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示最佳台阶扭矩值 */
-    strTemp.Format(IDS_STRLCXSPEED, m_fSpeedDown);
-    ShowContent(LC_SPEEDCOLOR, y-CONT_YOFFSET, strTemp);
-#endif
-    /*最小台阶扭矩*/
-    /* ----- */
-    y = int((m_iChartHeight)*(m_fMaxLimit-m_fLowerTai)/m_fMaxLimit);
-    DrawHLine(y);
-    /* 显示最小台阶扭矩值 */
-    //strTemp.Format(IDS_STRLCXLOWTAI, m_fLowerTai);
-    //ShowContent(clrTai, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrTai, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWTAI, m_fLowerTai));
-
-    m_MemDC.SelectObject(pOldPen);
-}
-
 void CLineChartCtrlEx::DrawShowLine()
 {
     int     x        = 0;
@@ -581,9 +529,6 @@ void CLineChartCtrlEx::DrawBkLine()
     /* 告警线 */
     DrawAlarmLine();
 
-    /*台阶扭矩*/
-    DrawTaiLine();
-
     /*显示扭矩*/
     DrawShowLine();
 
@@ -616,74 +561,6 @@ void CLineChartCtrlEx::DrawZoomBkLine()
 
     m_MemDC.SetBkMode(iOldMode);
     m_MemDC.SelectObject(&pOldFont);
-}
-
-void CLineChartCtrlEx::DrawInflection(int iIPPos, double fDelIPCir, double fSetIPTorq)//, COLORREF clrIP)
-{
-    double      fRange;
-    int         x = 0, y = 0;
-    double      fIPTorq = 0;//      fIPTorq = 0;
-    int         i = 0;
-    CString     strTemp;
-    CBitmap*    pOldBitmap;
-    CDC         dcMemory;
-    CPen*       pOldPen = NULL;
-    int         iRealIPPos = 0;
-    COLORREF    clrIP = LC_SAFECOLOR;
-
-    COMP_BFALSE(m_bCheckIP);
-    
-    if(LINETYPE_HISG == m_uLineType)
-    {
-        clrIP = CTRLBKCOLOR;
-    }
-    
-    CPen        pnLine(PS_DOT, 1, clrIP);
-
-    COMP_BLE(iIPPos, 0);
-
-    iRealIPPos = iIPPos + m_nStartPoint;
-
-    fIPTorq = fSetIPTorq;
-    if(fIPTorq == -1)
-        fIPTorq = (UINT)m_tItem.m_fData[iRealIPPos];
-    
-    fRange  = m_tItem.m_fUpper - m_tItem.m_fLower;
-    x       = int(iRealIPPos * m_fOffset);
-    y       = (int)(((fRange - fIPTorq + m_tItem.m_fLower)/fRange) * m_iChartHeight ) ;
-
-
-    /*画拐点扭矩的线*/
-    pOldPen = m_MemDC.SelectObject(&pnLine);
-    /*拐点扭矩*/
-    /* | */
-    DrawVLine(x);
-    
-    /* ----- */ 
-    DrawHLine(y);
-    /* 拐点扭矩 */
-    if(0 == fDelIPCir)
-        fDelIPCir  = ((int)m_tItem.m_nPos - iRealIPPos)*m_fWidthCir/MAXLINEITEM;
-    strTemp.Format("(%.3f \xA1\xF1 %.f)", fDelIPCir, fIPTorq );
-    ShowRightPntText(clrIP, x, y, strTemp);
-
-    m_MemDC.SelectObject(pOldPen);
-
-    dcMemory.CreateCompatibleDC(&m_MemDC);
-
-    // Select the bitmap into the in-memory DC
-    if(m_uLineType == LINETYPE_MAIN)
-        pOldBitmap = dcMemory.SelectObject(&m_bpCross);
-    else
-        pOldBitmap = dcMemory.SelectObject(&m_bpWCross);
-
-    m_MemDC.BitBlt(x-5, y-5, m_bmpInfo.bmWidth, m_bmpInfo.bmHeight, &dcMemory,0, 0, SRCCOPY);
-    dcMemory.SelectObject(pOldBitmap);
-    dcMemory.DeleteDC();
-
-    m_rcInterPt = CRect(x-7, y-7, x-3 + m_bmpInfo.bmWidth, y-3+m_bmpInfo.bmHeight);
-
-    return;
 }
 
 /* 左键单击显示当前扭矩和周数 */
@@ -734,15 +611,7 @@ void CLineChartCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
     HWND hParent = ::GetParent(m_hWnd);
     
     /* 只是在hisgraph里面才触发移动拐点事件 */
-    if(m_uLineType == LINETYPE_HISG)
-    {
-        COMP_BFALSE(m_bCheckIP);
-        if(m_rcInterPt.PtInRect(point))
-        {
-            m_bIPSeled = TRUE;
-        }
-    }
-    else if(m_uLineType == LINETYPE_ZOOM)
+    if(m_uLineType == LINETYPE_ZOOM)
     {
         ::PostMessage(hParent, WM_RBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
     }
@@ -764,41 +633,6 @@ BOOL CLineChartCtrlEx::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
     ::SendMessage(hParent, WM_INTERPT_ZOOMIN, 0, nCurPos);
 
     return CWnd::OnMouseWheel(nFlags, zDelta, point);
-}
-
-void CLineChartCtrlEx::OnRButtonUp(UINT nFlags, CPoint point)
-{
-    UINT        nIPPos = 0;
-    HWND hParent = ::GetParent(m_hWnd);
-
-    COMP_BFALSE(m_uLineType == LINETYPE_HISG);
-    COMP_BFALSE(m_bCheckIP);
-    COMP_BFALSE(m_bIPSeled);
-    m_bIPSeled = FALSE;
-
-    nIPPos = UINT(point.x/m_fOffset);
-
-    ::SendMessage(hParent, WM_INTERPT_CHANGE,WPARAM(nIPPos), 1);//m_tItem.m_fData[nIPPos]
-
-    CWnd::OnRButtonUp(nFlags, point);
-}
-
-void CLineChartCtrlEx::OnMouseMove(UINT nFlags, CPoint point)
-{
-
-    UINT        nIPPos = 0;
-    HWND hParent = ::GetParent(m_hWnd);
-    
-    SetFocus();
-
-    COMP_BFALSE(m_uLineType == LINETYPE_HISG);
-    COMP_BFALSE(m_bIPSeled);
-
-    nIPPos = UINT(point.x/m_fOffset);
-
-    ::SendMessage(hParent, WM_INTERPT_CHANGE,WPARAM(nIPPos), 0);//
-
-    CWnd::OnMouseMove(nFlags, point);
 }
 
 void CLineChartCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
