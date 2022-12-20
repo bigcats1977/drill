@@ -125,7 +125,7 @@
 #define IDC_EDMAINSHOW3                 1090
 #define IDC_EDMAINSHOW4                 1091
 #define IDC_EDMAINSHOW5                 1092
-#define IDC_BTNHISFILE                  1093
+#define IDC_BTNBREAKOUTFILE             1093
 #define IDC_EDMAINSHOW6                 1094
 #define IDC_EDMAINSHOW7                 1095
 #define IDC_BTNSHOWSET                  1096
@@ -146,7 +146,7 @@
 #define IDC_EDITCONTROLCIR              1111
 #define IDC_EDITMAXRPM                  1113
 #define IDC_EDITMAXCIR                  1114
-#define IDC_EDHISFILE                   1115
+#define IDC_EDBREAKOUTFILE              1115
 #define IDC_EDITMEMO                    1117
 #define IDC_EDITMINSHLSLOPE             1120
 #define IDC_CBPARA01                    1121
