@@ -539,7 +539,7 @@ void CTorqueDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDMAINSHOW7, m_strMainValue[7]);
     DDX_Text(pDX, IDC_STATIC_M2, m_strLBM2);
     DDX_Text(pDX, IDC_STATIC_M9, m_strTorqType);
-    DDX_Text(pDX, IDC_EDHISFILE, m_strBreakoutFile);
+    DDX_Text(pDX, IDC_EDBREAKOUTFILE, m_strBreakoutFile);
     //}}AFX_DATA_MAP
 }
 
@@ -591,7 +591,7 @@ BEGIN_MESSAGE_MAP(CTorqueDlg, CDialog)
     ON_BN_CLICKED(IDC_RADIOBREAKOUT, &CTorqueDlg::OnBnClickedRadiobreakout)
     ON_BN_CLICKED(IDC_BTNQUALITY, &CTorqueDlg::OnBnClickedBtnquality)
     ON_BN_CLICKED(IDC_BTNSHOWSET, &CTorqueDlg::OnBnClickedBtnshowset)
-    ON_BN_CLICKED(IDC_BTNHISFILE, &CTorqueDlg::OnBnClickedBtnHisFile)
+    ON_BN_CLICKED(IDC_BTNBREAKOUTFILE, &CTorqueDlg::OnBnClickedBtnBreakoutFile)
     ON_COMMAND(ID_SEGCALIB, &CTorqueDlg::OnSegcalib)
     ON_COMMAND(ID_GLBCFG, &CTorqueDlg::OnGlbCfg)
 END_MESSAGE_MAP()
@@ -1538,13 +1538,9 @@ void CTorqueDlg::SetTorqDataCfg(TorqData::Torque *ptPBData)
     ptPBData->set_dwver(m_ptCtrl->ucVer);
 
     ptPBData->set_fmaxlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
-    //ptPBData->set_fupperlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
     ptPBData->set_fcontrol(m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]);
     ptPBData->set_fopttorq(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
-    //ptPBData->set_flowerlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
-    //ptPBData->set_fspeeddown(m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
     ptPBData->set_fshow(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
-    //ptPBData->set_fbear(m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR]);
 
     ptPBData->set_fmaxcir(m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     ptPBData->set_fuppercir(m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
@@ -4230,8 +4226,47 @@ void CTorqueDlg::OnBnClickedBtnquality()
     GuardTimerOut(0, 0);
 }
 
-void CTorqueDlg::OnBnClickedBtnHisFile()
+void CTorqueDlg::OnBnClickedBtnBreakoutFile()
 {
+    UINT    i = 0;
+    UINT    nMaxShowPlace = 0;
+    CString strFilter;
+    CString strInfo;
+    CString strHead, strTemp;
+    string  strName;
+    TorqData::Torque* ptTorq = NULL;
+
+    strFilter.Format(IDS_STRDATFILTER);
+
+    CFileDialog fileDlg(TRUE, "pbd", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter, NULL);
+
+    COMP_BNE(fileDlg.DoModal(), IDOK);
+
+    m_strBreakoutPath = fileDlg.GetPathName();
+    m_strBreakoutFile = fileDlg.GetFileName();
+
+    if (!theApp.ReadHisTorqFromFile(m_strBreakoutPath))
+    {
+        strInfo.Format(IDS_STRINFFILEERR);
+        theApp.SaveShowMessage(strInfo);
+        return;
+    }
+
+    // find the breakout index
+
+    UpdateData(FALSE);
+
+    return;
+}
+
+void CTorqueDlg::EnableBreakoutfile(bool bEnable)
+{
+    GetDlgItem(IDC_BTNBREAKOUTFILE)->EnableWindow(bEnable);
+    GetDlgItem(IDC_SETTOOLBUCK)->EnableWindow(!bEnable);
+    GetDlgItem(IDC_BTNSHOWSET)->EnableWindow(!bEnable);
+    
+    if(!bEnable)
+        m_strBreakoutFile.Empty();
 }
 
 void CTorqueDlg::OnBnClickedRadiomakeup()
@@ -4257,9 +4292,11 @@ void CTorqueDlg::OnBnClickedRadiomakeup()
     }
 
     m_iBreakout = 0;
-    g_tGlbCfg.bBreakOut = FALSE;
+    g_tGlbCfg.bBreakOut = false;
     /*save into ini*/
     theDB.UpdateGlobalPara();
+
+    EnableBreakoutfile(false);
 
     ResetLineChart();
     UpdateData(FALSE);
@@ -4289,9 +4326,11 @@ void CTorqueDlg::OnBnClickedRadiobreakout()
 
     m_iBreakout = 1;
 
-    g_tGlbCfg.bBreakOut = TRUE;
+    g_tGlbCfg.bBreakOut = true;
     /*save into ini*/
     theDB.UpdateGlobalPara();
+
+    EnableBreakoutfile(true);
 
     ResetLineChart();
     UpdateData(FALSE);

@@ -165,7 +165,7 @@ protected:
     afx_msg void OnValveset();
     afx_msg void OnBnClickedSettoolbuck();
     afx_msg void OnBnClickedBtnquality();
-    afx_msg void OnBnClickedBtnHisFile();
+    afx_msg void OnBnClickedBtnBreakoutFile();
     afx_msg void OnBnClickedRadiomakeup();
     afx_msg void OnBnClickedRadiobreakout();
     afx_msg void OnBnClickedBtnshowset();
@@ -252,6 +252,7 @@ private:
     double OverTorqOpt(double fTorq, BYTE ucStatus);
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
+    void   EnableBreakoutfile(bool bEnable);
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/
@@ -305,6 +306,7 @@ private:
     int             m_iMaxReadTimes;    /* 串口最大读取次数 */
     
     BOOL            m_bCanModLastData;  /* 复位时间前，可以修改最后一条数据 */
+    CString         m_strBreakoutPath;
 
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];
