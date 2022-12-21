@@ -32,7 +32,7 @@ CDlgHisGrp::CDlgHisGrp() : CPropertyPage(CDlgHisGrp::IDD)
     //{{AFX_DATA_INIT(CDlgHisGrp)
     EmptyEdit();
     m_bToolBuck = FALSE;
-    m_bBreakOut = FALSE;
+    //m_bBreakOut = FALSE;
     //}}AFX_DATA_INIT
     m_nBeginPos = 0;
 }
@@ -51,14 +51,14 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_YHISAXIS2, m_yHisAxis2);
     DDX_Text(pDX, IDC_HISMEMO, m_strMemo);
     DDX_Text(pDX, IDC_HISCONTROL, m_strControl);
-    DDX_Text(pDX, IDC_HISBREAKOUT, m_strBreakOut);
+    DDX_Text(pDX, IDC_HISBREAKOUT, m_strBreakOutTorq);
     DDX_Text(pDX, IDC_HISQUALITY, m_strQuality);
     DDX_Text(pDX, IDC_HISTIME, m_strTime);
     DDX_Text(pDX, IDC_HISNO, m_strNo);
     DDX_Text(pDX, IDC_HISCIR, m_strCir);
     DDX_Check(pDX, IDC_CHECKTOOLBUCK, m_bToolBuck);
-    DDX_Check(pDX, IDC_CHECKHISBREAKOUT, m_bBreakOut);
-    DDX_Text(pDX, IDC_STATIC_G8, m_strTorqType);
+    //DDX_Check(pDX, IDC_CHECKHISBREAKOUT, m_bBreakOut);
+    //DDX_Text(pDX, IDC_STATIC_G8, m_strTorqType);
     DDX_Text(pDX, IDC_STATIC_G1, m_strLBG1);
     DDX_Text(pDX, IDC_STATIC_G10, m_strLBG10);
     DDX_Text(pDX, IDC_HISSHOW01, m_strHisShowName[0]);
@@ -115,7 +115,7 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     ON_EN_KILLFOCUS(IDC_HISMEMO, &CDlgHisGrp::OnEnKillfocusHismemo)
     ON_STN_CLICKED(IDC_PRIORSPLIT, &CDlgHisGrp::OnStnClickedPriorsplit)
     ON_STN_CLICKED(IDC_NEXTSPLIT, &CDlgHisGrp::OnStnClickedNextsplit)
-    ON_BN_CLICKED(IDC_CHECKHISBREAKOUT, &CDlgHisGrp::OnBnClickedCheckbreakout)
+    //ON_BN_CLICKED(IDC_CHECKHISBREAKOUT, &CDlgHisGrp::OnBnClickedCheckbreakout)
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -157,23 +157,23 @@ void CDlgHisGrp::EmptyEdit()
     /* 显示参数 */
     for(i=0; i<15; i++)
         m_strHisShowValue[i].Empty();
-    m_strMemo       = _T("");
-    m_strControl    = _T("");
-    m_strBreakOut = _T("");
-    m_strQuality    = _T("");
-    m_strTime       = _T("");
-    m_strNo         = _T("");
-    m_strCir        = _T("");
+    m_strMemo = _T("");
+    m_strControl = _T("");
+    m_strBreakOutTorq = _T("");
+    m_strQuality = _T("");
+    m_strTime = _T("");
+    m_strNo = _T("");
+    m_strCir = _T("");
 }
 
 void CDlgHisGrp::UpdateDlgLabel()
 {
     m_strLBG1 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
     m_strLBG10 = g_tGlbCfg.strUnit.c_str();
-    if (m_bBreakOut)
+    /*if (m_bBreakOut)
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
     else
-        m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
+        m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();*/
 }
 
 /* 设置EDIT控件内容 */
@@ -187,7 +187,7 @@ void CDlgHisGrp::SetCurEdit()
     m_strNo.Format("%d", g_tReadData.nCur);
     m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
     m_bToolBuck = m_ptCurTorq->btoolbuck();
-    m_bBreakOut = m_ptCurTorq->bbreakout();
+    //m_bBreakOut = m_ptCurTorq->bbreakout();
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     /* 显示参数 */
     for (i = 0; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
@@ -200,7 +200,7 @@ void CDlgHisGrp::SetCurEdit()
 
     GET_CTRL_TORQ(fTorq, m_ptCurTorq);
     m_strControl.Format("%d", (int)fTorq);
-    m_strBreakOut = _T("");
+    m_strBreakOutTorq = _T("");
 }
 
 BOOL CDlgHisGrp::GetCirRange(double *fMin, double *fMax)
@@ -932,7 +932,7 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
 
     theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
-
+#if 0
 void CDlgHisGrp::OnBnClickedCheckbreakout()
 {
     ASSERT_NULL(m_ptCurTorq);
@@ -960,7 +960,7 @@ void CDlgHisGrp::OnBnClickedCheckbreakout()
     /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
     UpdateTallyNO();
 }
-
+#endif
 void CDlgHisGrp::OnEnKillfocusHismemo()
 {
     ASSERT_NULL(m_ptCurTorq);

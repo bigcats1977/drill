@@ -500,7 +500,7 @@ using namespace std;
 //#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
 //#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
 //#define         TUBESN                  9   /* 管体序号 */
-#define         TALLYNO                 15  /* 入井序号 */
+//#define         TALLYNO                 16  /* 入井序号 */
 
 
 /* 主界面7个参数, 1~6固定 */
@@ -901,6 +901,7 @@ typedef struct tagTORQUEDATA
 {
     UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 当前显示/卸扣的序号 */
     UINT    nTotal;
+    UINT    nBreakout;
     UINT    nQualy;
     UINT    nUnQualy;
     UINT    nTotalPlus[MAXWELLNUM];
@@ -1248,19 +1249,7 @@ typedef struct tagPORTDATA
             (bChange) |= TRUE;                              \
         }                                                   \
     }
-#if 0
-/* 从第一条记录开始，跳到指定的记录位置
-   说明:文件的第一个UINT记录总数已经读出
-   for循环的递增为int i
-   nLeng 为UNIT类型,表示该数据完整长度 */
-#define SEEK_TORQUE(index, nLeng)      {                                    \
-        for(i=0; i<(index); i++)                                            \
-        {                                                                   \
-            file.Read(&(nLeng), sizeof(UINT));                              \
-            file.Seek((nLeng), CFile::current);                             \
-        }                                                                   \
-    }
-#endif
+
    /* 获取图像的控制扭矩 */
 #define GET_CTRL_TORQ(fTorq, ptTorq)        {                       \
         fTorq = ptTorq->fmaxtorq();                                 \

@@ -77,11 +77,6 @@ public:
     void    ShowMainTitle();
     string  GetQualityInfo(TorqData::Torque *ptTorq);
     int     GetQualityIndex(TorqData::Torque *ptTorq);
-    void    GetCurWellFile();
-    void    GetCurNum();
-    BOOL    CheckReg(CString strReg[]);
-    BOOL    GetVolMacFromRegStr(CString strReg[], DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
-    BOOL    GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
     void    GetMACAddr(UCHAR *pcMac);
     void    StringSubtract(CString& strValue, BYTE ucChar);
     void    SplitRegString(CString strReg[], CString strRegCode);
@@ -97,7 +92,6 @@ public:
     BOOL    SaveBmp(HBITMAP hBitmap, CString FileName);
     BOOL    SavePNG(HBITMAP hBitmap, CString FileName);
     double  GetCir(TorqData::Torque *ptTorq);
-    void    SaveTorqNum();
     DWORD   GetQuality(TorqData::Torque *ptTorq);
     DWORD   JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut = 0);
     BOOL    ReadHisTorqFromFile(CString strDataName);
@@ -105,14 +99,12 @@ public:
     CString GetTorqSimpDate(TorqData::Torque *ptTorq);
     CString GetTorqFullDate(TorqData::Torque *ptTorq);
     CString GetTorqCollTime(TorqData::Torque *ptTorq);
-    void    ClearReadTorq();
     BOOL    CheckPassWord();
     string  LoadstringFromRes( unsigned string_ID );
     string  LoadstringFromRes(unsigned string_ID, int val);
     string  LoadstringFromRes(unsigned string_ID, double val);
     string  LoadstringFromRes(unsigned string_ID, string val);
     void    GetShowDataRange(DRAWTORQDATA *ptDraw, int &iBegin, int &iEnd, SPLITPOINT *ptSplit, UINT nMulti=1);
-    void    IncTorqNo();
     CString GetSaveDataPath();
     int     SplitString(CString strSource, CStringList &slList);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */
@@ -140,12 +132,13 @@ public:
     BOOL SetShowNameFromID(string lsID, SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
+    bool CheckProductDate();
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
     SHOWCFG         *m_ptCurShow;
-    XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     DBREG           m_tdbReg;
+    XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     VALVECFG        m_tValveCfg;        /* 阀值配置 */
     string          m_strDllFile;       /* 动态链接库文件名称 */
     string          m_strAppPath;
@@ -162,8 +155,6 @@ public:
     string          m_strAutoSaveFile;  /* CTRL+SHIFT+T 保存的数据文件名称?
                                            在data个路径下，后缀名修改为.dbg */
     UINT            m_nTorqMulti;       /* BigTorq: True:10; False:1*/
-    UINT            m_nCurNO;           /* 当前扭矩的序号，更换文件清零 */
-    DWORD           m_dwTotalTorqNum;   /* 扭矩上扣最大数目 */
     UINT            m_nPBHead;
     BOOL            m_bShowCRC;
     SAVELOGDATA     m_tSaveLog;
@@ -181,7 +172,6 @@ public:
     CFont           m_tRuleHFont;
     CFont           m_tPntTextFont;
 
-    UINT            m_nCurRunningNO;       /* 入井序号 */
     double          m_fSheetRatio;
     char            m_cProtoBuf[MAXPROBUFF];
     DRAWTORQDATA    m_tCurDrawTorq;
@@ -210,14 +200,12 @@ private:
     void SaveCurTimeAndHead(UINT nType);
     BOOL MsgLenIsZero(WORD wLen, UINT nType);
     void SaveHexData(BYTE *pucRcvByte, WORD wLen);
-    void CheckAppReg();
-    BOOL CheckProductDate();
-    BOOL GetProductVersion(CString &strVersion);
+    bool GetProductVersion(CString &strVersion);
     void CreateNewWellFile();
-    BOOL TimeValidWell(CString strFileName);
     BOOL GetTorqDataFromFile(CString strDataName);
     BOOL ReCalTallyNO(CString strDataName);
     void SaveAllData(CString strDataName);
+    void ClearReadTorq();
 
     /* 将列表内容导出到excle表格中 */
     BOOL CheckExcelDriver(CString &strDriver);

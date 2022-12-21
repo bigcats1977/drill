@@ -652,7 +652,6 @@ void CDlgDataStat::OnCbnSelchangeCombostattype()
 
 void CDlgDataStat::OnDestroy()
 {
-    theApp.ClearReadTorq();
     CDialogEx::OnDestroy();
 }
 

@@ -153,6 +153,7 @@ class CAboutDlg : public CDialog
 public:
     CAboutDlg();
 
+    CTorqueDlg* m_ptParent;
 // Dialog Data
     //{{AFX_DATA(CAboutDlg)
     enum { IDD = IDD_ABOUTBOX };
@@ -268,11 +269,11 @@ BOOL CAboutDlg::OnInitDialog()
 
         m_btnReg.ShowWindow(FALSE);
         
-        theApp.GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
+        m_ptParent->GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
     }
 
     /* 获取机器上的卷和MAC信息 */
-    theApp.GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
+    m_ptParent->GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
 
     adwPCMac[0] ^= MAC0XOR;
     adwPCMac[1] ^= MAC1XOR;
@@ -329,7 +330,7 @@ void CAboutDlg::SaveRegFile()
 
     newfile.Open(theApp.m_strRegFile.c_str(),CFile::modeWrite,NULL);
     newfile.Write(m_ptdbReg,sizeof(DBREG));
-    newfile.Write(&theApp.m_dwTotalTorqNum,sizeof(DWORD));
+    newfile.Write(&m_ptParent->m_dwTotalTorqNum,sizeof(DWORD));
     newfile.Close();
 }
 
@@ -357,10 +358,10 @@ void CAboutDlg::OnRegedit()
     }
 
     /* 获取注册码中的卷和MAC信息 */
-    theApp.GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
+    m_ptParent->GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
     
     /* 获取机器上的卷和MAC信息 */
-    theApp.GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
+    m_ptParent->GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
 
     if( memcmp(adwRegVol, adwPCVol, 2*sizeof(DWORD)) == 0 &&
         memcmp(adwRegMac, adwPCMac, 2*sizeof(DWORD)) == 0)
@@ -608,14 +609,14 @@ void CTorqueDlg::InitVariant()
     m_ptComm    = &theApp.m_tParaCfg.tComm;
     
     /* 初始化变量 */
-    m_nCur      = theApp.m_nCurNO + 1;
-    m_nTotal    = theApp.m_dwTotalTorqNum;
+    m_nCur      = m_nCurNO + 1;
+    m_nTotal    = m_dwTotalTorqNum;
     m_iTest     = 0;
     m_iRecPNum  = 0;
     m_bRunStatus= FALSE;
     m_bAlarm    = FALSE;
     m_bCanModLastData   = FALSE;
-    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
     m_iMaxReadTimes = (int)ceil(MAXCOMMBREAKTIME / g_tGlbCfg.nCollectDur) + 1;
 
     m_ptPortData = (PORTDATA*)(new BYTE[sizeof(PORTDATA)]);
@@ -639,7 +640,7 @@ void CTorqueDlg::InitMainShowPara()
         if(i == MAINSHOWTALLY)  // 第5个为入井序号，不需要使用combobox
             continue;
 
-        m_strMainValue[i] = theApp.m_tParaCfg.strValue[m_ptShow->nMain[i]].c_str();
+        m_strMainValue[i] = m_ptCfg->strValue[m_ptShow->nMain[i]].c_str();
     }
 
     UpdateData(FALSE);
@@ -697,6 +698,170 @@ void CTorqueDlg::InitDlgControl()
     return;
 }
 
+/* 获取注册信息和校验 */
+void  CTorqueDlg::CheckAppReg()
+{
+    CFile           file;
+    CFileFind       find;
+    ULONGLONG       iLen = 0;
+    CString         strRegCode;
+    CString         strReg[REGCODESEGNUM];
+
+    memset(&theApp.m_tdbReg, 0, sizeof(DBREG));
+    theApp.m_tdbReg.bRsv1 = 6;
+    theApp.m_tdbReg.bRsv2 = 12;
+
+    COMP_BFALSE(find.FindFile(theApp.m_strRegFile.c_str(), 0));
+
+    file.Open(theApp.m_strRegFile.c_str(), CFile::modeRead | CFile::shareDenyNone, NULL);
+    iLen = file.GetLength();
+    if (iLen == 0)
+    {
+        file.Close();
+        return;
+    }
+    file.Read(&theApp.m_tdbReg, sizeof(DBREG));
+    if (iLen > sizeof(DBREG))
+    {
+        file.Read(&m_dwTotalTorqNum, sizeof(DWORD));
+    }
+    file.Close();
+
+    /*校验注册码是否正常*/
+    strRegCode = theApp.m_tdbReg.strRegCode;
+    theApp.StringSubtract(strRegCode, REGCODEVALUE);
+
+    theApp.SplitRegString(strReg, strRegCode);
+
+    /* 校验注册码 */
+    /* 免注册版，直接注释掉Check */
+    theApp.m_tdbReg.bReged = 0;
+    if (CheckReg(strReg))
+    {
+        theApp.m_tdbReg.bReged = 1;
+    }
+
+    return;
+}
+
+
+/* 验证注册码是否有效 */
+BOOL CTorqueDlg::CheckReg(CString strReg[])
+{
+    DWORD adwRegVol[2];
+    DWORD adwRegMac[2];
+    DWORD adwPCVol[2];
+    DWORD adwPCMac[2];
+    int   iYear, iMonth, iDay;
+    CTime   tNowDate;
+    CString strRegDate;
+    CString strNowDate;
+
+    ASSERT_NULL_R(strReg, FALSE);
+
+    /* 获取注册码中的卷和MAC信息 */
+    GetVolMacFromRegStr(strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
+
+    /* 获取机器上的卷和MAC信息 */
+    GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
+
+    if (memcmp(adwRegVol, adwPCVol, 2 * sizeof(DWORD)) != 0 ||
+        memcmp(adwRegMac, adwPCMac, 2 * sizeof(DWORD)) != 0)
+    {
+        return FALSE;
+    }
+
+    // 检查日期是否超过5年
+    tNowDate = CTime::GetCurrentTime();
+    tNowDate = CTime(tNowDate.GetYear() - VALID_YEAR,
+        tNowDate.GetMonth(),
+        tNowDate.GetDay(),
+        0, 0, 0);
+    strNowDate = tNowDate.Format("%Y%m%d");
+    strRegDate.Format("%4d%02d%02d", iYear, iMonth, iDay);
+
+    if (strNowDate > strRegDate)
+    {
+        theApp.SaveMessage(strRegDate);
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+/* 从原始注册码解密运算 */
+BOOL CTorqueDlg::GetVolMacFromRegStr(CString strReg[], DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay)
+{
+    ASSERT_NULL_R(strReg, FALSE);
+    ASSERT_NULL_R(pdwVol, FALSE);
+    ASSERT_NULL_R(pdwMac, FALSE);
+
+    pdwVol[0] = strtoul(strReg[4] + strReg[5], NULL, 16);
+    pdwVol[1] = strtoul(strReg[0] + strReg[1], NULL, 16);
+    pdwMac[0] = strtoul(strReg[3], NULL, 16);
+    pdwMac[1] = strtoul(strReg[2], NULL, 16);
+
+    pdwVol[0] = ~pdwVol[0];    ///////// 解密运算
+    pdwVol[0] ^= VOL0DEC;       ///////// 解密运算
+    pdwVol[0] ^= VOL0XOR;
+
+    pdwVol[1] = ~pdwVol[1];    ///////// 解密运算
+    pdwVol[1] ^= VOL1DEC;       ///////// 解密运算
+    pdwVol[1] ^= VOL1XOR;
+
+    pdwMac[0] = ~pdwMac[0];
+    pdwMac[0] ^= MAC0DEC;
+    pdwMac[0] ^= MAC0XOR;
+    pdwMac[0] &= 0xFFFFFF;
+
+    pdwMac[1] = ~pdwMac[1];
+    pdwMac[1] ^= MAC1DEC;
+    pdwMac[1] ^= MAC1XOR;
+    pdwMac[1] &= 0xFFFF;
+
+    iYear = (pdwVol[1] & 0x00FFFF00) >> 8;
+    iMonth = (pdwVol[1] & 0x000000FF);
+    iDay = (pdwVol[1] & 0xFF000000) >> 24;
+
+    return TRUE;
+}
+
+BOOL CTorqueDlg::GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay)
+{
+    UCHAR ucMac[5];
+
+    ASSERT_NULL_R(pdwVol, FALSE);
+    ASSERT_NULL_R(pdwMac, FALSE);
+
+    GetVolumeInformation("C:\\", NULL, NULL, &pdwVol[0], NULL, NULL, NULL, 0);
+    pdwVol[1] = (iDay << 24) + (iYear << 8) + iMonth;
+
+    theApp.GetMACAddr(ucMac);
+    pdwMac[0] = ((ucMac[0] * 256) + ucMac[1]) * 256 + ucMac[2];
+    pdwMac[1] = (ucMac[3] * 256) + ucMac[4];
+
+    return TRUE;
+}
+
+void CTorqueDlg::SaveTorqNum()
+{
+    CFile           file;
+    CFileFind       find;
+
+    COMP_BFALSE(find.FindFile(theApp.m_strRegFile.c_str(), 0));
+
+    file.Open(theApp.m_strRegFile.c_str(), CFile::modeRead | CFile::modeWrite | CFile::shareDenyNone, NULL);
+    if (file.GetLength() == 0)
+    {
+        file.Close();
+        return;
+    }
+    file.Seek(sizeof(DBREG), CFile::current);
+    file.Write(&m_dwTotalTorqNum, sizeof(DWORD));
+    file.Close();
+}
+
+
 BOOL CTorqueDlg::OnInitDialog()
 {
     CRect       rcTmp;
@@ -749,20 +914,39 @@ BOOL CTorqueDlg::OnInitDialog()
 
     theApp.AdaptDlgCtrlSize(this, 0);
 
-    //设置窗口属性
-    SetProp(m_hWnd,g_strPropName.c_str(),g_hValue);
-    theApp.ShowMainTitle();
-
     /* 初始数据区和变量 */
     InitVariant();
 
     /* 初始化对话框控件 */
     InitDlgControl();
 
+    /* 获取当前数据序号 */
+    ReGetTorqNo();
+
+    //GetCurNum();
+
+    m_dwTotalTorqNum = 0;
+    /*检查注册情况*/
+    CheckAppReg();
+    /* 检查产品有效日期 */
+    if (!theApp.CheckProductDate())
+    {
+        theApp.m_tdbReg.bReged = 0;
+    }
+    //theApp.m_tdbReg.bReged = 1;
+
+    if (0 == m_dwTotalTorqNum)
+        m_dwTotalTorqNum = m_nCurNO;
+
     SHOW_MAINDLG_BUTTON(theApp.m_bShowCRC);
 
     CalcDelayCount();
 
+
+    //设置窗口属性
+    SetProp(m_hWnd,g_strPropName.c_str(),g_hValue);
+    theApp.ShowMainTitle();
+	
     UpdateData(FALSE);
 
     theApp.SaveAppStatus(STATUS_START, __FUNCTION__);
@@ -779,6 +963,7 @@ void CTorqueDlg::OnSysCommand(UINT nID, LPARAM lParam)
     if ((nID & 0xFFF0) == IDM_ABOUTBOX)
     {
         CAboutDlg dlgAbout;
+        dlgAbout.m_ptParent = this;
         dlgAbout.DoModal();
     }
     else
@@ -839,6 +1024,234 @@ void CTorqueDlg::OnPaint()
 HCURSOR CTorqueDlg::OnQueryDragIcon()
 {
     return (HCURSOR) m_hIcon;
+}
+
+/* IDS_STRDATEFORM         "2014-11-18_" */
+BOOL CTorqueDlg::TimeValidWell(CString strFileName)
+{
+    CString     strDate;
+    int         iYear = 0;
+    int         iMonth = 0;
+    int         iDay = 0;
+    CTime       time = CTime::GetCurrentTime();//得到当前时间
+    CTime       oldtime;
+    CTimeSpan   tSpan;
+
+    if (!g_tGlbCfg.bDateBehind) //  日期在前
+    {
+        strDate = strFileName;
+    }
+    else    /* "2014-11-18.pbd" */
+    {
+        strDate = strFileName.Right(14);
+    }
+    iYear = atoi(strDate.Left(4));
+    strDate = strDate.Right(strDate.GetLength() - 5);
+    iMonth = atoi(strDate.Left(2));
+    strDate = strDate.Right(strDate.GetLength() - 3);
+    iDay = atoi(strDate.Left(2));
+
+    oldtime = CTime(iYear, iMonth, iDay, 0, 0, 0, 0);
+    tSpan = time - oldtime;
+    COMP_BLE_R(tSpan.GetDays(), 60, TRUE);
+
+    /* else */
+    return FALSE;
+}
+
+void  CTorqueDlg::GetCurWellFile()
+{
+    WIN32_FIND_DATA findData;
+    TCHAR       tcsExename[MAX_PATH];
+    CString     strSearch;
+    CString     strWell;
+    HANDLE      hFindHandle;
+
+    SetCurrentDirectory(theApp.m_strDataPath.c_str());
+
+    /* 以井号保存文件 */
+    strWell = m_ptCfg->strValue[m_ptShow->nFileName].c_str();
+    if (strWell.IsEmpty())
+    {
+        CreateNewWellFile();
+        return;
+    }
+
+    if (!g_tGlbCfg.bDateBehind)
+        strSearch = _T("*_") + strWell + _T(".pbd");
+    else
+        strSearch = strWell + _T("_*") + _T(".pbd");
+
+    hFindHandle = FindFirstFile(strSearch, &findData);
+
+    if ((hFindHandle != INVALID_HANDLE_VALUE))
+    {
+        GetLongPathName(findData.cFileName, tcsExename, MAX_PATH);
+        /* 没有超过两个月 */
+        if (TimeValidWell(tcsExename))
+        {
+            theApp.m_strDataFile = theApp.m_strDataPath + tcsExename;
+            return;
+        }
+
+        /* else */
+        while (FindNextFile(hFindHandle, &findData) != 0)
+        {
+            /* 没有超过两个月 */
+            GetLongPathName(findData.cFileName, tcsExename, MAX_PATH);
+            if (TimeValidWell(tcsExename))
+            {
+                theApp.m_strDataFile = theApp.m_strDataPath + tcsExename;
+                return;
+            }
+        }
+    }
+
+    /*超过两个月，或者没有找到文件，生成新文件*/
+    CreateNewWellFile();
+
+    return;
+}
+
+void CTorqueDlg::CreateNewWellFile()
+{
+    CString strTemp;
+    CTime   time = CTime::GetCurrentTime();//得到当前时间
+    string  strDataFile;
+
+    /* 以井号保存文件 */
+    strTemp = m_ptCfg->strValue[m_ptShow->nFileName].c_str();
+    strDataFile = theApp.m_strDataPath;
+    if (!g_tGlbCfg.bDateBehind)
+    {
+        strDataFile += time.Format(IDS_STRDATEFORM);
+        strDataFile += _T("_");
+        strDataFile += strTemp;
+    }
+    else
+    {
+        strDataFile += strTemp;
+        strDataFile += _T("_");
+        strDataFile += time.Format(IDS_STRDATEFORM);
+    }
+    strDataFile += _T(".pbd");
+    theApp.m_strDataFile = strDataFile;
+    m_nCurNO = 0;
+    return;
+}
+void CTorqueDlg::GetMakeupCurNum()
+{
+    CFile   file;
+    int     iTallyIndex = -1;
+    int     iTallyNO = 0;
+    int     i = 0;
+    CString strNumInfo;
+    TorqData::Torque* ptTorq = NULL;
+    m_nCurNO = 0;
+
+    /* 获取当前的记录文件，超过60天生成新的文件，序号归零 */
+    GetCurWellFile();
+    file.Open(theApp.m_strDataFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
+    if (file.GetLength() != 0)
+    {
+        file.Read(&m_nCurNO, sizeof(UINT));
+    }
+    file.Close();
+
+    /* 文件记录超量，生成新的文件，序号归零 */
+    if (m_nCurNO >= MAXWELLNUM)
+        // || m_nCurNO == 0)  为什么每天生成一个数据文件？？的源头 20190927
+    {
+        CreateNewWellFile();
+    }
+
+    if (m_nCurNO > 0 && theApp.ReadHisTorqFromFile(theApp.m_strDataFile.c_str()))
+    {
+        iTallyIndex = theApp.GetMainIndex(MAINSHOWTALLY);
+        if (iTallyIndex >= 0)
+        {
+            /* 从后往前找最新的入井序号 */
+            for (i = g_tReadData.nTotal - 1; i >= 0; i--)
+            {
+                ptTorq = &g_tReadData.tData[i];
+                if (iTallyIndex >= ptTorq->tshow_size())
+                    continue;
+
+                iTallyNO = atoi(theApp.GetTorqShowValue(ptTorq, iTallyIndex));
+                if (iTallyNO > 0)
+                    break;
+            }
+            /* else iWellNO is 0*/
+        }
+    }
+
+    /* 记录当前文件名及序号 */
+    strNumInfo.Format("%s--%d", theApp.m_strDataFile.c_str(), m_nCurNO);
+    theApp.SaveMessage(strNumInfo);
+
+    m_nCurRunningNO = m_nCurNO + 1;
+    if (iTallyNO >= 0)
+        m_nCurRunningNO = iTallyNO + 1;
+}
+
+void CTorqueDlg::IncTorqNo()
+{
+    m_nCurNO++;
+    m_dwTotalTorqNum++;
+}
+
+void CTorqueDlg::GetBreakoutCurNum()
+{
+    CFile   file;
+    int     iTallyIndex = -1;
+    int     iTallyNO = 0;
+    int     i = 0;
+    CString strNumInfo;
+    TorqData::Torque* ptTorq = NULL;
+    m_nCurNO = 0;
+
+    if (g_tGlbCfg.strBreakOutPath.empty())
+        return;
+    if (theApp.ReadHisTorqFromFile(g_tGlbCfg.strBreakOutPath.c_str()))
+    {
+        iTallyIndex = theApp.GetMainIndex(MAINSHOWTALLY);
+        if (iTallyIndex >= 0)
+        {
+            /* 从后往前找最新的入井序号 */
+            for (i = g_tReadData.nTotal - 1; i >= 0; i--)
+            {
+                ptTorq = &g_tReadData.tData[i];
+                if (iTallyIndex >= ptTorq->tshow_size())
+                    continue;
+
+                iTallyNO = atoi(theApp.GetTorqShowValue(ptTorq, iTallyIndex));
+                if (iTallyNO > 0)
+                    break;
+            }
+            /* else iWellNO is 0*/
+        }
+    }
+
+    /* 记录当前文件名及序号 */
+    strNumInfo.Format("%s--%d", g_tGlbCfg.strBreakOutPath.c_str(), m_nCurNO);
+    theApp.SaveMessage(strNumInfo);
+
+    m_nCurRunningNO = m_nCurNO + 1;
+    if (iTallyNO >= 0)
+        m_nCurRunningNO = iTallyNO + 1;
+}
+
+/* 获取当前扭矩的序号 */
+void CTorqueDlg::GetCurNum()
+{
+    if (!g_tGlbCfg.bBreakOut)
+    {
+        GetMakeupCurNum();
+    }
+    else
+    {
+        GetBreakoutCurNum();
+    }
 }
 
 /* 根据原始plus和显示plus，计算数据画图的点数 */
@@ -2326,17 +2739,17 @@ LRESULT CTorqueDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     ResetLineChart();
     ClearInfo();
 
-    m_nCur = theApp.m_nCurNO + 1;
+    m_nCur = m_nCurNO + 1;
 
     if (theApp.HaveTallyNO(&m_tSaveData))
     {
-        theApp.m_nCurRunningNO++;
+        m_nCurRunningNO++;
     }
 
     m_strQuality.Empty();
     m_tSaveData.Clear();
 
-    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
     CanModLastData(FALSE);
     Invalidate(TRUE);
 
@@ -2408,7 +2821,7 @@ LRESULT CTorqueDlg::SaveDataTimerOut(WPARAM wParam, LPARAM lParam)
 
 LRESULT CTorqueDlg::SaveDebugTimerOut(WPARAM wParam, LPARAM lParam)
 {
-    theApp.SaveTorqNum();
+    SaveTorqNum();
     theApp.SaveLogInfo();
     return 0;
 }
@@ -2698,10 +3111,10 @@ void CTorqueDlg::StopTorque()
 
     if (theApp.HaveTallyNO(&m_tSaveData))
     {
-        theApp.m_nCurRunningNO++;
+        m_nCurRunningNO++;
     }
-    m_nCur = theApp.m_nCurNO + 1;
-    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
+    m_nCur = m_nCurNO + 1;
+    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
 
     m_tSaveData.Clear();
     m_strQuality.Empty();
@@ -2839,9 +3252,11 @@ void CTorqueDlg::SendValveCommand()
 /* 井名发生变化，数据记录文件名称和数据序号需要变化 */
 void CTorqueDlg::ReGetTorqNo()
 {
-    theApp.GetCurNum();
-    m_nCur = theApp.m_nCurNO + 1;
-    m_strMainValue[MAINSHOWTALLY].Format("%d", theApp.m_nCurRunningNO);
+    GetCurNum();
+    m_nCur = m_nCurNO + 1;
+    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
+	
+    EnableBreakoutfile(g_tGlbCfg.bBreakOut);
 }
 
 void CTorqueDlg::OnSetpara()
@@ -2994,7 +3409,7 @@ BOOL CTorqueDlg::DestroyWindow()
 
     theApp.SaveAppStatus(STATUS_EXIT, __FUNCTION__);
 
-    theApp.SaveTorqNum();
+    SaveTorqNum();
     theApp.SaveLogInfo();
 
     if (m_bAutoFileOpen)
@@ -3819,11 +4234,14 @@ void CTorqueDlg::SaveIntoData(TorqData::Torque* ptPBData)
     /* 扭矩当前序号+1 */
     m_ptComm->dwSeqNo = m_nCur;
 
-    theApp.IncTorqNo();
-    m_nTotal = theApp.m_dwTotalTorqNum;
+    IncTorqNo();
+    m_nTotal = m_dwTotalTorqNum;
 
     /* 更新文件数据数目 */
     file.SeekToBegin();
+    file.Write(&nTorqNum, sizeof(UINT));
+    // 卸扣
+    nTorqNum = 0;
     file.Write(&nTorqNum, sizeof(UINT));
 
     /* 跳过之前记录 */
@@ -3846,8 +4264,8 @@ void CTorqueDlg::SetShowPara(TorqData::Torque* ptPBData)
 {
     UINT    i = 0;
     TorqData::ShowInfo* pbShow = NULL;
-    string  strWholeTube;
     string  strName, strVal;
+    string  strTallyName = theApp.GetMainShowName(m_ptShow, MAINSHOWTALLY);
 
     ASSERT_NULL(ptPBData);
 
@@ -3856,18 +4274,14 @@ void CTorqueDlg::SetShowPara(TorqData::Torque* ptPBData)
         pbShow = ptPBData->add_tshow();
         strName = m_ptShow->strShow[i];
         pbShow->set_strname(strName);
+        strVal = m_ptCfg->strValue[i];
 
-        switch (i)
+        if (strTallyName == strName)
         {
-        /* 入井序号 */
-        case TALLYNO:
             if (theApp.HaveTallyNO(ptPBData))
-                strVal = to_string(theApp.m_nCurRunningNO);
-            break;
-
-        default:
-            strVal = m_ptCfg->strValue[i];
-            break;
+                strVal = to_string(m_nCurRunningNO);
+            else
+                strVal = "";
         }
         pbShow->set_strvalue(strVal);
     }
@@ -4209,7 +4623,7 @@ void CTorqueDlg::OnBnClickedBtnquality()
         {
             ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainIndex(MAINSHOWTALLY));
             if (theApp.HaveTallyNO(&m_tSaveData))
-                ptRunningShow->set_strvalue(to_string(theApp.m_nCurRunningNO));
+                ptRunningShow->set_strvalue(to_string(m_nCurRunningNO));
             else
                 ptRunningShow->set_strvalue(NULLSTR);
         }
@@ -4267,7 +4681,14 @@ void CTorqueDlg::EnableBreakoutfile(bool bEnable)
     GetDlgItem(IDC_BTNSHOWSET)->EnableWindow(!bEnable);
     
     if(!bEnable)
+	{
+        GetDlgItem(IDC_BTRUN)->EnableWindow(!bEnable);
         m_strBreakoutFile.Empty();
+	}
+    else 
+    {
+        GetDlgItem(IDC_BTRUN)->EnableWindow(g_tReadData.nCur > 0);
+    }
 }
 
 void CTorqueDlg::OnBnClickedRadiomakeup()
@@ -4297,8 +4718,8 @@ void CTorqueDlg::OnBnClickedRadiomakeup()
     g_tGlbCfg.strBreakOutPath.clear();
     /*save into ini*/
     theDB.UpdateGlobalPara();
-
-    EnableBreakoutfile(false);
+	
+	ReGetTorqNo();
 
     ResetLineChart();
     UpdateData(FALSE);
@@ -4331,8 +4752,7 @@ void CTorqueDlg::OnBnClickedRadiobreakout()
     g_tGlbCfg.bBreakOut = true;
     /*save into ini*/
     theDB.UpdateGlobalPara();
-
-    EnableBreakoutfile(true);
+	ReGetTorqNo();
 
     ResetLineChart();
     UpdateData(FALSE);

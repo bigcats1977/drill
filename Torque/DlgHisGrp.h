@@ -36,15 +36,15 @@ public:
     CRuler      m_yHisAxis2;
     CString     m_strMemo;
     CString     m_strControl;
-    CString     m_strBreakOut;
+    CString     m_strBreakOutTorq;
     CString     m_strLowCir;
     CString     m_strQuality;
     CString     m_strTime;
     CString     m_strNo;
     CString     m_strCir;
     BOOL        m_bToolBuck;
-    BOOL        m_bBreakOut;
-    CString     m_strTorqType;
+    //BOOL        m_bBreakOut;
+    //CString     m_strTorqType;
     CString     m_strLBG1;
     CString     m_strLBG10;
     CString     m_strHisShowName[MAXPARANUM];
@@ -85,7 +85,7 @@ protected:
     afx_msg void OnStnClickedNextsplit();
     afx_msg LRESULT SelPosChange(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT InterPtZoomIn(WPARAM wParam, LPARAM lParam);
-    afx_msg void OnBnClickedCheckbreakout();
+    //afx_msg void OnBnClickedCheckbreakout();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 

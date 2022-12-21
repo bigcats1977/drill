@@ -77,10 +77,14 @@ public:
     BOOL        CollectHisData();
     BOOL        RunIniAutoFile();
     BOOL        PortQueIsEmpty();
+
+    BOOL    GetVolMacFromRegStr(CString strReg[], DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
+    BOOL    GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
     
     BYTE        m_ucRcvByte[PORTBUFF];      /*modbus接收消息数值*/
     WORD        m_wRcvLen;
     CTime       m_tSetTime;
+    DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
     
     CSerialPort m_tPort;
 
@@ -227,7 +231,18 @@ private:
     void SavePortNormalInfo(COLLECTDATA *ptCollData); //保存一条串口读取的记录
     void SavePortMultiDataInfo(COLLECTDATA *ptCollData); //保存一次串口读取的多条记录
     
+    // APP function move into MainDlg
+    void IncTorqNo();
+    void GetMakeupCurNum();
+    void GetBreakoutCurNum();
+    void GetCurNum();
     void ReGetTorqNo();
+    void GetCurWellFile();
+    void CreateNewWellFile();
+    BOOL TimeValidWell(CString strFileName);
+    void CheckAppReg();
+    BOOL CheckReg(CString strReg[]);
+    void SaveTorqNum();
 
     /* 扭矩数据相关函数 */
     void ResetData();
@@ -310,6 +325,9 @@ private:
 
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];
+
+    UINT            m_nCurNO;           /* 当前扭矩的序号，更换文件清零 */
+    UINT            m_nCurRunningNO;       /* 入井序号 */
 };
 
 //{{AFX_INSERT_LOCATION}}
