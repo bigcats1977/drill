@@ -12,13 +12,13 @@ public:
     CDBValveCfg();
     ~CDBValveCfg();
 
-    BOOL UpdateGlbCfg(VALVECFG* ptCfg);
-    BOOL GetGlbCfg(VALVECFG* ptCfg);
+    bool UpdateGlbCfg(VALVECFG* ptCfg);
+    bool GetGlbCfg(VALVECFG* ptCfg);
 
 private:
     void Empty();
     void GetTable();
 
-    BOOL GetValues(string strVal, BYTE* ptAddr);
+    bool GetValues(string strVal, BYTE* ptAddr);
 };
 

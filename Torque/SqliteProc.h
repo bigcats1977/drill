@@ -8,25 +8,26 @@ public:
     SqliteProc();
     ~SqliteProc();
 
-    int OpenDB(string filename, string pw);
-    BOOL isOpen();
+    bool OpenDB(string filename, string pw);
+    bool isOpen();
     void CloseDB();
-    BOOL GetTable(string tablename, int& row, int& col, char*** pazResult);
-    BOOL QueryTable(string tablename, string condition, int& row, int& col, char*** pazResult);
-    BOOL QueryTableOrder(string tablename, string condition, string ordField, bool bASC, int& row, int& col, char*** pazResult);
-    BOOL InsertRow(string tablename, vector<string> values);
+    bool GetTable(string tablename, int& row, int& col, char*** pazResult);
+    bool QueryTable(string tablename, string condition, int& row, int& col, char*** pazResult);
+    bool QueryTableOrder(string tablename, string condition, string ordField, bool bASC, int& row, int& col, char*** pazResult);
+    bool InsertRow(string tablename, vector<string> values);
     void FreeResult(char*** pazResult);
-    BOOL UpdateField(string tablename, string condition, string field, string value);
-    BOOL UpdateFields(string tablename, string condition, vector<string> fields, vector<string> values);
-    BOOL UpdateRows(string tablename, vector<string> condition, string field, vector<string> value);
-    BOOL DeleteRow(string tablename, string condition);
-    BOOL GetValue(char* pResult, int& Value);
-    BOOL GetValue(char* pResult, UINT& Value);
-    BOOL GetValue(char* pResult, WORD& Value);
-    BOOL GetValue(char* pResult, double& Value);
-    BOOL GetValue(char* pResult, string& Value);
-    BOOL GetValue(char* pResult, BYTE& Value);
-    BOOL ExecuteSQL(string sql);
+    bool UpdateField(string tablename, string condition, string field, string value);
+    bool UpdateFields(string tablename, string condition, vector<string> fields, vector<string> values);
+    bool UpdateRows(string tablename, vector<string> condition, string field, vector<string> value);
+    bool DeleteRow(string tablename, string condition);
+    bool GetValue(char* pResult, bool& Value);
+    bool GetValue(char* pResult, int& Value);
+    bool GetValue(char* pResult, UINT& Value);
+    bool GetValue(char* pResult, WORD& Value);
+    bool GetValue(char* pResult, double& Value);
+    bool GetValue(char* pResult, string& Value);
+    bool GetValue(char* pResult, BYTE& Value);
+    bool ExecuteSQL(string sql);
     int  GetLastInsertID();
 
 

@@ -11,7 +11,7 @@ public:
     ~CDBValTorque();
 
 
-    BOOL GetTorqValById(int index, double* pVal);
+    bool GetTorqValById(int index, double* pVal);
     int  QueryIDByInfo(CONTROLPARA* ptCtrl);
     int  GetIndexByInfo(CONTROLPARA* ptCtrl);
 

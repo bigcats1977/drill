@@ -17,10 +17,10 @@ public:
     int  InsertOption(int index, string Value);
     string GetOptionByNO(int NO);
     vector<string> GetOptionsByNOs(string NOs);
-    BOOL GetOptionsByNOS(string NOs, string Values[]);
+    bool GetOptionsByNOS(string NOs, string Values[]);
     vector<string> GetOptionsByNameIndex(int index);
     string GetNOsByOptions(UINT *NameID, string *Values);
-    int GetNOByOption(int Name, string value, BOOL bIns = FALSE);
+    int GetNOByOption(int Name, string value, bool bIns = false);
 
 private:
     void Empty();

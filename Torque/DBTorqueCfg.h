@@ -19,11 +19,11 @@ public:
     ~CDBTorqueCfg();
 
 
-    BOOL    GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID* ptID);
+    bool    GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID* ptID);
     int     UpdateParaByAlias(PARACFG* ptCfg, TORQCFGID* ptID);
     int     GetIndexByAlias(string alias);
     int     GetParaCfgByAlias(string alias, PARACFG* ptCfg, TORQCFGID* ptID);
-    BOOL    DeleteParaCfgByID(int Index);
+    bool    DeleteParaCfgByID(int Index);
 
 private:
     void Empty();

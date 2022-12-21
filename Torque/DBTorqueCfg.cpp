@@ -73,19 +73,19 @@ void CDBTorqueCfg::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-BOOL CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID *ptID)
+bool CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID *ptID)
 {
     int iOffset = 0;
     vector<int>::iterator it;
     CONTROLPARA* ptCtrl = NULL;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    ASSERT_NULL_R(ptCfg, FALSE);
-    ASSERT_NULL_R(ptID, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
+    ASSERT_NULL_R(ptCfg, false);
+    ASSERT_NULL_R(ptID, false);
 
     it = find(_lsAutoIndex.begin(), _lsAutoIndex.end(), index);
     if (it == _lsAutoIndex.end())
-        return FALSE;
+        return false;
 
     iOffset = it - _lsAutoIndex.begin();
     ptCtrl = &ptCfg->tCtrl;
@@ -99,12 +99,12 @@ BOOL CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID *ptID)
     ptID->strOptionID = _lsOptionID[iOffset];
     ptCfg->strMemo = _lsComment[iOffset];
 
-    return TRUE;
+    return true;
 }
 
 int CDBTorqueCfg::UpdateParaByAlias(PARACFG* ptCfg, TORQCFGID* ptID)
 {
-    BOOL bInsert = FALSE;
+    bool bInsert = false;
     string strCond;
     vector<string> strFields;
     vector<string> strValues;
@@ -193,14 +193,13 @@ int CDBTorqueCfg::GetParaCfgByAlias(string alias, PARACFG* ptCfg, TORQCFGID* ptI
     return index;
 }
 
-BOOL CDBTorqueCfg::DeleteParaCfgByID(int Index)
+bool CDBTorqueCfg::DeleteParaCfgByID(int Index)
 {
     string strCond;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    COMP_BLE_R(Index, 0, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BLE_R(Index, 0, false);
 
     strCond = "AutoIndex=" + to_string(Index) + " And LangType = " + to_string(*_CurLang);
     return _Sqlite->DeleteRow(g_tTableName[_TableIndex], strCond);
-
 }

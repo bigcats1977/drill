@@ -92,7 +92,8 @@ bool CDBXlsStatCfg::GetInfoByLang(XLSSTATCFG *ptCfg, UINT nLang)
 
     return true;
 }
-BOOL CDBXlsStatCfg::UpdateInfo(XLSSTATCFG* ptCfg)
+
+bool CDBXlsStatCfg::UpdateInfo(XLSSTATCFG* ptCfg)
 {
     int i = 0;
     string condition;

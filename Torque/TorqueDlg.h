@@ -306,7 +306,7 @@ private:
     int             m_iMaxReadTimes;    /* 串口最大读取次数 */
     
     BOOL            m_bCanModLastData;  /* 复位时间前，可以修改最后一条数据 */
-    CString         m_strBreakoutPath;
+    //CString         m_strBreakoutPath;
 
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];

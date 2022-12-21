@@ -133,7 +133,7 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.nCollectDur = m_tDBGlbCfg._CollectDur;
     g_tGlbCfg.nResetDur = m_tDBGlbCfg._ResetDur;
     g_tGlbCfg.nSaveDur = m_tDBGlbCfg._SaveDur;
-    g_tGlbCfg.nIPShowMode = m_tDBGlbCfg._IPShowMode;
+    //g_tGlbCfg.nIPShowMode = m_tDBGlbCfg._IPShowMode;
     g_tGlbCfg.nZoomIn = m_tDBGlbCfg._ZoomIn;
     g_tGlbCfg.nImgNum = m_tDBGlbCfg._ImgNum;
     //g_tGlbCfg.nTest = m_tDBGlbCfg._Test;
@@ -141,14 +141,15 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.fDiscount = m_tDBGlbCfg._Discount;
     g_tGlbCfg.fMulti = m_tDBGlbCfg._Multi;
     g_tGlbCfg.fRpmAdj = m_tDBGlbCfg._RpmAdj;
-    g_tGlbCfg.fIPDeltaVal = m_tDBGlbCfg._IPDeltaVal;
+    //g_tGlbCfg.fIPDeltaVal = m_tDBGlbCfg._IPDeltaVal;
 
-    g_tGlbCfg.bCheckIP = m_tDBGlbCfg._CheckIP;
+    //g_tGlbCfg.bCheckIP = m_tDBGlbCfg._CheckIP;
     g_tGlbCfg.bBigTorq = m_tDBGlbCfg._BigTorq;
     g_tGlbCfg.bBreakOut = m_tDBGlbCfg._BreakOut;
     g_tGlbCfg.bDateBehind = m_tDBGlbCfg._DateBehind;
 
     g_tGlbCfg.strPassWord = m_tDBGlbCfg._Password;
+    g_tGlbCfg.strBreakOutPath = m_tDBGlbCfg._BreakOutPath;
     g_tGlbCfg.strDataPath = m_tDBGlbCfg._DataPath;
 
     return true;

@@ -12,7 +12,7 @@ public:
     UINT    _CollectDur;
     UINT    _ResetDur;
     UINT    _SaveDur;
-    UINT    _IPShowMode;
+    //UINT    _IPShowMode;
     UINT    _ZoomIn;
     UINT    _ImgNum;
     //UINT    _Test;
@@ -20,14 +20,15 @@ public:
     double  _Discount;
     double  _Multi;
     double  _RpmAdj;
-    double  _IPDeltaVal;
+    //double  _IPDeltaVal;
 
-    BOOL    _CheckIP;
-    BOOL    _BigTorq;
-    BOOL    _BreakOut;
-    BOOL    _DateBehind;
+    //bool    _CheckIP;
+    bool    _BigTorq;
+    bool    _BreakOut;
+    bool    _DateBehind;
 
     string  _Password;
+    string  _BreakOutPath;
     string  _DataPath;
 
     CDBGlbCfg();

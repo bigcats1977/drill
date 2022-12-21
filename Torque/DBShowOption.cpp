@@ -147,7 +147,7 @@ vector<string> CDBShowOption::GetOptionsByNOs(string NOs)
     return lsOptions;
 }
 
-BOOL CDBShowOption::GetOptionsByNOS(string NOs, string Values[])
+bool CDBShowOption::GetOptionsByNOS(string NOs, string Values[])
 {
     int i = 0;
     vector<string> lsOptions;
@@ -156,14 +156,14 @@ BOOL CDBShowOption::GetOptionsByNOS(string NOs, string Values[])
     char delimiter = ',';
     vector<int>::iterator it;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
     if (NOs.empty())
-        return FALSE;
+        return false;
 
     lsID = GetIDFromList(NOs);
 
     if (lsID.size() <= 0)
-        return FALSE;
+        return false;
 
     // get ID's text
     for (i = 0; i < (int)lsID.size(); i++)
@@ -174,10 +174,10 @@ BOOL CDBShowOption::GetOptionsByNOS(string NOs, string Values[])
             Values[i] = _lsOption[it - _lsNO.begin()];
         }
     }
-    return TRUE;
+    return true;
 }
 
-int CDBShowOption::GetNOByOption(int Name, string value, BOOL bIns)
+int CDBShowOption::GetNOByOption(int Name, string value, bool bIns)
 {
     int NO = DB_INVALID_VAL;
     string condition;

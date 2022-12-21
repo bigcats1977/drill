@@ -4228,12 +4228,8 @@ void CTorqueDlg::OnBnClickedBtnquality()
 
 void CTorqueDlg::OnBnClickedBtnBreakoutFile()
 {
-    UINT    i = 0;
-    UINT    nMaxShowPlace = 0;
     CString strFilter;
-    CString strInfo;
-    CString strHead, strTemp;
-    string  strName;
+    CString strInfo, strPath;
     TorqData::Torque* ptTorq = NULL;
 
     strFilter.Format(IDS_STRDATFILTER);
@@ -4242,15 +4238,20 @@ void CTorqueDlg::OnBnClickedBtnBreakoutFile()
 
     COMP_BNE(fileDlg.DoModal(), IDOK);
 
-    m_strBreakoutPath = fileDlg.GetPathName();
+    strPath = fileDlg.GetPathName();
     m_strBreakoutFile = fileDlg.GetFileName();
 
-    if (!theApp.ReadHisTorqFromFile(m_strBreakoutPath))
+    if (!theApp.ReadHisTorqFromFile(strPath))
     {
         strInfo.Format(IDS_STRINFFILEERR);
         theApp.SaveShowMessage(strInfo);
         return;
     }
+
+    g_tGlbCfg.bBreakOut = true;
+    g_tGlbCfg.strBreakOutPath = strPath.GetBuffer(0);
+    /*save into ini*/
+    theDB.UpdateGlobalPara();
 
     // find the breakout index
 
@@ -4293,6 +4294,7 @@ void CTorqueDlg::OnBnClickedRadiomakeup()
 
     m_iBreakout = 0;
     g_tGlbCfg.bBreakOut = false;
+    g_tGlbCfg.strBreakOutPath.clear();
     /*save into ini*/
     theDB.UpdateGlobalPara();
 

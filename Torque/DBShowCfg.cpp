@@ -77,15 +77,15 @@ void CDBShowCfg::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-BOOL CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
+bool CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
 {
     string condition;
     string lsNO;
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    ASSERT_NULL_R(ptShow, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
+    ASSERT_NULL_R(ptShow, false);
 
     condition = "LangType=" + to_string(*_CurLang);
 
@@ -121,13 +121,13 @@ BOOL CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
     return _Sqlite->UpdateFields(g_tTableName[_TableIndex], condition, fields, values);
 }
 
-BOOL CDBShowCfg::UpdateAlias(UINT Alias)
+bool CDBShowCfg::UpdateAlias(UINT Alias)
 {
     string condition;
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
 
     condition = "LangType=" + to_string(*_CurLang);
 

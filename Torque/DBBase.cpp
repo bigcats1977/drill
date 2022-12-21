@@ -7,11 +7,11 @@ CDBBase::CDBBase()
     _Sqlite = &theDB.m_tSqlite;
     if (!theDB.m_bValidDBFile)
     {
-        _ValidDB = FALSE;
+        _ValidDB = false;
         return;
     }
     _CurLang = &g_tGlbCfg.nLangType;
-    _ValidDB = TRUE;
+    _ValidDB = true;
     //_Update = TRUE;
 
     Reload();
@@ -42,7 +42,7 @@ void CDBBase::Reload()
     //_Update = FALSE;
 }
 
-BOOL CDBBase::Valid()
+bool CDBBase::Valid()
 {
     return (_Count >= 0);
 }

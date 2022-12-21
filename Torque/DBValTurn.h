@@ -10,7 +10,7 @@ public:
     CDBValTurn();
     ~CDBValTurn();
 
-    BOOL GetTurnValById(int index, double* ptal);
+    bool GetTurnValById(int index, double* ptal);
     int  QueryIDByInfo(CONTROLPARA* ptCtrl);
     int  GetIndexByInfo(CONTROLPARA* ptCtrl);
 

@@ -20,6 +20,6 @@ public:
 private:
     void Empty();
     void GetTable();
-    int GetNOByName(string Name, int &Index);
+    int  GetNOByName(string Name, int &Index);
 };
 

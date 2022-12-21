@@ -59,17 +59,17 @@ void CDBValTorque::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-BOOL CDBValTorque::GetTorqValById(int index, double* pVal)
+bool CDBValTorque::GetTorqValById(int index, double* pVal)
 {
     vector<int>::iterator it;
     int iOffset = 0;
     int i = 0;
 
-    ASSERT_NULL_R(pVal, FALSE);
+    ASSERT_NULL_R(pVal, false);
 
     it = find(_lsAutoIndex.begin(), _lsAutoIndex.end(), index);
     if (it == _lsAutoIndex.end())
-        return FALSE;
+        return false;
 
     iOffset = it - _lsAutoIndex.begin();
 
@@ -78,7 +78,7 @@ BOOL CDBValTorque::GetTorqValById(int index, double* pVal)
         pVal[i] = _lsTorqueVal[iOffset][i];
     }
 
-    return TRUE;
+    return true;
 }
 
 int CDBValTorque::QueryIDByInfo(CONTROLPARA* ptCtrl)

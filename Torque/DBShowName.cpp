@@ -184,7 +184,6 @@ vector<int> CDBShowName::GetIndexsByNOs(string NOs)
 int CDBShowName::GetNOByName(string Name, int &Index)
 {
     int iNO = DB_INVALID_VAL;
-    BOOL res = FALSE;
     int row = 0, col = 0;
     char** pResult;
     UINT nIndex = 0;

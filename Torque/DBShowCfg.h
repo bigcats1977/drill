@@ -18,8 +18,8 @@ public:
     CDBShowCfg();
     ~CDBShowCfg();
 
-    BOOL UpdateShowCfg(SHOWCFG* ptShow);
-    BOOL UpdateAlias(UINT Alias);
+    bool UpdateShowCfg(SHOWCFG* ptShow);
+    bool UpdateAlias(UINT Alias);
 
 private:
     void Empty();

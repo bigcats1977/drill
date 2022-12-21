@@ -12,7 +12,7 @@ SqliteProc::~SqliteProc()
 }
 
 
-BOOL SqliteProc::OpenDB(string filename, string pw)
+bool SqliteProc::OpenDB(string filename, string pw)
 {
     string inputkey;
     char* pErrMsg = NULL;
@@ -20,7 +20,7 @@ BOOL SqliteProc::OpenDB(string filename, string pw)
     if (SQLITE_OK != sqlite3_open(ASCII2UTF8(filename).c_str(), &ptCfgDB))
     {
         CloseDB();
-        return FALSE;
+        return false;
     }
 
     // 设置密码
@@ -34,13 +34,13 @@ BOOL SqliteProc::OpenDB(string filename, string pw)
     if (result != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::isOpen()
+bool SqliteProc::isOpen()
 {
     return (NULL != ptCfgDB);
 }
@@ -56,17 +56,17 @@ void SqliteProc::CloseDB()
     DBFile = "";
 }
 
-BOOL SqliteProc::ExecuteSQL(string sql)
+bool SqliteProc::ExecuteSQL(string sql)
 {
     char* pErrMsg = NULL;
 
     if (sqlite3_exec(ptCfgDB, sql.c_str(), NULL, 0, &pErrMsg) != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 
@@ -76,14 +76,14 @@ int  SqliteProc::GetLastInsertID()
     return (int)sqlite3_last_insert_rowid(ptCfgDB);
 }
 
-BOOL SqliteProc::GetTable(string tablename, int& row, int& col, char*** pazResult)
+bool SqliteProc::GetTable(string tablename, int& row, int& col, char*** pazResult)
 {
     int res = SQLITE_OK;
     string sql;
     char* pErrMsg = NULL;
 
     if (!isOpen())
-        return FALSE;
+        return false;
 
     sql = "SELECT * FROM " + tablename;
 
@@ -91,20 +91,20 @@ BOOL SqliteProc::GetTable(string tablename, int& row, int& col, char*** pazResul
     if (res != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::QueryTable(string tablename, string condition, int& row, int& col, char*** pazResult)
+bool SqliteProc::QueryTable(string tablename, string condition, int& row, int& col, char*** pazResult)
 {
     int res = SQLITE_OK;
     string sql;
     char* errmsg = NULL;
 
     if (!isOpen())
-        return FALSE;
+        return false;
 
     sql = "SELECT * FROM " + tablename;
     if (!condition.empty())
@@ -115,20 +115,20 @@ BOOL SqliteProc::QueryTable(string tablename, string condition, int& row, int& c
     if (res != SQLITE_OK)
     {
         sqlite3_free(errmsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::QueryTableOrder(string tablename, string condition, string ordField, bool bASC, int& row, int& col, char*** pazResult)
+bool SqliteProc::QueryTableOrder(string tablename, string condition, string ordField, bool bASC, int& row, int& col, char*** pazResult)
 {
     int res = SQLITE_OK;
     string sql;
     char* errmsg = NULL;
 
     if (!isOpen())
-        return FALSE;
+        return false;
 
     sql = "SELECT * FROM " + tablename;
     if (!condition.empty())
@@ -143,21 +143,21 @@ BOOL SqliteProc::QueryTableOrder(string tablename, string condition, string ordF
     if (res != SQLITE_OK)
     {
         sqlite3_free(errmsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::InsertRow(string tablename, vector<string> values)
+bool SqliteProc::InsertRow(string tablename, vector<string> values)
 {
     string content;
     string sql;
     char* pErrMsg = 0;
     int i = 0;
 
-    ASSERT_ZERO_R(tablename.size(), FALSE);
-    ASSERT_ZERO_R(values.size(), FALSE);
+    ASSERT_ZERO_R(tablename.size(), false);
+    ASSERT_ZERO_R(values.size(), false);
 
     for (i = 0; i < (int)values.size(); i++)
     {
@@ -173,66 +173,78 @@ BOOL SqliteProc::InsertRow(string tablename, vector<string> values)
     if (sqlite3_exec(ptCfgDB, sql.c_str(), NULL, 0, &pErrMsg) != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::GetValue(char* pResult, BYTE& Value)
+bool SqliteProc::GetValue(char* pResult, bool& Value)
 {
-    ASSERT_NULL_R(pResult, FALSE);
+    ASSERT_NULL_R(pResult, false);
+
+    if (atoi(pResult) == 0)
+        Value = false;
+    else
+        Value = true;
+
+    return true;
+}
+
+bool SqliteProc::GetValue(char* pResult, BYTE& Value)
+{
+    ASSERT_NULL_R(pResult, false);
 
     Value = (BYTE)atoi(pResult);
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::GetValue(char* pResult, int& Value)
+bool SqliteProc::GetValue(char* pResult, int& Value)
 {
-    ASSERT_NULL_R(pResult, FALSE);
+    ASSERT_NULL_R(pResult, false);
 
     Value = atoi(pResult);
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::GetValue(char* pResult, UINT& Value)
+bool SqliteProc::GetValue(char* pResult, UINT& Value)
 {
-    ASSERT_NULL_R(pResult, FALSE);
+    ASSERT_NULL_R(pResult, false);
 
     Value = atoi(pResult);
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::GetValue(char* pResult, double& Value)
+bool SqliteProc::GetValue(char* pResult, double& Value)
 {
-    ASSERT_NULL_R(pResult, FALSE);
+    ASSERT_NULL_R(pResult, false);
 
     Value = atof(pResult);
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::GetValue(char* pResult, WORD& Value)
+bool SqliteProc::GetValue(char* pResult, WORD& Value)
 {
-    ASSERT_NULL_R(pResult, FALSE);
+    ASSERT_NULL_R(pResult, false);
 
     Value = atoi(pResult);
 
-    return TRUE;
+    return true;
 }
 
-BOOL SqliteProc::GetValue(char* pResult, string& Value)
+bool SqliteProc::GetValue(char* pResult, string& Value)
 {
     Value.clear();
-    ASSERT_NULL_R(pResult, FALSE);
+    ASSERT_NULL_R(pResult, false);
 
     Value = pResult;
     Value = UTF82ASCII(Value);
 
-    return TRUE;
+    return true;
 }
 
 void SqliteProc::FreeResult(char*** pazResult)
@@ -240,7 +252,7 @@ void SqliteProc::FreeResult(char*** pazResult)
     sqlite3_free_table(*pazResult);
 }
 
-BOOL SqliteProc::UpdateField(string tablename, string condition, string field, string value)
+bool SqliteProc::UpdateField(string tablename, string condition, string field, string value)
 {
     string content;
     string sql;
@@ -257,21 +269,21 @@ BOOL SqliteProc::UpdateField(string tablename, string condition, string field, s
     if (sqlite3_exec(ptCfgDB, sql.c_str(), NULL, 0, &pErrMsg) != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
-BOOL SqliteProc::UpdateFields(string tablename, string condition, vector<string> fields, vector<string> values)
+bool SqliteProc::UpdateFields(string tablename, string condition, vector<string> fields, vector<string> values)
 {
     string content;
     string sql;
     char* pErrMsg = 0;
     int i = 0;
 
-    ASSERT_ZERO_R(fields.size(), FALSE);
+    ASSERT_ZERO_R(fields.size(), false);
     if (fields.size() != values.size())
-        return FALSE;
+        return false;
 
     for(i=0;i<(int)fields.size();i++)
     {
@@ -290,23 +302,23 @@ BOOL SqliteProc::UpdateFields(string tablename, string condition, vector<string>
     if (sqlite3_exec(ptCfgDB, sql.c_str(), NULL, 0, &pErrMsg) != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 /* 更新多行数据的同一个field的值 */
-BOOL SqliteProc::UpdateRows(string tablename, vector<string> conditions, string field, vector<string> values)
+bool SqliteProc::UpdateRows(string tablename, vector<string> conditions, string field, vector<string> values)
 {
     string content;
     string sql;
     char* pErrMsg = 0;
     int i;
 
-    ASSERT_ZERO_R(conditions.size(), FALSE);
+    ASSERT_ZERO_R(conditions.size(), false);
     if (conditions.size() != values.size())
-        return FALSE;
+        return false;
 
     sql = "BEGIN;\n";
     for(i=0;i<(int)conditions.size();i++)
@@ -322,26 +334,26 @@ BOOL SqliteProc::UpdateRows(string tablename, vector<string> conditions, string 
     if (sqlite3_exec(ptCfgDB, sql.c_str(), NULL, 0, &pErrMsg) != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
-    return TRUE;
+    return true;
 }
 
 /* 删除满足条件的数据 */
-BOOL SqliteProc::DeleteRow(string tablename, string condition)
+bool SqliteProc::DeleteRow(string tablename, string condition)
 {
     string sql;
     char* pErrMsg = 0;
     int i = 0;
 
-    ASSERT_ZERO_R(tablename.size(), FALSE);
+    ASSERT_ZERO_R(tablename.size(), false);
 
     sql = "DELETE FROM " + tablename + " WHERE " + ASCII2UTF8(condition) + ";\n";
     if (sqlite3_exec(ptCfgDB, sql.c_str(), NULL, 0, &pErrMsg) != SQLITE_OK)
     {
         sqlite3_free(pErrMsg);
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }

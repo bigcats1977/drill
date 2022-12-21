@@ -12,7 +12,7 @@ public:
     CDBXlsStatCfg();
     ~CDBXlsStatCfg();
     bool GetInfoByLang(XLSSTATCFG* ptCfg, UINT nLang= LANGUAGE_CURRENT);
-    BOOL UpdateInfo(XLSSTATCFG* ptCfg);
+    bool UpdateInfo(XLSSTATCFG* ptCfg);
 
 private:
     void Empty();

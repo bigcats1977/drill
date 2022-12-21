@@ -762,7 +762,7 @@ typedef struct tagGLBCFG
     UINT        nCollectDur;    /* 定时收集数据的时间，ms，默认250 */
     UINT        nResetDur;      /* 复位时间，默认10s */
     UINT        nSaveDur;       /* 大于显示扭矩后保存数据的时间，默认30s */
-    UINT        nIPShowMode;    /* 拐点显示方式：1: 只画数据中的拐点
+    /*UINT        nIPShowMode;    /* 拐点显示方式：1: 只画数据中的拐点
                                                 2: 只画计算拐点
                                                 3: 数据拐点和计算拐点都画 */
     UINT        nZoomIn;        /* 图形放大倍数 */
@@ -772,14 +772,15 @@ typedef struct tagGLBCFG
     double      fDiscount;      /* fCut 打折比例 0.8 */
     double      fMulti;         /* 校准参数范围0~2 */
     double      fRpmAdj;        /* 转速调整 */
-    double      fIPDeltaVal;    /* 默认0.7 */   
+    //double      fIPDeltaVal;    /* 默认0.7 */   
 
-    BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
+    //BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
     bool        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
     bool        bBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
+    string      strBreakOutPath; /* 上扣后开始卸扣的文件路径 */
     string      strDataPath;
 
     string      strUnit;        /* 对应扭矩单位的字符串 */
@@ -898,11 +899,10 @@ typedef struct tagSplit
 #define     MAXWELLNUM   5000
 typedef struct tagTORQUEDATA
 {
-    UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 */
+    UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 当前显示/卸扣的序号 */
     UINT    nTotal;
     UINT    nQualy;
     UINT    nUnQualy;
-    bool    bHaveHead;  /* 文件中每个数据前面是否有头隔断 */
     UINT    nTotalPlus[MAXWELLNUM];
     TorqData::Torque  tData[MAXWELLNUM];
     SPLITPOINT        tSplit[MAXWELLNUM];   // 多屏数据时，读取后设置分屏起点终点

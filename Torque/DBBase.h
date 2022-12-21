@@ -13,13 +13,13 @@ public:
 public:
     int   _Count;
 
-    BOOL Valid();
+    bool Valid();
     void Reload();
 
 protected:
     UINT        _TableIndex;
 
-    BOOL        _ValidDB;
+    bool        _ValidDB;
     SqliteProc* _Sqlite;
     UINT        *_CurLang;
 

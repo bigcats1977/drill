@@ -45,15 +45,14 @@ void CDBValveCfg::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-BOOL CDBValveCfg::UpdateGlbCfg(VALVECFG* ptCfg)
+bool CDBValveCfg::UpdateGlbCfg(VALVECFG* ptCfg)
 {
-    BOOL bRes = FALSE;
     vector<string> fields;
     vector<string> values;
     string value;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
-    ASSERT_NULL_R(ptCfg, FALSE);
+    COMP_BFALSE_R(_ValidDB, false);
+    ASSERT_NULL_R(ptCfg, false);
 
     value = GetListFromArray(&ptCfg->ucTorq[0][0], VALVERATIONUM);
     fields.push_back("V1Torq");
@@ -73,28 +72,28 @@ BOOL CDBValveCfg::UpdateGlbCfg(VALVECFG* ptCfg)
 }
 
 
-BOOL CDBValveCfg::GetValues(string strVal, BYTE* ptAddr)
+bool CDBValveCfg::GetValues(string strVal, BYTE* ptAddr)
 {
     int i = 0;
     vector<int> values;
-    ASSERT_NULL_R(ptAddr, FALSE);
+    ASSERT_NULL_R(ptAddr, false);
     if (strVal.empty())
-        return FALSE;
+        return false;
 
     values = GetIDFromList(strVal);
     if (values.size() != VALVERATIONUM)
-        return FALSE;
+        return false;
 
     for (i = 0; i < VALVERATIONUM; i++)
     {
         ptAddr[i] = (BYTE)values[i];
     }
-    return TRUE;
+    return true;
 }
 
-BOOL CDBValveCfg::GetGlbCfg(VALVECFG* ptCfg)
+bool CDBValveCfg::GetGlbCfg(VALVECFG* ptCfg)
 {
-    BOOL bRes = FALSE;
+    bool bRes = false;
 
     COMP_BFALSE_R(_ValidDB, FALSE);
     ASSERT_NULL_R(ptCfg, FALSE);

@@ -521,7 +521,7 @@ void CTorqueApp::InitGlobalPara()
     g_tGlbCfg.nCollectDur = 100;
     g_tGlbCfg.nResetDur = 10000;
     g_tGlbCfg.nSaveDur = 30000;
-    g_tGlbCfg.nIPShowMode = 1;
+    //g_tGlbCfg.nIPShowMode = 1;
     g_tGlbCfg.nZoomIn = 5;
     g_tGlbCfg.nImgNum = 8;
     g_tGlbCfg.nTest = 0;
@@ -529,12 +529,12 @@ void CTorqueApp::InitGlobalPara()
     g_tGlbCfg.fDiscount = 1;
     g_tGlbCfg.fMulti = 1;
     g_tGlbCfg.fRpmAdj = 3.5;
-    g_tGlbCfg.fIPDeltaVal = 0.1;
+    //g_tGlbCfg.fIPDeltaVal = 0.1;
 
-    g_tGlbCfg.bCheckIP = 1;
-    g_tGlbCfg.bBigTorq = 0;
-    g_tGlbCfg.bBreakOut = 0;
-    g_tGlbCfg.bDateBehind = 0;
+    //g_tGlbCfg.bCheckIP = 1;
+    g_tGlbCfg.bBigTorq = false;
+    g_tGlbCfg.bBreakOut = false;
+    g_tGlbCfg.bDateBehind = false;
 
     g_tGlbCfg.strPassWord = LoadstringFromRes(IDS_STRPVPASSWORD);
     g_tGlbCfg.strDataPath = NULLSTR;
@@ -2642,13 +2642,8 @@ int  CTorqueApp::SeekPBDataPos(CFile &file, int iCurPos)
         }
     }
 
-    if(g_tReadData.bHaveHead)
-        return -1;
-    else // 没有pbhead
-    {
-        file.Seek(iCurPos, CFile::begin);
-        return 0;
-    }
+    // 没有找到数据文件头，返回失败
+    return -1;
 }
 
 BOOL CTorqueApp::ReadHisTorqFromFile(CString strDataName)
@@ -2706,6 +2701,7 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     }
 
     /* 检查文件是否有头 */
+#if 0
     g_tReadData.bHaveHead = FALSE;
     file.Read(cPBHead,PBHEADLEN);
     file.Seek(sizeof(UINT), CFile::begin);
@@ -2713,7 +2709,7 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     {
         g_tReadData.bHaveHead = TRUE;
     }
-
+#endif
     BeginWaitCursor();
 
     for(i=0; i<(int)nNum; i++)
@@ -3384,9 +3380,8 @@ void CTorqueApp::SaveAllData(CString strDataName)
             {
                 continue;
             }
-
-            if(g_tReadData.bHaveHead)
-                file.Write(&m_nPBHead, PBHEADLEN);
+            
+            file.Write(&m_nPBHead, PBHEADLEN);
             file.Write(&nDataLen, sizeof(UINT));
             file.Write(m_cProtoBuf, nDataLen);
         }

@@ -21,7 +21,7 @@ void CDBGlbCfg::Empty()
     _CollectDur = 100;
     _ResetDur = 10;
     _SaveDur = 30;
-    _IPShowMode = 1;
+    //_IPShowMode = 1;
     _ZoomIn = 5;
     _ImgNum = 8;
     //_Test = 0;
@@ -29,14 +29,15 @@ void CDBGlbCfg::Empty()
     _Discount = 1;
     _Multi = 1;
     _RpmAdj = 3.5;
-    _IPDeltaVal = 0.1;
+    //_IPDeltaVal = 0.1;
 
-    _CheckIP = 1;
-    _BigTorq = 0;
-    _BreakOut = 0;
-    _DateBehind = 0;
+    //_CheckIP = 1;
+    _BigTorq = false;
+    _BreakOut = false;
+    _DateBehind = false;
 
     _Password.clear();
+    _BreakOutPath.clear();
     _DataPath.clear();
 }
 
@@ -66,7 +67,7 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _CollectDur);
     _Sqlite->GetValue(pResult[nIndex++], _ResetDur);
     _Sqlite->GetValue(pResult[nIndex++], _SaveDur);
-    _Sqlite->GetValue(pResult[nIndex++], _IPShowMode);
+    //_Sqlite->GetValue(pResult[nIndex++], _IPShowMode);
     _Sqlite->GetValue(pResult[nIndex++], _ZoomIn);
     _Sqlite->GetValue(pResult[nIndex++], _ImgNum);
     //_Sqlite->GetValue(pResult[nIndex++], _Test);
@@ -74,14 +75,15 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _Discount);
     _Sqlite->GetValue(pResult[nIndex++], _Multi);
     _Sqlite->GetValue(pResult[nIndex++], _RpmAdj);
-    _Sqlite->GetValue(pResult[nIndex++], _IPDeltaVal);
+    //_Sqlite->GetValue(pResult[nIndex++], _IPDeltaVal);
 
-    _Sqlite->GetValue(pResult[nIndex++], _CheckIP);
+    //_Sqlite->GetValue(pResult[nIndex++], _CheckIP);
     _Sqlite->GetValue(pResult[nIndex++], _BigTorq);
     _Sqlite->GetValue(pResult[nIndex++], _BreakOut);
     _Sqlite->GetValue(pResult[nIndex++], _DateBehind);
 
     _Sqlite->GetValue(pResult[nIndex++], _Password);
+    _Sqlite->GetValue(pResult[nIndex++], _BreakOutPath);
     _Sqlite->GetValue(pResult[nIndex++], _DataPath);
 
     _Sqlite->FreeResult(&pResult);
@@ -112,8 +114,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->nResetDur));
     fields.push_back("SaveDur");
     values.push_back(to_string(ptfg->nSaveDur));
-    fields.push_back("IPShowMode");
-    values.push_back(to_string(ptfg->nIPShowMode));
+    /*fields.push_back("IPShowMode");
+    values.push_back(to_string(ptfg->nIPShowMode));*/
     fields.push_back("ZoomIn");
     values.push_back(to_string(ptfg->nZoomIn));
     fields.push_back("ImgNum");
@@ -127,11 +129,11 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->fMulti));
     fields.push_back("RpmAdj");
     values.push_back(to_string(ptfg->fRpmAdj));
-    fields.push_back("IPDeltaVal");
-    values.push_back(to_string(ptfg->fIPDeltaVal));
+    /*fields.push_back("IPDeltaVal");
+    values.push_back(to_string(ptfg->fIPDeltaVal));*/
 
-    fields.push_back("CheckIP");
-    values.push_back(to_string(ptfg->bCheckIP));
+    /*fields.push_back("CheckIP");
+    values.push_back(to_string(ptfg->bCheckIP));*/
     fields.push_back("BigTorq");
     values.push_back(to_string(ptfg->bBigTorq));
     fields.push_back("BreakOut");
@@ -141,6 +143,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
 
     fields.push_back("Password");
     values.push_back(ptfg->strPassWord);
+    fields.push_back("BreakOutPath");
+    values.push_back(ptfg->strBreakOutPath);
     fields.push_back("DataPath");
     values.push_back(ptfg->strDataPath);
 
