@@ -84,7 +84,6 @@ public:
     BYTE        m_ucRcvByte[PORTBUFF];      /*modbus接收消息数值*/
     WORD        m_wRcvLen;
     CTime       m_tSetTime;
-    DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
     
     CSerialPort m_tPort;
 
@@ -104,14 +103,13 @@ public:
     CString     m_strTorque;  /* m_fTorque 界面显示的扭矩；卸扣时显示　当前扭矩/最大扭矩 */
     double      m_fRpm;     /* 单片机上读取到的速度，为0时根据圈数计算 */
     BOOL        m_bComm;
-    UINT        m_nCur;
+    CString     m_strSeqNO;
     UINT        m_nCRCERR;
     UINT        m_nClashERR;
     CString     m_strRecvData;
-    UINT        m_nTotal;    
+    DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
     BOOL        m_bToolBuck;        /* 是否为工具扣 */
     CString     m_strQuality;
-    int         m_iBreakout;         /* 0: 上扣,1:卸扣 */
     CString     m_strLBM2;
     CString     m_strTorqType;
     CString     m_strBreakoutFile;
@@ -249,6 +247,8 @@ private:
     BOOL InsertData(COLLECTTORQUE *ptColl, double torque, double rpm);
     void UpdateTorqueData(double torque, double rpm);
     void SaveIntoData(TorqData::Torque *ptPBData);
+    void SaveMakeupData(TorqData::Torque* ptPBData);
+    void SaveBreakoutData(TorqData::Torque* ptPBData);
     void SetQuality(DWORD dwQuality);
     void KillAllTimer();
     void GetValidTorqData();
@@ -267,7 +267,8 @@ private:
     double OverTorqOpt(double fTorq, BYTE ucStatus);
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
-    void   EnableBreakoutfile(bool bEnable);
+    void   EnableBreakoutfile();
+    void   UpdateSeqNO();
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/
@@ -279,7 +280,7 @@ private:
     BYTE            m_ucSndByte[PORTBUFF]; /* modbus发送消息数值 */
     HACCEL          m_hAccel;           /* 快捷键 */
     CStdioFile      m_AutoSavefile;
-    BOOL            m_bAutoFileOpen;    /* 调试函数文件是否打开 */
+    bool            m_bAutoFileOpen;    /* 调试函数文件是否打开 */
     
     int             m_iShowPlus;        /* 显示前的脉冲数，实际脉冲需要减掉显示脉冲，才能计算圈数 */
     int             m_iPriorCnt;        /* 之前屏的点数 */
@@ -326,7 +327,6 @@ private:
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];
 
-    UINT            m_nCurNO;           /* 当前扭矩的序号，更换文件清零 */
     UINT            m_nCurRunningNO;       /* 入井序号 */
 };
 

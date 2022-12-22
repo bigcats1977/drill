@@ -137,6 +137,7 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.nZoomIn = m_tDBGlbCfg._ZoomIn;
     g_tGlbCfg.nImgNum = m_tDBGlbCfg._ImgNum;
     //g_tGlbCfg.nTest = m_tDBGlbCfg._Test;
+    g_tGlbCfg.iBreakOut = m_tDBGlbCfg._BreakOut;
 
     g_tGlbCfg.fDiscount = m_tDBGlbCfg._Discount;
     g_tGlbCfg.fMulti = m_tDBGlbCfg._Multi;
@@ -145,7 +146,6 @@ bool CDBAccess::ReadGlobalPara()
 
     //g_tGlbCfg.bCheckIP = m_tDBGlbCfg._CheckIP;
     g_tGlbCfg.bBigTorq = m_tDBGlbCfg._BigTorq;
-    g_tGlbCfg.bBreakOut = m_tDBGlbCfg._BreakOut;
     g_tGlbCfg.bDateBehind = m_tDBGlbCfg._DateBehind;
 
     g_tGlbCfg.strPassWord = m_tDBGlbCfg._Password;

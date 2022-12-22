@@ -1927,7 +1927,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_STRHISGPRINTTITLE   "Print Historical Data"
-    IDS_STRHISLLISTHEAD     "NO,%d;Date/Time,%d;FastenTorq,%d;OptTorq,%d;MakeTorq,%d;MakeTrun,%d;BreakTorq,%d;BreakTrun,%d;Comment,%d;"
+    IDS_STRHISLLISTHEAD     "NO,%d;MakeupTime,%d;BreakoutTime,%d;FastenTorq,%d;OptTorq,%d;MakeTorq,%d;MakeTrun,%d;BreakTorq,%d;BreakTrun,%d;Comment,%d;"
 END
 
 STRINGTABLE

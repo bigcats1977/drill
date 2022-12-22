@@ -16,6 +16,7 @@ public:
     UINT    _ZoomIn;
     UINT    _ImgNum;
     //UINT    _Test;
+    UINT    _BreakOut;
 
     double  _Discount;
     double  _Multi;
@@ -24,7 +25,6 @@ public:
 
     //bool    _CheckIP;
     bool    _BigTorq;
-    bool    _BreakOut;
     bool    _DateBehind;
 
     string  _Password;

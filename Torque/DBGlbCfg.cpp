@@ -25,6 +25,7 @@ void CDBGlbCfg::Empty()
     _ZoomIn = 5;
     _ImgNum = 8;
     //_Test = 0;
+    _BreakOut = 0;
 
     _Discount = 1;
     _Multi = 1;
@@ -33,7 +34,6 @@ void CDBGlbCfg::Empty()
 
     //_CheckIP = 1;
     _BigTorq = false;
-    _BreakOut = false;
     _DateBehind = false;
 
     _Password.clear();
@@ -71,6 +71,7 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _ZoomIn);
     _Sqlite->GetValue(pResult[nIndex++], _ImgNum);
     //_Sqlite->GetValue(pResult[nIndex++], _Test);
+    _Sqlite->GetValue(pResult[nIndex++], _BreakOut);
 
     _Sqlite->GetValue(pResult[nIndex++], _Discount);
     _Sqlite->GetValue(pResult[nIndex++], _Multi);
@@ -79,7 +80,6 @@ void CDBGlbCfg::GetTable()
 
     //_Sqlite->GetValue(pResult[nIndex++], _CheckIP);
     _Sqlite->GetValue(pResult[nIndex++], _BigTorq);
-    _Sqlite->GetValue(pResult[nIndex++], _BreakOut);
     _Sqlite->GetValue(pResult[nIndex++], _DateBehind);
 
     _Sqlite->GetValue(pResult[nIndex++], _Password);
@@ -122,6 +122,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->nImgNum));
     /*fields.push_back("Test");
     values.push_back(to_string(ptfg->nTest));*/
+    fields.push_back("BreakOut");
+    values.push_back(to_string(ptfg->iBreakOut));
 
     fields.push_back("Discount");
     values.push_back(to_string(ptfg->fDiscount));
@@ -136,8 +138,6 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
     values.push_back(to_string(ptfg->bCheckIP));*/
     fields.push_back("BigTorq");
     values.push_back(to_string(ptfg->bBigTorq));
-    fields.push_back("BreakOut");
-    values.push_back(to_string(ptfg->bBreakOut));
     fields.push_back("DateBehind");
     values.push_back(to_string(ptfg->bDateBehind));
 

@@ -101,25 +101,12 @@ void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA *ptDraw)
     ASSERT_NULL(ptDraw);
     ptTorq = ptDraw->ptOrgTorq;
 
-    if (VERSION_RECPLUS(ptTorq))
+    for (i = m_iBegin; i <= m_iEnd && i < ptDraw->wCount; i++)
     {
-        for (i = m_iBegin; i <= m_iEnd && i < ptDraw->wCount; i++)
-        {
-            if (fMin > ptDraw->fTorque[i])
-                fMin = ptDraw->fTorque[i];
-            if (fMax < ptDraw->fTorque[i])
-                fMax = ptDraw->fTorque[i];
-        }
-    }
-    else
-    {
-        for (i = m_iBegin; i <= m_iEnd && i < ptTorq->ftorque_size(); i++)
-        {
-            if (fMin > ptTorq->ftorque(i))
-                fMin = ptTorq->ftorque(i);
-            if (fMax < ptTorq->ftorque(i))
-                fMax = ptTorq->ftorque(i);
-        }
+        if (fMin > ptDraw->fTorque[i])
+            fMin = ptDraw->fTorque[i];
+        if (fMax < ptDraw->fTorque[i])
+            fMax = ptDraw->fTorque[i];
     }
 
     if(fMax - fMin < MINTORQRANGE)
@@ -151,8 +138,7 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA *ptDraw, double  fSrcMaxCir)
     ASSERT_NULL(ptDraw);
 
     /* delcir需要减少倍数 for 3.22 */
-    if (VERSION_RECPLUS(ptDraw->ptOrgTorq)) 
-        iAdjDel = m_nCurZoom;
+    iAdjDel = m_nCurZoom;
     
     /* 放大图像都设置为满屏，如果第一屏有空，则begin往后移 */
     if (m_iBegin < 0)
@@ -245,13 +231,10 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA *ptDraw)
     /* 20200312 避免放大时，放大LineCtrlEx画的点超过500，m_nPos为0，放大图像无法点击鼠标 */
     m_iEnd   = (UINT)(m_fMaxCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin - 1;
 
-    if (VERSION_RECPLUS(ptTorq))
-    {
-        m_iZoomPos  *= m_nCurZoom;
-        m_iBegin    *= m_nCurZoom;
-        m_iEnd      *= m_nCurZoom;
-        m_iEnd      += m_nCurZoom-1;
-    }
+    m_iZoomPos  *= m_nCurZoom;
+    m_iBegin    *= m_nCurZoom;
+    m_iEnd      *= m_nCurZoom;
+    m_iEnd      += m_nCurZoom-1;
 
     AdjustShowCir(ptDraw, fSrcMaxCir);
 
@@ -292,101 +275,41 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA *ptDraw)
 
     m_wndLineZoom.DrawZoomBkLine();
 
-    if(!VERSION_RECPLUS(ptDraw->ptOrgTorq))
+    /* 画第一个点 */
+    fPreTorq = ptDraw->fTorque[m_iBegin];
+    m_wndLineZoom.SetPos(fPreTorq);
+    m_wndLineZoom.DrawSpike();
+
+    for(i=m_iBegin+1; i < m_iEnd && i < ptDraw->wCount; i++)
     {
-        /* 画第一个点 */
-        fPreTorq = ptDraw->fTorque[m_iBegin];
-        m_wndLineZoom.SetPos(fPreTorq);
+        fCurTorq = ptDraw->fTorque[i];
+        m_wndLineZoom.SetPos(fCurTorq);
         m_wndLineZoom.DrawSpike();
-
-        for(i=m_iBegin+1; i < m_iEnd && i < ptDraw->wCount; i++)
+        if(i == m_iZoomPos)
         {
-            fCurTorq = ptDraw->fTorque[i];
-            for(j=0; j<m_nCurZoom; j++)
-            {
-                fInsTorq = (fCurTorq - fPreTorq)*(j+1)/m_nCurZoom + fPreTorq;
-                INSERTZOOMPNT(fInsTorq, iDrawed);
-            }
-            if(i == m_iZoomPos)
-            {
-                m_nZoomTorq = (UINT)ptDraw->fTorque[m_iZoomPos];
-                for(j=0; j<m_nCurZoom; j++)
-                {   
-                    fInsTorq = (fCurTorq - fPreTorq)*(j+1)/m_nCurZoom + fPreTorq;
-                    if(fMinDiff > fabs(fInsTorq -m_nZoomTorq))
-                    {
-                        k = j;
-                        fMinDiff = fabs(fInsTorq -m_nZoomTorq);
-                    }
-                }
-                iZoomPos = m_wndLineZoom.GetCurPoints()-4+k;
-            }
-            fPreTorq = fCurTorq;
+            iZoomPos = m_wndLineZoom.GetCurPoints();
         }
+    }
         
-        fCurTorq = ptDraw->fTorque[m_iEnd];
-        for(j=0; j<m_nCurZoom-1; j++)
-        {
-            fInsTorq = (fCurTorq - fPreTorq)*(j+1)/m_nCurZoom + fPreTorq;
-            INSERTZOOMPNT(fInsTorq, iDrawed);
-        }
-
-        /* 放大图包含控制扭矩，画竖线 */
-        /*最后一个数据在外面GO，以免出现双线的情况*/
-        if (m_iEnd >= ptDraw->wCount- 1)
-        {
-            m_wndLineZoom.SetPos(fCurTorq, TRUE);
-            m_wndLineZoom.Go();
-        }
-        else
-        {
-            INSERTZOOMPNT(fCurTorq, iDrawed);
-        }
-        
-        theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
-        fmaxcir = theApp.GetMaxCir(ptDraw->ptOrgTorq);
-        fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq);
-        
-        m_wndLineZoom.DrawZoomInfo(iZoomPos, m_fMinCir, fmaxcir, fDeltaCir, m_nZoomTorq);
+    /* 放大图包含控制扭矩，画竖线 */
+    /*最后一个数据在外面GO，以免出现双线的情况*/
+    if (m_iEnd >= ptDraw->wCount - 1)
+    {
+        m_wndLineZoom.SetPos(ptDraw->fTorque[ptDraw->wCount - 1], TRUE);
+        m_wndLineZoom.Go();
     }
     else
     {
-        /* 画第一个点 */
-        fPreTorq = ptDraw->fTorque[m_iBegin];
-        m_wndLineZoom.SetPos(fPreTorq);
-        m_wndLineZoom.DrawSpike();
-
-        for(i=m_iBegin+1; i < m_iEnd && i < ptDraw->wCount; i++)
-        {
-            fCurTorq = ptDraw->fTorque[i];
-            m_wndLineZoom.SetPos(fCurTorq);
-            m_wndLineZoom.DrawSpike();
-            if(i == m_iZoomPos)
-            {
-                iZoomPos = m_wndLineZoom.GetCurPoints();
-            }
-        }
-        
-        /* 放大图包含控制扭矩，画竖线 */
-        /*最后一个数据在外面GO，以免出现双线的情况*/
-        if (m_iEnd >= ptDraw->wCount - 1)
-        {
-            m_wndLineZoom.SetPos(ptDraw->fTorque[ptDraw->wCount - 1], TRUE);
-            m_wndLineZoom.Go();
-        }
-        else
-        {
-            m_wndLineZoom.SetPos(ptDraw->fTorque[m_iEnd]);
-            m_wndLineZoom.Go();
-        }
-        
-        theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
-        fmaxcir   = theApp.GetMaxCir(ptDraw->ptOrgTorq);
-        fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq);
-        
-        m_nZoomTorq = (UINT)ptDraw->fTorque[m_iZoomPos];
-        m_wndLineZoom.DrawZoomInfo(iZoomPos, m_fMinCir, fmaxcir, fDeltaCir, m_nZoomTorq);
+        m_wndLineZoom.SetPos(ptDraw->fTorque[m_iEnd]);
+        m_wndLineZoom.Go();
     }
+        
+    theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
+    fmaxcir   = theApp.GetMaxCir(ptDraw->ptOrgTorq);
+    fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq);
+        
+    m_nZoomTorq = (UINT)ptDraw->fTorque[m_iZoomPos];
+    m_wndLineZoom.DrawZoomInfo(iZoomPos, m_fMinCir, fmaxcir, fDeltaCir, m_nZoomTorq);
 }
 
 /* 左键单击 wParam :True 显示/ false: 不显示 */

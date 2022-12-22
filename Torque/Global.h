@@ -768,6 +768,7 @@ typedef struct tagGLBCFG
     UINT        nZoomIn;        /* 图形放大倍数 */
     UINT        nImgNum;        /* 批量导出图形时，一个图像文件中包含多少个图形 */
     UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据; 4: 多组历史数据*/
+    int         iBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
 
     double      fDiscount;      /* fCut 打折比例 0.8 */
     double      fMulti;         /* 校准参数范围0~2 */
@@ -776,7 +777,6 @@ typedef struct tagGLBCFG
 
     //BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
     bool        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
-    bool        bBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
@@ -1028,7 +1028,7 @@ typedef struct tagPORTDATA
 #define MAX(a, b)            ((a) > (b) ? (a) : (b))
 
 /* 3.22后所有串口数据都记录,数据包括脉冲信息，根据脉冲算周数 */
-#define VERSION_RECPLUS(ptTorq)  (ptTorq->dwdelplus_size() > 0)
+// #define VERSION_RECPLUS(ptTorq)  (ptTorq->dwdelplus_size() > 0)
 
 /* 自定义代码宏，降低代码圈复杂度 */
 /* 程序公共宏值 */

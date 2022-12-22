@@ -91,14 +91,14 @@ public:
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
     BOOL    SaveBmp(HBITMAP hBitmap, CString FileName);
     BOOL    SavePNG(HBITMAP hBitmap, CString FileName);
-    double  GetCir(TorqData::Torque *ptTorq);
+    double  GetCir(TorqData::Torque *ptTorq, bool bBreakout=false);
     DWORD   GetQuality(TorqData::Torque *ptTorq);
     DWORD   JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut = 0);
     BOOL    ReadHisTorqFromFile(CString strDataName);
     CString GetStatType(TorqData::Torque *ptTorq, WORD wPlace);
     CString GetTorqSimpDate(TorqData::Torque *ptTorq);
     CString GetTorqFullDate(TorqData::Torque *ptTorq);
-    CString GetTorqCollTime(TorqData::Torque *ptTorq);
+    CString GetTorqCollTime(TorqData::Torque *ptTorq, bool bBreakout=false);
     BOOL    CheckPassWord();
     string  LoadstringFromRes( unsigned string_ID );
     string  LoadstringFromRes(unsigned string_ID, int val);
@@ -133,6 +133,7 @@ public:
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
     bool CheckProductDate();
+    void SaveAllData(CString strDataName);
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
@@ -204,7 +205,6 @@ private:
     void CreateNewWellFile();
     BOOL GetTorqDataFromFile(CString strDataName);
     BOOL ReCalTallyNO(CString strDataName);
-    void SaveAllData(CString strDataName);
     void ClearReadTorq();
 
     /* 将列表内容导出到excle表格中 */

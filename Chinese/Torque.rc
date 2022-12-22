@@ -1927,7 +1927,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_STRHISGPRINTTITLE   "历史数据打印"
-    IDS_STRHISLLISTHEAD     "序号,%d;施工时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"
+    IDS_STRHISLLISTHEAD     "序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"
 END
 
 STRINGTABLE

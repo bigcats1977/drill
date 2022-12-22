@@ -61,6 +61,7 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     //DDX_Text(pDX, IDC_STATIC_G8, m_strTorqType);
     DDX_Text(pDX, IDC_STATIC_G1, m_strLBG1);
     DDX_Text(pDX, IDC_STATIC_G10, m_strLBG10);
+    DDX_Text(pDX, IDC_STATIC_G16, m_strLBG16);
     DDX_Text(pDX, IDC_HISSHOW01, m_strHisShowName[0]);
     DDX_Text(pDX, IDC_HISSHOW02, m_strHisShowName[1]);
     DDX_Text(pDX, IDC_HISSHOW03, m_strHisShowName[2]);
@@ -170,6 +171,7 @@ void CDlgHisGrp::UpdateDlgLabel()
 {
     m_strLBG1 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
     m_strLBG10 = g_tGlbCfg.strUnit.c_str();
+    m_strLBG16 = g_tGlbCfg.strUnit.c_str();
     /*if (m_bBreakOut)
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
     else
@@ -201,6 +203,8 @@ void CDlgHisGrp::SetCurEdit()
     GET_CTRL_TORQ(fTorq, m_ptCurTorq);
     m_strControl.Format("%d", (int)fTorq);
     m_strBreakOutTorq = _T("");
+    if (m_ptCurTorq->bbreakout())
+        m_strBreakOutTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
 }
 
 BOOL CDlgHisGrp::GetCirRange(double *fMin, double *fMax)

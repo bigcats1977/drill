@@ -465,6 +465,7 @@ void CTorqueApp::InitGlobalPara()
     g_tGlbCfg.nZoomIn = 5;
     g_tGlbCfg.nImgNum = 8;
     g_tGlbCfg.nTest = 0;
+    g_tGlbCfg.iBreakOut = 0;
 
     g_tGlbCfg.fDiscount = 1;
     g_tGlbCfg.fMulti = 1;
@@ -473,7 +474,6 @@ void CTorqueApp::InitGlobalPara()
 
     //g_tGlbCfg.bCheckIP = 1;
     g_tGlbCfg.bBigTorq = false;
-    g_tGlbCfg.bBreakOut = false;
     g_tGlbCfg.bDateBehind = false;
 
     g_tGlbCfg.strPassWord = LoadstringFromRes(IDS_STRPVPASSWORD);
@@ -1850,13 +1850,15 @@ BOOL CTorqueApp::JudgeTranslate(TorqData::Torque *ptTorq)
     return FALSE;
 }
 
-CString CTorqueApp::GetTorqCollTime(TorqData::Torque *ptTorq)
+CString CTorqueApp::GetTorqCollTime(TorqData::Torque *ptTorq, bool bBreakout)
 {
     __time64_t  colTime;
 
     ASSERT_NULL_R(ptTorq, _T(""));
     
     colTime = ptTorq->coltime();
+    if (bBreakout)
+        colTime = ptTorq->bocoltime();
 
     COleDateTime olett(colTime);
     return olett.Format(_T("%Y-%m-%d %H:%M:%S"));
@@ -2181,6 +2183,7 @@ void CTorqueApp::ClearReadTorq()
 
     g_tReadData.nCur = 0;
     g_tReadData.nTotal = 0;
+    g_tReadData.nBreakout = 0;
     g_tReadData.nQualy = 0;
     g_tReadData.nUnQualy = 0;
 
@@ -2404,18 +2407,19 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
         ptTorq = &g_tReadData.tData[nValid];
         pSplit = &g_tReadData.tSplit[nValid];
 
-        iTotalPnt = ptTorq->ftorque_size();
-        if(VERSION_RECPLUS(ptTorq))
-        {
-            g_tReadData.nTotalPlus[nValid] = ptTorq->dwtotalplus();
+        g_tReadData.nTotalPlus[nValid] = ptTorq->dwtotalplus();
+        if (ptTorq->bbreakout())
+            g_tReadData.nTotalPlus[nValid] += ptTorq->dwbototalplus();
             
-            if(ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
-                iTotalPnt = (int)ceil(ptTorq->dwtotalplus() / ptTorq->fplus() /
-                                  ptTorq->fmaxcir() * MAXLINEITEM);
+        if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
+        { 
+            iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
         if(ptTorq->bbreakout())   /* 从前往后分屏 */
         {
+            g_tReadData.nBreakout++;
+
             if(iTotalPnt > MAXLINEITEM)
             {
                 // 按 MAXLINEITEM 直接分屏
@@ -2476,13 +2480,13 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
 
             ptTorq->set_fmaxtorq(fRatio*ptTorq->fmaxtorq());
             ptTorq->set_fmaxlimit(fRatio*ptTorq->fmaxlimit());
-            //ptTorq->set_fupperlimit(fRatio*ptTorq->fupperlimit());
             ptTorq->set_fcontrol(fRatio*ptTorq->fcontrol());
             ptTorq->set_fopttorq(fRatio*ptTorq->fopttorq());
-            //ptTorq->set_flowerlimit(fRatio*ptTorq->flowerlimit());
-            //ptTorq->set_fspeeddown(fRatio*ptTorq->fspeeddown());
             ptTorq->set_fshow(fRatio*ptTorq->fshow());
-            //ptTorq->set_fbear(fRatio*ptTorq->fbear());
+            if (ptTorq->bbreakout())
+            {
+                ptTorq->set_fbomaxtorq(fRatio * ptTorq->fbomaxtorq());
+            }
 
             for(j=0; j<ptTorq->ftorque_size(); j++)
             {
@@ -2491,6 +2495,7 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
         }
 
         g_tReadData.nTotal++;
+
         dwQuality = GetQuality(ptTorq);
         if(dwQuality & QUA_RESU_QUALITYBIT)
         {
@@ -2555,18 +2560,6 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
 
     memset(ptDraw, 0, sizeof(DRAWTORQDATA));
     ptDraw->ptOrgTorq = ptOrg;
-    if(!VERSION_RECPLUS(ptOrg))   // 3.21及之前版本
-    {
-        for(i=0; i<ptOrg->ftorque_size(); i++)
-        {
-            ptDraw->fTorque[i] = ptOrg->ftorque(i);
-            ptDraw->fRpm[i]    = ptOrg->frpm(i);
-        }
-
-        ptDraw->wCount = ptOrg->ftorque_size();
-        
-        return ptDraw;
-    }
 
     fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / iMulti / MAXLINEITEM;
 
@@ -2823,7 +2816,7 @@ void CTorqueApp::GetShowDataRange(DRAWTORQDATA *ptDraw, int &iBegin, int &iEnd, 
     
     iBegin = 0;
     iEnd   = ptDraw->wCount;
-    if(nMulti != 1 && VERSION_RECPLUS(ptDraw->ptOrgTorq))  // for 3.22 放大数据
+    if(nMulti != 1)  // for 3.22 放大数据
         iEnd   = (int)ceil(ptDraw->wCount * 1.0 / nMulti );
     
     ASSERT_NULL(ptSplit);
@@ -2842,17 +2835,16 @@ void CTorqueApp::GetShowDataRange(DRAWTORQDATA *ptDraw, int &iBegin, int &iEnd, 
     return;
 }
 
-double CTorqueApp::GetCir(TorqData::Torque *ptTorq)
+double CTorqueApp::GetCir(TorqData::Torque *ptTorq, bool bBreakout)
 {
     double fCir = 0;
 
     ASSERT_NULL_R(ptTorq, 0);
     
-    fCir = THOUSANDTH(ptTorq->ftorque_size()*ptTorq->fmaxcir()/MAXLINEITEM);
-    if(VERSION_RECPLUS(ptTorq))   // for 3.22
-    {
-        fCir  = THOUSANDTH(ptTorq->dwtotalplus() / ptTorq->fplus());
-    }
+    if(!bBreakout)
+        fCir = THOUSANDTH(ptTorq->dwtotalplus() / ptTorq->fplus());
+    else
+        fCir = THOUSANDTH(ptTorq->dwbototalplus() / ptTorq->fplus());
 
     return fCir;
 }
@@ -2959,7 +2951,7 @@ bool CTorqueApp::HaveTallyNO(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL_R(ptTorq, false);
 
-    if (!ptTorq->bbreakout() && QUA_RESU_GOOD == ptTorq->dwquality())
+    if (QUA_RESU_GOOD == ptTorq->dwquality())
         return true;
     return false;
 }

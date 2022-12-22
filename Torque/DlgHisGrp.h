@@ -47,6 +47,7 @@ public:
     //CString     m_strTorqType;
     CString     m_strLBG1;
     CString     m_strLBG10;
+    CString     m_strLBG16;
     CString     m_strHisShowName[MAXPARANUM];
     CString     m_strHisShowValue[MAXPARANUM];
     //}}AFX_DATA

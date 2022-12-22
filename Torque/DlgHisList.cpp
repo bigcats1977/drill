@@ -94,9 +94,9 @@ BOOL CDlgHisList::OnInitDialog()
     /* 20220922 钻杆版本无最大/最小扭矩 */
     /* 20221113 去掉斜坡因子 */
     /* 20221220  去掉拐点扭矩，同时显示上扣扭矩/周数和卸扣扭矩/周数 */
-    /*"序号,%d;施工时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
+    /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
     snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), 
-                    int(0.8 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+                    int(0.8 * m_iWidth), int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
                     int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));
     /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
                    int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
@@ -253,12 +253,7 @@ void CDlgHisList::OnBnClickedBtnexport()
     theApp.SaveList2XlsFile(strList, strSheetName, &m_listHis);
 }
 
-/*"序号,%d;施工时间,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;
-   管件名称,%d;上扣类型,%d;重量,%d;接箍规格,%d;备注,%d;"*/
-/* "序号,%d;施工时间,%d;控制扭矩,%d;最佳扭矩,%d;
-    实际扭矩,%d;实际周数,%d;拐点扭矩,%d;备注,%d;" */ // 斜坡因子,%d;
-
-/*"序号,%d;施工时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
+/*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
 VOID CDlgHisList::ShowHisTorqList()
 {
     UINT        i       = 0;
@@ -267,20 +262,12 @@ VOID CDlgHisList::ShowHisTorqList()
     double      fTorque = 0;
     WORD        wPara   = 0;
     CString     strNo;
-    CString     strTime;
+    CString     strTime, strBOTime;
     CString     strMakeTurn, strBreakTurn;
-    //CString     strMinTorq, strMaxTorq;
     CString     strCtrlTorq, strOptTorq;
     CString     strMakeTorq, strBreakTorq;
-    //CString     strShoulder;
-    //CString     strSlope;
     CString     strShowPara[MAXPARANUM];
-    //double      fSlope;
-    CString     strMin,strMax;
     CString     strMemo;
-    WORD        wIPPos = 0;
-    WORD        wSchPos= 0;
-    int         iIPTorq= 0;
     CStringList slShow;
     DWORD       dwQuality = 0;
     TorqData::Torque *ptTorq = NULL;
@@ -301,33 +288,30 @@ VOID CDlgHisList::ShowHisTorqList()
 
         /* 20180102 序号删除后自动更新 */
         strNo.Format("%d",i+1);
-        //strMinTorq.Format("%d", (int)ptTorq->flowerlimit());
-        //strMaxTorq.Format("%d", (int)ptTorq->fupperlimit());
         strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
         strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
         strMemo = ptTorq->strmemo().c_str();
 
         strMakeTurn.Format ("%.3f", theApp.GetCir(ptTorq));
-        strBreakTurn = _T("-");
 
         GET_CTRL_TORQ(fTorque, ptTorq);
         strMakeTorq.Format("%d", (int)fTorque);
+        strBOTime = _T("-");
         strBreakTorq = _T("-");
+        strBreakTurn = _T("-");
+        if (ptTorq->bbreakout())
+        {
+            strBOTime = theApp.GetTorqCollTime(ptTorq, true);
+            strBreakTorq.Format("%d", (int)ptTorq->fbomaxtorq());
+            strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, true));
+        }
 
-        //strMin.Format("%d", (int)ptTorq->flowerlimit());
-        //strMax.Format("%d", (int)ptTorq->fupperlimit());
-
-        /*"序号,%d;施工时间,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d; 备注,%d;*/
-        /* "序号,%d;施工时间,%d;最小扭矩,%d;最大扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
-        /* "序号,%d;施工时间,%d;最小扭矩,%d;控制扭矩,%d;最佳扭矩,%d;最大扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
-        /* "序号,%d;施工时间,%d;控制扭矩,%d;最佳扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;" */
-        /* "序号,%d;施工时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;" */
+        /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
         slShow.AddTail(strNo);
         slShow.AddTail(strTime);
-        //slShow.AddTail(strMinTorq);
+        slShow.AddTail(strBOTime);
         slShow.AddTail(strCtrlTorq);
         slShow.AddTail(strOptTorq);
-        //slShow.AddTail(strMaxTorq);
         slShow.AddTail(strMakeTorq);
         slShow.AddTail(strMakeTurn);
         slShow.AddTail(strBreakTorq);
@@ -526,7 +510,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
         pPrnData += iLen; 
 
         /* 3.22 版本打印delplus */
-        if(VERSION_RECPLUS(ptTorq))
+        //if(VERSION_RECPLUS(ptTorq))
         {
             sprintf_s(pPrnData, SPRINTFLEN, "%s", aucHead);
             g_tOrgData.iCur += iHeadLen;

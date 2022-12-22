@@ -26,7 +26,7 @@ message Torque {
    bool     bToolBuck   = 21;
    bytes    strMemo     = 22;
    bytes    strRemark   = 23;
-   bool     bShackle    = 25;
+   bool     bBreakOut   = 25;
    int32    dwTorqUnit  = 27;    
      
    double   fMaxLimit   = 31;  
@@ -46,10 +46,11 @@ message Torque {
    double   fMulti      = 55;
 
    double   fMakeupDur  = 73;
-   int32	dwMakeupPnt = 74;
+   double   fBreakOutDur= 74;
    
-   fixed64  breakouttime 	= 81;
-   int32	dwBreakoutPnt	= 83;
-   double   fBreakoutDur 	= 82;
-   double	fBreakoutTorq	= 84;
+   int32	dwMUCount   = 81;
+   int32	dwBOCount   = 82;
+   int32    dwBOTotalPlus= 83;
+   fixed64  BOcoltime 	= 84;
+   double	fBOMaxTorq  = 85;
 }
