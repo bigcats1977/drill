@@ -27,7 +27,8 @@ message Torque {
    bytes    strMemo     = 22;
    bytes    strRemark   = 23;
    bool     bBreakOut   = 25;
-   int32    dwTorqUnit  = 27;    
+   int32    dwTorqUnit  = 27;  
+   bool     bSingleSTD  = 28;  
      
    double   fMaxLimit   = 31;  
    double   fControl    = 33;
@@ -51,6 +52,8 @@ message Torque {
    int32	dwMUCount   = 81;
    int32	dwBOCount   = 82;
    int32    dwBOTotalPlus= 83;
-   fixed64  BOcoltime 	= 84;
-   double	fBOMaxTorq  = 85;
+   int32    dwOutWellNO = 84;
+   fixed64  BOcoltime 	= 85;
+   double	fBOMaxTorq  = 86;
+   bytes    strBOJoint  = 87;
 }

@@ -21,6 +21,7 @@ void CDBTorqueCfg::Empty()
     _lsTurnID.clear();
     _lsFullRPM.clear();
     //_lsMinShlSlope.clear();
+    _lsSingleSTD.clear();
 
     _lsOptionID.clear();
     _lsComment.clear();
@@ -63,6 +64,8 @@ void CDBTorqueCfg::GetTable()
         _lsFullRPM.push_back(Value);
         //_Sqlite->GetValue(pResult[nIndex++], fVal);
         //_lsMinShlSlope.push_back(fVal);
+        _Sqlite->GetValue(pResult[nIndex++], Value);
+        _lsSingleSTD.push_back(Value);
 
         _Sqlite->GetValue(pResult[nIndex++], Content);
         _lsOptionID.push_back(Content);
@@ -96,6 +99,8 @@ bool CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID *ptID)
 
     ptCtrl->fFullRPM = _lsFullRPM[iOffset];
     //ptCtrl->fMinShlSlope = _lsMinShlSlope[iOffset];
+    ptCtrl->iSingleSTD = _lsSingleSTD[iOffset];
+
     ptID->strOptionID = _lsOptionID[iOffset];
     ptCfg->strMemo = _lsComment[iOffset];
 
@@ -135,6 +140,8 @@ int CDBTorqueCfg::UpdateParaByAlias(PARACFG* ptCfg, TORQCFGID* ptID)
     strValues.push_back(to_string(ptCfg->tCtrl.fFullRPM));
     //strFields.push_back("MinShlSlope");
     //strValues.push_back(to_string(ptCfg->tCtrl.fMinShlSlope));
+    strFields.push_back("SingleSTD");
+    strValues.push_back(to_string(ptCfg->tCtrl.iSingleSTD));
     strFields.push_back("OptionID");
     strValues.push_back(ptID->strOptionID);
     strFields.push_back("Comment");

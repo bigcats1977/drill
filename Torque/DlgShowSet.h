@@ -28,6 +28,8 @@ public:
     CColorRadio m_rdShowName[MAXPARANUM];
     int m_iShowStat;
     CColorRadio m_rdStatName[MAXPARANUM];
+    int m_iJointOD;
+    CColorRadio m_rdJointOD[MAXPARANUM];
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -50,8 +52,8 @@ protected:
     afx_msg void OnBnClickedRadioshowfile14();
     afx_msg void OnBnClickedRadioshowfile15();
     afx_msg void OnBnClickedRadioshowfile16();
-    afx_msg void OnBnClickedRadioshowfile17();
-    afx_msg void OnBnClickedRadioshowfile18();
+    //afx_msg void OnBnClickedRadioshowfile17();
+    //afx_msg void OnBnClickedRadioshowfile18();
     afx_msg void OnBnClickedRadioshowstat1();
     afx_msg void OnBnClickedRadioshowstat2();
     afx_msg void OnBnClickedRadioshowstat3();
@@ -68,8 +70,8 @@ protected:
     afx_msg void OnBnClickedRadioshowstat14();
     afx_msg void OnBnClickedRadioshowstat15();
     afx_msg void OnBnClickedRadioshowstat16();
-    afx_msg void OnBnClickedRadioshowstat17();
-    afx_msg void OnBnClickedRadioshowstat18();
+    //afx_msg void OnBnClickedRadioshowstat17();
+    //afx_msg void OnBnClickedRadioshowstat18();
     afx_msg void OnBnClickedChecklist1();
     afx_msg void OnBnClickedChecklist2();
     afx_msg void OnBnClickedChecklist3();
@@ -86,8 +88,8 @@ protected:
     afx_msg void OnBnClickedChecklist14();
     afx_msg void OnBnClickedChecklist15();
     afx_msg void OnBnClickedChecklist16();
-    afx_msg void OnBnClickedChecklist17();
-    afx_msg void OnBnClickedChecklist18();
+    //afx_msg void OnBnClickedChecklist17();
+    //afx_msg void OnBnClickedChecklist18();
     afx_msg void OnBnClickedCheckmain1();
     afx_msg void OnBnClickedCheckmain2();
     afx_msg void OnBnClickedCheckmain3();
@@ -104,8 +106,24 @@ protected:
     afx_msg void OnBnClickedCheckmain14();
     afx_msg void OnBnClickedCheckmain15();
     afx_msg void OnBnClickedCheckmain16();
-    afx_msg void OnBnClickedCheckmain17();
-    afx_msg void OnBnClickedCheckmain18();
+    //afx_msg void OnBnClickedCheckmain17();
+    //afx_msg void OnBnClickedCheckmain18();
+    afx_msg void OnBnClickedRadiojointod1();
+    afx_msg void OnBnClickedRadiojointod2();
+    afx_msg void OnBnClickedRadiojointod3();
+    afx_msg void OnBnClickedRadiojointod4();
+    afx_msg void OnBnClickedRadiojointod5();
+    afx_msg void OnBnClickedRadiojointod6();
+    afx_msg void OnBnClickedRadiojointod7();
+    afx_msg void OnBnClickedRadiojointod8();
+    afx_msg void OnBnClickedRadiojointod9();
+    afx_msg void OnBnClickedRadiojointod10();
+    afx_msg void OnBnClickedRadiojointod11();
+    afx_msg void OnBnClickedRadiojointod12();
+    afx_msg void OnBnClickedRadiojointod13();
+    afx_msg void OnBnClickedRadiojointod14();
+    afx_msg void OnBnClickedRadiojointod15();
+    afx_msg void OnBnClickedRadiojointod16();
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -113,6 +131,7 @@ private:
     COLORREF    m_clrChanged;
     int         m_iPriorShowCtrlID;
     int         m_iPriorStatCtrlID;
+    int         m_iPriorJointCtrlID;
     BOOL        m_bHisList[MAXPARANUM];
     BOOL        m_bHisMain[MAXPARANUM];
 
@@ -120,6 +139,8 @@ private:
     void        JudgeShowRadio(int iCtrlIdx);
     void        UpdateShowStat(int iCtrlIdx);
     void        JudgeStatRadio(int iCtrlIdx);
+    void        UpdateJointOD(int iCtrlIdx);
+    void        JudgeJointRadio(int iCtrlIdx);
     void        JudgeListCheck(int iCtrlIdx);
     void        JudgeMainCheck(int iCtrlIdx);
     BOOL        SaveShowCfgInotDB();

@@ -10,6 +10,7 @@
 #include "afxwin.h"
 #include "ColorComboBox.h"
 #include "NumEdit.h"
+#include "ColorRadio.h"
 //#include "TubeCfg.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -70,6 +71,9 @@ public:
     //CNumEdit    m_neMinShlSlope;
     //CNumEdit    m_neMaxDeltaCir;
     //CNumEdit    m_neMinDeltaCir;
+    int           m_iSingleSTD;       //µ¥¸ù/Á¢Öù 0/1
+    CColorRadio   m_rdSingle;
+    CColorRadio   m_rdStand;
     //}}AFX_DATA
 
 
@@ -111,6 +115,8 @@ protected:
     afx_msg void OnCbnSelchangeCbalias();
     afx_msg void OnCbnKillfocusCbalias();
     afx_msg void OnBnClickedDelalias();
+    afx_msg void OnBnClickedRadiosetsingle();
+    afx_msg void OnBnClickedRadiosetstand();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:

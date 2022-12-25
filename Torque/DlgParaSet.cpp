@@ -90,6 +90,9 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     //DDX_Control(pDX, IDC_EDITMINDELTACIR, m_neMinDeltaCir);
     DDX_Text(pDX, IDC_EDITMEMO, m_strMemo);
     DDX_Text(pDX, IDC_STATIC_M10, m_strLBM10);
+    DDX_Radio(pDX, IDC_RADIOSETSINGLE, m_iSingleSTD);
+    DDX_Control(pDX, IDC_RADIOSETSINGLE, m_rdSingle);
+    DDX_Control(pDX, IDC_RADIOSETSTAND, m_rdStand);
     DDX_Text(pDX, IDC_SHOWSET01, m_strSetShowName[0]);
     DDX_Text(pDX, IDC_SHOWSET02, m_strSetShowName[1]);
     DDX_Text(pDX, IDC_SHOWSET03, m_strSetShowName[2]);
@@ -106,8 +109,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_SHOWSET14, m_strSetShowName[13]);
     DDX_Text(pDX, IDC_SHOWSET15, m_strSetShowName[14]);
     DDX_Text(pDX, IDC_SHOWSET16, m_strSetShowName[15]);
-    DDX_Text(pDX, IDC_SHOWSET17, m_strSetShowName[16]);
-    DDX_Text(pDX, IDC_SHOWSET18, m_strSetShowName[17]);
+    //DDX_Text(pDX, IDC_SHOWSET17, m_strSetShowName[16]);
+    //DDX_Text(pDX, IDC_SHOWSET18, m_strSetShowName[17]);
     DDX_Text(pDX, IDC_CBPARA01, m_strSetShowOption[0]);
     DDX_Text(pDX, IDC_CBPARA02, m_strSetShowOption[1]);
     DDX_Text(pDX, IDC_CBPARA03, m_strSetShowOption[2]);
@@ -124,8 +127,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_CBPARA14, m_strSetShowOption[13]);
     DDX_Text(pDX, IDC_CBPARA15, m_strSetShowOption[14]);
     DDX_Text(pDX, IDC_CBPARA16, m_strSetShowOption[15]);
-    DDX_Text(pDX, IDC_CBPARA17, m_strSetShowOption[16]);
-    DDX_Text(pDX, IDC_CBPARA18, m_strSetShowOption[17]);
+  /*  DDX_Text(pDX, IDC_CBPARA17, m_strSetShowOption[16]);
+    DDX_Text(pDX, IDC_CBPARA18, m_strSetShowOption[17]);*/
     DDX_Control(pDX, IDC_CBPARA01, m_cbSetShowOption[0]);
     DDX_Control(pDX, IDC_CBPARA02, m_cbSetShowOption[1]);
     DDX_Control(pDX, IDC_CBPARA03, m_cbSetShowOption[2]);
@@ -142,8 +145,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CBPARA14, m_cbSetShowOption[13]);
     DDX_Control(pDX, IDC_CBPARA15, m_cbSetShowOption[14]);
     DDX_Control(pDX, IDC_CBPARA16, m_cbSetShowOption[15]);
-    DDX_Control(pDX, IDC_CBPARA17, m_cbSetShowOption[16]);
-    DDX_Control(pDX, IDC_CBPARA18, m_cbSetShowOption[17]);
+    /*DDX_Control(pDX, IDC_CBPARA17, m_cbSetShowOption[16]);
+    DDX_Control(pDX, IDC_CBPARA18, m_cbSetShowOption[17]);*/
     //}}AFX_DATA_MAP
 }
 
@@ -167,13 +170,15 @@ BEGIN_MESSAGE_MAP(CDlgParaSet, CDialog)
     ON_CBN_KILLFOCUS(IDC_CBPARA14, &CDlgParaSet::OnCbnKillfocusCbpara14)
     ON_CBN_KILLFOCUS(IDC_CBPARA15, &CDlgParaSet::OnCbnKillfocusCbpara15)
     ON_CBN_KILLFOCUS(IDC_CBPARA16, &CDlgParaSet::OnCbnKillfocusCbpara16)
-    ON_CBN_KILLFOCUS(IDC_CBPARA17, &CDlgParaSet::OnCbnKillfocusCbpara17)
-    ON_CBN_KILLFOCUS(IDC_CBPARA18, &CDlgParaSet::OnCbnKillfocusCbpara18)
+ /*   ON_CBN_KILLFOCUS(IDC_CBPARA17, &CDlgParaSet::OnCbnKillfocusCbpara17)
+    ON_CBN_KILLFOCUS(IDC_CBPARA18, &CDlgParaSet::OnCbnKillfocusCbpara18)*/
     ON_EN_KILLFOCUS(IDC_EDITOPTTORQ, &CDlgParaSet::OnKillfocusEditopttorq)
     ON_EN_KILLFOCUS(IDC_EDITMAXCIR, &CDlgParaSet::OnEnKillfocusEditmaxcir)
     ON_CBN_SELCHANGE(IDC_CBALIAS, &CDlgParaSet::OnCbnSelchangeCbalias)
     ON_CBN_KILLFOCUS(IDC_CBALIAS, &CDlgParaSet::OnCbnKillfocusCbalias)
     ON_BN_CLICKED(IDC_DELALIAS, &CDlgParaSet::OnBnClickedDelalias)
+    ON_BN_CLICKED(IDC_RADIOSETSINGLE, &CDlgParaSet::OnBnClickedRadiosetsingle)
+    ON_BN_CLICKED(IDC_RADIOSETSTAND, &CDlgParaSet::OnBnClickedRadiosetstand)
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -234,6 +239,7 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
     m_fMaxRPM = ptCtrl->fFullRPM;
     m_strMemo = ptCfg->strMemo.c_str();
     m_strParaAlias = ptCfg->strAlias.c_str();
+    m_iSingleSTD = ptCtrl->iSingleSTD;
     
     lsShowIndex = theDB.ReadCurOptionIndex();
 
@@ -360,6 +366,7 @@ BOOL CDlgParaSet::GetParaValue(PARACFG *ptCfg)
     ptCtrl->fFullRPM      = m_fMaxRPM;
 
     //ptCtrl->fMinShlSlope = m_fMinShlSlope;
+    ptCtrl->iSingleSTD = m_iSingleSTD;
     ptCfg->strMemo = m_strMemo.GetBuffer(0);
     //lstrcpyn(ptComm->aucMemo, m_strMemo, MAXMEMOLEN);
 
@@ -531,14 +538,14 @@ void CDlgParaSet::OnCbnKillfocusCbpara16()
 {
     JudgeShowParaChanged(15);
 }
-void CDlgParaSet::OnCbnKillfocusCbpara17()
-{
-    JudgeShowParaChanged(16);
-}
-void CDlgParaSet::OnCbnKillfocusCbpara18()
-{
-    JudgeShowParaChanged(17);
-}
+//void CDlgParaSet::OnCbnKillfocusCbpara17()
+//{
+//    JudgeShowParaChanged(16);
+//}
+//void CDlgParaSet::OnCbnKillfocusCbpara18()
+//{
+//    JudgeShowParaChanged(17);
+//}
 
 /* 20210419 最大，最小是最佳的1.1    0.9倍，满屏是1.3倍，修改最佳扭矩后默认值 */
 void CDlgParaSet::OnKillfocusEditopttorq()
@@ -648,4 +655,29 @@ void CDlgParaSet::OnBnClickedDelalias()
 
     strInfo = theApp.LoadstringFromRes(IDS_STRINFDELETEALIAS, strAlias.GetBuffer(0));
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONEXCLAMATION);
+}
+
+
+void CDlgParaSet::OnBnClickedRadiosetsingle()
+{
+    COLORREF    clrCtrl = m_clrNormal;
+    if (0 != theApp.m_tParaCfg.tCtrl.iSingleSTD)
+    {
+        clrCtrl = m_clrChanged;
+    }
+
+    m_rdSingle.SetForeColor(clrCtrl);
+    m_rdSingle.Invalidate();
+}
+
+void CDlgParaSet::OnBnClickedRadiosetstand()
+{
+    COLORREF    clrCtrl = m_clrNormal;
+    if (1 != theApp.m_tParaCfg.tCtrl.iSingleSTD)
+    {
+        clrCtrl = m_clrChanged;
+    }
+
+    m_rdStand.SetForeColor(clrCtrl);
+    m_rdStand.Invalidate();
 }

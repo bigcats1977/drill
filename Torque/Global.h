@@ -490,7 +490,7 @@ using namespace std;
 //#define       HALFPARALEN             25
 //#define       MAXPARALEN              50
 
-#define         MAXPARANUM              18  /* 钻杆6+油田3+勘探公司6+其他3  */
+#define         MAXPARANUM              16  /* 钻杆6+油田3+勘探公司6+其他3  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
 #define         MAXOPTIONNUM            50
 //#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
@@ -641,6 +641,7 @@ typedef struct tagCONTROLPARA
     /* 满屏转速 */
     double      fFullRPM;       /* 画图上的最大转速 */
     //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
+    int         iSingleSTD;     /* 单根立柱 */
 
     //WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
     BYTE        ucVer;        /* 0: 2017年数据结构
@@ -799,6 +800,7 @@ typedef struct tagSHOWCFG
     UINT        nMainNum;               /* 当前主界面显示参数个数 */
     UINT        nFileName;              /* 命名数据文件的参数，是各个参数中的一个 */
     UINT        nStatType;              /* 统计参数，是各个参数中的一个 */
+    UINT        nJointOD;               /* 接头外径，入井/出井参数值可以不一样，需要取两次 */
     UINT        nShow[MAXPARANUM];      /* strShow字符串对应存储的index号 */
     UINT        nList[MAXPARANUM];      /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
     UINT        nMain[MAXMAINPARA];     /* strShow的序号，从0开始，根据序号从strShow活动显示值 */

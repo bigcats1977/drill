@@ -9,6 +9,7 @@ public:
     vector<int> _lsMainNum;
     vector<int> _lsFileName;
     vector<int> _lsStatType;
+    vector<int> _lsJointOD;
     vector<int> _lsAliasID;
 
     vector<string> _lsShowPara;

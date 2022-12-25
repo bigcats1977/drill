@@ -199,6 +199,7 @@ bool CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
     ptShow->nMainNum = m_tDBShowCfg._lsMainNum[nLang];
     ptShow->nFileName = m_tDBShowCfg._lsFileName[nLang];
     ptShow->nStatType = m_tDBShowCfg._lsStatType[nLang];
+    ptShow->nJointOD = m_tDBShowCfg._lsJointOD[nLang];
     ptShow->nAlias = m_tDBShowCfg._lsAliasID[nLang];
 
     // Show Paras Name

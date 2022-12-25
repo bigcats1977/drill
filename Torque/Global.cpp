@@ -29,11 +29,12 @@ const SHOWPARANAME g_tNameInfo[MAXPARANUM] = {
     /* 10 */    {"司钻",           "Driller"   },
     /* 11 */    {"操作工",          "TRS OP."   },
     /* 12 */    {"钻杆钳",          "DPTong"    },
-    /* 13 */    {"丝扣油",          "ThreadDope"},
-    /* 14 */    {"单根立柱",        "SGLStands" },
-    /* 15 */    {"入井序号",        "TallyNO"   },
-    /* 16 */    {"当前井深",        "Depth"     },
-    /* 17 */    {"保留",            "Reserve"  },
+    /* 13 */    {"入井序号",        "TallyNO"   },
+    /* 14 */    {"当前井深",        "Depth"     },
+    /* 15 */    {"保留",            "Reserve"  },
+    ///* 13 */    {"丝扣油",          "ThreadDope"},
+    ///* 14 */    {"单根立柱",        "SGLStands" },
+    ///* 17 */    {"保留",            "Reserve"  },
 };
 
 const UINT g_nMainNameNO[MAXMAINPARA] = { 0,1,2,3,6,7,10,15 };

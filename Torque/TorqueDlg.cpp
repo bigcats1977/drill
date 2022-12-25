@@ -1993,6 +1993,7 @@ void CTorqueDlg::SetTorqDataCfg(TorqData::Torque *ptPBData)
     ptPBData->set_fcut(g_tGlbCfg.fDiscount);
     ptPBData->set_frpmadj(g_tGlbCfg.fRpmAdj);
     ptPBData->set_fmulti(g_tGlbCfg.fMulti);
+    ptPBData->set_bsinglestd(m_ptCtrl->iSingleSTD != 0);
 }
 
 /*扭矩控制完成，LastPoint设置为TRUE，判断控制质量并存盘*/
@@ -4275,6 +4276,10 @@ void CTorqueDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
     ptMakeData->set_fbreakoutdur(_difftime64(curTime, m_tStartTime));
     ptMakeData->set_fbomaxtorq(m_ptComm->fMaxTorq);
     ptMakeData->set_dwbocount(ptPBData->dwmucount());
+
+    ptMakeData->set_dwoutwellno(g_tReadData.nBreakout + 1);
+    ptMakeData->set_strbojoint(m_ptCfg->strValue[m_ptShow->nJointOD]);
+
     for (int i = 0; i < ptPBData->ftorque_size(); i++)
     {
         ptMakeData->add_ftorque(ptPBData->ftorque(i));

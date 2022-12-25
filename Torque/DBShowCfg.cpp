@@ -20,6 +20,7 @@ void CDBShowCfg::Empty()
     _lsMainNum.clear();
     _lsFileName.clear();
     _lsStatType.clear();
+    _lsJointOD.clear();
     _lsAliasID.clear();
 
     _lsShowPara.clear();
@@ -61,6 +62,8 @@ void CDBShowCfg::GetTable()
         _lsFileName.push_back(Value);
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsStatType.push_back(Value);
+        _Sqlite->GetValue(pResult[nIndex++], Value);
+        _lsJointOD.push_back(Value);
 
         if (!_Sqlite->GetValue(pResult[nIndex++], Value))
             Value = 0;
@@ -99,6 +102,8 @@ bool CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
     values.push_back(to_string(ptShow->nFileName));
     fields.push_back("StatType");
     values.push_back(to_string(ptShow->nStatType));
+    fields.push_back("JointOD");
+    values.push_back(to_string(ptShow->nJointOD));
 
     fields.push_back("AliasID");
     if(ptShow->nAlias == 0)

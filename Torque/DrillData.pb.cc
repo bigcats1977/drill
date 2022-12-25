@@ -45,6 +45,7 @@ PROTOBUF_CONSTEXPR Torque::Torque(
   , /*decltype(_impl_.llcoltime_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.strmemo_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.strremark_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.strbojoint_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.coltime_)*/uint64_t{0u}
   , /*decltype(_impl_.dwseqno_)*/0
   , /*decltype(_impl_.dwquality_)*/0
@@ -54,6 +55,7 @@ PROTOBUF_CONSTEXPR Torque::Torque(
   , /*decltype(_impl_.dwver_)*/0
   , /*decltype(_impl_.btoolbuck_)*/false
   , /*decltype(_impl_.bbreakout_)*/false
+  , /*decltype(_impl_.bsinglestd_)*/false
   , /*decltype(_impl_.fmaxlimit_)*/0
   , /*decltype(_impl_.fcontrol_)*/0
   , /*decltype(_impl_.fshow_)*/0
@@ -75,6 +77,7 @@ PROTOBUF_CONSTEXPR Torque::Torque(
   , /*decltype(_impl_.dwbototalplus_)*/0
   , /*decltype(_impl_.bocoltime_)*/uint64_t{0u}
   , /*decltype(_impl_.fbomaxtorq_)*/0
+  , /*decltype(_impl_.dwoutwellno_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct TorqueDefaultTypeInternal {
   PROTOBUF_CONSTEXPR TorqueDefaultTypeInternal()
@@ -122,6 +125,7 @@ const uint32_t TableStruct_DrillData_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.strremark_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.bbreakout_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwtorqunit_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.bsinglestd_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fmaxlimit_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fcontrol_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fshow_),
@@ -140,8 +144,10 @@ const uint32_t TableStruct_DrillData_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwmucount_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwbocount_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwbototalplus_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.dwoutwellno_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.bocoltime_),
   PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.fbomaxtorq_),
+  PROTOBUF_FIELD_OFFSET(::TorqData::Torque, _impl_.strbojoint_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::TorqData::ShowInfo)},
@@ -155,7 +161,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_DrillData_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\017DrillData.proto\022\010TorqData\"-\n\010ShowInfo\022"
-  "\020\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\310\005\n\006T"
+  "\020\n\010strValue\030\002 \001(\014\022\017\n\007strName\030\003 \001(\014\"\205\006\n\006T"
   "orque\022\017\n\007coltime\030\001 \001(\006\022\017\n\007dwSeqNo\030\002 \001(\005\022"
   "\021\n\tdwQuality\030\003 \001(\005\022\020\n\010fMaxTorq\030\005 \001(\001\022\023\n\007"
   "fTorque\030\006 \003(\001B\002\020\001\022\020\n\004fRpm\030\007 \003(\001B\002\020\001\022!\n\005t"
@@ -164,20 +170,22 @@ const char descriptor_table_protodef_DrillData_2eproto[] PROTOBUF_SECTION_VARIAB
   "ColInter\030\016 \001(\005\022\021\n\tllColTime\030\017 \001(\014\022\r\n\005dwV"
   "er\030\020 \001(\005\022\021\n\tbToolBuck\030\025 \001(\010\022\017\n\007strMemo\030\026"
   " \001(\014\022\021\n\tstrRemark\030\027 \001(\014\022\021\n\tbBreakOut\030\031 \001"
-  "(\010\022\022\n\ndwTorqUnit\030\033 \001(\005\022\021\n\tfMaxLimit\030\037 \001("
-  "\001\022\020\n\010fControl\030! \001(\001\022\r\n\005fShow\030$ \001(\001\022\020\n\010fO"
-  "ptTorq\030( \001(\001\022\017\n\007fMaxCir\030) \001(\001\022\021\n\tfUpperC"
-  "ir\030* \001(\001\022\023\n\013fControlCir\030+ \001(\001\022\021\n\tfLowerC"
-  "ir\030, \001(\001\022\r\n\005fPlus\0303 \001(\001\022\017\n\007fMaxRPM\0304 \001(\001"
-  "\022\014\n\004fCut\0305 \001(\001\022\017\n\007fRpmAdj\0306 \001(\001\022\016\n\006fMult"
-  "i\0307 \001(\001\022\022\n\nfMakeupDur\030I \001(\001\022\024\n\014fBreakOut"
-  "Dur\030J \001(\001\022\021\n\tdwMUCount\030Q \001(\005\022\021\n\tdwBOCoun"
-  "t\030R \001(\005\022\025\n\rdwBOTotalPlus\030S \001(\005\022\021\n\tBOcolt"
-  "ime\030T \001(\006\022\022\n\nfBOMaxTorq\030U \001(\001b\006proto3"
+  "(\010\022\022\n\ndwTorqUnit\030\033 \001(\005\022\022\n\nbSingleSTD\030\034 \001"
+  "(\010\022\021\n\tfMaxLimit\030\037 \001(\001\022\020\n\010fControl\030! \001(\001\022"
+  "\r\n\005fShow\030$ \001(\001\022\020\n\010fOptTorq\030( \001(\001\022\017\n\007fMax"
+  "Cir\030) \001(\001\022\021\n\tfUpperCir\030* \001(\001\022\023\n\013fControl"
+  "Cir\030+ \001(\001\022\021\n\tfLowerCir\030, \001(\001\022\r\n\005fPlus\0303 "
+  "\001(\001\022\017\n\007fMaxRPM\0304 \001(\001\022\014\n\004fCut\0305 \001(\001\022\017\n\007fR"
+  "pmAdj\0306 \001(\001\022\016\n\006fMulti\0307 \001(\001\022\022\n\nfMakeupDu"
+  "r\030I \001(\001\022\024\n\014fBreakOutDur\030J \001(\001\022\021\n\tdwMUCou"
+  "nt\030Q \001(\005\022\021\n\tdwBOCount\030R \001(\005\022\025\n\rdwBOTotal"
+  "Plus\030S \001(\005\022\023\n\013dwOutWellNO\030T \001(\005\022\021\n\tBOcol"
+  "time\030U \001(\006\022\022\n\nfBOMaxTorq\030V \001(\001\022\022\n\nstrBOJ"
+  "oint\030W \001(\014b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_DrillData_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_DrillData_2eproto = {
-    false, false, 797, descriptor_table_protodef_DrillData_2eproto,
+    false, false, 858, descriptor_table_protodef_DrillData_2eproto,
     "DrillData.proto",
     &descriptor_table_DrillData_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_DrillData_2eproto::offsets,
@@ -459,6 +467,7 @@ Torque::Torque(const Torque& from)
     , decltype(_impl_.llcoltime_){}
     , decltype(_impl_.strmemo_){}
     , decltype(_impl_.strremark_){}
+    , decltype(_impl_.strbojoint_){}
     , decltype(_impl_.coltime_){}
     , decltype(_impl_.dwseqno_){}
     , decltype(_impl_.dwquality_){}
@@ -468,6 +477,7 @@ Torque::Torque(const Torque& from)
     , decltype(_impl_.dwver_){}
     , decltype(_impl_.btoolbuck_){}
     , decltype(_impl_.bbreakout_){}
+    , decltype(_impl_.bsinglestd_){}
     , decltype(_impl_.fmaxlimit_){}
     , decltype(_impl_.fcontrol_){}
     , decltype(_impl_.fshow_){}
@@ -489,6 +499,7 @@ Torque::Torque(const Torque& from)
     , decltype(_impl_.dwbototalplus_){}
     , decltype(_impl_.bocoltime_){}
     , decltype(_impl_.fbomaxtorq_){}
+    , decltype(_impl_.dwoutwellno_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -516,9 +527,17 @@ Torque::Torque(const Torque& from)
     _this->_impl_.strremark_.Set(from._internal_strremark(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.strbojoint_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strbojoint_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_strbojoint().empty()) {
+    _this->_impl_.strbojoint_.Set(from._internal_strbojoint(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.coltime_, &from._impl_.coltime_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.fbomaxtorq_) -
-    reinterpret_cast<char*>(&_impl_.coltime_)) + sizeof(_impl_.fbomaxtorq_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.dwoutwellno_) -
+    reinterpret_cast<char*>(&_impl_.coltime_)) + sizeof(_impl_.dwoutwellno_));
   // @@protoc_insertion_point(copy_constructor:TorqData.Torque)
 }
 
@@ -535,6 +554,7 @@ inline void Torque::SharedCtor(
     , decltype(_impl_.llcoltime_){}
     , decltype(_impl_.strmemo_){}
     , decltype(_impl_.strremark_){}
+    , decltype(_impl_.strbojoint_){}
     , decltype(_impl_.coltime_){uint64_t{0u}}
     , decltype(_impl_.dwseqno_){0}
     , decltype(_impl_.dwquality_){0}
@@ -544,6 +564,7 @@ inline void Torque::SharedCtor(
     , decltype(_impl_.dwver_){0}
     , decltype(_impl_.btoolbuck_){false}
     , decltype(_impl_.bbreakout_){false}
+    , decltype(_impl_.bsinglestd_){false}
     , decltype(_impl_.fmaxlimit_){0}
     , decltype(_impl_.fcontrol_){0}
     , decltype(_impl_.fshow_){0}
@@ -565,6 +586,7 @@ inline void Torque::SharedCtor(
     , decltype(_impl_.dwbototalplus_){0}
     , decltype(_impl_.bocoltime_){uint64_t{0u}}
     , decltype(_impl_.fbomaxtorq_){0}
+    , decltype(_impl_.dwoutwellno_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.llcoltime_.InitDefault();
@@ -578,6 +600,10 @@ inline void Torque::SharedCtor(
   _impl_.strremark_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.strremark_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.strbojoint_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.strbojoint_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -599,6 +625,7 @@ inline void Torque::SharedDtor() {
   _impl_.llcoltime_.Destroy();
   _impl_.strmemo_.Destroy();
   _impl_.strremark_.Destroy();
+  _impl_.strbojoint_.Destroy();
 }
 
 void Torque::SetCachedSize(int size) const {
@@ -618,9 +645,10 @@ void Torque::Clear() {
   _impl_.llcoltime_.ClearToEmpty();
   _impl_.strmemo_.ClearToEmpty();
   _impl_.strremark_.ClearToEmpty();
+  _impl_.strbojoint_.ClearToEmpty();
   ::memset(&_impl_.coltime_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.fbomaxtorq_) -
-      reinterpret_cast<char*>(&_impl_.coltime_)) + sizeof(_impl_.fbomaxtorq_));
+      reinterpret_cast<char*>(&_impl_.dwoutwellno_) -
+      reinterpret_cast<char*>(&_impl_.coltime_)) + sizeof(_impl_.dwoutwellno_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -783,6 +811,14 @@ const char* Torque::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
+      // bool bSingleSTD = 28;
+      case 28:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 224)) {
+          _impl_.bsinglestd_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       // double fMaxLimit = 31;
       case 31:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 249)) {
@@ -927,19 +963,36 @@ const char* Torque::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // fixed64 BOcoltime = 84;
+      // int32 dwOutWellNO = 84;
       case 84:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 161)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 160)) {
+          _impl_.dwoutwellno_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // fixed64 BOcoltime = 85;
+      case 85:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 169)) {
           _impl_.bocoltime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<uint64_t>(ptr);
           ptr += sizeof(uint64_t);
         } else
           goto handle_unusual;
         continue;
-      // double fBOMaxTorq = 85;
-      case 85:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 169)) {
+      // double fBOMaxTorq = 86;
+      case 86:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 177)) {
           _impl_.fbomaxtorq_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
           ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // bytes strBOJoint = 87;
+      case 87:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 186)) {
+          auto str = _internal_mutable_strbojoint();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1079,6 +1132,12 @@ uint8_t* Torque::_InternalSerialize(
   if (this->_internal_dwtorqunit() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(27, this->_internal_dwtorqunit(), target);
+  }
+
+  // bool bSingleSTD = 28;
+  if (this->_internal_bsinglestd() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(28, this->_internal_bsinglestd(), target);
   }
 
   // double fMaxLimit = 31;
@@ -1249,20 +1308,32 @@ uint8_t* Torque::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(83, this->_internal_dwbototalplus(), target);
   }
 
-  // fixed64 BOcoltime = 84;
-  if (this->_internal_bocoltime() != 0) {
+  // int32 dwOutWellNO = 84;
+  if (this->_internal_dwoutwellno() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFixed64ToArray(84, this->_internal_bocoltime(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(84, this->_internal_dwoutwellno(), target);
   }
 
-  // double fBOMaxTorq = 85;
+  // fixed64 BOcoltime = 85;
+  if (this->_internal_bocoltime() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFixed64ToArray(85, this->_internal_bocoltime(), target);
+  }
+
+  // double fBOMaxTorq = 86;
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fbomaxtorq = this->_internal_fbomaxtorq();
   uint64_t raw_fbomaxtorq;
   memcpy(&raw_fbomaxtorq, &tmp_fbomaxtorq, sizeof(tmp_fbomaxtorq));
   if (raw_fbomaxtorq != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteDoubleToArray(85, this->_internal_fbomaxtorq(), target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(86, this->_internal_fbomaxtorq(), target);
+  }
+
+  // bytes strBOJoint = 87;
+  if (!this->_internal_strbojoint().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        87, this->_internal_strbojoint(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1345,6 +1416,13 @@ size_t Torque::ByteSizeLong() const {
         this->_internal_strremark());
   }
 
+  // bytes strBOJoint = 87;
+  if (!this->_internal_strbojoint().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_strbojoint());
+  }
+
   // fixed64 coltime = 1;
   if (this->_internal_coltime() != 0) {
     total_size += 1 + 8;
@@ -1393,6 +1471,11 @@ size_t Torque::ByteSizeLong() const {
 
   // bool bBreakOut = 25;
   if (this->_internal_bbreakout() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // bool bSingleSTD = 28;
+  if (this->_internal_bsinglestd() != 0) {
     total_size += 2 + 1;
   }
 
@@ -1559,18 +1642,25 @@ size_t Torque::ByteSizeLong() const {
         this->_internal_dwbototalplus());
   }
 
-  // fixed64 BOcoltime = 84;
+  // fixed64 BOcoltime = 85;
   if (this->_internal_bocoltime() != 0) {
     total_size += 2 + 8;
   }
 
-  // double fBOMaxTorq = 85;
+  // double fBOMaxTorq = 86;
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fbomaxtorq = this->_internal_fbomaxtorq();
   uint64_t raw_fbomaxtorq;
   memcpy(&raw_fbomaxtorq, &tmp_fbomaxtorq, sizeof(tmp_fbomaxtorq));
   if (raw_fbomaxtorq != 0) {
     total_size += 2 + 8;
+  }
+
+  // int32 dwOutWellNO = 84;
+  if (this->_internal_dwoutwellno() != 0) {
+    total_size += 2 +
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_dwoutwellno());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1604,6 +1694,9 @@ void Torque::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (!from._internal_strremark().empty()) {
     _this->_internal_set_strremark(from._internal_strremark());
   }
+  if (!from._internal_strbojoint().empty()) {
+    _this->_internal_set_strbojoint(from._internal_strbojoint());
+  }
   if (from._internal_coltime() != 0) {
     _this->_internal_set_coltime(from._internal_coltime());
   }
@@ -1634,6 +1727,9 @@ void Torque::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   }
   if (from._internal_bbreakout() != 0) {
     _this->_internal_set_bbreakout(from._internal_bbreakout());
+  }
+  if (from._internal_bsinglestd() != 0) {
+    _this->_internal_set_bsinglestd(from._internal_bsinglestd());
   }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_fmaxlimit = from._internal_fmaxlimit();
@@ -1762,6 +1858,9 @@ void Torque::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (raw_fbomaxtorq != 0) {
     _this->_internal_set_fbomaxtorq(from._internal_fbomaxtorq());
   }
+  if (from._internal_dwoutwellno() != 0) {
+    _this->_internal_set_dwoutwellno(from._internal_dwoutwellno());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1797,9 +1896,13 @@ void Torque::InternalSwap(Torque* other) {
       &_impl_.strremark_, lhs_arena,
       &other->_impl_.strremark_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.strbojoint_, lhs_arena,
+      &other->_impl_.strbojoint_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Torque, _impl_.fbomaxtorq_)
-      + sizeof(Torque::_impl_.fbomaxtorq_)
+      PROTOBUF_FIELD_OFFSET(Torque, _impl_.dwoutwellno_)
+      + sizeof(Torque::_impl_.dwoutwellno_)
       - PROTOBUF_FIELD_OFFSET(Torque, _impl_.coltime_)>(
           reinterpret_cast<char*>(&_impl_.coltime_),
           reinterpret_cast<char*>(&other->_impl_.coltime_));

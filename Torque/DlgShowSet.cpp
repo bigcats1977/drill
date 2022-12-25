@@ -39,8 +39,8 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDSHOWNAME14, m_strShowName[13]);
     DDX_Text(pDX, IDC_EDSHOWNAME15, m_strShowName[14]);
     DDX_Text(pDX, IDC_EDSHOWNAME16, m_strShowName[15]);
-    DDX_Text(pDX, IDC_EDSHOWNAME17, m_strShowName[16]);
-    DDX_Text(pDX, IDC_EDSHOWNAME18, m_strShowName[17]);
+    //DDX_Text(pDX, IDC_EDSHOWNAME17, m_strShowName[16]);
+    //DDX_Text(pDX, IDC_EDSHOWNAME18, m_strShowName[17]);
     DDX_Check(pDX, IDC_CHECKLIST1, m_bList[0]);
     DDX_Check(pDX, IDC_CHECKLIST2, m_bList[1]);
     DDX_Check(pDX, IDC_CHECKLIST3, m_bList[2]);
@@ -57,8 +57,8 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKLIST14, m_bList[13]);
     DDX_Check(pDX, IDC_CHECKLIST15, m_bList[14]);
     DDX_Check(pDX, IDC_CHECKLIST16, m_bList[15]);
-    DDX_Check(pDX, IDC_CHECKLIST17, m_bList[16]);
-    DDX_Check(pDX, IDC_CHECKLIST18, m_bList[17]);
+    //DDX_Check(pDX, IDC_CHECKLIST17, m_bList[16]);
+    //DDX_Check(pDX, IDC_CHECKLIST18, m_bList[17]);
     DDX_Check(pDX, IDC_CHECKMAIN1, m_bMain[0]);
     DDX_Check(pDX, IDC_CHECKMAIN2, m_bMain[1]);
     DDX_Check(pDX, IDC_CHECKMAIN3, m_bMain[2]);
@@ -75,10 +75,11 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKMAIN14, m_bMain[13]);
     DDX_Check(pDX, IDC_CHECKMAIN15, m_bMain[14]);
     DDX_Check(pDX, IDC_CHECKMAIN16, m_bMain[15]);
-    DDX_Check(pDX, IDC_CHECKMAIN17, m_bMain[16]);
-    DDX_Check(pDX, IDC_CHECKMAIN18, m_bMain[17]);
+    //DDX_Check(pDX, IDC_CHECKMAIN17, m_bMain[16]);
+    //DDX_Check(pDX, IDC_CHECKMAIN18, m_bMain[17]);
     DDX_Radio(pDX, IDC_RADIOSHOWFILE1, m_iFileName);
     DDX_Radio(pDX, IDC_RADIOSHOWSTAT1, m_iShowStat);
+    DDX_Radio(pDX, IDC_RADIOJOINTOD1, m_iJointOD);
     DDX_Control(pDX, IDC_RADIOSHOWFILE1, m_rdShowName[0]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE2, m_rdShowName[1]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE3, m_rdShowName[2]);
@@ -95,8 +96,8 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOSHOWFILE14, m_rdShowName[13]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE15, m_rdShowName[14]);
     DDX_Control(pDX, IDC_RADIOSHOWFILE16, m_rdShowName[15]);
-    DDX_Control(pDX, IDC_RADIOSHOWFILE17, m_rdShowName[16]);
-    DDX_Control(pDX, IDC_RADIOSHOWFILE18, m_rdShowName[17]);
+    //DDX_Control(pDX, IDC_RADIOSHOWFILE17, m_rdShowName[16]);
+    //DDX_Control(pDX, IDC_RADIOSHOWFILE18, m_rdShowName[17]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT1, m_rdStatName[0]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT2, m_rdStatName[1]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT3, m_rdStatName[2]);
@@ -113,8 +114,24 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOSHOWSTAT14, m_rdStatName[13]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT15, m_rdStatName[14]);
     DDX_Control(pDX, IDC_RADIOSHOWSTAT16, m_rdStatName[15]);
-    DDX_Control(pDX, IDC_RADIOSHOWSTAT17, m_rdStatName[16]);
-    DDX_Control(pDX, IDC_RADIOSHOWSTAT18, m_rdStatName[17]);
+    //DDX_Control(pDX, IDC_RADIOSHOWSTAT17, m_rdStatName[16]);
+    //DDX_Control(pDX, IDC_RADIOSHOWSTAT18, m_rdStatName[17]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD1, m_rdJointOD[0]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD2, m_rdJointOD[1]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD3, m_rdJointOD[2]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD4, m_rdJointOD[3]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD5, m_rdJointOD[4]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD6, m_rdJointOD[5]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD7, m_rdJointOD[6]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD8, m_rdJointOD[7]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD9, m_rdJointOD[8]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD10, m_rdJointOD[9]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD11, m_rdJointOD[10]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD12, m_rdJointOD[11]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD13, m_rdJointOD[12]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD14, m_rdJointOD[13]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD15, m_rdJointOD[14]);
+    DDX_Control(pDX, IDC_RADIOJOINTOD16, m_rdJointOD[15]);
     DDX_Control(pDX, IDC_CHECKLIST1, m_clListName[0]);
     DDX_Control(pDX, IDC_CHECKLIST2, m_clListName[1]);
     DDX_Control(pDX, IDC_CHECKLIST3, m_clListName[2]);
@@ -131,8 +148,8 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKLIST14, m_clListName[13]);
     DDX_Control(pDX, IDC_CHECKLIST15, m_clListName[14]);
     DDX_Control(pDX, IDC_CHECKLIST16, m_clListName[15]);
-    DDX_Control(pDX, IDC_CHECKLIST17, m_clListName[16]);
-    DDX_Control(pDX, IDC_CHECKLIST18, m_clListName[17]);
+    //DDX_Control(pDX, IDC_CHECKLIST17, m_clListName[16]);
+    //DDX_Control(pDX, IDC_CHECKLIST18, m_clListName[17]);
     DDX_Control(pDX, IDC_CHECKMAIN1, m_clMainName[0]);
     DDX_Control(pDX, IDC_CHECKMAIN2, m_clMainName[1]);
     DDX_Control(pDX, IDC_CHECKMAIN3, m_clMainName[2]);
@@ -149,8 +166,8 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKMAIN14, m_clMainName[13]);
     DDX_Control(pDX, IDC_CHECKMAIN15, m_clMainName[14]);
     DDX_Control(pDX, IDC_CHECKMAIN16, m_clMainName[15]);
-    DDX_Control(pDX, IDC_CHECKMAIN17, m_clMainName[16]);
-    DDX_Control(pDX, IDC_CHECKMAIN18, m_clMainName[17]);
+    //DDX_Control(pDX, IDC_CHECKMAIN17, m_clMainName[16]);
+    //DDX_Control(pDX, IDC_CHECKMAIN18, m_clMainName[17]);
 }
 
 BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
@@ -171,8 +188,8 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE14, &CDlgShowSet::OnBnClickedRadioshowfile14)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE15, &CDlgShowSet::OnBnClickedRadioshowfile15)
     ON_BN_CLICKED(IDC_RADIOSHOWFILE16, &CDlgShowSet::OnBnClickedRadioshowfile16)
-    ON_BN_CLICKED(IDC_RADIOSHOWFILE17, &CDlgShowSet::OnBnClickedRadioshowfile17)
-    ON_BN_CLICKED(IDC_RADIOSHOWFILE18, &CDlgShowSet::OnBnClickedRadioshowfile18)
+    //ON_BN_CLICKED(IDC_RADIOSHOWFILE17, &CDlgShowSet::OnBnClickedRadioshowfile17)
+    //ON_BN_CLICKED(IDC_RADIOSHOWFILE18, &CDlgShowSet::OnBnClickedRadioshowfile18)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT1, &CDlgShowSet::OnBnClickedRadioshowstat1)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT2, &CDlgShowSet::OnBnClickedRadioshowstat2)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT3, &CDlgShowSet::OnBnClickedRadioshowstat3)
@@ -189,8 +206,8 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT14, &CDlgShowSet::OnBnClickedRadioshowstat14)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT15, &CDlgShowSet::OnBnClickedRadioshowstat15)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT16, &CDlgShowSet::OnBnClickedRadioshowstat16)
-    ON_BN_CLICKED(IDC_RADIOSHOWSTAT17, &CDlgShowSet::OnBnClickedRadioshowstat17)
-    ON_BN_CLICKED(IDC_RADIOSHOWSTAT18, &CDlgShowSet::OnBnClickedRadioshowstat18)
+    //ON_BN_CLICKED(IDC_RADIOSHOWSTAT17, &CDlgShowSet::OnBnClickedRadioshowstat17)
+    //ON_BN_CLICKED(IDC_RADIOSHOWSTAT18, &CDlgShowSet::OnBnClickedRadioshowstat18)
     ON_BN_CLICKED(IDC_CHECKLIST1, &CDlgShowSet::OnBnClickedChecklist1)
     ON_BN_CLICKED(IDC_CHECKLIST2, &CDlgShowSet::OnBnClickedChecklist2)
     ON_BN_CLICKED(IDC_CHECKLIST3, &CDlgShowSet::OnBnClickedChecklist3)
@@ -207,8 +224,8 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_CHECKLIST14, &CDlgShowSet::OnBnClickedChecklist14)
     ON_BN_CLICKED(IDC_CHECKLIST15, &CDlgShowSet::OnBnClickedChecklist15)
     ON_BN_CLICKED(IDC_CHECKLIST16, &CDlgShowSet::OnBnClickedChecklist16)
-    ON_BN_CLICKED(IDC_CHECKLIST17, &CDlgShowSet::OnBnClickedChecklist17)
-    ON_BN_CLICKED(IDC_CHECKLIST18, &CDlgShowSet::OnBnClickedChecklist18)
+    //ON_BN_CLICKED(IDC_CHECKLIST17, &CDlgShowSet::OnBnClickedChecklist17)
+    //ON_BN_CLICKED(IDC_CHECKLIST18, &CDlgShowSet::OnBnClickedChecklist18)
     ON_BN_CLICKED(IDC_CHECKMAIN1, &CDlgShowSet::OnBnClickedCheckmain1)
     ON_BN_CLICKED(IDC_CHECKMAIN2, &CDlgShowSet::OnBnClickedCheckmain2)
     ON_BN_CLICKED(IDC_CHECKMAIN3, &CDlgShowSet::OnBnClickedCheckmain3)
@@ -225,8 +242,24 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_CHECKMAIN14, &CDlgShowSet::OnBnClickedCheckmain14)
     ON_BN_CLICKED(IDC_CHECKMAIN15, &CDlgShowSet::OnBnClickedCheckmain15)
     ON_BN_CLICKED(IDC_CHECKMAIN16, &CDlgShowSet::OnBnClickedCheckmain16)
-    ON_BN_CLICKED(IDC_CHECKMAIN17, &CDlgShowSet::OnBnClickedCheckmain17)
-    ON_BN_CLICKED(IDC_CHECKMAIN18, &CDlgShowSet::OnBnClickedCheckmain18)
+    //ON_BN_CLICKED(IDC_CHECKMAIN17, &CDlgShowSet::OnBnClickedCheckmain17)
+    //ON_BN_CLICKED(IDC_CHECKMAIN18, &CDlgShowSet::OnBnClickedCheckmain18)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD1, &CDlgShowSet::OnBnClickedRadiojointod1)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD2, &CDlgShowSet::OnBnClickedRadiojointod2)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD3, &CDlgShowSet::OnBnClickedRadiojointod3)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD4, &CDlgShowSet::OnBnClickedRadiojointod4)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD5, &CDlgShowSet::OnBnClickedRadiojointod5)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD6, &CDlgShowSet::OnBnClickedRadiojointod6)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD7, &CDlgShowSet::OnBnClickedRadiojointod7)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD8, &CDlgShowSet::OnBnClickedRadiojointod8)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD9, &CDlgShowSet::OnBnClickedRadiojointod9)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD10, &CDlgShowSet::OnBnClickedRadiojointod10)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD11, &CDlgShowSet::OnBnClickedRadiojointod11)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD12, &CDlgShowSet::OnBnClickedRadiojointod12)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD13, &CDlgShowSet::OnBnClickedRadiojointod13)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD14, &CDlgShowSet::OnBnClickedRadiojointod14)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD15, &CDlgShowSet::OnBnClickedRadiojointod15)
+    ON_BN_CLICKED(IDC_RADIOJOINTOD16, &CDlgShowSet::OnBnClickedRadiojointod16)
     ON_BN_CLICKED(IDC_UPDATESHOW, &CDlgShowSet::OnBnClickedUpdateshow)
 END_MESSAGE_MAP()
 
@@ -253,6 +286,7 @@ BOOL CDlgShowSet::OnInitDialog()
     }
     m_iPriorShowCtrlID = m_iFileName = m_tempShow.nFileName;
     m_iPriorStatCtrlID = m_iShowStat = m_tempShow.nStatType;
+    m_iPriorJointCtrlID = m_iJointOD = m_tempShow.nJointOD;
     for(i=0; i<m_tempShow.nListNum; i++)
     {
         m_bHisList[m_tempShow.nList[i]] = m_bList[m_tempShow.nList[i]] = TRUE;
@@ -291,6 +325,7 @@ void CDlgShowSet::OnBnClickedUpdateshow()
     memset(&m_tempShow.nMain[0], 0, sizeof(UINT) * MAXMAINPARA);
     m_tempShow.nFileName = m_iFileName;
     m_tempShow.nStatType = m_iShowStat;
+    m_tempShow.nJointOD = m_iJointOD;
     for (i = 0; i < MAXPARANUM; i++)
     {
         m_tempShow.strShow[i] = m_strShowName[i];
@@ -324,7 +359,8 @@ BOOL CDlgShowSet::CheckShowCfgChanged()
     if (m_tempShow.nListNum != ptCurShow->nListNum ||
         m_tempShow.nMainNum != ptCurShow->nMainNum ||
         m_tempShow.nFileName != ptCurShow->nFileName ||
-        m_tempShow.nStatType != ptCurShow->nStatType)
+        m_tempShow.nStatType != ptCurShow->nStatType ||
+        m_tempShow.nJointOD != ptCurShow->nJointOD)
         return TRUE;
 
     if (0 != memcmp(&m_tempShow.nShow[0], &ptCurShow->nShow[0], sizeof(UINT) * MAXPARANUM) ||
@@ -398,8 +434,8 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     case IDC_EDSHOWNAME14:
     case IDC_EDSHOWNAME15:
     case IDC_EDSHOWNAME16:
-    case IDC_EDSHOWNAME17:
-    case IDC_EDSHOWNAME18:
+    //case IDC_EDSHOWNAME17:
+    //case IDC_EDSHOWNAME18:
         //UpdateData(TRUE);
         iIndex = iCtrlID - IDC_EDSHOWNAME1;
         //JUDGE_STRPARA_CHANGE(m_strShowName[iIndex], ptShow->tShow[iIndex].strName.c_str());
@@ -510,14 +546,14 @@ void CDlgShowSet::OnBnClickedRadioshowfile16()
 {
     UpdateShowFile(15);
 }
-void CDlgShowSet::OnBnClickedRadioshowfile17()
-{
-    UpdateShowFile(16);
-}
-void CDlgShowSet::OnBnClickedRadioshowfile18()
-{
-    UpdateShowFile(17);
-}
+//void CDlgShowSet::OnBnClickedRadioshowfile17()
+//{
+//    UpdateShowFile(16);
+//}
+//void CDlgShowSet::OnBnClickedRadioshowfile18()
+//{
+//    UpdateShowFile(17);
+//}
 
 void CDlgShowSet::JudgeStatRadio(int iCtrlIdx)
 {
@@ -613,7 +649,7 @@ void CDlgShowSet::OnBnClickedRadioshowstat16()
 {
     UpdateShowStat(15);
 }
-void CDlgShowSet::OnBnClickedRadioshowstat17()
+/*void CDlgShowSet::OnBnClickedRadioshowstat17()
 {
     UpdateShowStat(16);
 }
@@ -621,7 +657,7 @@ void CDlgShowSet::OnBnClickedRadioshowstat18()
 {
     UpdateShowStat(17);
 }
-
+*/
 void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
 {
     COLORREF    clrCtrl;
@@ -703,14 +739,14 @@ void CDlgShowSet::OnBnClickedChecklist16()
 {
     JudgeListCheck(15);
 }
-void CDlgShowSet::OnBnClickedChecklist17()
-{
-    JudgeListCheck(16);
-}
-void CDlgShowSet::OnBnClickedChecklist18()
-{
-    JudgeListCheck(17);
-}
+//void CDlgShowSet::OnBnClickedChecklist17()
+//{
+//    JudgeListCheck(16);
+//}
+//void CDlgShowSet::OnBnClickedChecklist18()
+//{
+//    JudgeListCheck(17);
+//}
 
 void CDlgShowSet::JudgeMainCheck(int iCtrlIdx)
 {
@@ -794,11 +830,109 @@ void CDlgShowSet::OnBnClickedCheckmain16()
 {
     JudgeMainCheck(15);
 }
-void CDlgShowSet::OnBnClickedCheckmain17()
+//void CDlgShowSet::OnBnClickedCheckmain17()
+//{
+//    JudgeMainCheck(16);
+//}
+//void CDlgShowSet::OnBnClickedCheckmain18()
+//{
+//    JudgeMainCheck(17);
+//}
+
+
+void CDlgShowSet::JudgeJointRadio(int iCtrlIdx)
 {
-    JudgeMainCheck(16);
+    COLORREF    clrCtrl;
+    BOOL        bSeled = FALSE;
+
+    COMP_BL(iCtrlIdx, 0);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
+
+    clrCtrl = m_clrNormal;
+    bSeled = (m_iJointOD == iCtrlIdx);
+    if ((bSeled && iCtrlIdx != theApp.m_ptCurShow->nJointOD) ||
+        (!bSeled && iCtrlIdx == theApp.m_ptCurShow->nJointOD))
+    {
+        if (iCtrlIdx != theApp.m_ptCurShow->nJointOD)
+        {
+            clrCtrl = m_clrChanged;
+        }
+    }
+
+    m_rdJointOD[iCtrlIdx].SetForeColor(clrCtrl);
+    m_rdJointOD[iCtrlIdx].Invalidate();
 }
-void CDlgShowSet::OnBnClickedCheckmain18()
+void CDlgShowSet::UpdateJointOD(int iCtrlIdx)
 {
-    JudgeMainCheck(17);
+    COMP_BL(iCtrlIdx, 0);
+    COMP_BGE(iCtrlIdx, MAXPARANUM);
+
+    UpdateData(TRUE);
+    JudgeJointRadio(iCtrlIdx);
+    JudgeJointRadio(m_iPriorJointCtrlID);
+    m_iPriorJointCtrlID = iCtrlIdx;
+}
+void CDlgShowSet::OnBnClickedRadiojointod1()
+{
+    JudgeJointRadio(0);
+}
+void CDlgShowSet::OnBnClickedRadiojointod2()
+{
+    JudgeJointRadio(1);
+}
+void CDlgShowSet::OnBnClickedRadiojointod3()
+{
+    JudgeJointRadio(2);
+}
+void CDlgShowSet::OnBnClickedRadiojointod4()
+{
+    JudgeJointRadio(3);
+}
+void CDlgShowSet::OnBnClickedRadiojointod5()
+{
+    JudgeJointRadio(4);
+}
+void CDlgShowSet::OnBnClickedRadiojointod6()
+{
+    JudgeJointRadio(5);
+}
+void CDlgShowSet::OnBnClickedRadiojointod7()
+{
+    JudgeJointRadio(6);
+}
+void CDlgShowSet::OnBnClickedRadiojointod8()
+{
+    JudgeJointRadio(7);
+}
+void CDlgShowSet::OnBnClickedRadiojointod9()
+{
+    JudgeJointRadio(8);
+}
+void CDlgShowSet::OnBnClickedRadiojointod10()
+{
+    JudgeJointRadio(9);
+}
+void CDlgShowSet::OnBnClickedRadiojointod11()
+{
+    JudgeJointRadio(10);
+}
+void CDlgShowSet::OnBnClickedRadiojointod12()
+{
+    JudgeJointRadio(11);
+}
+void CDlgShowSet::OnBnClickedRadiojointod13()
+{
+    JudgeJointRadio(12);
+}
+void CDlgShowSet::OnBnClickedRadiojointod14()
+{
+    JudgeJointRadio(13);
+}
+void CDlgShowSet::OnBnClickedRadiojointod15()
+{
+    JudgeJointRadio(14);
+}
+void CDlgShowSet::OnBnClickedRadiojointod16()
+{
+    JudgeJointRadio(15);
 }

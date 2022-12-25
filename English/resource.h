@@ -167,6 +167,8 @@
 #define IDC_CBPARA16                    1136
 #define IDC_CBPARA17                    1137
 #define IDC_CBPARA18                    1138
+#define IDC_RADIOSETSINGLE              1139
+#define IDC_RADIOSETSTAND               1140
 #define IDC_SHOWSET01                   1141
 #define IDC_SHOWSET02                   1142
 #define IDC_SHOWSET03                   1143
@@ -228,6 +230,8 @@
 #define IDC_HISCONTROL                  1308
 #define IDC_HISCIR                      1309
 #define IDC_HISBREAKOUT                 1310
+#define IDC_HISBOTIME                   1311
+#define IDC_HISBOCIR                    1312
 #define IDC_HISQUALITY                  1315
 #define IDC_HISMEMO                     1316
 #define IDC_CHECKIPPOINT                1317
@@ -248,9 +252,9 @@
 #define IDC_HISEDIT13                   1333
 #define IDC_HISEDIT14                   1334
 #define IDC_HISEDIT15                   1335
-#define IDC_HISEDIT16                   1336
-#define IDC_HISEDIT17                   1337
-#define IDC_HISEDIT18                   1338
+#define IDC_HISEDTSIGSTD                1336
+#define IDC_HISEDTOUTJOINT              1337
+#define IDC_HISEDTOUTWELL               1338
 #define IDC_HISSHOW01                   1341
 #define IDC_HISSHOW02                   1342
 #define IDC_HISSHOW03                   1343
@@ -266,9 +270,9 @@
 #define IDC_HISSHOW13                   1353
 #define IDC_HISSHOW14                   1354
 #define IDC_HISSHOW15                   1355
-#define IDC_HISSHOW16                   1356
-#define IDC_HISSHOW17                   1357
-#define IDC_HISSHOW18                   1358
+#define IDC_HISSIGSTD                   1356
+#define IDC_HISOUTJOINT                 1357
+#define IDC_HISOUTWELL                  1358
 #define IDC_BTNPRI                      1360
 #define IDC_BTNNEXT                     1361
 #define IDC_BTNSAVEIMG                  1362
@@ -276,6 +280,8 @@
 #define IDC_BTNREMARK                   1364
 #define IDC_PRIORSPLIT                  1365
 #define IDC_NEXTSPLIT                   1366
+#define IDC_RADIOSIGNLE                 1367
+#define IDC_RADIOSTAND                  1368
 #define IDC_EDITHISTORY                 1400
 #define IDC_BTNHIS                      1401
 #define IDC_CHECKALLIMG                 1402
@@ -532,6 +538,22 @@
 #define IDC_EDITOLDPW                   1900
 #define IDC_BTNMODPW                    1901
 #define IDC_EDITNEWPW                   1902
+#define IDC_RADIOJOINTOD1               1911
+#define IDC_RADIOJOINTOD2               1912
+#define IDC_RADIOJOINTOD3               1913
+#define IDC_RADIOJOINTOD4               1914
+#define IDC_RADIOJOINTOD5               1915
+#define IDC_RADIOJOINTOD6               1916
+#define IDC_RADIOJOINTOD7               1917
+#define IDC_RADIOJOINTOD8               1918
+#define IDC_RADIOJOINTOD9               1919
+#define IDC_RADIOJOINTOD10              1920
+#define IDC_RADIOJOINTOD11              1921
+#define IDC_RADIOJOINTOD12              1922
+#define IDC_RADIOJOINTOD13              1923
+#define IDC_RADIOJOINTOD14              1924
+#define IDC_RADIOJOINTOD15              1925
+#define IDC_RADIOJOINTOD16              1926
 #define IDC_EDITVALVE1TORQ1             1950
 #define IDC_EDITVALVE1TORQ2             1951
 #define IDC_EDITVALVE1TORQ3             1952
@@ -960,7 +982,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        195
 #define _APS_NEXT_COMMAND_VALUE         32801
-#define _APS_NEXT_CONTROL_VALUE         2261
+#define _APS_NEXT_CONTROL_VALUE         2260
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

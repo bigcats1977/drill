@@ -51,11 +51,13 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_YHISAXIS2, m_yHisAxis2);
     DDX_Text(pDX, IDC_HISMEMO, m_strMemo);
     DDX_Text(pDX, IDC_HISCONTROL, m_strControl);
-    DDX_Text(pDX, IDC_HISBREAKOUT, m_strBreakOutTorq);
+    DDX_Text(pDX, IDC_HISBREAKOUT, m_strBOTorq);
     DDX_Text(pDX, IDC_HISQUALITY, m_strQuality);
     DDX_Text(pDX, IDC_HISTIME, m_strTime);
+    DDX_Text(pDX, IDC_HISBOTIME, m_strBOTime);
     DDX_Text(pDX, IDC_HISNO, m_strNo);
     DDX_Text(pDX, IDC_HISCIR, m_strCir);
+    DDX_Text(pDX, IDC_HISBOCIR, m_strBOCir);
     DDX_Check(pDX, IDC_CHECKTOOLBUCK, m_bToolBuck);
     //DDX_Check(pDX, IDC_CHECKHISBREAKOUT, m_bBreakOut);
     //DDX_Text(pDX, IDC_STATIC_G8, m_strTorqType);
@@ -77,9 +79,9 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HISSHOW13, m_strHisShowName[12]);
     DDX_Text(pDX, IDC_HISSHOW14, m_strHisShowName[13]);
     DDX_Text(pDX, IDC_HISSHOW15, m_strHisShowName[14]);
-    DDX_Text(pDX, IDC_HISSHOW16, m_strHisShowName[15]);
-    DDX_Text(pDX, IDC_HISSHOW17, m_strHisShowName[16]);
-    DDX_Text(pDX, IDC_HISSHOW18, m_strHisShowName[17]);
+    DDX_Text(pDX, IDC_HISEDTOUTJOINT, m_strOutJoint);
+    DDX_Text(pDX, IDC_HISEDTOUTWELL, m_strOutWellNO);
+    DDX_Radio(pDX, IDC_RADIOSIGNLE, m_iSingleSTD);
     DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[0]);
     DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[1]);
     DDX_Text(pDX, IDC_HISEDIT03, m_strHisShowValue[2]);
@@ -95,9 +97,9 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HISEDIT13, m_strHisShowValue[12]);
     DDX_Text(pDX, IDC_HISEDIT14, m_strHisShowValue[13]);
     DDX_Text(pDX, IDC_HISEDIT15, m_strHisShowValue[14]);
-    DDX_Text(pDX, IDC_HISEDIT16, m_strHisShowValue[15]);
+    /*DDX_Text(pDX, IDC_HISEDIT16, m_strHisShowValue[15]);
     DDX_Text(pDX, IDC_HISEDIT17, m_strHisShowValue[16]);
-    DDX_Text(pDX, IDC_HISEDIT18, m_strHisShowValue[17]);
+    DDX_Text(pDX, IDC_HISEDIT18, m_strHisShowValue[17]);*/
     //}}AFX_DATA_MAP
 }
 
@@ -158,13 +160,15 @@ void CDlgHisGrp::EmptyEdit()
     /* œ‘ æ≤Œ ˝ */
     for(i=0; i<15; i++)
         m_strHisShowValue[i].Empty();
-    m_strMemo = _T("");
-    m_strControl = _T("");
-    m_strBreakOutTorq = _T("");
-    m_strQuality = _T("");
-    m_strTime = _T("");
-    m_strNo = _T("");
-    m_strCir = _T("");
+    m_strMemo = NULLSTR;
+    m_strControl = NULLSTR;
+    m_strBOTorq = NULLSTR;
+    m_strQuality = NULLSTR;
+    m_strTime = NULLSTR;
+    m_strBOTime = NULLSTR;
+    m_strNo = NULLSTR;
+    m_strCir = NULLSTR;
+    m_strBOCir = NULLSTR;
 }
 
 void CDlgHisGrp::UpdateDlgLabel()
@@ -201,10 +205,21 @@ void CDlgHisGrp::SetCurEdit()
     m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
 
     GET_CTRL_TORQ(fTorq, m_ptCurTorq);
+    m_iSingleSTD = (int)m_ptCurTorq->bsinglestd();
     m_strControl.Format("%d", (int)fTorq);
-    m_strBreakOutTorq = _T("");
+    m_strBOTime = NULLSTR;
+    m_strBOTorq = NULLSTR;
+    m_strBOCir = NULLSTR;
+    m_strOutWellNO = NULLSTR;
+    m_strOutJoint = NULLSTR;
     if (m_ptCurTorq->bbreakout())
-        m_strBreakOutTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
+    {
+        m_strBOTime = theApp.GetTorqCollTime(m_ptCurTorq, true);
+        m_strBOTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
+        m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, true));
+        m_strOutWellNO.Format("%d", m_ptCurTorq->dwoutwellno());
+        m_strOutJoint = m_ptCurTorq->strbojoint().c_str();
+    }
 }
 
 BOOL CDlgHisGrp::GetCirRange(double *fMin, double *fMax)

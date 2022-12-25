@@ -385,6 +385,7 @@ void CTorqueApp::ClearShowPara(SHOWCFG *ptShow)
     ptShow->nMainNum = 0;
     ptShow->nFileName = 0;
     ptShow->nStatType = 0;
+    ptShow->nJointOD = 0;
     memset(ptShow->nList, 0, sizeof(UINT) * MAXPARANUM);
     memset(ptShow->nMain, 0, sizeof(UINT) * MAXMAINPARA);
     for(i = 0; i<MAXPARANUM; i++)
@@ -413,10 +414,11 @@ void CTorqueApp::InitShowPara(SHOWCFG *ptShow, UINT nLang)
     }
 
     ptShow->nParaNum = MAXPARANUM;
-    ptShow->nListNum = MAXPARANUM;
+    ptShow->nListNum = MAXPARANUM-1;
     ptShow->nMainNum = MAXMAINPARA;
-    ptShow->nFileName = 1;
-    ptShow->nStatType = 5;
+    ptShow->nFileName = 7;
+    ptShow->nStatType = 2;
+    ptShow->nJointOD = 4;
 }
 
 void CTorqueApp::InitDefaultConfig(int initStep)

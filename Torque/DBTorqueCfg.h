@@ -11,6 +11,7 @@ public:
     vector<int>     _lsTurnID;
     vector<double>  _lsFullRPM;
     //vector<double>  _lsMinShlSlope;
+    vector<int>     _lsSingleSTD;
 
     vector<string>  _lsOptionID;
     vector<string>  _lsComment;

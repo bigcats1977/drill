@@ -36,12 +36,14 @@ public:
     CRuler      m_yHisAxis2;
     CString     m_strMemo;
     CString     m_strControl;
-    CString     m_strBreakOutTorq;
+    CString     m_strBOTorq;
     CString     m_strLowCir;
     CString     m_strQuality;
     CString     m_strTime;
+    CString     m_strBOTime;
     CString     m_strNo;
     CString     m_strCir;
+    CString     m_strBOCir;
     BOOL        m_bToolBuck;
     //BOOL        m_bBreakOut;
     //CString     m_strTorqType;
@@ -50,6 +52,9 @@ public:
     CString     m_strLBG16;
     CString     m_strHisShowName[MAXPARANUM];
     CString     m_strHisShowValue[MAXPARANUM];
+    CString     m_strOutJoint;      //  接头外径
+    CString     m_strOutWellNO;     //  起出序号
+    int         m_iSingleSTD;       //单根/立柱 0/1
     //}}AFX_DATA
 public:
     CLineChartCtrlEx    m_wndLineHis;
