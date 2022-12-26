@@ -28,7 +28,7 @@ public:
     bool    _DateBehind;
 
     string  _Password;
-    string  _BreakOutPath;
+    string  _BreakOutFile;
     string  _DataPath;
 
     CDBGlbCfg();

@@ -3098,3 +3098,14 @@ BOOL CTorqueApp::FindNotFileChar(CString strFileName)
 
     return FALSE;
 }
+
+string CTorqueApp::GetFileNameFromPath(string path)
+{
+    string filename = NULLSTR;
+    int iPos;
+    if (path.size() < 5)
+        return filename;
+    iPos = path.find_last_of('\\') + 1;
+    filename = path.substr(iPos, path.length() - iPos);
+    return filename;
+}

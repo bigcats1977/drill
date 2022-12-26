@@ -781,7 +781,7 @@ typedef struct tagGLBCFG
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
-    string      strBreakOutPath; /* 上扣后开始卸扣的文件路径 */
+    string      strBreakOutFile; /* 上扣后开始卸扣的文件名称 */
     string      strDataPath;
 
     string      strUnit;        /* 对应扭矩单位的字符串 */

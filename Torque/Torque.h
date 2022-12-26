@@ -134,6 +134,7 @@ public:
     bool HaveTallyNO(TorqData::Torque* ptTorq);
     bool CheckProductDate();
     void SaveAllData(CString strDataName);
+    string GetFileNameFromPath(string path);
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */

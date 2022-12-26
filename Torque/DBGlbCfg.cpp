@@ -37,7 +37,7 @@ void CDBGlbCfg::Empty()
     _DateBehind = false;
 
     _Password.clear();
-    _BreakOutPath.clear();
+    _BreakOutFile.clear();
     _DataPath.clear();
 }
 
@@ -83,7 +83,7 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _DateBehind);
 
     _Sqlite->GetValue(pResult[nIndex++], _Password);
-    _Sqlite->GetValue(pResult[nIndex++], _BreakOutPath);
+    _Sqlite->GetValue(pResult[nIndex++], _BreakOutFile);
     _Sqlite->GetValue(pResult[nIndex++], _DataPath);
 
     _Sqlite->FreeResult(&pResult);
@@ -143,8 +143,8 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
 
     fields.push_back("Password");
     values.push_back(ptfg->strPassWord);
-    fields.push_back("BreakOutPath");
-    values.push_back(ptfg->strBreakOutPath);
+    fields.push_back("BreakOutFile");
+    values.push_back(ptfg->strBreakOutFile);
     fields.push_back("DataPath");
     values.push_back(ptfg->strDataPath);
 

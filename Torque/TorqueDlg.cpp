@@ -1174,7 +1174,7 @@ void CTorqueDlg::GetMakeupCurNum()
     if (nCurBreakout > 0)
     {
         g_tGlbCfg.iBreakOut = 1;
-        g_tGlbCfg.strBreakOutPath = theApp.m_strDataFile;
+        g_tGlbCfg.strBreakOutFile = theApp.GetFileNameFromPath(theApp.m_strDataFile);
 
         /*save into ini*/
         theDB.UpdateGlobalPara();
@@ -1229,11 +1229,13 @@ void CTorqueDlg::GetBreakoutCurNum()
     CString strNumInfo;
     TorqData::Torque* ptTorq = NULL;
     UINT nCurNO = 0, nCurBreakout = 0;
+    string filename;
 
-    if (g_tGlbCfg.strBreakOutPath.empty())
+    if (g_tGlbCfg.strBreakOutFile.empty())
         return;
 
-    file.Open(g_tGlbCfg.strBreakOutPath.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
+    filename = theApp.m_strDataPath + g_tGlbCfg.strBreakOutFile;
+    file.Open(filename.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
     if (file.GetLength() != 0)
     {
         file.Read(&nCurNO, sizeof(UINT));
@@ -1241,7 +1243,7 @@ void CTorqueDlg::GetBreakoutCurNum()
     }
     m_strBreakoutFile = file.GetFileName();
     file.Close();
-    if (theApp.ReadHisTorqFromFile(g_tGlbCfg.strBreakOutPath.c_str()))
+    if (theApp.ReadHisTorqFromFile(filename.c_str()))
     {
         iTallyIndex = theApp.GetMainIndex(MAINSHOWTALLY);
         if (iTallyIndex >= 0)
@@ -1262,7 +1264,7 @@ void CTorqueDlg::GetBreakoutCurNum()
     }
 
     /* 记录当前文件名及序号 */
-    strNumInfo.Format("%s--%d", g_tGlbCfg.strBreakOutPath.c_str(), g_tReadData.nTotal);
+    strNumInfo.Format("%s--%d", filename.c_str(), g_tReadData.nTotal);
     theApp.SaveMessage(strNumInfo);
 
     m_nCurRunningNO = g_tReadData.nTotal + 1;
@@ -4262,6 +4264,7 @@ void CTorqueDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
     __time64_t curTime;
     double  duration;
     int iBOTotalPlus = 0;
+    string filename;
 
     TorqData::Torque* ptMakeData = NULL;
 
@@ -4292,7 +4295,8 @@ void CTorqueDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
 
     g_tReadData.nBreakout++;
 
-    theApp.SaveAllData(g_tGlbCfg.strBreakOutPath.c_str());
+    filename = theApp.m_strDataPath + g_tGlbCfg.strBreakOutFile;
+    theApp.SaveAllData(filename.c_str());
     return;
 }
 
@@ -4699,7 +4703,7 @@ void CTorqueDlg::OnBnClickedBtnBreakoutFile()
     }
 
     g_tGlbCfg.iBreakOut = 1;
-    g_tGlbCfg.strBreakOutPath = strPath.GetBuffer(0);
+    g_tGlbCfg.strBreakOutFile = theApp.GetFileNameFromPath(strPath.GetBuffer(0));
     /*save into ini*/
     theDB.UpdateGlobalPara();
 
@@ -4752,7 +4756,7 @@ void CTorqueDlg::OnBnClickedRadiomakeup()
     }
 
     g_tGlbCfg.iBreakOut = 0;
-    g_tGlbCfg.strBreakOutPath.clear();
+    g_tGlbCfg.strBreakOutFile.clear();
     /*save into ini*/
     theDB.UpdateGlobalPara();
 	
@@ -4785,7 +4789,7 @@ void CTorqueDlg::OnBnClickedRadiobreakout()
     }
 
     g_tGlbCfg.iBreakOut = 1;
-    g_tGlbCfg.strBreakOutPath = theApp.m_strDataFile;
+    g_tGlbCfg.strBreakOutFile = theApp.GetFileNameFromPath(theApp.m_strDataFile);
     /*save into ini*/
     theDB.UpdateGlobalPara();
 	ReGetTorqNo();

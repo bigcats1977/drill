@@ -149,7 +149,7 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.bDateBehind = m_tDBGlbCfg._DateBehind;
 
     g_tGlbCfg.strPassWord = m_tDBGlbCfg._Password;
-    g_tGlbCfg.strBreakOutPath = m_tDBGlbCfg._BreakOutPath;
+    g_tGlbCfg.strBreakOutFile = m_tDBGlbCfg._BreakOutFile;
     g_tGlbCfg.strDataPath = m_tDBGlbCfg._DataPath;
 
     return true;
