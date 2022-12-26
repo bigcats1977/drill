@@ -618,7 +618,7 @@ void CTorqueDlg::InitVariant()
     m_ptComm    = &theApp.m_tParaCfg.tComm;
     
     /* 初始化变量 */
-    UpdateSeqNO();
+    //UpdateSeqNO();
     //m_strSeqNO.Format("%d", g_tReadData.nTotal + 1);
     //m_nTotal    = m_dwTotalTorqNum;
     m_iTest     = 0;
@@ -1189,7 +1189,7 @@ void CTorqueDlg::GetMakeupCurNum()
         CreateNewWellFile();
     }
 
-    if (nCurNO > 0 && theApp.ReadHisTorqFromFile(theApp.m_strDataFile.c_str()))
+    if (theApp.ReadHisTorqFromFile(theApp.m_strDataFile.c_str())) //nCurNO > 0 && 
     {
         iTallyIndex = theApp.GetMainIndex(MAINSHOWTALLY);
         if (iTallyIndex >= 0)
