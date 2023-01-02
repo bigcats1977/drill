@@ -9,15 +9,15 @@
 
 class CDlgZoomIn : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDlgZoomIn)
+    DECLARE_DYNAMIC(CDlgZoomIn)
 
 public:
-	CDlgZoomIn(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CDlgZoomIn();
+    CDlgZoomIn(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CDlgZoomIn();
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DLGZOOMIN };
+    enum { IDD = IDD_DLGZOOMIN };
 #endif
     CRuler      m_xZoomAxis;
     CRuler      m_yZoomAxis;
@@ -27,7 +27,7 @@ public:
     CLineChartCtrlEx    m_wndLineZoom;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     //afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
@@ -35,14 +35,14 @@ protected:
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg LRESULT SelPosChange(WPARAM wParam, LPARAM lParam);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 private:
     void DrawZoomPnt();
-    void DrawZoomLine(DRAWTORQDATA *ptDraw);
-    void GetZoomRange(DRAWTORQDATA *ptDraw);
-    void GetTorqueRange(DRAWTORQDATA *ptDraw);
-    void AdjustShowCir(DRAWTORQDATA *ptDraw, double  fSrcMaxCir);
+    void DrawZoomLine(DRAWTORQDATA* ptDraw);
+    void GetZoomRange(DRAWTORQDATA* ptDraw);
+    void GetTorqueRange(DRAWTORQDATA* ptDraw);
+    void AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir);
 
     int     m_iBegin, m_iEnd;
     int     m_iZoomPos;  /* 放大后位置 */

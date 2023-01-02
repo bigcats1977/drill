@@ -10,7 +10,7 @@
 IMPLEMENT_DYNAMIC(CDlgGlbCfg, CDialog)
 
 CDlgGlbCfg::CDlgGlbCfg(CWnd* pParent /*=nullptr*/)
-	: CDialog(IDD_DLGGLBCFG, pParent)
+    : CDialog(IDD_DLGGLBCFG, pParent)
 {
     m_nPlus = 0;
     m_nReset = 0;
@@ -126,7 +126,7 @@ void CDlgGlbCfg::SelComboItem(CComboBox* ptCCB, map<int, int> Items, int val)
     }
 }
 
-BOOL CDlgGlbCfg::GetParaValue(GLBCFG *ptCfg)
+BOOL CDlgGlbCfg::GetParaValue(GLBCFG* ptCfg)
 {
     CString     strTemp;
 
@@ -149,7 +149,7 @@ BOOL CDlgGlbCfg::GetParaValue(GLBCFG *ptCfg)
     return TRUE;
 }
 
-void CDlgGlbCfg::SetParaValue(GLBCFG *ptCfg)
+void CDlgGlbCfg::SetParaValue(GLBCFG* ptCfg)
 {
     ASSERT_NULL(ptCfg);
 

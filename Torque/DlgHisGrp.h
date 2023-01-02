@@ -17,18 +17,18 @@ class CDlgHisGrp : public CPropertyPage
 {
     DECLARE_DYNCREATE(CDlgHisGrp)
 
-// Construction
+    // Construction
 public:
     CDlgHisGrp();
     ~CDlgHisGrp();
 
     void    ShowCurData(BOOL bNew = TRUE);
     void    ResetHisLineByCurData();
-    void    ResetHisLineByCfg(PARACFG *ptCfg);
-    void    OnPrint(CDC* pDC,CPrintInfo* pInfo);
+    void    ResetHisLineByCfg(PARACFG* ptCfg);
+    void    OnPrint(CDC* pDC, CPrintInfo* pInfo);
 
-// Dialog Data
-    //{{AFX_DATA(CDlgHisGrp)
+    // Dialog Data
+        //{{AFX_DATA(CDlgHisGrp)
     enum { IDD = IDD_DLGHISGRP };
     CRuler      m_xHisAxis1;
     CRuler      m_yHisAxis1;
@@ -61,16 +61,16 @@ public:
     CLineChartCtrl      m_wndRpmHis;
     CString m_strFileName;
 
-    void    PrintOneImage(UINT *pnCur, UINT nIndex=0, UINT nMax=1, int iTmpNo = -1);
-    void    PrintLineImg(UINT *pnSel, UINT nSelCount);
+    void    PrintOneImage(UINT* pnCur, UINT nIndex = 0, UINT nMax = 1, int iTmpNo = -1);
+    void    PrintLineImg(UINT* pnSel, UINT nSelCount);
 
-// Overrides
-    // ClassWizard generate virtual function overrides
-    //{{AFX_VIRTUAL(CDlgHisGrp)
-    public:
+    // Overrides
+        // ClassWizard generate virtual function overrides
+        //{{AFX_VIRTUAL(CDlgHisGrp)
+public:
     virtual BOOL OnSetActive();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 
@@ -97,11 +97,11 @@ protected:
 
 private:
     void    DrawCurTorque();
-    BOOL    CheckCurData(UINT *pnCur, UINT nMax);
+    BOOL    CheckCurData(UINT* pnCur, UINT nMax);
     void    CheckCurSplit();
     void    UpdateDlgLabel();
     BOOL    JudgeValidPosition(int iPos);
-    BOOL    GetCirRange(double *fMin, double *fMax);
+    BOOL    GetCirRange(double* fMin, double* fMax);
     void    UpdateTallyNO();
 
     /* 清空EDIT控件信息 */
@@ -109,12 +109,12 @@ private:
     /* 设置EDIT控件内容 */
     void    SetCurEdit();
     /* 检查和设置当前记录有效性，使能或置灰按钮 */
-    BOOL    CheckCursor(UINT *pnCur, UINT nMax);
+    BOOL    CheckCursor(UINT* pnCur, UINT nMax);
     UINT    m_nIPTorq;
     UINT    m_nBeginPos;
     SPLITPOINT  m_tCurSplit;
-    DRAWTORQDATA        *m_ptCurDraw;
-    TorqData::Torque    *m_ptCurTorq;
+    DRAWTORQDATA* m_ptCurDraw;
+    TorqData::Torque* m_ptCurTorq;
 };
 
 //{{AFX_INSERT_LOCATION}}

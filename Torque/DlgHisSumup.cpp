@@ -5,16 +5,16 @@
 #include "Torque.h"
 #include "DlgHisSumup.h"
 
-static DWORD CALLBACK StreamInCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+static DWORD CALLBACK StreamInCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG* pcb)
 {
     CFile* pFile = (CFile*)dwCookie;
     *pcb = pFile->Read(pbBuff, cb);
     return 0;
 }
 
-static DWORD CALLBACK StreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+static DWORD CALLBACK StreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG* pcb)
 {
-    CFile*pFile = (CFile*)dwCookie;
+    CFile* pFile = (CFile*)dwCookie;
 
     pFile->Write(pbBuff, cb);
     *pcb = cb;
@@ -55,13 +55,13 @@ END_MESSAGE_MAP()
 BOOL CDlgHisSumup::OnInitDialog()
 {
     // TODO: 调用 AfxInitRichEdit2() 以初始化 richedit2 库。\n"   
-    int     iWidth   = 0;
+    int     iWidth = 0;
     CString strHead;
     CRect   rcView;
 
     CPropertyPage::OnInitDialog();
-    
-    theApp.AdaptDlgCtrlSize(this,2);
+
+    theApp.AdaptDlgCtrlSize(this, 2);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -80,22 +80,22 @@ BOOL CDlgHisSumup::OnSetActive()
     m_strSumFile = theApp.GetSaveDataPath();
     m_strSumFile += theApp.m_strFileTitle.c_str();
     m_strSumFile += ".rtf";
-    
-    if(file.Open(m_strSumFile, CFile::modeRead|CFile::shareDenyNone))
+
+    if (file.Open(m_strSumFile, CFile::modeRead | CFile::shareDenyNone))
     {
         es.dwCookie = (DWORD)&file;
         es.pfnCallback = StreamInCallback;
         m_richSum.StreamIn(SF_RTF, es);
         file.Close();
     }
-    
+
     UpdateData(FALSE);
 
     return CPropertyPage::OnSetActive();
 }
 
 void CDlgHisSumup::OnBnClickedBtnmodifysum()
-{    
+{
     m_richSum.SetReadOnly(TRUE);
 
     COMP_BFALSE(theApp.CheckPassWord());
@@ -107,15 +107,15 @@ void CDlgHisSumup::OnBnClickedBtnmodifysum()
 void CDlgHisSumup::OnBnClickedBtnsavesum()
 {
     UpdateData(TRUE);
-    
-    CFile cFile(m_strSumFile, CFile::modeCreate|CFile::modeWrite);
+
+    CFile cFile(m_strSumFile, CFile::modeCreate | CFile::modeWrite);
     // 定义RichEdit的Stream 结构体
     EDITSTREAM es;
     // 设置stream结构体的文件句柄及回调函数
-    es.dwCookie=(DWORD)&cFile;
-    es.pfnCallback=StreamOutCallback;
+    es.dwCookie = (DWORD)&cFile;
+    es.pfnCallback = StreamOutCallback;
     // 将当前edit控件里的字符串输出到rtf文件里。
-    m_richSum.StreamOut(SF_RTF,es);
+    m_richSum.StreamOut(SF_RTF, es);
 
     m_bReadOnly = TRUE;
     m_richSum.SetReadOnly(TRUE);

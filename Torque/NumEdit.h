@@ -7,7 +7,7 @@ public:
     CNumEdit();
     ~CNumEdit();
 
-    virtual BOOL PreTranslateMessage(MSG *pMsg);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 private:
     BOOL CheckUnique(char nChar);

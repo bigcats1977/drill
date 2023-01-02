@@ -37,23 +37,23 @@
 
 class CLineChartCtrlEx : public CLineChartCtrl
 {
-// Construction
+    // Construction
 public:
     static BOOL RegisterWndClass(HINSTANCE hInstance);
 
     CLineChartCtrlEx();
 
-// Attributes
+    // Attributes
 public:
     //LINECHARITEM    m_tItem;
     BYTE            m_uLineType;
 
     // Operations
 public:
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CLineChartCtrlEx)
-    public:
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CLineChartCtrlEx)
+public:
     virtual ~CLineChartCtrlEx();
     //}}AFX_VIRTUAL
 // Implementation
@@ -89,9 +89,9 @@ public:
     double       m_fWidthCir;   /* 画图的真实宽度的周数，一般等于m_fMaxCir，因为左边界为0
                                    对于放大的图, 左边m_fMinCir非0, 该参数小于m_fMaxCir */
 
-    //BOOL         m_bBear;
+                                   //BOOL         m_bBear;
 
-    // Generated message map functions
+                                   // Generated message map functions
 protected:
     //{{AFX_MSG(CLineChartCtrlEx)
     afx_msg void OnPaint();
@@ -100,7 +100,7 @@ protected:
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
-    
+
 private:
     //void    GetMemDC();
     void    DrawGridLine(COLORREF clrBk = LC_BKCOLOR);
@@ -121,7 +121,7 @@ private:
     CRect       m_rcInterPt;
     UINT        m_nSelPntNum;
     UINT        m_nSelPos[MAX_SHOWSELPOINTNUM];
-        
+
     UINT        m_nStartPoint;
 };
 

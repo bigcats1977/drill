@@ -76,7 +76,7 @@ void CDBTorqueCfg::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-bool CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID *ptID)
+bool CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID* ptID)
 {
     int iOffset = 0;
     vector<int>::iterator it;
@@ -149,18 +149,18 @@ int CDBTorqueCfg::UpdateParaByAlias(PARACFG* ptCfg, TORQCFGID* ptID)
 
     if (bInsert)
     {
-        strValues.insert(strValues.begin(),NULLSTR);
+        strValues.insert(strValues.begin(), NULLSTR);
 
-        if(!_Sqlite->InsertRow(g_tTableName[_TableIndex], strValues))
+        if (!_Sqlite->InsertRow(g_tTableName[_TableIndex], strValues))
             return DB_INVALID_VAL;
 
         return _Sqlite->GetLastInsertID();
     }
     else
     {
-        strCond = "Alias='" + ptCfg->strAlias +"'";
+        strCond = "Alias='" + ptCfg->strAlias + "'";
 
-        if(! _Sqlite->UpdateFields(g_tTableName[_TableIndex], strCond, strFields, strValues))
+        if (!_Sqlite->UpdateFields(g_tTableName[_TableIndex], strCond, strFields, strValues))
             return DB_INVALID_VAL;
 
         return _lsAutoIndex[it - _lsAlias.begin()];

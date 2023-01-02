@@ -19,14 +19,14 @@ CDlgScm::CDlgScm(CWnd* pParent /*=NULL*/)
     : CDialog(CDlgScm::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CDlgScm)
-    m_fMulti    = 0.0;
-    m_fControl  = 0.0;
-    m_fShow     = 0.0;
-    m_fSpeed    = 0.0;
+    m_fMulti = 0.0;
+    m_fControl = 0.0;
+    m_fShow = 0.0;
+    m_fSpeed = 0.0;
     //m_fLower    = 0.0;
     //m_fUpper    = 0.0;
-    m_tDate     = 0;
-    m_tTime     = 0;
+    m_tDate = 0;
+    m_tTime = 0;
     //}}AFX_DATA_INIT
 }
 
@@ -68,7 +68,7 @@ END_MESSAGE_MAP()
 void CDlgScm::OnScminitial()
 {
     BOOL        bChanged = FALSE;
-    CONTROLPARA *ptCtrl  = NULL;
+    CONTROLPARA* ptCtrl = NULL;
 
     JUDGE_REG_STATUS();
     ptCtrl = &m_ptParaCfg->tCtrl;
@@ -76,13 +76,13 @@ void CDlgScm::OnScminitial()
     UpdateData(TRUE);
 
     BeginWaitCursor();
-    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL],   m_fControl, bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_CONTROL], m_fControl, bChanged);
     //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN], m_fSpeed,   bChanged);
-    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SHOW],      m_fShow,    bChanged);
+    CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_SHOW], m_fShow, bChanged);
     //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT],m_fUpper,   bChanged);
     //CHECK_PARA_CHANGE(ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT],m_fLower,   bChanged);
 
-    if(bChanged)
+    if (bChanged)
     {
         /*theApp.WritePara(theApp.m_strParaFile,m_ptParaCfg);
         m_pParentDlg->ResetLineChart();*/
@@ -99,7 +99,7 @@ void CDlgScm::OnScmmulti()
     UpdateData(TRUE);
 
     BeginWaitCursor();
-    if(g_tGlbCfg.fMulti != m_fMulti)
+    if (g_tGlbCfg.fMulti != m_fMulti)
     {
         g_tGlbCfg.fMulti = m_fMulti;
         theDB.UpdateGlobalPara();
@@ -128,19 +128,19 @@ BOOL CDlgScm::OnInitDialog()
     m_btnScmCancel.SetIconAndText(IDI_POWER, IDS_STRRETURN);
     m_btnTime.SetIconAndText(IDI_TIMER, IDS_STRSCMTIME);
 
-    m_ptParaCfg  = &theApp.m_tParaCfg;
+    m_ptParaCfg = &theApp.m_tParaCfg;
 
-    m_fMulti     = 1.0/*m_ptParaCfg->fMulti*/;
-    m_fControl   = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_CONTROL];
-    m_fSpeed     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]* RATIO_OPTSHOULD;
-    m_fShow      = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SHOW];
+    m_fMulti = 1.0/*m_ptParaCfg->fMulti*/;
+    m_fControl = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_CONTROL];
+    m_fSpeed = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD;
+    m_fShow = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_SHOW];
     //m_fUpper     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_UPPERLIMIT];
     //m_fLower     = m_ptParaCfg->tCtrl.fTorqConf[INDEX_TORQ_LOWERLIMIT];
 
-    m_tDate      = CTime::GetCurrentTime();
-    m_tTime      = m_tDate;
+    m_tDate = CTime::GetCurrentTime();
+    m_tTime = m_tDate;
 
-    m_pParentDlg = (CTorqueDlg *)GetParent();
+    m_pParentDlg = (CTorqueDlg*)GetParent();
 
     UpdateData(FALSE);
 
@@ -155,8 +155,8 @@ void CDlgScm::OnScmtime()
     UpdateData(TRUE);
 
     BeginWaitCursor();
-    m_pParentDlg->m_tSetTime = CTime(m_tDate.GetYear(),m_tDate.GetMonth(),m_tDate.GetDay(),
-                                     m_tTime.GetHour(),m_tTime.GetMinute(),m_tTime.GetSecond());
+    m_pParentDlg->m_tSetTime = CTime(m_tDate.GetYear(), m_tDate.GetMonth(), m_tDate.GetDay(),
+        m_tTime.GetHour(), m_tTime.GetMinute(), m_tTime.GetSecond());
     m_pParentDlg->SendData(SCMTIME);
     EndWaitCursor();
 }

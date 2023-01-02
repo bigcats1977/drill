@@ -50,7 +50,7 @@ public:
     void close(bool ifSave = false);
 
     //另存为一个excel文件
-    void saveAsXLSFile(const CString &xlsFile);
+    void saveAsXLSFile(const CString& xlsFile);
 
     //取得打开文件的名称
     CString getOpenFileName();

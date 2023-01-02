@@ -13,7 +13,7 @@
 
 class CDlgScm : public CDialog
 {
-// Construction
+    // Construction
 public:
     CDlgScm(CWnd* pParent = NULL);   // standard constructor
 
@@ -39,7 +39,7 @@ public:
 // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CDlgScm)
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 
@@ -56,8 +56,8 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    CTorqueDlg *m_pParentDlg;
-    PARACFG    *m_ptParaCfg;
+    CTorqueDlg* m_pParentDlg;
+    PARACFG* m_ptParaCfg;
 };
 
 //{{AFX_INSERT_LOCATION}}

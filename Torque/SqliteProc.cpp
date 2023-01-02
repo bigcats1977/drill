@@ -133,7 +133,7 @@ bool SqliteProc::QueryTableOrder(string tablename, string condition, string ordF
     sql = "SELECT * FROM " + tablename;
     if (!condition.empty())
         sql += " WHERE " + ASCII2UTF8(condition) + " ";
-    if(bASC)
+    if (bASC)
         sql += "ORDER BY " + ordField + " ASC";
     else
         sql += "ORDER BY " + ordField + " DESC";
@@ -257,7 +257,7 @@ bool SqliteProc::UpdateField(string tablename, string condition, string field, s
     string content;
     string sql;
     char* pErrMsg = 0;
-    if (field.empty() )
+    if (field.empty())
         return false;
     if (value.empty())
         content = field + "=NULL";
@@ -285,7 +285,7 @@ bool SqliteProc::UpdateFields(string tablename, string condition, vector<string>
     if (fields.size() != values.size())
         return false;
 
-    for(i=0;i<(int)fields.size();i++)
+    for (i = 0; i < (int)fields.size(); i++)
     {
         if (!content.empty())
             content += ",";
@@ -321,7 +321,7 @@ bool SqliteProc::UpdateRows(string tablename, vector<string> conditions, string 
         return false;
 
     sql = "BEGIN;\n";
-    for(i=0;i<(int)conditions.size();i++)
+    for (i = 0; i < (int)conditions.size(); i++)
     {
         if (values[i].empty())
             content = field + "=NULL";

@@ -82,30 +82,30 @@ BOOL CDlgDataStat::DestroyWindow()
     return CDialogEx::DestroyWindow();
 }
 
-void CDlgDataStat::InitChart(CTChart *ptTChart, CString strCaption, CString strLabel[])
+void CDlgDataStat::InitChart(CTChart* ptTChart, CString strCaption, CString strLabel[])
 {
     int     i = 0;
     ASSERT_NULL(ptTChart);
-    
+
     ptTChart->Series(0).Clear();
     ptTChart->GetPage().SetMaxPointsPerPage(12);
 
     ptTChart->Series(0).SetColor(RGB(255, 0, 0));
     ptTChart->Series(0).SetTitle(strCaption);
 
-    for(i=0; i<=STATRANGENUM; i++)
+    for (i = 0; i <= STATRANGENUM; i++)
         ptTChart->Series(0).AddXY(0, i, strLabel[i], m_clrLabel[i]);
 }
 
 void CDlgDataStat::InitStatRange(double fMin, double fCtrl, double fMax)
 {
-    if(fMin >= fCtrl || fCtrl >= fMax)
+    if (fMin >= fCtrl || fCtrl >= fMax)
         return;
-    
+
     m_tStatCfg.fCtrlRange[0] = fMin;
     m_tStatCfg.fCtrlRange[1] = fCtrl;
     m_tStatCfg.fCtrlRange[2] = fMax;
-    
+
     //m_tStatCfg.fShouldRange[0] = fCtrl*0.1;
     //m_tStatCfg.fShouldRange[1] = fCtrl*0.3;
     //m_tStatCfg.fShouldRange[2] = fCtrl*0.7;
@@ -117,19 +117,19 @@ void CDlgDataStat::InitStatRange(double fMin, double fCtrl, double fMax)
 
 void CDlgDataStat::InitLabelInfo()
 {
-    STATCFG     *ptCfg = NULL;
+    STATCFG* ptCfg = NULL;
     CString     strName;
 
     m_clrLabel[0] = RGB(255, 0, 0);
     m_clrLabel[1] = RGB(0, 255, 0);
     m_clrLabel[2] = RGB(0, 255, 0);
     m_clrLabel[3] = RGB(255, 0, 0);
-    
-    m_strCtrlLabel[0].Format("<%d",  (int)m_tStatCfg.fCtrlRange[0]);
-    m_strCtrlLabel[1].Format("%d~%d", (int)m_tStatCfg.fCtrlRange[0],(int)m_tStatCfg.fCtrlRange[1]-1);
-    m_strCtrlLabel[2].Format("%d~%d", (int)m_tStatCfg.fCtrlRange[1],(int)m_tStatCfg.fCtrlRange[2]-1);
+
+    m_strCtrlLabel[0].Format("<%d", (int)m_tStatCfg.fCtrlRange[0]);
+    m_strCtrlLabel[1].Format("%d~%d", (int)m_tStatCfg.fCtrlRange[0], (int)m_tStatCfg.fCtrlRange[1] - 1);
+    m_strCtrlLabel[2].Format("%d~%d", (int)m_tStatCfg.fCtrlRange[1], (int)m_tStatCfg.fCtrlRange[2] - 1);
     m_strCtrlLabel[3].Format(">=%d", (int)m_tStatCfg.fCtrlRange[2]);
-    
+
     //m_strShouldLabel[0].Format("<%d",  (int)m_tStatCfg.fShouldRange[0]);
     //m_strShouldLabel[1].Format("%d~%d", (int)m_tStatCfg.fShouldRange[0],(int)m_tStatCfg.fShouldRange[1]-1);
     //m_strShouldLabel[2].Format("%d~%d", (int)m_tStatCfg.fShouldRange[1],(int)m_tStatCfg.fShouldRange[2]-1);
@@ -150,9 +150,9 @@ void CDlgDataStat::InitLabelInfo()
 
 BOOL CDlgDataStat::OnInitDialog()
 {
-    CONTROLPARA *ptCtrl = NULL;
+    CONTROLPARA* ptCtrl = NULL;
     CString     strType;
-    int         i  = 0;
+    int         i = 0;
 
     CDialogEx::OnInitDialog();
 
@@ -163,9 +163,9 @@ BOOL CDlgDataStat::OnInitDialog()
     theApp.AdaptDlgCtrlSize(this, 0);
 
     ptCtrl = &theApp.m_tParaCfg.tCtrl;
-    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_LOWERLIMIT,
-                  ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],
-                  ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT);
+    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT,
+        ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],
+        ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT);
     InitLabelInfo();
 
     ResetStatLine(&theApp.m_tParaCfg);
@@ -179,14 +179,14 @@ BOOL CDlgDataStat::OnInitDialog()
 
 void CDlgDataStat::UpdateDlgLabel()
 {
-    switch(g_tGlbCfg.nLangType)
+    switch (g_tGlbCfg.nLangType)
     {
-        case LANGUAGE_CHINESE:
-            m_strLBS3.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit);
-            break;
-        case LANGUAGE_ENGLISH:
-            m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit);
-            break;
+    case LANGUAGE_CHINESE:
+        m_strLBS3.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit);
+        break;
+    case LANGUAGE_ENGLISH:
+        m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit);
+        break;
         /*case LANGUAGE_RUSSIAN:
             m_strLBS3.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", g_tGlbCfg.strUnit);
             break;*/
@@ -196,7 +196,7 @@ void CDlgDataStat::UpdateDlgLabel()
 void CDlgDataStat::ShowCurStat(CString strStatFile)
 {
     m_strStatFile = strStatFile;
-    
+
     ASSERT_ZERO(g_tReadData.nTotal);
 
     ClearFileInfo();
@@ -233,22 +233,22 @@ void CDlgDataStat::OnBnClickedBtnOpendata()
     ShowCurStat(m_strStatFile);
 }
 
-void CDlgDataStat::ResetStatLineByData(TorqData::Torque *ptTorq)
+void CDlgDataStat::ResetStatLineByData(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL(ptTorq);
 
     m_wndLineStat.RemoveAt();
     //m_wndLineStat.m_fUpperLimit = ptTorq->fupperlimit();     /* 最大扭矩 */
     //m_wndLineStat.m_fLowerLimit = ptTorq->flowerlimit();     /* 最小扭矩 */
-    m_wndLineStat.m_fOptTorq    = theApp.GetOptTorq(ptTorq); /* 最佳扭矩 */
+    m_wndLineStat.m_fOptTorq = theApp.GetOptTorq(ptTorq); /* 最佳扭矩 */
     //m_wndLineStat.m_fSpeedDown  = ptTorq->fspeeddown();      /* 减速扭矩 */
-    m_wndLineStat.m_fShow       = ptTorq->fshow();           /* 显示扭矩 */
+    m_wndLineStat.m_fShow = ptTorq->fshow();           /* 显示扭矩 */
     //m_wndLineStat.m_fBear       = ptTorq->fbear();           /* 肩负扭矩 */
     m_wndLineStat.m_fControlCir = theApp.GetCtrlCir(ptTorq); /* 控制周数 */
-    m_wndLineStat.m_fUpperCir   = theApp.GetUpperCir(ptTorq);/* 上限周数 */
-    m_wndLineStat.m_fLowerCir   = theApp.GetLowerCir(ptTorq);/* 下限周数 */
-    m_wndLineStat.m_fMaxCir     = theApp.GetMaxCir(ptTorq);  /* 最大周数 */
-    m_wndLineStat.m_fMaxLimit   = ptTorq->fmaxlimit();       /* 最大上限 */
+    m_wndLineStat.m_fUpperCir = theApp.GetUpperCir(ptTorq);/* 上限周数 */
+    m_wndLineStat.m_fLowerCir = theApp.GetLowerCir(ptTorq);/* 下限周数 */
+    m_wndLineStat.m_fMaxCir = theApp.GetMaxCir(ptTorq);  /* 最大周数 */
+    m_wndLineStat.m_fMaxLimit = ptTorq->fmaxlimit();       /* 最大上限 */
 
     m_wndLineStat.SetBkColor(RGB(255, 255, 255));
     m_wndLineStat.m_bBKLine = FALSE;
@@ -262,10 +262,10 @@ void CDlgDataStat::ResetStatLineByData(TorqData::Torque *ptTorq)
     UpdateDlgLabel();
 }
 
-void CDlgDataStat::ResetStatLine(PARACFG *ptCfg)
+void CDlgDataStat::ResetStatLine(PARACFG* ptCfg)
 {
-    CONTROLPARA *ptCtrl = NULL;
-    COMMONCFG   *ptComm = NULL;
+    CONTROLPARA* ptCtrl = NULL;
+    COMMONCFG* ptComm = NULL;
 
     ASSERT_NULL(ptCfg);
 
@@ -275,15 +275,15 @@ void CDlgDataStat::ResetStatLine(PARACFG *ptCfg)
     m_wndLineStat.RemoveAt();
     //m_wndLineStat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
     //m_wndLineStat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
-    m_wndLineStat.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
+    m_wndLineStat.m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
     //m_wndLineStat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
-    m_wndLineStat.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
+    m_wndLineStat.m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
     //m_wndLineStat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
     m_wndLineStat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];        /* 控制周数 */
-    m_wndLineStat.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];     /* 上限周数 */
-    m_wndLineStat.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];     /* 下限周数 */
-    m_wndLineStat.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];       /* 最大周数 */
-    m_wndLineStat.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
+    m_wndLineStat.m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];     /* 上限周数 */
+    m_wndLineStat.m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];     /* 下限周数 */
+    m_wndLineStat.m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];       /* 最大周数 */
+    m_wndLineStat.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     //m_wndLineStat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
     //m_wndLineStat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
 
@@ -301,46 +301,46 @@ void CDlgDataStat::ResetStatLine(PARACFG *ptCfg)
 
 void CDlgDataStat::GetStatType()
 {
-    int    i  = 0;
-    TorqData::Torque  *ptTorq = NULL;
+    int    i = 0;
+    TorqData::Torque* ptTorq = NULL;
 
     ASSERT_ZERO(g_tReadData.nTotal);
 
     m_cbStatType.ResetContent();
-    ptTorq = &g_tReadData.tData[g_tReadData.nTotal-1];    
-    for(i=0; i<=ptTorq->tshow_size() && i<MAXPARANUM; i++)
+    ptTorq = &g_tReadData.tData[g_tReadData.nTotal - 1];
+    for (i = 0; i <= ptTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         m_cbStatType.AddString(theApp.GetTorqShowName(ptTorq, i));
     }
-    
+
     m_cbStatType.SetCurSel(m_nStatType);
 }
 
 void CDlgDataStat::GetBasicStatInfo()
 {
-    UINT    i  = 0;
+    UINT    i = 0;
     POSITION pos;
-    TorqData::Torque  *ptTorq = NULL;
+    TorqData::Torque* ptTorq = NULL;
     string strType;
 
     ASSERT_ZERO(g_tReadData.nTotal);
-    
+
     strType = theApp.LoadstringFromRes(IDS_STRALLSTAT);
     //strType.Format(IDS_STRALLSTAT);
     m_cbBuckType.AddString(strType.c_str());
 
-    for(i=0; i<g_tReadData.nTotal; i++)
+    for (i = 0; i < g_tReadData.nTotal; i++)
     {
         ptTorq = &g_tReadData.tData[i];
         strType = theApp.GetStatType(ptTorq, m_nStatType).GetBuffer(0);
 
-        if(!strType.empty())
+        if (!strType.empty())
         {
-             if ((pos = m_slStatType.Find(strType.c_str())) == NULL)
-             {
+            if ((pos = m_slStatType.Find(strType.c_str())) == NULL)
+            {
                 m_slStatType.AddTail(strType.c_str());
                 m_cbBuckType.AddString(strType.c_str());
-             }    
+            }
         }
     }
 
@@ -358,22 +358,22 @@ void CDlgDataStat::ClearFileInfo()
     m_slStatType.RemoveAll();
 
     m_nBuckNum = 0;
-    m_nQuali   = 0;
+    m_nQuali = 0;
     m_nUnQuali = 0;
     m_fOptTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
-    m_fMaxTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]*RATIO_UPPERLIMIT;
+    m_fMaxTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT;
     m_fMinTorq = 0;
 
     m_ptDrawData = NULL;
-    
+
     m_strBadNO.Empty();
     m_strToolNO.Empty();
-    
+
     m_tccCtrl.Series(0).Clear();
     //m_tccShould.Series(0).Clear();
     //m_tccDelta.Series(0).Clear();
 
-    for(i=0; i<MAXSTATLEVEL; i++)
+    for (i = 0; i < MAXSTATLEVEL; i++)
     {
         m_strCtrlRatio[i].Empty();
         //m_strInflRatio[i].Empty();
@@ -381,24 +381,24 @@ void CDlgDataStat::ClearFileInfo()
     }
 }
 
-BYTE CDlgDataStat::GetValueRange(double *fRange, double fValue)
+BYTE CDlgDataStat::GetValueRange(double* fRange, double fValue)
 {
     ASSERT_NULL_R(fRange, 0);
 
-    if(fValue < fRange[0])
+    if (fValue < fRange[0])
         return 1;
 
-    if(fValue >= fRange[0] && fValue < fRange[1])
+    if (fValue >= fRange[0] && fValue < fRange[1])
         return 2;
-    
-    if(fValue >= fRange[1] && fValue < fRange[2])
+
+    if (fValue >= fRange[1] && fValue < fRange[2])
         return 3;
 
-     return 4;
+    return 4;
 }
 
 /* 是否是选中的类型 */
-BOOL CDlgDataStat::IsSelType(TorqData::Torque *ptTorq)
+BOOL CDlgDataStat::IsSelType(TorqData::Torque* ptTorq)
 {
     CString strCurType;
     string strType;
@@ -407,26 +407,26 @@ BOOL CDlgDataStat::IsSelType(TorqData::Torque *ptTorq)
     ASSERT_NULL_R(ptTorq, FALSE);
 
     m_cbBuckType.GetWindowText(strCurType);
-    strType= theApp.LoadstringFromRes(IDS_STRALLSTAT);
+    strType = theApp.LoadstringFromRes(IDS_STRALLSTAT);
     strBuckle = theApp.LoadstringFromRes(IDS_STRBUCKLE);
 
     /* 所有数据时，不比较类型 */
-    if(strCurType.CompareNoCase(strType.c_str()) == 0)
+    if (strCurType.CompareNoCase(strType.c_str()) == 0)
         return TRUE;
-    
+
     strType = theApp.GetStatType(ptTorq, m_nStatType).GetBuffer(0);
 
     /* 工具扣 */
-    if(strCurType.CompareNoCase(strBuckle.c_str()) == 0)
+    if (strCurType.CompareNoCase(strBuckle.c_str()) == 0)
     {
         /* 选中工具扣，当前数据不是工具扣 */
-        if(!ptTorq->btoolbuck())
+        if (!ptTorq->btoolbuck())
         {
             return FALSE;
-            
+
         }
     }
-    else if(strCurType.CompareNoCase(strType.c_str()) != 0)
+    else if (strCurType.CompareNoCase(strType.c_str()) != 0)
     {
         return FALSE;
     }
@@ -438,66 +438,66 @@ BOOL CDlgDataStat::IsSelType(TorqData::Torque *ptTorq)
 
     return TRUE;
 }
-    
+
 void CDlgDataStat::BeginCalStat(BOOL bSetRange)
 {
-    int     i           = 0;
-    BYTE    ucLevel     = 0;
-    UINT    nCtrl[MAXSTATLEVEL] = {0};
-    UINT    nInfl[MAXSTATLEVEL] = {0};
-    UINT    nDelt[MAXSTATLEVEL] = {0};
-    WORD    wIPPos      = 0;
-    WORD    wSchPos     = 0;
-    double  fCtrlTorq   = 0;
-    double  fInflTorq   = 0;
-    double  fDeltCir    = 0;
-    DWORD   dwQuality   = 0;
-    int     iShowIndex  = g_tReadData.nTotal-1;
-    double  fFullTorq   = 0;
+    int     i = 0;
+    BYTE    ucLevel = 0;
+    UINT    nCtrl[MAXSTATLEVEL] = { 0 };
+    UINT    nInfl[MAXSTATLEVEL] = { 0 };
+    UINT    nDelt[MAXSTATLEVEL] = { 0 };
+    WORD    wIPPos = 0;
+    WORD    wSchPos = 0;
+    double  fCtrlTorq = 0;
+    double  fInflTorq = 0;
+    double  fDeltCir = 0;
+    DWORD   dwQuality = 0;
+    int     iShowIndex = g_tReadData.nTotal - 1;
+    double  fFullTorq = 0;
     CString strNo;
     vector<int> listNo;
-    TorqData::Torque *ptTorq = NULL;
+    TorqData::Torque* ptTorq = NULL;
 
     m_nBuckNum = 0;
-    m_nQuali   = 0;
+    m_nQuali = 0;
     m_nUnQuali = 0;
-    
+
     m_strBadNO.Empty();
     m_strToolNO.Empty();
-    
-    m_fMaxTorq  = 0;
-    m_fMinTorq  = 0xFFFFFFFF;
+
+    m_fMaxTorq = 0;
+    m_fMinTorq = 0xFFFFFFFF;
     m_ptDrawData = NULL;
 
-    for(i=g_tReadData.nTotal-1; i>=0; i--)
+    for (i = g_tReadData.nTotal - 1; i >= 0; i--)
     {
         ptTorq = &g_tReadData.tData[i];
-        if(!IsSelType(ptTorq))
+        if (!IsSelType(ptTorq))
             continue;
-        
-        if(ptTorq->fmaxlimit() > fFullTorq)
+
+        if (ptTorq->fmaxlimit() > fFullTorq)
         {
             iShowIndex = i;
-            fFullTorq  = ptTorq->fmaxlimit();
+            fFullTorq = ptTorq->fmaxlimit();
         }
     }
     /* 选择满屏扭矩最大的数据,或者没有选中，取最后的值 */
     {
         m_ptDrawData = &g_tReadData.tData[iShowIndex];
-        if(!bSetRange)
+        if (!bSetRange)
         {
             double opttorq = theApp.GetOptTorq(m_ptDrawData);
-            InitStatRange(opttorq*RATIO_LOWERLIMIT, opttorq, opttorq*RATIO_UPPERLIMIT);
+            InitStatRange(opttorq * RATIO_LOWERLIMIT, opttorq, opttorq * RATIO_UPPERLIMIT);
             InitLabelInfo();
         }
         ResetStatLineByData(m_ptDrawData);
         m_fOptTorq = (int)theApp.GetOptTorq(m_ptDrawData);
     }
 
-    for(i=g_tReadData.nTotal-1; i>=0; i--)
+    for (i = g_tReadData.nTotal - 1; i >= 0; i--)
     {
         ptTorq = &g_tReadData.tData[i];
-        if(!IsSelType(ptTorq))
+        if (!IsSelType(ptTorq))
             continue;
 
         m_nBuckNum++;
@@ -506,15 +506,15 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         dwQuality = theApp.GetQuality(ptTorq);
         if (!(dwQuality & QUA_RESU_QUALITYBIT))
         {
-            m_nUnQuali ++;
+            m_nUnQuali++;
             m_strBadNO = strNo + m_strBadNO;
         }
         else
         {
-            m_nQuali ++;
+            m_nQuali++;
         }
 
-        if(ptTorq->btoolbuck())
+        if (ptTorq->btoolbuck())
         {
             m_strToolNO = strNo + m_strToolNO;
         }
@@ -522,37 +522,37 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         listNo.push_back(i);
 
         GET_CTRL_TORQ(fCtrlTorq, ptTorq);
-        if(fCtrlTorq > m_fMaxTorq)
+        if (fCtrlTorq > m_fMaxTorq)
             m_fMaxTorq = (int)fCtrlTorq;
-        if(fCtrlTorq < m_fMinTorq)
+        if (fCtrlTorq < m_fMinTorq)
             m_fMinTorq = (int)fCtrlTorq;
 
         ucLevel = GetValueRange(m_tStatCfg.fCtrlRange, fCtrlTorq);
-        if(ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
+        if (ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
         {
-            nCtrl[ucLevel-1]++;
+            nCtrl[ucLevel - 1]++;
         }
 #if 0
         fInflTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
         /* 有拐点扭矩才求拐点百分比和delta */
-        if(fInflTorq > 0)
+        if (fInflTorq > 0)
         {
             ucLevel = GetValueRange(m_tStatCfg.fShouldRange, fInflTorq);
-            if(ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
+            if (ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
             {
-                nInfl[ucLevel-1]++;
+                nInfl[ucLevel - 1]++;
             }
 
-            fDeltCir  = theApp.GetIPDelCir(ptTorq, wIPPos);
+            fDeltCir = theApp.GetIPDelCir(ptTorq, wIPPos);
             ucLevel = GetValueRange(m_tStatCfg.fDeltaRange, fDeltCir);
-            if(ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
+            if (ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
             {
-                nDelt[ucLevel-1]++;
+                nDelt[ucLevel - 1]++;
             }
         }
 #endif
     }
-    DrawStatFlow(&m_tccCtrl,   m_strCtrlRatio,  m_strCtrlLabel,   &nCtrl[0]);
+    DrawStatFlow(&m_tccCtrl, m_strCtrlRatio, m_strCtrlLabel, &nCtrl[0]);
     /*DrawStatFlow(&m_tccShould, m_strInflRatio,  m_strShouldLabel, &nInfl[0]);
     DrawStatFlow(&m_tccDelta,  m_strDeltRatio,  m_strDeltaLabel,  &nDelt[0]);*/
 
@@ -563,36 +563,36 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     UpdateData(FALSE);
 }
 
-void CDlgDataStat::DrawStatFlow(CTChart *ptChart, CString strRatio[], CString strLabel[], UINT pnNum[])
+void CDlgDataStat::DrawStatFlow(CTChart* ptChart, CString strRatio[], CString strLabel[], UINT pnNum[])
 {
-    int     i       = 0;
-    UINT    nTotal  = 0;
+    int     i = 0;
+    UINT    nTotal = 0;
 
     ASSERT_NULL(ptChart);
     ASSERT_NULL(strRatio);
     ASSERT_NULL(pnNum);
-    
+
     ptChart->Series(0).Clear();
     ASSERT_ZERO(m_nBuckNum);
-    
-    for(i=0; i<MAXSTATLEVEL; i++)
+
+    for (i = 0; i < MAXSTATLEVEL; i++)
     {
         strRatio[i].Empty();
         nTotal += pnNum[i];
     }
     ASSERT_ZERO(nTotal);
-    
-    for(i=0; i<MAXSTATLEVEL; i++)
+
+    for (i = 0; i < MAXSTATLEVEL; i++)
     {
-        strRatio[i].Format("%.2f%%", 100.0*pnNum[i]/m_nBuckNum);
-        ptChart->Series(0).AddXY(100.0*pnNum[i] / m_nBuckNum, i, strLabel[i], m_clrLabel[i]);
+        strRatio[i].Format("%.2f%%", 100.0 * pnNum[i] / m_nBuckNum);
+        ptChart->Series(0).AddXY(100.0 * pnNum[i] / m_nBuckNum, i, strLabel[i], m_clrLabel[i]);
     }
-    
+
 }
 
 void CDlgDataStat::DrawStatTorq(vector<int> listNo)
 {
-    if(m_nBuckNum != 0)
+    if (m_nBuckNum != 0)
     {
         m_wndLineStat.DrawMultiData(&g_tReadData, listNo);
         return;
@@ -605,25 +605,25 @@ void CDlgDataStat::DrawStatTorq(vector<int> listNo)
 void CDlgDataStat::OnBnClickedBtnsetstat()
 {
     CDlgStatSet dlgStatSet;
-    TorqData::Torque *ptTorq = m_ptDrawData;
+    TorqData::Torque* ptTorq = m_ptDrawData;
 
-    if(g_tReadData.nTotal != 0)
+    if (g_tReadData.nTotal != 0)
     {
-        if(ptTorq == NULL)
-            ptTorq = &g_tReadData.tData[g_tReadData.nTotal-1];
-        dlgStatSet.m_fCtrlMax   = ptTorq->fmaxlimit();
+        if (ptTorq == NULL)
+            ptTorq = &g_tReadData.tData[g_tReadData.nTotal - 1];
+        dlgStatSet.m_fCtrlMax = ptTorq->fmaxlimit();
         /*dlgStatSet.m_fShouldMax = theApp.GetOptTorq(ptTorq);
         dlgStatSet.m_fDeltaMax  = ptTorq->fmaxcir();*/
     }
     else
     {
-        dlgStatSet.m_fCtrlMax   = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT];
-       /* dlgStatSet.m_fShouldMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
-        dlgStatSet.m_fDeltaMax  = theApp.m_tParaCfg.tCtrl.fTurnConf[INDEX_TURN_MAXLIMIT];*/
+        dlgStatSet.m_fCtrlMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT];
+        /* dlgStatSet.m_fShouldMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
+         dlgStatSet.m_fDeltaMax  = theApp.m_tParaCfg.tCtrl.fTurnConf[INDEX_TURN_MAXLIMIT];*/
     }
-    
-    dlgStatSet.m_tempStat     = m_tStatCfg;
-    if(IDOK == dlgStatSet.DoModal())
+
+    dlgStatSet.m_tempStat = m_tStatCfg;
+    if (IDOK == dlgStatSet.DoModal())
     {
         m_tStatCfg = dlgStatSet.m_tempStat;
         InitLabelInfo();
@@ -641,12 +641,12 @@ void CDlgDataStat::OnCbnSelchangeCombostattype()
     m_nStatType = m_cbStatType.GetCurSel();
     m_cbBuckType.ResetContent();
     m_slStatType.RemoveAll();
-    
+
     m_strBadNO.Empty();
     m_strToolNO.Empty();
 
     GetBasicStatInfo();
-    
+
     BeginCalStat();
 }
 
@@ -674,16 +674,16 @@ void CDlgDataStat::OnBnClickedBtnsavestat()
     hdc = dc.m_hDC;
     hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
 
-    
+
     strFilePath = theApp.GetSaveDataPath();
     strFilePath += theApp.m_strFileTitle.c_str();
 
     m_cbBuckType.GetWindowText(strCurType);
     strName.Format(IDS_STRSTATNAME, strFilePath, strCurType);
     strName.Replace('*', 'X');
-    theApp.SavePNG(hbm,strName);
+    theApp.SavePNG(hbm, strName);
 
-    strInfo.Format(IDS_STRINFSAVEXLSUCC,strName);
+    strInfo.Format(IDS_STRINFSAVEXLSUCC, strName);
     theApp.SaveShowMessage(strInfo);
 
     GetDlgItem(IDC_BTNSAVESTAT)->ShowWindow(TRUE);
@@ -702,39 +702,39 @@ CString CDlgDataStat::SaveStatImg(void)
 {
     CPaintDC    dc(this);
     HDC         hdc;
-    HDC         hMemDC      = NULL; // 屏幕和内存设备描述表
-    HBITMAP     hBitmap     = NULL; // 位图句柄
-    HBITMAP     hOldBitmap  = NULL; 
+    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
+    HBITMAP     hBitmap = NULL; // 位图句柄
+    HBITMAP     hOldBitmap = NULL;
     CRect       rcClt;
     CString     strFileName;
-    int         iWidth      = 0;
-    int         iHeight     = 0;
-    
-    strFileName  = theApp.GetSaveDataPath();
+    int         iWidth = 0;
+    int         iHeight = 0;
+
+    strFileName = theApp.GetSaveDataPath();
     strFileName += "DataStat.png";
 
-    GetClientRect(&rcClt); 
-    iWidth  = rcClt.Width();
+    GetClientRect(&rcClt);
+    iWidth = rcClt.Width();
     iHeight = rcClt.Height();
     hdc = dc.m_hDC;
 
     // 为屏幕设备描述表创建兼容的内存设备描述表
-    hMemDC  = CreateCompatibleDC(hdc);
+    hMemDC = CreateCompatibleDC(hdc);
     // 创建一个与屏幕设备描述表兼容的位图
     hBitmap = CreateCompatibleBitmap(hdc, iWidth, iHeight);
 
-    hOldBitmap =(HBITMAP) ::SelectObject(hMemDC,hBitmap);
+    hOldBitmap = (HBITMAP) ::SelectObject(hMemDC, hBitmap);
     RedrawWindow();
 
     // 把新位图选到内存设备描述表中
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
-    StretchBlt( hMemDC, 0, 0, iWidth, iHeight,
-                hdc,    0, 0, iWidth, iHeight, SRCCOPY );
+    StretchBlt(hMemDC, 0, 0, iWidth, iHeight,
+        hdc, 0, 0, iWidth, iHeight, SRCCOPY);
 
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
-    
-    theApp.SavePNG(hBitmap,strFileName);
+
+    theApp.SavePNG(hBitmap, strFileName);
 
     return strFileName;
 }

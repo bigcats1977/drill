@@ -31,22 +31,22 @@
 
 class CLineChartCtrlStat : public CLineChartCtrl
 {
-// Construction
+    // Construction
 public:
     static BOOL RegisterWndClass(HINSTANCE hInstance);
 
     CLineChartCtrlStat();
 
-// Attributes
+    // Attributes
 public:
     //LINECHARITEM    m_tItem;
 
     // Operations
 public:
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CLineChartCtrlStat)
-    public:
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CLineChartCtrlStat)
+public:
     virtual ~CLineChartCtrlStat();
     //}}AFX_VIRTUAL
 // Implementation
@@ -59,8 +59,8 @@ public:
     BOOL    Add(COLORREF clrLine, double fUpper, double fLower);
     void    DrawBkLine();
     //void    FinishDraw();
-    void    DrawMultiData(TORQUEDATA *ptTorqData, vector<int> liNO);
-    void    DrawMultiScatter(TORQUEDATA *ptTorqData);
+    void    DrawMultiData(TORQUEDATA* ptTorqData, vector<int> liNO);
+    void    DrawMultiScatter(TORQUEDATA* ptTorqData);
 
 public:
     /* 扭矩显示相关参数 */
@@ -90,18 +90,18 @@ protected:
     afx_msg void OnPaint();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
-    
+
 private:
     void    DrawGridLine();
     void    DrawHLine(int y);
     void    DrawVLine(int x);
-    void    ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset=0);
+    void    ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset = 0);
     void    DrawControlLine();
     void    DrawAlarmLine();
     //void    DrawTaiLine();
     void    DrawShowLine();
     //void    DrawBearLine();
-    void    DrawScatter(int x, int y, BOOL bAccept,BOOL bIP);
+    void    DrawScatter(int x, int y, BOOL bAccept, BOOL bIP);
 };
 
 /////////////////////////////////////////////////////////////////////////////

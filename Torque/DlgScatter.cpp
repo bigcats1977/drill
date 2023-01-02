@@ -46,31 +46,31 @@ BOOL CDlgScatter::OnInitDialog()
     m_yScatAxis.SetRulerType(RT_VERTICAL);
 
     m_fFullCir = 0;
-    m_fFullTorq= 0;
-    
+    m_fFullTorq = 0;
+
     DrawScatterPlot();
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
 }
 
-void CDlgScatter::ResetScatLineByData(TorqData::Torque *ptTorq)
+void CDlgScatter::ResetScatLineByData(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL(ptTorq);
-    
+
     CHECK_VALUE_LOW(m_fFullTorq, ptTorq->fmaxlimit());
     CHECK_VALUE_LOW(m_fFullCir, ptTorq->fmaxcir());
 
     m_wndLineScat.RemoveAt();
-    m_wndLineScat.m_fOptTorq    = theApp.GetOptTorq(ptTorq);/* 最佳扭矩 */
+    m_wndLineScat.m_fOptTorq = theApp.GetOptTorq(ptTorq);/* 最佳扭矩 */
     //m_wndLineScat.m_fSpeedDown  = ptTorq->fspeeddown();     /* 减速扭矩 */
     m_wndLineScat.m_fShow = ptTorq->fshow();                /* 显示扭矩 */
     //m_wndLineScat.m_fBear = ptTorq->fbear();                /* 肩负扭矩 */
     m_wndLineScat.m_fControlCir = ptTorq->fcontrolcir();    /* 控制周数 */
-    m_wndLineScat.m_fUpperCir   = ptTorq->fuppercir();      /* 上限周数 */
-    m_wndLineScat.m_fLowerCir   = ptTorq->flowercir();      /* 下限周数 */
-    m_wndLineScat.m_fMaxCir     = m_fFullCir;               /* 最大周数 */
-    m_wndLineScat.m_fMaxLimit   = m_fFullTorq;              /* 最大上限 */
+    m_wndLineScat.m_fUpperCir = ptTorq->fuppercir();      /* 上限周数 */
+    m_wndLineScat.m_fLowerCir = ptTorq->flowercir();      /* 下限周数 */
+    m_wndLineScat.m_fMaxCir = m_fFullCir;               /* 最大周数 */
+    m_wndLineScat.m_fMaxLimit = m_fFullTorq;              /* 最大上限 */
 
     m_wndLineScat.SetBkColor(RGB(255, 255, 255));
     m_wndLineScat.m_bBKLine = FALSE;
@@ -82,10 +82,10 @@ void CDlgScatter::ResetScatLineByData(TorqData::Torque *ptTorq)
     m_wndLineScat.DrawBkLine();
 }
 
-void CDlgScatter::ResetScatLine(PARACFG *ptCfg)
+void CDlgScatter::ResetScatLine(PARACFG* ptCfg)
 {
-    CONTROLPARA *ptCtrl = NULL;
-    COMMONCFG   *ptComm = NULL;
+    CONTROLPARA* ptCtrl = NULL;
+    COMMONCFG* ptComm = NULL;
 
     ASSERT_NULL(ptCfg);
 
@@ -95,15 +95,15 @@ void CDlgScatter::ResetScatLine(PARACFG *ptCfg)
     m_wndLineScat.RemoveAt();
     //m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
     //m_wndLineScat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
-    m_wndLineScat.m_fOptTorq    = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
+    m_wndLineScat.m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* 最佳扭矩 */
     //m_wndLineScat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* 减速扭矩 */
-    m_wndLineScat.m_fShow       = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
+    m_wndLineScat.m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* 显示扭矩 */
     //m_wndLineScat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
     m_wndLineScat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* 控制周数 */
-    m_wndLineScat.m_fUpperCir   = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
-    m_wndLineScat.m_fLowerCir   = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
-    m_wndLineScat.m_fMaxCir     = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
-    m_wndLineScat.m_fMaxLimit   = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
+    m_wndLineScat.m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* 上限周数 */
+    m_wndLineScat.m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* 下限周数 */
+    m_wndLineScat.m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* 最大周数 */
+    m_wndLineScat.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     //m_wndLineScat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* 最大台阶 */
     //m_wndLineScat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* 最小台阶 */
 
@@ -119,26 +119,26 @@ void CDlgScatter::ResetScatLine(PARACFG *ptCfg)
 
 void CDlgScatter::DrawScatterPlot(void)
 {
-    UINT    i       = 0;
+    UINT    i = 0;
     double  fTorque = 0;
-    double  fCir    = 0;
-    TorqData::Torque  *ptTorq = NULL;
-    
-    for(i=0; i<g_tReadData.nTotal; i++)
+    double  fCir = 0;
+    TorqData::Torque* ptTorq = NULL;
+
+    for (i = 0; i < g_tReadData.nTotal; i++)
     {
         ptTorq = theApp.GetOrgTorqFromTorq(i);
-        if(NULL== ptTorq)
+        if (NULL == ptTorq)
             continue;
 
         GET_CTRL_TORQ(fTorque, ptTorq);
-        if(fTorque > OVERFLOWTORQ)
+        if (fTorque > OVERFLOWTORQ)
             continue;
         CHECK_VALUE_LOW(m_fFullTorq, fTorque);
 
         fCir = theApp.GetCir(ptTorq);
         CHECK_VALUE_LOW(m_fFullCir, fCir);
     }
-    ResetScatLineByData(&g_tReadData.tData[g_tReadData.nTotal-1]);
+    ResetScatLineByData(&g_tReadData.tData[g_tReadData.nTotal - 1]);
 
     m_wndLineScat.DrawMultiScatter(&g_tReadData);
 
@@ -149,39 +149,39 @@ CString CDlgScatter::SaveScatterImg(void)
 {
     CPaintDC    dc(this);
     HDC         hdc;
-    HDC         hMemDC      = NULL; // 屏幕和内存设备描述表
-    HBITMAP     hBitmap     = NULL; // 位图句柄
-    HBITMAP     hOldBitmap  = NULL; 
+    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
+    HBITMAP     hBitmap = NULL; // 位图句柄
+    HBITMAP     hOldBitmap = NULL;
     CRect       rcClt;
     CString     strFileName;
-    int         iWidth      = 0;
-    int         iHeight     = 0;
-    
-    strFileName  = theApp.GetSaveDataPath();
+    int         iWidth = 0;
+    int         iHeight = 0;
+
+    strFileName = theApp.GetSaveDataPath();
     strFileName += "Scatter.png";
 
-    GetClientRect(&rcClt); 
-    iWidth  = rcClt.Width();
+    GetClientRect(&rcClt);
+    iWidth = rcClt.Width();
     iHeight = rcClt.Height();
     hdc = dc.m_hDC;
 
     // 为屏幕设备描述表创建兼容的内存设备描述表
-    hMemDC  = CreateCompatibleDC(hdc);
+    hMemDC = CreateCompatibleDC(hdc);
     // 创建一个与屏幕设备描述表兼容的位图
     hBitmap = CreateCompatibleBitmap(hdc, iWidth, iHeight);
 
-    hOldBitmap =(HBITMAP) ::SelectObject(hMemDC,hBitmap);
+    hOldBitmap = (HBITMAP) ::SelectObject(hMemDC, hBitmap);
     RedrawWindow();
 
     // 把新位图选到内存设备描述表中
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
-    StretchBlt( hMemDC, 0, 0, iWidth, iHeight,
-                hdc,    0, 0, iWidth, iHeight, SRCCOPY );
+    StretchBlt(hMemDC, 0, 0, iWidth, iHeight,
+        hdc, 0, 0, iWidth, iHeight, SRCCOPY);
 
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
-    
-    theApp.SavePNG(hBitmap,strFileName);
+
+    theApp.SavePNG(hBitmap, strFileName);
 
     return strFileName;
 }

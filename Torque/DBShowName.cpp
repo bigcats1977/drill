@@ -181,7 +181,7 @@ vector<int> CDBShowName::GetIndexsByNOs(string NOs)
     return lsIndexs;
 }
 
-int CDBShowName::GetNOByName(string Name, int &Index)
+int CDBShowName::GetNOByName(string Name, int& Index)
 {
     int iNO = DB_INVALID_VAL;
     int row = 0, col = 0;
@@ -236,7 +236,7 @@ int CDBShowName::InsertShowName(int NO, string Name)
     strValues.push_back(to_string(NO));
     strValues.push_back(Name);
 
-    if(! _Sqlite->InsertRow(g_tTableName[_TableIndex], strValues))
+    if (!_Sqlite->InsertRow(g_tTableName[_TableIndex], strValues))
         return DB_INVALID_VAL;
 
     return _Sqlite->GetLastInsertID();
@@ -261,7 +261,7 @@ int CDBShowName::UpdateShowName(int NO, string Name)
 
     //Remove Old Index
     oldIndex = GetIndexByNO(NO);
-    if(oldIndex != DB_INVALID_VAL)
+    if (oldIndex != DB_INVALID_VAL)
         ss << "UPDATE " << g_tTableName[_TableIndex] << " SET " << "NO=NULL" << " WHERE " << "AutoIndex=" << oldIndex << ";\n";
 
     if (Index == DB_INVALID_VAL)
@@ -273,7 +273,7 @@ int CDBShowName::UpdateShowName(int NO, string Name)
     }
     else
     {
-        ss << "UPDATE " << g_tTableName[_TableIndex] << " SET " << "NO=" <<NO<< " WHERE " << "AutoIndex=" << Index << ";\n";
+        ss << "UPDATE " << g_tTableName[_TableIndex] << " SET " << "NO=" << NO << " WHERE " << "AutoIndex=" << Index << ";\n";
     }
 
     ss << "COMMIT;";

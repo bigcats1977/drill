@@ -194,7 +194,7 @@ int CDBShowOption::GetNOByOption(int Name, string value, bool bIns)
     if (row <= 0)
     {
         _Sqlite->FreeResult(&pResult);
-        
+
         COMP_BFALSE_R(bIns, DB_INVALID_VAL);
         COMP_BFALSE_R(InsertOption(Name, value), DB_INVALID_VAL);
 
@@ -227,7 +227,7 @@ int CDBShowOption::InsertOption(int index, string Value)
     strValues.push_back(Value);
     strValues.push_back(GetCurTime());
 
-    if(! _Sqlite->InsertRow(g_tTableName[_TableIndex], strValues))
+    if (!_Sqlite->InsertRow(g_tTableName[_TableIndex], strValues))
         return DB_INVALID_VAL;
 
     return _Sqlite->GetLastInsertID();

@@ -273,26 +273,26 @@ BOOL CDlgShowSet::OnInitDialog()
 
     CDialog::OnInitDialog();
 
-    m_clrNormal  = RGB(0, 0, 0); 
+    m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
     memset(&m_bList[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
     memset(&m_bMain[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
     memset(&m_bHisList[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
     memset(&m_bHisMain[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
 
-    for(i=0; i<m_tempShow.nParaNum && i<MAXPARANUM; i++)
+    for (i = 0; i < m_tempShow.nParaNum && i < MAXPARANUM; i++)
     {
         m_strShowName[i] = m_tempShow.strShow[i].c_str();
     }
     m_iPriorShowCtrlID = m_iFileName = m_tempShow.nFileName;
     m_iPriorStatCtrlID = m_iShowStat = m_tempShow.nStatType;
     m_iPriorJointCtrlID = m_iJointOD = m_tempShow.nJointOD;
-    for(i=0; i<m_tempShow.nListNum; i++)
+    for (i = 0; i < m_tempShow.nListNum; i++)
     {
         m_bHisList[m_tempShow.nList[i]] = m_bList[m_tempShow.nList[i]] = TRUE;
     }
-    
-    for(i=0; i< m_tempShow.nMainNum; i++)
+
+    for (i = 0; i < m_tempShow.nMainNum; i++)
     {
         m_bHisMain[m_tempShow.nMain[i]] = m_bMain[m_tempShow.nMain[i]] = TRUE;
     }
@@ -397,14 +397,14 @@ BOOL CDlgShowSet::SaveShowCfgInotDB()
 HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
-    
+
     COLORREF    clrCtrl;
     CString     strContent;
     int         iIndex = 0;
     int         iCtrlID;
     BOOL        bSeled = FALSE;
-    
-    SHOWCFG     *ptShow = theApp.m_ptCurShow;
+
+    SHOWCFG* ptShow = theApp.m_ptCurShow;
 
     ASSERT_NULL_R(pDC, hbr);
     ASSERT_NULL_R(pWnd, hbr);
@@ -434,9 +434,9 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     case IDC_EDSHOWNAME14:
     case IDC_EDSHOWNAME15:
     case IDC_EDSHOWNAME16:
-    //case IDC_EDSHOWNAME17:
-    //case IDC_EDSHOWNAME18:
-        //UpdateData(TRUE);
+        //case IDC_EDSHOWNAME17:
+        //case IDC_EDSHOWNAME18:
+            //UpdateData(TRUE);
         iIndex = iCtrlID - IDC_EDSHOWNAME1;
         //JUDGE_STRPARA_CHANGE(m_strShowName[iIndex], ptShow->tShow[iIndex].strName.c_str());
         JUDGE_STRPARA_CHANGE(strContent, ptShow->strShow[iIndex].c_str());
@@ -457,10 +457,10 @@ void CDlgShowSet::JudgeShowRadio(int iCtrlIdx)
 
     COMP_BL(iCtrlIdx, 0);
     COMP_BGE(iCtrlIdx, MAXPARANUM);
-    
+
     clrCtrl = m_clrNormal;
     bSeled = (m_iFileName == iCtrlIdx);
-    if ((bSeled  && iCtrlIdx != theApp.m_ptCurShow->nFileName) ||
+    if ((bSeled && iCtrlIdx != theApp.m_ptCurShow->nFileName) ||
         (!bSeled && iCtrlIdx == theApp.m_ptCurShow->nFileName))
     {
         if (iCtrlIdx != theApp.m_ptCurShow->nFileName)
@@ -562,15 +562,15 @@ void CDlgShowSet::JudgeStatRadio(int iCtrlIdx)
 
     COMP_BL(iCtrlIdx, 0);
     COMP_BGE(iCtrlIdx, MAXPARANUM);
-    
+
     clrCtrl = m_clrNormal;
     bSeled = (m_iShowStat == iCtrlIdx);
-    if ((bSeled  && iCtrlIdx != theApp.m_ptCurShow->nStatType) ||
+    if ((bSeled && iCtrlIdx != theApp.m_ptCurShow->nStatType) ||
         (!bSeled && iCtrlIdx == theApp.m_ptCurShow->nStatType))
-    if (iCtrlIdx != theApp.m_ptCurShow->nStatType)
-    {
-        clrCtrl = m_clrChanged;
-    }
+        if (iCtrlIdx != theApp.m_ptCurShow->nStatType)
+        {
+            clrCtrl = m_clrChanged;
+        }
 
     m_rdStatName[iCtrlIdx].SetForeColor(clrCtrl);
     m_rdStatName[iCtrlIdx].Invalidate();
@@ -665,7 +665,7 @@ void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
     COMP_BL(iCtrlIdx, 0);
     COMP_BGE(iCtrlIdx, MAXPARANUM);
     UpdateData(TRUE);
-    
+
     clrCtrl = m_clrNormal;
     if (m_bHisList[iCtrlIdx] != m_bList[iCtrlIdx])
     {
@@ -756,7 +756,7 @@ void CDlgShowSet::JudgeMainCheck(int iCtrlIdx)
     COMP_BGE(iCtrlIdx, MAXPARANUM);
 
     UpdateData(TRUE);
-    
+
     clrCtrl = m_clrNormal;
     if (m_bHisMain[iCtrlIdx] != m_bMain[iCtrlIdx])
     {

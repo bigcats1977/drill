@@ -28,10 +28,10 @@ static char THIS_FILE[] = __FILE__;
 
 CMylistctrl::CMylistctrl()
 {
-    m_iNumCols          = 0;
-    m_iSortCol          = -1;
-    m_bSortAscending    = TRUE;
-    m_iHighlight        = 0;
+    m_iNumCols = 0;
+    m_iSortCol = -1;
+    m_bSortAscending = TRUE;
+    m_iHighlight = 0;
 }
 
 CMylistctrl::~CMylistctrl()
@@ -41,11 +41,11 @@ CMylistctrl::~CMylistctrl()
 
 
 BEGIN_MESSAGE_MAP(CMylistctrl, CListCtrl)
-//{{AFX_MSG_MAP(CMylistctrl)
-ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
-ON_WM_LBUTTONDOWN()
-ON_WM_LBUTTONDBLCLK()
-ON_NOTIFY_REFLECT(LVN_COLUMNCLICK, OnColumnclick)
+    //{{AFX_MSG_MAP(CMylistctrl)
+    ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
+    ON_WM_LBUTTONDOWN()
+    ON_WM_LBUTTONDBLCLK()
+    ON_NOTIFY_REFLECT(LVN_COLUMNCLICK, OnColumnclick)
     ON_WM_RBUTTONDOWN()
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -60,8 +60,8 @@ BOOL CMylistctrl::PreCreateWindow(CREATESTRUCT& cs)
     cs.style &= ~LVS_TYPEMASK;
     cs.style &= ~LVS_SHOWSELALWAYS;
     cs.style |= LVS_REPORT;
-    cs.cx    = GetSystemMetrics(0);
-    cs.cy    = GetSystemMetrics(1);
+    cs.cx = GetSystemMetrics(0);
+    cs.cy = GetSystemMetrics(1);
     return CListCtrl::PreCreateWindow(cs);
 }
 
@@ -75,7 +75,7 @@ void CMylistctrl::OnLButtonDown(UINT nFlags, CPoint point)
 // draw action. So, we'll need to cast the generic pNMHDR pointer.
 void CMylistctrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    DWORD_PTR iRow   = 0;
+    DWORD_PTR iRow = 0;
     DWORD    dwData = 0;
     LPNMLVCUSTOMDRAW  lplvcd = NULL;
     CPaintDC dc(this);
@@ -87,7 +87,7 @@ void CMylistctrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
     dc.SetBkMode(TRANSPARENT);
 
-    switch(lplvcd->nmcd.dwDrawStage)
+    switch (lplvcd->nmcd.dwDrawStage)
     {
     case CDDS_PREPAINT:
         *pResult = CDRF_NOTIFYITEMDRAW;          // ask for item notifications.
@@ -96,16 +96,16 @@ void CMylistctrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
         *pResult = CDRF_DODEFAULT;
         iRow = lplvcd->nmcd.dwItemSpec;
         /* 隔行设置不同的背景色 */
-        if(iRow%2 != 0)
+        if (iRow % 2 != 0)
             lplvcd->clrTextBk = CLR_ALTERBACKG;
         dwData = GetItemData(iRow);
         /* 异常记录，文字设置为红色 */
-        if(dwData == TORQ_BAD_QUALITY)
+        if (dwData == TORQ_BAD_QUALITY)
         {
             lplvcd->clrText = CLR_ABNORMDATA;
         }
         /* 工具扣为蓝色 */
-        else if(dwData == TORQ_TOOLBUCKLE)
+        else if (dwData == TORQ_TOOLBUCKLE)
         {
             lplvcd->clrText = CLR_TOOLBUCKLE;
         }
@@ -116,11 +116,11 @@ void CMylistctrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-BOOL CMylistctrl::GetCellRect(int iRow, int iCol, int iArea, CRect &rc)
+BOOL CMylistctrl::GetCellRect(int iRow, int iCol, int iArea, CRect& rc)
 {
     CRect rcCol;
 
-    if(iCol)
+    if (iCol)
         return GetSubItemRect(iRow, iCol, iArea, rc);
 
     iCol = 1;
@@ -142,11 +142,11 @@ void CMylistctrl::OnLButtonDblClk(UINT nFlags, CPoint point)
     iItem = GetNextSelectedItem(pos);
     COMP_BE(iItem, -1);
 
-    strTemp = GetItemText(iItem,0);
+    strTemp = GetItemText(iItem, 0);
 
     ((CDlgHisList*)this->GetParent())->SetDataPlace(atoi(strTemp));
 
-    ((CMySheet *)this->GetParent()->GetParent())-> SetActivePage(1); 
+    ((CMySheet*)this->GetParent()->GetParent())->SetActivePage(1);
     /*((CMySheet *)this->GetParent())-> SetActivePage(1);*/
 
     CListCtrl::OnLButtonDblClk(nFlags, point);
@@ -165,74 +165,74 @@ void CMylistctrl::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-BOOL CMylistctrl::SetItemData( int iItem, DWORD dwData )
+BOOL CMylistctrl::SetItemData(int iItem, DWORD dwData)
 {
-    ItemData *pItemData = NULL;
+    ItemData* pItemData = NULL;
 
     COMP_BGE_R(iItem, GetItemCount(), FALSE);
 
-    pItemData = (ItemData*)( CListCtrl::GetItemData( iItem ) );
+    pItemData = (ItemData*)(CListCtrl::GetItemData(iItem));
     ASSERT_NULL_R(pItemData, FALSE);
     pItemData->dwData = dwData;
 
     return TRUE;
 }
 
-BOOL CMylistctrl::SetTextArray( int iItem, LPTSTR* arrpsz )
+BOOL CMylistctrl::SetTextArray(int iItem, LPTSTR* arrpsz)
 {
     ItemData* pItemData = NULL;
 
     ASSERT_NULL_R(arrpsz, FALSE);
-    
-    ASSERT( CListCtrl::GetItemData( iItem ) == NULL );
+
+    ASSERT(CListCtrl::GetItemData(iItem) == NULL);
     pItemData = new ItemData;
     ASSERT_NULL_R(pItemData, FALSE);
     pItemData->arrpsz = arrpsz;
 
-    return CListCtrl::SetItemData( iItem, reinterpret_cast<DWORD_PTR>( pItemData ) );
+    return CListCtrl::SetItemData(iItem, reinterpret_cast<DWORD_PTR>(pItemData));
 }
 
-int CMylistctrl::AddItem( LPCTSTR pszText, ... )
+int CMylistctrl::AddItem(LPCTSTR pszText, ...)
 {
-    int     iCol    = 0;
+    int     iCol = 0;
     va_list list;
-    LPTSTR *arrpsz  = NULL;
-    const int iIndex = InsertItem( GetItemCount(), pszText );
+    LPTSTR* arrpsz = NULL;
+    const int iIndex = InsertItem(GetItemCount(), pszText);
 
-    arrpsz = new LPTSTR[ m_iNumCols ];
+    arrpsz = new LPTSTR[m_iNumCols];
     ASSERT_NULL_R(arrpsz, -1);
-    arrpsz[ 0 ] = new TCHAR[ lstrlen( pszText ) + 1 ];
-    ASSERT_NULL_R(arrpsz[ 0 ], -1);
-    (void)lstrcpy( arrpsz[ 0 ], pszText );
+    arrpsz[0] = new TCHAR[lstrlen(pszText) + 1];
+    ASSERT_NULL_R(arrpsz[0], -1);
+    (void)lstrcpy(arrpsz[0], pszText);
 
-    va_start( list, pszText );
+    va_start(list, pszText);
 
-    for(iCol = 1; iCol < m_iNumCols; iCol++ )
+    for (iCol = 1; iCol < m_iNumCols; iCol++)
     {
-        pszText = va_arg( list, LPCTSTR );
-        ASSERT_VALID_STRING( pszText );
-        VERIFY( CListCtrl::SetItem( iIndex, iCol, LVIF_TEXT, pszText, 0, 0, 0, 0 ) );
+        pszText = va_arg(list, LPCTSTR);
+        ASSERT_VALID_STRING(pszText);
+        VERIFY(CListCtrl::SetItem(iIndex, iCol, LVIF_TEXT, pszText, 0, 0, 0, 0));
 
-        arrpsz[ iCol ] = new TCHAR[ lstrlen( pszText ) + 1 ];
-        ASSERT_NULL_R(arrpsz[ iCol ], -1);
-        (void)lstrcpy( arrpsz[ iCol ], pszText );
+        arrpsz[iCol] = new TCHAR[lstrlen(pszText) + 1];
+        ASSERT_NULL_R(arrpsz[iCol], -1);
+        (void)lstrcpy(arrpsz[iCol], pszText);
     }
 
-    va_end( list );
+    va_end(list);
 
-    VERIFY( SetTextArray( iIndex, arrpsz ) );
+    VERIFY(SetTextArray(iIndex, arrpsz));
 
     return iIndex;
 }
 
-int CMylistctrl::AddItemList( CStringList& slItem )
+int CMylistctrl::AddItemList(CStringList& slItem)
 {
     POSITION    tPos;
     int     iCol = 0;
     //va_list list;
-    LPTSTR *arrpsz  = NULL;
+    LPTSTR* arrpsz = NULL;
     CString strItem;
-    
+
     tPos = slItem.GetHeadPosition();
     if (tPos == NULL)
         return -1;
@@ -240,74 +240,74 @@ int CMylistctrl::AddItemList( CStringList& slItem )
     strItem = slItem.GetNext(tPos);
     const int iIndex = InsertItem(GetItemCount(), strItem);
 
-    arrpsz = new LPTSTR[ m_iNumCols ];
+    arrpsz = new LPTSTR[m_iNumCols];
     ASSERT_NULL_R(arrpsz, -1);
-    arrpsz[ 0 ] = new TCHAR[ strItem.GetLength() + 1 ];
-    ASSERT_NULL_R(arrpsz[ 0 ], -1);
-    (void)lstrcpy( arrpsz[ 0 ], strItem );
+    arrpsz[0] = new TCHAR[strItem.GetLength() + 1];
+    ASSERT_NULL_R(arrpsz[0], -1);
+    (void)lstrcpy(arrpsz[0], strItem);
     iCol++;
 
     //va_start( list, slItem);
 
-    while(tPos != NULL)
+    while (tPos != NULL)
     {
         strItem = slItem.GetNext(tPos);
-        VERIFY( CListCtrl::SetItem( iIndex, iCol, LVIF_TEXT, strItem, 0, 0, 0, 0 ) );
+        VERIFY(CListCtrl::SetItem(iIndex, iCol, LVIF_TEXT, strItem, 0, 0, 0, 0));
 
-        arrpsz[ iCol ] = new TCHAR[ strItem.GetLength() + 1 ];
-        ASSERT_NULL_R(arrpsz[ iCol ], -1);
-        (void)lstrcpy( arrpsz[ iCol ], strItem );
+        arrpsz[iCol] = new TCHAR[strItem.GetLength() + 1];
+        ASSERT_NULL_R(arrpsz[iCol], -1);
+        (void)lstrcpy(arrpsz[iCol], strItem);
         iCol++;
     }
 
     //va_end( list );
 
-    VERIFY( SetTextArray( iIndex, arrpsz ) );
+    VERIFY(SetTextArray(iIndex, arrpsz));
 
     return iIndex;
 }
 
-BOOL CMylistctrl::SetHeadings( UINT nStringID )
+BOOL CMylistctrl::SetHeadings(UINT nStringID)
 {
     CString strHeadings;
 
-    VERIFY( strHeadings.LoadString( nStringID ) );
-    return SetHeadings( strHeadings );
+    VERIFY(strHeadings.LoadString(nStringID));
+    return SetHeadings(strHeadings);
 }
 
-BOOL CMylistctrl::SetHeadings( const CString& strHeadings )
+BOOL CMylistctrl::SetHeadings(const CString& strHeadings)
 {
-    int iStart      = 0;
-    int iComma      = 0;
-    int iSemiColon  = 0;
-    int iWidth      = 0;
+    int iStart = 0;
+    int iComma = 0;
+    int iSemiColon = 0;
+    int iWidth = 0;
     CString strHeading;
 
-    for(int nIndex=0;nIndex<m_iNumCols;nIndex++)   
+    for (int nIndex = 0; nIndex < m_iNumCols; nIndex++)
         DeleteColumn(0);
     m_iNumCols = 0;
 
-    for( ;; )
+    for (;; )
     {
-        iComma = strHeadings.Find( _T(','), iStart );
+        iComma = strHeadings.Find(_T(','), iStart);
 
-        if( iComma == -1 )
+        if (iComma == -1)
             break;
 
-        strHeading = strHeadings.Mid( iStart, iComma - iStart );
+        strHeading = strHeadings.Mid(iStart, iComma - iStart);
 
         iStart = iComma + 1;
 
-        iSemiColon = strHeadings.Find( _T(';'), iStart );
+        iSemiColon = strHeadings.Find(_T(';'), iStart);
 
-        if( iSemiColon == -1 )
+        if (iSemiColon == -1)
             iSemiColon = strHeadings.GetLength();
 
-        iWidth = atoi( strHeadings.Mid( iStart, iSemiColon - iStart ) );
+        iWidth = atoi(strHeadings.Mid(iStart, iSemiColon - iStart));
 
         iStart = iSemiColon + 1;
 
-        COMP_BE_R(InsertColumn( m_iNumCols++, strHeading, LVCFMT_LEFT, iWidth ), -1, FALSE);
+        COMP_BE_R(InsertColumn(m_iNumCols++, strHeading, LVCFMT_LEFT, iWidth), -1, FALSE);
     }
 
     return TRUE;
@@ -317,69 +317,69 @@ BOOL CMylistctrl::DeleteAllItems()
 {
     int iItem = 0;
 
-    for(iItem  = 0; iItem < GetItemCount(); iItem ++ )
-        FreeItemMemory( iItem );
+    for (iItem = 0; iItem < GetItemCount(); iItem++)
+        FreeItemMemory(iItem);
 
     return CListCtrl::DeleteAllItems();
 }
 
-BOOL CMylistctrl::SetItemText( int iItem, int iSubItem, LPCTSTR lpszText )
+BOOL CMylistctrl::SetItemText(int iItem, int iSubItem, LPCTSTR lpszText)
 {
-    LPTSTR  *arrpsz = NULL;
+    LPTSTR* arrpsz = NULL;
     LPTSTR  pszText = NULL;
 
-    COMP_BFALSE_R(CListCtrl::SetItemText( iItem, iSubItem, lpszText ), FALSE);
+    COMP_BFALSE_R(CListCtrl::SetItemText(iItem, iSubItem, lpszText), FALSE);
 
-    arrpsz = GetTextArray( iItem );
+    arrpsz = GetTextArray(iItem);
     ASSERT_NULL_R(arrpsz, FALSE);
 
-    pszText = arrpsz[ iSubItem ];
+    pszText = arrpsz[iSubItem];
     delete[] pszText;
 
-    pszText = new TCHAR[ lstrlen( lpszText ) + 1 ];
+    pszText = new TCHAR[lstrlen(lpszText) + 1];
     ASSERT_NULL_R(pszText, FALSE);
-    (void)lstrcpy( pszText, lpszText );
-    arrpsz[ iSubItem ] = pszText;
+    (void)lstrcpy(pszText, lpszText);
+    arrpsz[iSubItem] = pszText;
 
     return TRUE;
 }
 
-void CMylistctrl::FreeItemMemory( const int iItem )
+void CMylistctrl::FreeItemMemory(const int iItem)
 {
     int     i = 0;
-    ItemData    *pItemData  = NULL;
-    LPTSTR      *arrpsz     = NULL;
+    ItemData* pItemData = NULL;
+    LPTSTR* arrpsz = NULL;
 
-    pItemData = reinterpret_cast<ItemData*>( CListCtrl::GetItemData( iItem ) );
+    pItemData = reinterpret_cast<ItemData*>(CListCtrl::GetItemData(iItem));
     ASSERT_NULL(pItemData);
     arrpsz = pItemData->arrpsz;
     ASSERT_NULL(arrpsz);
 
-    for(i = 0; i < m_iNumCols; i++ )
-        delete[] arrpsz[ i ];
+    for (i = 0; i < m_iNumCols; i++)
+        delete[] arrpsz[i];
 
     delete[] arrpsz;
     delete pItemData;
 
-    VERIFY( CListCtrl::SetItemData( iItem, NULL ) );
+    VERIFY(CListCtrl::SetItemData(iItem, NULL));
 }
 
-LPTSTR* CMylistctrl::GetTextArray( int iItem ) const
+LPTSTR* CMylistctrl::GetTextArray(int iItem) const
 {
-    ItemData *pItemData = NULL;
-    ASSERT( iItem < GetItemCount() );
+    ItemData* pItemData = NULL;
+    ASSERT(iItem < GetItemCount());
 
-    pItemData = reinterpret_cast<ItemData*>( CListCtrl::GetItemData( iItem ) );
+    pItemData = reinterpret_cast<ItemData*>(CListCtrl::GetItemData(iItem));
     ASSERT_NULL_R(pItemData, NULL);
     return pItemData->arrpsz;
 }
 
-DWORD CMylistctrl::GetItemData( int iItem ) const
+DWORD CMylistctrl::GetItemData(int iItem) const
 {
-    ItemData *pItemData = NULL;
-    ASSERT( iItem < GetItemCount() );
+    ItemData* pItemData = NULL;
+    ASSERT(iItem < GetItemCount());
 
-    pItemData = reinterpret_cast<ItemData*>( CListCtrl::GetItemData( iItem ) );
+    pItemData = reinterpret_cast<ItemData*>(CListCtrl::GetItemData(iItem));
     ASSERT_NULL_R(pItemData, 0);
     return pItemData->dwData;
 }

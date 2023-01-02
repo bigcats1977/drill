@@ -44,8 +44,8 @@ END_MESSAGE_MAP()
         }                                                       \
     }
 
-/////////////////////////////////////////////////////////////////////////////
-// CTorqueApp construction
+   /////////////////////////////////////////////////////////////////////////////
+   // CTorqueApp construction
 
 CTorqueApp::CTorqueApp()
 {
@@ -62,9 +62,9 @@ CDBAccess  theDB;
 /////////////////////////////////////////////////////////////////////////////
 // CTorqueApp initialization
 
-BOOL CALLBACK EnumWndProc(HWND hwnd,LPARAM lParam)
+BOOL CALLBACK EnumWndProc(HWND hwnd, LPARAM lParam)
 {
-    HANDLE h = GetProp(hwnd,g_strPropName.c_str());
+    HANDLE h = GetProp(hwnd, g_strPropName.c_str());
 
     COMP_BNE_R(h, g_hValue, TRUE);
 
@@ -74,8 +74,8 @@ BOOL CALLBACK EnumWndProc(HWND hwnd,LPARAM lParam)
 
 void CTorqueApp::InitVariant()
 {
-    m_bShowCRC      = FALSE;
-    m_nPBHead       = htonl(PBHEAD);
+    m_bShowCRC = FALSE;
+    m_nPBHead = htonl(PBHEAD);
     m_strReadFile.clear();
 }
 
@@ -83,7 +83,7 @@ void CTorqueApp::InitLanguage()
 {
     int     i = 0;
 
-    for(i=0; i<LANGUAGE_NUM; i++)
+    for (i = 0; i < LANGUAGE_NUM; i++)
     {
         m_hLangDLL[i] = NULL;
     }
@@ -178,23 +178,23 @@ BOOL CTorqueApp::LoadLanguageDll(UINT nLang, BOOL bUpdate)
 
 void CTorqueApp::InitArray()
 {
-    m_ucDefaultMac[0]   = 0x12;
-    m_ucDefaultMac[1]   = 0x79;
-    m_ucDefaultMac[2]   = 0x56;
-    m_ucDefaultMac[3]   = 0x58;
-    m_ucDefaultMac[4]   = 0x11;
+    m_ucDefaultMac[0] = 0x12;
+    m_ucDefaultMac[1] = 0x79;
+    m_ucDefaultMac[2] = 0x56;
+    m_ucDefaultMac[3] = 0x58;
+    m_ucDefaultMac[4] = 0x11;
 
-    m_strDbgHead[0]     = _T("#### ");
-    m_strDbgHead[1]     = _T("**** ");
-    m_strDbgHead[2]     = _T("#COL ");
-    m_strDbgHead[3]     = _T("#INF ");
-    m_strDbgHead[4]     = _T("@SND ");
-    m_strDbgHead[5]     = _T("@RCV ");
+    m_strDbgHead[0] = _T("#### ");
+    m_strDbgHead[1] = _T("**** ");
+    m_strDbgHead[2] = _T("#COL ");
+    m_strDbgHead[3] = _T("#INF ");
+    m_strDbgHead[4] = _T("@SND ");
+    m_strDbgHead[5] = _T("@RCV ");
 }
 
 BOOL CTorqueApp::InitInstance()
 {
-    CTime   time=CTime::GetCurrentTime();//得到当前时间
+    CTime   time = CTime::GetCurrentTime();//得到当前时间
     string  strFont;
     HDC     hdcScreen;
     int     i = 0;
@@ -220,48 +220,48 @@ BOOL CTorqueApp::InitInstance()
      AfxOleGetMessageFilter()->SetBusyReply(SERVERCALL_RETRYLATER);
      AfxOleGetMessageFilter()->EnableNotRespondingDialog(TRUE);
      AfxOleGetMessageFilter()->SetMessagePendingDelay(-1);*/
-    
-    /* 让程序退出时自动调用内存泄漏检测函数 */
-    //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+     /* 让程序退出时自动调用内存泄漏检测函数 */
+     //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     hdcScreen = GetDC(NULL);   //获取屏幕的HDC  
     float ScaleX = (float)GetDeviceCaps(hdcScreen, DESKTOPHORZRES) / (float)GetDeviceCaps(hdcScreen, HORZRES);
     float ScaleY = (float)GetDeviceCaps(hdcScreen, DESKTOPVERTRES) / (float)GetDeviceCaps(hdcScreen, VERTRES);
 
     float dpiX = (float)GetDeviceCaps(hdcScreen, LOGPIXELSX) / 96;
-    float dpiY = (float)GetDeviceCaps(hdcScreen, LOGPIXELSY)/ 96;
+    float dpiY = (float)GetDeviceCaps(hdcScreen, LOGPIXELSY) / 96;
 
     ScaleY = (ScaleY > dpiY) ? ScaleY : dpiY;
     m_ucDPILevel = (BYTE)(ScaleY * 4 + 0.5);
-    
+
     m_nScreenX = GetSystemMetrics(SM_CXFULLSCREEN);
     m_nScreenY = GetSystemMetrics(SM_CYFULLSCREEN);
 
-    strFont= LoadstringFromRes(IDS_STRFONTTIMESNR);
+    strFont = LoadstringFromRes(IDS_STRFONTTIMESNR);
     //int fontx = 5 * m_ucDPILevel/4 ;
-    int fonty = -12 * m_ucDPILevel/4 ;
+    int fonty = -12 * m_ucDPILevel / 4;
     m_tLineTextFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
-                     OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
+        OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
+        VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
     m_tRuleHFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
-                     OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
+        OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
+        VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
 #if 0
-    fonty = -18 * m_ucDPILevel/4 ;
+    fonty = -18 * m_ucDPILevel / 4;
     m_tPntTextFont.CreateFont(fonty, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
-                     OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont);
+        OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
+        VARIABLE_PITCH | FF_ROMAN, strFont);
 #else
-    fonty = -12 * m_ucDPILevel/4 ;
+    fonty = -12 * m_ucDPILevel / 4;
     m_tPntTextFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
-                     OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
+        OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
+        VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
 #endif
 
-    fonty = -10 * m_ucDPILevel/4 ;
+    fonty = -10 * m_ucDPILevel / 4;
     m_tRuleVFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
-                     OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-                     VARIABLE_PITCH|FF_ROMAN, strFont.c_str());
+        OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
+        VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
     //strFont.Empty();
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -274,28 +274,28 @@ BOOL CTorqueApp::InitInstance()
     /*  测试生成dump文件 */
     /* symbols路径设置
        SRV*http://msdl.microsoft.com/download/symbols;C:\Windows\symbols;D:\Project\Torque\3.18\Release */
-    /*  符号分析命令
-        !analyze -v */
+       /*  符号分析命令
+           !analyze -v */
 
-    //这里得到的是程序当前路径
+           //这里得到的是程序当前路径
     char buffer[MAX_PATH + 1] = { 0 };
     GetModuleFileName(NULL, buffer, MAX_PATH);
     (_tcsrchr(buffer, _T('\\')))[1] = 0; // 删除文件名，只获得路径字串
     m_strAppPath = buffer;
 
     /* 创建数据路径 */
-    m_strDataPath  = m_strAppPath + "Data\\";
+    m_strDataPath = m_strAppPath + "Data\\";
     CreateDirectory(m_strDataPath.c_str(), NULL);
 
     /* 创建操作记录路径 */
-    m_strLogPath  = m_strAppPath + "Log\\";
+    m_strLogPath = m_strAppPath + "Log\\";
     CreateDirectory(m_strLogPath.c_str(), NULL);
 
     /*注册文件路径*/
-    m_strRegFile   = m_strAppPath + REGNAME;
+    m_strRegFile = m_strAppPath + REGNAME;
 
     /* 动态链接库路径 */
-    m_strDllFile   = m_strAppPath + CHNDLLNAME;
+    m_strDllFile = m_strAppPath + CHNDLLNAME;
 
     /*构造保存正常Log数据的文件路径*/
     m_strLogFile = m_strLogPath;
@@ -304,7 +304,7 @@ BOOL CTorqueApp::InitInstance()
 
     /* 打开OrgFile*/
     m_tSaveLog.iCur = 0;
-    m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate|CFile::modeNoTruncate|CFile::modeReadWrite|CFile::shareDenyNone,NULL);
+    m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
 
     /* 初始化数组、变量 */
     InitVariant();
@@ -353,9 +353,9 @@ int CTorqueApp::ExitInstance()
     DeleteObject(m_tRuleHFont);
     DeleteObject(m_tRuleVFont);
     DeleteObject(m_tPntTextFont);
-    for(i=0; i<DBG_MAXNUM; i++)
+    for (i = 0; i < DBG_MAXNUM; i++)
         m_strDbgHead[i].Empty();
-    for (i = 0; i<LANGUAGE_NUM; i++)
+    for (i = 0; i < LANGUAGE_NUM; i++)
     {
         if (m_hLangDLL[i])
         {
@@ -373,13 +373,13 @@ int CTorqueApp::ExitInstance()
 }
 
 
-void CTorqueApp::ClearShowPara(SHOWCFG *ptShow)
+void CTorqueApp::ClearShowPara(SHOWCFG* ptShow)
 {
     int     i = 0;
     int     j = 0;
-    
+
     ASSERT_NULL(ptShow);
-    
+
     ptShow->nParaNum = 0;
     ptShow->nListNum = 0;
     ptShow->nMainNum = 0;
@@ -388,33 +388,33 @@ void CTorqueApp::ClearShowPara(SHOWCFG *ptShow)
     ptShow->nJointOD = 0;
     memset(ptShow->nList, 0, sizeof(UINT) * MAXPARANUM);
     memset(ptShow->nMain, 0, sizeof(UINT) * MAXMAINPARA);
-    for(i = 0; i<MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         ptShow->strShow[i].clear();
     }
 }
 
-void CTorqueApp::InitShowPara(SHOWCFG *ptShow, UINT nLang)
+void CTorqueApp::InitShowPara(SHOWCFG* ptShow, UINT nLang)
 {
-    int      i  = 0;
+    int      i = 0;
     string   strPW;
 
     ASSERT_NULL(ptShow);
     CheckLanguage(nLang);
 
-    for(i=0; i< MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         ptShow->strShow[i] = g_tNameInfo[i].strName[nLang];
         ptShow->nList[i] = i;
     }
 
-    for(i=0;i< MAXMAINPARA;i++)
+    for (i = 0; i < MAXMAINPARA; i++)
     {
         ptShow->nMain[i] = g_nMainNameNO[i];
     }
 
     ptShow->nParaNum = MAXPARANUM;
-    ptShow->nListNum = MAXPARANUM-1;
+    ptShow->nListNum = MAXPARANUM - 1;
     ptShow->nMainNum = MAXMAINPARA;
     ptShow->nFileName = 7;
     ptShow->nStatType = 2;
@@ -484,7 +484,7 @@ void CTorqueApp::InitGlobalPara()
     g_tGlbCfg.strUnit = LoadstringFromRes(IDS_STRTORQNMUNIT, BIGPOINT);
 }
 
-BOOL CTorqueApp::SetShowNameFromID(string lsID,SHOWCFG* ptShow, UINT nLang)
+BOOL CTorqueApp::SetShowNameFromID(string lsID, SHOWCFG* ptShow, UINT nLang)
 {
     UINT i;
     UINT iParaNum = 0;
@@ -550,7 +550,7 @@ BOOL CTorqueApp::SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow)
 
 int CTorqueApp::GetOptionIDbyValue(string name, string value, UINT nLang)
 {
-    if(name.empty() || value.empty())
+    if (name.empty() || value.empty())
         return -1;
     CheckLanguage(nLang);
 
@@ -565,15 +565,15 @@ BOOL CTorqueApp::UpdateCurOptions(WORD wNum, string value[], UINT nLang)
 void CTorqueApp::InitXlsStatPara(XLSSTATCFG* ptStat)
 {
     ASSERT_NULL(ptStat);
-    
+
     memset(ptStat, 0, sizeof(XLSSTATCFG));
 
     // 7,16,6,11,15,
-    ptStat->GenPara[0]  = 7;        /* 7  井号 */
-    ptStat->GenPara[1]  = 16;       /* 16 井深 */
-    ptStat->GenPara[2]  = 6;        /* 6  甲方名称 */
-    ptStat->GenPara[3]  = 11;       /* 11 操作工 */
-    ptStat->GenPara[4]  = 15;       /* 15 入井序号 */
+    ptStat->GenPara[0] = 7;        /* 7  井号 */
+    ptStat->GenPara[1] = 16;       /* 16 井深 */
+    ptStat->GenPara[2] = 6;        /* 6  甲方名称 */
+    ptStat->GenPara[3] = 11;       /* 11 操作工 */
+    ptStat->GenPara[4] = 15;       /* 15 入井序号 */
 
     // 1,2,3,5,8,12,
     ptStat->JobPara[0] = 1;         /* 1  钻杆材质 */
@@ -589,7 +589,7 @@ void CTorqueApp::InitXlsStatPara(XLSSTATCFG* ptStat)
 }
 
 /* 扭矩参数 相差 DIFF_TORQUE 10 */
-void CTorqueApp::AdjustTorquePara(CONTROLPARA *ptCtrl)
+void CTorqueApp::AdjustTorquePara(CONTROLPARA* ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
 
@@ -601,19 +601,19 @@ void CTorqueApp::AdjustTorquePara(CONTROLPARA *ptCtrl)
 }
 
 /* 周参数 相差 DIFF_CIRCUIT 0.1 */
-void CTorqueApp::AdjustCircuitPara(CONTROLPARA *ptCtrl)
+void CTorqueApp::AdjustCircuitPara(CONTROLPARA* ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
 
-    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT],   ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT],     DIFF_CIRCUIT);
-    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_CONTROL], ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT],   DIFF_CIRCUIT);
-    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT],   ptCtrl->fTurnConf[INDEX_TURN_CONTROL], DIFF_CIRCUIT);
+    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT], ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT], DIFF_CIRCUIT);
+    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_CONTROL], ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT], DIFF_CIRCUIT);
+    CHECK_PARA_UP(ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT], ptCtrl->fTurnConf[INDEX_TURN_CONTROL], DIFF_CIRCUIT);
 }
 
-void CTorqueApp::AdjustParaValue(PARACFG *ptCfg)
+void CTorqueApp::AdjustParaValue(PARACFG* ptCfg)
 {
-    int         i       = 0;
-    CONTROLPARA *ptCtrl = NULL;
+    int         i = 0;
+    CONTROLPARA* ptCtrl = NULL;
 
     ASSERT_NULL(ptCfg);
     ptCtrl = &ptCfg->tCtrl;
@@ -625,18 +625,18 @@ void CTorqueApp::AdjustParaValue(PARACFG *ptCfg)
     AdjustCircuitPara(ptCtrl);
 }
 
-bool CTorqueApp::GetProductVersion(CString &strVersion)
+bool CTorqueApp::GetProductVersion(CString& strVersion)
 {
-    DWORD   dwSize      = 0;
-    UINT    nSize       = 0;
-    LPVOID  pBlock      = NULL;
-    char    *pVerValue  = NULL;
-    int     iPlace      = -1;
+    DWORD   dwSize = 0;
+    UINT    nSize = 0;
+    LPVOID  pBlock = NULL;
+    char* pVerValue = NULL;
+    int     iPlace = -1;
     CString strTemp;
-    
-    dwSize = GetFileVersionInfoSize(m_strDllFile.c_str(),NULL);
+
+    dwSize = GetFileVersionInfoSize(m_strDllFile.c_str(), NULL);
     COMP_BLE_R(dwSize, 0, false);
-    pBlock = malloc(dwSize+1);
+    pBlock = malloc(dwSize + 1);
     ASSERT_NULL_R(pBlock, false);
     GetFileVersionInfo(m_strDllFile.c_str(), 0, dwSize, pBlock);
     ASSERT_ZERO_R(dwSize, false);
@@ -657,9 +657,9 @@ bool CTorqueApp::GetProductVersion(CString &strVersion)
 
 bool CTorqueApp::CheckProductDate()
 {
-    bool    bRet        = false;
+    bool    bRet = false;
     CTime   tNowDate;
-    int     iRandDay    = 0;
+    int     iRandDay = 0;
     CString strProductDate;
     CString strNowDate;
 
@@ -667,18 +667,18 @@ bool CTorqueApp::CheckProductDate()
     COMP_BE_R(bRet, false, false);
 
     /* 有效期5年+(31以内)随机天数 */
-    tNowDate  = CTime::GetCurrentTime();
+    tNowDate = CTime::GetCurrentTime();
 
-    iRandDay  = rand() % 31;
+    iRandDay = rand() % 31;
     tNowDate += CTimeSpan(iRandDay, 0, 0, 0);
 
     tNowDate = CTime(tNowDate.GetYear() - VALID_YEAR,
-                     tNowDate.GetMonth(),
-                     tNowDate.GetDay(),
-                     0,0,0);
-    strNowDate = tNowDate.Format( "%Y%m%d");
+        tNowDate.GetMonth(),
+        tNowDate.GetDay(),
+        0, 0, 0);
+    strNowDate = tNowDate.Format("%Y%m%d");
 
-    if(strNowDate > strProductDate)
+    if (strNowDate > strProductDate)
     {
         SaveMessage(strProductDate);
         return false;
@@ -688,7 +688,7 @@ bool CTorqueApp::CheckProductDate()
 }
 
 /* 获取MAC地址 */
-void CTorqueApp::GetMACAddr(UCHAR *pcMac)
+void CTorqueApp::GetMACAddr(UCHAR* pcMac)
 {
     NCB     ncb;
     UCHAR   uRetCode;
@@ -697,27 +697,27 @@ void CTorqueApp::GetMACAddr(UCHAR *pcMac)
 
     ASSERT_NULL(pcMac);
 
-    memset( &ncb, 0, sizeof(ncb) );
+    memset(&ncb, 0, sizeof(ncb));
     ncb.ncb_command = NCBRESET;
     ncb.ncb_lana_num = 0; // 指定网卡号
     // 首先对选定的网卡发送一个NCBRESET命令,以便进行初始化
-    Netbios( &ncb );
+    Netbios(&ncb);
 
-    memset( &ncb, 0, sizeof(ncb) );
+    memset(&ncb, 0, sizeof(ncb));
     ncb.ncb_command = NCBASTAT;
     ncb.ncb_lana_num = 0; // 指定网卡号
     ncb.ncb_callname[0] = '*';
     ncb.ncb_callname[1] = '\0';
-    ncb.ncb_buffer = (unsigned char *) &Adapter; // 指定返回的信息存放的变量
+    ncb.ncb_buffer = (unsigned char*)&Adapter; // 指定返回的信息存放的变量
     ncb.ncb_length = sizeof(Adapter);
     // 接着,可以发送NCBASTAT命令以获取网卡的信息
-    uRetCode = Netbios( &ncb );
+    uRetCode = Netbios(&ncb);
     // 强制设定为获取网卡失败，使用默认Mac
     uRetCode = 1;
-    if(uRetCode == 0)
+    if (uRetCode == 0)
     {
-        for(i=0; i<5; i++)
-            *(pcMac+i) = Adapter.adapt.adapter_address[i+1];
+        for (i = 0; i < 5; i++)
+            *(pcMac + i) = Adapter.adapt.adapter_address[i + 1];
     }
     else
     {
@@ -731,12 +731,12 @@ int CTorqueApp::GetMainIndex(UINT nNO)
 {
     UINT        i = 0;
     string      strFindName;
-    
+
     strFindName = GetMainShowName(m_ptCurShow, nNO);
 
-    for(i=0; i< m_ptCurShow->nParaNum && i<MAXPARANUM; i++)
+    for (i = 0; i < m_ptCurShow->nParaNum && i < MAXPARANUM; i++)
     {
-        if(strFindName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
+        if (strFindName == m_tShowCfg[g_tGlbCfg.nLangType].strShow[i])
         {
             return i;
         }
@@ -744,7 +744,7 @@ int CTorqueApp::GetMainIndex(UINT nNO)
     return -1;
 }
 
-int CTorqueApp::GetMainIndexfromData(UINT nNO, TorqData::Torque *ptTorq)
+int CTorqueApp::GetMainIndexfromData(UINT nNO, TorqData::Torque* ptTorq)
 {
     int         i = 0;
     string      strFindName;
@@ -753,10 +753,10 @@ int CTorqueApp::GetMainIndexfromData(UINT nNO, TorqData::Torque *ptTorq)
     ASSERT_NULL_R(ptTorq, -1);
 
     strFindName = GetMainShowName(m_ptCurShow, nNO);
-    if(strFindName.empty())
+    if (strFindName.empty())
         return -1;
 
-    for(i=0; i< ptTorq->tshow_size() && i<MAXPARANUM; i++)
+    for (i = 0; i < ptTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         strName = GetTorqShowName(ptTorq, i);
         if (strName == strFindName)
@@ -766,10 +766,10 @@ int CTorqueApp::GetMainIndexfromData(UINT nNO, TorqData::Torque *ptTorq)
 }
 
 
-string  CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
+string  CTorqueApp::GetQualityInfo(TorqData::Torque* ptTorq)
 {
-    int     i       = 0;
-    DWORD   dwFlag  = 1;
+    int     i = 0;
+    DWORD   dwFlag = 1;
     string  strQuality;
     //CString strInfo;
     DWORD   dwQuality = 0;
@@ -778,7 +778,7 @@ string  CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
 
     /* 测试版本，直接根据数据判断质量 */
     dwQuality = GetQuality(ptTorq);
-    if(dwQuality & QUA_RESU_QUALITYBIT)
+    if (dwQuality & QUA_RESU_QUALITYBIT)
     {
         //strQuality.Format(IDS_STRMARKQUALITY);
         strQuality = LoadstringFromRes(IDS_STRMARKQUALITY);
@@ -786,24 +786,24 @@ string  CTorqueApp::GetQualityInfo(TorqData::Torque *ptTorq)
     else
     {
         strQuality = LoadstringFromRes(IDS_STRMARKDISQUAL);
-        for(i=1; i<=MAX_BAD_CAUSE; i++)
+        for (i = 1; i <= MAX_BAD_CAUSE; i++)
         {
             dwFlag *= 2;
-            if(dwQuality & dwFlag)
+            if (dwQuality & dwFlag)
             {
-                strQuality = LoadstringFromRes(IDS_STRMARKDISQUAL+i);
+                strQuality = LoadstringFromRes(IDS_STRMARKDISQUAL + i);
                 break;
             }
         }
     }
-    
+
     return strQuality;
 }
 
-int CTorqueApp::GetQualityIndex(TorqData::Torque *ptTorq)
+int CTorqueApp::GetQualityIndex(TorqData::Torque* ptTorq)
 {
-    int     i       = 0;
-    DWORD   dwFlag  = 1;
+    int     i = 0;
+    DWORD   dwFlag = 1;
     DWORD   dwQuality = 0;
 
     ASSERT_NULL_R(ptTorq, -1);
@@ -811,20 +811,20 @@ int CTorqueApp::GetQualityIndex(TorqData::Torque *ptTorq)
     /* 测试版本，直接根据数据判断质量 */
     dwQuality = GetQuality(ptTorq);
 
-    if(dwQuality & QUA_RESU_QUALITYBIT)
+    if (dwQuality & QUA_RESU_QUALITYBIT)
     {
         return QUA_RESU_GOOD;
     }
-    
-    for(i=1; i<=MAX_BAD_CAUSE; i++)
+
+    for (i = 1; i <= MAX_BAD_CAUSE; i++)
     {
         dwFlag *= 2;
-        if(dwQuality & dwFlag)
+        if (dwQuality & dwFlag)
         {
             return i;
         }
     }
-    
+
     return QUA_RESU_BAD;
 }
 
@@ -841,58 +841,58 @@ int CTorqueApp::GetQualityIndex(TorqData::Torque *ptTorq)
 //
 //  edit by [r]@dotlive.cnblogs.com
 ///////////////////////////////////////////////////////////////////////////////
-void CTorqueApp::ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl *ptlistData)
+void CTorqueApp::ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl* ptlistData)
 {
     // 创建表结构
-    int         i           = 0;
-    int         iItemIndex  = 0;
-    int         iColNum     = 0;
+    int         i = 0;
+    int         iItemIndex = 0;
+    int         iColNum = 0;
     LVCOLUMN    tColData;
     CString     strColName;
-    CString     strSql      = "";
-    CString     strH        = "";
-    CString     strV        = "";
+    CString     strSql = "";
+    CString     strH = "";
+    CString     strV = "";
     CString     strTemp;
 
     ASSERT_NULL(ptDb);
     ASSERT_NULL(ptlistData);
 
     tColData.mask = LVCF_TEXT;
-    tColData.cchTextMax =100;
-    tColData.pszText = strColName.GetBuffer (100);
-    for(i=0; ptlistData->GetColumn(i,&tColData); i++)
+    tColData.cchTextMax = 100;
+    tColData.pszText = strColName.GetBuffer(100);
+    for (i = 0; ptlistData->GetColumn(i, &tColData); i++)
     {
-        if (i!=0)
+        if (i != 0)
         {
-            strSql = strSql + ", " ;
-            strH   = strH + ", " ;
+            strSql = strSql + ", ";
+            strH = strH + ", ";
         }
-        strSql = strSql + " [" + tColData.pszText +"] TEXT";
-        strH   = strH   + " [" + tColData.pszText +"] ";
+        strSql = strSql + " [" + tColData.pszText + "] TEXT";
+        strH = strH + " [" + tColData.pszText + "] ";
     }
     strColName.ReleaseBuffer();
     iColNum = i;
 
     strTemp.Format(IDS_STRCREATETABLE, strSheetName);
-    strSql = strTemp + strSql +  " ) ";
+    strSql = strTemp + strSql + " ) ";
     ptDb->ExecuteSQL(strSql);
 
     // 插入数据项
-    for (iItemIndex=0; iItemIndex<ptlistData->GetItemCount(); iItemIndex++)
+    for (iItemIndex = 0; iItemIndex < ptlistData->GetItemCount(); iItemIndex++)
     {
         strV = "";
-        for(i=0; i<iColNum; i++)
+        for (i = 0; i < iColNum; i++)
         {
-            if (i!=0)
+            if (i != 0)
             {
-                strV = strV + ", " ;
+                strV = strV + ", ";
             }
-            strV = strV + " '" + ptlistData->GetItemText(iItemIndex,i) +"' ";
+            strV = strV + " '" + ptlistData->GetItemText(iItemIndex, i) + "' ";
         }
 
         strTemp.Format(IDS_STRINSERTTABLE, strSheetName);
-        strSql =  strTemp   + strH + ")" + 
-                 " VALUES(" + strV + ")";
+        strSql = strTemp + strH + ")" +
+            " VALUES(" + strV + ")";
         ptDb->ExecuteSQL(strSql);
     }
 
@@ -906,12 +906,12 @@ void CTorqueApp::ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListC
 //组织：未来工作室(Future Studio)
 //日期：2002.9.1
 /////////////////////////////////////////////////////////////////////////////
-BOOL CTorqueApp::CheckExcelDriver(CString &strDriver)
+BOOL CTorqueApp::CheckExcelDriver(CString& strDriver)
 {
     char    aucBuf[2001];
     WORD    wBufMax = 2000;
     WORD    wBufOut = 0;
-    char    *pszBuf = aucBuf;
+    char* pszBuf = aucBuf;
     CString strWarn;
 
     // 获取已安装驱动的名称(涵数在odbcinst.h里)
@@ -927,7 +927,7 @@ BOOL CTorqueApp::CheckExcelDriver(CString &strDriver)
             break;
         }
         pszBuf = strchr(pszBuf, '\0') + 1;
-    }while (pszBuf[1] != '\0');
+    } while (pszBuf[1] != '\0');
 
     if (strDriver.IsEmpty())
     {
@@ -951,18 +951,18 @@ BOOL CTorqueApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
     CTime   tDay = CTime::GetCurrentTime();
 
     strTime = sDefTitle;
-    if(sDefTitle.IsEmpty())
+    if (sDefTitle.IsEmpty())
     {
-        strTime.Format( "%04d%02d%02d%02d%02d%02d",
-                        tDay.GetYear(),      //yyyy年
-                        tDay.GetMonth(),     //mm月份
-                        tDay.GetDay(),       //dd日
-                        tDay.GetHour(),      //hh小时
-                        tDay.GetMinute(),    //mm分钟
-                        tDay.GetSecond());   //ss秒
+        strTime.Format("%04d%02d%02d%02d%02d%02d",
+            tDay.GetYear(),      //yyyy年
+            tDay.GetMonth(),     //mm月份
+            tDay.GetDay(),       //dd日
+            tDay.GetHour(),      //hh小时
+            tDay.GetMinute(),    //mm分钟
+            tDay.GetSecond());   //ss秒
     }
 
-    sExcelFile =  strTime + ".xls";
+    sExcelFile = strTime + ".xls";
 
     // prompt the user (with all document templates)
     CFileDialog dlgFile(FALSE, ".xls", sExcelFile);
@@ -984,7 +984,7 @@ BOOL CTorqueApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
     dlgFile.m_ofn.nMaxCustFilter++;
 
     dlgFile.m_ofn.lpstrFilter = strFilter;
-    dlgFile.m_ofn.lpstrTitle  = strTitle;
+    dlgFile.m_ofn.lpstrTitle = strTitle;
 
     // open cancelled
     COMP_BE_R(dlgFile.DoModal(), IDCANCEL, FALSE);
@@ -992,10 +992,10 @@ BOOL CTorqueApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
     sExcelFile.ReleaseBuffer();
 
     sExcelFile = dlgFile.GetPathName();
-    if (MakeSurePathExists(sExcelFile,true))
+    if (MakeSurePathExists(sExcelFile, true))
     {
         // delete the file
-        if(!DeleteFile(sExcelFile))
+        if (!DeleteFile(sExcelFile))
         {
             AfxMessageBox(LoadstringFromRes(IDS_STRINFOVEREXLERR).c_str());
             return FALSE;
@@ -1016,21 +1016,21 @@ BOOL CTorqueApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
 //      自动创建目录
 //
 ///////////////////////////////////////////////////////////////////////////////
-BOOL CTorqueApp::MakeSurePathExists( CString &Path,
-                                     bool FilenameIncluded)
+BOOL CTorqueApp::MakeSurePathExists(CString& Path,
+    bool FilenameIncluded)
 {
     int iPos = 0;
-    
-    while((iPos=Path.Find('\\',iPos+1))!=-1)
-        CreateDirectory(Path.Left(iPos),NULL);
 
-    if(!FilenameIncluded)
-        CreateDirectory(Path,NULL);
+    while ((iPos = Path.Find('\\', iPos + 1)) != -1)
+        CreateDirectory(Path.Left(iPos), NULL);
 
-    return !_access(Path,0);
+    if (!FilenameIncluded)
+        CreateDirectory(Path, NULL);
+
+    return !_access(Path, 0);
 }
 
-BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl *ptlistData)
+BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData)
 {
     CDatabase   database;
     CString     strDriver;
@@ -1051,7 +1051,7 @@ BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CLi
     else
     {
         strExcelFile = strFileName;
-        if (MakeSurePathExists(strFileName,true))
+        if (MakeSurePathExists(strFileName, true))
         {
             DeleteFile(strFileName);
         }
@@ -1061,7 +1061,7 @@ BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CLi
     strSql.Format(IDS_STRCRTEXCDB, strDriver, strExcelFile, strExcelFile);
 
     // 创建数据库 (Excel表格文件)
-    if(! database.OpenEx(strSql,CDatabase::noOdbcDialog) )
+    if (!database.OpenEx(strSql, CDatabase::noOdbcDialog))
     {
         strWarn.Format(IDS_STRINFCRTXLSFAIL);
         SaveShowMessage(strWarn);
@@ -1075,7 +1075,7 @@ BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CLi
     // 关闭数据库
     database.Close();
 
-    strWarn.Format(IDS_STRINFSAVEXLSUCC,strExcelFile);
+    strWarn.Format(IDS_STRINFSAVEXLSUCC, strExcelFile);
     SaveShowMessage(strWarn);
 
     return TRUE;
@@ -1084,25 +1084,25 @@ BOOL CTorqueApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CLi
 void CTorqueApp::ShowMainTitle()
 {
     string strAppName;
-    CWnd    *m_pCWnd = AfxGetMainWnd();
+    CWnd* m_pCWnd = AfxGetMainWnd();
 
     m_nTorqMulti = 1;
 
-    if(m_tdbReg.bReged)
+    if (m_tdbReg.bReged)
     {
         strAppName = LoadstringFromRes(IDS_STRTITLE);
         //strAppName.Format(IDS_STRTITLE);
-        
-        if(g_tGlbCfg.bBigTorq)
+
+        if (g_tGlbCfg.bBigTorq)
         {
             m_nTorqMulti = 10;
             strAppName = LoadstringFromRes(IDS_STRBIGTITLE);
             //strAppName.Format(IDS_STRBIGTITLE);
         }
-        ::SetWindowText(*m_pCWnd,strAppName.c_str());
+        ::SetWindowText(*m_pCWnd, strAppName.c_str());
         return;
     }
-    
+
     /* else */
     strAppName = LoadstringFromRes(IDS_STRTRYOUT);
     //strAppName.Format(IDS_STRTRYOUT);
@@ -1113,7 +1113,7 @@ void CTorqueApp::ShowMainTitle()
         //strAppName.Format(IDS_STRBIGTRYOUT);
     }
 
-    ::SetWindowText(*m_pCWnd,strAppName.c_str());
+    ::SetWindowText(*m_pCWnd, strAppName.c_str());
     return;
 }
 
@@ -1122,12 +1122,12 @@ void CTorqueApp::ShowMainTitle()
    CRC数据也不计数了 */
 BOOL CTorqueApp::IsDebugInfo(CString strContent)
 {
-    int     i       = 0;
-    int     iPlace  = -1;
+    int     i = 0;
+    int     iPlace = -1;
 
     COMP_BTRUE_R(strContent.IsEmpty(), FALSE);
-    
-    for(i=0; i<DBG_MAXNUM; i++)
+
+    for (i = 0; i < DBG_MAXNUM; i++)
     {
         iPlace = strContent.Find(m_strDbgHead[i]);
 
@@ -1139,16 +1139,16 @@ BOOL CTorqueApp::IsDebugInfo(CString strContent)
 
 void CTorqueApp::SaveCurTime()
 {
-    char        *pData = NULL;
-    int         iLen   = 0;
+    char* pData = NULL;
+    int         iLen = 0;
     SYSTEMTIME  ts;
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     GetLocalTime(&ts);
 
-    iLen  = sprintf_s(pData, SPRINTFLEN, "%02d:%02d:%02d.%03d : ",
-                           ts.wHour,ts.wMinute, ts.wSecond, ts.wMilliseconds);
+    iLen = sprintf_s(pData, SPRINTFLEN, "%02d:%02d:%02d.%03d : ",
+        ts.wHour, ts.wMinute, ts.wSecond, ts.wMilliseconds);
     INC_DBG_INFO();
 
     return;
@@ -1156,8 +1156,8 @@ void CTorqueApp::SaveCurTime()
 
 void CTorqueApp::SaveDbgHead(UINT nType)
 {
-    char    *pData  = NULL;
-    int     iLen    = DBG_HEADLEN;
+    char* pData = NULL;
+    int     iLen = DBG_HEADLEN;
 
     COMP_BGE(nType, DBG_MAXNUM);
 
@@ -1180,28 +1180,28 @@ void CTorqueApp::SaveCurTimeAndHead(UINT nType)
 
 void CTorqueApp::SaveStreamData(CString strStream)
 {
-    char    *pData  = NULL;
-    int     iLen    = 0;
-    
+    char* pData = NULL;
+    int     iLen = 0;
+
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
     iLen = strStream.GetLength();
-    
+
     iLen = sprintf_s(pData, SPRINTFLEN, "%s", strStream.GetBuffer());
     INC_DBG_INFO();
 }
 
-void CTorqueApp::SaveHexData(BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveHexData(BYTE* pucRcvByte, WORD wLen)
 {
-    int     i       = 0;
-    int     iLen    = 0;
-    char    *pData  = NULL;
+    int     i = 0;
+    int     iLen = 0;
+    char* pData = NULL;
 
     ASSERT_NULL(pucRcvByte);
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* source serial data */
-    for(i=0; i<wLen; i++)
+    for (i = 0; i < wLen; i++)
     {
         iLen = sprintf_s(pData, SPRINTFLEN, "%02x ", pucRcvByte[i]);
         INC_DBG_INFO();
@@ -1232,10 +1232,10 @@ void CTorqueApp::SaveCommunication(BYTE* msg, WORD wLen, UINT nType)
 /* 保存正常的原始数据，测试和定位使用
    正常有效数据，不需要DEBUG HEAD
    在CTRL+SHIFT+T 显示CRC 框后生效 */
-void CTorqueApp::SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
+    char* pData = NULL;
+    int     iLen = 0;
 
     ASSERT_NULL(ptOrgData);
 
@@ -1247,44 +1247,44 @@ void CTorqueApp::SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* 原始串口的扭矩和脉冲数据 */
-    if(wLen == PORT_VLDVLVLEN)  // 打印阀门的2个状态字节
+    if (wLen == PORT_VLDVLVLEN)  // 打印阀门的2个状态字节
     {
-        iLen  = sprintf_s(pData, SPRINTFLEN, "%02x %02x %02x %02x %02x %02x %02x %02x %02x ", 
-                                            ptOrgData->ucRcvByte[0],
-                                            ptOrgData->ucRcvByte[1],
-                                            ptOrgData->ucRcvByte[2],
-                                            ptOrgData->ucRcvByte[3],
-                                            ptOrgData->ucRcvByte[4],
-                                            ptOrgData->ucRcvByte[5],
-                                            ptOrgData->ucRcvByte[6],
-                                            ptOrgData->ucRcvByte[7],
-                                            ptOrgData->ucRcvByte[8]);
+        iLen = sprintf_s(pData, SPRINTFLEN, "%02x %02x %02x %02x %02x %02x %02x %02x %02x ",
+            ptOrgData->ucRcvByte[0],
+            ptOrgData->ucRcvByte[1],
+            ptOrgData->ucRcvByte[2],
+            ptOrgData->ucRcvByte[3],
+            ptOrgData->ucRcvByte[4],
+            ptOrgData->ucRcvByte[5],
+            ptOrgData->ucRcvByte[6],
+            ptOrgData->ucRcvByte[7],
+            ptOrgData->ucRcvByte[8]);
     }
     else
     {
-        iLen  = sprintf_s(pData, SPRINTFLEN, "%02x %02x %02x %02x %02x %02x %02x ", 
-                                            ptOrgData->ucRcvByte[0],
-                                            ptOrgData->ucRcvByte[1],
-                                            ptOrgData->ucRcvByte[2],
-                                            ptOrgData->ucRcvByte[3],
-                                            ptOrgData->ucRcvByte[4],
-                                            ptOrgData->ucRcvByte[5],
-                                            ptOrgData->ucRcvByte[6]);
+        iLen = sprintf_s(pData, SPRINTFLEN, "%02x %02x %02x %02x %02x %02x %02x ",
+            ptOrgData->ucRcvByte[0],
+            ptOrgData->ucRcvByte[1],
+            ptOrgData->ucRcvByte[2],
+            ptOrgData->ucRcvByte[3],
+            ptOrgData->ucRcvByte[4],
+            ptOrgData->ucRcvByte[5],
+            ptOrgData->ucRcvByte[6]);
     }
     INC_DBG_INFO();
 
     /* 计算的扭矩等信息 */
-    iLen  = sprintf_s(pData, 60, "T%10ld, P%10ld, S%4d, N%4d, R%6.2f\r\n",
-                            ptOrgData->nTorque,
-                            ptOrgData->nPlus,
-                            ptOrgData->ucStatus,
-                            ptOrgData->ucPointNum,
-                            ptOrgData->fRpm);
+    iLen = sprintf_s(pData, 60, "T%10ld, P%10ld, S%4d, N%4d, R%6.2f\r\n",
+        ptOrgData->nTorque,
+        ptOrgData->nPlus,
+        ptOrgData->ucStatus,
+        ptOrgData->ucPointNum,
+        ptOrgData->fRpm);
     INC_DBG_INFO();
 
     /* 有效数据的长度应该大于12，有长度为24的数据，也可以尽可能取出一条来，
        但是前12个数据通过CRC校验，则当做普通数据处理，调试开关打开时也将原始数据保存下来 */
-    if(wLen != PORT_VALIDLEN && wLen != PORT_VLDVLVLEN)
+    if (wLen != PORT_VALIDLEN && wLen != PORT_VLDVLVLEN)
     {
         /* Time */
         SaveCurTimeAndHead(DBG_HASH);
@@ -1292,7 +1292,7 @@ void CTorqueApp::SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
         pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
         /* data len */
-        iLen = sprintf_s(pData,SPRINTFLEN, "ORG DATA(len%2d) ", wLen);
+        iLen = sprintf_s(pData, SPRINTFLEN, "ORG DATA(len%2d) ", wLen);
         INC_DBG_INFO();
 
         /* source serial data */
@@ -1304,12 +1304,12 @@ void CTorqueApp::SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
 /* 保存正常的原始数据，测试和定位使用
    正常有效数据，不需要DEBUG HEAD
    在CTRL+SHIFT+T 显示CRC 框后生效 */
-void CTorqueApp::SaveMultiData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveMultiData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    int     i      = 0;
-    WORD    tmpTorq= 0;
+    char* pData = NULL;
+    int     iLen = 0;
+    int     i = 0;
+    WORD    tmpTorq = 0;
 
     ASSERT_NULL(ptOrgData);
 
@@ -1319,27 +1319,27 @@ void CTorqueApp::SaveMultiData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen)
     SaveCurTime();
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
-    
-    iLen  = sprintf_s(pData, SPRINTFLEN, "%02x %02x ", 0xFF, 0x15);
+
+    iLen = sprintf_s(pData, SPRINTFLEN, "%02x %02x ", 0xFF, 0x15);
     INC_DBG_INFO();
 
-    for(i=4; i<wLen; i++)
+    for (i = 4; i < wLen; i++)
     {
-        iLen  = sprintf_s(pData, SPRINTFLEN, "%02x ", pucRcvByte[i]);
+        iLen = sprintf_s(pData, SPRINTFLEN, "%02x ", pucRcvByte[i]);
         INC_DBG_INFO();
     }
 
     iLen = 2;
     memcpy(pData, "\r\n", iLen);
     INC_DBG_INFO();
-    
+
     return;
 }
 
 BOOL CTorqueApp::MsgLenIsZero(WORD wLen, UINT nType)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
+    char* pData = NULL;
+    int     iLen = 0;
 
     COMP_BNE_R(wLen, 0, FALSE);
 
@@ -1360,10 +1360,10 @@ BOOL CTorqueApp::MsgLenIsZero(WORD wLen, UINT nType)
 /* 保存CRC错误的原始数据，测试和定位使用
    有CRC错误都会自动保存
    CRC或者串口错误、长度不对数据 */
-void CTorqueApp::SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr)
+void CTorqueApp::SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
+    char* pData = NULL;
+    int     iLen = 0;
     CTorqueDlg* pdlgMain = (CTorqueDlg*)m_pMainWnd;
 
     ASSERT_NULL(pucRcvByte);
@@ -1374,7 +1374,7 @@ void CTorqueApp::SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr)
     COMP_BTRUE(MsgLenIsZero(wLen, DBG_HASH));
 
     /* 对话框中的CRC错误数目+1 */
-    nCRCErr ++;
+    nCRCErr++;
 
     SaveCurTimeAndHead(DBG_HASH);
 
@@ -1390,11 +1390,11 @@ void CTorqueApp::SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr)
 }
 
 /* 采集数据时出错信息保存 */
-void CTorqueApp::SaveCollectErrorData(CString strError, BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveCollectErrorData(CString strError, BYTE* pucRcvByte, WORD wLen)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    int     i      = 0;
+    char* pData = NULL;
+    int     iLen = 0;
+    int     i = 0;
 
     ASSERT_NULL(pucRcvByte);//m_wRcvLen
 
@@ -1417,11 +1417,11 @@ void CTorqueApp::SaveCollectErrorData(CString strError, BYTE *pucRcvByte, WORD w
 }
 
 /* 保存采集数据普通信息 */
-void CTorqueApp::SaveCollectOrgData(BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveCollectOrgData(BYTE* pucRcvByte, WORD wLen)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    int     i      = 0;
+    char* pData = NULL;
+    int     iLen = 0;
+    int     i = 0;
 
     ASSERT_NULL(pucRcvByte);
     /* COMP_BFALSE(m_bShowCRC); */
@@ -1440,11 +1440,11 @@ void CTorqueApp::SaveCollectOrgData(BYTE *pucRcvByte, WORD wLen)
 }
 
 //保存复位时的串口数据
-void CTorqueApp::SaveResetData(BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveResetData(BYTE* pucRcvByte, WORD wLen)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    int     i      = 0;
+    char* pData = NULL;
+    int     iLen = 0;
+    int     i = 0;
 
     ASSERT_NULL(pucRcvByte);
 
@@ -1465,11 +1465,11 @@ void CTorqueApp::SaveResetData(BYTE *pucRcvByte, WORD wLen)
 }
 
 //保存上位机发送到串口数据
-void CTorqueApp::SaveSendData(CString strCmd, BYTE *pucRcvByte, WORD wLen)
+void CTorqueApp::SaveSendData(CString strCmd, BYTE* pucRcvByte, WORD wLen)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    int     i      = 0;
+    char* pData = NULL;
+    int     iLen = 0;
+    int     i = 0;
 
     ASSERT_NULL(pucRcvByte);
 
@@ -1482,7 +1482,7 @@ void CTorqueApp::SaveSendData(CString strCmd, BYTE *pucRcvByte, WORD wLen)
     /* data len */
     iLen = sprintf_s(pData, SPRINTFLEN, "%s(len%2d)\r\n", (LPCTSTR)strCmd, wLen);
     INC_DBG_INFO();
-    
+
     /* 对外不展现modbus编码 */
     return;
 
@@ -1493,8 +1493,8 @@ void CTorqueApp::SaveSendData(CString strCmd, BYTE *pucRcvByte, WORD wLen)
 //保存串口发送错误数据
 void CTorqueApp::SaveSendFailure(UINT nCmdType)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
+    char* pData = NULL;
+    int     iLen = 0;
     string  strCmd;
 
     COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
@@ -1502,7 +1502,7 @@ void CTorqueApp::SaveSendFailure(UINT nCmdType)
     SaveCurTimeAndHead(DBG_HASH);
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
-    strCmd = g_strCmdName[nCmdType-SCMREAD];
+    strCmd = g_strCmdName[nCmdType - SCMREAD];
 
     /* Save Info */
     iLen = sprintf_s(pData, SPRINTFLEN, "Send %s Command Failure!\r\n", strCmd.c_str());
@@ -1524,8 +1524,8 @@ void CTorqueApp::SaveLogInfo()
 //保存程序运行状态
 void CTorqueApp::SaveAppStatus(UINT nStatus, CString strInfo)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
+    char* pData = NULL;
+    int     iLen = 0;
 
     COMP_BGE(nStatus, STATUS_MAXNUM);
 
@@ -1543,9 +1543,9 @@ void CTorqueApp::SaveAppStatus(UINT nStatus, CString strInfo)
 //保存端口操作记录 打开/关闭
 void CTorqueApp::SavePortOper(UINT nPortOpr)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    
+    char* pData = NULL;
+    int     iLen = 0;
+
     COMP_BGE(nPortOpr, PORTOPR_MAXNUM);
 
     /* Send port operation Time */
@@ -1560,11 +1560,11 @@ void CTorqueApp::SavePortOper(UINT nPortOpr)
 }
 
 //保存发送消息时的异常的串口缓冲数据
-void CTorqueApp::SavePortBufData(BYTE *pucRcvByte, WORD wLen, UINT nClashSta)
+void CTorqueApp::SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
-    int     i      = 0;
+    char* pData = NULL;
+    int     iLen = 0;
+    int     i = 0;
 
     ASSERT_NULL(pucRcvByte);
     ASSERT_ZERO(wLen);
@@ -1575,9 +1575,9 @@ void CTorqueApp::SavePortBufData(BYTE *pucRcvByte, WORD wLen, UINT nClashSta)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* data len */
-    if(nClashSta == RS_READCLASH)
+    if (nClashSta == RS_READCLASH)
         iLen = sprintf_s(pData, SPRINTFLEN, "ReadCls  Data(len%2d) ", wLen);
-    else if(nClashSta == RS_RESETCLASH)
+    else if (nClashSta == RS_RESETCLASH)
         iLen = sprintf_s(pData, SPRINTFLEN, "ResetCls Data(len%2d) ", wLen);
     INC_DBG_INFO();
 
@@ -1590,8 +1590,8 @@ void CTorqueApp::SavePortBufData(BYTE *pucRcvByte, WORD wLen, UINT nClashSta)
 /* 保存MessageBox显示的信息到文件 */
 void CTorqueApp::SaveMessage(CString strMessage)
 {
-    char    *pData = NULL;
-    int     iLen   = 0;
+    char* pData = NULL;
+    int     iLen = 0;
 
     /* Send MessageBox Time */
     SaveCurTimeAndHead(DBG_MESSAGE);
@@ -1614,9 +1614,9 @@ void CTorqueApp::StringSubtract(CString& strValue, BYTE ucChar)
 {
     int  i = 0;
 
-    for(i=0; i<strValue.GetLength(); i++)
+    for (i = 0; i < strValue.GetLength(); i++)
     {
-        strValue.SetAt(i,strValue.GetAt(i) - ucChar);
+        strValue.SetAt(i, strValue.GetAt(i) - ucChar);
     }
 }
 
@@ -1626,7 +1626,7 @@ void CTorqueApp::SplitRegString(CString strReg[], CString strRegCode)
 
     ASSERT_NULL(strReg);
 
-    for(i=0; i<REGCODESEGNUM; i++)
+    for (i = 0; i < REGCODESEGNUM; i++)
     {
         strReg[i] = strRegCode.Left(g_nValidLen[i]);
         strRegCode.Delete(0, g_nValidLen[i]);
@@ -1639,29 +1639,29 @@ void CTorqueApp::MergeRegString(CString strReg[], CString& strRegCode)
 
     ASSERT_NULL(strReg);
 
-    for(i=0; i<REGCODESEGNUM; i++)
+    for (i = 0; i < REGCODESEGNUM; i++)
     {
         strRegCode += strReg[i];
     }
 }
 
-void CTorqueApp::AdaptDlgCtrlSize(CDialog *pdlgAdapt, UINT nSheetType)
+void CTorqueApp::AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType)
 {
-    double      fRatiox = 1,fRatioy = 1,fRatio= 1;
+    double      fRatiox = 1, fRatioy = 1, fRatio = 1;
     int         woc;
     POINT       Newp;
     CRect       oldRect;
     CRect       newRect;
     CRect       Rect;
     //左右上角的数据  
-    CPoint      OldTLPoint, NewTLPint;  
+    CPoint      OldTLPoint, NewTLPint;
     CPoint      OldBRPoint, NewBRPint;
-    CFont       *pFont = NULL;
+    CFont* pFont = NULL;
     UINT        nPageHeight = 0;
 
     ASSERT_NULL(pdlgAdapt);
 
-    if(nSheetType == 2)
+    if (nSheetType == 2)
     {
         //nPageWidth = 20 * m_ucDPILevel / 4;
         nPageHeight = 120 * m_ucDPILevel / 4;
@@ -1669,18 +1669,18 @@ void CTorqueApp::AdaptDlgCtrlSize(CDialog *pdlgAdapt, UINT nSheetType)
 
     pdlgAdapt->GetClientRect(&oldRect);                        /* 对话框大小 */
 
-    COMP_BGE(m_nScreenY, (oldRect.Height()+nPageHeight));
+    COMP_BGE(m_nScreenY, (oldRect.Height() + nPageHeight));
 
     fRatiox = 1.0 * m_nScreenX / oldRect.Width();
     fRatioy = 1.0 * m_nScreenY / (oldRect.Height() + nPageHeight);
     fRatio = (fRatiox < fRatioy) ? fRatiox : fRatioy;
-    if(nSheetType == 1)
+    if (nSheetType == 1)
     {
-        fRatio = m_fSheetRatio+0.05;
+        fRatio = m_fSheetRatio + 0.05;
     }
-    else if(nSheetType == 2)
-    { 
-        if(m_fSheetRatio != 1.0)
+    else if (nSheetType == 2)
+    {
+        if (m_fSheetRatio != 1.0)
         {
             fRatio = m_fSheetRatio;
         }
@@ -1690,8 +1690,8 @@ void CTorqueApp::AdaptDlgCtrlSize(CDialog *pdlgAdapt, UINT nSheetType)
         }
     }
 
-    Newp.x = int(oldRect.Width()*fRatio);
-    Newp.y = int(oldRect.Height()*fRatio);
+    Newp.x = int(oldRect.Width() * fRatio);
+    Newp.y = int(oldRect.Height() * fRatio);
 
     /* 对话框先缩小 */
     pdlgAdapt->MoveWindow(0, 0, Newp.x, Newp.y);
@@ -1699,22 +1699,22 @@ void CTorqueApp::AdaptDlgCtrlSize(CDialog *pdlgAdapt, UINT nSheetType)
 
     //获取现在对话框的大小 
     pdlgAdapt->GetClientRect(&newRect);     //取客户区大小  
-    HWND  hwndChild = ::GetWindow(pdlgAdapt->m_hWnd,GW_CHILD);  
-  
-    while(hwndChild)  
-    {  
-        //取得ID  
-        woc  = ::GetDlgCtrlID(hwndChild);  
-        pdlgAdapt->GetDlgItem(woc)->GetWindowRect(Rect);  
-        pdlgAdapt->ScreenToClient(Rect);  
+    HWND  hwndChild = ::GetWindow(pdlgAdapt->m_hWnd, GW_CHILD);
 
-        Rect.left  = Rect.left * newRect.Width() / oldRect.Width();
+    while (hwndChild)
+    {
+        //取得ID  
+        woc = ::GetDlgCtrlID(hwndChild);
+        pdlgAdapt->GetDlgItem(woc)->GetWindowRect(Rect);
+        pdlgAdapt->ScreenToClient(Rect);
+
+        Rect.left = Rect.left * newRect.Width() / oldRect.Width();
         Rect.right = Rect.right * newRect.Width() / oldRect.Width();
         Rect.top = Rect.top * newRect.Height() / oldRect.Height();
         Rect.bottom = Rect.bottom * newRect.Height() / oldRect.Height();
         pdlgAdapt->GetDlgItem(woc)->MoveWindow(Rect, TRUE);
 
-        hwndChild=::GetWindow(hwndChild, GW_HWNDNEXT);  
+        hwndChild = ::GetWindow(hwndChild, GW_HWNDNEXT);
     }
 }
 
@@ -1729,7 +1729,7 @@ void CTorqueApp::ReOpenWindow()
 /* 播放3s告警，放一次，停300ms，播放10次 */
 void CTorqueApp::PlayAlarmSound()
 {
-    PlaySound((LPCTSTR)SND_ALIAS_SYSTEMEXCLAMATION, NULL, SND_ALIAS_ID|SND_ASYNC|SND_LOOP);
+    PlaySound((LPCTSTR)SND_ALIAS_SYSTEMEXCLAMATION, NULL, SND_ALIAS_ID | SND_ASYNC | SND_LOOP);
 }
 
 void CTorqueApp::StopAlarmSound()
@@ -1740,24 +1740,24 @@ void CTorqueApp::StopAlarmSound()
 /* 当前位置往前找iInterval个点，找到<=0的位置 */
 WORD CTorqueApp::GetIPPlace(int iCurPnt, int iInterval)
 {
-    int     i       = 0;
+    int     i = 0;
 
-    for(i = iCurPnt -1; i>(iCurPnt-1-iInterval) && i>0; i--)
+    for (i = iCurPnt - 1; i > (iCurPnt - 1 - iInterval) && i > 0; i--)
     {
-        if(m_fAdjInfPnt[i] <= 0)
+        if (m_fAdjInfPnt[i] <= 0)
             return i;
     }
 
     return 0;
 }
 
-DWORD CTorqueApp::GetQuality(TorqData::Torque *ptTorq)
+DWORD CTorqueApp::GetQuality(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
-    if(ptTorq->bbreakout())
+    if (ptTorq->bbreakout())
         return QUA_RESU_GOOD;
-    
+
 #ifndef TEST_QUALITY
     return ptTorq->dwquality();
 #else
@@ -1776,19 +1776,19 @@ DWORD CTorqueApp::GetQuality(TorqData::Torque *ptTorq)
 不合格-工厂端位移
 ***-*****位置不够"-"可以不要
 */
-DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut)
+DWORD CTorqueApp::JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut)
 {
-    DWORD       dwQuality   = QUA_RESU_BAD; /* 默认质量NOK */
-    WORD        wIPPos      = 0;
-    WORD        wSchPos     = 0;
-    double      fMaxTorq    = 0;
-    double      fCircle     = 0;
-    double      fDeltaCir   = 0;
-    double      fSlopeFactor= 0;
-    double      fIPTorq     = 0;
-    double      fMaxDelCir  = 0;
-    double      fMinDelCir  = 0;
-    double      fMinSlope   = 0;
+    DWORD       dwQuality = QUA_RESU_BAD; /* 默认质量NOK */
+    WORD        wIPPos = 0;
+    WORD        wSchPos = 0;
+    double      fMaxTorq = 0;
+    double      fCircle = 0;
+    double      fDeltaCir = 0;
+    double      fSlopeFactor = 0;
+    double      fIPTorq = 0;
+    double      fMaxDelCir = 0;
+    double      fMinDelCir = 0;
+    double      fMinSlope = 0;
 
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
@@ -1820,44 +1820,44 @@ DWORD CTorqueApp::JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut)
 }
 
 /* 超过控制扭矩的15%再平移周数超过0.2 */
-BOOL CTorqueApp::JudgeTranslate(TorqData::Torque *ptTorq)
+BOOL CTorqueApp::JudgeTranslate(TorqData::Torque* ptTorq)
 {
-    int     i           = 0;
-    int     iTranCount  = 1;
-    double  fCtrlTorq   = 1;
+    int     i = 0;
+    int     iTranCount = 1;
+    double  fCtrlTorq = 1;
     double  fTemp;
-    int     iCount      = 0;
+    int     iCount = 0;
 
     ASSERT_NULL_R(ptTorq, TRUE);
     ASSERT_ZERO_R(ptTorq->ftorque_size(), TRUE);
 
-    iTranCount = (int)((0.2 / ptTorq->fmaxcir())*500 +0.5);
+    iTranCount = (int)((0.2 / ptTorq->fmaxcir()) * 500 + 0.5);
     GET_CTRL_TORQ(fCtrlTorq, ptTorq);
 
-    for(i= ptTorq->ftorque_size() -1; i>iTranCount; i--)
+    for (i = ptTorq->ftorque_size() - 1; i > iTranCount; i--)
     {
         //if(ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // 小于控制扭矩的15%
         //if(ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
         //    break;
 
-        fTemp = (ptTorq->ftorque(i) - ptTorq->ftorque(i- iTranCount)) / fCtrlTorq;
+        fTemp = (ptTorq->ftorque(i) - ptTorq->ftorque(i - iTranCount)) / fCtrlTorq;
         if (fTemp < 0.005)
             iCount++;
         else
             iCount = 0;
-        
+
         COMP_BGE_R(iCount, iTranCount, TRUE);
     }
 
     return FALSE;
 }
 
-CString CTorqueApp::GetTorqCollTime(TorqData::Torque *ptTorq, bool bBreakout)
+CString CTorqueApp::GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout)
 {
     __time64_t  colTime;
 
     ASSERT_NULL_R(ptTorq, _T(""));
-    
+
     colTime = ptTorq->coltime();
     if (bBreakout)
         colTime = ptTorq->bocoltime();
@@ -1866,7 +1866,7 @@ CString CTorqueApp::GetTorqCollTime(TorqData::Torque *ptTorq, bool bBreakout)
     return olett.Format(_T("%Y-%m-%d %H:%M:%S"));
 }
 
-CString CTorqueApp::GetTorqFullDate(TorqData::Torque *ptTorq)
+CString CTorqueApp::GetTorqFullDate(TorqData::Torque* ptTorq)
 {
     __time64_t  colTime;
 
@@ -1875,7 +1875,7 @@ CString CTorqueApp::GetTorqFullDate(TorqData::Torque *ptTorq)
     colTime = ptTorq->coltime();
     COleDateTime olett(colTime);
 
-    if(LANGUAGE_CHINESE == g_tGlbCfg.nLangType)
+    if (LANGUAGE_CHINESE == g_tGlbCfg.nLangType)
     {
         return olett.Format(_T("%Y年%m月%d日"));
     }
@@ -1884,12 +1884,12 @@ CString CTorqueApp::GetTorqFullDate(TorqData::Torque *ptTorq)
     return olett.Format(_T("%b %d, %Y"));
 }
 
-CString CTorqueApp::GetTorqSimpDate(TorqData::Torque *ptTorq)
+CString CTorqueApp::GetTorqSimpDate(TorqData::Torque* ptTorq)
 {
     __time64_t  colTime;
 
     ASSERT_NULL_R(ptTorq, _T(""));
-    
+
     colTime = ptTorq->coltime();
 
     COleDateTime olett(colTime);
@@ -1897,27 +1897,27 @@ CString CTorqueApp::GetTorqSimpDate(TorqData::Torque *ptTorq)
 }
 
 /* 拷贝指定区域到DC的位图中 */
-HBITMAP CTorqueApp::CopyDCToBitmap(HDC hScrDC,   LPRECT lprcScr)
+HBITMAP CTorqueApp::CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr)
 {
-    HDC         hMemDC      = NULL; // 屏幕和内存设备描述表
-    HBITMAP     hBitmap     = NULL; // 位图句柄
-    HBITMAP     hOldBitmap  = NULL;
-    int         iX          = 0;    // 选定区域坐标
-    int         iY          = 0;
-    int         iWidth      = 0;    // 位图宽度和高度
-    int         iHeight     = 0;
+    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
+    HBITMAP     hBitmap = NULL; // 位图句柄
+    HBITMAP     hOldBitmap = NULL;
+    int         iX = 0;    // 选定区域坐标
+    int         iY = 0;
+    int         iWidth = 0;    // 位图宽度和高度
+    int         iHeight = 0;
 
     // 确保选定区域不为空矩形
     COMP_BTRUE_R(IsRectEmpty(lprcScr), NULL);
 
     // 获得选定区域坐标
-    iX      = lprcScr->left;
-    iY      = lprcScr->top;
-    iWidth  = lprcScr->right - lprcScr->left;
+    iX = lprcScr->left;
+    iY = lprcScr->top;
+    iWidth = lprcScr->right - lprcScr->left;
     iHeight = lprcScr->bottom - lprcScr->top;
 
     // 为屏幕设备描述表创建兼容的内存设备描述表
-    hMemDC  = CreateCompatibleDC(hScrDC);
+    hMemDC = CreateCompatibleDC(hScrDC);
 
     // 创建一个与屏幕设备描述表兼容的位图
     hBitmap = CreateCompatibleBitmap(hScrDC, iWidth, iHeight);
@@ -1930,8 +1930,8 @@ HBITMAP CTorqueApp::CopyDCToBitmap(HDC hScrDC,   LPRECT lprcScr)
     // 把新位图选到内存设备描述表中
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
     // 把屏幕设备描述表拷贝到内存设备描述表中
-    StretchBlt(hMemDC,0,0,iWidth,iHeight,hScrDC,iX,iY,iWidth,iHeight,SRCCOPY );
-    
+    StretchBlt(hMemDC, 0, 0, iWidth, iHeight, hScrDC, iX, iY, iWidth, iHeight, SRCCOPY);
+
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
 
@@ -1945,13 +1945,13 @@ HBITMAP CTorqueApp::CopyDCToBitmap(HDC hScrDC,   LPRECT lprcScr)
 
 int CTorqueApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lprcScr, HDC hMemDC, HBITMAP hBitmap)
 {
-    HBITMAP     hOldBitmap  = NULL;
-    int         iX          = 0;    // 选定区域坐标
-    int         iY          = 0;
-    int         iWidth      = 0;    // 位图宽度和高度
-    int         iHeight     = 0;
-    BOOL        bMemDC      = FALSE;
-    BOOL        bBitmap     = FALSE;
+    HBITMAP     hOldBitmap = NULL;
+    int         iX = 0;    // 选定区域坐标
+    int         iY = 0;
+    int         iWidth = 0;    // 位图宽度和高度
+    int         iHeight = 0;
+    BOOL        bMemDC = FALSE;
+    BOOL        bBitmap = FALSE;
 
     // 确保选定区域不为空矩形
     COMP_BTRUE_R(IsRectEmpty(lprcScr), -1);
@@ -1959,16 +1959,16 @@ int CTorqueApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lp
     ASSERT_NULL_R(hBitmap, -1);
 
     // 获得选定区域坐标
-    iX      = lprcScr->left;
-    iY      = lprcScr->top;
-    iWidth  = lprcScr->right - lprcScr->left;
+    iX = lprcScr->left;
+    iY = lprcScr->top;
+    iWidth = lprcScr->right - lprcScr->left;
     iHeight = lprcScr->bottom - lprcScr->top;
 
     // 把新位图选到内存设备描述表中
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
     // 把屏幕设备描述表拷贝到内存设备描述表中
-    StretchBlt(hMemDC,0,0,iWidth,iHeight,hScrDC,iX,iY,iWidth,iHeight,SRCCOPY );
-    
+    StretchBlt(hMemDC, 0, 0, iWidth, iHeight, hScrDC, iX, iY, iWidth, iHeight, SRCCOPY);
+
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
     SavePNG(hBitmap, strFile);
@@ -1979,56 +1979,56 @@ int CTorqueApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lp
 /* 根据HBITMAP获取图像数据，供后面保存文件使用，保存后需要释放HANDLE */
 HANDLE CTorqueApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize)
 {
-    WORD                wBitCount   = 24;   //位图中每象素所占字节数
-    DWORD               dwLineSize  = 0;
-    BITMAP              Bitmap      = {0};  //位图属性结构
-    BITMAPINFOHEADER    bi          = {0};  //位图信息头结构
-    HDC                 hDC         = NULL;
-    HANDLE              hDib        = NULL;
-    HANDLE              hPal        = NULL;
-    HANDLE              hOldPal     = NULL;  
+    WORD                wBitCount = 24;   //位图中每象素所占字节数
+    DWORD               dwLineSize = 0;
+    BITMAP              Bitmap = { 0 };  //位图属性结构
+    BITMAPINFOHEADER    bi = { 0 };  //位图信息头结构
+    HDC                 hDC = NULL;
+    HANDLE              hDib = NULL;
+    HANDLE              hPal = NULL;
+    HANDLE              hOldPal = NULL;
 
     ASSERT_NULL_R(hBitmap, NULL);
 
-    GetObject(hBitmap,   sizeof(Bitmap),   (LPSTR)&Bitmap);
-    bi.biSize           =   sizeof(BITMAPINFOHEADER);
-    bi.biWidth          =   Bitmap.bmWidth;
-    bi.biHeight         =   Bitmap.bmHeight;
-    bi.biPlanes         =   1;
-    bi.biBitCount       =   wBitCount;
-    bi.biCompression    =   BI_RGB;
-    bi.biSizeImage      =   0;
-    bi.biXPelsPerMeter  =   0;
-    bi.biYPelsPerMeter  =   0;
-    bi.biClrImportant   =   0;
-    bi.biClrUsed        =   0;
+    GetObject(hBitmap, sizeof(Bitmap), (LPSTR)&Bitmap);
+    bi.biSize = sizeof(BITMAPINFOHEADER);
+    bi.biWidth = Bitmap.bmWidth;
+    bi.biHeight = Bitmap.bmHeight;
+    bi.biPlanes = 1;
+    bi.biBitCount = wBitCount;
+    bi.biCompression = BI_RGB;
+    bi.biSizeImage = 0;
+    bi.biXPelsPerMeter = 0;
+    bi.biYPelsPerMeter = 0;
+    bi.biClrImportant = 0;
+    bi.biClrUsed = 0;
 
-    dwLineSize   = ((Bitmap.bmWidth * wBitCount + 31) / 32) * 4;
+    dwLineSize = ((Bitmap.bmWidth * wBitCount + 31) / 32) * 4;
     dwBmBitsSize = dwLineSize * Bitmap.bmHeight;
 
     // 为位图内容分配内存,24位位图没有调色板
-    hDib  = GlobalAlloc(GHND,dwBmBitsSize + sizeof(BITMAPINFOHEADER));
+    hDib = GlobalAlloc(GHND, dwBmBitsSize + sizeof(BITMAPINFOHEADER));
     ASSERT_NULL_R(hDib, NULL);
-    
-    lpbi  = (LPBITMAPINFOHEADER)GlobalLock(hDib);
+
+    lpbi = (LPBITMAPINFOHEADER)GlobalLock(hDib);
     *lpbi = bi;
 
     // 处理调色板
-    hPal  = GetStockObject(DEFAULT_PALETTE);
-    if(hPal)
+    hPal = GetStockObject(DEFAULT_PALETTE);
+    if (hPal)
     {
-        hDC     = ::GetDC(NULL);
+        hDC = ::GetDC(NULL);
         hOldPal = ::SelectPalette(hDC, (HPALETTE)hPal, FALSE);
         RealizePalette(hDC);
     }
 
     // 获取该调色板下新的像素值
     GetDIBits(hDC, hBitmap, 0, Bitmap.bmHeight,
-              (LPSTR)lpbi + sizeof(BITMAPINFOHEADER),
-              (BITMAPINFO*)lpbi, DIB_RGB_COLORS);
+        (LPSTR)lpbi + sizeof(BITMAPINFOHEADER),
+        (BITMAPINFO*)lpbi, DIB_RGB_COLORS);
 
     // 恢复调色板
-    if(hOldPal)
+    if (hOldPal)
     {
         ::SelectPalette(hDC, (HPALETTE)hOldPal, TRUE);
         RealizePalette(hDC);
@@ -2043,31 +2043,31 @@ HANDLE CTorqueApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& 
 BOOL CTorqueApp::SaveBmp(HBITMAP hBitmap, CString FileName)
 {
     // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
-    DWORD               dwBmBitsSize= 0;
-    DWORD               dwDIBSize   = 0;
-    DWORD               dwWritten   = 0;
+    DWORD               dwBmBitsSize = 0;
+    DWORD               dwDIBSize = 0;
+    DWORD               dwWritten = 0;
     // 定义文件，分配内存句柄，调色板句柄
-    HANDLE              fh          = 0; 
+    HANDLE              fh = 0;
     BITMAPFILEHEADER    bmfHdr;
-    LPBITMAPINFOHEADER  lpbi        = NULL; //指向位图信息头结构
-    HANDLE              hDib        = NULL;
+    LPBITMAPINFOHEADER  lpbi = NULL; //指向位图信息头结构
+    HANDLE              hDib = NULL;
 
     hDib = GetImgData(hBitmap, lpbi, dwBmBitsSize);
     ASSERT_NULL_R(hDib, FALSE);
     ASSERT_NULL_R(lpbi, FALSE);
 
     //创建位图文件
-    fh  = CreateFile(FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                     FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    fh = CreateFile(FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
     COMP_BE_R(fh, INVALID_HANDLE_VALUE, FALSE);
 
     //设置位图文件头
-    bmfHdr.bfType       = BFT_BITMAP;   //   "BM "
-    dwDIBSize           = sizeof(BITMAPFILEHEADER) +  sizeof(BITMAPINFOHEADER) + dwBmBitsSize;
-    bmfHdr.bfSize       = dwDIBSize;
-    bmfHdr.bfReserved1  = 0;
-    bmfHdr.bfReserved2  = 0;
-    bmfHdr.bfOffBits    = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER);
+    bmfHdr.bfType = BFT_BITMAP;   //   "BM "
+    dwDIBSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize;
+    bmfHdr.bfSize = dwDIBSize;
+    bmfHdr.bfReserved1 = 0;
+    bmfHdr.bfReserved2 = 0;
+    bmfHdr.bfOffBits = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER);
 
     // 写入位图文件头
     WriteFile(fh, (LPSTR)&bmfHdr, sizeof(BITMAPFILEHEADER), &dwWritten, NULL);
@@ -2083,7 +2083,7 @@ BOOL CTorqueApp::SaveBmp(HBITMAP hBitmap, CString FileName)
 
 //returns 0 if all went ok, non-0 if error
 //output image is always given in RGBA (with alpha channel), even if it's a BMP without alpha channel
-unsigned CTorqueApp::decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char * bmp)
+unsigned CTorqueApp::decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp)
 {
     static const unsigned MINHEADER = 54; //minimum BMP header size
 
@@ -2139,13 +2139,13 @@ unsigned CTorqueApp::decodeBMP(std::vector<unsigned char>& image, unsigned& w, u
 BOOL CTorqueApp::SavePNG(HBITMAP hBitmap, CString FileName)
 {
     // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
-    DWORD               dwBmBitsSize= 0;
-    DWORD               dwDIBSize   = 0;
+    DWORD               dwBmBitsSize = 0;
+    DWORD               dwDIBSize = 0;
     BITMAPFILEHEADER    bmfHdr;
-    LPBITMAPINFOHEADER  lpbi        = NULL; //指向位图信息头结构
-    HANDLE              hDib        = NULL;
-    BYTE                *pBuf       = NULL;
-    BYTE                *pTmp       = NULL;
+    LPBITMAPINFOHEADER  lpbi = NULL; //指向位图信息头结构
+    HANDLE              hDib = NULL;
+    BYTE* pBuf = NULL;
+    BYTE* pTmp = NULL;
     std::vector<unsigned char> image;
     std::vector<unsigned char> png;
     unsigned            w, h;
@@ -2155,14 +2155,14 @@ BOOL CTorqueApp::SavePNG(HBITMAP hBitmap, CString FileName)
     ASSERT_NULL_R(lpbi, FALSE);
 
     pBuf = new BYTE[sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize];
-    
+
     //设置位图文件头
-    bmfHdr.bfType       = BFT_BITMAP;   //   "BM "
-    dwDIBSize           = sizeof(BITMAPFILEHEADER) +  sizeof(BITMAPINFOHEADER) + dwBmBitsSize;
-    bmfHdr.bfSize       = dwDIBSize;
-    bmfHdr.bfReserved1  = 0;
-    bmfHdr.bfReserved2  = 0;
-    bmfHdr.bfOffBits    = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER);
+    bmfHdr.bfType = BFT_BITMAP;   //   "BM "
+    dwDIBSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize;
+    bmfHdr.bfSize = dwDIBSize;
+    bmfHdr.bfReserved1 = 0;
+    bmfHdr.bfReserved2 = 0;
+    bmfHdr.bfOffBits = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER);
 
     memcpy(pBuf, &bmfHdr, sizeof(BITMAPFILEHEADER));
     pTmp = pBuf + sizeof(BITMAPFILEHEADER);
@@ -2173,7 +2173,7 @@ BOOL CTorqueApp::SavePNG(HBITMAP hBitmap, CString FileName)
     lodepng::encode(png, image, lpbi->biWidth, lpbi->biHeight);
     lodepng::save_file(png, FileName.GetString());
 
-    delete [] pBuf;
+    delete[] pBuf;
     GlobalUnlock(hDib);
     GlobalFree(hDib);
     return TRUE;
@@ -2189,27 +2189,27 @@ void CTorqueApp::ClearReadTorq()
     g_tReadData.nQualy = 0;
     g_tReadData.nUnQualy = 0;
 
-    memset(&g_tReadData.tSplit, 0, MAXWELLNUM*sizeof(SPLITPOINT));
+    memset(&g_tReadData.tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
 
-    for(i=0; i<MAXWELLNUM; i++)
+    for (i = 0; i < MAXWELLNUM; i++)
         g_tReadData.tData[i].Clear();
 }
 
 /* 从文件当前读取位置获取数据的长度，文件位置为读取有效的文件长度之后 */
-int CTorqueApp::SeekFileLen(CFile &file)
+int CTorqueApp::SeekFileLen(CFile& file)
 {
     int     i = 0;
     int     iFileLen = 0;
-    int     iFirstPos= 0;
+    int     iFirstPos = 0;
     int     iFilePos = 0;
-    UINT    nLeng    = 0;
+    UINT    nLeng = 0;
     UINT    nNextLen = 0;
     char    cTmpRead[4] = { 0 };
-    
+
     iFileLen = (int)file.GetLength();
     iFilePos = (int)file.GetPosition();
 
-    if(SeekPBDataPos(file, iFilePos) == -1)
+    if (SeekPBDataPos(file, iFilePos) == -1)
     {
         return -1;
     }
@@ -2218,18 +2218,18 @@ int CTorqueApp::SeekFileLen(CFile &file)
     /*file.Read(cTmpRead, 4);
     if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) != 0)
         file.Seek(iFilePos, CFile::begin);*/
-    
-    /* 跳过实际的长度，包括可能的尾巴 */
-    file.Read(&nLeng,sizeof(UINT));
+
+        /* 跳过实际的长度，包括可能的尾巴 */
+    file.Read(&nLeng, sizeof(UINT));
     iFirstPos = (int)file.GetPosition();
     if ((iFirstPos + (int)nLeng > iFileLen) || (nLeng > MAXPROBUFF))
     {
-        /* 20190616 往后再读MAXSKIPLEN次，尝试跳过数据异常 
+        /* 20190616 往后再读MAXSKIPLEN次，尝试跳过数据异常
            1个字节一跳 */
-        for(i=-3; i<MAXSKIPLEN; i++)
+        for (i = -3; i < MAXSKIPLEN; i++)
         {
             file.Seek((iFirstPos + i), CFile::begin);
-            file.Read(&nNextLen,sizeof(UINT));
+            file.Read(&nNextLen, sizeof(UINT));
             iFilePos = (int)file.GetPosition();
             if ((iFilePos + (int)nNextLen <= iFileLen) && (nNextLen < MAXPROBUFF))
             {
@@ -2237,13 +2237,13 @@ int CTorqueApp::SeekFileLen(CFile &file)
                 break;
             }
         }
-        if(i >= MAXSKIPLEN)
+        if (i >= MAXSKIPLEN)
         {
             return -2;
         }
     }
-    
-    if(nLeng > MAXPROBUFF)
+
+    if (nLeng > MAXPROBUFF)
     {
         return -3;
     }
@@ -2253,29 +2253,29 @@ int CTorqueApp::SeekFileLen(CFile &file)
 
 /* 从第一条记录开始，跳到指定的记录位置
    说明:文件的第一个UINT记录总数已经读出
-   for循环的递增为int i 
+   for循环的递增为int i
    nLeng 为UNIT类型,表示该数据完整长度 */
-int CTorqueApp::SeekTorque(CFile &file, int iDataNum)
+int CTorqueApp::SeekTorque(CFile& file, int iDataNum)
 {
     int     i = 0;
     int     iDataLen = 0;
 
-	// two UINT in head
-    file.Seek(sizeof(UINT)*2, CFile::begin);
-    
-    for(i=0; i< iDataNum; i++)
+    // two UINT in head
+    file.Seek(sizeof(UINT) * 2, CFile::begin);
+
+    for (i = 0; i < iDataNum; i++)
     {
         iDataLen = SeekFileLen(file);
-        if(iDataLen < 0)
+        if (iDataLen < 0)
             return -1;
-        
+
         file.Seek(iDataLen, CFile::current);
     }
 
     return 0;
 }
 
-int  CTorqueApp::SeekPBDataPos(CFile &file, int iCurPos)
+int  CTorqueApp::SeekPBDataPos(CFile& file, int iCurPos)
 {
     int     i = 0;
     int     iFileLen = 0;
@@ -2283,17 +2283,17 @@ int  CTorqueApp::SeekPBDataPos(CFile &file, int iCurPos)
 
     // 无论有无head都找
     //COMP_BFALSE_R(g_tReadData.bHaveHead, 0);
-    
+
     iFileLen = (int)file.GetLength();
-    if((iCurPos+MIN_TORQDATALEN) >= iFileLen)
+    if ((iCurPos + MIN_TORQDATALEN) >= iFileLen)
         return -1;
 
     file.Read(cTmpRead, MAXSKIPLEN);
 
     /* 查找数据文件头 */
-    for(i=0; i< MAXSKIPLEN -PBHEADLEN; i++)
+    for (i = 0; i < MAXSKIPLEN - PBHEADLEN; i++)
     {
-        if(memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) == 0)
+        if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) == 0)
         {
             file.Seek(iCurPos + i + PBHEADLEN, CFile::begin);
             return 0;
@@ -2319,29 +2319,29 @@ BOOL CTorqueApp::ReadHisTorqFromFile(CString strDataName)
 BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
 {
     CFile   file;
-    int     i       = 0;
-    int     j       = 0;
+    int     i = 0;
+    int     j = 0;
     int     iCtrlCount = 0;
-    UINT    nNum    = 0;
+    UINT    nNum = 0;
     UINT    nBreakNum = 0;
-    UINT    nValid  = 0;
+    UINT    nValid = 0;
     int     iFilePos = 0;
     int     iDataLen = 0;
-    int     iTotalPnt= 0;
+    int     iTotalPnt = 0;
     CString strInfo;
     CString strTitle;
     bool    bRes;
-    TorqData::Torque *ptTorq = NULL;
-    SPLITPOINT       *pSplit = NULL;
+    TorqData::Torque* ptTorq = NULL;
+    SPLITPOINT* pSplit = NULL;
     int     iSplitPos = 0;
-    char    cPBHead[PBHEADLEN+1] = {0};
+    char    cPBHead[PBHEADLEN + 1] = { 0 };
     DWORD   dwQuality = 0;
-    double  fRatio    = NM2LBFT;
+    double  fRatio = NM2LBFT;
     //string strData;
 
     COMP_BTRUE_R(strDataName.IsEmpty(), FALSE);
 
-    ASSERT_ZERO_R(file.Open(strDataName, CFile::modeRead|CFile::shareDenyNone),FALSE);
+    ASSERT_ZERO_R(file.Open(strDataName, CFile::modeRead | CFile::shareDenyNone), FALSE);
 
     m_strReadFile = strDataName;
     strTitle = file.GetFileTitle();
@@ -2351,8 +2351,8 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     ClearReadTorq();
 
     file.SeekToBegin();
-    file.Read(&nNum,sizeof(UINT));
-    if(nNum > MAXWELLNUM)
+    file.Read(&nNum, sizeof(UINT));
+    if (nNum > MAXWELLNUM)
     {
         strInfo.Format(IDS_STRINFREADOVERFLOW, nNum, MAXWELLNUM);
         SaveShowMessage(strInfo);
@@ -2367,29 +2367,29 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     /* 检查文件是否有头 */
 #if 0
     g_tReadData.bHaveHead = FALSE;
-    file.Read(cPBHead,PBHEADLEN);
+    file.Read(cPBHead, PBHEADLEN);
     file.Seek(sizeof(UINT), CFile::begin);
-    if(memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
+    if (memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
     {
         g_tReadData.bHaveHead = TRUE;
     }
 #endif
     BeginWaitCursor();
 
-    for(i=0; i<(int)nNum; i++)
+    for (i = 0; i < (int)nNum; i++)
     {
         iFilePos = (int)file.GetPosition();
         strInfo.Format(IDS_STRINFTORQDATAERR, strDataName, nNum, i, file.GetPosition());
 
         iDataLen = SeekFileLen(file);
-        if(iDataLen < 0)
+        if (iDataLen < 0)
         {
             SaveShowMessage(strInfo);
             break;
         }
-        
+
         memset(m_cProtoBuf, 0, MAXPROBUFF);
-        file.Read(m_cProtoBuf,iDataLen);
+        file.Read(m_cProtoBuf, iDataLen);
 
         if (iDataLen < MIN_TORQDATALEN)
         {
@@ -2412,36 +2412,36 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
         g_tReadData.nTotalPlus[nValid] = ptTorq->dwtotalplus();
         if (ptTorq->bbreakout())
             g_tReadData.nTotalPlus[nValid] += ptTorq->dwbototalplus();
-            
+
         if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
-        { 
+        {
             iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
-        if(ptTorq->bbreakout())   /* 从前往后分屏 */
+        if (ptTorq->bbreakout())   /* 从前往后分屏 */
         {
             g_tReadData.nBreakout++;
 
-            if(iTotalPnt > MAXLINEITEM)
+            if (iTotalPnt > MAXLINEITEM)
             {
                 // 按 MAXLINEITEM 直接分屏
                 pSplit->iCtrlPnt = MAXLINEITEM;
                 pSplit->iSplitNum = (int)ceil(iTotalPnt * 1.0 / MAXLINEITEM);
                 iSplitPos = 0;
                 pSplit->iCur = 1;
-                for(j=0; j<pSplit->iSplitNum && j<MAXSPLIITNUM; j++)
+                for (j = 0; j < pSplit->iSplitNum && j < MAXSPLIITNUM; j++)
                 {
                     pSplit->iBegin[j] = iSplitPos;
-                    pSplit->iEnd[j]   = MIN(iSplitPos + MAXLINEITEM, iTotalPnt);
+                    pSplit->iEnd[j] = MIN(iSplitPos + MAXLINEITEM, iTotalPnt);
                     iSplitPos += MAXLINEITEM;
-                    if(iSplitPos >= iTotalPnt)
+                    if (iSplitPos >= iTotalPnt)
                         break;
                 }
             }
         }
         else    /* 从后往前分屏 */
         {
-            iCtrlCount = int(GetCtrlCir(ptTorq)*MAXLINEITEM / GetMaxCir(ptTorq) + 0.5);
+            iCtrlCount = int(GetCtrlCir(ptTorq) * MAXLINEITEM / GetMaxCir(ptTorq) + 0.5);
             if (iCtrlCount < 0)
             {
                 break;
@@ -2449,57 +2449,57 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
 
             pSplit->iCtrlPnt = iCtrlCount;
 
-            if(iTotalPnt > iCtrlCount)
+            if (iTotalPnt > iCtrlCount)
             {
-                pSplit->iSplitNum = 1 + (int)ceil((iTotalPnt-iCtrlCount) * 1.0 / MAXLINEITEM);
+                pSplit->iSplitNum = 1 + (int)ceil((iTotalPnt - iCtrlCount) * 1.0 / MAXLINEITEM);
                 iSplitPos = iTotalPnt;
                 j = MIN(pSplit->iSplitNum, MAXSPLIITNUM);
                 pSplit->iCur = j;
-                
+
                 // 第一屏到iCtrlCount, 其他满屏
-                pSplit->iEnd[j-1]   = iSplitPos;
-                pSplit->iBegin[j-1] = MAX(iSplitPos - iCtrlCount, 0);
+                pSplit->iEnd[j - 1] = iSplitPos;
+                pSplit->iBegin[j - 1] = MAX(iSplitPos - iCtrlCount, 0);
                 iSplitPos -= iCtrlCount;
                 j--;
-                for (; j>=0; j--)
+                for (; j >= 0; j--)
                 {
-                    pSplit->iEnd[j-1]   = iSplitPos;
-                    pSplit->iBegin[j-1] = MAX(iSplitPos - MAXLINEITEM, 0);
+                    pSplit->iEnd[j - 1] = iSplitPos;
+                    pSplit->iBegin[j - 1] = MAX(iSplitPos - MAXLINEITEM, 0);
                     iSplitPos -= MAXLINEITEM;
-                    if(iSplitPos <= 0)
+                    if (iSplitPos <= 0)
                         break;
                 }
             }
         }
 
         /* NM  < ---- > lbft (* ratio) */
-        if(g_tGlbCfg.nTorqUnit != ptTorq->dwtorqunit())
+        if (g_tGlbCfg.nTorqUnit != ptTorq->dwtorqunit())
         {
             /* 0 (N.M) lb.ft --> N.m  */
-            fRatio    = LBFT2NM;
-            if(g_tGlbCfg.nTorqUnit == 1) // N.m --> lb.ft
+            fRatio = LBFT2NM;
+            if (g_tGlbCfg.nTorqUnit == 1) // N.m --> lb.ft
                 fRatio = NM2LBFT;
 
-            ptTorq->set_fmaxtorq(fRatio*ptTorq->fmaxtorq());
-            ptTorq->set_fmaxlimit(fRatio*ptTorq->fmaxlimit());
-            ptTorq->set_fcontrol(fRatio*ptTorq->fcontrol());
-            ptTorq->set_fopttorq(fRatio*ptTorq->fopttorq());
-            ptTorq->set_fshow(fRatio*ptTorq->fshow());
+            ptTorq->set_fmaxtorq(fRatio * ptTorq->fmaxtorq());
+            ptTorq->set_fmaxlimit(fRatio * ptTorq->fmaxlimit());
+            ptTorq->set_fcontrol(fRatio * ptTorq->fcontrol());
+            ptTorq->set_fopttorq(fRatio * ptTorq->fopttorq());
+            ptTorq->set_fshow(fRatio * ptTorq->fshow());
             if (ptTorq->bbreakout())
             {
                 ptTorq->set_fbomaxtorq(fRatio * ptTorq->fbomaxtorq());
             }
 
-            for(j=0; j<ptTorq->ftorque_size(); j++)
+            for (j = 0; j < ptTorq->ftorque_size(); j++)
             {
-                ptTorq->set_ftorque(j, fRatio*ptTorq->ftorque(j));
+                ptTorq->set_ftorque(j, fRatio * ptTorq->ftorque(j));
             }
         }
 
         g_tReadData.nTotal++;
 
         dwQuality = GetQuality(ptTorq);
-        if(dwQuality & QUA_RESU_QUALITYBIT)
+        if (dwQuality & QUA_RESU_QUALITYBIT)
         {
             g_tReadData.nQualy++;
         }
@@ -2517,9 +2517,9 @@ BOOL CTorqueApp::GetTorqDataFromFile(CString strDataName)
     return TRUE;
 }
 
-TorqData::Torque * CTorqueApp::GetOrgTorqFromTorq(UINT nNO)
+TorqData::Torque* CTorqueApp::GetOrgTorqFromTorq(UINT nNO)
 {
-    TorqData::Torque *ptOrg = NULL;
+    TorqData::Torque* ptOrg = NULL;
 
     COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
 
@@ -2531,24 +2531,24 @@ TorqData::Torque * CTorqueApp::GetOrgTorqFromTorq(UINT nNO)
 
 /*  nNO 从0开始计数
     iMulti在放大时使用 */
-DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
+DRAWTORQDATA* CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
 {
-    int i           = 0;
-    int iDrawPnt    = 0;
-    int iDataPlus   = 0;
-    int iDrawPlus   = 0;
-    int iDrawIndex  = 0;
-    int iDataIndex  = 0;
-    int iInsCnt     = 0;
+    int i = 0;
+    int iDrawPnt = 0;
+    int iDataPlus = 0;
+    int iDrawPlus = 0;
+    int iDrawIndex = 0;
+    int iDataIndex = 0;
+    int iInsCnt = 0;
     int iPriorDataIndex = 0;
     int iPriorDrawIndex = 0;
     double fPreTorq = 0;
     double fCurTorq = 0;
-    double fPreRpm  = 0;
-    double fCurRpm  = 0;
+    double fPreRpm = 0;
+    double fCurRpm = 0;
     double fPlusPerPnt = 1.0;
-    TorqData::Torque *ptOrg = NULL;
-    DRAWTORQDATA     *ptDraw = NULL;
+    TorqData::Torque* ptOrg = NULL;
+    DRAWTORQDATA* ptDraw = NULL;
 
     COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
     COMP_BGE_R(nNO, MAXWELLNUM, NULL);
@@ -2557,7 +2557,7 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
     ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
 
     ptDraw = &m_tCurDrawTorq;
-    if(iMulti > 1)
+    if (iMulti > 1)
         ptDraw = &m_tCurZoomTorq;
 
     memset(ptDraw, 0, sizeof(DRAWTORQDATA));
@@ -2566,64 +2566,64 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
     fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / iMulti / MAXLINEITEM;
 
     iDrawPnt = (int)ceil(g_tReadData.nTotalPlus[nNO] / fPlusPerPnt);
-    if(iDrawPnt < 2)
+    if (iDrawPnt < 2)
         iDrawPnt = 2;
 
     iDrawIndex = 0;
     iDataIndex = 0;
-    iDataPlus  = ptOrg->dwdelplus(0);
-    iDrawPlus  = int(ceil(iDrawIndex * fPlusPerPnt));
-    ptDraw->fTorque[iDrawIndex]  = ptOrg->ftorque(0);
-    ptDraw->fRpm[iDrawIndex]     = ptOrg->frpm(0);
+    iDataPlus = ptOrg->dwdelplus(0);
+    iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
+    ptDraw->fTorque[iDrawIndex] = ptOrg->ftorque(0);
+    ptDraw->fRpm[iDrawIndex] = ptOrg->frpm(0);
 
     iPriorDataIndex = iDataIndex;
     iPriorDrawIndex = iDrawIndex;
     iDrawIndex = 1;
-    for(iDataIndex=1; iDataIndex<ptOrg->ftorque_size()-1; iDataIndex++)
+    for (iDataIndex = 1; iDataIndex < ptOrg->ftorque_size() - 1; iDataIndex++)
     {
         /* 跳过delta脉冲为0的情况 */
-        while(ptOrg->dwdelplus(iDataIndex) == 0 && iDataIndex < ptOrg->ftorque_size() - 1)
-            iDataIndex ++;
+        while (ptOrg->dwdelplus(iDataIndex) == 0 && iDataIndex < ptOrg->ftorque_size() - 1)
+            iDataIndex++;
         iDataPlus += ptOrg->dwdelplus(iDataIndex);
 
         /* data分辨率大于draw分辨率时 */
-        if(iDataPlus < iDrawPlus)
+        if (iDataPlus < iDrawPlus)
             continue;
 
-        for(; iDrawIndex<iDrawPnt; iDrawIndex++)
+        for (; iDrawIndex < iDrawPnt; iDrawIndex++)
         {
             iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
             // 当前的iDrawIndex不设置，取iDrawIndex-1
-            if(iDrawPlus > iDataPlus)
+            if (iDrawPlus > iDataPlus)
                 break;
         }
 
         /* (priorData+1) -- Data
            (priorDraw+1) -- Draw-1 */
-        iInsCnt  = iDrawIndex - iPriorDrawIndex;
+        iInsCnt = iDrawIndex - iPriorDrawIndex;
         fCurTorq = ptOrg->ftorque(iDataIndex);
-        fCurRpm  = ptOrg->frpm(iDataIndex);
-        if(iInsCnt <= 1)
+        fCurRpm = ptOrg->frpm(iDataIndex);
+        if (iInsCnt <= 1)
         {
-            ptDraw->fTorque[iDrawIndex-1] = fCurTorq;
-            ptDraw->fRpm[iDrawIndex-1]    = fCurRpm;
+            ptDraw->fTorque[iDrawIndex - 1] = fCurTorq;
+            ptDraw->fRpm[iDrawIndex - 1] = fCurRpm;
         }
         else
         {
             fPreTorq = ptOrg->ftorque(iPriorDataIndex);
-            fPreRpm  = ptOrg->frpm(iPriorDataIndex);
-            for(i=0;i<iInsCnt; i++)
+            fPreRpm = ptOrg->frpm(iPriorDataIndex);
+            for (i = 0; i < iInsCnt; i++)
             {
-                ptDraw->fTorque[i+iPriorDrawIndex+1] = (fCurTorq - fPreTorq)*(i+1)/iInsCnt + fPreTorq;
-                ptDraw->fRpm[i+iPriorDrawIndex+1]    = (fCurRpm  - fPreRpm) *(i+1)/iInsCnt + fPreRpm;
+                ptDraw->fTorque[i + iPriorDrawIndex + 1] = (fCurTorq - fPreTorq) * (i + 1) / iInsCnt + fPreTorq;
+                ptDraw->fRpm[i + iPriorDrawIndex + 1] = (fCurRpm - fPreRpm) * (i + 1) / iInsCnt + fPreRpm;
             }
         }
-        iPriorDrawIndex = iDrawIndex-1;
+        iPriorDrawIndex = iDrawIndex - 1;
         iPriorDataIndex = iDataIndex;
     }
 
-    iInsCnt = iDrawPnt -1 - iDrawIndex;
-    if(iInsCnt <= 1)
+    iInsCnt = iDrawPnt - 1 - iDrawIndex;
+    if (iInsCnt <= 1)
     {
         ptDraw->fTorque[iDrawPnt - 1] = ptOrg->ftorque(ptOrg->ftorque_size() - 1);
         ptDraw->fRpm[iDrawPnt - 1] = ptOrg->frpm(ptOrg->ftorque_size() - 1);
@@ -2636,8 +2636,8 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
         fPreRpm = ptOrg->frpm(iPriorDataIndex);
         for (i = 0; i < iInsCnt; i++)
         {
-            ptDraw->fTorque[i + iDrawIndex + 1] = (fCurTorq - fPreTorq)*(i + 1) / iInsCnt + fPreTorq;
-            ptDraw->fRpm[i + iDrawIndex + 1] = (fCurRpm - fPreRpm) *(i + 1) / iInsCnt + fPreRpm;
+            ptDraw->fTorque[i + iDrawIndex + 1] = (fCurTorq - fPreTorq) * (i + 1) / iInsCnt + fPreTorq;
+            ptDraw->fRpm[i + iDrawIndex + 1] = (fCurRpm - fPreRpm) * (i + 1) / iInsCnt + fPreRpm;
         }
     }
 
@@ -2645,7 +2645,7 @@ DRAWTORQDATA * CTorqueApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
     return ptDraw;
 }
 
-CString CTorqueApp::GetStatType(TorqData::Torque *ptTorq, WORD wPlace)
+CString CTorqueApp::GetStatType(TorqData::Torque* ptTorq, WORD wPlace)
 {
     ASSERT_NULL_R(ptTorq, NULLSTR);
 
@@ -2659,13 +2659,13 @@ BOOL CTorqueApp::CheckPassWord()
     string          strSupPW;
     CDlgPassword    dlgPW;
 
-    if(IDOK != dlgPW.DoModal())
+    if (IDOK != dlgPW.DoModal())
     {
         return FALSE;
     }
 
     strSupPW = LoadstringFromRes(IDS_STRSUPPORPW);
-    if( 0 != dlgPW.m_strPassword.Compare(g_tGlbCfg.strPassWord.c_str()) &&
+    if (0 != dlgPW.m_strPassword.Compare(g_tGlbCfg.strPassWord.c_str()) &&
         0 != dlgPW.m_strPassword.Compare(strSupPW.c_str()))
     {
         AfxMessageBox(LoadstringFromRes(IDS_STRERRORPW).c_str());
@@ -2675,15 +2675,15 @@ BOOL CTorqueApp::CheckPassWord()
     return TRUE;
 }
 
-string CTorqueApp::LoadstringFromRes( unsigned string_ID )
+string CTorqueApp::LoadstringFromRes(unsigned string_ID)
 {
-    char buffer[ MAX_LOADSTRING ];
+    char buffer[MAX_LOADSTRING];
 
-    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING );
-    if( !bytes_copied )
-        throw std::runtime_error( "Resource not found!" );
+    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+    if (!bytes_copied)
+        throw std::runtime_error("Resource not found!");
 
-    return string( buffer, bytes_copied );
+    return string(buffer, bytes_copied);
 }
 
 string CTorqueApp::LoadstringFromRes(unsigned string_ID, int val)
@@ -2719,24 +2719,24 @@ string CTorqueApp::LoadstringFromRes(unsigned string_ID, string val)
     nDataPlace: form 1 开始
     -1表示最后一个数据
 */
-void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq)
+void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque* ptTorq)
 {
-    int     i       = 0;
+    int     i = 0;
     UINT    nCurPos = 0;    /* 当前数据位置 */
-    UINT    nNextPos= 0;    /* 下一个数据的位置 */
+    UINT    nNextPos = 0;    /* 下一个数据的位置 */
     UINT    nLastPos = 0;
-    int     iLeft   = 0;    /* 当前数据后的数据大小 */
+    int     iLeft = 0;    /* 当前数据后的数据大小 */
     size_t  iCurLen = 0;     /* 当前数据的总长度 */
-    UINT    iDataLen= 0;     /* 数据的总长度 */
-    UINT    nTotal  = 0;
-	UINT    nBreak  = 0;
+    UINT    iDataLen = 0;     /* 数据的总长度 */
+    UINT    nTotal = 0;
+    UINT    nBreak = 0;
     CFile   file;
-    BYTE    *pBuffer= NULL;
-    char    *pcBuff = NULL;
+    BYTE* pBuffer = NULL;
+    char* pcBuff = NULL;
 
     ASSERT_NULL(ptTorq);
     ASSERT_ZERO(iDataPlace);
-    
+
     iCurLen = ptTorq->ByteSizeLong();
     ASSERT_ZERO(iCurLen);
     COMP_BGE(iCurLen, MAXPROBUFF);
@@ -2750,16 +2750,16 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
     }
 
     /* write to file */
-    ASSERT_ZERO(file.Open(strName, CFile::modeReadWrite|CFile::shareDenyNone,NULL));
-    
+    ASSERT_ZERO(file.Open(strName, CFile::modeReadWrite | CFile::shareDenyNone, NULL));
+
     /* 跳过文件的数据总条数 */
     file.Read(&nTotal, sizeof(UINT));
     file.Read(&nBreak, sizeof(UINT));
-    if(iDataPlace == -1)
+    if (iDataPlace == -1)
         iDataPlace = nTotal;
 
     /* 跳过之前记录 */
-    if(0 != SeekTorque(file, iDataPlace-1))
+    if (0 != SeekTorque(file, iDataPlace - 1))
     {
         file.Close();
         return;
@@ -2768,7 +2768,7 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
 
     /* 获得当前数据的位置 */
     iDataLen = SeekFileLen(file);
-    if(iDataLen < 0)
+    if (iDataLen < 0)
     {
         file.Close();
         return;
@@ -2776,27 +2776,27 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
 
     /* 获得当前数据长度的位置，跳过PBHEADLEN,往回跳4个字节 */
     nCurPos = (UINT)file.GetPosition() - sizeof(UINT);
-    file.Seek(iDataLen, CFile::current); 
+    file.Seek(iDataLen, CFile::current);
 
     /* 保留当前数据后面的数据 */
     nNextPos = (UINT)file.GetPosition();
-    iLeft    = (int)(file.GetLength() - nNextPos);
-    if(iLeft > 0)
+    iLeft = (int)(file.GetLength() - nNextPos);
+    if (iLeft > 0)
     {
         pBuffer = new BYTE[iLeft];
         ASSERT_NULL(pBuffer);
         memset(pBuffer, 0, iLeft);
-        file.Read(pBuffer,iLeft);
+        file.Read(pBuffer, iLeft);
     }
 
     /* 跳到当前数据开始位置，写入更新的数据信息 */
     file.Seek(nCurPos, CFile::begin);
-    
-    file.Write(&iCurLen,sizeof(UINT));
+
+    file.Write(&iCurLen, sizeof(UINT));
     file.Write(pcBuff, iCurLen);
 
     /* 还原当前数据后面的数据 */
-    if(pBuffer != NULL)
+    if (pBuffer != NULL)
     {
         file.Write(pBuffer, iLeft);
         delete pBuffer;
@@ -2812,38 +2812,38 @@ void CTorqueApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque
     return;
 }
 
-void CTorqueApp::GetShowDataRange(DRAWTORQDATA *ptDraw, int &iBegin, int &iEnd, SPLITPOINT *ptSplit, UINT nMulti)
+void CTorqueApp::GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti)
 {
     ASSERT_NULL(ptDraw);
-    
+
     iBegin = 0;
-    iEnd   = ptDraw->wCount;
-    if(nMulti != 1)  // for 3.22 放大数据
-        iEnd   = (int)ceil(ptDraw->wCount * 1.0 / nMulti );
-    
+    iEnd = ptDraw->wCount;
+    if (nMulti != 1)  // for 3.22 放大数据
+        iEnd = (int)ceil(ptDraw->wCount * 1.0 / nMulti);
+
     ASSERT_NULL(ptSplit);
     ASSERT_ZERO(ptSplit->iSplitNum);
 
     /* 默认第一屏 */
     iBegin = ptSplit->iBegin[0];
-    iEnd   = ptSplit->iEnd[0];
-    
+    iEnd = ptSplit->iEnd[0];
+
     COMP_BG(ptSplit->iCur, ptSplit->iSplitNum);
     COMP_BL(ptSplit->iCur, 1);
-    
-    iBegin = ptSplit->iBegin[ptSplit->iCur-1];
-    iEnd   = ptSplit->iEnd[ptSplit->iCur-1];
+
+    iBegin = ptSplit->iBegin[ptSplit->iCur - 1];
+    iEnd = ptSplit->iEnd[ptSplit->iCur - 1];
 
     return;
 }
 
-double CTorqueApp::GetCir(TorqData::Torque *ptTorq, bool bBreakout)
+double CTorqueApp::GetCir(TorqData::Torque* ptTorq, bool bBreakout)
 {
     double fCir = 0;
 
     ASSERT_NULL_R(ptTorq, 0);
-    
-    if(!bBreakout)
+
+    if (!bBreakout)
         fCir = THOUSANDTH(ptTorq->dwtotalplus() / ptTorq->fplus());
     else
         fCir = THOUSANDTH(ptTorq->dwbototalplus() / ptTorq->fplus());
@@ -2851,7 +2851,7 @@ double CTorqueApp::GetCir(TorqData::Torque *ptTorq, bool bBreakout)
     return fCir;
 }
 
-double CTorqueApp::GetMaxCir(TorqData::Torque  *ptTorq)
+double CTorqueApp::GetMaxCir(TorqData::Torque* ptTorq)
 {
     double fMaxCir = 1;
 
@@ -2862,7 +2862,7 @@ double CTorqueApp::GetMaxCir(TorqData::Torque  *ptTorq)
     return fMaxCir;
 }
 
-double CTorqueApp::GetCtrlCir(TorqData::Torque  *ptTorq)
+double CTorqueApp::GetCtrlCir(TorqData::Torque* ptTorq)
 {
     double fCtrlCir = 0.8;
 
@@ -2873,7 +2873,7 @@ double CTorqueApp::GetCtrlCir(TorqData::Torque  *ptTorq)
     return fCtrlCir;
 }
 
-double CTorqueApp::GetUpperCir(TorqData::Torque  *ptTorq)
+double CTorqueApp::GetUpperCir(TorqData::Torque* ptTorq)
 {
     double fUpperCir = 0.9;
 
@@ -2884,7 +2884,7 @@ double CTorqueApp::GetUpperCir(TorqData::Torque  *ptTorq)
     return fUpperCir;
 }
 
-double CTorqueApp::GetLowerCir(TorqData::Torque  *ptTorq)
+double CTorqueApp::GetLowerCir(TorqData::Torque* ptTorq)
 {
     double fLowerCir = 0.1;
 
@@ -2895,14 +2895,14 @@ double CTorqueApp::GetLowerCir(TorqData::Torque  *ptTorq)
     return fLowerCir;
 }
 
-double CTorqueApp::GetOptTorq(TorqData::Torque  *ptTorq)
+double CTorqueApp::GetOptTorq(TorqData::Torque* ptTorq)
 {
     double fOptTorq = 2000;
 
     ASSERT_NULL_R(ptTorq, fOptTorq);
 
     fOptTorq = ptTorq->fopttorq();
-    if(0 == fOptTorq)
+    if (0 == fOptTorq)
         fOptTorq = ptTorq->fcontrol();
 
     return fOptTorq;
@@ -2911,7 +2911,7 @@ double CTorqueApp::GetOptTorq(TorqData::Torque  *ptTorq)
 CString CTorqueApp::GetSaveDataPath()
 {
     CString         strSavePath;
-    
+
     strSavePath = m_strDataPath.c_str();
     strSavePath += m_strFileTitle.c_str();
     strSavePath += "\\";
@@ -2920,18 +2920,18 @@ CString CTorqueApp::GetSaveDataPath()
     return strSavePath;
 }
 
-int CTorqueApp::SplitString(CString strSource, CStringList &slList)
+int CTorqueApp::SplitString(CString strSource, CStringList& slList)
 {
     int     index = 0;
     CString strTemp;
 
-    if(strSource.IsEmpty())
+    if (strSource.IsEmpty())
         return -1;
 
-    while(TRUE)
+    while (TRUE)
     {
         index = strSource.Find(_T(" "));
-        if(index == -1)
+        if (index == -1)
         {
             slList.AddTail(strSource);
             return 0;
@@ -2943,7 +2943,7 @@ int CTorqueApp::SplitString(CString strSource, CStringList &slList)
         }
         strTemp = strSource.Left(index);
         slList.AddTail(strTemp);
-        strSource = strSource.Right(strSource.GetLength()-index-1);
+        strSource = strSource.Right(strSource.GetLength() - index - 1);
     }
 
     return -2;
@@ -2958,27 +2958,27 @@ bool CTorqueApp::HaveTallyNO(TorqData::Torque* ptTorq)
     return false;
 }
 
-/* 返回是否有修改 
+/* 返回是否有修改
    20200302 每次都从最开始重新计算 */
 BOOL CTorqueApp::ReCalTallyNO(CString strDataName)
 {
-    int     i          = 0;
-    int     iTallyIndex= -1;
+    int     i = 0;
+    int     iTallyIndex = -1;
     UINT    nRunningNO = 1;
-    BOOL    bModified  = FALSE;
+    BOOL    bModified = FALSE;
     CString strRunningNO;
     CString strOldNO;
-    TorqData::Torque    *ptTorq         = NULL;
-    TorqData::ShowInfo  *ptRunningShow  = NULL;
+    TorqData::Torque* ptTorq = NULL;
+    TorqData::ShowInfo* ptRunningShow = NULL;
 
     iTallyIndex = GetMainIndexfromData(MAINSHOWTALLY, &g_tReadData.tData[0]);
     COMP_BL_R(iTallyIndex, 0, FALSE);
 
     BeginWaitCursor();
     /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
-    for(i = 1; i<=(int)g_tReadData.nTotal; i++)
+    for (i = 1; i <= (int)g_tReadData.nTotal; i++)
     {
-        ptTorq = &g_tReadData.tData[i-1];
+        ptTorq = &g_tReadData.tData[i - 1];
 
         strOldNO = GetTorqShowValue(ptTorq, iTallyIndex);
         ptRunningShow = ptTorq->mutable_tshow(iTallyIndex);
@@ -2991,7 +2991,7 @@ BOOL CTorqueApp::ReCalTallyNO(CString strDataName)
             strRunningNO = NULLSTR;
         }
 
-        if(0 == strOldNO.CompareNoCase(strRunningNO))
+        if (0 == strOldNO.CompareNoCase(strRunningNO))
             continue;
 
         bModified = TRUE;
@@ -3009,28 +3009,28 @@ BOOL CTorqueApp::ReCalTallyNO(CString strDataName)
 
 void CTorqueApp::SaveAllData(CString strDataName)
 {
-    UINT    i           = 0;
-    size_t  nDataLen    = 0;
+    UINT    i = 0;
+    size_t  nDataLen = 0;
     CFile   file;
-    
+
     /* write to file */
-    if(file.Open(strDataName, CFile::modeCreate|CFile::modeReadWrite|CFile::shareDenyNone,NULL))
+    if (file.Open(strDataName, CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone, NULL))
     {
         /*更新记录数*/
-        file.Write(&g_tReadData.nTotal,sizeof(UINT));
-        file.Write(&g_tReadData.nBreakout,sizeof(UINT));
+        file.Write(&g_tReadData.nTotal, sizeof(UINT));
+        file.Write(&g_tReadData.nBreakout, sizeof(UINT));
 
-        for(i = 0; i < g_tReadData.nTotal; i++)
+        for (i = 0; i < g_tReadData.nTotal; i++)
         {
             nDataLen = g_tReadData.tData[i].ByteSizeLong();
-            if(nDataLen == 0 || nDataLen >= MAXPROBUFF)
+            if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
                 continue;
             memset(m_cProtoBuf, 0, MAXPROBUFF);
             if (!g_tReadData.tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
             {
                 continue;
             }
-            
+
             file.Write(&m_nPBHead, PBHEADLEN);
             file.Write(&nDataLen, sizeof(UINT));
             file.Write(m_cProtoBuf, nDataLen);
@@ -3040,13 +3040,13 @@ void CTorqueApp::SaveAllData(CString strDataName)
     file.Close();
 }
 
-CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
+CString CTorqueApp::GetTorqShowName(TorqData::Torque* ptTorq, int iIndex)
 {
     ASSERT_NULL_R(ptTorq, NULLSTR);
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if(iIndex > ptTorq->tshow_size())
+    if (iIndex > ptTorq->tshow_size())
         return NULLSTR;
 
     // cur version iIndex 从1开始, 0为Factory
@@ -3056,13 +3056,13 @@ CString CTorqueApp::GetTorqShowName(TorqData::Torque *ptTorq, int iIndex)
     return ptTorq->tshow(iIndex).strname().c_str();
 }
 
-CString CTorqueApp::GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex)
+CString CTorqueApp::GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex)
 {
     ASSERT_NULL_R(ptTorq, NULLSTR);
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if(iIndex > ptTorq->tshow_size())
+    if (iIndex > ptTorq->tshow_size())
         return NULLSTR;
 
     return ptTorq->tshow(iIndex).strvalue().c_str();
@@ -3087,12 +3087,12 @@ string CTorqueApp::GetMainShowName(SHOWCFG* ptShow, UINT NO)
 /* \/:*?"<>| 加 . */
 BOOL CTorqueApp::FindNotFileChar(CString strFileName)
 {
-    char    cNCFileName[10] = { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.'};
-    int     i  = 0;
+    char    cNCFileName[10] = { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.' };
+    int     i = 0;
 
-    for(i=0; i<10; i++)
+    for (i = 0; i < 10; i++)
     {
-        if(strFileName.Find(cNCFileName[i]) >=0)
+        if (strFileName.Find(cNCFileName[i]) >= 0)
             return TRUE;
     }
 

@@ -18,7 +18,7 @@ static char THIS_FILE[] = __FILE__;
 // CDlgCollect dialog
 
 
-CTorqueDlg *g_ptParentDlg = NULL;
+CTorqueDlg* g_ptParentDlg = NULL;
 
 
 CDlgCollect::CDlgCollect(CWnd* pParent /*=NULL*/)
@@ -69,7 +69,7 @@ BOOL CDlgCollect::OnInitDialog()
     string      strHead;
     CRect       rcView;
     char        buffer[MAX_LOADSTRING];
-    int         iWidth  = 0;
+    int         iWidth = 0;
 
     CDialog::OnInitDialog();
 
@@ -79,26 +79,26 @@ BOOL CDlgCollect::OnInitDialog()
 
     m_listData.GetWindowRect(&rcView);
 
-    iWidth = (int)(rcView.Width()/4);
-    m_listData.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_UNDERLINEHOT);
+    iWidth = (int)(rcView.Width() / 4);
+    m_listData.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
     //strHead.Format("上扣时间,%d;扭拧周数,%d;扭拧扭矩,%d;",nWidth*2,nWidth,nWidth);
     //strHead.Format(IDS_STRCOLLISTHEAD,int(iWidth*1.8),(iWidth),(iWidth));
     snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD).c_str(),
-             int(iWidth * 1.8), (iWidth), (iWidth));
-    
+        int(iWidth * 1.8), (iWidth), (iWidth));
+
     strHead = buffer;
     m_listData.SetHeadings(strHead.c_str());
     m_listData.LoadColumnInfo();
 
-    g_ptParentDlg = (CTorqueDlg *)GetParent();
+    g_ptParentDlg = (CTorqueDlg*)GetParent();
 
     m_nCollectStatus = NODATA;
-    m_nErrorNum      = 0;
+    m_nErrorNum = 0;
 
     /* 收集状态对应的命令 */
-    m_nCollCmdType[NODATA]      = SCMCOLLECT;
-    m_nCollCmdType[VALIDDATA]   = SCMCOLLECTOK;
-    m_nCollCmdType[LASTDATA]    = SCMCOLLECTOK;
+    m_nCollCmdType[NODATA] = SCMCOLLECT;
+    m_nCollCmdType[VALIDDATA] = SCMCOLLECTOK;
+    m_nCollCmdType[LASTDATA] = SCMCOLLECTOK;
     m_nCollCmdType[INVALIDDATA] = SCMCOLLECTNOK;
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -121,7 +121,7 @@ void CDlgCollect::OnBtncollect()
 
     SetTimer(COLLECT_TIMER, COLLECT_TLEN, NULL);
 
-    if(g_tGlbCfg.nTest == COLL_HISTORY)
+    if (g_tGlbCfg.nTest == COLL_HISTORY)
     {
         g_ptParentDlg->RunIniAutoFile();
     }
@@ -132,38 +132,38 @@ void CDlgCollect::OnBtncollect()
 void CDlgCollect::ResetCollHisData()
 {
     memset(&m_tHisData, 0, sizeof(HISDATA));
-    m_nErrorNum      = 0;
+    m_nErrorNum = 0;
     m_nCollectStatus = NODATA;
 }
 
-BOOL CDlgCollect::CheckDataValid(int &iCollNum)
+BOOL CDlgCollect::CheckDataValid(int& iCollNum)
 {
     CString strInfo;
 
     ASSERT_NULL_R(g_ptParentDlg, FALSE);
 
-    if(g_ptParentDlg->m_ucRcvByte[0] != PORT485)
+    if (g_ptParentDlg->m_ucRcvByte[0] != PORT485)
     {
         strInfo.Format(IDS_STRINFPORTERR,
-                       PORT485,
-                       g_ptParentDlg->m_ucRcvByte[0]);
+            PORT485,
+            g_ptParentDlg->m_ucRcvByte[0]);
         INVALID_COLLECTDATA(strInfo);
     }
 
-    if( g_ptParentDlg->m_ucRcvByte[1] != 0x10 &&
+    if (g_ptParentDlg->m_ucRcvByte[1] != 0x10 &&
         g_ptParentDlg->m_ucRcvByte[1] != 0x88)
     {
         strInfo.Format(IDS_STRINFRCVCMDERR,
-                       g_ptParentDlg->m_ucRcvByte[1]);
+            g_ptParentDlg->m_ucRcvByte[1]);
         INVALID_COLLECTDATA(strInfo);
     }
-    
+
     iCollNum = g_ptParentDlg->m_ucRcvByte[2];
-    if(iCollNum > ONEMAXTORQUE)
+    if (iCollNum > ONEMAXTORQUE)
     {
         strInfo.Format(IDS_STRINFCOLOVERFLOW,
-                       iCollNum,
-                       ONEMAXTORQUE);
+            iCollNum,
+            ONEMAXTORQUE);
         INVALID_COLLECTDATA(strInfo);
     }
 
@@ -172,36 +172,36 @@ BOOL CDlgCollect::CheckDataValid(int &iCollNum)
 
 void CDlgCollect::ReadCollData(int iCollNum)
 {
-    int     i       = 0;
-    int     iYear   = 0;
-    int     iMonth  = 0;
-    int     iDate   = 0;
-    int     iHour   = 0;
+    int     i = 0;
+    int     iYear = 0;
+    int     iMonth = 0;
+    int     iDate = 0;
+    int     iHour = 0;
     int     iMinute = 0;
-    UINT    nCur    = 0;
+    UINT    nCur = 0;
     double  fTorque = 0;
-    double  fPlus   = 0;
-    BYTE    *pucPos = NULL;
-    BYTE    ucYM    = 0;
+    double  fPlus = 0;
+    BYTE* pucPos = NULL;
+    BYTE    ucYM = 0;
 
     pucPos = &g_ptParentDlg->m_ucRcvByte[3];
-    nCur   = m_tHisData.nReadCount;
-    for(i = 0; i < iCollNum; i++)
+    nCur = m_tHisData.nReadCount;
+    for (i = 0; i < iCollNum; i++)
     {
         /* 年和月在同一个字节内，节省空间 */
-        ucYM    = (*pucPos++);
-        if(ucYM % 12 == 0)
+        ucYM = (*pucPos++);
+        if (ucYM % 12 == 0)
         {
             iMonth = 12;
-            iYear  = ucYM / 12 - 1 + 2000;
+            iYear = ucYM / 12 - 1 + 2000;
         }
         else
         {
-            iYear  = ucYM / 12 + 2000;
+            iYear = ucYM / 12 + 2000;
             iMonth = ucYM % 12;
         }
-        iDate   = (*pucPos++);
-        iHour   = (*pucPos++);
+        iDate = (*pucPos++);
+        iHour = (*pucPos++);
         iMinute = (*pucPos++);
 
         /* 3.17和4.17合一，扭矩需要乘倍率 */
@@ -212,34 +212,34 @@ void CDlgCollect::ReadCollData(int iCollNum)
         fPlus = *(pucPos++);
         fPlus = fPlus * 256.0 + *(pucPos++);
 
-        m_tHisData.tOneData[nCur].tTime   = CTime(iYear,iMonth,iDate,iHour,iMinute,0,0);
+        m_tHisData.tOneData[nCur].tTime = CTime(iYear, iMonth, iDate, iHour, iMinute, 0, 0);
         m_tHisData.tOneData[nCur].fTorque = fTorque;
         m_tHisData.tOneData[nCur].fCir = fPlus / g_tGlbCfg.nPlusPerTurn;
 
-        nCur ++;
-        if(nCur >= MAXHISDATANUM)
+        nCur++;
+        if (nCur >= MAXHISDATANUM)
             break;
     }
     m_tHisData.nReadCount = nCur;
     m_nErrorNum = 0;
 
     m_nCollectStatus = VALIDDATA;
-    theApp.SaveCollectOrgData(g_ptParentDlg->m_ucRcvByte, 
-                              g_ptParentDlg->m_wRcvLen);
+    theApp.SaveCollectOrgData(g_ptParentDlg->m_ucRcvByte,
+        g_ptParentDlg->m_wRcvLen);
 }
 
 LRESULT CDlgCollect::ProcessCollData(WPARAM wParam, LPARAM lParam)
 {
-    int     iCollNum  = 0;
+    int     iCollNum = 0;
     BOOL    bLastData = FALSE;
-    BOOL    bValid    = FALSE;
+    BOOL    bValid = FALSE;
     CString strInfo;
 
     ASSERT_NULL_R(g_ptParentDlg, 0);
 
     COMP_BFALSE_R(CheckDataValid(iCollNum), 0);
 
-    if(g_ptParentDlg->m_ucRcvByte[1] == 0x88)
+    if (g_ptParentDlg->m_ucRcvByte[1] == 0x88)
     {
         bLastData = TRUE;
     }
@@ -247,7 +247,7 @@ LRESULT CDlgCollect::ProcessCollData(WPARAM wParam, LPARAM lParam)
     /* 读取有效数据 */
     ReadCollData(iCollNum);
 
-    if(bLastData)
+    if (bLastData)
     {
         KillTimer(COLLECT_TIMER);
         m_nCollectStatus = LASTDATA;
@@ -273,8 +273,8 @@ void CDlgCollect::CheckErrorTimes()
     m_btnCollect.EnableWindow(TRUE);
 
     strInfo.Format(IDS_STRINFREADDATAERR,
-                   m_nErrorNum,
-                   m_strLastError);
+        m_nErrorNum,
+        m_strLastError);
     theApp.SaveShowMessage(strInfo);
 
     ASSERT_NULL(g_ptParentDlg);
@@ -291,9 +291,9 @@ void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
     nCmdType = m_nCollCmdType[m_nCollectStatus];
 
     m_nCollectStatus = INVALIDDATA;
-    
+
     /* 读取autosave文件中的#COL 开头的Collect数据 */
-    if(g_tGlbCfg.nTest == COLL_HISTORY)
+    if (g_tGlbCfg.nTest == COLL_HISTORY)
     {
         bReadRes = g_ptParentDlg->CollectHisData();
     }
@@ -301,15 +301,15 @@ void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
     {
         bReadRes = g_ptParentDlg->SendData(nCmdType);
     }
-    
-    if(bReadRes)
+
+    if (bReadRes)
     {
         //ProcessCollData();
     }
     else
     {
         m_strLastError.Format(IDS_STRINFSNDCMDERR, nCmdType);
-        m_nErrorNum ++;
+        m_nErrorNum++;
     }
 
     /* 检查错误次数，超过一定次数停止收集，杀定时器 */
@@ -330,7 +330,7 @@ void CDlgCollect::ShowCollHisData()
     m_listData.DeleteAllItems();
     m_listData.SetRedraw(0);
 
-    for( i=m_tHisData.nReadCount-1;i>=0;i--)
+    for (i = m_tHisData.nReadCount - 1; i >= 0; i--)
     {
         strTime = m_tHisData.tOneData[i].tTime.Format(IDS_STRDATETIME);
         strCir.Format("%.3f", m_tHisData.tOneData[i].fCir);
@@ -349,8 +349,8 @@ void CDlgCollect::ShowCollHisData()
 void CDlgCollect::OnBnClickedCancel()
 {
     KillTimer(COLLECT_TIMER);
-    
-    if(NULL != g_ptParentDlg)
+
+    if (NULL != g_ptParentDlg)
         g_ptParentDlg->StartGetValveStatus();
     CDialog::OnCancel();
 }

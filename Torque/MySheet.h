@@ -14,21 +14,21 @@ class CMySheet : public CPropertySheet
 {
     DECLARE_DYNAMIC(CMySheet)
 
-// Construction
+    // Construction
 public:
     CMySheet(UINT nIDCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
     CMySheet(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 
-// Attributes
+    // Attributes
 public:
 
-// Operations
+    // Operations
 public:
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMySheet)
-    public:
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CMySheet)
+public:
     virtual BOOL OnInitDialog();
     //}}AFX_VIRTUAL
 

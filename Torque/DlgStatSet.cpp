@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CDlgStatSet, CDialogEx)
 
 CDlgStatSet::CDlgStatSet(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DLGSTATPARA, pParent)
+    : CDialogEx(IDD_DLGSTATPARA, pParent)
 {
 
 }
@@ -63,7 +63,7 @@ void CDlgStatSet::InitCtrl()
 
     m_fCtrlZero = 0;
 
-    for(i=0; i<STATRANGENUM; i++)
+    for (i = 0; i < STATRANGENUM; i++)
     {
         m_fCtrlRange[i] = m_tempStat.fCtrlRange[i];
     }
@@ -73,9 +73,9 @@ void CDlgStatSet::InitShould()
 {
     int     i = 0;
 
-    m_fShouldZero   = 0;
+    m_fShouldZero = 0;
 
-    for(i=0; i<STATRANGENUM; i++)
+    for (i = 0; i < STATRANGENUM; i++)
     {
         m_fShouldRange[i] = m_tempStat.fShouldRange[i];
     }
@@ -85,9 +85,9 @@ void CDlgStatSet::InitDelta()
 {
     int     i = 0;
 
-    m_fDeltaZero    = 0;
+    m_fDeltaZero = 0;
 
-    for(i=0; i<STATRANGENUM; i++)
+    for (i = 0; i < STATRANGENUM; i++)
     {
         m_fDeltaRange[i] = m_tempStat.fDeltaRange[i];
     }
@@ -96,7 +96,7 @@ void CDlgStatSet::InitDelta()
 BOOL CDlgStatSet::OnInitDialog()
 {
     CDialog::OnInitDialog();
-    
+
     InitCtrl();
     //InitShould();
     //InitDelta();
@@ -110,25 +110,25 @@ BOOL CDlgStatSet::OnInitDialog()
 void CDlgStatSet::OnBnClickedOk()
 {
     int     i = 0;
-    
+
     UpdateData(TRUE);
-    
-    for(i=0; i<STATRANGENUM; i++)
+
+    for (i = 0; i < STATRANGENUM; i++)
     {
-        m_tempStat.fCtrlRange[i]   = m_fCtrlRange[i];
+        m_tempStat.fCtrlRange[i] = m_fCtrlRange[i];
         //m_tempStat.fShouldRange[i] = m_fShouldRange[i];
         //m_tempStat.fDeltaRange[i]  = m_fDeltaRange[i];
     }
-    
+
     CDialog::OnOK();
 }
 
 void CDlgStatSet::OnEnKillfocusEdctrlmin()
 {
     double fOld = m_fCtrlRange[0];
-    
+
     UpdateData(TRUE);
-    if(m_fCtrlRange[0] < m_fCtrlZero || m_fCtrlRange[0] > m_fCtrlRange[1])
+    if (m_fCtrlRange[0] < m_fCtrlZero || m_fCtrlRange[0] > m_fCtrlRange[1])
     {
         m_fCtrlRange[0] = fOld;
         UpdateData(FALSE);
@@ -139,9 +139,9 @@ void CDlgStatSet::OnEnKillfocusEdctrlmin()
 void CDlgStatSet::OnEnKillfocusEdctrlrang1()
 {
     double fOld = m_fCtrlRange[1];
-    
+
     UpdateData(TRUE);
-    if(m_fCtrlRange[1] < m_fCtrlRange[0] || m_fCtrlRange[1] > m_fCtrlRange[2])
+    if (m_fCtrlRange[1] < m_fCtrlRange[0] || m_fCtrlRange[1] > m_fCtrlRange[2])
     {
         m_fCtrlRange[1] = fOld;
         UpdateData(FALSE);
@@ -152,9 +152,9 @@ void CDlgStatSet::OnEnKillfocusEdctrlrang1()
 void CDlgStatSet::OnEnKillfocusEdctrlmax()
 {
     double fOld = m_fCtrlRange[2];
-    
+
     UpdateData(TRUE);
-    if(m_fCtrlRange[2] < m_fCtrlRange[1] || m_fCtrlRange[2] > m_fCtrlMax)
+    if (m_fCtrlRange[2] < m_fCtrlRange[1] || m_fCtrlRange[2] > m_fCtrlMax)
     {
         m_fCtrlRange[2] = fOld;
         UpdateData(FALSE);
@@ -165,9 +165,9 @@ void CDlgStatSet::OnEnKillfocusEdctrlmax()
 void CDlgStatSet::OnEnKillfocusEdshouldmin()
 {
     double fOld = m_fShouldRange[0];
-    
+
     UpdateData(TRUE);
-    if(m_fShouldRange[0] < m_fShouldZero || m_fShouldRange[0] > m_fShouldRange[1])
+    if (m_fShouldRange[0] < m_fShouldZero || m_fShouldRange[0] > m_fShouldRange[1])
     {
         m_fShouldRange[0] = fOld;
         UpdateData(FALSE);
@@ -178,9 +178,9 @@ void CDlgStatSet::OnEnKillfocusEdshouldmin()
 void CDlgStatSet::OnEnKillfocusEdshouldrang1()
 {
     double fOld = m_fShouldRange[1];
-    
+
     UpdateData(TRUE);
-    if(m_fShouldRange[1] < m_fShouldRange[0] || m_fShouldRange[1] > m_fShouldRange[2])
+    if (m_fShouldRange[1] < m_fShouldRange[0] || m_fShouldRange[1] > m_fShouldRange[2])
     {
         m_fShouldRange[1] = fOld;
         UpdateData(FALSE);
@@ -191,9 +191,9 @@ void CDlgStatSet::OnEnKillfocusEdshouldrang1()
 void CDlgStatSet::OnEnKillfocusEdshouldmax()
 {
     double fOld = m_fShouldRange[2];
-    
+
     UpdateData(TRUE);
-    if(m_fShouldRange[2] < m_fShouldRange[1] || m_fShouldRange[2] > m_fShouldMax)
+    if (m_fShouldRange[2] < m_fShouldRange[1] || m_fShouldRange[2] > m_fShouldMax)
     {
         m_fShouldRange[2] = fOld;
         UpdateData(FALSE);
@@ -204,9 +204,9 @@ void CDlgStatSet::OnEnKillfocusEdshouldmax()
 void CDlgStatSet::OnEnKillfocusEddeltamin()
 {
     double fOld = m_fDeltaRange[0];
-    
+
     UpdateData(TRUE);
-    if(m_fDeltaRange[0] < m_fDeltaZero || m_fDeltaRange[0] > m_fDeltaRange[1])
+    if (m_fDeltaRange[0] < m_fDeltaZero || m_fDeltaRange[0] > m_fDeltaRange[1])
     {
         m_fDeltaRange[0] = fOld;
         UpdateData(FALSE);
@@ -217,9 +217,9 @@ void CDlgStatSet::OnEnKillfocusEddeltamin()
 void CDlgStatSet::OnEnKillfocusEddeltarang1()
 {
     double fOld = m_fDeltaRange[1];
-    
+
     UpdateData(TRUE);
-    if(m_fDeltaRange[1] < m_fDeltaRange[0] || m_fDeltaRange[1] > m_fDeltaRange[2])
+    if (m_fDeltaRange[1] < m_fDeltaRange[0] || m_fDeltaRange[1] > m_fDeltaRange[2])
     {
         m_fDeltaRange[1] = fOld;
         UpdateData(FALSE);
@@ -230,9 +230,9 @@ void CDlgStatSet::OnEnKillfocusEddeltarang1()
 void CDlgStatSet::OnEnKillfocusEddeltamax()
 {
     double fOld = m_fDeltaRange[2];
-    
+
     UpdateData(TRUE);
-    if(m_fDeltaRange[2] < m_fDeltaRange[1] || m_fDeltaRange[2] > m_fDeltaMax)
+    if (m_fDeltaRange[2] < m_fDeltaRange[1] || m_fDeltaRange[2] > m_fDeltaMax)
     {
         m_fDeltaRange[2] = fOld;
         UpdateData(FALSE);

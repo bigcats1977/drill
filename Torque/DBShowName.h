@@ -1,6 +1,6 @@
 #pragma once
 #include "DBBase.h"
-class CDBShowName :  public CDBBase
+class CDBShowName : public CDBBase
 {
 public:
     vector<int>     _lsAutoIndex;
@@ -13,13 +13,13 @@ public:
     int     InsertShowName(int NO, string Name);
     int     GetIndexByNO(int NO);
     vector<string> GetNamesByIndexs(string indexs);
-    vector<string> GetNamesByNOs(string NOs, UINT nLang=LANGUAGE_CURRENT);
+    vector<string> GetNamesByNOs(string NOs, UINT nLang = LANGUAGE_CURRENT);
     vector<int> GetIndexsByNOs(string NOs);
     int     UpdateShowName(int NO, string Name);
 
 private:
     void Empty();
     void GetTable();
-    int  GetNOByName(string Name, int &Index);
+    int  GetNOByName(string Name, int& Index);
 };
 

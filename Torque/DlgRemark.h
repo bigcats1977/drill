@@ -14,7 +14,7 @@
 
 class CDlgRemark : public CDialog
 {
-// Construction
+    // Construction
 public:
     CDlgRemark(CWnd* pParent = NULL);   // standard constructor
 
@@ -28,10 +28,10 @@ public:
     int     m_lsCause[MAX_USE_CAUSE];
 
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CDlgRemark)
-    protected:
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CDlgRemark)
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 

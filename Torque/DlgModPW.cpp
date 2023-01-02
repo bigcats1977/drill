@@ -47,14 +47,14 @@ void CDlgModPW::OnBnClickedBtnmodpw()
 
     strSuppPW = theApp.LoadstringFromRes(IDS_STRSUPPORPW);
     strCompPW = g_tGlbCfg.strPassWord;
-    if( 0 != m_strOldPW.Compare(strSuppPW.c_str()) &&
+    if (0 != m_strOldPW.Compare(strSuppPW.c_str()) &&
         0 != m_strOldPW.Compare(strCompPW.c_str()))
     {
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STROLDPWERROR).c_str());
         return;
     }
 
-    if(m_strNewPW.IsEmpty())
+    if (m_strNewPW.IsEmpty())
     {
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STRNEWPWNULL).c_str());
         return;

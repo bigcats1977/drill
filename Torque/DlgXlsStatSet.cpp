@@ -10,7 +10,7 @@
 // CDlgXlsStatSet ¶Ô»°¿ò
 
 
-TorqData::Torque   *g_ptLast = NULL;
+TorqData::Torque* g_ptLast = NULL;
 
 IMPLEMENT_DYNAMIC(CDlgXlsStatSet, CDialogEx)
 
@@ -83,7 +83,7 @@ BOOL CDlgXlsStatSet::OnInitDialog()
     g_ptLast = &g_tReadData.tData[g_tReadData.nTotal - 1];
     m_ptStat = &theApp.m_tXlsStatCfg[g_tGlbCfg.nLangType];
 
-    m_clrNormal  = RGB(0, 0, 0); 
+    m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
 
     for (i = 0; i < STATPARA_GENNUM; i++) {

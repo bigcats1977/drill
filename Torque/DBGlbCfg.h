@@ -1,7 +1,7 @@
 #pragma once
 #include "DBBase.h"
 
-class CDBGlbCfg: public CDBBase
+class CDBGlbCfg : public CDBBase
 {
 public:
     UINT    _LangType;
@@ -34,7 +34,7 @@ public:
     CDBGlbCfg();
     ~CDBGlbCfg();
 
-    BOOL   UpdateGlbCfg(GLBCFG * ptfg);
+    BOOL   UpdateGlbCfg(GLBCFG* ptfg);
 
 private:
     void Empty();

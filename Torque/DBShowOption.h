@@ -19,7 +19,7 @@ public:
     vector<string> GetOptionsByNOs(string NOs);
     bool GetOptionsByNOS(string NOs, string Values[]);
     vector<string> GetOptionsByNameIndex(int index);
-    string GetNOsByOptions(UINT *NameID, string *Values);
+    string GetNOsByOptions(UINT* NameID, string* Values);
     int GetNOByOption(int Name, string value, bool bIns = false);
 
 private:

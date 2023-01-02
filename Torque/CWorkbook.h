@@ -1091,7 +1091,7 @@ public:
         InvokeHelper(0x8dd, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&result, nullptr);
         return result;
     }
-    long XmlImport(LPCTSTR Url, LPDISPATCH * ImportMap, VARIANT& Overwrite, VARIANT& Destination)
+    long XmlImport(LPCTSTR Url, LPDISPATCH* ImportMap, VARIANT& Overwrite, VARIANT& Destination)
     {
         long result;
         static BYTE parms[] = VTS_BSTR VTS_PDISPATCH VTS_VARIANT VTS_VARIANT;
@@ -1132,7 +1132,7 @@ public:
         static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x8e4, DISPATCH_PROPERTYPUT, VT_EMPTY, nullptr, parms, newValue);
     }
-    long XmlImportXml(LPCTSTR Data, LPDISPATCH * ImportMap, VARIANT& Overwrite, VARIANT& Destination)
+    long XmlImportXml(LPCTSTR Data, LPDISPATCH* ImportMap, VARIANT& Overwrite, VARIANT& Destination)
     {
         long result;
         static BYTE parms[] = VTS_BSTR VTS_PDISPATCH VTS_VARIANT VTS_VARIANT;

@@ -15,13 +15,13 @@ class CDlgHisList : public CPropertyPage
 {
     DECLARE_DYNCREATE(CDlgHisList)
 
-// Construction
+    // Construction
 public:
     CDlgHisList();
     ~CDlgHisList();
 
-// Dialog Data
-    //{{AFX_DATA(CDlgHisList)
+    // Dialog Data
+        //{{AFX_DATA(CDlgHisList)
     enum { IDD = IDD_DLGHISLIST };
     CMylistctrl m_listHis;
     CString     m_strHisName;
@@ -35,9 +35,9 @@ public:
 // Overrides
     // ClassWizard generate virtual function overrides
     //{{AFX_VIRTUAL(CDlgHisList)
-    public:
+public:
     virtual BOOL OnSetActive();
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 
@@ -73,26 +73,26 @@ private:
     void    SetCell(long irow, long icolumn, CString new_string);
     void    SetCell(long irow, long icolumn, double fValue);
     void    SetCell(long irow, long icolumn, int iValue);
-    CString GetOperInfo(CStringList &slOper);
+    CString GetOperInfo(CStringList& slOper);
     BOOL    SetMultiValue(int iSeq, int iIndex, int iBegin, int iMaxNum);
-    int     GetParaValueInfo(int iIndex, vector<int> &listNo);
+    int     GetParaValueInfo(int iIndex, vector<int>& listNo);
     CString GetWellNO(BOOL bSuffix = TRUE);
     CString GetWellDepth();
-    void    Export1Img(UINT *pnSel, UINT nSelCount);
-    void    Export2Img(UINT *pnSel, UINT nSelCount);
-    void    Export3Img(UINT *pnSel, UINT nSelCount);
-    void    Export8Img(UINT *pnSel, UINT nSelCount);
+    void    Export1Img(UINT* pnSel, UINT nSelCount);
+    void    Export2Img(UINT* pnSel, UINT nSelCount);
+    void    Export3Img(UINT* pnSel, UINT nSelCount);
+    void    Export8Img(UINT* pnSel, UINT nSelCount);
     CString GetConsSummaryInfo();
     void    SetCellFont(int iRow, int iCol, int iNum, UINT dwQuality);
-    void    FillReportHead(int &iRow, TorqData::Torque *ptHeadTorq);
-    void    FillReportData(int &iRow, TorqData::Torque *ptHeadTorq);
+    void    FillReportHead(int& iRow, TorqData::Torque* ptHeadTorq);
+    void    FillReportData(int& iRow, TorqData::Torque* ptHeadTorq);
 
     UINT    m_nMaxShowNum;
     int     m_iWidth;
     string  m_strFixHead;
     UINT    m_nSelItem[MAXWELLNUM];     /* 记录选定的记录的序号 */
     UINT    m_nCurLang;
-    TorqData::Torque *m_ptStatTorq;     /* 统计数据的地址，从最后开始排除工具扣,且没有备注 */
+    TorqData::Torque* m_ptStatTorq;     /* 统计数据的地址，从最后开始排除工具扣,且没有备注 */
     Excel   m_tSaveExc;
 
     XLSSTATCFG* m_ptStat;

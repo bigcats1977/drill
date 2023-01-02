@@ -24,14 +24,14 @@
 // CTorqueDlg dialog
 class CTorqueDlg : public CDialog
 {
-// Construction
+    // Construction
 public:
     CTorqueDlg(CWnd* pParent = NULL);   // standard constructor
 
     /* 串口读取CRC错误时，停止尝试保存数据，重启串口 */
     void        RestartComm();
 
-    BOOL        SendData( UINT nParaType );
+    BOOL        SendData(UINT nParaType);
     void        ReStart();
     void        TestSpeedLed(int iLedIcon);
     void        TestUnloadLed(int iLedIcon);
@@ -80,15 +80,15 @@ public:
 
     BOOL    GetVolMacFromRegStr(CString strReg[], DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
     BOOL    GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
-    
+
     BYTE        m_ucRcvByte[PORTBUFF];      /*modbus接收消息数值*/
     WORD        m_wRcvLen;
     CTime       m_tSetTime;
-    
+
     CSerialPort m_tPort;
 
-// Dialog Data
-    //{{AFX_DATA(CTorqueDlg)
+    // Dialog Data
+        //{{AFX_DATA(CTorqueDlg)
     enum { IDD = IDD_TORQUE_DIALOG };
     CButtonST   m_cbComm;
     CButtonST   m_cbAlarm;
@@ -116,13 +116,13 @@ public:
     CString     m_strMainName[MAXMAINPARA];
     CString     m_strMainValue[MAXMAINPARA];
     //}}AFX_DATA
-    
+
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CTorqueDlg)
-    public:
+public:
     virtual BOOL DestroyWindow();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 
@@ -139,7 +139,7 @@ protected:
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
     afx_msg void OnPaint();
     afx_msg HCURSOR OnQueryDragIcon();
-    afx_msg void OnInitMenuPopup( CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu );
+    afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
     //afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnSetpara();
     afx_msg void OnSetShow();
@@ -154,15 +154,15 @@ protected:
     afx_msg void OnCollectdata();
     afx_msg void OnBtrun();
     afx_msg void OnLangChn();
-    afx_msg void OnUpdateLangChn(CCmdUI *pCmdUI);
+    afx_msg void OnUpdateLangChn(CCmdUI* pCmdUI);
     afx_msg void OnLangEng();
-    afx_msg void OnUpdateLangEng(CCmdUI *pCmdUI);
+    afx_msg void OnUpdateLangEng(CCmdUI* pCmdUI);
     afx_msg void OnVerBigTorq();
-    afx_msg void OnUpdateVerBigTorq(CCmdUI *pCmdUI);
+    afx_msg void OnUpdateVerBigTorq(CCmdUI* pCmdUI);
     afx_msg void OnVerUnitNm();
-    afx_msg void OnUpdateVerUnitNm(CCmdUI *pCmdUI);
+    afx_msg void OnUpdateVerUnitNm(CCmdUI* pCmdUI);
     afx_msg void OnVerUnitLbft();
-    afx_msg void OnUpdateVerUnitLbft(CCmdUI *pCmdUI);
+    afx_msg void OnUpdateVerUnitLbft(CCmdUI* pCmdUI);
     afx_msg void OnModpw();
     afx_msg void OnValveset();
     afx_msg void OnBnClickedSettoolbuck();
@@ -191,11 +191,11 @@ private:
     void UpdateDlgLabel();
     void ClearInfo(BOOL bClrTorq = TRUE);
     BOOL ChangeCommParam(BOOL bUpdateText = TRUE);
-    WORD GetCRCValue(BYTE *pucCrc,WORD iLen);
-    BOOL CompSysPara(const BYTE *pPara1, const BYTE *pPara2, WORD wSize);
+    WORD GetCRCValue(BYTE* pucCrc, WORD iLen);
+    BOOL CompSysPara(const BYTE* pPara1, const BYTE* pPara2, WORD wSize);
     int  GetInsertNum(double fT1, double fT2);
     /* 填充发送串口命令的参数 */
-    WORD FillSendByte( UINT nParaType );
+    WORD FillSendByte(UINT nParaType);
     BOOL RunInitRand();
     BOOL RunInitPort();
     void RunTorque();
@@ -204,31 +204,31 @@ private:
     BOOL TimeReadPort(UINT nCurStatus);
     BOOL CheckReadInterval();
     BOOL CheckDataValid();
-    static void HRTReadPort(CWnd *pUser);  /* 读取串口定时器Timer1到时 */
-    static void HRTGuard(CWnd *pUser);     /* 保护复位定时器Timer2到时 */
-    static void HRTPortBuff(CWnd *pUser);  /* 读串口前缓冲区有数据等待单片机写定时器Timer7到时 */
-    static void HRTSaveData(CWnd *pUser);  /* 保存数据定时器Timer8?到时 */
-    static void HRTSaveDebug(CWnd *pUser); /* 定时保存CRC错误和调试信息定时器 */
-    static void HRTPlayAlarm(CWnd *pUser); /* 告警音播放定时器 */
-    static void HRTReadValve(CWnd *pUser); /* 读取阀门状态定时器 */
-    BOOL Status3Proc(COLLECTDATA* ptCollData, BOOL *pFinish);
-    BOOL Status4Proc(COLLECTDATA* ptCollData, BOOL *pFinish);
-    BOOL Status254Proc(COLLECTDATA* ptCollData, BOOL *pFinish);
-    void CalcPointNum(COLLECTDATA *ptCollData, ORGDATA *ptOrgData);
-    void ZeroPointUpdateData(COLLECTDATA *ptCollData, BOOL bFinish);
-    void MorePointInsertData(COLLECTDATA *ptCollData, BOOL bFinish);
+    static void HRTReadPort(CWnd* pUser);  /* 读取串口定时器Timer1到时 */
+    static void HRTGuard(CWnd* pUser);     /* 保护复位定时器Timer2到时 */
+    static void HRTPortBuff(CWnd* pUser);  /* 读串口前缓冲区有数据等待单片机写定时器Timer7到时 */
+    static void HRTSaveData(CWnd* pUser);  /* 保存数据定时器Timer8?到时 */
+    static void HRTSaveDebug(CWnd* pUser); /* 定时保存CRC错误和调试信息定时器 */
+    static void HRTPlayAlarm(CWnd* pUser); /* 告警音播放定时器 */
+    static void HRTReadValve(CWnd* pUser); /* 读取阀门状态定时器 */
+    BOOL Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
+    BOOL Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
+    BOOL Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
+    void CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData);
+    void ZeroPointUpdateData(COLLECTDATA* ptCollData, BOOL bFinish);
+    void MorePointInsertData(COLLECTDATA* ptCollData, BOOL bFinish);
     void FinishSetStatus();
     void FinishControl();
     void UpdateOutData(double fTorque, int iPoints);
-    void UpdateOutData(COLLECTDATA *ptColl);
+    void UpdateOutData(COLLECTDATA* ptColl);
     BOOL ValidStatus3(COLLECTDATA* ptCollData);
     void SetCommShowInfo(UINT nStatus);   /* 设置串口相关图标和信息显示状态 */
-    void FillWordValue(BYTE *pAddr, int iValue);
+    void FillWordValue(BYTE* pAddr, int iValue);
     void FillReadCommand(int iCommand);
     void FillWriteCommand(int iCommand);
-    void SavePortNormalInfo(COLLECTDATA *ptCollData); //保存一条串口读取的记录
-    void SavePortMultiDataInfo(COLLECTDATA *ptCollData); //保存一次串口读取的多条记录
-    
+    void SavePortNormalInfo(COLLECTDATA* ptCollData); //保存一条串口读取的记录
+    void SavePortMultiDataInfo(COLLECTDATA* ptCollData); //保存一次串口读取的多条记录
+
     // APP function move into MainDlg
     void IncTorqNo();
     void GetMakeupCurNum();
@@ -244,26 +244,26 @@ private:
 
     /* 扭矩数据相关函数 */
     void ResetData();
-    BOOL InsertData(COLLECTTORQUE *ptColl, double torque, double rpm);
+    BOOL InsertData(COLLECTTORQUE* ptColl, double torque, double rpm);
     void UpdateTorqueData(double torque, double rpm);
-    void SaveIntoData(TorqData::Torque *ptPBData);
+    void SaveIntoData(TorqData::Torque* ptPBData);
     void SaveMakeupData(TorqData::Torque* ptPBData);
     void SaveBreakoutData(TorqData::Torque* ptPBData);
     void SetQuality(DWORD dwQuality);
     void KillAllTimer();
     void GetValidTorqData();
-    void SetTorqDataCfg(TorqData::Torque *ptPBData);
-    void SetShowPara(TorqData::Torque *ptPBData);
+    void SetTorqDataCfg(TorqData::Torque* ptPBData);
+    void SetShowPara(TorqData::Torque* ptPBData);
     BOOL ClearExcepTorq(int iOrgTorq, int& iDestTorq);
-    void LightValveStatus(BYTE *pucStatus);
+    void LightValveStatus(BYTE* pucStatus);
     void CalcDelayCount();
-    CDialog *GetDlgPoint(CDialog * pDialog, BYTE uDlgKind, UINT iDlgID);
-    BOOL CheckPortData(BYTE *pData, int iLen, BOOL &bFini);
-    int  RcvTorqDataProc(COLLECTDATA *ptCollData);
+    CDialog* GetDlgPoint(CDialog* pDialog, BYTE uDlgKind, UINT iDlgID);
+    BOOL CheckPortData(BYTE* pData, int iLen, BOOL& bFini);
+    int  RcvTorqDataProc(COLLECTDATA* ptCollData);
     void UnitChangeTorq();
     void UpdCfgLangChg(UINT nLang);
     void StopPlayAlam();
-    int  GetIPPlus(TorqData::Torque *ptTorq, WORD wIPPos);
+    int  GetIPPlus(TorqData::Torque* ptTorq, WORD wIPPos);
     double OverTorqOpt(double fTorq, BYTE ucStatus);
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
@@ -281,7 +281,7 @@ private:
     HACCEL          m_hAccel;           /* 快捷键 */
     CStdioFile      m_AutoSavefile;
     bool            m_bAutoFileOpen;    /* 调试函数文件是否打开 */
-    
+
     int             m_iShowPlus;        /* 显示前的脉冲数，实际脉冲需要减掉显示脉冲，才能计算圈数 */
     int             m_iPriorCnt;        /* 之前屏的点数 */
     int             m_iPriorPlus;       /* 上一次脉冲数 */
@@ -297,12 +297,12 @@ private:
     BOOL            m_bAlarm;           /* 是否需要告警 */
 
     /* theApp全局变量指针，方便引用 */
-    SHOWCFG         *m_ptShow;
-    PARACFG         *m_ptCfg;
-    CONTROLPARA     *m_ptCtrl;
-    COMMONCFG       *m_ptComm;
+    SHOWCFG* m_ptShow;
+    PARACFG* m_ptCfg;
+    CONTROLPARA* m_ptCtrl;
+    COMMONCFG* m_ptComm;
     COLLECTTORQUE   m_tCollData;        /* 当前的扭矩结构数据，可以超过正常图形4倍 */
-    PORTDATA        *m_ptPortData;
+    PORTDATA* m_ptPortData;
     TorqData::Torque   m_tSaveData;        /* 从collectData获取最后MAXPOINT保存到saveData */
 
     /* 高精度定时器 */
@@ -320,7 +320,7 @@ private:
     int             m_iValveBreakCnt;       /* 读取阀门状态失败次数，设置为初始5次，小于等于0说明通信中断，如果一直读取不到，说明串口状态不对 */
     int             m_iTorqBreakCnt;
     int             m_iMaxReadTimes;    /* 串口最大读取次数 */
-    
+
     BOOL            m_bCanModLastData;  /* 复位时间前，可以修改最后一条数据 */
     //CString         m_strBreakoutPath;
 

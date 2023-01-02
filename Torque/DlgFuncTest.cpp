@@ -63,10 +63,10 @@ BOOL CDlgFuncTest::OnInitDialog()
     m_btnSpeedB.SetIcon(IDI_SPEEDB);
     m_btnAlarmE.SetIcon(IDI_ALARME);
     m_btnAlarmB.SetIcon(IDI_ALARMB);
-    
+
     m_btnOK.SetIconAndText(IDI_NO, IDS_STRRETURN);
 
-    m_pParentDlg = (CTorqueDlg *)GetParent();
+    m_pParentDlg = (CTorqueDlg*)GetParent();
 
     UpdateData(FALSE);
 

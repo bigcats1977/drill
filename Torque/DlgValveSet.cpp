@@ -77,20 +77,20 @@ END_MESSAGE_MAP()
 void CDlgValveSet::OnBnClickedBtnvalve()
 {
     UpdateData(TRUE);
-    
-    m_tempValve.ucTorq[0][0] = m_ucValve1TorqInit ;
+
+    m_tempValve.ucTorq[0][0] = m_ucValve1TorqInit;
     m_tempValve.ucTorq[0][1] = m_ucValve1TorqDece1;
     m_tempValve.ucTorq[0][2] = m_ucValve1TorqDece2;
-    m_tempValve.ucTorq[1][0] = m_ucValve2TorqInit ;
+    m_tempValve.ucTorq[1][0] = m_ucValve2TorqInit;
     m_tempValve.ucTorq[1][1] = m_ucValve2TorqDece1;
     m_tempValve.ucTorq[1][2] = m_ucValve2TorqDece2;
-    
-    m_tempValve.ucRatio[0][0] = m_ucValve1PressInit ;
+
+    m_tempValve.ucRatio[0][0] = m_ucValve1PressInit;
     m_tempValve.ucRatio[0][1] = m_ucValve1PressDece1;
     m_tempValve.ucRatio[0][2] = m_ucValve1PressDece2;
-    m_tempValve.ucRatio[1][0] = m_ucValve2FlowInit  ;
-    m_tempValve.ucRatio[1][1] = m_ucValve2FlowDece1 ;
-    m_tempValve.ucRatio[1][2] = m_ucValve2FlowDece2 ;
+    m_tempValve.ucRatio[1][0] = m_ucValve2FlowInit;
+    m_tempValve.ucRatio[1][1] = m_ucValve2FlowDece1;
+    m_tempValve.ucRatio[1][2] = m_ucValve2FlowDece2;
 
     //m_tempValve.ucZoomRatio   = m_ucZoomRatio;
 
@@ -105,19 +105,19 @@ BOOL CDlgValveSet::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
-    m_ucValve1TorqInit  = m_tempValve.ucTorq[0][0];
+    m_ucValve1TorqInit = m_tempValve.ucTorq[0][0];
     m_ucValve1TorqDece1 = m_tempValve.ucTorq[0][1];
     m_ucValve1TorqDece2 = m_tempValve.ucTorq[0][2];
-    m_ucValve2TorqInit  = m_tempValve.ucTorq[1][0];
+    m_ucValve2TorqInit = m_tempValve.ucTorq[1][0];
     m_ucValve2TorqDece1 = m_tempValve.ucTorq[1][1];
     m_ucValve2TorqDece2 = m_tempValve.ucTorq[1][2];
-    
-    m_ucValve1PressInit  = m_tempValve.ucRatio[0][0];
+
+    m_ucValve1PressInit = m_tempValve.ucRatio[0][0];
     m_ucValve1PressDece1 = m_tempValve.ucRatio[0][1];
     m_ucValve1PressDece2 = m_tempValve.ucRatio[0][2];
-    m_ucValve2FlowInit   = m_tempValve.ucRatio[1][0];
-    m_ucValve2FlowDece1  = m_tempValve.ucRatio[1][1];
-    m_ucValve2FlowDece2  = m_tempValve.ucRatio[1][2];
+    m_ucValve2FlowInit = m_tempValve.ucRatio[1][0];
+    m_ucValve2FlowDece1 = m_tempValve.ucRatio[1][1];
+    m_ucValve2FlowDece2 = m_tempValve.ucRatio[1][2];
 
     //m_ucZoomRatio        = m_tempValve.ucZoomRatio;
 

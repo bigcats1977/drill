@@ -70,7 +70,7 @@ BOOL CDlgRemark::OnInitDialog()
     bit5    - CIRC_LESS_LIMIT   低于0.20圈数
     bit6    - CIRC_MORE_LIMIT   高于圈数上限
     bit7    - TRANSLATE         图形超过台阶扭矩(控制扭矩15%)后平移
-    
+
     bit8    - NOIPPOINT         无拐点扭矩 // 大庆版本不存在
     bit9    - LOW_SHOULD        拐点扭矩<Min shoulder(15%)
     bit10   - HIGHT_SHOULD      拐点扭矩>Max shoulder(70%)
@@ -84,22 +84,22 @@ BOOL CDlgRemark::OnInitDialog()
     bit17   - THREADNOTCLEAN    丝扣清洗不干净  人工设定
     bit18   - GASSEALINSPECT    气检不合格  人工设定
 */
-    /* 
-        1.实际扭矩过小
-        2.超最大扭矩
-        3.夹持打滑
-        4.总周数过小
-        5.起始扭矩过大
-        6.拐点斜率小
-        7.超拐点扭矩
-        8.拐点扭矩小
-        9.超周数差值
-        10.卸扣检查
-        11.粘扣
-        12.丝扣清洗不干净
-        13.气捡不合格
-        14.其他
-    */
+/*
+    1.实际扭矩过小
+    2.超最大扭矩
+    3.夹持打滑
+    4.总周数过小
+    5.起始扭矩过大
+    6.拐点斜率小
+    7.超拐点扭矩
+    8.拐点扭矩小
+    9.超周数差值
+    10.卸扣检查
+    11.粘扣
+    12.丝扣清洗不干净
+    13.气捡不合格
+    14.其他
+*/
     i = 0;
     m_lsCause[i++] = 1;     // bit1 
     m_lsCause[i++] = 2;     // bit2 
@@ -116,15 +116,15 @@ BOOL CDlgRemark::OnInitDialog()
     m_lsCause[i++] = 18;
     m_lsCause[i++] = 14;
 
-    for(i=0; i<MAX_USE_CAUSE; i++)
+    for (i = 0; i < MAX_USE_CAUSE; i++)
     {
         //strQuality.Format(IDS_STRMARKDISQUAL + m_lsCause[i]);
         strQuality = theApp.LoadstringFromRes(IDS_STRMARKDISQUAL + m_lsCause[i]);
         m_cbRemark.AddString(strQuality.c_str());
     }
-    
+
     SetRejCause();
-    
+
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -134,25 +134,25 @@ BOOL CDlgRemark::OnInitDialog()
 void CDlgRemark::SetRejCause()
 {
     int i = 0;
-    
-    if(m_iQuality == QUA_RESU_GOOD)
+
+    if (m_iQuality == QUA_RESU_GOOD)
     {
         m_cbRemark.EnableWindow(FALSE);
         return;
     }
 
     m_cbRemark.EnableWindow(TRUE);
-    
-    for(i=0; i<MAX_USE_CAUSE; i++)
+
+    for (i = 0; i < MAX_USE_CAUSE; i++)
     {
-        if(m_iCause == m_lsCause[i])
+        if (m_iCause == m_lsCause[i])
         {
             m_cbRemark.SetCurSel(i);
             return;
         }
     }
     //其他原因
-    m_cbRemark.SetCurSel(MAX_USE_CAUSE-1);
+    m_cbRemark.SetCurSel(MAX_USE_CAUSE - 1);
 }
 
 void CDlgRemark::OnBnClickedRadionoquality()

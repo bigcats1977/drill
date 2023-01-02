@@ -32,7 +32,7 @@ bool CDBAccess::InitDBHandle()
     return true;
 }
 
-bool CDBAccess::InitConfigFromDB(UINT &initstep)
+bool CDBAccess::InitConfigFromDB(UINT& initstep)
 {
     UINT i = 0;
     string strDbFile;
@@ -284,7 +284,7 @@ vector<int> CDBAccess::ReadCurOptionIndex(int type)
     vector<int> lsIndexs;
     vector<int> lsOpt;
     COMP_BFALSE_R(m_bValidDBFile, lsIndexs);
-    
+
     lsOpt = GetIDFromList(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
     if (lsOpt.size() <= 0)
         return lsOpt;
@@ -357,12 +357,12 @@ bool CDBAccess::ReadTorqCfgPara(int iAlias, PARACFG* ptCfg)
 int CDBAccess::ReadTorqCfgPara(string sAlias, PARACFG* ptCfg)
 {
     int index = 0;
-    
+
     ASSERT_NULL_R(ptCfg, DB_INVALID_VAL);
     COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
 
     index = m_tDBTorqueCfg.GetIndexByAlias(sAlias);
-    COMP_BLE_R(index,0, index);
+    COMP_BLE_R(index, 0, index);
 
     ReadTorqCfgPara(index, ptCfg);
 
@@ -374,14 +374,14 @@ bool CDBAccess::DeleteAlias(string sAlias)
     int index = 0;
 
     COMP_BFALSE_R(m_bValidDBFile, false);
-    
+
     index = m_tDBTorqueCfg.GetIndexByAlias(sAlias);
     COMP_BLE_R(index, 0, false);
 
     COMP_BFALSE_R(m_tDBTorqueCfg.DeleteParaCfgByID(index), false);
-    
+
     m_tDBTorqueCfg.Reload();
-    
+
     return true;
 }
 

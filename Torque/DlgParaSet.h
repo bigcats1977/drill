@@ -19,7 +19,7 @@
 class CDlgParaSet : public CDialog
 {
 
-// Construction
+    // Construction
 public:
     CDlgParaSet(CWnd* pParent = NULL);   // standard constructor
 
@@ -27,8 +27,8 @@ public:
     PARACFG     m_tempCfg;
     SHOWCFG     m_tempShow;
 
-// Dialog Data
-    //{{AFX_DATA(CDlgParaSet)
+    // Dialog Data
+        //{{AFX_DATA(CDlgParaSet)
     enum { IDD = IDD_DLGPARASET };
     double      m_fControlCir;
     double      m_fControl;
@@ -80,7 +80,7 @@ public:
 // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CDlgParaSet)
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 
@@ -90,7 +90,7 @@ protected:
     // Generated message map functions
     //{{AFX_MSG(CDlgParaSet)
     virtual BOOL OnInitDialog();
-    afx_msg void OnParasave(); 
+    afx_msg void OnParasave();
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnCbnKillfocusCbpara01();
     afx_msg void OnCbnKillfocusCbpara02();
@@ -120,8 +120,8 @@ protected:
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
-    BOOL GetParaValue(PARACFG *ptCfg);
-    void SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow);
+    BOOL GetParaValue(PARACFG* ptCfg);
+    void SetParaValue(PARACFG* ptCfg, SHOWCFG* ptShow);
     void JudgeShowParaChanged(UINT nIndex);
     void UpdateDlgLabel();
     void InitAliasShow();

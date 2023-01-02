@@ -16,62 +16,62 @@
 
 void CPage::Next()
 {
-	InvokeHelper(0x5, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+    InvokeHelper(0x5, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
 }
 
 void CPage::Previous()
 {
-	InvokeHelper(0x6, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+    InvokeHelper(0x6, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
 }
 
 long CPage::GetMaxPointsPerPage()
 {
-	long result;
-	InvokeHelper(0x36, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
-	return result;
+    long result;
+    InvokeHelper(0x36, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
+    return result;
 }
 
 void CPage::SetMaxPointsPerPage(long nNewValue)
 {
-	static BYTE parms[] =
-		VTS_I4;
-	InvokeHelper(0x36, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
-		 nNewValue);
+    static BYTE parms[] =
+        VTS_I4;
+    InvokeHelper(0x36, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
+        nNewValue);
 }
 
 long CPage::GetCurrent()
 {
-	long result;
-	InvokeHelper(0x38, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
-	return result;
+    long result;
+    InvokeHelper(0x38, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
+    return result;
 }
 
 void CPage::SetCurrent(long nNewValue)
 {
-	static BYTE parms[] =
-		VTS_I4;
-	InvokeHelper(0x38, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
-		 nNewValue);
+    static BYTE parms[] =
+        VTS_I4;
+    InvokeHelper(0x38, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
+        nNewValue);
 }
 
 BOOL CPage::GetScaleLastPage()
 {
-	BOOL result;
-	InvokeHelper(0x39, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
-	return result;
+    BOOL result;
+    InvokeHelper(0x39, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
+    return result;
 }
 
 void CPage::SetScaleLastPage(BOOL bNewValue)
 {
-	static BYTE parms[] =
-		VTS_BOOL;
-	InvokeHelper(0x39, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
-		 bNewValue);
+    static BYTE parms[] =
+        VTS_BOOL;
+    InvokeHelper(0x39, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
+        bNewValue);
 }
 
 long CPage::GetCount()
 {
-	long result;
-	InvokeHelper(0x1, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
-	return result;
+    long result;
+    InvokeHelper(0x1, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
+    return result;
 }

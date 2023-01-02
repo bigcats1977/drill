@@ -106,7 +106,7 @@ bool CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
     values.push_back(to_string(ptShow->nJointOD));
 
     fields.push_back("AliasID");
-    if(ptShow->nAlias == 0)
+    if (ptShow->nAlias == 0)
         values.push_back(NULLSTR);
     else
         values.push_back(to_string(ptShow->nAlias));

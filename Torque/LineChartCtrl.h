@@ -48,13 +48,13 @@ typedef struct tagLINECHARITEM
 
 class CLineChartCtrl : public CWnd
 {
-// Construction
+    // Construction
 public:
     static BOOL RegisterWndClass(HINSTANCE hInstance);
 
     CLineChartCtrl();
 
-// Attributes
+    // Attributes
 public:
     LINECHARITEM    m_tItem;
     int             m_iStaticX;
@@ -62,10 +62,10 @@ public:
     BOOL            m_bBKLine;
     // Operations
 public:
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CLineChartCtrl)
-    public:
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CLineChartCtrl)
+public:
     virtual ~CLineChartCtrl();
     //}}AFX_VIRTUAL
 
@@ -79,7 +79,7 @@ public:
     BOOL    RemoveAt();
     void    Go();
     void    Erase();
-    BOOL    Add(COLORREF clrLine, double fUpper, double fLower );
+    BOOL    Add(COLORREF clrLine, double fUpper, double fLower);
     void    SetBkColor(COLORREF clrBk);
     void    FinishDraw();
     void    SetStartPoint(UINT nBegin);

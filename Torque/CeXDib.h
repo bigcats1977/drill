@@ -49,7 +49,7 @@ public:
     virtual ~CCeXDib();
 
     HDIB    Create(DWORD dwWidth, DWORD dwHeight, WORD wBitCount);
-    void    Clone(CCeXDib *pcdSrc);
+    void    Clone(CCeXDib* pcdSrc);
     void    Draw(HDC hDC, DWORD dwX, DWORD dwY);
     LPBYTE  GetBits();
     void    Clear(BYTE ucVal = 0);

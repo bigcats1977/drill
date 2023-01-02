@@ -14,9 +14,9 @@ static char THIS_FILE[] = __FILE__;
 // CColorComboBox
 
 CColorComboBox::CColorComboBox()
-{   
-    m_ColorText=::GetSysColor(COLOR_WINDOWTEXT);//RGB(255,0,0);
-    m_ColorBk = RGB(255,255,255);
+{
+    m_ColorText = ::GetSysColor(COLOR_WINDOWTEXT);//RGB(255,0,0);
+    m_ColorBk = RGB(255, 255, 255);
     m_Brush.CreateSolidBrush(m_ColorBk);
 }
 
@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CColorComboBox message handlers
-HBRUSH CColorComboBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) 
+HBRUSH CColorComboBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     HBRUSH hbr = CComboBox::OnCtlColor(pDC, pWnd, nCtlColor);
     pDC->SetTextColor(m_ColorText);
@@ -43,7 +43,7 @@ HBRUSH CColorComboBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     return m_Brush;
 }
 
-HBRUSH CColorComboBox::CtlColor(CDC* pDC, UINT nCtlColor) 
+HBRUSH CColorComboBox::CtlColor(CDC* pDC, UINT nCtlColor)
 {
     pDC->SetTextColor(m_ColorText);
     //pDC->SetTextColor(RGB(0, 255, 0));
@@ -51,9 +51,9 @@ HBRUSH CColorComboBox::CtlColor(CDC* pDC, UINT nCtlColor)
     return m_Brush;
 }
 //ÉèÖÃ×Ö´óÐ¡
-void CColorComboBox::SetFontSize(int iSize,CFont* font)
+void CColorComboBox::SetFontSize(int iSize, CFont* font)
 {
-    font->CreatePointFont(iSize,_T("Times New Roman"));
+    font->CreatePointFont(iSize, _T("Times New Roman"));
     LOGFONT lf;
     font->GetLogFont(&lf);
     font->DeleteObject();

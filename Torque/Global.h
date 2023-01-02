@@ -666,7 +666,7 @@ typedef struct tagFixTubePara
 {
     UINT        nNO;
     //char        aucName[LANGUAGE_NUM][MAXTUBEPARALEN];
-    string      strName[LANGUAGE_NUM+1];
+    string      strName[LANGUAGE_NUM + 1];
 }FIXTUBEPARA;
 
 typedef struct tagFixTubeInfo
@@ -708,7 +708,7 @@ typedef struct tagFixTubeCfg
 {
     bool        bDbData;
     UINT        nNum;
-    TUBECFG*    ptCfg;
+    TUBECFG* ptCfg;
 }FIXTUBECFG;
 #endif
 #define MAXMEMOLEN              128

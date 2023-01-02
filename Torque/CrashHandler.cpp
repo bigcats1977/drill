@@ -24,49 +24,49 @@
 #endif
 
 // _ReturnAddress and _AddressOfReturnAddress should be prototyped before use 
-EXTERNC void * _AddressOfReturnAddress(void);
-EXTERNC void * _ReturnAddress(void);
+EXTERNC void* _AddressOfReturnAddress(void);
+EXTERNC void* _ReturnAddress(void);
 
 #endif 
 
 CCrashHandler::CCrashHandler()
-{ 
+{
 }
 
 CCrashHandler::~CCrashHandler()
-{    
+{
 }
 
 void CCrashHandler::SetProcessExceptionHandlers()
 {
     // Install top-level SEH handler
-    SetUnhandledExceptionFilter(SehHandler);    
+    SetUnhandledExceptionFilter(SehHandler);
 
     // Catch pure virtual function calls.
     // Because there is one _purecall_handler for the whole process, 
     // calling this function immediately impacts all threads. The last 
     // caller on any thread sets the handler. 
     // http://msdn.microsoft.com/en-us/library/t296ys27.aspx
-    _set_purecall_handler(PureCallHandler);    
+    _set_purecall_handler(PureCallHandler);
 
     // Catch new operator memory allocation exceptions
     _set_new_handler(NewHandler);
 
     // Catch invalid parameter exceptions.
-    _set_invalid_parameter_handler(InvalidParameterHandler); 
+    _set_invalid_parameter_handler(InvalidParameterHandler);
 
     // Set up C++ signal handlers
 
     _set_abort_behavior(_CALL_REPORTFAULT, _CALL_REPORTFAULT);
 
     // Catch an abnormal program termination
-    signal(SIGABRT, SigabrtHandler);  
+    signal(SIGABRT, SigabrtHandler);
 
     // Catch illegal instruction handler
-    signal(SIGINT, SigintHandler);     
+    signal(SIGINT, SigintHandler);
 
     // Catch a termination request
-    signal(SIGTERM, SigtermHandler);          
+    signal(SIGTERM, SigtermHandler);
 
 }
 
@@ -78,30 +78,30 @@ void CCrashHandler::SetThreadExceptionHandlers()
     // separately for each thread. Each new thread needs to install its own 
     // terminate function. Thus, each thread is in charge of its own termination handling.
     // http://msdn.microsoft.com/en-us/library/t6fk7h29.aspx
-    set_terminate(TerminateHandler);       
+    set_terminate(TerminateHandler);
 
     // Catch unexpected() calls.
     // In a multithreaded environment, unexpected functions are maintained 
     // separately for each thread. Each new thread needs to install its own 
     // unexpected function. Thus, each thread is in charge of its own unexpected handling.
     // http://msdn.microsoft.com/en-us/library/h46t5b69.aspx  
-    set_unexpected(UnexpectedHandler);    
+    set_unexpected(UnexpectedHandler);
 
     // Catch a floating point error
     typedef void (*sigh)(int);
-    signal(SIGFPE, (sigh)SigfpeHandler);     
+    signal(SIGFPE, (sigh)SigfpeHandler);
 
     // Catch an illegal instruction
-    signal(SIGILL, SigillHandler);     
+    signal(SIGILL, SigillHandler);
 
     // Catch illegal storage access errors
-    signal(SIGSEGV, SigsegvHandler);   
+    signal(SIGSEGV, SigsegvHandler);
 
 }
 
 // The following code gets exception pointers using a workaround found in CRT code.
-void CCrashHandler::GetExceptionPointers(DWORD dwExceptionCode, 
-                                         EXCEPTION_POINTERS** ppExceptionPointers)
+void CCrashHandler::GetExceptionPointers(DWORD dwExceptionCode,
+    EXCEPTION_POINTERS** ppExceptionPointers)
 {
     // The following code was taken from VC++ 8.0 CRT (invarg.c: line 104)
 
@@ -112,20 +112,20 @@ void CCrashHandler::GetExceptionPointers(DWORD dwExceptionCode,
 #ifdef _X86_
 
     __asm {
-        mov dword ptr [ContextRecord.Eax], eax
-            mov dword ptr [ContextRecord.Ecx], ecx
-            mov dword ptr [ContextRecord.Edx], edx
-            mov dword ptr [ContextRecord.Ebx], ebx
-            mov dword ptr [ContextRecord.Esi], esi
-            mov dword ptr [ContextRecord.Edi], edi
-            mov word ptr [ContextRecord.SegSs], ss
-            mov word ptr [ContextRecord.SegCs], cs
-            mov word ptr [ContextRecord.SegDs], ds
-            mov word ptr [ContextRecord.SegEs], es
-            mov word ptr [ContextRecord.SegFs], fs
-            mov word ptr [ContextRecord.SegGs], gs
-            pushfd
-            pop [ContextRecord.EFlags]
+        mov dword ptr[ContextRecord.Eax], eax
+        mov dword ptr[ContextRecord.Ecx], ecx
+        mov dword ptr[ContextRecord.Edx], edx
+        mov dword ptr[ContextRecord.Ebx], ebx
+        mov dword ptr[ContextRecord.Esi], esi
+        mov dword ptr[ContextRecord.Edi], edi
+        mov word ptr[ContextRecord.SegSs], ss
+        mov word ptr[ContextRecord.SegCs], cs
+        mov word ptr[ContextRecord.SegDs], ds
+        mov word ptr[ContextRecord.SegEs], es
+        mov word ptr[ContextRecord.SegFs], fs
+        mov word ptr[ContextRecord.SegGs], gs
+        pushfd
+        pop[ContextRecord.EFlags]
     }
 
     ContextRecord.ContextFlags = CONTEXT_CONTROL;
@@ -134,7 +134,7 @@ void CCrashHandler::GetExceptionPointers(DWORD dwExceptionCode,
     ContextRecord.Eip = (ULONG)_ReturnAddress();
     ContextRecord.Esp = (ULONG)_AddressOfReturnAddress();
 #pragma warning(pop)
-    ContextRecord.Ebp = *((ULONG *)_AddressOfReturnAddress()-1);
+    ContextRecord.Ebp = *((ULONG*)_AddressOfReturnAddress() - 1);
 
 
 #elif defined (_IA64_) || defined (_AMD64_)
@@ -162,12 +162,12 @@ void CCrashHandler::GetExceptionPointers(DWORD dwExceptionCode,
 
     *ppExceptionPointers = new EXCEPTION_POINTERS;
     (*ppExceptionPointers)->ExceptionRecord = pExceptionRecord;
-    (*ppExceptionPointers)->ContextRecord = pContextRecord;  
+    (*ppExceptionPointers)->ContextRecord = pContextRecord;
 }
 
 // This method creates minidump of the process
 void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
-{   
+{
     HMODULE hDbgHelp = NULL;
     HANDLE hFile = NULL;
     MINIDUMP_EXCEPTION_INFORMATION mei;
@@ -177,21 +177,21 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
 
     // Load dbghelp.dll
     hDbgHelp = LoadLibrary(_T("dbghelp.dll"));
-    if(hDbgHelp==NULL)
+    if (hDbgHelp == NULL)
     {
         // Error - couldn't load dbghelp.dll
         return;
     }
-    
-    strDumpName.Format( "crashdump%04d%02d%02d%02d%02d%02d.dmp",
-                        tDay.GetYear(),      //yyyy年
-                        tDay.GetMonth(),     //mm月份
-                        tDay.GetDay(),       //dd日
-                        tDay.GetHour(),      //hh小时
-                        tDay.GetMinute(),    //mm分钟
-                        tDay.GetSecond());   //ss秒
 
-    // Create the minidump file
+    strDumpName.Format("crashdump%04d%02d%02d%02d%02d%02d.dmp",
+        tDay.GetYear(),      //yyyy年
+        tDay.GetMonth(),     //mm月份
+        tDay.GetDay(),       //dd日
+        tDay.GetHour(),      //hh小时
+        tDay.GetMinute(),    //mm分钟
+        tDay.GetSecond());   //ss秒
+
+// Create the minidump file
     hFile = CreateFile(strDumpName,
         GENERIC_WRITE,
         0,
@@ -200,7 +200,7 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
         FILE_ATTRIBUTE_NORMAL,
         NULL);
 
-    if(hFile==INVALID_HANDLE_VALUE)
+    if (hFile == INVALID_HANDLE_VALUE)
     {
         // Couldn't create file
         return;
@@ -213,19 +213,19 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
     mci.CallbackRoutine = NULL;
     mci.CallbackParam = NULL;
 
-    typedef BOOL (WINAPI *LPMINIDUMPWRITEDUMP)(
-        HANDLE hProcess, 
-        DWORD ProcessId, 
-        HANDLE hFile, 
-        MINIDUMP_TYPE DumpType, 
-        CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam, 
-        CONST PMINIDUMP_USER_STREAM_INFORMATION UserEncoderParam, 
+    typedef BOOL(WINAPI* LPMINIDUMPWRITEDUMP)(
+        HANDLE hProcess,
+        DWORD ProcessId,
+        HANDLE hFile,
+        MINIDUMP_TYPE DumpType,
+        CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
+        CONST PMINIDUMP_USER_STREAM_INFORMATION UserEncoderParam,
         CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
 
-    LPMINIDUMPWRITEDUMP pfnMiniDumpWriteDump = 
+    LPMINIDUMPWRITEDUMP pfnMiniDumpWriteDump =
         (LPMINIDUMPWRITEDUMP)GetProcAddress(hDbgHelp, "MiniDumpWriteDump");
-    if(!pfnMiniDumpWriteDump)
-    {    
+    if (!pfnMiniDumpWriteDump)
+    {
         // Bad MiniDumpWriteDump function
         return;
     }
@@ -242,8 +242,8 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
         NULL,
         &mci);
 
-    if(!bWriteDump)
-    {    
+    if (!bWriteDump)
+    {
         // Error writing dump.
         return;
     }
@@ -257,12 +257,12 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
 
 // Structured exception handler
 LONG WINAPI CCrashHandler::SehHandler(PEXCEPTION_POINTERS pExceptionPtrs)
-{ 
+{
     // Write minidump file
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
     // Unreacheable code  
     return EXCEPTION_EXECUTE_HANDLER;
@@ -281,7 +281,7 @@ void __cdecl CCrashHandler::TerminateHandler()
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 }
 
 // CRT unexpected() call handler
@@ -297,7 +297,7 @@ void __cdecl CCrashHandler::UnexpectedHandler()
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);         
+    TerminateProcess(GetCurrentProcess(), 1);
 }
 
 // CRT Pure virtual method call handler
@@ -313,17 +313,17 @@ void __cdecl CCrashHandler::PureCallHandler()
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
 
 // CRT invalid parameter handler
 void __cdecl CCrashHandler::InvalidParameterHandler(
-    const wchar_t* expression, 
-    const wchar_t* function, 
-    const wchar_t* file, 
-    unsigned int line, 
+    const wchar_t* expression,
+    const wchar_t* function,
+    const wchar_t* file,
+    unsigned int line,
     uintptr_t pReserved)
 {
     pReserved;
@@ -338,7 +338,7 @@ void __cdecl CCrashHandler::InvalidParameterHandler(
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
@@ -374,7 +374,7 @@ void CCrashHandler::SigabrtHandler(int)
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);   
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
@@ -389,7 +389,7 @@ void CCrashHandler::SigfpeHandler(int /*code*/, int subcode)
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
@@ -406,7 +406,7 @@ void CCrashHandler::SigillHandler(int)
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
@@ -423,7 +423,7 @@ void CCrashHandler::SigintHandler(int)
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
@@ -438,7 +438,7 @@ void CCrashHandler::SigsegvHandler(int)
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 
@@ -455,7 +455,7 @@ void CCrashHandler::SigtermHandler(int)
     CreateMiniDump(pExceptionPtrs);
 
     // Terminate process
-    TerminateProcess(GetCurrentProcess(), 1);    
+    TerminateProcess(GetCurrentProcess(), 1);
 
 }
 

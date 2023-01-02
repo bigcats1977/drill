@@ -12,27 +12,27 @@
 
 class CColorComboBox : public CComboBox
 {
-// Construction
+    // Construction
 public:
     CColorComboBox();
 
-    COLORREF m_ColorText,m_ColorBk;
+    COLORREF m_ColorText, m_ColorBk;
     CBrush m_Brush;
 
     //设置字体大小
-    void SetFontSize(int iSize,CFont* font);
-// Attributes
+    void SetFontSize(int iSize, CFont* font);
+    // Attributes
 public:
 
-// Operations
+    // Operations
 public:
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMyComboBox)
-    //}}AFX_VIRTUAL
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CMyComboBox)
+        //}}AFX_VIRTUAL
 
-// Implementation
+    // Implementation
 public:
     virtual ~CColorComboBox();
 

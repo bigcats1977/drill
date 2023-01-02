@@ -1,6 +1,6 @@
 #pragma once
 #include "DBBase.h"
-class CDBXlsStatCfg :  public CDBBase
+class CDBXlsStatCfg : public CDBBase
 {
 public:
     vector<int> _lsLangType;
@@ -11,7 +11,7 @@ public:
 
     CDBXlsStatCfg();
     ~CDBXlsStatCfg();
-    bool GetInfoByLang(XLSSTATCFG* ptCfg, UINT nLang= LANGUAGE_CURRENT);
+    bool GetInfoByLang(XLSSTATCFG* ptCfg, UINT nLang = LANGUAGE_CURRENT);
     bool UpdateInfo(XLSSTATCFG* ptCfg);
 
 private:

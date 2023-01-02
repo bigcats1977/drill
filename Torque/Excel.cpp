@@ -43,7 +43,7 @@ void Excel::release()
     application = nullptr;
 }
 
-bool Excel::open(const char*  fileName)
+bool Excel::open(const char* fileName)
 {
 
     //先关闭文件
@@ -97,7 +97,7 @@ void Excel::close(bool ifSave)
     books.ReleaseDispatch();
 }
 
-void Excel::saveAsXLSFile(const CString &xlsFile)
+void Excel::saveAsXLSFile(const CString& xlsFile)
 {
     // 56: xlExcel8    xls 
     // 51: xlWorkbookDefault   xlsx  
@@ -411,11 +411,11 @@ void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nNum)
 {
     CRange      rangeBegin, rangeEnd;
     CString     StartCell, EndCell;
-    
+
     StartCell.Format("A%d", nSrcRow);
     EndCell.Format("M%d", nSrcRow + nNum);
     rangeBegin.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
-    
+
 
     /* 拷贝目的位置 */
     StartCell.Format("A%d", nDestRow);
@@ -426,7 +426,7 @@ void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nNum)
     V_DISPATCH(&varRange) = (LPDISPATCH)rangeEnd;
     V_DISPATCH(&varRange)->AddRef();
     rangeBegin.Copy(varRange);
-  
+
     rangeEnd.ReleaseDispatch();
     rangeBegin.ReleaseDispatch();
 }
@@ -455,7 +455,7 @@ void Excel::setMultiColFont(UINT nRow, UINT nCol, UINT nNUm, CString strFontName
     _variant_t  vRange2;
     _variant_t  vRange3;
     _variant_t  vRange4;
-    
+
     vRange1.vt = VT_I2;
     vRange1.lVal = 1;       // 线的样式：0- no line; 1-solid; 2-big dot;3-small dot;4-dash dot; 5-dash dot dot; xlContinuous 1
     vRange2.vt = VT_I2;
@@ -465,10 +465,10 @@ void Excel::setMultiColFont(UINT nRow, UINT nCol, UINT nNUm, CString strFontName
     vRange4.vt = VT_UI4;
     vRange4.uintVal = RGB(0, 0, 0);     // 我测试后认为，没有实际意义，只有vRange3起作用
 
-    for(i=0; i<nNUm; i++)
+    for (i = 0; i < nNUm; i++)
     {
-        strCell.Format("%c%d", 'A'+i+nCol-1, nRow);
-        
+        strCell.Format("%c%d", 'A' + i + nCol - 1, nRow);
+
         range.AttachDispatch(workSheet.get_Range(COleVariant(strCell), COleVariant(strCell)), TRUE);
         ftColor.AttachDispatch(range.get_Font());
         ftColor.put_Name(_variant_t(strFontName));      // 字体 

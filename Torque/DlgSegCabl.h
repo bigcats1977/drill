@@ -8,22 +8,22 @@
 
 class CDlgSegCabl : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDlgSegCabl)
+    DECLARE_DYNAMIC(CDlgSegCabl)
 
 public:
-	CDlgSegCabl(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CDlgSegCabl();
+    CDlgSegCabl(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CDlgSegCabl();
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DLGSEGCALIB };
+    enum { IDD = IDD_DLGSEGCALIB };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
     UINT        m_nCalibTorq;
     UINT        m_nLowTorq;
@@ -50,11 +50,11 @@ private:
     Excel       m_impExc;
 
     BOOL        CheckTorqValue();
-    BOOL        CheckReadCalib(CALIBCTRL *ptRead, string &strError);
+    BOOL        CheckReadCalib(CALIBCTRL* ptRead, string& strError);
     void        GetCalibInfo();
     void        UpdateCalibList();
     void        EnableCtrl(BOOL bBegin);
     void        InitTestData();
     BOOL        GetCalibInfoFromExcel(CString strName);
-    BOOL        CheckCalib(CALIBINFO *ptInfo);
+    BOOL        CheckCalib(CALIBINFO* ptInfo);
 };

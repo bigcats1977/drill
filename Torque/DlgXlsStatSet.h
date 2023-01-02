@@ -10,13 +10,13 @@ class CDlgXlsStatSet : public CDialogEx
 {
     DECLARE_DYNAMIC(CDlgXlsStatSet)
     //XLSSTATCFG  m_tempStat;
-    XLSSTATCFG  *m_ptStat;
+    XLSSTATCFG* m_ptStat;
 
 public:
     CDlgXlsStatSet(CWnd* pParent = nullptr);   // 标准构造函数
     virtual ~CDlgXlsStatSet();
 
-// 对话框数据
+    // 对话框数据
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGXLSSTATSET };
 #endif

@@ -64,7 +64,7 @@ bool CDBXlsStatCfg::SetItemValue(vector<int> lsVals, int* pVals, int num)
     return true;
 }
 
-bool CDBXlsStatCfg::GetInfoByLang(XLSSTATCFG *ptCfg, UINT nLang)
+bool CDBXlsStatCfg::GetInfoByLang(XLSSTATCFG* ptCfg, UINT nLang)
 {
     vector<int> lsVals;
     vector<int>::iterator it;

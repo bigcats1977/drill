@@ -1,7 +1,7 @@
 #pragma once
 #include "DBBase.h"
 
-class CDBTorqueCfg :  public CDBBase
+class CDBTorqueCfg : public CDBBase
 {
 public:
     vector<int>     _lsAutoIndex;

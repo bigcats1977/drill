@@ -8,23 +8,23 @@
 
 class CDlgMainShowSet : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDlgMainShowSet)
+    DECLARE_DYNAMIC(CDlgMainShowSet)
 
 public:
-	CDlgMainShowSet(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CDlgMainShowSet();
-    SHOWCFG     *m_ptShow;
+    CDlgMainShowSet(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CDlgMainShowSet();
+    SHOWCFG* m_ptShow;
     PARACFG     m_tempCfg;
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DLGMAINSHOW };
+    enum { IDD = IDD_DLGMAINSHOW };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedOk();

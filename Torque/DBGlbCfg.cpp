@@ -89,7 +89,7 @@ void CDBGlbCfg::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
+BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG* ptfg)
 {
     BOOL bRes = FALSE;
     vector<string> fields;
@@ -97,7 +97,7 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG *ptfg)
 
     COMP_BFALSE_R(_ValidDB, FALSE);
     ASSERT_NULL_R(ptfg, FALSE);
-    
+
     fields.push_back("LangType");
     values.push_back(to_string(ptfg->nLangType));
     fields.push_back("PortNO");

@@ -12,13 +12,13 @@
 
 class CDlgZero : public CDialog
 {
-// Construction
+    // Construction
 public:
     CDlgZero(CWnd* pParent = NULL);   // standard constructor
 
     double  m_fZero;
-// Dialog Data
-    //{{AFX_DATA(CDlgZero)
+    // Dialog Data
+        //{{AFX_DATA(CDlgZero)
     enum { IDD = IDD_DLGZERO };
     CButtonST   m_ZeroOK;
     CButtonST   m_ZeroCancel;
@@ -28,7 +28,7 @@ public:
 // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CDlgZero)
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 

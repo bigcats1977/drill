@@ -91,11 +91,11 @@ void CDlgMainShowSet::InitMainShowPara()
     vector<int> lsShowIndex;
     vector<string> lsOption;
 
-    m_clrNormal  = RGB(0, 0, 0); 
+    m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
 
     lsShowIndex = theDB.ReadCurOptionIndex(2);
-    for(i=0; i< m_ptShow->nMainNum && i<MAXMAINPARA; i++)
+    for (i = 0; i < m_ptShow->nMainNum && i < MAXMAINPARA; i++)
     {
         m_strMainShow[i] = theApp.GetMainShowName(theApp.m_ptCurShow, i).c_str();
         if (i == MAINSHOWTALLY)  //入井序号跳过
@@ -123,10 +123,10 @@ BOOL CDlgMainShowSet::GetParaValue()
     UINT        i = 0;
     UINT        j = 0;
     UINT        nFactory = 0;
-        
-    for (i = 0; i<= m_ptShow->nMainNum && i<MAXMAINPARA; i++)
+
+    for (i = 0; i <= m_ptShow->nMainNum && i < MAXMAINPARA; i++)
     {
-        if(i == MAINSHOWTALLY)  // 第6个为入井序号，不需要使用combobox
+        if (i == MAINSHOWTALLY)  // 第6个为入井序号，不需要使用combobox
             continue;
         m_tempCfg.strValue[m_ptShow->nMain[i]] = m_strMainOption[i];
     }

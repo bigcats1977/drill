@@ -11,7 +11,7 @@ public:
     CDlgModPW(CWnd* pParent = NULL);   // standard constructor
     virtual ~CDlgModPW();
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGMODPW };
 #endif

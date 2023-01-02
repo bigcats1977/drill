@@ -7,17 +7,17 @@
 
 class CDlgShowSet : public CDialog
 {
-	DECLARE_DYNAMIC(CDlgShowSet)
+    DECLARE_DYNAMIC(CDlgShowSet)
 
 public:
-	CDlgShowSet(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CDlgShowSet();
+    CDlgShowSet(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CDlgShowSet();
     SHOWCFG m_tempShow;
     BOOL    m_bModified;
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DLGSHOWPARA };
+    enum { IDD = IDD_DLGSHOWPARA };
 #endif
     CString m_strShowName[MAXPARANUM];
     BOOL m_bList[MAXPARANUM];
@@ -32,7 +32,7 @@ public:
     CColorRadio m_rdJointOD[MAXPARANUM];
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedUpdateshow();
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
@@ -124,7 +124,7 @@ protected:
     afx_msg void OnBnClickedRadiojointod14();
     afx_msg void OnBnClickedRadiojointod15();
     afx_msg void OnBnClickedRadiojointod16();
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 private:
     COLORREF    m_clrNormal;

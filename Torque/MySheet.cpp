@@ -25,7 +25,7 @@ CMySheet::CMySheet(UINT nIDCaption, CWnd* pParentWnd, UINT iSelectPage)
 }
 
 CMySheet::CMySheet(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
-    :CPropertySheet(pszCaption, pParentWnd, iSelectPage)
+    : CPropertySheet(pszCaption, pParentWnd, iSelectPage)
 {
 }
 
@@ -47,23 +47,23 @@ BOOL CMySheet::OnInitDialog()
 {
     BOOL        bResult = FALSE;
     CRect       btnRect;
-    CRect       wdnRect; 
+    CRect       wdnRect;
 
     bResult = CPropertySheet::OnInitDialog();
 
-    GetDlgItem( IDOK )->ShowWindow(SW_HIDE);
-    GetDlgItem( IDHELP )->ShowWindow(SW_HIDE);
-    GetDlgItem( IDCANCEL )->ShowWindow(SW_HIDE);
-    GetDlgItem( ID_APPLY_NOW )->ShowWindow(SW_HIDE);
-    
+    GetDlgItem(IDOK)->ShowWindow(SW_HIDE);
+    GetDlgItem(IDHELP)->ShowWindow(SW_HIDE);
+    GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
+    GetDlgItem(ID_APPLY_NOW)->ShowWindow(SW_HIDE);
+
     //获取窗体尺寸
-    GetDlgItem(IDCANCEL)->GetWindowRect(&btnRect); 
+    GetDlgItem(IDCANCEL)->GetWindowRect(&btnRect);
     GetWindowRect(&wdnRect);
 
     //调整窗体大小
-    ::SetWindowPos(this->m_hWnd, HWND_TOP, 0,0,wdnRect.Width(),wdnRect.Height() - btnRect.Height(), SWP_NOMOVE | SWP_NOZORDER);
+    ::SetWindowPos(this->m_hWnd, HWND_TOP, 0, 0, wdnRect.Width(), wdnRect.Height() - btnRect.Height(), SWP_NOMOVE | SWP_NOZORDER);
 
-    theApp.AdaptDlgCtrlSize((CDialog*)this,1);
+    theApp.AdaptDlgCtrlSize((CDialog*)this, 1);
 
     return bResult;
 }

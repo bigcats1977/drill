@@ -5,17 +5,17 @@
 
 class CDlgValveSet : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDlgValveSet)
+    DECLARE_DYNAMIC(CDlgValveSet)
 
 public:
-	CDlgValveSet(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CDlgValveSet();
+    CDlgValveSet(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CDlgValveSet();
 
     VALVECFG    m_tempValve;
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DLGVALVESET };
+    enum { IDD = IDD_DLGVALVESET };
 #endif
     BYTE m_ucValve1TorqInit;
     BYTE m_ucValve1TorqDece1;   /* 比例1~100 1:初始值; 2:减速阶段1; 3:减速阶段2; */
@@ -31,9 +31,9 @@ public:
     BYTE m_ucValve2FlowDece2;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
     afx_msg void OnBnClickedBtnvalve();
     virtual BOOL OnInitDialog();

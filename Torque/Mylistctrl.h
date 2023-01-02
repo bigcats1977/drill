@@ -12,47 +12,47 @@
 
 class CMylistctrl : public CListCtrl
 {
-struct ItemData
-{
-public:
-    ItemData() : arrpsz( NULL ), dwData( NULL ) {}
+    struct ItemData
+    {
+    public:
+        ItemData() : arrpsz(NULL), dwData(NULL) {}
 
-    LPTSTR  *arrpsz;
-    DWORD   dwData;
+        LPTSTR* arrpsz;
+        DWORD   dwData;
 
-private:
-    // ban copying.
-    ItemData( const ItemData& );
-    ItemData& operator=( const ItemData& );
-};
-// Construction
+    private:
+        // ban copying.
+        ItemData(const ItemData&);
+        ItemData& operator=(const ItemData&);
+    };
+    // Construction
 public:
     CMylistctrl();
 
-// Attributes
+    // Attributes
 public:
 
-// Operations
+    // Operations
 public:
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMylistctrl)
-    protected:
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CMylistctrl)
+protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     //}}AFX_VIRTUAL
 
 // Implementation
 public:
-    BOOL    SetHeadings( UINT nStringID );
-    BOOL    SetHeadings( const CString& strHeadings );
-    BOOL    GetCellRect(int iRow, int iCol, int iArea, CRect &rc);
+    BOOL    SetHeadings(UINT nStringID);
+    BOOL    SetHeadings(const CString& strHeadings);
+    BOOL    GetCellRect(int iRow, int iCol, int iArea, CRect& rc);
     BOOL    SetItemData(int iItem, DWORD dwData);
     int     AddItemList(CStringList& slItem);
-    int     AddItem( LPCTSTR pszText, ... );
+    int     AddItem(LPCTSTR pszText, ...);
     void    LoadColumnInfo();
     BOOL    DeleteAllItems();
-    BOOL    SetItemText( int iItem, int iSubItem, LPCTSTR lpszText );
+    BOOL    SetItemText(int iItem, int iSubItem, LPCTSTR lpszText);
     DWORD   GetItemData(int iItem) const;
     virtual ~CMylistctrl();
 
@@ -63,9 +63,9 @@ protected:
     int     m_iSortCol;
     BOOL    m_bSortAscending;
 
-    BOOL    SetTextArray( int iItem, LPTSTR* arrpsz );
-    void    FreeItemMemory( const int iItem );
-    LPTSTR  *GetTextArray( int iItem ) const;
+    BOOL    SetTextArray(int iItem, LPTSTR* arrpsz);
+    void    FreeItemMemory(const int iItem);
+    LPTSTR* GetTextArray(int iItem) const;
     //{{AFX_MSG(CMylistctrl)
     afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);

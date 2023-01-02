@@ -21,7 +21,7 @@ protected:
 
     bool        _ValidDB;
     SqliteProc* _Sqlite;
-    UINT        *_CurLang;
+    UINT* _CurLang;
 
     virtual void Empty();
     virtual void GetTable();

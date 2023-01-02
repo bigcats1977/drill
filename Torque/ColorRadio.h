@@ -5,12 +5,12 @@ class CColorRadio : public CButton
 public:
     CColorRadio();
     ~CColorRadio();
-    
-    
+
+
     COLORREF m_ForeColor;
     COLORREF m_BackColor;
     CBrush   m_BkBrush;
-    
+
 protected:
     //{{AFX_MSG(CMyComboBox)
     //afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);

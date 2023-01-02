@@ -77,27 +77,29 @@ public:
     CButtonST();
     ~CButtonST();
 
-    enum    {   ST_ALIGN_HORIZ  = 0,            // Icon/bitmap on the left, text on the right
-                ST_ALIGN_VERT,                  // Icon/bitmap on the top, text on the bottom
-                ST_ALIGN_HORIZ_RIGHT            // Icon/bitmap on the right, text on the left
-            };
+    enum {
+        ST_ALIGN_HORIZ = 0,            // Icon/bitmap on the left, text on the right
+        ST_ALIGN_VERT,                  // Icon/bitmap on the top, text on the bottom
+        ST_ALIGN_HORIZ_RIGHT            // Icon/bitmap on the right, text on the left
+    };
 
-    enum    {   BTNST_COLOR_BK_IN   = 0,        // Background color when mouse is INside
-                BTNST_COLOR_FG_IN,              // Text color when mouse is INside
-                BTNST_COLOR_BK_OUT,             // Background color when mouse is OUTside
-                BTNST_COLOR_FG_OUT,             // Text color when mouse is OUTside
-                BTNST_COLOR_BK_FOCUS,           // Background color when the button is focused
-                BTNST_COLOR_FG_FOCUS,           // Text color when the button is focused
+    enum {
+        BTNST_COLOR_BK_IN = 0,        // Background color when mouse is INside
+        BTNST_COLOR_FG_IN,              // Text color when mouse is INside
+        BTNST_COLOR_BK_OUT,             // Background color when mouse is OUTside
+        BTNST_COLOR_FG_OUT,             // Text color when mouse is OUTside
+        BTNST_COLOR_BK_FOCUS,           // Background color when the button is focused
+        BTNST_COLOR_FG_FOCUS,           // Text color when the button is focused
 
-                BTNST_MAX_COLORS
-            };
+        BTNST_MAX_COLORS
+    };
 
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CButtonST)
-    public:
+public:
     virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
-    virtual BOOL PreTranslateMessage(MSG *pMsg);
-    protected:
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
+protected:
     virtual void PreSubclassWindow();
     virtual LRESULT DefWindowProc(UINT nMessage, WPARAM wParam, LPARAM lParam);
     //}}AFX_VIRTUAL
@@ -135,18 +137,18 @@ public:
     DWORD SetIcon(HICON hIconIn, HICON hIconOut = NULL);
 
     DWORD SetBitmaps(int iBitmapIn, COLORREF crTransColorIn,
-                    int iBitmapOut = NULL, COLORREF crTransColorOut = 0);
+        int iBitmapOut = NULL, COLORREF crTransColorOut = 0);
     DWORD SetBitmaps(HBITMAP hBitmapIn, COLORREF crTransColorIn,
-                     HBITMAP hBitmapOut = NULL, COLORREF crTransColorOut = 0);
+        HBITMAP hBitmapOut = NULL, COLORREF crTransColorOut = 0);
 
     void  SetIconAndText(int iIconIn, LPCTSTR lpszText);
     void  SetIconAndText(int iIconIn, WORD wTextID);
     DWORD SetMenu(UINT nMenu, HWND hParentWnd, BOOL bWinXPStyle = TRUE, UINT nToolbarID = NULL,
-                  CSize sizeToolbarIcon = CSize(16, 16), COLORREF crToolbarBk = RGB(255, 0, 255),
-                  BOOL bRepaint = TRUE);
+        CSize sizeToolbarIcon = CSize(16, 16), COLORREF crToolbarBk = RGB(255, 0, 255),
+        BOOL bRepaint = TRUE);
 
-    static short GetVersionI()      {return 35;}
-    static LPCTSTR GetVersionC()    {return (LPCTSTR)_T("3.5");}
+    static short GetVersionI() { return 35; }
+    static LPCTSTR GetVersionC() { return (LPCTSTR)_T("3.5"); }
 
     BOOL    m_bShowDisabledBitmap;
     BOOL    m_bIconSame;
@@ -154,8 +156,8 @@ public:
 
 protected:
     //{{AFX_MSG(CButtonST)
-    afx_msg BOOL OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT nMessage);
-    afx_msg void OnKillFocus(CWnd *pNewWnd);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT nMessage);
+    afx_msg void OnKillFocus(CWnd* pNewWnd);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg void OnSysColorChange();
     afx_msg BOOL OnClicked();
@@ -165,13 +167,13 @@ protected:
     afx_msg UINT OnGetDlgCode();
     //}}AFX_MSG
 
-    afx_msg LRESULT OnMenuChar(UINT nChar, UINT nFlags, CMenu *pMenu);
+    afx_msg LRESULT OnMenuChar(UINT nChar, UINT nFlags, CMenu* pMenu);
     afx_msg void OnMeasureItem(int iIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct);
 
-    afx_msg HBRUSH CtlColor(CDC *pDC, UINT nCtlColor);
+    afx_msg HBRUSH CtlColor(CDC* pDC, UINT nCtlColor);
     HICON CreateGrayscaleIcon(HICON hIcon);
-    virtual DWORD OnDrawBackground(CDC *pDC, LPCRECT pRect);
-    virtual DWORD OnDrawBorder(CDC *pDC, LPCRECT pRect);
+    virtual DWORD OnDrawBackground(CDC* pDC, LPCRECT pRect);
+    virtual DWORD OnDrawBorder(CDC* pDC, LPCRECT pRect);
 
     BOOL        m_bIsFlat;          // Is a flat button?
     BOOL        m_bMouseOnButton;   // Is mouse over the button?
@@ -198,28 +200,28 @@ private:
 
     void    CancelHover();
     void    FreeResources(BOOL bCheckForNULL = TRUE);
-    void    PrepareImageRect(BOOL bHasTitle, RECT *prcItem, CRect *prcTitle, BOOL bIsPressed,
-                             DWORD dwWidth, DWORD dwHeight, CRect *prcImage);
+    void    PrepareImageRect(BOOL bHasTitle, RECT* prcItem, CRect* prcTitle, BOOL bIsPressed,
+        DWORD dwWidth, DWORD dwHeight, CRect* prcImage);
     HBITMAP CreateBitmapMask(HBITMAP hSourceBitmap, DWORD dwWidth, DWORD dwHeight, COLORREF crTransColor);
-    void    DrawTheIcon(CDC *pDC, BOOL bHasTitle, RECT *prcItem, CRect *prcTitle, BOOL bIsPressed,
-                        BOOL bIsDisabled);
-    void    DrawTheBitmap(CDC *pDC, BOOL bHasTitle, RECT *prcItem, CRect *prcCaption, BOOL bIsPressed,
-                          BOOL bIsDisabled);
-    void    PaintBk(CDC *pDC);
+    void    DrawTheIcon(CDC* pDC, BOOL bHasTitle, RECT* prcItem, CRect* prcTitle, BOOL bIsPressed,
+        BOOL bIsDisabled);
+    void    DrawTheBitmap(CDC* pDC, BOOL bHasTitle, RECT* prcItem, CRect* prcCaption, BOOL bIsPressed,
+        BOOL bIsDisabled);
+    void    PaintBk(CDC* pDC);
 
     void InitToolTip();
 
     /* ½µµÍÈ¦¸´ÔÓ¶È²ð·ÖµÄº¯Êý */
     void GetBtnProperty(LPDRAWITEMSTRUCT lpDIS);
-    void DeflateRect(CDC *pDC, CRect *prcItem);
-    void DrawPressedButton(CDC *pDC, CRect rcItem);
-    void DrawNoPressButton(CDC *pDC, CRect rcItem);
-    void DrawBtnTitle(CDC *pDC, CString strTitle, CRect rcCap);
-    void DrawFocusRect(CDC *pDC, CRect rcItem);
+    void DeflateRect(CDC* pDC, CRect* prcItem);
+    void DrawPressedButton(CDC* pDC, CRect rcItem);
+    void DrawNoPressButton(CDC* pDC, CRect rcItem);
+    void DrawBtnTitle(CDC* pDC, CString strTitle, CRect rcCap);
+    void DrawFocusRect(CDC* pDC, CRect rcItem);
 
-    void PrepareHorizRect(BOOL bHasTitle, CRect *prcTitle, DWORD dwWidth, DWORD dwHeight, CRect* prcImage);
-    void PrepareHorizRightRect(BOOL bHasTitle, CRect *prcTitle, DWORD dwWidth, DWORD dwHeight, CRect *prcImage);
-    void PrepareVertRect(BOOL bHasTitle, CRect *prcTitle, DWORD dwWidth, DWORD dwHeight, CRect *prcImage);
+    void PrepareHorizRect(BOOL bHasTitle, CRect* prcTitle, DWORD dwWidth, DWORD dwHeight, CRect* prcImage);
+    void PrepareHorizRightRect(BOOL bHasTitle, CRect* prcTitle, DWORD dwWidth, DWORD dwHeight, CRect* prcImage);
+    void PrepareVertRect(BOOL bHasTitle, CRect* prcTitle, DWORD dwWidth, DWORD dwHeight, CRect* prcImage);
 
     BYTE GetDrawIndex(BOOL bIsPressed, int iType);
 
@@ -228,7 +230,7 @@ private:
 
     CDC         m_dcBk;
     CBitmap     m_bmpBk;
-    CBitmap*    m_pbmpOldBk;
+    CBitmap* m_pbmpOldBk;
 
     BOOL        m_bAlwaysTrack;     // Always hilight button?
     int         m_iCheck;           // Current value for checkbox

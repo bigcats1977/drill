@@ -53,7 +53,7 @@ public:
     bool            m_bValidDBFile;
 
 private:
-    
+
     CDBGlbCfg       m_tDBGlbCfg;
     CDBShowName     m_tDBShowName;
     CDBShowCfg      m_tDBShowCfg;

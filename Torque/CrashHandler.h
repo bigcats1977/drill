@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-class CCrashHandler  
+class CCrashHandler
 {
 public:
 
@@ -17,13 +17,13 @@ public:
     // Installs C++ exception handlers that function on per-thread basis
     void SetThreadExceptionHandlers();
 
-	// Collects current process state.
+    // Collects current process state.
     static void GetExceptionPointers(
-        DWORD dwExceptionCode, 
+        DWORD dwExceptionCode,
         EXCEPTION_POINTERS** pExceptionPointers);
 
-	// This method creates minidump of the process
-	static void CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs);
+    // This method creates minidump of the process
+    static void CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs);
 
     /* Exception handler functions. */
 
@@ -33,7 +33,7 @@ public:
 
     static void __cdecl PureCallHandler();
 
-    static void __cdecl InvalidParameterHandler(const wchar_t* expression, 
+    static void __cdecl InvalidParameterHandler(const wchar_t* expression,
         const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved);
 
     static int __cdecl NewHandler(size_t);

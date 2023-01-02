@@ -22,19 +22,19 @@ CDlgParaSet::CDlgParaSet(CWnd* pParent /*=NULL*/)
     : CDialog(CDlgParaSet::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CDlgParaSet)
-    m_strParaAlias  = _T("");
-    m_strMemo       = _T("");
-    m_fControlCir   = 0.0;
-    m_fControl      = 0.0;
-    m_fOptTorq      = 0.0;
-    m_fLowerCir     = 0.0;
+    m_strParaAlias = _T("");
+    m_strMemo = _T("");
+    m_fControlCir = 0.0;
+    m_fControl = 0.0;
+    m_fOptTorq = 0.0;
+    m_fLowerCir = 0.0;
     //m_fLowerLimit   = 0.0;
-    m_fMaxCir       = 0.0;
-    m_fMaxLimit     = 0.0;
-    m_fMaxRPM       = 0.0;
-    m_fShow         = 0.0;
+    m_fMaxCir = 0.0;
+    m_fMaxLimit = 0.0;
+    m_fMaxRPM = 0.0;
+    m_fShow = 0.0;
     //m_fSpeedDown    = 0.0;
-    m_fUpperCir     = 0.0;
+    m_fUpperCir = 0.0;
     //m_fUpperLimit   = 0.0;
     //m_fLowerTai     = 0.0f;
     //m_fUpperTai     = 0.0f;
@@ -127,8 +127,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_CBPARA14, m_strSetShowOption[13]);
     DDX_Text(pDX, IDC_CBPARA15, m_strSetShowOption[14]);
     DDX_Text(pDX, IDC_CBPARA16, m_strSetShowOption[15]);
-  /*  DDX_Text(pDX, IDC_CBPARA17, m_strSetShowOption[16]);
-    DDX_Text(pDX, IDC_CBPARA18, m_strSetShowOption[17]);*/
+    /*  DDX_Text(pDX, IDC_CBPARA17, m_strSetShowOption[16]);
+      DDX_Text(pDX, IDC_CBPARA18, m_strSetShowOption[17]);*/
     DDX_Control(pDX, IDC_CBPARA01, m_cbSetShowOption[0]);
     DDX_Control(pDX, IDC_CBPARA02, m_cbSetShowOption[1]);
     DDX_Control(pDX, IDC_CBPARA03, m_cbSetShowOption[2]);
@@ -170,8 +170,8 @@ BEGIN_MESSAGE_MAP(CDlgParaSet, CDialog)
     ON_CBN_KILLFOCUS(IDC_CBPARA14, &CDlgParaSet::OnCbnKillfocusCbpara14)
     ON_CBN_KILLFOCUS(IDC_CBPARA15, &CDlgParaSet::OnCbnKillfocusCbpara15)
     ON_CBN_KILLFOCUS(IDC_CBPARA16, &CDlgParaSet::OnCbnKillfocusCbpara16)
- /*   ON_CBN_KILLFOCUS(IDC_CBPARA17, &CDlgParaSet::OnCbnKillfocusCbpara17)
-    ON_CBN_KILLFOCUS(IDC_CBPARA18, &CDlgParaSet::OnCbnKillfocusCbpara18)*/
+    /*   ON_CBN_KILLFOCUS(IDC_CBPARA17, &CDlgParaSet::OnCbnKillfocusCbpara17)
+       ON_CBN_KILLFOCUS(IDC_CBPARA18, &CDlgParaSet::OnCbnKillfocusCbpara18)*/
     ON_EN_KILLFOCUS(IDC_EDITOPTTORQ, &CDlgParaSet::OnKillfocusEditopttorq)
     ON_EN_KILLFOCUS(IDC_EDITMAXCIR, &CDlgParaSet::OnEnKillfocusEditmaxcir)
     ON_CBN_SELCHANGE(IDC_CBALIAS, &CDlgParaSet::OnCbnSelchangeCbalias)
@@ -191,9 +191,9 @@ BOOL CDlgParaSet::OnInitDialog()
 
     CDialog::OnInitDialog();
 
-    m_clrNormal  = RGB(0, 0, 0);
+    m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
-    m_nCurLang  = g_tGlbCfg.nLangType;
+    m_nCurLang = g_tGlbCfg.nLangType;
 
     /* 根据入参设置参数初始值 */
     SetParaValue(&m_tempCfg, &m_tempShow);
@@ -213,9 +213,9 @@ void CDlgParaSet::UpdateDlgLabel()
     m_strLBM10 = theApp.LoadstringFromRes(IDS_STRTORQPARA, g_tGlbCfg.strUnit).c_str();
 }
 
-void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
+void CDlgParaSet::SetParaValue(PARACFG* ptCfg, SHOWCFG* ptShow)
 {
-    CONTROLPARA *ptCtrl = NULL;
+    CONTROLPARA* ptCtrl = NULL;
     WORD        i = 0;
     WORD        j = 0;
     vector<int> lsShowIndex;
@@ -240,10 +240,10 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
     m_strMemo = ptCfg->strMemo.c_str();
     m_strParaAlias = ptCfg->strAlias.c_str();
     m_iSingleSTD = ptCtrl->iSingleSTD;
-    
+
     lsShowIndex = theDB.ReadCurOptionIndex();
 
-    for(i=0; i<MAXPARANUM; i++)   //  i<ptShow->wParaNum+1 && 
+    for (i = 0; i < MAXPARANUM; i++)   //  i<ptShow->wParaNum+1 && 
     {
         m_strSetShowName[i] = ptShow->strShow[i].c_str();
 
@@ -252,7 +252,7 @@ void CDlgParaSet::SetParaValue(PARACFG *ptCfg, SHOWCFG *ptShow)
             continue;
 
         lsOption.clear();
-        
+
         lsOption = theDB.ReadOptionsByShowIndex(lsShowIndex[i]);
         for (j = 0; j < lsOption.size(); j++)
         {
@@ -280,7 +280,7 @@ void CDlgParaSet::InitAliasShow()
     for (i = 0; i < lsAlias.size(); i++)
     {
         m_cbAlias.AddString(lsAlias[i].c_str());
-        if(m_tempCfg.strAlias == lsAlias[i])
+        if (m_tempCfg.strAlias == lsAlias[i])
             iCur = m_cbAlias.GetCount() - 1;
     }
     m_cbAlias.SetCurSel(iCur);
@@ -293,10 +293,10 @@ void CDlgParaSet::OnParasave()
 
     UpdateData(TRUE);
 
-    if(m_strParaAlias.IsEmpty())
+    if (m_strParaAlias.IsEmpty())
     {
         strInfo = theApp.LoadstringFromRes(IDS_STRINFPARAALIAS, m_strParaAlias.GetBuffer(0));
-        theApp.SaveShowMessage(strInfo.c_str(), MB_OK|MB_ICONINFORMATION);
+        theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
         return;
     }
 
@@ -327,13 +327,13 @@ void CDlgParaSet::OnParasave()
     m_bParaChg = true;
 
     strInfo = theApp.LoadstringFromRes(IDS_STRINFSAVEALIAS, m_strParaAlias.GetBuffer(0));
-    theApp.SaveShowMessage(strInfo.c_str(), MB_OK|MB_ICONEXCLAMATION);
+    theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONEXCLAMATION);
 }
 
-BOOL CDlgParaSet::GetParaValue(PARACFG *ptCfg)
+BOOL CDlgParaSet::GetParaValue(PARACFG* ptCfg)
 {
     CString     strTemp;
-    CONTROLPARA *ptCtrl = NULL;
+    CONTROLPARA* ptCtrl = NULL;
     int         i = 0;
     int         iFactory = 0;
 
@@ -341,29 +341,29 @@ BOOL CDlgParaSet::GetParaValue(PARACFG *ptCfg)
 
     ptCtrl = &ptCfg->tCtrl;
 
-    for(i=0; i<MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         ptCfg->strValue[i] = m_strSetShowOption[i];
     }
 
-    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]    = m_fMaxLimit;
+    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] = m_fMaxLimit;
     //ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]  = HAND_CEIL(m_fOptTorq * RATIO_UPPERLIMIT);
-    ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]     = m_fControl;
-    ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]     = m_fOptTorq;
+    ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] = m_fControl;
+    ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] = m_fOptTorq;
     //ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]  = HAND_FLOOR(m_fOptTorq * RATIO_LOWERLIMIT);
     //ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]   = m_fSpeedDown;
-    ptCtrl->fTorqConf[INDEX_TORQ_SHOW]        = m_fShow;
+    ptCtrl->fTorqConf[INDEX_TORQ_SHOW] = m_fShow;
     //ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]    = m_fUpperTai;
     //ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]    = m_fLowerTai;
 
-    ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]      = m_fMaxCir;
-    ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]    = m_fUpperCir;
-    ptCtrl->fTurnConf[INDEX_TURN_CONTROL]       = m_fControlCir;
-    ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT]    = m_fLowerCir;
-  /*  ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]      = m_fMaxDeltaCir;
-    ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]      = m_fMinDeltaCir;*/
+    ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] = m_fMaxCir;
+    ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT] = m_fUpperCir;
+    ptCtrl->fTurnConf[INDEX_TURN_CONTROL] = m_fControlCir;
+    ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT] = m_fLowerCir;
+    /*  ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]      = m_fMaxDeltaCir;
+      ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]      = m_fMinDeltaCir;*/
 
-    ptCtrl->fFullRPM      = m_fMaxRPM;
+    ptCtrl->fFullRPM = m_fMaxRPM;
 
     //ptCtrl->fMinShlSlope = m_fMinShlSlope;
     ptCtrl->iSingleSTD = m_iSingleSTD;
@@ -381,9 +381,9 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     COLORREF    clrCtrl;
     CString     strContent;
 
-    CONTROLPARA *ptCtrl = &theApp.m_tParaCfg.tCtrl;
+    CONTROLPARA* ptCtrl = &theApp.m_tParaCfg.tCtrl;
     //COMMONCFG   *ptComm = &theApp.m_tParaCfg.tComm;
-    SHOWCFG     *ptShow = theApp.m_ptCurShow;
+    SHOWCFG* ptShow = theApp.m_ptCurShow;
 
     GetDlgItemText(pWnd->GetDlgCtrlID(), strContent);
     if (strContent.IsEmpty())
@@ -392,45 +392,45 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     // TODO:  在此更改 DC 的任何特性
     switch (pWnd->GetDlgCtrlID())//对某一个特定控件进行判断
     {
-    // 扭矩参数
+        // 扭矩参数
     case IDC_EDITSHOWTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
         break;
-    /*case IDC_EDITUPPERTORQ:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
-        break;*/
+        /*case IDC_EDITUPPERTORQ:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
+            break;*/
     case IDC_EDITCONTROLTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]);
         break;
     case IDC_EDITOPTTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
         break;
-    /*case IDC_EDITLOWERTORQ:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
-        break;*/
+        /*case IDC_EDITLOWERTORQ:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
+            break;*/
     case IDC_EDITMAXTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
         break;
-    /*case IDC_EDITUPPERTAI:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]);
-        break;
-    case IDC_EDITSPEEDTORQ:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
-        break;
-    case IDC_EDITLOWERTAI:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]);
-        break;
-    case IDC_EDITMINSHLSLOPE:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fMinShlSlope);
-        break;
-    case IDC_EDITMAXDELTACIR:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]);
-        break;
-    case IDC_EDITMINDELTACIR:
-        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
-        break;*/
+        /*case IDC_EDITUPPERTAI:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]);
+            break;
+        case IDC_EDITSPEEDTORQ:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
+            break;
+        case IDC_EDITLOWERTAI:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]);
+            break;
+        case IDC_EDITMINSHLSLOPE:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fMinShlSlope);
+            break;
+        case IDC_EDITMAXDELTACIR:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]);
+            break;
+        case IDC_EDITMINDELTACIR:
+            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
+            break;*/
 
-    // 扭拧周数
+            // 扭拧周数
     case IDC_EDITUPPERCIR:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
         break;
@@ -556,8 +556,8 @@ void CDlgParaSet::OnKillfocusEditopttorq()
     /* 值没有修改则直接返回 */
     COMP_BE(oldOptTorq, m_fOptTorq);
 
-    m_fControl      = m_fOptTorq;
-    m_fMaxLimit     = HAND_CEIL (m_fOptTorq * RATIO_MAXLIMIT);
+    m_fControl = m_fOptTorq;
+    m_fMaxLimit = HAND_CEIL(m_fOptTorq * RATIO_MAXLIMIT);
     UpdateData(FALSE);
 }
 
@@ -569,7 +569,7 @@ void CDlgParaSet::OnEnKillfocusEditmaxcir()
 
     /* 值没有修改则直接返回 */
     COMP_BE(oldMaxCir, m_fMaxCir);
-    
+
     m_fControlCir = m_fMaxCir * 3 / 4;
     UpdateData(FALSE);
 }
@@ -618,7 +618,7 @@ CString CDlgParaSet::DelCurAliasContent()
         m_cbAlias.GetLBText(curSel, strAlias);
         m_cbAlias.DeleteString(curSel);
     }
-    
+
     if (m_cbAlias.GetCount() <= 0)
     {
         m_strParaAlias.Empty();

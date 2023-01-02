@@ -6,19 +6,19 @@
 
 class CDlgStatSet : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDlgStatSet)
+    DECLARE_DYNAMIC(CDlgStatSet)
 
 public:
-	CDlgStatSet(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CDlgStatSet();
+    CDlgStatSet(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CDlgStatSet();
 
-// Dialog Data
+    // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DLGSTATPARA };
+    enum { IDD = IDD_DLGSTATPARA };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedOk();
     afx_msg void OnEnKillfocusEdctrlmin();
@@ -31,7 +31,7 @@ protected:
     //afx_msg void OnEnKillfocusEdshouldrang1();
     //afx_msg void OnEnKillfocusEdshouldmax();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
     STATCFG m_tempStat;
     double  m_fCtrlZero;

@@ -15,7 +15,7 @@
 
 class CDlgFuncTest : public CDialog
 {
-// Construction
+    // Construction
 public:
     CDlgFuncTest(CWnd* pParent = NULL);   // standard constructor
 
@@ -35,7 +35,7 @@ public:
 // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CDlgFuncTest)
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     //}}AFX_VIRTUAL
 
@@ -54,7 +54,7 @@ protected:
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
-    CTorqueDlg *m_pParentDlg;
+    CTorqueDlg* m_pParentDlg;
 };
 
 //{{AFX_INSERT_LOCATION}}

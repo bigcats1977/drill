@@ -44,7 +44,7 @@ BEGIN_MESSAGE_MAP(CDlgZoomIn, CDialogEx)
     ON_WM_RBUTTONDOWN()
     ON_WM_RBUTTONUP()
     ON_WM_MOUSEMOVE()
-    ON_MESSAGE(WM_UPDATE_SELPOS,SelPosChange)
+    ON_MESSAGE(WM_UPDATE_SELPOS, SelPosChange)
 END_MESSAGE_MAP()
 
 
@@ -74,7 +74,7 @@ BOOL CDlgZoomIn::OnInitDialog()
 
 void CDlgZoomIn::DrawZoomPnt()
 {
-    DRAWTORQDATA  *ptDraw = NULL;
+    DRAWTORQDATA* ptDraw = NULL;
     UINT    nStartPnt = 0;
 
     COMP_BL(g_tReadData.nCur, 1);
@@ -82,21 +82,21 @@ void CDlgZoomIn::DrawZoomPnt()
 
     ptDraw = theApp.GetDrawDataFromTorq(g_tReadData.nCur - 1, m_nCurZoom);
     ASSERT_NULL(ptDraw);
-        
+
     GetZoomRange(ptDraw);
-    
+
     DrawZoomLine(ptDraw);
 }
 
 /* 在确认m_wBegin/m_wEnd后计算
    V3.22 begin/end是乘了倍数的 */
-void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA *ptDraw)
+void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA* ptDraw)
 {
-    int     i       = 0;
-    double  fMin    = 500000;
-    double  fMax    = 0;
-    double  fDiff   = 0;
-    TorqData::Torque *ptTorq = NULL;
+    int     i = 0;
+    double  fMin = 500000;
+    double  fMax = 0;
+    double  fDiff = 0;
+    TorqData::Torque* ptTorq = NULL;
 
     ASSERT_NULL(ptDraw);
     ptTorq = ptDraw->ptOrgTorq;
@@ -109,27 +109,27 @@ void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA *ptDraw)
             fMax = ptDraw->fTorque[i];
     }
 
-    if(fMax - fMin < MINTORQRANGE)
+    if (fMax - fMin < MINTORQRANGE)
     {
-        fDiff =  MINTORQRANGE - fMax + fMin;
+        fDiff = MINTORQRANGE - fMax + fMin;
         fMin -= fDiff / 2;
         fMax += fDiff / 2;
 
-        if(fMin < 0)
+        if (fMin < 0)
         {
             fMax -= fMin;
             fMin = 0;
         }
     }
-    
+
     m_fMinTorq = (int)fMin;
     m_fMaxTorq = (int)fMax;
-    
+
 }
 
-void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA *ptDraw, double  fSrcMaxCir)
+void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
 {
-    int     i         = 0;
+    int     i = 0;
     double  fBeginCir = 0;
     double  fDelCir = 0;
     int     iDelCnt = 0;
@@ -139,24 +139,24 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA *ptDraw, double  fSrcMaxCir)
 
     /* delcir需要减少倍数 for 3.22 */
     iAdjDel = m_nCurZoom;
-    
+
     /* 放大图像都设置为满屏，如果第一屏有空，则begin往后移 */
     if (m_iBegin < 0)
     {
-        fDelCir     = m_iBegin * fSrcMaxCir / iAdjDel / MAXLINEITEM;
-        m_fMinCir  -= fDelCir;
-        m_fMaxCir  -= fDelCir;
-        m_iEnd     -= m_iBegin;
-        m_iBegin    = 0;
+        fDelCir = m_iBegin * fSrcMaxCir / iAdjDel / MAXLINEITEM;
+        m_fMinCir -= fDelCir;
+        m_fMaxCir -= fDelCir;
+        m_iEnd -= m_iBegin;
+        m_iBegin = 0;
     }
     /* 最后一屏放大时，如果End 超过 */
-    if(m_iEnd >= ptDraw->wCount)
+    if (m_iEnd >= ptDraw->wCount)
     {
         iDelCnt = m_iEnd - ptDraw->wCount;
         fDelCir = iDelCnt * fSrcMaxCir / iAdjDel / MAXLINEITEM;
         m_fMinCir -= fDelCir;
         m_fMaxCir -= fDelCir;
-        m_iBegin  -= iDelCnt;
+        m_iBegin -= iDelCnt;
         m_iEnd = ptDraw->wCount - 1;
 
         if (m_iBegin < 0)  /* 超窄图像,放大图像包含所有，只是图形放大，范围没有变化 */
@@ -169,33 +169,33 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA *ptDraw, double  fSrcMaxCir)
 
     /* 单屏直接返回 */
     COMP_BLE(m_tSplit.iSplitNum, 1);
-    
+
     /* 多屏重新计算圈数范围 */
     /* 计算当前扭矩当前屏的圈数范围 */
 
-    fBeginCir = m_tSplit.iEnd[0] * fSrcMaxCir / MAXLINEITEM - fSrcMaxCir 
-            + fSrcMaxCir * (m_tSplit.iCur - 1);
+    fBeginCir = m_tSplit.iEnd[0] * fSrcMaxCir / MAXLINEITEM - fSrcMaxCir
+        + fSrcMaxCir * (m_tSplit.iCur - 1);
 
     m_fMinCir += fBeginCir;
     m_fMaxCir += fBeginCir;
     return;
 }
 
-void CDlgZoomIn::GetZoomRange(DRAWTORQDATA *ptDraw)
+void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
 {
-    double  fZoomCir  = 0;      // 鼠标点击位置
-    double  fSrcMaxCir= 0;
+    double  fZoomCir = 0;      // 鼠标点击位置
+    double  fSrcMaxCir = 0;
     int     iBegin, iEnd;       // 放大前的位置；m_iBegin/m_iEnd: 放大后的位置
     UINT    nStartPoint = 0;
-    TorqData::Torque *ptTorq = NULL;
-    
+    TorqData::Torque* ptTorq = NULL;
+
     SPLITPOINT  tCurSplit;      /* 当前分屏信息 */
 
     ASSERT_NULL(ptDraw);
     ptTorq = ptDraw->ptOrgTorq;
-    tCurSplit = g_tReadData.tSplit[g_tReadData.nCur-1];
+    tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
 
-    if(m_nCurZoom <= 0)
+    if (m_nCurZoom <= 0)
         m_nCurZoom = 1;
 
     fSrcMaxCir = theApp.GetMaxCir(ptTorq);
@@ -211,10 +211,10 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA *ptDraw)
     }
 
     theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit, m_nCurZoom);
-    
+
     /* 多屏的第一屏时，贴右画图 */
     m_iZoomPos = m_nPos + iBegin;
-    if(m_tSplit.iSplitNum > 1)
+    if (m_tSplit.iSplitNum > 1)
     {
         if (iBegin == 0)
         {
@@ -226,48 +226,48 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA *ptDraw)
             //nStartPoint = 0;
         }
     }
-    
+
     m_iBegin = (UINT)(m_fMinCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin;
     /* 20200312 避免放大时，放大LineCtrlEx画的点超过500，m_nPos为0，放大图像无法点击鼠标 */
-    m_iEnd   = (UINT)(m_fMaxCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin - 1;
+    m_iEnd = (UINT)(m_fMaxCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin - 1;
 
-    m_iZoomPos  *= m_nCurZoom;
-    m_iBegin    *= m_nCurZoom;
-    m_iEnd      *= m_nCurZoom;
-    m_iEnd      += m_nCurZoom-1;
+    m_iZoomPos *= m_nCurZoom;
+    m_iBegin *= m_nCurZoom;
+    m_iEnd *= m_nCurZoom;
+    m_iEnd += m_nCurZoom - 1;
 
     AdjustShowCir(ptDraw, fSrcMaxCir);
 
     GetTorqueRange(ptDraw);
     m_fMaxTorq += 500;
 
-    m_xZoomAxis.SetTickPara(10, m_fMaxCir,  m_fMinCir);
+    m_xZoomAxis.SetTickPara(10, m_fMaxCir, m_fMinCir);
     m_yZoomAxis.SetTickPara(20, m_fMaxTorq, m_fMinTorq);
 
-    m_wndLineZoom.m_fMaxCir   = m_fMaxCir;
+    m_wndLineZoom.m_fMaxCir = m_fMaxCir;
     m_wndLineZoom.m_fWidthCir = m_fMaxCir - m_fMinCir;
 
     return;
 }
 
-void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA *ptDraw)
+void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
 {
-    int     i         = 0;
-    UINT    j         = 0;
-    UINT    k         = 0;
-    double  fPreTorq  = 0;
-    double  fCurTorq  = 0;
-    double  fInsTorq  = 0;
+    int     i = 0;
+    UINT    j = 0;
+    UINT    k = 0;
+    double  fPreTorq = 0;
+    double  fCurTorq = 0;
+    double  fInsTorq = 0;
     double  fDeltaCir = 0;
-    double  fmaxcir   = 0;
-    COLORREF clrZoom  = RGB(0, 0, 255);
-    double  fMinDiff  = m_nZoomTorq;
-    int     iZoomPos  = 0; // 当前画图的实际位置
-    UINT    iDrawed   = 0;
-    int     iBegin    = 0, iEnd = 0;
+    double  fmaxcir = 0;
+    COLORREF clrZoom = RGB(0, 0, 255);
+    double  fMinDiff = m_nZoomTorq;
+    int     iZoomPos = 0; // 当前画图的实际位置
+    UINT    iDrawed = 0;
+    int     iBegin = 0, iEnd = 0;
 
     ASSERT_NULL(ptDraw);
-    
+
     m_wndLineZoom.RemoveAt();
     m_wndLineZoom.SetBkColor(RGB(255, 255, 255));
     m_wndLineZoom.m_bBKLine = TRUE;
@@ -280,17 +280,17 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA *ptDraw)
     m_wndLineZoom.SetPos(fPreTorq);
     m_wndLineZoom.DrawSpike();
 
-    for(i=m_iBegin+1; i < m_iEnd && i < ptDraw->wCount; i++)
+    for (i = m_iBegin + 1; i < m_iEnd && i < ptDraw->wCount; i++)
     {
         fCurTorq = ptDraw->fTorque[i];
         m_wndLineZoom.SetPos(fCurTorq);
         m_wndLineZoom.DrawSpike();
-        if(i == m_iZoomPos)
+        if (i == m_iZoomPos)
         {
             iZoomPos = m_wndLineZoom.GetCurPoints();
         }
     }
-        
+
     /* 放大图包含控制扭矩，画竖线 */
     /*最后一个数据在外面GO，以免出现双线的情况*/
     if (m_iEnd >= ptDraw->wCount - 1)
@@ -303,11 +303,11 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA *ptDraw)
         m_wndLineZoom.SetPos(ptDraw->fTorque[m_iEnd]);
         m_wndLineZoom.Go();
     }
-        
+
     theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
-    fmaxcir   = theApp.GetMaxCir(ptDraw->ptOrgTorq);
+    fmaxcir = theApp.GetMaxCir(ptDraw->ptOrgTorq);
     fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq);
-        
+
     m_nZoomTorq = (UINT)ptDraw->fTorque[m_iZoomPos];
     m_wndLineZoom.DrawZoomInfo(iZoomPos, m_fMinCir, fmaxcir, fDeltaCir, m_nZoomTorq);
 }
@@ -334,7 +334,7 @@ void CDlgZoomIn::OnRButtonUp(UINT nFlags, CPoint point)
     {
         return;
     }
-    
+
     m_bDragTitle = FALSE;
     ReleaseCapture();
 }
@@ -352,5 +352,5 @@ void CDlgZoomIn::OnMouseMove(UINT nFlags, CPoint point)
     GetWindowRect(&wrc);
 
     wrc.OffsetRect(offleft, offtop);
-    MoveWindow(&wrc, TRUE );
+    MoveWindow(&wrc, TRUE);
 }

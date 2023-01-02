@@ -83,8 +83,8 @@ BOOL CSerialPort::InitPort(CWnd* pPortOwner, // the owner (CWnd) of the port (re
     m_nWriteBufferSize = writebuffersize;
     m_dwCommEvents = dwCommEvents;
     BOOL bResult = FALSE;
-    char *szPort = new char[SPRINTFLEN];
-    char *szBaud = new char[SPRINTFLEN];
+    char* szPort = new char[SPRINTFLEN];
+    char* szBaud = new char[SPRINTFLEN];
     memset(szPort, 0, SPRINTFLEN);
     memset(szBaud, 0, SPRINTFLEN);
     // now it critical!
@@ -98,7 +98,7 @@ BOOL CSerialPort::InitPort(CWnd* pPortOwner, // the owner (CWnd) of the port (re
     // prepare port strings
     //sprintf(szPort, "COM%d", portnr);
     //sprintf(szBaud, "baud=%d parity=%c data=%d stop=%d", baud, parity, databits, stopbits);
-    if(portnr < 10)
+    if (portnr < 10)
         sprintf_s(szPort, SPRINTFLEN, "COM%d", portnr);
     else
         sprintf_s(szPort, SPRINTFLEN, "\\\\.\\COM%d", portnr);
@@ -168,7 +168,7 @@ UINT CSerialPort::CommThread(LPVOID pParam)
 {
     // Cast the void pointer passed to the thread back to
     // a pointer of CSerialPort class
-    CSerialPort *port = (CSerialPort*)pParam;
+    CSerialPort* port = (CSerialPort*)pParam;
 
     // Set the status variable in the dialog class to
     // TRUE to indicate the thread is running.
@@ -351,7 +351,7 @@ BOOL CSerialPort::StopMonitoring()
 //
 void CSerialPort::ProcessErrorMessage(char* ErrorText)
 {
-    char *Temp = new char[256];
+    char* Temp = new char[256];
 
     LPVOID lpMsgBuf;
     FormatMessage(
@@ -362,7 +362,7 @@ void CSerialPort::ProcessErrorMessage(char* ErrorText)
         (LPTSTR)&lpMsgBuf,
         0,
         NULL
-        );
+    );
 
     //sprintf(Temp, "WARNING:  %s Failed with the following error: \n%s\nPort: %d\n", (char*)ErrorText, lpMsgBuf, m_nPortNr); 
     sprintf_s(Temp, 256, "WARNING:  %s Failed with the following error:'%s';Port: %d", (char*)ErrorText, (char*)lpMsgBuf, m_nPortNr);
@@ -455,7 +455,7 @@ void CSerialPort::WriteData(CSerialPort* port)
     DWORD BytesSent = 0;
 
     ResetEvent(port->m_hWriteEvent);
-    
+
     // Gain ownership of the critical section
     EnterCriticalSection(&port->m_csCommunicationSync);
 
@@ -469,31 +469,31 @@ void CSerialPort::WriteData(CSerialPort* port)
         PurgeComm(port->m_hComm, PURGE_RXCLEAR | PURGE_TXCLEAR | PURGE_RXABORT | PURGE_TXABORT);
 
         bResult = WriteFile(port->m_hComm,                          // Handle to COMM Port
-                            port->m_szWriteBuffer,                  // Pointer to message buffer in calling finction
-                            port->m_nWriteSize,                     // Length of message to send
-                            &BytesSent,                             // Where to store the number of bytes sent
-                            &port->m_ov);                           // Overlapped structure
+            port->m_szWriteBuffer,                  // Pointer to message buffer in calling finction
+            port->m_nWriteSize,                     // Length of message to send
+            &BytesSent,                             // Where to store the number of bytes sent
+            &port->m_ov);                           // Overlapped structure
 
-        // deal with any error codes
-        if (!bResult)  
+// deal with any error codes
+        if (!bResult)
         {
             DWORD dwError = GetLastError();
             switch (dwError)
             {
-                case ERROR_IO_PENDING:
-                    {
-                        // continue to GetOverlappedResults()
-                        BytesSent = 0;
-                        bWrite = FALSE;
-                        break;
-                    }
-                default:
-                    {
-                        // all other error codes
-                        port->ProcessErrorMessage("WriteFile()");
-                    }
+            case ERROR_IO_PENDING:
+            {
+                // continue to GetOverlappedResults()
+                BytesSent = 0;
+                bWrite = FALSE;
+                break;
             }
-        } 
+            default:
+            {
+                // all other error codes
+                port->ProcessErrorMessage("WriteFile()");
+            }
+            }
+        }
         else
         {
             LeaveCriticalSection(&port->m_csCommunicationSync);
@@ -503,19 +503,19 @@ void CSerialPort::WriteData(CSerialPort* port)
     if (!bWrite)
     {
         bWrite = TRUE;
-    
+
         bResult = GetOverlappedResult(port->m_hComm,    // Handle to COMM port 
-                                      &port->m_ov,      // Overlapped structure
-                                      &BytesSent,       // Stores number of bytes sent
-                                      TRUE);            // Wait flag
+            &port->m_ov,      // Overlapped structure
+            &BytesSent,       // Stores number of bytes sent
+            TRUE);            // Wait flag
 
         LeaveCriticalSection(&port->m_csCommunicationSync);
 
         // deal with the error code 
-        if (!bResult)  
+        if (!bResult)
         {
             port->ProcessErrorMessage("GetOverlappedResults() in WriteFile()");
-        }   
+        }
     } // end if (!bWrite)
 
     // Verify that the data size send equals what we tried to send
@@ -625,7 +625,7 @@ void CSerialPort::ReceiveData(CSerialPort* port, COMSTAT comstat)
     BOOL  bResult = TRUE;
     DWORD dwError = 0;
     DWORD BytesRead = 0;
-    int len=0;
+    int len = 0;
     unsigned char RXBuff[51200];
 
     for (;;)
@@ -664,28 +664,28 @@ void CSerialPort::ReceiveData(CSerialPort* port, COMSTAT comstat)
         if (bRead)
         {
             bResult = ReadFile(port->m_hComm,       // Handle to COMM port
-                               &rch,                // RX Buffer Pointer
-                               1,                   // Read one byte
-                               &BytesRead,          // Stores number of bytes read
-                               &port->m_ov);        // pointer to the m_ov structure
-            // deal with the error code
+                &rch,                // RX Buffer Pointer
+                1,                   // Read one byte
+                &BytesRead,          // Stores number of bytes read
+                &port->m_ov);        // pointer to the m_ov structure
+// deal with the error code
             if (!bResult)
             {
                 switch (dwError = GetLastError())
                 {
-                    case ERROR_IO_PENDING:
-                        {
-                            // asynchronous i/o is still in progress
-                            // Proceed on to GetOverlappedResults();
-                            bRead = FALSE;
-                            break;
-                        }
-                    default:
-                        {
-                            // Another error has occured.  Process this error.
-                            port->ProcessErrorMessage("ReadFile()");
-                            break;
-                        }
+                case ERROR_IO_PENDING:
+                {
+                    // asynchronous i/o is still in progress
+                    // Proceed on to GetOverlappedResults();
+                    bRead = FALSE;
+                    break;
+                }
+                default:
+                {
+                    // Another error has occured.  Process this error.
+                    port->ProcessErrorMessage("ReadFile()");
+                    break;
+                }
                 }
             }
             else
@@ -699,11 +699,11 @@ void CSerialPort::ReceiveData(CSerialPort* port, COMSTAT comstat)
         {
             bRead = TRUE;
             bResult = GetOverlappedResult(port->m_hComm,    // Handle to COMM port
-                                          &port->m_ov,      // Overlapped structure
-                                          &BytesRead,       // Stores number of bytes read
-                                          TRUE);            // Wait flag
+                &port->m_ov,      // Overlapped structure
+                &BytesRead,       // Stores number of bytes read
+                TRUE);            // Wait flag
 
-            // deal with the error code
+// deal with the error code
             if (!bResult)
             {
                 port->ProcessErrorMessage("GetOverlappedResults() in ReadFile()");
@@ -711,15 +711,15 @@ void CSerialPort::ReceiveData(CSerialPort* port, COMSTAT comstat)
         }  // close if (!bRead)
 
         LeaveCriticalSection(&port->m_csCommunicationSync);
-        len+=BytesRead;
-        RXBuff[len-1]=rch;
+        len += BytesRead;
+        RXBuff[len - 1] = rch;
         // notify parent that a byte was received
         //::SendMessage((port->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM) RXBuff, (LPARAM) BytesRead);
     } // end forever loop
-    if(len>0)
+    if (len > 0)
     {
-        TRACE("receive len = %d\n",len);
-       ::SendMessage((port->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM) RXBuff, (LPARAM) len);
+        TRACE("receive len = %d\n", len);
+        ::SendMessage((port->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM)RXBuff, (LPARAM)len);
     }
 
 }
@@ -859,7 +859,7 @@ void CSerialPort::EnumerateSerialPorts(CUIntArray& ports)
         //Up to 255 COM ports are supported so we iterate through all of them seeing
         //if we can open them or if we fail to open them, get an access denied or general error error.
         //Both of these cases indicate that there is a COM port at that number.
-        for (UINT i = 1; i<256; i++)
+        for (UINT i = 1; i < 256; i++)
         {
             //Form the Raw device name
             CString sPort;

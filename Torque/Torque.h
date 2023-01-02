@@ -9,7 +9,7 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-        error include 'stdafx.h' before including this file for PCH
+error include 'stdafx.h' before including this file for PCH
 #endif
 
 //#define CRT_DBG_MAP_ALLOC
@@ -42,46 +42,46 @@ public:
     /* 保存程序启动退出开始关闭设置等状态 */
     void    SaveAppStatus(UINT nStatus, CString strInfo);
     /* 保存采集数据错误信息 */
-    void    SaveCollectErrorData(CString strError, BYTE *pucRcvByte, WORD wLen);
+    void    SaveCollectErrorData(CString strError, BYTE* pucRcvByte, WORD wLen);
     /* 保存采集数据普通信息 */
-    void    SaveCollectOrgData(BYTE *pucRcvByte, WORD wLen);
+    void    SaveCollectOrgData(BYTE* pucRcvByte, WORD wLen);
     /* 保存MessageBox显示的信息到文件 */
     void    SaveMessage(CString strMessage);
     void    SaveShowMessage(CString strMessage, UINT nType = MB_OK);
     // 保存串口发送错误数据
     void    SaveSendFailure(UINT nCmdType = 15); /* 默认SCMREAD15 */
     // 保存CRC或者串口错误、长度不对数据
-    void    SaveCrcErrorData(BYTE *pucRcvByte, WORD wLen, UINT &nCRCErr);
+    void    SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr);
     /* 保存服务器客户端通信的信息到文件 */
     void    SaveCommunication(BYTE* msg, WORD wLen, UINT nType);
     // 保存正常数据信息
-    void    SaveOrdData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen);
-    void    SaveMultiData(ORGDATA *ptOrgData,BYTE *pucRcvByte, WORD wLen);
-    void    SavePortBufData(BYTE *pucRcvByte, WORD wLen, UINT nClashSta);
+    void    SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen);
+    void    SaveMultiData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen);
+    void    SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta);
     void    SaveLogInfo();
     // 保存复位时的串口数据
-    void    SaveResetData(BYTE *pucRcvByte, WORD wLen);
+    void    SaveResetData(BYTE* pucRcvByte, WORD wLen);
     // 保存上位机发送到串口数据
-    void    SaveSendData(CString strCmd, BYTE *pucRcvByte, WORD wLen);
+    void    SaveSendData(CString strCmd, BYTE* pucRcvByte, WORD wLen);
     // 保存串口操作记录
     void    SavePortOper(UINT nPortOpr);
     // 保存字符串数据到log文件
     void    SaveStreamData(CString strStream);
 
     BOOL    IsDebugInfo(CString strContent);
-    void    AdjustParaValue(PARACFG *ptCfg); /* 检查参数是否发生变化 */
+    void    AdjustParaValue(PARACFG* ptCfg); /* 检查参数是否发生变化 */
     /* 将列表内容导出到excle表格中 */
-    BOOL    SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl*ptlistData);
+    BOOL    SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData);
 
-    void    AdaptDlgCtrlSize(CDialog *pdlgAdapt, UINT nSheetType = 0);
+    void    AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType = 0);
     void    ShowMainTitle();
-    string  GetQualityInfo(TorqData::Torque *ptTorq);
-    int     GetQualityIndex(TorqData::Torque *ptTorq);
-    void    GetMACAddr(UCHAR *pcMac);
+    string  GetQualityInfo(TorqData::Torque* ptTorq);
+    int     GetQualityIndex(TorqData::Torque* ptTorq);
+    void    GetMACAddr(UCHAR* pcMac);
     void    StringSubtract(CString& strValue, BYTE ucChar);
     void    SplitRegString(CString strReg[], CString strRegCode);
     void    MergeRegString(CString strReg[], CString& strRegCode);
-    BOOL    LoadLanguageDll(UINT nLang= LANGUAGE_CURRENT, BOOL bUpdate=TRUE);
+    BOOL    LoadLanguageDll(UINT nLang = LANGUAGE_CURRENT, BOOL bUpdate = TRUE);
     void    ReOpenWindow();
     void    PlayAlarmSound();
     void    StopAlarmSound();
@@ -91,40 +91,40 @@ public:
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
     BOOL    SaveBmp(HBITMAP hBitmap, CString FileName);
     BOOL    SavePNG(HBITMAP hBitmap, CString FileName);
-    double  GetCir(TorqData::Torque *ptTorq, bool bBreakout=false);
-    DWORD   GetQuality(TorqData::Torque *ptTorq);
-    DWORD   JudgeQuality(TorqData::Torque *ptTorq, int iBreakOut = 0);
+    double  GetCir(TorqData::Torque* ptTorq, bool bBreakout = false);
+    DWORD   GetQuality(TorqData::Torque* ptTorq);
+    DWORD   JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut = 0);
     BOOL    ReadHisTorqFromFile(CString strDataName);
-    CString GetStatType(TorqData::Torque *ptTorq, WORD wPlace);
-    CString GetTorqSimpDate(TorqData::Torque *ptTorq);
-    CString GetTorqFullDate(TorqData::Torque *ptTorq);
-    CString GetTorqCollTime(TorqData::Torque *ptTorq, bool bBreakout=false);
+    CString GetStatType(TorqData::Torque* ptTorq, WORD wPlace);
+    CString GetTorqSimpDate(TorqData::Torque* ptTorq);
+    CString GetTorqFullDate(TorqData::Torque* ptTorq);
+    CString GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout = false);
     BOOL    CheckPassWord();
-    string  LoadstringFromRes( unsigned string_ID );
+    string  LoadstringFromRes(unsigned string_ID);
     string  LoadstringFromRes(unsigned string_ID, int val);
     string  LoadstringFromRes(unsigned string_ID, double val);
     string  LoadstringFromRes(unsigned string_ID, string val);
-    void    GetShowDataRange(DRAWTORQDATA *ptDraw, int &iBegin, int &iEnd, SPLITPOINT *ptSplit, UINT nMulti=1);
+    void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
     CString GetSaveDataPath();
-    int     SplitString(CString strSource, CStringList &slList);
+    int     SplitString(CString strSource, CStringList& slList);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */
-    double  GetMaxCir(TorqData::Torque *ptTorq);
-    double  GetCtrlCir(TorqData::Torque *ptTorq);
-    double  GetUpperCir(TorqData::Torque *ptTorq);
-    double  GetLowerCir(TorqData::Torque *ptTorq);
-    double  GetOptTorq(TorqData::Torque  *ptTorq);
-    
-    int     SeekTorque(CFile &file, int iDataNum);
-    int     SeekPBDataPos(CFile &file, int iCurPos);
-    int     SeekFileLen(CFile &file);
-    void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque *ptTorq);
+    double  GetMaxCir(TorqData::Torque* ptTorq);
+    double  GetCtrlCir(TorqData::Torque* ptTorq);
+    double  GetUpperCir(TorqData::Torque* ptTorq);
+    double  GetLowerCir(TorqData::Torque* ptTorq);
+    double  GetOptTorq(TorqData::Torque* ptTorq);
+
+    int     SeekTorque(CFile& file, int iDataNum);
+    int     SeekPBDataPos(CFile& file, int iCurPos);
+    int     SeekFileLen(CFile& file);
+    void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque* ptTorq);
     int     GetMainIndex(UINT nNO);
-    int     GetMainIndexfromData(UINT nNO, TorqData::Torque *ptTorq);
+    int     GetMainIndexfromData(UINT nNO, TorqData::Torque* ptTorq);
     BOOL    FindNotFileChar(CString strName);
-    CString GetTorqShowName(TorqData::Torque *ptTorq, int iIndex);
-    CString GetTorqShowValue(TorqData::Torque *ptTorq, int iIndex);
-    DRAWTORQDATA * GetDrawDataFromTorq(UINT nNO, int iMulti = 1);
-    TorqData::Torque * GetOrgTorqFromTorq(UINT nNO);
+    CString GetTorqShowName(TorqData::Torque* ptTorq, int iIndex);
+    CString GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex);
+    DRAWTORQDATA* GetDrawDataFromTorq(UINT nNO, int iMulti = 1);
+    TorqData::Torque* GetOrgTorqFromTorq(UINT nNO);
     string  GetListShowName(SHOWCFG* ptShow, UINT NO);
     string  GetMainShowName(SHOWCFG* ptShow, UINT NO);
     void ClearShowPara(SHOWCFG* ptShow);
@@ -138,7 +138,7 @@ public:
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
-    SHOWCFG         *m_ptCurShow;
+    SHOWCFG* m_ptCurShow;
     DBREG           m_tdbReg;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     VALVECFG        m_tValveCfg;        /* 阀值配置 */
@@ -151,7 +151,7 @@ public:
                                            在data路径下，后缀名为.pbd */
     string          m_strLogFile;
     string          m_strLogPath;       /* log路径 */
-    
+
     string          m_strReadFile;      /* 读取历史文件路径 */
     string          m_strFileTitle;     /* 读取历史文件纯名称 */
     string          m_strAutoSaveFile;  /* CTRL+SHIFT+T 保存的数据文件名称?
@@ -178,7 +178,7 @@ public:
     char            m_cProtoBuf[MAXPROBUFF];
     DRAWTORQDATA    m_tCurDrawTorq;
     DRAWTORQDATA    m_tCurZoomTorq;
-    
+
     CALIBCTRL       m_tCalibCtrl;           /* 分段校准信息 */
 
 
@@ -201,42 +201,42 @@ private:
     void SaveDbgHead(UINT nType);
     void SaveCurTimeAndHead(UINT nType);
     BOOL MsgLenIsZero(WORD wLen, UINT nType);
-    void SaveHexData(BYTE *pucRcvByte, WORD wLen);
-    bool GetProductVersion(CString &strVersion);
+    void SaveHexData(BYTE* pucRcvByte, WORD wLen);
+    bool GetProductVersion(CString& strVersion);
     void CreateNewWellFile();
     BOOL GetTorqDataFromFile(CString strDataName);
     BOOL ReCalTallyNO(CString strDataName);
     void ClearReadTorq();
 
     /* 将列表内容导出到excle表格中 */
-    BOOL CheckExcelDriver(CString &strDriver);
-    void ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl*ptlistData);
+    BOOL CheckExcelDriver(CString& strDriver);
+    void ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl* ptlistData);
     BOOL GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile);
-    BOOL MakeSurePathExists( CString &Path, bool FilenameIncluded);
+    BOOL MakeSurePathExists(CString& Path, bool FilenameIncluded);
 
     void InitArray();
     void InitVariant();
     void InitLanguage();
     void InitDefaultConfig(int initstep);
-    
+
     void InitConfigFromDB();
     void InitGlobalPara();
-    void InitShowPara(SHOWCFG *ptShow, UINT nLang= LANGUAGE_CURRENT);
-    void InitTorqCfgPara(PARACFG *ptCfg);
+    void InitShowPara(SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
+    void InitTorqCfgPara(PARACFG* ptCfg);
     void InitXlsStatPara(XLSSTATCFG* ptStat);
     void InitValvePara(VALVECFG* ptCfg);
 
-    void AdjustTorquePara (CONTROLPARA *ptCtrl);
-    void AdjustCircuitPara(CONTROLPARA *ptCtrl);
+    void AdjustTorquePara(CONTROLPARA* ptCtrl);
+    void AdjustCircuitPara(CONTROLPARA* ptCtrl);
 
-    BOOL JudgeTranslate(TorqData::Torque *ptTorq);
+    BOOL JudgeTranslate(TorqData::Torque* ptTorq);
     WORD GetIPPlace(int iCurPnt, int iInterval);
 
     BOOL UpdateCurOptions(WORD wNum, string value[], UINT nLang = LANGUAGE_CURRENT);
     BOOL GetOptionIDbyValue(string name, string value, UINT nLang = LANGUAGE_CURRENT);
 
-    unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char * bmp);
-        
+    unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
+
     /* 找不到MAC时的默认MAC */
     BYTE     m_ucDefaultMac[5];
 

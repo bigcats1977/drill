@@ -18,7 +18,7 @@
 
 class CDlgCollect : public CDialog
 {
-// Construction
+    // Construction
 public:
     void    ShowCollHisData();
     void    ResetCollHisData();
@@ -37,7 +37,7 @@ public:
 // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CDlgCollect)
-    protected:
+protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     afx_msg LRESULT ProcessCollData(WPARAM wParam, LPARAM lParam);
     //}}AFX_VIRTUAL
@@ -56,7 +56,7 @@ protected:
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
-    BOOL    CheckDataValid(int &iCollNum);
+    BOOL    CheckDataValid(int& iCollNum);
     void    ReadCollData(int iCollNum);
     void    CheckErrorTimes();
 
