@@ -371,15 +371,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\Torque.ico"
+				RelativePath=".\res\Drill.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\Torque.rc"
+				RelativePath=".\Drill.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Torque.rc2"
+				RelativePath=".\res\Drill.rc2"
 				>
 			</File>
 			<File

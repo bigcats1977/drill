@@ -107,7 +107,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <OutputFile>..\Torque\Debug\$(ProjectName).dll</OutputFile>
+      <OutputFile>..\Drill\Debug\$(ProjectName).dll</OutputFile>
       <ModuleDefinitionFile>.\English.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +134,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <OutputFile>..\Torque\x64\Debug\$(ProjectName).dll</OutputFile>
+      <OutputFile>..\Drill\x64\Debug\$(ProjectName).dll</OutputFile>
       <ModuleDefinitionFile>.\English.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -161,7 +161,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <OutputFile>..\Torque\Release\$(ProjectName).dll</OutputFile>
+      <OutputFile>..\Drill\Release\$(ProjectName).dll</OutputFile>
       <ModuleDefinitionFile>.\English.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -191,7 +191,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <OutputFile>..\Torque\x64\Release\$(ProjectName).dll</OutputFile>
+      <OutputFile>..\Drill\x64\Release\$(ProjectName).dll</OutputFile>
       <ModuleDefinitionFile>.\English.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -210,7 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="English.def" />
-    <None Include="res\Torque.rc2" />
+    <None Include="res\Drill.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="English.h" />
@@ -254,14 +254,14 @@
     <Image Include="res\TIMER01.ICO" />
     <Image Include="res\toolbar.bmp" />
     <Image Include="res\Tools4.ico" />
-    <Image Include="res\Torque.ico" />
+    <Image Include="res\Drill.ico" />
     <Image Include="res\UnloadB.ico" />
     <Image Include="res\UnloadE.ico" />
     <Image Include="res\VOLUME.ICO" />
     <Image Include="res\word.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Torque.rc" />
+    <ResourceCompile Include="Drill.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
