@@ -33,8 +33,8 @@ CDlgCollect::CDlgCollect(CWnd* pParent /*=NULL*/)
         m_nErrorNum ++;                                         \
         m_strLastError = (strInfo);                             \
         theApp.SaveCollectErrorData((strInfo),                  \
-                                    theDlg.m_ucRcvByte, \
-                                    theDlg.m_wRcvLen);  \
+                                    thepDlg->m_ucRcvByte, \
+                                    thepDlg->m_wRcvLen);  \
         return FALSE;                                           \
     }
 
@@ -123,7 +123,7 @@ void CDlgCollect::OnBtncollect()
 
     if (g_tGlbCfg.nTest == COLL_HISTORY)
     {
-        theDlg.RunIniAutoFile();
+        thepDlg->RunIniAutoFile();
     }
 
     m_btnCollect.EnableWindow(FALSE);
@@ -142,23 +142,23 @@ BOOL CDlgCollect::CheckDataValid(int& iCollNum)
 
     //ASSERT_NULL_R(g_ptParentDlg, FALSE);
 
-    if (theDlg.m_ucRcvByte[0] != PORT485)
+    if (thepDlg->m_ucRcvByte[0] != PORT485)
     {
         strInfo.Format(IDS_STRINFPORTERR,
             PORT485,
-            theDlg.m_ucRcvByte[0]);
+            thepDlg->m_ucRcvByte[0]);
         INVALID_COLLECTDATA(strInfo);
     }
 
-    if (theDlg.m_ucRcvByte[1] != 0x10 &&
-        theDlg.m_ucRcvByte[1] != 0x88)
+    if (thepDlg->m_ucRcvByte[1] != 0x10 &&
+        thepDlg->m_ucRcvByte[1] != 0x88)
     {
         strInfo.Format(IDS_STRINFRCVCMDERR,
-            theDlg.m_ucRcvByte[1]);
+            thepDlg->m_ucRcvByte[1]);
         INVALID_COLLECTDATA(strInfo);
     }
 
-    iCollNum = theDlg.m_ucRcvByte[2];
+    iCollNum = thepDlg->m_ucRcvByte[2];
     if (iCollNum > ONEMAXTORQUE)
     {
         strInfo.Format(IDS_STRINFCOLOVERFLOW,
@@ -184,7 +184,7 @@ void CDlgCollect::ReadCollData(int iCollNum)
     BYTE* pucPos = NULL;
     BYTE    ucYM = 0;
 
-    pucPos = &theDlg.m_ucRcvByte[3];
+    pucPos = &thepDlg->m_ucRcvByte[3];
     nCur = m_tHisData.nReadCount;
     for (i = 0; i < iCollNum; i++)
     {
@@ -224,8 +224,8 @@ void CDlgCollect::ReadCollData(int iCollNum)
     m_nErrorNum = 0;
 
     m_nCollectStatus = VALIDDATA;
-    theApp.SaveCollectOrgData(theDlg.m_ucRcvByte,
-        theDlg.m_wRcvLen);
+    theApp.SaveCollectOrgData(thepDlg->m_ucRcvByte,
+        thepDlg->m_wRcvLen);
 }
 
 LRESULT CDlgCollect::ProcessCollData(WPARAM wParam, LPARAM lParam)
@@ -239,7 +239,7 @@ LRESULT CDlgCollect::ProcessCollData(WPARAM wParam, LPARAM lParam)
 
     COMP_BFALSE_R(CheckDataValid(iCollNum), 0);
 
-    if (theDlg.m_ucRcvByte[1] == 0x88)
+    if (thepDlg->m_ucRcvByte[1] == 0x88)
     {
         bLastData = TRUE;
     }
@@ -251,11 +251,11 @@ LRESULT CDlgCollect::ProcessCollData(WPARAM wParam, LPARAM lParam)
     {
         KillTimer(COLLECT_TIMER);
         m_nCollectStatus = LASTDATA;
-        theDlg.SendData(SCMCOLLECTOK);
+        thepDlg->SendData(SCMCOLLECTOK);
         m_btnCollect.EnableWindow(TRUE);
 
         Sleep(100);
-        theDlg.StartGetValveStatus();
+        thepDlg->StartGetValveStatus();
     }
 
     return 1;
@@ -278,7 +278,7 @@ void CDlgCollect::CheckErrorTimes()
     theApp.SaveShowMessage(strInfo);
 
     //ASSERT_NULL(g_ptParentDlg);
-    theDlg.StartGetValveStatus();
+    thepDlg->StartGetValveStatus();
 }
 
 void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
@@ -295,11 +295,11 @@ void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
     /* 读取autosave文件中的#COL 开头的Collect数据 */
     if (g_tGlbCfg.nTest == COLL_HISTORY)
     {
-        bReadRes = theDlg.CollectHisData();
+        bReadRes = thepDlg->CollectHisData();
     }
     else
     {
-        bReadRes = theDlg.SendData(nCmdType);
+        bReadRes = thepDlg->SendData(nCmdType);
     }
 
     if (bReadRes)
@@ -351,7 +351,7 @@ void CDlgCollect::OnBnClickedCancel()
     KillTimer(COLLECT_TIMER);
 
     //if (NULL != g_ptParentDlg)
-    theDlg.StartGetValveStatus();
+    thepDlg->StartGetValveStatus();
     CDialog::OnCancel();
 }
 

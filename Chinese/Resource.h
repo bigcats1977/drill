@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Torque.rc
+// Used by Drill.rc
 //
 #define IDM_ABOUTBOX                    0x0010
 #define IDD_ABOUTBOX                    100
@@ -10,7 +10,7 @@
 #define IDR_TOOLBAR                     104
 #define ID_PORTINFO                     105
 #define IDR_MAINMENU_ENG                106
-#define IDD_TORQUE_DIALOG               120
+#define IDD_DRILL_DIALOG                120
 #define IDD_DLGAPI                      121
 #define IDD_DLGCOLLECT                  123
 #define IDD_DLGHISGRP                   124
@@ -146,7 +146,7 @@
 #define IDC_EDITCONTROLCIR              1111
 #define IDC_EDITMAXRPM                  1113
 #define IDC_EDITMAXCIR                  1114
-#define IDC_EDBREAKOUTFILE              1115
+#define IDC_EDBREAKOUTNO                1115
 #define IDC_EDITMEMO                    1117
 #define IDC_EDITMINSHLSLOPE             1120
 #define IDC_CBPARA01                    1121
@@ -980,7 +980,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        195
+#define _APS_NEXT_RESOURCE_VALUE        196
 #define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         2260
 #define _APS_NEXT_SYMED_VALUE           108

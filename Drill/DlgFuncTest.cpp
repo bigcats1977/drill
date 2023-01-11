@@ -81,8 +81,8 @@ void CDlgFuncTest::OnBtnspeedbegin()
     m_btnSpeedB.EnableWindow(FALSE);
     m_btnSpeedE.EnableWindow(TRUE);
 
-    theDlg.TestSpeedLed(IDI_LEDON);
-    theDlg.SendData(SCMBSPEED);
+    thepDlg->TestSpeedLed(IDI_LEDON);
+    thepDlg->SendData(SCMBSPEED);
 }
 
 void CDlgFuncTest::OnBtnspeedend()
@@ -90,8 +90,8 @@ void CDlgFuncTest::OnBtnspeedend()
     m_btnSpeedB.EnableWindow(TRUE);
     m_btnSpeedE.EnableWindow(FALSE);
 
-    theDlg.TestSpeedLed(IDI_LEDREDON);
-    theDlg.SendData(SCMESPEED);
+    thepDlg->TestSpeedLed(IDI_LEDREDON);
+    thepDlg->SendData(SCMESPEED);
 }
 
 void CDlgFuncTest::OnBtnunloadbegin()
@@ -99,8 +99,8 @@ void CDlgFuncTest::OnBtnunloadbegin()
     m_btnUnloadB.EnableWindow(FALSE);
     m_btnUnloadE.EnableWindow(TRUE);
 
-    theDlg.TestUnloadLed(IDI_LEDON);
-    theDlg.SendData(SCMBUNLOAD);
+    thepDlg->TestUnloadLed(IDI_LEDON);
+    thepDlg->SendData(SCMBUNLOAD);
 }
 
 void CDlgFuncTest::OnBtnunloadend()
@@ -108,8 +108,8 @@ void CDlgFuncTest::OnBtnunloadend()
     m_btnUnloadB.EnableWindow(TRUE);
     m_btnUnloadE.EnableWindow(FALSE);
 
-    theDlg.TestUnloadLed(IDI_LEDREDON);
-    theDlg.SendData(SCMEUNLOAD);
+    thepDlg->TestUnloadLed(IDI_LEDREDON);
+    thepDlg->SendData(SCMEUNLOAD);
 }
 
 void CDlgFuncTest::OnBtnalarmbegin()
@@ -117,7 +117,7 @@ void CDlgFuncTest::OnBtnalarmbegin()
     m_btnAlarmB.EnableWindow(FALSE);
     m_btnAlarmE.EnableWindow(TRUE);
 
-    theDlg.TestAlarmLed(IDI_LEDREDON);
+    thepDlg->TestAlarmLed(IDI_LEDREDON);
 
     theApp.PlayAlarmSound();
 }
@@ -127,7 +127,7 @@ void CDlgFuncTest::OnBtnalarmend()
     m_btnAlarmB.EnableWindow(TRUE);
     m_btnAlarmE.EnableWindow(FALSE);
 
-    theDlg.TestAlarmLed(IDI_LEDREDOFF);
+    thepDlg->TestAlarmLed(IDI_LEDREDOFF);
 
     theApp.StopAlarmSound();
 }

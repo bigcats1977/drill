@@ -89,7 +89,7 @@ public:
 
     // Dialog Data
         //{{AFX_DATA(CDrillDlg)
-    enum { IDD = IDD_TORQUE_DIALOG };
+    enum { IDD = IDD_DRILL_DIALOG };
     CButtonST   m_cbComm;
     CButtonST   m_cbAlarm;
     CButtonST   m_cbValveStatus[VALVEMAXNUM];
@@ -109,10 +109,11 @@ public:
     CString     m_strRecvData;
     DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
     BOOL        m_bToolBuck;        /* 是否为工具扣 */
+    BOOL        m_iBreakOut;        /* 是否进行卸扣操作 0:上扣；1：卸扣*/
     CString     m_strQuality;
     CString     m_strLBM2;
     CString     m_strTorqType;
-    CString     m_strBreakoutFile;
+    CString     m_strBreakoutNO;
     CString     m_strMainName[MAXMAINPARA];
     CString     m_strMainValue[MAXMAINPARA];
     //}}AFX_DATA
@@ -167,7 +168,7 @@ protected:
     afx_msg void OnValveset();
     afx_msg void OnBnClickedSettoolbuck();
     afx_msg void OnBnClickedBtnquality();
-    afx_msg void OnBnClickedBtnBreakoutFile();
+    //afx_msg void OnBnClickedBtnBreakoutFile();
     afx_msg void OnBnClickedRadiomakeup();
     afx_msg void OnBnClickedRadiobreakout();
     afx_msg void OnBnClickedBtnshowset();
@@ -232,7 +233,7 @@ private:
     // APP function move into MainDlg
     void IncTorqNo();
     void GetMakeupCurNum();
-    void GetBreakoutCurNum();
+    //void GetBreakoutCurNum();
     void GetCurNum();
     void ReGetTorqNo();
     void GetCurWellFile();
@@ -248,7 +249,7 @@ private:
     void UpdateTorqueData(double torque, double rpm);
     void SaveIntoData(TorqData::Torque* ptPBData);
     void SaveMakeupData(TorqData::Torque* ptPBData);
-    void SaveBreakoutData(TorqData::Torque* ptPBData);
+    void SaveBreakoutData(TorqData::Torque* ptPBData, int iSeqNO, int iOutwellNO);
     void SetQuality(DWORD dwQuality);
     void KillAllTimer();
     void GetValidTorqData();
@@ -267,7 +268,7 @@ private:
     double OverTorqOpt(double fTorq, BYTE ucStatus);
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
-    void   EnableBreakoutfile();
+    void   CheckBreakOut();
     void   UpdateSeqNO();
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
@@ -330,7 +331,7 @@ private:
     UINT            m_nCurRunningNO;       /* 入井序号 */
 };
 
-extern CDrillDlg    theDlg;
+extern CDrillDlg    *thepDlg;
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 

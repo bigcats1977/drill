@@ -386,7 +386,9 @@
     <Image Include="res\HUI.BMP">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\6315318.png" />
+    <Image Include="res\6315318.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Drill.rc">

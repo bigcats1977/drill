@@ -769,7 +769,7 @@ typedef struct tagGLBCFG
     UINT        nZoomIn;        /* 图形放大倍数 */
     UINT        nImgNum;        /* 批量导出图形时，一个图像文件中包含多少个图形 */
     UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据; 4: 多组历史数据*/
-    int         iBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
+    //int         iBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
 
     double      fDiscount;      /* fCut 打折比例 0.8 */
     double      fMulti;         /* 校准参数范围0~2 */
@@ -781,7 +781,7 @@ typedef struct tagGLBCFG
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
-    string      strBreakOutFile; /* 上扣后开始卸扣的文件名称 */
+    //string      strBreakOutFile; /* 上扣后开始卸扣的文件名称 */
     string      strDataPath;
 
     string      strUnit;        /* 对应扭矩单位的字符串 */
@@ -903,7 +903,6 @@ typedef struct tagTORQUEDATA
 {
     UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 当前显示/卸扣的序号 */
     UINT    nTotal;
-    UINT    nBreakout;
     UINT    nQualy;
     UINT    nUnQualy;
     UINT    nTotalPlus[MAXWELLNUM];

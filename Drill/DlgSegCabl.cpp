@@ -253,7 +253,7 @@ void CDlgSegCabl::OnBnClickedBtncalibbegin()
     theApp.m_tCalibCtrl.ucProc = 0x00;
     theApp.m_tCalibCtrl.ucType = m_iType;
 
-    if (!theDlg.SendData(SCMCTRLCALIB))
+    if (!thepDlg->SendData(SCMCTRLCALIB))
     {
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
         return;
@@ -272,7 +272,7 @@ void CDlgSegCabl::OnBnClickedBtncalibfin()
     theApp.m_tCalibCtrl.ucProc = 0x01;
     theApp.m_tCalibCtrl.ucType = m_iType;
 
-    if (!theDlg.SendData(SCMCTRLCALIB))
+    if (!thepDlg->SendData(SCMCTRLCALIB))
     {
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
         return;
@@ -299,7 +299,7 @@ void CDlgSegCabl::OnBnClickedBtncalibgo()
 
     /* 20201119: У׼ʱA/D */
     theApp.m_tCalibCtrl.tInfo.iSCMTorq = 0;
-    if (!theDlg.SendData(SCMWRITECALIB))
+    if (!thepDlg->SendData(SCMWRITECALIB))
     {
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
     }
@@ -313,13 +313,13 @@ void CDlgSegCabl::OnBnClickedBtncalibread()
 
     GetCalibInfo();
 
-    if (!theDlg.SendData(SCMREADCALIB))
+    if (!thepDlg->SendData(SCMREADCALIB))
     {
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());
     }
     Sleep(200);
 #if 0
-    BYTE* pByte = &theDlg.m_ucRcvByte[3];
+    BYTE* pByte = &thepDlg->m_ucRcvByte[3];
     *pByte++ = 0x19;
     *pByte++ = 0x00;
     *pByte++ = 0x02;
@@ -372,7 +372,7 @@ LRESULT CDlgSegCabl::ProcReadCalib(WPARAM wParam, LPARAM lParam)
     //ASSERT_NULL_R(g_ptCalParentDlg, 0);
     UpdateData(TRUE);
 
-    pucPos = &theDlg.m_ucRcvByte[4];
+    pucPos = &thepDlg->m_ucRcvByte[4];
     tRead.ucType = (*pucPos++);
     tRead.tInfo.ucSegNO = (*pucPos++);
     nCalibTorq = (*pucPos++);
@@ -543,7 +543,7 @@ void CDlgSegCabl::OnTimer(UINT_PTR nIDEvent)
         ptGlab->iHighTorq = ptCabli->iHighTorq;
         ptGlab->iLowTorq = ptCabli->iLowTorq;
 
-        if (!theDlg.SendData(SCMWRITECALIB))
+        if (!thepDlg->SendData(SCMWRITECALIB))
         {
             KillTimer(SETCALIB_TIMER);
             AfxMessageBox(theApp.LoadstringFromRes(IDS_STRCALIBSENDFAIL).c_str());

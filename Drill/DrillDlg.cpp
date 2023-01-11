@@ -28,7 +28,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-CDrillDlg       theDlg;
+CDrillDlg       *thepDlg = NULL;
 BYTE            g_ucCurValve = 0;
 
 CDlgCollect*    m_pdlgCollect = NULL;
@@ -269,11 +269,11 @@ BOOL CAboutDlg::OnInitDialog()
 
         m_btnReg.ShowWindow(FALSE);
 
-        theDlg.GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
+        thepDlg->GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
     }
 
     /* 获取机器上的卷和MAC信息 */
-    theDlg.GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
+    thepDlg->GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
 
     adwPCMac[0] ^= MAC0XOR;
     adwPCMac[1] ^= MAC1XOR;
@@ -330,7 +330,7 @@ void CAboutDlg::SaveRegFile()
 
     newfile.Open(theApp.m_strRegFile.c_str(), CFile::modeWrite, NULL);
     newfile.Write(m_ptdbReg, sizeof(DBREG));
-    newfile.Write(&theDlg.m_dwTotalTorqNum, sizeof(DWORD));
+    newfile.Write(&thepDlg->m_dwTotalTorqNum, sizeof(DWORD));
     newfile.Close();
 }
 
@@ -358,10 +358,10 @@ void CAboutDlg::OnRegedit()
     }
 
     /* 获取注册码中的卷和MAC信息 */
-    theDlg.GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
+    thepDlg->GetVolMacFromRegStr(m_strReg, adwRegVol, adwRegMac, iYear, iMonth, iDay);
 
     /* 获取机器上的卷和MAC信息 */
-    theDlg.GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
+    thepDlg->GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
 
     if (memcmp(adwRegVol, adwPCVol, 2 * sizeof(DWORD)) == 0 &&
         memcmp(adwRegMac, adwPCMac, 2 * sizeof(DWORD)) == 0)
@@ -522,7 +522,7 @@ void CDrillDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDITTOTAL, m_dwTotalTorqNum);
     DDX_Check(pDX, IDC_SETTOOLBUCK, m_bToolBuck);
     DDX_Text(pDX, IDC_QUALITY, m_strQuality);
-    DDX_Radio(pDX, IDC_RADIOMAKEUP, g_tGlbCfg.iBreakOut);
+    DDX_Radio(pDX, IDC_RADIOMAKEUP, m_iBreakOut);
     DDX_Text(pDX, IDC_MAINSHOW1, m_strMainName[1]);
     DDX_Text(pDX, IDC_MAINSHOW2, m_strMainName[2]);
     DDX_Text(pDX, IDC_MAINSHOW3, m_strMainName[3]);
@@ -539,7 +539,7 @@ void CDrillDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDMAINSHOW7, m_strMainValue[7]);
     DDX_Text(pDX, IDC_STATIC_M2, m_strLBM2);
     DDX_Text(pDX, IDC_STATIC_M9, m_strTorqType);
-    DDX_Text(pDX, IDC_EDBREAKOUTFILE, m_strBreakoutFile);
+    DDX_Text(pDX, IDC_EDBREAKOUTNO, m_strBreakoutNO);
     //}}AFX_DATA_MAP
 }
 
@@ -591,7 +591,7 @@ BEGIN_MESSAGE_MAP(CDrillDlg, CDialog)
     ON_BN_CLICKED(IDC_RADIOBREAKOUT, &CDrillDlg::OnBnClickedRadiobreakout)
     ON_BN_CLICKED(IDC_BTNQUALITY, &CDrillDlg::OnBnClickedBtnquality)
     ON_BN_CLICKED(IDC_BTNSHOWSET, &CDrillDlg::OnBnClickedBtnshowset)
-    ON_BN_CLICKED(IDC_BTNBREAKOUTFILE, &CDrillDlg::OnBnClickedBtnBreakoutFile)
+    //ON_BN_CLICKED(IDC_BTNBREAKOUTFILE, &CDrillDlg::OnBnClickedBtnBreakoutFile)
     ON_COMMAND(ID_SEGCALIB, &CDrillDlg::OnSegcalib)
     ON_COMMAND(ID_GLBCFG, &CDrillDlg::OnGlbCfg)
 END_MESSAGE_MAP()
@@ -602,10 +602,10 @@ END_MESSAGE_MAP()
 
 void CDrillDlg::UpdateSeqNO()
 {
-    if (g_tReadData.nBreakout > 0)
+    /*if (g_tReadData.nBreakout > 0)
         m_strSeqNO.Format("%d / %d", g_tReadData.nBreakout, g_tReadData.nTotal);
-    else
-        m_strSeqNO.Format("%d", g_tReadData.nTotal + 1);
+    else*/
+    m_strSeqNO.Format("%d", g_tReadData.nTotal + 1);
     m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
 }
 
@@ -658,7 +658,7 @@ void CDrillDlg::InitMainShowPara()
 void CDrillDlg::UpdateDlgLabel()
 {
     m_strLBM2 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
-    if (g_tGlbCfg.iBreakOut)
+    if (m_iBreakOut > 0)
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
     else
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
@@ -948,7 +948,6 @@ BOOL CDrillDlg::OnInitDialog()
 
     CalcDelayCount();
 
-
     //设置窗口属性
     SetProp(m_hWnd, g_strPropName.c_str(), g_hValue);
     theApp.ShowMainTitle();
@@ -977,7 +976,6 @@ void CDrillDlg::OnSysCommand(UINT nID, LPARAM lParam)
         CDialog::OnSysCommand(nID, lParam);
     }
 }
-
 
 BOOL CDrillDlg::JudgeRunStatus(unsigned wInfo)
 {
@@ -1159,7 +1157,7 @@ void CDrillDlg::GetMakeupCurNum()
     int     i = 0;
     CString strNumInfo;
     TorqData::Torque* ptTorq = NULL;
-    UINT nCurNO = 0, nCurBreakout = 0;
+    UINT nCurNO = 0;
 
     /* 获取当前的记录文件，超过60天生成新的文件，序号归零 */
     GetCurWellFile();
@@ -1167,20 +1165,8 @@ void CDrillDlg::GetMakeupCurNum()
     if (file.GetLength() != 0)
     {
         file.Read(&nCurNO, sizeof(UINT));
-        file.Read(&nCurBreakout, sizeof(UINT));
     }
     file.Close();
-
-    if (nCurBreakout > 0)
-    {
-        g_tGlbCfg.iBreakOut = 1;
-        g_tGlbCfg.strBreakOutFile = theApp.GetFileNameFromPath(theApp.m_strDataFile);
-
-        /*save into ini*/
-        theDB.UpdateGlobalPara();
-
-        return GetBreakoutCurNum();
-    }
 
     /* 文件记录超量，生成新的文件，序号归零 */
     if (nCurNO >= MAXWELLNUM)
@@ -1219,7 +1205,7 @@ void CDrillDlg::GetMakeupCurNum()
 
     UpdateSeqNO();
 }
-
+#if 0
 void CDrillDlg::GetBreakoutCurNum()
 {
     CFile   file;
@@ -1228,7 +1214,7 @@ void CDrillDlg::GetBreakoutCurNum()
     int     i = 0;
     CString strNumInfo;
     TorqData::Torque* ptTorq = NULL;
-    UINT nCurNO = 0, nCurBreakout = 0;
+    UINT nCurNO = 0;
     string filename;
 
     if (g_tGlbCfg.strBreakOutFile.empty())
@@ -1239,7 +1225,6 @@ void CDrillDlg::GetBreakoutCurNum()
     if (file.GetLength() != 0)
     {
         file.Read(&nCurNO, sizeof(UINT));
-        file.Read(&nCurBreakout, sizeof(UINT));
     }
     m_strBreakoutFile = file.GetFileName();
     file.Close();
@@ -1273,13 +1258,13 @@ void CDrillDlg::GetBreakoutCurNum()
 
     UpdateSeqNO();
 }
-
+#endif
 /* 获取当前扭矩的序号 */
 void CDrillDlg::GetCurNum()
 {
-    if (g_tGlbCfg.iBreakOut == 1)
+    /*if (g_tGlbCfg.iBreakOut == 1)
         GetBreakoutCurNum();
-    else
+    else*/
         GetMakeupCurNum();
 }
 
@@ -1496,7 +1481,7 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
 
     /* 根据Plus计算数据的点数 */
     CalcPointNum(ptCollData, NULL);
-    if (0 == g_tGlbCfg.iBreakOut)
+    if (m_iBreakOut == 0)
     {
         ptCollData->ucStatus = PLCSTATUS_NORMAL;
         if (ptCollData->fTorque > m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL])
@@ -2012,7 +1997,7 @@ void CDrillDlg::FinishSetStatus()
 
     SetTorqDataCfg(&m_tSaveData);
 
-    if (g_tGlbCfg.iBreakOut == 0)
+    if (m_iBreakOut == 0)
     {
         for (i = m_tCollData.nAllCount - 1; i > 0; i--)
         {
@@ -2030,7 +2015,7 @@ void CDrillDlg::FinishSetStatus()
     }
 
     /* 质量判定 */
-    dwQuality = theApp.JudgeQuality(&m_tSaveData, g_tGlbCfg.iBreakOut);
+    dwQuality = theApp.JudgeQuality(&m_tSaveData, m_iBreakOut);
     SetQuality(dwQuality);
     m_strQuality = theApp.GetQualityInfo(&m_tSaveData).c_str();
     if (dwQuality != QUA_RESU_GOOD)
@@ -2181,7 +2166,7 @@ BOOL CDrillDlg::ClearExcepTorq(int iOrgTorq, int& iDestTorq)
 
     ASSERT_ZERO_R(iDestTorq, TRUE);
 
-    if (g_tGlbCfg.iBreakOut > 0)
+    if (m_iBreakOut > 0)
     {
         COMP_BFALSE_R(bOdd, FALSE);
     }
@@ -2623,7 +2608,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         /* 如果从大于减速扭矩到小于显示扭矩，也保存数据 */
         if (tCollData[i].fTorque < m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW])
         {
-            if (g_tGlbCfg.iBreakOut > 0)
+            if (m_iBreakOut > 0)
             {
                 if (m_ptComm->fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD && fCurCir >= 0.01)
                 {
@@ -2666,7 +2651,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         if (tCollData[i].nOrgPlus > (UINT)m_iPriorPlus)
             m_iPriorPlus = tCollData[i].nOrgPlus;
 
-        if (g_tGlbCfg.iBreakOut > 0)
+        if (m_iBreakOut > 0)
         {
             if (!m_hrtSaveData.ValidTimer())
             {
@@ -2707,7 +2692,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     if (nDataNum > 0)
     {
         /* for 卸扣 */
-        if (g_tGlbCfg.iBreakOut > 0)
+        if (m_iBreakOut > 0)
             m_strTorque.Format("%.0f / %.0f", tCollData[nDataNum - 1].fTorque, m_ptComm->fMaxTorq);
         else if (bHaveS3)
             m_strTorque.Format("%.0f", m_ptComm->fMaxTorq);
@@ -2944,7 +2929,7 @@ BOOL CDrillDlg::RunInitRand()
     memset(m_iTestPlus, 0, TESTNUM * sizeof(int));
     srand((unsigned)time(NULL));
 
-    if (g_tGlbCfg.iBreakOut > 0)
+    if (m_iBreakOut > 0)
     {
         m_fTestTorq[0] = m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];
         iCtrl = -1;
@@ -3290,7 +3275,7 @@ void CDrillDlg::ReGetTorqNo()
     GetCurNum();
     m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
 
-    EnableBreakoutfile();
+    //EnableBreakoutfile();
     UpdateData(FALSE);
 }
 
@@ -4222,8 +4207,8 @@ void CDrillDlg::UpdateTorqueData(double torque, double rpm)
 
 void CDrillDlg::SaveIntoData(TorqData::Torque* ptPBData)
 {
-    if (g_tGlbCfg.iBreakOut > 0)
-        SaveBreakoutData(ptPBData);
+    if (m_iBreakOut > 0)
+        SaveBreakoutData(ptPBData, 0, 1);
     else
         SaveMakeupData(ptPBData);
 }
@@ -4240,7 +4225,7 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
     ptPBData->set_coltime(curTime);
     ptPBData->set_dwseqno(g_tReadData.nTotal + 1);
     ptPBData->set_fmaxtorq(m_ptComm->fMaxTorq);
-    ptPBData->set_bbreakout(g_tGlbCfg.iBreakOut > 0);
+    ptPBData->set_bbreakout(m_iBreakOut > 0);
     ptPBData->set_dwtorqunit(g_tGlbCfg.nTorqUnit);
     duration = _difftime64(curTime, m_tStartTime);
     ptPBData->set_fmakeupdur(_difftime64(curTime, m_tStartTime));
@@ -4259,7 +4244,7 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
     return;
 }
 
-void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
+void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData, int iSeqNO, int iOutwellNO)
 {
     __time64_t curTime;
     double  duration;
@@ -4270,7 +4255,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
 
     ASSERT_NULL(ptPBData);
 
-    ptMakeData = &g_tReadData.tData[g_tReadData.nTotal - 1 - g_tReadData.nBreakout];
+    ptMakeData = &g_tReadData.tData[iSeqNO];
 
     _time64(&curTime);
     ptMakeData->set_bbreakout(true);
@@ -4280,7 +4265,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
     ptMakeData->set_fbomaxtorq(m_ptComm->fMaxTorq);
     ptMakeData->set_dwbocount(ptPBData->dwmucount());
 
-    ptMakeData->set_dwoutwellno(g_tReadData.nBreakout + 1);
+    ptMakeData->set_dwoutwellno(iOutwellNO);
     ptMakeData->set_strbojoint(m_ptCfg->strValue[m_ptShow->nJointOD]);
 
     for (int i = 0; i < ptPBData->ftorque_size(); i++)
@@ -4293,9 +4278,9 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
 
     ptMakeData->set_dwbototalplus(iBOTotalPlus);
 
-    g_tReadData.nBreakout++;
+    //g_tReadData.nBreakout++;
 
-    filename = theApp.m_strDataPath + g_tGlbCfg.strBreakOutFile;
+    //filename = theApp.m_strDataPath + g_tGlbCfg.strBreakOutFile;
     theApp.SaveAllData(filename.c_str());
     return;
 }
@@ -4679,7 +4664,7 @@ void CDrillDlg::OnBnClickedBtnquality()
 
     GuardTimerOut(0, 0);
 }
-
+#if 0
 void CDrillDlg::OnBnClickedBtnBreakoutFile()
 {
     CString strFilter;
@@ -4713,24 +4698,28 @@ void CDrillDlg::OnBnClickedBtnBreakoutFile()
 
     return;
 }
-
-void CDrillDlg::EnableBreakoutfile()
+#endif
+void CDrillDlg::CheckBreakOut()
 {
-    bool bEnable = g_tGlbCfg.iBreakOut > 0;
-
-    GetDlgItem(IDC_BTNBREAKOUTFILE)->EnableWindow(bEnable);
+    BOOL bEnable = (m_iBreakOut > 0);
+    GetDlgItem(IDC_EDBREAKOUTNO)->EnableWindow(bEnable);
     GetDlgItem(IDC_SETTOOLBUCK)->EnableWindow(!bEnable);
     GetDlgItem(IDC_BTNSHOWSET)->EnableWindow(!bEnable);
 
     if (!bEnable)
     {
         GetDlgItem(IDC_BTRUN)->EnableWindow(!bEnable);
-        m_strBreakoutFile.Empty();
+        m_strBreakoutNO.Empty();
     }
     else
     {
         GetDlgItem(IDC_BTRUN)->EnableWindow(g_tReadData.nTotal > 0);
     }
+
+    GetDlgItem(IDC_STATICHISSEQNO)->ShowWindow(bEnable);
+    GetDlgItem(IDC_EDHISSEQNO)->ShowWindow(bEnable);
+    GetDlgItem(IDC_STATICBREAKOUTNO)->ShowWindow(bEnable);
+    GetDlgItem(IDC_EDBREAKOUTNO)->ShowWindow(bEnable);
 }
 
 void CDrillDlg::OnBnClickedRadiomakeup()
@@ -4739,7 +4728,6 @@ void CDrillDlg::OnBnClickedRadiomakeup()
     CString strValue;
     string  strInfo;
 
-    ASSERT_ZERO(g_tGlbCfg.iBreakOut);
     if (m_bRunStatus)
     {
         strShow = theApp.LoadstringFromRes(IDS_STRINFRUNNSWITCH);
@@ -4754,15 +4742,16 @@ void CDrillDlg::OnBnClickedRadiomakeup()
         UpdateData(FALSE);
         return;
     }
+    m_iBreakOut = 0;
+    CheckBreakOut();
 
-    g_tGlbCfg.iBreakOut = 0;
-    g_tGlbCfg.strBreakOutFile.clear();
+
     /*save into ini*/
-    theDB.UpdateGlobalPara();
+    //theDB.UpdateGlobalPara();
 
-    ReGetTorqNo();
+    //ReGetTorqNo();
 
-    ResetLineChart();
+    //ResetLineChart();
     UpdateData(FALSE);
 }
 
@@ -4772,7 +4761,6 @@ void CDrillDlg::OnBnClickedRadiobreakout()
     CString strValue;
     string  strInfo;
 
-    COMP_BG(g_tGlbCfg.iBreakOut, 0);
     if (m_bRunStatus)
     {
         strShow = theApp.LoadstringFromRes(IDS_STRINFRUNNSWITCH);
@@ -4787,14 +4775,13 @@ void CDrillDlg::OnBnClickedRadiobreakout()
         UpdateData(FALSE);
         return;
     }
-
-    g_tGlbCfg.iBreakOut = 1;
-    g_tGlbCfg.strBreakOutFile = theApp.GetFileNameFromPath(theApp.m_strDataFile);
+    m_iBreakOut = 1;
+    CheckBreakOut();
     /*save into ini*/
-    theDB.UpdateGlobalPara();
-    ReGetTorqNo();
+    //theDB.UpdateGlobalPara();
+    //ReGetTorqNo();
 
-    ResetLineChart();
+    //ResetLineChart();
     UpdateData(FALSE);
 }
 

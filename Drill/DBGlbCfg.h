@@ -16,7 +16,7 @@ public:
     UINT    _ZoomIn;
     UINT    _ImgNum;
     //UINT    _Test;
-    UINT    _BreakOut;
+    //UINT    _BreakOut;
 
     double  _Discount;
     double  _Multi;
@@ -28,7 +28,7 @@ public:
     bool    _DateBehind;
 
     string  _Password;
-    string  _BreakOutFile;
+    //string  _BreakOutFile;
     string  _DataPath;
 
     CDBGlbCfg();

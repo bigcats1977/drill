@@ -325,6 +325,7 @@ BOOL CDrillApp::InitInstance()
 
     CDrillDlg dlg;
     m_pMainWnd = &dlg;
+    thepDlg = &dlg;
     INT_PTR nResponse = dlg.DoModal();
 
     if (nResponse == IDOK)
@@ -467,7 +468,7 @@ void CDrillApp::InitGlobalPara()
     g_tGlbCfg.nZoomIn = 5;
     g_tGlbCfg.nImgNum = 8;
     g_tGlbCfg.nTest = 0;
-    g_tGlbCfg.iBreakOut = 0;
+    //g_tGlbCfg.iBreakOut = 0;
 
     g_tGlbCfg.fDiscount = 1;
     g_tGlbCfg.fMulti = 1;
@@ -1723,6 +1724,7 @@ void CDrillApp::ReOpenWindow()
     CDrillDlg dlgMain;
 
     m_pMainWnd = &dlgMain;
+    thepDlg = &dlgMain;
     dlgMain.DoModal();
 }
 
@@ -2185,7 +2187,6 @@ void CDrillApp::ClearReadTorq()
 
     g_tReadData.nCur = 0;
     g_tReadData.nTotal = 0;
-    g_tReadData.nBreakout = 0;
     g_tReadData.nQualy = 0;
     g_tReadData.nUnQualy = 0;
 
@@ -2323,7 +2324,6 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
     int     j = 0;
     int     iCtrlCount = 0;
     UINT    nNum = 0;
-    UINT    nBreakNum = 0;
     UINT    nValid = 0;
     int     iFilePos = 0;
     int     iDataLen = 0;
@@ -2357,11 +2357,6 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
         strInfo.Format(IDS_STRINFREADOVERFLOW, nNum, MAXWELLNUM);
         SaveShowMessage(strInfo);
         nNum = MAXWELLNUM;
-    }
-    file.Read(&nBreakNum, sizeof(UINT));
-    if (nBreakNum > nNum)
-    {
-        nBreakNum = nNum;
     }
 
     /* 检查文件是否有头 */
@@ -2420,8 +2415,6 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
 
         if (ptTorq->bbreakout())   /* 从前往后分屏 */
         {
-            g_tReadData.nBreakout++;
-
             if (iTotalPnt > MAXLINEITEM)
             {
                 // 按 MAXLINEITEM 直接分屏
@@ -2729,7 +2722,6 @@ void CDrillApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque*
     size_t  iCurLen = 0;     /* 当前数据的总长度 */
     UINT    iDataLen = 0;     /* 数据的总长度 */
     UINT    nTotal = 0;
-    UINT    nBreak = 0;
     CFile   file;
     BYTE* pBuffer = NULL;
     char* pcBuff = NULL;
@@ -2754,7 +2746,6 @@ void CDrillApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque*
 
     /* 跳过文件的数据总条数 */
     file.Read(&nTotal, sizeof(UINT));
-    file.Read(&nBreak, sizeof(UINT));
     if (iDataPlace == -1)
         iDataPlace = nTotal;
 
@@ -3018,7 +3009,6 @@ void CDrillApp::SaveAllData(CString strDataName)
     {
         /*更新记录数*/
         file.Write(&g_tReadData.nTotal, sizeof(UINT));
-        file.Write(&g_tReadData.nBreakout, sizeof(UINT));
 
         for (i = 0; i < g_tReadData.nTotal; i++)
         {

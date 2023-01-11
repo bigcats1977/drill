@@ -90,7 +90,7 @@ void CDlgScm::OnScminitial()
         m_pParentDlg->ResetLineChart();*/
     }
 
-    theDlg.SendAllCommand();
+    thepDlg->SendAllCommand();
     EndWaitCursor();
 }
 
@@ -107,7 +107,7 @@ void CDlgScm::OnScmmulti()
         theDB.UpdateGlobalPara();
     }
 
-    theDlg.SendData(SCMADJUST);
+    thepDlg->SendData(SCMADJUST);
     EndWaitCursor();
 }
 
@@ -116,7 +116,7 @@ void CDlgScm::OnScmqipi()
     JUDGE_REG_STATUS();
 
     BeginWaitCursor();
-    theDlg.SendData(SCMQIPI);
+    thepDlg->SendData(SCMQIPI);
     EndWaitCursor();
 }
 
@@ -157,9 +157,9 @@ void CDlgScm::OnScmtime()
     UpdateData(TRUE);
 
     BeginWaitCursor();
-    theDlg.m_tSetTime = CTime(m_tDate.GetYear(), m_tDate.GetMonth(), m_tDate.GetDay(),
+    thepDlg->m_tSetTime = CTime(m_tDate.GetYear(), m_tDate.GetMonth(), m_tDate.GetDay(),
         m_tTime.GetHour(), m_tTime.GetMinute(), m_tTime.GetSecond());
-    theDlg.SendData(SCMTIME);
+    thepDlg->SendData(SCMTIME);
     EndWaitCursor();
 }
 
