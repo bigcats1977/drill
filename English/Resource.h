@@ -107,7 +107,7 @@
 #define IDC_STATICCLASH                 1072
 #define IDC_EDITTOTAL                   1073
 #define IDC_STATICTOTAL                 1074
-#define IDC_SETIPPOINT                  1075
+#define IDC_STATICHISSEQNO              1075
 #define IDC_SETTOOLBUCK                 1076
 #define IDC_BTNQUALITY                  1077
 #define IDC_QUALITY                     1078
@@ -125,7 +125,7 @@
 #define IDC_EDMAINSHOW3                 1090
 #define IDC_EDMAINSHOW4                 1091
 #define IDC_EDMAINSHOW5                 1092
-#define IDC_BTNBREAKOUTFILE             1093
+#define IDC_STATICBREAKOUTNO            1093
 #define IDC_EDMAINSHOW6                 1094
 #define IDC_EDMAINSHOW7                 1095
 #define IDC_BTNSHOWSET                  1096
@@ -147,6 +147,7 @@
 #define IDC_EDITMAXRPM                  1113
 #define IDC_EDITMAXCIR                  1114
 #define IDC_EDBREAKOUTNO                1115
+#define IDC_EDHISSEQNO                  1116
 #define IDC_EDITMEMO                    1117
 #define IDC_EDITMINSHLSLOPE             1120
 #define IDC_CBPARA01                    1121

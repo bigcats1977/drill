@@ -2261,8 +2261,7 @@ int CDrillApp::SeekTorque(CFile& file, int iDataNum)
     int     i = 0;
     int     iDataLen = 0;
 
-    // two UINT in head
-    file.Seek(sizeof(UINT) * 2, CFile::begin);
+    file.Seek(sizeof(UINT), CFile::begin);
 
     for (i = 0; i < iDataNum; i++)
     {

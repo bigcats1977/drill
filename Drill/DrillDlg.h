@@ -247,7 +247,7 @@ private:
     void UpdateTorqueData(double torque, double rpm);
     void SaveIntoData(TorqData::Torque* ptPBData);
     void SaveMakeupData(TorqData::Torque* ptPBData);
-    void SaveBreakoutData(TorqData::Torque* ptPBData, int iSeqNO, int iOutwellNO);
+    void SaveBreakoutData(TorqData::Torque* ptPBData, UINT nSeqNO, UINT nOutwellNO);
     void SetQuality(DWORD dwQuality);
     void KillAllTimer();
     void GetValidTorqData();

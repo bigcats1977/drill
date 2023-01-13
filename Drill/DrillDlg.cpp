@@ -4139,7 +4139,7 @@ void CDrillDlg::UpdateTorqueData(double torque, double rpm)
 void CDrillDlg::SaveIntoData(TorqData::Torque* ptPBData)
 {
     if (m_iBreakOut > 0)
-        SaveBreakoutData(ptPBData, 0, 1);
+        SaveBreakoutData(ptPBData, 1, 1);
     else
         SaveMakeupData(ptPBData);
 }
@@ -4216,44 +4216,54 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
     return;
 }
 
-void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData, int iSeqNO, int iOutwellNO)
+void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData, UINT nSeqNO, UINT nOutwellNO)
 {
     __time64_t curTime;
     double  duration;
     int iBOTotalPlus = 0;
     string filename;
 
-    TorqData::Torque* ptMakeData = NULL;
+    TorqData::Torque* ptBOData = NULL;
 
     ASSERT_NULL(ptPBData);
 
-    ptMakeData = &g_tReadData.tData[iSeqNO];
+    // re get current data
+    GetCurNum();
+
+    ASSERT_ZERO(nSeqNO);
+    ASSERT_ZERO(nOutwellNO);
+    COMP_BGE(nSeqNO, g_tReadData.nTotal);
+    COMP_BGE(nOutwellNO, g_tReadData.nTotal);
+
+    ptBOData = &g_tReadData.tData[nSeqNO-1];
 
     _time64(&curTime);
-    ptMakeData->set_bbreakout(true);
-    ptMakeData->set_bocoltime(curTime);
+    ptBOData->set_bbreakout(true);
+    ptBOData->set_bocoltime(curTime);
     duration = _difftime64(curTime, m_tStartTime);
-    ptMakeData->set_fbreakoutdur(_difftime64(curTime, m_tStartTime));
-    ptMakeData->set_fbomaxtorq(m_ptComm->fMaxTorq);
-    ptMakeData->set_dwbocount(ptPBData->dwmucount());
+    ptBOData->set_fbreakoutdur(_difftime64(curTime, m_tStartTime));
+    ptBOData->set_fbomaxtorq(m_ptComm->fMaxTorq);
+    ptBOData->set_dwbocount(ptPBData->dwmucount());
 
-    ptMakeData->set_dwoutwellno(iOutwellNO);
-    ptMakeData->set_strbojoint(m_ptCfg->strValue[m_ptShow->nJointOD]);
+    ptBOData->set_dwoutwellno(nOutwellNO);
+    ptBOData->set_strbojoint(m_ptCfg->strValue[m_ptShow->nJointOD]);
 
     for (int i = 0; i < ptPBData->ftorque_size(); i++)
     {
-        ptMakeData->add_ftorque(ptPBData->ftorque(i));
-        ptMakeData->add_frpm(ptPBData->frpm(i));
-        ptMakeData->add_dwdelplus(ptPBData->dwdelplus(i));
+        ptBOData->add_ftorque(ptPBData->ftorque(i));
+        ptBOData->add_frpm(ptPBData->frpm(i));
+        ptBOData->add_dwdelplus(ptPBData->dwdelplus(i));
         iBOTotalPlus += ptPBData->dwdelplus(i);
     }
 
-    ptMakeData->set_dwbototalplus(iBOTotalPlus);
+    ptBOData->set_dwbototalplus(iBOTotalPlus);
 
     //g_tReadData.nBreakout++;
 
     //filename = theApp.m_strDataPath + g_tGlbCfg.strBreakOutFile;
-    theApp.SaveAllData(filename.c_str());
+    //theApp.SaveAllData(filename.c_str());
+
+    theApp.UpdateHisData(theApp.m_strDataFile.c_str(), nSeqNO, ptBOData);
     return;
 }
 
