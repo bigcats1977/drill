@@ -20,8 +20,8 @@ public:
     enum { IDD = IDD_DLGSHOWPARA };
 #endif
     CString m_strShowName[MAXPARANUM];
-    BOOL m_bList[MAXPARANUM];
-    CColorRadio m_clListName[MAXPARANUM];
+    /*BOOL m_bList[MAXPARANUM];
+    CColorRadio m_clListName[MAXPARANUM];*/
     BOOL m_bMain[MAXPARANUM];
     CColorRadio m_clMainName[MAXPARANUM];
     int m_iFileName;
@@ -72,7 +72,7 @@ protected:
     afx_msg void OnBnClickedRadioshowstat16();
     //afx_msg void OnBnClickedRadioshowstat17();
     //afx_msg void OnBnClickedRadioshowstat18();
-    afx_msg void OnBnClickedChecklist1();
+    /*afx_msg void OnBnClickedChecklist1();
     afx_msg void OnBnClickedChecklist2();
     afx_msg void OnBnClickedChecklist3();
     afx_msg void OnBnClickedChecklist4();
@@ -87,7 +87,7 @@ protected:
     afx_msg void OnBnClickedChecklist13();
     afx_msg void OnBnClickedChecklist14();
     afx_msg void OnBnClickedChecklist15();
-    afx_msg void OnBnClickedChecklist16();
+    afx_msg void OnBnClickedChecklist16();*/
     //afx_msg void OnBnClickedChecklist17();
     //afx_msg void OnBnClickedChecklist18();
     afx_msg void OnBnClickedCheckmain1();
@@ -132,7 +132,7 @@ private:
     int         m_iPriorShowCtrlID;
     int         m_iPriorStatCtrlID;
     int         m_iPriorJointCtrlID;
-    BOOL        m_bHisList[MAXPARANUM];
+    //BOOL        m_bHisList[MAXPARANUM];
     BOOL        m_bHisMain[MAXPARANUM];
 
     void        UpdateShowFile(int iCtrlIdx);
@@ -141,7 +141,7 @@ private:
     void        JudgeStatRadio(int iCtrlIdx);
     void        UpdateJointOD(int iCtrlIdx);
     void        JudgeJointRadio(int iCtrlIdx);
-    void        JudgeListCheck(int iCtrlIdx);
+    //void        JudgeListCheck(int iCtrlIdx);
     void        JudgeMainCheck(int iCtrlIdx);
     BOOL        SaveShowCfgInotDB();
     BOOL        CheckShowCfgChanged();

@@ -16,18 +16,27 @@ CDBAccess::~CDBAccess()
 
 bool CDBAccess::InitDBHandle()
 {
+    CString strInfo;
     COMP_BFALSE_R(m_bValidDBFile, false);
 
-    m_tDBGlbCfg = CDBGlbCfg();
-    m_tDBShowName = CDBShowName();
-    m_tDBShowCfg = CDBShowCfg();
-    m_tDBShowOpt = CDBShowOption();
+    try {
+        m_tDBGlbCfg = CDBGlbCfg();
+        m_tDBShowName = CDBShowName();
+        m_tDBShowCfg = CDBShowCfg();
+        m_tDBShowOpt = CDBShowOption();
 
-    m_tDBValTorque = CDBValTorque();
-    m_tDBValTurn = CDBValTurn();
-    m_tDBTorqueCfg = CDBTorqueCfg();
-    m_tDBXlsStatCfg = CDBXlsStatCfg();
-    m_tDBValveCfg = CDBValveCfg();
+        m_tDBValTorque = CDBValTorque();
+        m_tDBValTurn = CDBValTurn();
+        m_tDBTorqueCfg = CDBTorqueCfg();
+        m_tDBXlsStatCfg = CDBXlsStatCfg();
+        m_tDBValveCfg = CDBValveCfg();
+    }
+    catch (exception& e)
+    {
+        strInfo.Format("%s fail(%s)!!", __FUNCTION__, e.what());
+        theApp.SaveMessage(strInfo);
+        return false;
+    }
 
     return true;
 }
@@ -195,7 +204,7 @@ bool CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
     theApp.ClearShowPara(ptShow);
 
     ptShow->nParaNum = m_tDBShowCfg._lsParaNum[nLang];
-    ptShow->nListNum = m_tDBShowCfg._lsListNum[nLang];
+    //ptShow->nListNum = m_tDBShowCfg._lsListNum[nLang];
     ptShow->nMainNum = m_tDBShowCfg._lsMainNum[nLang];
     ptShow->nFileName = m_tDBShowCfg._lsFileName[nLang];
     ptShow->nStatType = m_tDBShowCfg._lsStatType[nLang];
@@ -207,8 +216,8 @@ bool CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
     theApp.SetShowNameFromID(strContent, ptShow, nLang);
 
     // List Paras Name
-    strContent = m_tDBShowCfg._lsListNO[nLang];
-    theApp.SetShowNOFromID(0, strContent, ptShow);
+    /*strContent = m_tDBShowCfg._lsListNO[nLang];
+    theApp.SetShowNOFromID(0, strContent, ptShow);*/
 
     // Main Paras Name
     strContent = m_tDBShowCfg._lsMainNO[nLang];
@@ -294,11 +303,11 @@ vector<int> CDBAccess::ReadCurOptionIndex(int type)
         return lsOpt;
         break;
 
-    case 1: //listno
-        lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
-        break;
+    //case 1: //listno
+    //    lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
+    //    break;
 
-    case 2: //mainno
+    case 1: //mainno
         lsIndexs = GetIDFromList(m_tDBShowCfg._lsMainNO[g_tGlbCfg.nLangType]);
         break;
     }

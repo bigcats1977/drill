@@ -5,7 +5,7 @@ class CDBShowCfg : public CDBBase
 public:
     vector<int> _lsLangType;
     vector<int> _lsParaNum;
-    vector<int> _lsListNum;
+    //vector<int> _lsListNum;
     vector<int> _lsMainNum;
     vector<int> _lsFileName;
     vector<int> _lsStatType;
@@ -13,7 +13,7 @@ public:
     vector<int> _lsAliasID;
 
     vector<string> _lsShowPara;
-    vector<string> _lsListNO;
+    //vector<string> _lsListNO;
     vector<string> _lsMainNO;
 
     CDBShowCfg();

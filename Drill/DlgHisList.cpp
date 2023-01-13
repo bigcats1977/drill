@@ -104,10 +104,11 @@ BOOL CDlgHisList::OnInitDialog()
                    int(2*m_iWidth));*/
     m_strFixHead = buffer;
     strHead = buffer;
-    for (i = 0; i < theApp.m_ptCurShow->nListNum && i < MAXPARANUM; i++)
+    for (i = 0; i < MAXPARANUM; i++)
     {
         //strTemp.Format("%s, %d;", theApp.m_ptCurShow->strList[i].c_str(), m_iWidth);
-        snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.GetListShowName(theApp.m_ptCurShow, i).c_str(), m_iWidth);
+        //snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.GetListShowName(theApp.m_ptCurShow, i).c_str(), m_iWidth);
+        snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.m_ptCurShow->strShow[i].c_str(), m_iWidth);
         strHead += buffer;
     }
     m_listHis.SetHeadings(strHead.c_str());
@@ -186,10 +187,11 @@ void CDlgHisList::OnBtnhis()
     ptTorq = &g_tReadData.tData[nMaxShowPlace];
 
     m_nMaxShowNum = MIN(m_nMaxShowNum, MAXPARANUM);
-    m_nMaxShowNum = MIN(m_nMaxShowNum, theApp.m_ptCurShow->nListNum);
+    //m_nMaxShowNum = MIN(m_nMaxShowNum, theApp.m_ptCurShow->nListNum);
     for (i = 0; i < m_nMaxShowNum; i++)
     {
-        strName = theApp.GetTorqShowName(ptTorq, theApp.m_ptCurShow->nList[i]);
+        //strName = theApp.GetTorqShowName(ptTorq, theApp.m_ptCurShow->nList[i]);
+        strName = theApp.GetTorqShowName(ptTorq, i);
         if (strName.empty())
             strName = _T("NULL");
         strTemp.Format("%s, %d;", strName.c_str(), m_iWidth);
@@ -323,7 +325,7 @@ VOID CDlgHisList::ShowHisTorqList()
         for (j = 0; j < ptTorq->tshow_size() && j < (int)m_nMaxShowNum; j++)
         {
             //string val = theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]);
-            slShow.AddTail(theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]));
+            slShow.AddTail(theApp.GetTorqShowValue(ptTorq, j));
         }
         /* ²¹¿Õ */
         for (; j < (int)m_nMaxShowNum; j++)

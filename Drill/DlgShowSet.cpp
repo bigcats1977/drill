@@ -41,7 +41,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDSHOWNAME16, m_strShowName[15]);
     //DDX_Text(pDX, IDC_EDSHOWNAME17, m_strShowName[16]);
     //DDX_Text(pDX, IDC_EDSHOWNAME18, m_strShowName[17]);
-    DDX_Check(pDX, IDC_CHECKLIST1, m_bList[0]);
+    /*DDX_Check(pDX, IDC_CHECKLIST1, m_bList[0]);
     DDX_Check(pDX, IDC_CHECKLIST2, m_bList[1]);
     DDX_Check(pDX, IDC_CHECKLIST3, m_bList[2]);
     DDX_Check(pDX, IDC_CHECKLIST4, m_bList[3]);
@@ -56,7 +56,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECKLIST13, m_bList[12]);
     DDX_Check(pDX, IDC_CHECKLIST14, m_bList[13]);
     DDX_Check(pDX, IDC_CHECKLIST15, m_bList[14]);
-    DDX_Check(pDX, IDC_CHECKLIST16, m_bList[15]);
+    DDX_Check(pDX, IDC_CHECKLIST16, m_bList[15]);*/
     //DDX_Check(pDX, IDC_CHECKLIST17, m_bList[16]);
     //DDX_Check(pDX, IDC_CHECKLIST18, m_bList[17]);
     DDX_Check(pDX, IDC_CHECKMAIN1, m_bMain[0]);
@@ -132,7 +132,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIOJOINTOD14, m_rdJointOD[13]);
     DDX_Control(pDX, IDC_RADIOJOINTOD15, m_rdJointOD[14]);
     DDX_Control(pDX, IDC_RADIOJOINTOD16, m_rdJointOD[15]);
-    DDX_Control(pDX, IDC_CHECKLIST1, m_clListName[0]);
+    /*DDX_Control(pDX, IDC_CHECKLIST1, m_clListName[0]);
     DDX_Control(pDX, IDC_CHECKLIST2, m_clListName[1]);
     DDX_Control(pDX, IDC_CHECKLIST3, m_clListName[2]);
     DDX_Control(pDX, IDC_CHECKLIST4, m_clListName[3]);
@@ -147,7 +147,7 @@ void CDlgShowSet::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECKLIST13, m_clListName[12]);
     DDX_Control(pDX, IDC_CHECKLIST14, m_clListName[13]);
     DDX_Control(pDX, IDC_CHECKLIST15, m_clListName[14]);
-    DDX_Control(pDX, IDC_CHECKLIST16, m_clListName[15]);
+    DDX_Control(pDX, IDC_CHECKLIST16, m_clListName[15]);*/
     //DDX_Control(pDX, IDC_CHECKLIST17, m_clListName[16]);
     //DDX_Control(pDX, IDC_CHECKLIST18, m_clListName[17]);
     DDX_Control(pDX, IDC_CHECKMAIN1, m_clMainName[0]);
@@ -208,7 +208,7 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_RADIOSHOWSTAT16, &CDlgShowSet::OnBnClickedRadioshowstat16)
     //ON_BN_CLICKED(IDC_RADIOSHOWSTAT17, &CDlgShowSet::OnBnClickedRadioshowstat17)
     //ON_BN_CLICKED(IDC_RADIOSHOWSTAT18, &CDlgShowSet::OnBnClickedRadioshowstat18)
-    ON_BN_CLICKED(IDC_CHECKLIST1, &CDlgShowSet::OnBnClickedChecklist1)
+    /*ON_BN_CLICKED(IDC_CHECKLIST1, &CDlgShowSet::OnBnClickedChecklist1)
     ON_BN_CLICKED(IDC_CHECKLIST2, &CDlgShowSet::OnBnClickedChecklist2)
     ON_BN_CLICKED(IDC_CHECKLIST3, &CDlgShowSet::OnBnClickedChecklist3)
     ON_BN_CLICKED(IDC_CHECKLIST4, &CDlgShowSet::OnBnClickedChecklist4)
@@ -223,7 +223,7 @@ BEGIN_MESSAGE_MAP(CDlgShowSet, CDialog)
     ON_BN_CLICKED(IDC_CHECKLIST13, &CDlgShowSet::OnBnClickedChecklist13)
     ON_BN_CLICKED(IDC_CHECKLIST14, &CDlgShowSet::OnBnClickedChecklist14)
     ON_BN_CLICKED(IDC_CHECKLIST15, &CDlgShowSet::OnBnClickedChecklist15)
-    ON_BN_CLICKED(IDC_CHECKLIST16, &CDlgShowSet::OnBnClickedChecklist16)
+    ON_BN_CLICKED(IDC_CHECKLIST16, &CDlgShowSet::OnBnClickedChecklist16)*/
     //ON_BN_CLICKED(IDC_CHECKLIST17, &CDlgShowSet::OnBnClickedChecklist17)
     //ON_BN_CLICKED(IDC_CHECKLIST18, &CDlgShowSet::OnBnClickedChecklist18)
     ON_BN_CLICKED(IDC_CHECKMAIN1, &CDlgShowSet::OnBnClickedCheckmain1)
@@ -275,9 +275,9 @@ BOOL CDlgShowSet::OnInitDialog()
 
     m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
-    memset(&m_bList[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
+    //memset(&m_bList[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
     memset(&m_bMain[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
-    memset(&m_bHisList[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
+    //memset(&m_bHisList[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
     memset(&m_bHisMain[0], FALSE, sizeof(BOOL) * (MAXPARANUM));
 
     for (i = 0; i < m_tempShow.nParaNum && i < MAXPARANUM; i++)
@@ -287,10 +287,10 @@ BOOL CDlgShowSet::OnInitDialog()
     m_iPriorShowCtrlID = m_iFileName = m_tempShow.nFileName;
     m_iPriorStatCtrlID = m_iShowStat = m_tempShow.nStatType;
     m_iPriorJointCtrlID = m_iJointOD = m_tempShow.nJointOD;
-    for (i = 0; i < m_tempShow.nListNum; i++)
+    /*for (i = 0; i < m_tempShow.nListNum; i++)
     {
         m_bHisList[m_tempShow.nList[i]] = m_bList[m_tempShow.nList[i]] = TRUE;
-    }
+    }*/
 
     for (i = 0; i < m_tempShow.nMainNum; i++)
     {
@@ -321,7 +321,7 @@ void CDlgShowSet::OnBnClickedUpdateshow()
         }
     }
 
-    memset(&m_tempShow.nList[0], 0, sizeof(UINT) * MAXPARANUM);
+    //memset(&m_tempShow.nList[0], 0, sizeof(UINT) * MAXPARANUM);
     memset(&m_tempShow.nMain[0], 0, sizeof(UINT) * MAXMAINPARA);
     m_tempShow.nFileName = m_iFileName;
     m_tempShow.nStatType = m_iShowStat;
@@ -330,10 +330,10 @@ void CDlgShowSet::OnBnClickedUpdateshow()
     {
         m_tempShow.strShow[i] = m_strShowName[i];
 
-        if (m_bList[i])
+        /*if (m_bList[i])
         {
             m_tempShow.nList[iList++] = i;
-        }
+        }*/
         if (m_bMain[i])
         {
             if (iMain >= MAXMAINPARA)
@@ -345,7 +345,7 @@ void CDlgShowSet::OnBnClickedUpdateshow()
     }
 
     m_tempShow.nParaNum = MAXPARANUM;
-    m_tempShow.nListNum = iList;
+    //m_tempShow.nListNum = iList;
     m_tempShow.nMainNum = iMain;
 
     SaveShowCfgInotDB();
@@ -356,7 +356,7 @@ BOOL CDlgShowSet::CheckShowCfgChanged()
     int i = 0;
     SHOWCFG* ptCurShow = theApp.m_ptCurShow;
 
-    if (m_tempShow.nListNum != ptCurShow->nListNum ||
+    if (//m_tempShow.nListNum != ptCurShow->nListNum ||
         m_tempShow.nMainNum != ptCurShow->nMainNum ||
         m_tempShow.nFileName != ptCurShow->nFileName ||
         m_tempShow.nStatType != ptCurShow->nStatType ||
@@ -364,8 +364,8 @@ BOOL CDlgShowSet::CheckShowCfgChanged()
         return TRUE;
 
     if (0 != memcmp(&m_tempShow.nShow[0], &ptCurShow->nShow[0], sizeof(UINT) * MAXPARANUM) ||
-        0 != memcmp(&m_bHisMain[0], &m_bMain[0], sizeof(BOOL) * MAXPARANUM) ||
-        0 != memcmp(&m_bHisList[0], &m_bList[0], sizeof(BOOL) * MAXPARANUM))
+        0 != memcmp(&m_bHisMain[0], &m_bMain[0], sizeof(BOOL) * MAXPARANUM))
+       // 0 != memcmp(&m_bHisList[0], &m_bList[0], sizeof(BOOL) * MAXPARANUM))
     {
         return TRUE;
     }
@@ -658,87 +658,87 @@ void CDlgShowSet::OnBnClickedRadioshowstat18()
     UpdateShowStat(17);
 }
 */
-void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
-{
-    COLORREF    clrCtrl;
-
-    COMP_BL(iCtrlIdx, 0);
-    COMP_BGE(iCtrlIdx, MAXPARANUM);
-    UpdateData(TRUE);
-
-    clrCtrl = m_clrNormal;
-    if (m_bHisList[iCtrlIdx] != m_bList[iCtrlIdx])
-    {
-        clrCtrl = m_clrChanged;
-    }
-
-    m_clListName[iCtrlIdx].SetForeColor(clrCtrl);
-    m_clListName[iCtrlIdx].Invalidate();
-}
-void CDlgShowSet::OnBnClickedChecklist1()
-{
-    JudgeListCheck(0);
-}
-void CDlgShowSet::OnBnClickedChecklist2()
-{
-    JudgeListCheck(1);
-}
-void CDlgShowSet::OnBnClickedChecklist3()
-{
-    JudgeListCheck(2);
-}
-void CDlgShowSet::OnBnClickedChecklist4()
-{
-    JudgeListCheck(3);
-}
-void CDlgShowSet::OnBnClickedChecklist5()
-{
-    JudgeListCheck(4);
-}
-void CDlgShowSet::OnBnClickedChecklist6()
-{
-    JudgeListCheck(5);
-}
-void CDlgShowSet::OnBnClickedChecklist7()
-{
-    JudgeListCheck(6);
-}
-void CDlgShowSet::OnBnClickedChecklist8()
-{
-    JudgeListCheck(7);
-}
-void CDlgShowSet::OnBnClickedChecklist9()
-{
-    JudgeListCheck(8);
-}
-void CDlgShowSet::OnBnClickedChecklist10()
-{
-    JudgeListCheck(9);
-}
-void CDlgShowSet::OnBnClickedChecklist11()
-{
-    JudgeListCheck(10);
-}
-void CDlgShowSet::OnBnClickedChecklist12()
-{
-    JudgeListCheck(11);
-}
-void CDlgShowSet::OnBnClickedChecklist13()
-{
-    JudgeListCheck(12);
-}
-void CDlgShowSet::OnBnClickedChecklist14()
-{
-    JudgeListCheck(13);
-}
-void CDlgShowSet::OnBnClickedChecklist15()
-{
-    JudgeListCheck(14);
-}
-void CDlgShowSet::OnBnClickedChecklist16()
-{
-    JudgeListCheck(15);
-}
+//void CDlgShowSet::JudgeListCheck(int iCtrlIdx)
+//{
+//    COLORREF    clrCtrl;
+//
+//    COMP_BL(iCtrlIdx, 0);
+//    COMP_BGE(iCtrlIdx, MAXPARANUM);
+//    UpdateData(TRUE);
+//
+//    clrCtrl = m_clrNormal;
+//    if (m_bHisList[iCtrlIdx] != m_bList[iCtrlIdx])
+//    {
+//        clrCtrl = m_clrChanged;
+//    }
+//
+//    m_clListName[iCtrlIdx].SetForeColor(clrCtrl);
+//    m_clListName[iCtrlIdx].Invalidate();
+//}
+//void CDlgShowSet::OnBnClickedChecklist1()
+//{
+//    JudgeListCheck(0);
+//}
+//void CDlgShowSet::OnBnClickedChecklist2()
+//{
+//    JudgeListCheck(1);
+//}
+//void CDlgShowSet::OnBnClickedChecklist3()
+//{
+//    JudgeListCheck(2);
+//}
+//void CDlgShowSet::OnBnClickedChecklist4()
+//{
+//    JudgeListCheck(3);
+//}
+//void CDlgShowSet::OnBnClickedChecklist5()
+//{
+//    JudgeListCheck(4);
+//}
+//void CDlgShowSet::OnBnClickedChecklist6()
+//{
+//    JudgeListCheck(5);
+//}
+//void CDlgShowSet::OnBnClickedChecklist7()
+//{
+//    JudgeListCheck(6);
+//}
+//void CDlgShowSet::OnBnClickedChecklist8()
+//{
+//    JudgeListCheck(7);
+//}
+//void CDlgShowSet::OnBnClickedChecklist9()
+//{
+//    JudgeListCheck(8);
+//}
+//void CDlgShowSet::OnBnClickedChecklist10()
+//{
+//    JudgeListCheck(9);
+//}
+//void CDlgShowSet::OnBnClickedChecklist11()
+//{
+//    JudgeListCheck(10);
+//}
+//void CDlgShowSet::OnBnClickedChecklist12()
+//{
+//    JudgeListCheck(11);
+//}
+//void CDlgShowSet::OnBnClickedChecklist13()
+//{
+//    JudgeListCheck(12);
+//}
+//void CDlgShowSet::OnBnClickedChecklist14()
+//{
+//    JudgeListCheck(13);
+//}
+//void CDlgShowSet::OnBnClickedChecklist15()
+//{
+//    JudgeListCheck(14);
+//}
+//void CDlgShowSet::OnBnClickedChecklist16()
+//{
+//    JudgeListCheck(15);
+//}
 //void CDlgShowSet::OnBnClickedChecklist17()
 //{
 //    JudgeListCheck(16);

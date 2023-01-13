@@ -382,12 +382,12 @@ void CDrillApp::ClearShowPara(SHOWCFG* ptShow)
     ASSERT_NULL(ptShow);
 
     ptShow->nParaNum = 0;
-    ptShow->nListNum = 0;
+    //ptShow->nListNum = 0;
     ptShow->nMainNum = 0;
     ptShow->nFileName = 0;
     ptShow->nStatType = 0;
     ptShow->nJointOD = 0;
-    memset(ptShow->nList, 0, sizeof(UINT) * MAXPARANUM);
+    //memset(ptShow->nList, 0, sizeof(UINT) * MAXPARANUM);
     memset(ptShow->nMain, 0, sizeof(UINT) * MAXMAINPARA);
     for (i = 0; i < MAXPARANUM; i++)
     {
@@ -406,7 +406,7 @@ void CDrillApp::InitShowPara(SHOWCFG* ptShow, UINT nLang)
     for (i = 0; i < MAXPARANUM; i++)
     {
         ptShow->strShow[i] = g_tNameInfo[i].strName[nLang];
-        ptShow->nList[i] = i;
+        //ptShow->nList[i] = i;
     }
 
     for (i = 0; i < MAXMAINPARA; i++)
@@ -415,7 +415,7 @@ void CDrillApp::InitShowPara(SHOWCFG* ptShow, UINT nLang)
     }
 
     ptShow->nParaNum = MAXPARANUM;
-    ptShow->nListNum = MAXPARANUM - 1;
+    //ptShow->nListNum = MAXPARANUM - 1;
     ptShow->nMainNum = MAXMAINPARA;
     ptShow->nFileName = 7;
     ptShow->nStatType = 2;
@@ -524,14 +524,14 @@ BOOL CDrillApp::SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow)
     if (lsID.empty())
         return FALSE;
 
-    iParaNum = ptShow->nListNum;
-    if (0 == iType)     //当前list
-    {
-        iParaNum = ptShow->nListNum;
-        plsNO = &ptShow->nList[0];
-        lsNO = GetIDFromList(lsID);
-    }
-    else                //当前main
+    //iParaNum = ptShow->nListNum;
+    //if (0 == iType)     //当前list
+    //{
+    //    iParaNum = ptShow->nListNum;
+    //    plsNO = &ptShow->nList[0];
+    //    lsNO = GetIDFromList(lsID);
+    //}
+    //else                //当前main
     {
         iParaNum = ptShow->nMainNum;
         plsNO = &ptShow->nMain[0];
@@ -3041,8 +3041,8 @@ CString CDrillApp::GetTorqShowName(TorqData::Torque* ptTorq, int iIndex)
 
     // cur version iIndex 从1开始, 0为Factory
     // 20220928 按listNO存储，NO从1~15，和show序号对应，不需要--
-    if (ptTorq->dwver() < 2 && iIndex > 0)
-        iIndex--;
+    /*if (ptTorq->dwver() < 2 && iIndex > 0)
+        iIndex--;*/
     return ptTorq->tshow(iIndex).strname().c_str();
 }
 
@@ -3058,14 +3058,14 @@ CString CDrillApp::GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex)
     return ptTorq->tshow(iIndex).strvalue().c_str();
 }
 
-string CDrillApp::GetListShowName(SHOWCFG* ptShow, UINT NO)
-{
-    ASSERT_NULL_R(ptShow, NULLSTR);
-    COMP_BGE_R(NO, ptShow->nListNum, NULLSTR);
-
-    return ptShow->strShow[ptShow->nList[NO]];
-
-}
+//string CDrillApp::GetListShowName(SHOWCFG* ptShow, UINT NO)
+//{
+//    ASSERT_NULL_R(ptShow, NULLSTR);
+//    COMP_BGE_R(NO, ptShow->nListNum, NULLSTR);
+//
+//    return ptShow->strShow[ptShow->nList[NO]];
+//
+//}
 string CDrillApp::GetMainShowName(SHOWCFG* ptShow, UINT NO)
 {
     ASSERT_NULL_R(ptShow, NULLSTR);

@@ -796,13 +796,13 @@ typedef struct tagSHOWOPTION
 typedef struct tagSHOWCFG
 {
     UINT        nParaNum;               /* 当前显示参数个数;图形参数个数等于显示参数个数 */
-    UINT        nListNum;               /* 当前列表显示参数个数 */
+    //UINT        nListNum;               /* 当前列表显示参数个数 */
     UINT        nMainNum;               /* 当前主界面显示参数个数 */
     UINT        nFileName;              /* 命名数据文件的参数，是各个参数中的一个 */
     UINT        nStatType;              /* 统计参数，是各个参数中的一个 */
     UINT        nJointOD;               /* 接头外径，入井/出井参数值可以不一样，需要取两次 */
     UINT        nShow[MAXPARANUM];      /* strShow字符串对应存储的index号 */
-    UINT        nList[MAXPARANUM];      /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
+    //UINT        nList[MAXPARANUM];      /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
     UINT        nMain[MAXMAINPARA];     /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
     string      strShow[MAXPARANUM];    /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */
     //string      strValue[MAXPARANUM];   /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */

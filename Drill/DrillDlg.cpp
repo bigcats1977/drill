@@ -473,7 +473,7 @@ CDrillDlg::CDrillDlg(CWnd* pParent /*=NULL*/)
     //{{AFX_DATA_INIT(CDrillDlg)
     m_strTorque = _T("0");
     m_fRpm = 0.0f;
-    m_strSeqNO = _T("1");
+    m_nCurNO = 1;
     m_dwTotalTorqNum = 0;
     m_nCRCERR = 0;
     m_nClashERR = 0;
@@ -515,7 +515,7 @@ void CDrillDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_YAXIS2, m_yAxis2);
     DDX_Text(pDX, IDC_EDITTORQUE, m_strTorque);
     DDX_Check(pDX, IDC_CHECKCOMM, m_bComm);
-    DDX_Text(pDX, IDC_EDITCURNUM, m_strSeqNO);
+    DDX_Text(pDX, IDC_EDITCURNUM, m_nCurNO);
     DDX_Text(pDX, IDC_EDITCRC, m_nCRCERR);
     DDX_Text(pDX, IDC_DATASHOW, m_strRecvData);
     DDX_Text(pDX, IDC_EDITCLASH, m_nClashERR);
@@ -599,16 +599,6 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CDrillDlg message handlers
 
-
-void CDrillDlg::UpdateSeqNO()
-{
-    /*if (g_tReadData.nBreakout > 0)
-        m_strSeqNO.Format("%d / %d", g_tReadData.nBreakout, g_tReadData.nTotal);
-    else*/
-    m_strSeqNO.Format("%d", g_tReadData.nTotal + 1);
-    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
-}
-
 void CDrillDlg::InitVariant()
 {
     /* 初始化theApp全局变量的指针，方便引用 */
@@ -618,7 +608,6 @@ void CDrillDlg::InitVariant()
     m_ptComm = &theApp.m_tParaCfg.tComm;
 
     /* 初始化变量 */
-    //UpdateSeqNO();
     //m_strSeqNO.Format("%d", g_tReadData.nTotal + 1);
     //m_nTotal    = m_dwTotalTorqNum;
     m_iTest = 0;
@@ -1145,11 +1134,12 @@ void CDrillDlg::CreateNewWellFile()
 
 void CDrillDlg::IncTorqNo()
 {
-    //m_nCurNO++;
+    m_nCurNO++;
     m_dwTotalTorqNum++;
 }
 
-void CDrillDlg::GetMakeupCurNum()
+/* 获取当前扭矩的序号 */
+void CDrillDlg::GetCurNum()
 {
     CFile   file;
     int     iTallyIndex = -1;
@@ -1157,22 +1147,24 @@ void CDrillDlg::GetMakeupCurNum()
     int     i = 0;
     CString strNumInfo;
     TorqData::Torque* ptTorq = NULL;
-    UINT nCurNO = 0;
+
+    m_nCurNO = 0;
 
     /* 获取当前的记录文件，超过60天生成新的文件，序号归零 */
     GetCurWellFile();
     file.Open(theApp.m_strDataFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
     if (file.GetLength() != 0)
     {
-        file.Read(&nCurNO, sizeof(UINT));
+        file.Read(&m_nCurNO, sizeof(UINT));
     }
     file.Close();
-
+    
     /* 文件记录超量，生成新的文件，序号归零 */
-    if (nCurNO >= MAXWELLNUM)
+    if (m_nCurNO > MAXWELLNUM)
         // || m_nCurNO == 0)  为什么每天生成一个数据文件？？的源头 20190927
     {
         CreateNewWellFile();
+        m_nCurNO = 0;
     }
 
     if (theApp.ReadHisTorqFromFile(theApp.m_strDataFile.c_str())) //nCurNO > 0 && 
@@ -1191,81 +1183,20 @@ void CDrillDlg::GetMakeupCurNum()
                 if (iTallyNO > 0)
                     break;
             }
-            /* else iWellNO is 0*/
+            /* else iTallyNO is 0*/
         }
     }
 
     /* 记录当前文件名及序号 */
-    strNumInfo.Format("%s--%d", theApp.m_strDataFile.c_str(), g_tReadData.nTotal);
+    strNumInfo.Format("%s--%d", theApp.m_strDataFile.c_str(), m_nCurNO);
     theApp.SaveMessage(strNumInfo);
 
-    m_nCurRunningNO = g_tReadData.nTotal + 1;
+    m_nCurNO++;
+    m_nCurTallyNO = m_nCurNO;
     if (iTallyNO >= 0)
-        m_nCurRunningNO = iTallyNO + 1;
+        m_nCurTallyNO = iTallyNO + 1;
 
-    UpdateSeqNO();
-}
-#if 0
-void CDrillDlg::GetBreakoutCurNum()
-{
-    CFile   file;
-    int     iTallyIndex = -1;
-    int     iTallyNO = 0;
-    int     i = 0;
-    CString strNumInfo;
-    TorqData::Torque* ptTorq = NULL;
-    UINT nCurNO = 0;
-    string filename;
-
-    if (g_tGlbCfg.strBreakOutFile.empty())
-        return;
-
-    filename = theApp.m_strDataPath + g_tGlbCfg.strBreakOutFile;
-    file.Open(filename.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
-    if (file.GetLength() != 0)
-    {
-        file.Read(&nCurNO, sizeof(UINT));
-    }
-    m_strBreakoutFile = file.GetFileName();
-    file.Close();
-    if (theApp.ReadHisTorqFromFile(filename.c_str()))
-    {
-        iTallyIndex = theApp.GetMainIndex(MAINSHOWTALLY);
-        if (iTallyIndex >= 0)
-        {
-            /* 从后往前找最新的入井序号 */
-            for (i = g_tReadData.nTotal - 1; i >= 0; i--)
-            {
-                ptTorq = &g_tReadData.tData[i];
-                if (iTallyIndex >= ptTorq->tshow_size())
-                    continue;
-
-                iTallyNO = atoi(theApp.GetTorqShowValue(ptTorq, iTallyIndex));
-                if (iTallyNO > 0)
-                    break;
-            }
-            /* else iWellNO is 0*/
-        }
-    }
-
-    /* 记录当前文件名及序号 */
-    strNumInfo.Format("%s--%d", filename.c_str(), g_tReadData.nTotal);
-    theApp.SaveMessage(strNumInfo);
-
-    m_nCurRunningNO = g_tReadData.nTotal + 1;
-    if (iTallyNO >= 0)
-        m_nCurRunningNO = iTallyNO + 1;
-
-    UpdateSeqNO();
-}
-#endif
-/* 获取当前扭矩的序号 */
-void CDrillDlg::GetCurNum()
-{
-    /*if (g_tGlbCfg.iBreakOut == 1)
-        GetBreakoutCurNum();
-    else*/
-        GetMakeupCurNum();
+    return;
 }
 
 /* 根据原始plus和显示plus，计算数据画图的点数 */
@@ -2757,13 +2688,13 @@ LRESULT CDrillDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
 
     if (theApp.HaveTallyNO(&m_tSaveData))
     {
-        m_nCurRunningNO++;
+        m_nCurTallyNO++;
+        m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurTallyNO);
     }
 
     m_strQuality.Empty();
     m_tSaveData.Clear();
 
-    UpdateSeqNO();
     CanModLastData(FALSE);
     Invalidate(TRUE);
 
@@ -3131,11 +3062,11 @@ void CDrillDlg::StopTorque()
 
     if (theApp.HaveTallyNO(&m_tSaveData))
     {
-        m_nCurRunningNO++;
+        m_nCurTallyNO++;
+        m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurTallyNO);
     }
     //m_nCur = m_nCurNO + 1;
 
-    UpdateSeqNO();
     m_tSaveData.Clear();
     m_strQuality.Empty();
     CanModLastData(FALSE);
@@ -3273,7 +3204,7 @@ void CDrillDlg::SendValveCommand()
 void CDrillDlg::ReGetTorqNo()
 {
     GetCurNum();
-    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurRunningNO);
+    m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurTallyNO);
 
     //EnableBreakoutfile();
     UpdateData(FALSE);
@@ -4216,31 +4147,72 @@ void CDrillDlg::SaveIntoData(TorqData::Torque* ptPBData)
 /* 将当前扭矩数据添加到扭矩结构文件中 */
 void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
 {
+    /* 空文件，扭矩序号为1 */
+    UINT    nTorqNum = 1;
+    size_t  nDataLen = 0;
+    int     i = 0;
+    UINT    nLeng = 0;    /* 数据的长度 */
+    CString strFileName;
+    CString strTemp;
+    CFile   file;
     __time64_t curTime;
+    char* pcBuff = NULL;
     double  duration;
 
     ASSERT_NULL(ptPBData);
 
     _time64(&curTime);
     ptPBData->set_coltime(curTime);
-    ptPBData->set_dwseqno(g_tReadData.nTotal + 1);
+    ptPBData->set_dwseqno(m_nCurNO);
     ptPBData->set_fmaxtorq(m_ptComm->fMaxTorq);
     ptPBData->set_bbreakout(m_iBreakOut > 0);
     ptPBData->set_dwtorqunit(g_tGlbCfg.nTorqUnit);
     duration = _difftime64(curTime, m_tStartTime);
     ptPBData->set_fmakeupdur(_difftime64(curTime, m_tStartTime));
 
-    g_tReadData.tData[g_tReadData.nTotal] = *ptPBData;
-    g_tReadData.nTotal++;
-    theApp.SaveAllData(theApp.m_strDataFile.c_str());
+    nDataLen = ptPBData->ByteSizeLong();
+    ASSERT_ZERO(nDataLen);
+    COMP_BGE(nDataLen, MAXPROBUFF);
+    pcBuff = new char[nDataLen];
+    ASSERT_NULL(pcBuff);
+    memset(pcBuff, 0, nDataLen);
+    if (!ptPBData->SerializeToArray(pcBuff, nDataLen))
+    {
+        delete pcBuff;
+        return;
+    }
+
+    file.Open(theApp.m_strDataFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
+
+    if (file.GetLength() != 0)
+    {
+        file.Read(&nTorqNum, sizeof(UINT));
+        nTorqNum++;
+    }
 
     /* 扭矩当前序号+1 */
-    m_ptComm->dwSeqNo = g_tReadData.nTotal;
+    m_ptComm->dwSeqNo = m_nCurNO;
 
     IncTorqNo();
     //m_nTotal = m_dwTotalTorqNum;
 
-    //CanModLastData(TRUE);
+    /* 更新文件数据数目 */
+    file.SeekToBegin();
+    file.Write(&nTorqNum, sizeof(UINT));
+
+    /* 跳过之前记录 */
+    //SEEK_TORQUE(((int)nTorqNum-1), nLeng);
+    file.SeekToEnd();
+
+    // 最新版本都添加头文件
+    file.Write(&theApp.m_nPBHead, PBHEADLEN);
+    file.Write(&nDataLen, sizeof(UINT));
+    file.Write(pcBuff, nDataLen);
+    file.Close();
+
+    delete pcBuff;
+
+    CanModLastData(TRUE);
     return;
 }
 
@@ -4304,7 +4276,7 @@ void CDrillDlg::SetShowPara(TorqData::Torque* ptPBData)
         if (strTallyName == strName)
         {
             if (theApp.HaveTallyNO(ptPBData))
-                strVal = to_string(m_nCurRunningNO);
+                strVal = to_string(m_nCurTallyNO);
             else
                 strVal = "";
         }
@@ -4648,7 +4620,7 @@ void CDrillDlg::OnBnClickedBtnquality()
         {
             ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainIndex(MAINSHOWTALLY));
             if (theApp.HaveTallyNO(&m_tSaveData))
-                ptRunningShow->set_strvalue(to_string(m_nCurRunningNO));
+                ptRunningShow->set_strvalue(to_string(m_nCurTallyNO));
             else
                 ptRunningShow->set_strvalue(NULLSTR);
         }
@@ -4703,7 +4675,7 @@ void CDrillDlg::CheckBreakOut()
 {
     BOOL bEnable = (m_iBreakOut > 0);
     GetDlgItem(IDC_EDBREAKOUTNO)->EnableWindow(bEnable);
-    GetDlgItem(IDC_SETTOOLBUCK)->EnableWindow(!bEnable);
+    //GetDlgItem(IDC_SETTOOLBUCK)->EnableWindow(!bEnable);
     GetDlgItem(IDC_BTNSHOWSET)->EnableWindow(!bEnable);
 
     if (!bEnable)

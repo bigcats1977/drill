@@ -16,7 +16,7 @@ void CDBShowCfg::Empty()
 {
     _lsLangType.clear();
     _lsParaNum.clear();
-    _lsListNum.clear();
+    //_lsListNum.clear();
     _lsMainNum.clear();
     _lsFileName.clear();
     _lsStatType.clear();
@@ -24,7 +24,7 @@ void CDBShowCfg::Empty()
     _lsAliasID.clear();
 
     _lsShowPara.clear();
-    _lsListNO.clear();
+    //_lsListNO.clear();
     _lsMainNO.clear();
 }
 
@@ -54,8 +54,8 @@ void CDBShowCfg::GetTable()
         _lsLangType.push_back(Value);
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsParaNum.push_back(Value);
-        _Sqlite->GetValue(pResult[nIndex++], Value);
-        _lsListNum.push_back(Value);
+        /*_Sqlite->GetValue(pResult[nIndex++], Value);
+        _lsListNum.push_back(Value);*/
         _Sqlite->GetValue(pResult[nIndex++], Value);
         _lsMainNum.push_back(Value);
         _Sqlite->GetValue(pResult[nIndex++], Value);
@@ -71,8 +71,8 @@ void CDBShowCfg::GetTable()
 
         _Sqlite->GetValue(pResult[nIndex++], Content);
         _lsShowPara.push_back(Content);
-        _Sqlite->GetValue(pResult[nIndex++], Content);
-        _lsListNO.push_back(Content);
+        /*_Sqlite->GetValue(pResult[nIndex++], Content);
+        _lsListNO.push_back(Content);*/
         _Sqlite->GetValue(pResult[nIndex++], Content);
         _lsMainNO.push_back(Content);
     }
@@ -94,8 +94,8 @@ bool CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
 
     fields.push_back("ParaNum");
     values.push_back(to_string(ptShow->nParaNum));
-    fields.push_back("ListNum");
-    values.push_back(to_string(ptShow->nListNum));
+    /*fields.push_back("ListNum");
+    values.push_back(to_string(ptShow->nListNum));*/
     fields.push_back("MainNum");
     values.push_back(to_string(ptShow->nMainNum));
     fields.push_back("FileName");
@@ -115,9 +115,9 @@ bool CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
     fields.push_back("ShowParas");
     values.push_back(lsNO);
 
-    lsNO = GetListFromArray(&ptShow->nList[0], ptShow->nListNum);
+    /*lsNO = GetListFromArray(&ptShow->nList[0], ptShow->nListNum);
     fields.push_back("ListNOs");
-    values.push_back(lsNO);
+    values.push_back(lsNO);*/
 
     lsNO = GetListFromArray(&ptShow->nMain[0], ptShow->nMainNum);
     fields.push_back("MainNOs");

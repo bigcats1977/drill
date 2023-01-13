@@ -103,7 +103,7 @@ public:
     CString     m_strTorque;  /* m_fTorque 界面显示的扭矩；卸扣时显示　当前扭矩/最大扭矩 */
     double      m_fRpm;     /* 单片机上读取到的速度，为0时根据圈数计算 */
     BOOL        m_bComm;
-    CString     m_strSeqNO;
+    UINT        m_nCurNO;
     UINT        m_nCRCERR;
     UINT        m_nClashERR;
     CString     m_strRecvData;
@@ -232,8 +232,6 @@ private:
 
     // APP function move into MainDlg
     void IncTorqNo();
-    void GetMakeupCurNum();
-    //void GetBreakoutCurNum();
     void GetCurNum();
     void ReGetTorqNo();
     void GetCurWellFile();
@@ -269,7 +267,7 @@ private:
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
     void   CheckBreakOut();
-    void   UpdateSeqNO();
+    //void   UpdateSeqNO();
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/
@@ -328,7 +326,7 @@ private:
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];
 
-    UINT            m_nCurRunningNO;       /* 入井序号 */
+    UINT            m_nCurTallyNO;       /* 入井序号 */
 };
 
 extern CDrillDlg    *thepDlg;

@@ -125,7 +125,7 @@ public:
     CString GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex);
     DRAWTORQDATA* GetDrawDataFromTorq(UINT nNO, int iMulti = 1);
     TorqData::Torque* GetOrgTorqFromTorq(UINT nNO);
-    string  GetListShowName(SHOWCFG* ptShow, UINT NO);
+    //string  GetListShowName(SHOWCFG* ptShow, UINT NO);
     string  GetMainShowName(SHOWCFG* ptShow, UINT NO);
     void ClearShowPara(SHOWCFG* ptShow);
     void ClearTorqCfgPara(PARACFG* ptCfg);

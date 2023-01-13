@@ -94,7 +94,7 @@ void CDlgMainShowSet::InitMainShowPara()
     m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
 
-    lsShowIndex = theDB.ReadCurOptionIndex(2);
+    lsShowIndex = theDB.ReadCurOptionIndex(1);
     for (i = 0; i < m_ptShow->nMainNum && i < MAXMAINPARA; i++)
     {
         m_strMainShow[i] = theApp.GetMainShowName(theApp.m_ptCurShow, i).c_str();
