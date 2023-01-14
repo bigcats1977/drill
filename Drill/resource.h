@@ -297,6 +297,7 @@
 #define IDC_BTNSTATLIST                 1411
 #define IDC_BTNSCATTER                  1412
 #define IDC_BTNSTATSET                  1413
+#define IDC_BTNIMPORTDEPTH              1414
 #define IDC_COMBOREMARK                 1480
 #define IDC_RADIONOQUALITY              1481
 #define IDC_RADIOQUALITY                1482
@@ -672,6 +673,7 @@
 #define IDS_STRDATFILTER                50202
 #define IDS_STRDOCFILTER                50203
 #define IDS_STRXLSFILTER                50204
+#define IDS_STRCSVFILTER                50205
 #define IDS_STRCRTEXCDB                 50250
 #define IDS_STRCREATETABLE              50251
 #define IDS_STRINSERTTABLE              50252
@@ -911,6 +913,7 @@
 #define IDS_STRINFTORQDATAERR           52405
 #define IDS_STRINFTORQDATAOVER          52406
 #define IDS_STRINFTORQDATASHORT         52407
+#define IDS_STRINFMAXWELLNO             52408
 #define IDS_STRINFNODRIVE               52500
 #define IDS_STRINFCRTXLSFAIL            52501
 #define IDS_STRINFSAVEXLSUCC            52502

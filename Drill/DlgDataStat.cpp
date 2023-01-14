@@ -265,12 +265,12 @@ void CDlgDataStat::ResetStatLineByData(TorqData::Torque* ptTorq)
 void CDlgDataStat::ResetStatLine(PARACFG* ptCfg)
 {
     CONTROLPARA* ptCtrl = NULL;
-    COMMONCFG* ptComm = NULL;
+    //COMMONCFG* ptComm = NULL;
 
     ASSERT_NULL(ptCfg);
 
     ptCtrl = &ptCfg->tCtrl;
-    ptComm = &ptCfg->tComm;
+    //ptComm = &ptCfg->tComm;
 
     m_wndLineStat.RemoveAt();
     //m_wndLineStat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* ×î´óÅ¤¾Ø */

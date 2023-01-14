@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(CDlgHisList, CPropertyPage)
     ON_BN_CLICKED(IDC_BTNGRAPHEXP, &CDlgHisList::OnBnClickedBtngraphexp)
     ON_BN_CLICKED(IDC_BTNSTATLIST, &CDlgHisList::OnBnClickedBtnstatlist)
     ON_BN_CLICKED(IDC_BTNSTATSET, &CDlgHisList::OnBnClickedBtnstatset)
+    ON_BN_CLICKED(IDC_BTNIMPORTDEPTH, &CDlgHisList::OnBnClickedBtnimportdepth)
     ON_WM_DESTROY()
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -94,9 +95,9 @@ BOOL CDlgHisList::OnInitDialog()
     /* 20220922 ×ê¸Ë°æ±¾ÎÞ×î´ó/×îÐ¡Å¤¾Ø */
     /* 20221113 È¥µôÐ±ÆÂÒò×Ó */
     /* 20221220  È¥µô¹ÕµãÅ¤¾Ø£¬Í¬Ê±ÏÔÊ¾ÉÏ¿ÛÅ¤¾Ø/ÖÜÊýºÍÐ¶¿ÛÅ¤¾Ø/ÖÜÊý */
-    /*"ÐòºÅ,%d;ÉÏ¿ÛÊ±¼ä,%d;Ð¶¿ÛÊ±¼ä,%d;¼Ð½ôÅ¤¾Ø,%d;×î¼ÑÅ¤¾Ø,%d;ÉÏ¿ÛÅ¤¾Ø,%d;ÉÏ¿ÛÖÜÊý,%d;Ð¶¿ÛÅ¤¾Ø,%d;Ð¶¿ÛÖÜÊý,%d;±¸×¢,%d;"*/
-    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(),
-        int(0.8 * m_iWidth), int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+    /*"ÐòºÅ,%d;ÉÏ¿ÛÊ±¼ä,%d;Ð¶¿ÛÊ±¼ä,%d;¼Ð½ôÅ¤¾Ø,%d;×î¼ÑÅ¤¾Ø,%d;ÉÏ¿ÛÅ¤¾Ø,%d;ÉÏ¿ÛÖÜÊý,%d;Ð¶¿ÛÅ¤¾Ø,%d;Ð¶¿ÛÖÜÊý,%d;È¡³öÐòºÅ,%d;±¸×¢,%d;"*/
+    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
+        int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));
     /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
                    int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
@@ -114,9 +115,9 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
 
-    //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    /*GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);*/
+    GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -268,8 +269,8 @@ VOID CDlgHisList::ShowHisTorqList()
     CString     strMakeTurn, strBreakTurn;
     CString     strCtrlTorq, strOptTorq;
     CString     strMakeTorq, strBreakTorq;
+    CString     strOutWellNO, strMemo;
     CString     strShowPara[MAXPARANUM];
-    CString     strMemo;
     CStringList slShow;
     DWORD       dwQuality = 0;
     TorqData::Torque* ptTorq = NULL;
@@ -301,14 +302,16 @@ VOID CDlgHisList::ShowHisTorqList()
         strBOTime = _T("-");
         strBreakTorq = _T("-");
         strBreakTurn = _T("-");
+        strOutWellNO = _T("-");
         if (ptTorq->bbreakout())
         {
             strBOTime = theApp.GetTorqCollTime(ptTorq, true);
             strBreakTorq.Format("%d", (int)ptTorq->fbomaxtorq());
             strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, true));
+            strOutWellNO.Format("%d", ptTorq->dwoutwellno());
         }
 
-        /*"ÐòºÅ,%d;ÉÏ¿ÛÊ±¼ä,%d;Ð¶¿ÛÊ±¼ä,%d;¼Ð½ôÅ¤¾Ø,%d;×î¼ÑÅ¤¾Ø,%d;ÉÏ¿ÛÅ¤¾Ø,%d;ÉÏ¿ÛÖÜÊý,%d;Ð¶¿ÛÅ¤¾Ø,%d;Ð¶¿ÛÖÜÊý,%d;±¸×¢,%d;"*/
+        /*"ÐòºÅ,%d;ÉÏ¿ÛÊ±¼ä,%d;Ð¶¿ÛÊ±¼ä,%d;¼Ð½ôÅ¤¾Ø,%d;×î¼ÑÅ¤¾Ø,%d;ÉÏ¿ÛÅ¤¾Ø,%d;ÉÏ¿ÛÖÜÊý,%d;Ð¶¿ÛÅ¤¾Ø,%d;Ð¶¿ÛÖÜÊý,%d;È¡³öÐòºÅ,%d;±¸×¢,%d;"*/
         slShow.AddTail(strNo);
         slShow.AddTail(strTime);
         slShow.AddTail(strBOTime);
@@ -318,7 +321,7 @@ VOID CDlgHisList::ShowHisTorqList()
         slShow.AddTail(strMakeTurn);
         slShow.AddTail(strBreakTorq);
         slShow.AddTail(strBreakTurn);
-        //slShow.AddTail(strSlope);
+        slShow.AddTail(strOutWellNO);
         slShow.AddTail(strMemo);
 
         // List[j] = 1~15
@@ -355,6 +358,7 @@ VOID CDlgHisList::ShowHisTorqList()
     GetDlgItem(IDC_BTNORGDATA)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNSTATLIST)->EnableWindow(m_listHis.GetItemCount() > 0);
     //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
+    GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(m_listHis.GetItemCount() > 0);
 
     m_listHis.SetRedraw(1);
 }
@@ -1723,4 +1727,49 @@ void CDlgHisList::OnBnClickedBtnstatset()
 {
     CDlgXlsStatSet  dlgXlsStatSet;
     dlgXlsStatSet.DoModal();
+}
+
+
+void CDlgHisList::OnBnClickedBtnimportdepth()
+{
+    UINT    i = 0;
+    UINT    nMaxShowPlace = 0;
+    CString strFilter;
+    CString strInfo;
+    CString strHead, strTemp;
+    string  strName;
+    CString strCSVFile;
+    TorqData::Torque* ptTorq = NULL;
+    ifstream infile;
+    vector<int> SeqNO;
+    vector<float> Depth;
+
+    strFilter.Format(IDS_STRCSVFILTER);
+
+    CFileDialog fileDlg(TRUE, "csv", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter, NULL);
+
+    COMP_BNE(fileDlg.DoModal(), IDOK);
+
+    strCSVFile = fileDlg.GetPathName();
+
+    string line;
+    string field;
+    infile.open(strCSVFile, ios::in);
+    if (!infile)
+        return;
+    while (getline(infile, line))
+    {
+        istringstream sin(line);
+        if (getline(sin, field, ','))
+        {
+            SeqNO.push_back(stoi(field));
+        }
+        if (getline(sin, field, ','))
+        {
+            Depth.push_back(stof(field));
+        }
+    }
+    infile.close();
+
+    return;
 }

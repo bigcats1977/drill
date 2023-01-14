@@ -224,7 +224,8 @@ BEGIN
     LTEXT           "Para05",IDC_MAINSHOW5,477,215,72,15
     LTEXT           "Para06",IDC_MAINSHOW6,477,246,72,15
     LTEXT           "Para07",IDC_MAINSHOW7,477,277,72,15
-    EDITTEXT        IDC_EDBREAKOUTNO,595,352,34,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER | NOT WS_TABSTOP
+    EDITTEXT        IDC_EDHISSEQNO,514,352,34,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE | NOT WS_BORDER | NOT WS_TABSTOP
+    EDITTEXT        IDC_EDBREAKOUTNO,605,352,34,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW1,562,90,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW2,562,121,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW3,562,152,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
@@ -233,9 +234,8 @@ BEGIN
     EDITTEXT        IDC_EDMAINSHOW6,562,245,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW7,562,276,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     GROUPBOX        "OperType",IDC_STATIC_M15,464,305,179,66
-    EDITTEXT        IDC_EDHISSEQNO,514,352,34,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER | NOT WS_TABSTOP
-    LTEXT           "MakeUP NO",IDC_STATICHISSEQNO,475,355,34,10,NOT WS_VISIBLE
-    LTEXT           "BreakOutNO",IDC_STATICBREAKOUTNO,556,355,34,10,NOT WS_VISIBLE
+    LTEXT           "MakeUP NO",IDC_STATICHISSEQNO,469,355,40,10,NOT WS_VISIBLE
+    LTEXT           "BreakOutNO",IDC_STATICBREAKOUTNO,557,355,40,10,NOT WS_VISIBLE
 END
 
 IDD_DLGPARASET DIALOGEX 0, 0, 558, 295
@@ -497,6 +497,7 @@ BEGIN
     LTEXT           "Total MakeUp",IDC_STATIC_L2,10,295,40,10
     LTEXT           "Num of QC",IDC_STATIC_L4,120,295,40,10
     LTEXT           "Num of NG",IDC_STATIC_L6,237,295,40,10
+    PUSHBUTTON      "DepthImp",IDC_BTNIMPORTDEPTH,443,293,56,24,WS_DISABLED
 END
 
 IDD_DLGREMARK DIALOGEX 0, 0, 202, 119
@@ -1602,6 +1603,7 @@ BEGIN
     IDS_STRDATFILTER        "Data files (*.pbd)|*.pbd|All files (*.*)|*.*||"
     IDS_STRDOCFILTER        "WORD files (*.doc)|*.doc|All files (*.*)|*.*||"
     IDS_STRXLSFILTER        "EXCEL files (*.xls)|*.xls|All files (*.*)|*.*||"
+    IDS_STRCSVFILTER        "CSV files (*.csv)|*.csv|All files (*.*)|*.*||"
 END
 
 STRINGTABLE
@@ -1924,7 +1926,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_STRHISGPRINTTITLE   "Print Historical Data"
-    IDS_STRHISLLISTHEAD     "NO,%d;MakeupTime,%d;BreakoutTime,%d;FastenTorq,%d;OptTorq,%d;MakeTorq,%d;MakeTrun,%d;BreakTorq,%d;BreakTrun,%d;Comment,%d;"
+    IDS_STRHISLLISTHEAD     "NO,%d;MakeupTime,%d;BreakoutTime,%d;FastenTorq,%d;OptTorq,%d;MakeTorq,%d;MakeTrun,%d;BreakTorq,%d;BreakTrun,%d;OutWellNO,%d;Comment,%d;"
 END
 
 STRINGTABLE
@@ -2080,6 +2082,7 @@ BEGIN
     IDS_STRINFTORQDATAERR   "The data file <%s> is ERROR. The number of record is %d, and %d record is valid, current place 0x%x!"
     IDS_STRINFTORQDATAOVER  "Data length(%d) is too long, skip this (%d) data!"
     IDS_STRINFTORQDATASHORT "The data file <%s> is ERROR. Data length(%d) is too short, current place 0x%x, skip this (%d) data!"
+    IDS_STRINFMAXWELLNO     "OutWell NO(%d) is less than the historical NO(%d). Sure to use this?"
 END
 
 STRINGTABLE

@@ -96,6 +96,8 @@ private:
     Excel   m_tSaveExc;
 
     XLSSTATCFG* m_ptStat;
+public:
+    afx_msg void OnBnClickedBtnimportdepth();
 };
 
 //{{AFX_INSERT_LOCATION}}

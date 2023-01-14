@@ -711,37 +711,37 @@ typedef struct tagFixTubeCfg
     TUBECFG* ptCfg;
 }FIXTUBECFG;
 #endif
-#define MAXMEMOLEN              128
-typedef struct tagCOMMONCFG
-{
-    double      fMaxTorq;       /* 启用，记录数据的最大扭矩 */
-    /* double类型配置 最多16个 */
-    //double      fRpmAdj;        /* 转速调整 */
-    //double      fMulti;         /* 校准参数范围0~2 */
-    //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
-    //double      fMaxDeltaCir;   /* 最大Delta周数0.1 */
-    //double      fMinDeltaCir;   /* 最小Delta周数0.1 */
-    double      fRsv[12];        /* 保留double字段，共16个 */
-
-    /* DWORD类型配置 最多16个 */
-    DWORD       dwSeqNo;
-    DWORD       dwRsv[15];
-
-    /* 开关值设置，每个开关值使用一个BIT位 */
-    /* BIT位定义 最多8*32个 */
-    //DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
-    DWORD       bToolBuck : 1;    /* 是否为工具扣,默认为否 */
-    DWORD       bRsv : 30;
-    DWORD       dwRsv2[7];
-
-    //char        aucMemo[MAXMEMOLEN];        /* 备注 */
-    //char        aucRemark[MAXPARALEN];      /*标注说明remark*/
-}COMMONCFG;
+//#define MAXMEMOLEN              128
+//typedef struct tagCOMMONCFG
+//{
+//    double      fMaxTorq;       /* 启用，记录数据的最大扭矩 */
+//    /* double类型配置 最多16个 */
+//    //double      fRpmAdj;        /* 转速调整 */
+//    //double      fMulti;         /* 校准参数范围0~2 */
+//    //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
+//    //double      fMaxDeltaCir;   /* 最大Delta周数0.1 */
+//    //double      fMinDeltaCir;   /* 最小Delta周数0.1 */
+//    double      fRsv[12];        /* 保留double字段，共16个 */
+//
+//    /* DWORD类型配置 最多16个 */
+//    DWORD       dwSeqNo;
+//    DWORD       dwRsv[15];
+//
+//    /* 开关值设置，每个开关值使用一个BIT位 */
+//    /* BIT位定义 最多8*32个 */
+//    //DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
+//    DWORD       bToolBuck : 1;    /* 是否为工具扣,默认为否 */
+//    DWORD       bRsv : 30;
+//    DWORD       dwRsv2[7];
+//
+//    //char        aucMemo[MAXMEMOLEN];        /* 备注 */
+//    //char        aucRemark[MAXPARALEN];      /*标注说明remark*/
+//}COMMONCFG;
 
 typedef struct tagPARACFG
 {
     CONTROLPARA tCtrl;
-    COMMONCFG   tComm;
+    //COMMONCFG   tComm;
     //TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
 
     string      strAlias;

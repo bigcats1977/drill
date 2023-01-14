@@ -85,12 +85,12 @@ void CDlgScatter::ResetScatLineByData(TorqData::Torque* ptTorq)
 void CDlgScatter::ResetScatLine(PARACFG* ptCfg)
 {
     CONTROLPARA* ptCtrl = NULL;
-    COMMONCFG* ptComm = NULL;
+    //COMMONCFG* ptComm = NULL;
 
     ASSERT_NULL(ptCfg);
 
     ptCtrl = &ptCfg->tCtrl;
-    ptComm = &ptCfg->tComm;
+    //ptComm = &ptCfg->tComm;
 
     m_wndLineScat.RemoveAt();
     //m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* ×î´óÅ¤¾Ø */

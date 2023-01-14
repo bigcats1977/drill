@@ -109,11 +109,12 @@ public:
     CString     m_strRecvData;
     DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
     BOOL        m_bToolBuck;        /* 是否为工具扣 */
-    BOOL        m_iBreakOut;        /* 是否进行卸扣操作 0:上扣；1：卸扣*/
+    int         m_iBreakOut;        /* 是否进行卸扣操作 0:上扣；1：卸扣*/
     CString     m_strQuality;
     CString     m_strLBM2;
     CString     m_strTorqType;
-    CString     m_strBreakoutNO;
+    UINT        m_nBOSeqNO;
+    UINT        m_nBOOutWellNO;
     CString     m_strMainName[MAXMAINPARA];
     CString     m_strMainValue[MAXMAINPARA];
     //}}AFX_DATA
@@ -231,9 +232,8 @@ private:
     void SavePortMultiDataInfo(COLLECTDATA* ptCollData); //保存一次串口读取的多条记录
 
     // APP function move into MainDlg
-    void IncTorqNo();
+    //void UpdateSeqNO();
     void GetCurNum();
-    void ReGetTorqNo();
     void GetCurWellFile();
     void CreateNewWellFile();
     BOOL TimeValidWell(CString strFileName);
@@ -247,7 +247,7 @@ private:
     void UpdateTorqueData(double torque, double rpm);
     void SaveIntoData(TorqData::Torque* ptPBData);
     void SaveMakeupData(TorqData::Torque* ptPBData);
-    void SaveBreakoutData(TorqData::Torque* ptPBData, UINT nSeqNO, UINT nOutwellNO);
+    void SaveBreakoutData(TorqData::Torque* ptPBData);
     void SetQuality(DWORD dwQuality);
     void KillAllTimer();
     void GetValidTorqData();
@@ -267,7 +267,6 @@ private:
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
     void   CheckBreakOut();
-    //void   UpdateSeqNO();
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/
@@ -299,7 +298,8 @@ private:
     SHOWCFG* m_ptShow;
     PARACFG* m_ptCfg;
     CONTROLPARA* m_ptCtrl;
-    COMMONCFG* m_ptComm;
+    //COMMONCFG* m_ptComm;
+    double      m_fMaxTorq;
     COLLECTTORQUE   m_tCollData;        /* 当前的扭矩结构数据，可以超过正常图形4倍 */
     PORTDATA* m_ptPortData;
     TorqData::Torque   m_tSaveData;        /* 从collectData获取最后MAXPOINT保存到saveData */
@@ -326,7 +326,11 @@ private:
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];
 
-    UINT            m_nCurTallyNO;       /* 入井序号 */
+    UINT            m_nCurTallyNO;      /* 入井序号 */
+    UINT            m_nMaxOutWellNO;    /* 最大取出序号 */
+public:
+    afx_msg void OnEnKillfocusEdhisseqno();
+    afx_msg void OnEnKillfocusEdbreakoutno();
 };
 
 extern CDrillDlg    *thepDlg;

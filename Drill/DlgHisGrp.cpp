@@ -292,7 +292,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
 void CDlgHisGrp::ResetHisLineByCfg(PARACFG* ptCfg)
 {
     CONTROLPARA* ptCtrl = NULL;
-    COMMONCFG* ptComm = NULL;
+    //COMMONCFG* ptComm = NULL;
 
     ASSERT_NULL(ptCfg);
 
@@ -300,7 +300,7 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG* ptCfg)
     m_wndRpmHis.RemoveAt();
 
     ptCtrl = &ptCfg->tCtrl;
-    ptComm = &ptCfg->tComm;
+    //ptComm = &ptCfg->tComm;
 
     //m_wndLineHis.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* 最大扭矩 */
     //m_wndLineHis.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* 最小扭矩 */
