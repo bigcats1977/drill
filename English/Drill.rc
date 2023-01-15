@@ -175,8 +175,8 @@ FONT 9, "MS Shell Dlg", 400, 0, 0x86
 BEGIN
     PUSHBUTTON      "Run",IDC_BTRUN,525,468,112,25
     CONTROL         "BHA",IDC_SETTOOLBUCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,477,423,74,10
-    CONTROL         "MakeUp",IDC_RADIOMAKEUP,"Button",BS_AUTORADIOBUTTON | WS_GROUP,477,320,35,10
-    CONTROL         "BreakOut",IDC_RADIOBREAKOUT,"Button",BS_AUTORADIOBUTTON,477,337,43,10
+    CONTROL         "MakeUp",IDC_RADIOMAKEUP,"Button",BS_AUTORADIOBUTTON | WS_GROUP,477,320,50,10
+    CONTROL         "BreakOut",IDC_RADIOBREAKOUT,"Button",BS_AUTORADIOBUTTON,477,337,50,10
     PUSHBUTTON      "Quality",IDC_BTNQUALITY,477,401,32,14,WS_DISABLED
     EDITTEXT        IDC_QUALITY,520,403,58,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     GROUPBOX        "Show Para.",IDC_STATIC_M6,464,72,179,226
@@ -224,8 +224,8 @@ BEGIN
     LTEXT           "Para05",IDC_MAINSHOW5,477,215,72,15
     LTEXT           "Para06",IDC_MAINSHOW6,477,246,72,15
     LTEXT           "Para07",IDC_MAINSHOW7,477,277,72,15
-    EDITTEXT        IDC_EDHISSEQNO,514,352,34,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE | NOT WS_BORDER | NOT WS_TABSTOP
-    EDITTEXT        IDC_EDBREAKOUTNO,605,352,34,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE | NOT WS_BORDER | NOT WS_TABSTOP
+    EDITTEXT        IDC_EDHISSEQNO,521,352,27,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE | NOT WS_BORDER | NOT WS_TABSTOP
+    EDITTEXT        IDC_EDBREAKOUTNO,606,352,27,17,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW1,562,90,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW2,562,121,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW3,562,152,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
@@ -234,8 +234,8 @@ BEGIN
     EDITTEXT        IDC_EDMAINSHOW6,562,245,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_EDMAINSHOW7,562,276,75,16,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     GROUPBOX        "OperType",IDC_STATIC_M15,464,305,179,66
-    LTEXT           "MakeUP NO",IDC_STATICHISSEQNO,469,355,40,10,NOT WS_VISIBLE
-    LTEXT           "BreakOutNO",IDC_STATICBREAKOUTNO,557,355,40,10,NOT WS_VISIBLE
+    LTEXT           "MakeUP NO",IDC_STATICHISSEQNO,474,355,43,10,NOT WS_VISIBLE
+    LTEXT           "BreakOutNO",IDC_STATICBREAKOUTNO,560,355,43,10,NOT WS_VISIBLE
 END
 
 IDD_DLGPARASET DIALOGEX 0, 0, 558, 295
@@ -484,12 +484,13 @@ BEGIN
     EDITTEXT        IDC_EDITHISTORY,14,328,603,20,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "Open",IDC_BTNHIS,621,326,56,24
     CONTROL         "ExpAll",IDC_CHECKALLIMG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,614,278,63,10
-    PUSHBUTTON      "Stat",IDC_BTNSTATLIST,503,293,56,24,WS_DISABLED
-    PUSHBUTTON      "Graph",IDC_BTNGRAPHEXP,562,293,56,24,WS_DISABLED
-    PUSHBUTTON      "List",IDC_BTNEXPORT,621,293,56,24,WS_DISABLED
-    PUSHBUTTON      "IMG",IDC_BTNIMGEXP,325,293,56,24,NOT WS_VISIBLE | WS_DISABLED
-    PUSHBUTTON      "Orgin",IDC_BTNORGDATA,382,293,56,24,NOT WS_VISIBLE | WS_DISABLED
-    PUSHBUTTON      "StatCfg",IDC_BTNSTATSET,441,293,56,24,NOT WS_VISIBLE | WS_DISABLED
+    PUSHBUTTON      "Stat",IDC_BTNSTATLIST,502,293,56,24,WS_DISABLED
+    PUSHBUTTON      "Graph",IDC_BTNGRAPHEXP,561,293,56,24,WS_DISABLED
+    PUSHBUTTON      "List",IDC_BTNEXPORT,620,293,56,24,WS_DISABLED
+    PUSHBUTTON      "IMG",IDC_BTNIMGEXP,325,269,56,24,NOT WS_VISIBLE | WS_DISABLED
+    PUSHBUTTON      "Orgin",IDC_BTNORGDATA,325,293,56,24,NOT WS_VISIBLE | WS_DISABLED
+    PUSHBUTTON      "StatCfg",IDC_BTNSTATSET,384,293,56,24,NOT WS_VISIBLE | WS_DISABLED
+    PUSHBUTTON      "DepthImp",IDC_BTNIMPORTDEPTH,443,293,56,24,WS_DISABLED
     EDITTEXT        IDC_EDTOTAL,57,292,43,16,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_EDQUALIFY,171,292,43,16,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_EDUNQUALIFY,288,292,43,16,ES_AUTOHSCROLL | ES_READONLY
@@ -497,7 +498,6 @@ BEGIN
     LTEXT           "Total MakeUp",IDC_STATIC_L2,10,295,40,10
     LTEXT           "Num of QC",IDC_STATIC_L4,120,295,40,10
     LTEXT           "Num of NG",IDC_STATIC_L6,237,295,40,10
-    PUSHBUTTON      "DepthImp",IDC_BTNIMPORTDEPTH,443,293,56,24,WS_DISABLED
 END
 
 IDD_DLGREMARK DIALOGEX 0, 0, 202, 119
@@ -1414,107 +1414,107 @@ END
 
 IDD_DLGPARASET AFX_DIALOG_LAYOUT
 BEGIN
-    0
+
 END
 
 IDD_DLGSHOWPARA AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGHISSUMUP AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGHISLIST AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGHISGRP AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGSTATPARA AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGZOOMIN AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DRILL_DIALOG AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGREMARK AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGSCM AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_ABOUTBOX AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGPASSWORD AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGZERO AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGMODPW AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGVALVESET AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGMAINSHOW AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGSCATTER AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGXLSSTATSET AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGSEGCALIB AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGCOLLECT AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 IDD_DLGGLBCFG AFX_DIALOG_LAYOUT
 BEGIN
-    0
+0
 END
 
 
@@ -1525,599 +1525,599 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_ABOUTBOX            "About Torque Meter(&A)..."
-    ID_PORTINFO             "                                                                                                                                                                                                                                                                                                                                                               "
+IDS_ABOUTBOX            "About Torque Meter(&A)..."
+ID_PORTINFO             "                                                                                                                                                                                                                                                                                                                                                               "
 END
 
 STRINGTABLE
 BEGIN
-    ID_ABOUT                "Displays programe information, version number and copyright\nAbout"
+ID_ABOUT                "Displays programe information, version number and copyright\nAbout"
 END
 
 STRINGTABLE
 BEGIN
-    ID_APP_ABOUT            "Displays programe information, version number and copyright\nAbout"
-    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+ID_APP_ABOUT            "Displays programe information, version number and copyright\nAbout"
+ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRTITLE            "JianHu KaiTai Torque Meter V6.23"
-    IDS_STRTRYOUT           "JianHu KaiTai Torque Meter V6.23(Trial)"
-    IDS_STRBIGTITLE         "JianHu KaiTai Torque Meter V6.23*"
-    IDS_STRBIGTRYOUT        "JianHu KaiTai Torque Meter V6.23*(Trial)"
-    IDS_STRONEBLANK         " "
-    IDS_STRABINCH           "in"
-    IDS_STRABMILMETER       "mm"
-    IDS_STRNULL             "NULL"
+IDS_STRTITLE            "JianHu KaiTai Torque Meter V6.23"
+IDS_STRTRYOUT           "JianHu KaiTai Torque Meter V6.23(Trial)"
+IDS_STRBIGTITLE         "JianHu KaiTai Torque Meter V6.23*"
+IDS_STRBIGTRYOUT        "JianHu KaiTai Torque Meter V6.23*(Trial)"
+IDS_STRONEBLANK         " "
+IDS_STRABINCH           "in"
+IDS_STRABMILMETER       "mm"
+IDS_STRNULL             "NULL"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRZERO             "0"
-    IDS_STRONE              "1"
-    IDS_STRMAKEUP           "MakeUp Torq"
-    IDS_STRBREAKOUT         "BreakOut Torq"
+IDS_STRZERO             "0"
+IDS_STRONE              "1"
+IDS_STRMAKEUP           "MakeUp Torq"
+IDS_STRBREAKOUT         "BreakOut Torq"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRRETURN           "Exit"
-    IDS_STREXPORT           "Export"
-    IDS_STROK               "OK"
-    IDS_STRREGISTER         "Register"
-    IDS_STRHISDATA          "Historical Data"
-    IDS_STRSAVEXLS          "Save xls"
-    IDS_STRNUMBER           "Num"
-    IDS_STRSAVEDOC          "Save doc"
-    IDS_STRSAVEORG          "Save org data"
+IDS_STRRETURN           "Exit"
+IDS_STREXPORT           "Export"
+IDS_STROK               "OK"
+IDS_STRREGISTER         "Register"
+IDS_STRHISDATA          "Historical Data"
+IDS_STRSAVEXLS          "Save xls"
+IDS_STRNUMBER           "Num"
+IDS_STRSAVEDOC          "Save doc"
+IDS_STRSAVEORG          "Save org data"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRFONTDEAAULT      "ËÎÌå"
-    IDS_STRFONTTIMESNR      "Times New Roman"
-    IDS_STRFONTMSSERIF      "MS Sans Serif"
+IDS_STRFONTDEAAULT      "ËÎÌå"
+IDS_STRFONTTIMESNR      "Times New Roman"
+IDS_STRFONTMSSERIF      "MS Sans Serif"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRDATEFORM         "%Y-%m-%d"
-    IDS_STRDATETIME         "%y-%m-%d %H:%M"
-    IDS_STRTMPBMP           "temp.bmp"
-    IDS_STRTMPINI           "temp.ini"
-    IDS_STRPNGNAME          "%s-%05d.png"
-    IDS_STRMULTIPNGNAME     "%s-%05d~%05d.png"
-    IDS_STRTEMPPNGNAME      "Temp%03d.png"
+IDS_STRDATEFORM         "%Y-%m-%d"
+IDS_STRDATETIME         "%y-%m-%d %H:%M"
+IDS_STRTMPBMP           "temp.bmp"
+IDS_STRTMPINI           "temp.ini"
+IDS_STRPNGNAME          "%s-%05d.png"
+IDS_STRMULTIPNGNAME     "%s-%05d~%05d.png"
+IDS_STRTEMPPNGNAME      "Temp%03d.png"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRSTATNAME         "%s-%s.png"
+IDS_STRSTATNAME         "%s-%s.png"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINIFILTER        "Config files (*.ini)|*.ini|All files (*.*)|*.*||"
-    IDS_STRPNGFILTER        "DataGraph files (*.png)|*.png|All files (*.*)|*.*||"
-    IDS_STRDATFILTER        "Data files (*.pbd)|*.pbd|All files (*.*)|*.*||"
-    IDS_STRDOCFILTER        "WORD files (*.doc)|*.doc|All files (*.*)|*.*||"
-    IDS_STRXLSFILTER        "EXCEL files (*.xls)|*.xls|All files (*.*)|*.*||"
-    IDS_STRCSVFILTER        "CSV files (*.csv)|*.csv|All files (*.*)|*.*||"
+IDS_STRINIFILTER        "Config files (*.ini)|*.ini|All files (*.*)|*.*||"
+IDS_STRPNGFILTER        "DataGraph files (*.png)|*.png|All files (*.*)|*.*||"
+IDS_STRDATFILTER        "Data files (*.pbd)|*.pbd|All files (*.*)|*.*||"
+IDS_STRDOCFILTER        "WORD files (*.doc)|*.doc|All files (*.*)|*.*||"
+IDS_STRXLSFILTER        "EXCEL files (*.xls)|*.xls|All files (*.*)|*.*||"
+IDS_STRCSVFILTER        "CSV files (*.csv)|*.csv|All files (*.*)|*.*||"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRCRTEXCDB         "DRIVER={%s};DSN='';FIRSTROWHASNAMES=1;READONLY=FALSE;CREATE_DB=""%s"";DBQ=%s"
-    IDS_STRCREATETABLE      "CREATE TABLE %s ( "
-    IDS_STRINSERTTABLE      "INSERT INTO  %s ( "
-    IDS_STRSHEETHISDATA     "TorqueHistoricalData"
-    IDS_STRSHEETCOLLDATA    "SCMHistoricalData"
-    IDS_STRSHEETCALIBDATA   "CalibrationData"
+IDS_STRCRTEXCDB         "DRIVER={%s};DSN='';FIRSTROWHASNAMES=1;READONLY=FALSE;CREATE_DB=""%s"";DBQ=%s"
+IDS_STRCREATETABLE      "CREATE TABLE %s ( "
+IDS_STRINSERTTABLE      "INSERT INTO  %s ( "
+IDS_STRSHEETHISDATA     "TorqueHistoricalData"
+IDS_STRSHEETCOLLDATA    "SCMHistoricalData"
+IDS_STRSHEETCALIBDATA   "CalibrationData"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRAPITITLE         "Conventional tube twist torque table(API)"
-    IDS_STRAPIOUTSIDE       "Outside"
-    IDS_STRAPIWEIGHT        "Weight kg/m"
-    IDS_STRAPILEVEL         "Steel Grade"
+IDS_STRAPITITLE         "Conventional tube twist torque table(API)"
+IDS_STRAPIOUTSIDE       "Outside"
+IDS_STRAPIWEIGHT        "Weight kg/m"
+IDS_STRAPILEVEL         "Steel Grade"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRAPITORQTHIN      "RCMD Torq(Not Thicken) N.m"
-    IDS_STRAPITORQTHICK     "RCMD Torq(Thicken) N.m"
-    IDS_STRAPITHIN          "Not Thicken"
-    IDS_STRAPITHICK         "Thicken"
-    IDS_STRAPIBIGGEST       "MaxTorq"
-    IDS_STRAPILEAST         "MinTorq"
-    IDS_STRAPIBEST          "OptTorq"
+IDS_STRAPITORQTHIN      "RCMD Torq(Not Thicken) N.m"
+IDS_STRAPITORQTHICK     "RCMD Torq(Thicken) N.m"
+IDS_STRAPITHIN          "Not Thicken"
+IDS_STRAPITHICK         "Thicken"
+IDS_STRAPIBIGGEST       "MaxTorq"
+IDS_STRAPILEAST         "MinTorq"
+IDS_STRAPIBEST          "OptTorq"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRCGCALPHABET      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSATUVWXYZ"
-    IDS_STRCGCPAGENUM       "Page %d of %d"
+IDS_STRCGCALPHABET      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSATUVWXYZ"
+IDS_STRCGCPAGENUM       "Page %d of %d"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRTAGKIND          "MakeUpType"
-    IDS_STRBUCKLE           "BHA"
-    IDS_STRALLSTAT          "All"
-    IDS_STRSTATCTRLTORQ     "OptTorq"
-    IDS_STRSTATSHOULDER     "Shoulder"
-    IDS_STRSTATDELTA        "DELTA"
+IDS_STRTAGKIND          "MakeUpType"
+IDS_STRBUCKLE           "BHA"
+IDS_STRALLSTAT          "All"
+IDS_STRSTATCTRLTORQ     "OptTorq"
+IDS_STRSTATSHOULDER     "Shoulder"
+IDS_STRSTATDELTA        "DELTA"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRCALIBERRORINPUT  "The calibration INFO is ERROR, please confirm before calibrating!"
-    IDS_STRCALIBSENDFAIL    "Failed to send calibration CMD, please confirm serial communication status!"
-    IDS_STRCALIBREADERROR   "Calibration information read error (%s)!"
-    IDS_STRCALIBFORMARTERR  "The format of the calibration information file(%s) is incorrect, please confirm!!"
-    IDS_STRCALIBIMPSUCC     "Import calibration information file SUCCESS!!"
+IDS_STRCALIBERRORINPUT  "The calibration INFO is ERROR, please confirm before calibrating!"
+IDS_STRCALIBSENDFAIL    "Failed to send calibration CMD, please confirm serial communication status!"
+IDS_STRCALIBREADERROR   "Calibration information read error (%s)!"
+IDS_STRCALIBFORMARTERR  "The format of the calibration information file(%s) is incorrect, please confirm!!"
+IDS_STRCALIBIMPSUCC     "Import calibration information file SUCCESS!!"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPIMEMO           "comment"
-    IDS_STRPIREMARK         "QuaRemark"
+IDS_STRPIMEMO           "comment"
+IDS_STRPIREMARK         "QuaRemark"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNTORQUE         "TorqPara"
-    IDS_STRPIMAXBOUND       "FullTorq"
-    IDS_STRPIUPLIMIT        "MaxTorq"
-    IDS_STRPICONTROL        "CtrlTorq"
-    IDS_STRPILOWLIMIT       "MinTorq"
-    IDS_STRPISPEEDDOWN      "SlowTorq"
-    IDS_STRPISHOW           "ShowTorq"
-    IDS_STRPIBEAR           "BearTorq"
-    IDS_STRPICUT            "AdjustRatio"
-    IDS_STRPIUPTAI          "MaxStep"
+IDS_STRPNTORQUE         "TorqPara"
+IDS_STRPIMAXBOUND       "FullTorq"
+IDS_STRPIUPLIMIT        "MaxTorq"
+IDS_STRPICONTROL        "CtrlTorq"
+IDS_STRPILOWLIMIT       "MinTorq"
+IDS_STRPISPEEDDOWN      "SlowTorq"
+IDS_STRPISHOW           "ShowTorq"
+IDS_STRPIBEAR           "BearTorq"
+IDS_STRPICUT            "AdjustRatio"
+IDS_STRPIUPTAI          "MaxStep"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPIGOODTAI        "OptStep"
-    IDS_STRPILOWTAI         "MinStep"
-    IDS_STRPIMINSHLSLOPE    "MinShlSlope"
-    IDS_STRPIOPTTORQ        "OptTorq"
-    IDS_STRPVMAXBOUND       "2200"
-    IDS_STRPVUPLIMIT        "1900"
-    IDS_STRPVCONTROL        "1800"
-    IDS_STRPVLOWLIMIT       "1700"
-    IDS_STRPVSPEEDDOWN      "540"
+IDS_STRPIGOODTAI        "OptStep"
+IDS_STRPILOWTAI         "MinStep"
+IDS_STRPIMINSHLSLOPE    "MinShlSlope"
+IDS_STRPIOPTTORQ        "OptTorq"
+IDS_STRPVMAXBOUND       "2200"
+IDS_STRPVUPLIMIT        "1900"
+IDS_STRPVCONTROL        "1800"
+IDS_STRPVLOWLIMIT       "1700"
+IDS_STRPVSPEEDDOWN      "540"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVSHOW           "100"
-    IDS_STRPVBEAR           "1500"
-    IDS_STRPVCUT            "1"
-    IDS_STRPVUPTAI          "1260"
-    IDS_STRPVLOWTAI         "180"
-    IDS_STRPVMINSHLSLOPE    "5.0"
-    IDS_STRPVOPTTORQ        "1800"
+IDS_STRPVSHOW           "100"
+IDS_STRPVBEAR           "1500"
+IDS_STRPVCUT            "1"
+IDS_STRPVUPTAI          "1260"
+IDS_STRPVLOWTAI         "180"
+IDS_STRPVMINSHLSLOPE    "5.0"
+IDS_STRPVOPTTORQ        "1800"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNCIRCUIT        "TwistTurn"
-    IDS_STRPIMAXCIR         "FullTurn"
-    IDS_STRPIUPCIR          "MaxTurn"
-    IDS_STRPICTRLCIR        "CtrlTurn"
-    IDS_STRPILOWCIR         "MinTurn"
-    IDS_STRPIMAXDELTACIR    "MaxDeltaTurn"
-    IDS_STRPIMINDELTACIR    "MinDeltaTurn"
+IDS_STRPNCIRCUIT        "TwistTurn"
+IDS_STRPIMAXCIR         "FullTurn"
+IDS_STRPIUPCIR          "MaxTurn"
+IDS_STRPICTRLCIR        "CtrlTurn"
+IDS_STRPILOWCIR         "MinTurn"
+IDS_STRPIMAXDELTACIR    "MaxDeltaTurn"
+IDS_STRPIMINDELTACIR    "MinDeltaTurn"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVMAXCIR         "2"
-    IDS_STRPVUPCIR          "2"
-    IDS_STRPVCTRLCIR        "1.5"
+IDS_STRPVMAXCIR         "2"
+IDS_STRPVUPCIR          "2"
+IDS_STRPVCTRLCIR        "1.5"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVLOWCIR         "0.20"
-    IDS_STRPVMAXDELTACIR    "0.10"
-    IDS_STRPVMINDELTACIR    "0.01"
+IDS_STRPVLOWCIR         "0.20"
+IDS_STRPVMAXDELTACIR    "0.10"
+IDS_STRPVMINDELTACIR    "0.01"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNRPM            "RPM"
-    IDS_STRPIMAXRPM         "FullRPM"
-    IDS_STRPIPLUS           "PlusPerTurn"
-    IDS_STRPIRPMADJ         "RPMAdjust"
+IDS_STRPNRPM            "RPM"
+IDS_STRPIMAXRPM         "FullRPM"
+IDS_STRPIPLUS           "PlusPerTurn"
+IDS_STRPIRPMADJ         "RPMAdjust"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVMAXRPM         "10"
+IDS_STRPVMAXRPM         "10"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVPLUS           "4500"
-    IDS_STRPVRPMADJ         "3.5"
+IDS_STRPVPLUS           "4500"
+IDS_STRPVRPMADJ         "3.5"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNPORT           "SerialPort"
-    IDS_STRPIPORTNO         "PortNO"
+IDS_STRPNPORT           "SerialPort"
+IDS_STRPIPORTNO         "PortNO"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPIBAND           "BaudRate"
-    IDS_STRPIPARITY         "Parity"
-    IDS_STRPIDATABIT        "DataBit"
-    IDS_STRPISTOPBIT        "StopBit"
+IDS_STRPIBAND           "BaudRate"
+IDS_STRPIPARITY         "Parity"
+IDS_STRPIDATABIT        "DataBit"
+IDS_STRPISTOPBIT        "StopBit"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVPORTNO         "1"
-    IDS_STRPVBAND           "19200"
-    IDS_STRPVDATABIT        "8"
-    IDS_STRPVSTOPBIT        "1"
-    IDS_STRPVPARNONE        "None"
-    IDS_STRPVPARODD         "Odd"
-    IDS_STRPVPAREVEN        "Even"
+IDS_STRPVPORTNO         "1"
+IDS_STRPVBAND           "19200"
+IDS_STRPVDATABIT        "8"
+IDS_STRPVSTOPBIT        "1"
+IDS_STRPVPARNONE        "None"
+IDS_STRPVPARODD         "Odd"
+IDS_STRPVPAREVEN        "Even"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNOTHER          "OtherPara"
-    IDS_STRPIRESET          "ResetTime"
-    IDS_STRPISAVEDATA       "SaveDataTime"
-    IDS_STRPIEXPORTIMGNUM   "ExpIMGNum"
+IDS_STRPNOTHER          "OtherPara"
+IDS_STRPIRESET          "ResetTime"
+IDS_STRPISAVEDATA       "SaveDataTime"
+IDS_STRPIEXPORTIMGNUM   "ExpIMGNum"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPIZOOMIN         "ZoomIn"
-    IDS_STRPICURWELL        "CurWellNo"
-    IDS_STRPICURTUBE        "CurTubeNo"
+IDS_STRPIZOOMIN         "ZoomIn"
+IDS_STRPICURWELL        "CurWellNo"
+IDS_STRPICURTUBE        "CurTubeNo"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVRESET          "10"
-    IDS_STRPVSAVEDATA       "30"
-    IDS_STRPVEXPORTIMGNUM   "8"
-    IDS_STRPVZOOMIN         "5"
+IDS_STRPVRESET          "10"
+IDS_STRPVSAVEDATA       "30"
+IDS_STRPVEXPORTIMGNUM   "8"
+IDS_STRPVZOOMIN         "5"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNTUBING         "Tubing"
-    IDS_STRPIFACTORY        "Factory"
-    IDS_STRPIOEM            "OEM"
-    IDS_STRPISIZE           "Size"
-    IDS_STRPIMAT            "Material"
-    IDS_STRPICOUPLING       "Coupling"
-    IDS_STRPIFIXTUBING      "FixTubing"
+IDS_STRPNTUBING         "Tubing"
+IDS_STRPIFACTORY        "Factory"
+IDS_STRPIOEM            "OEM"
+IDS_STRPISIZE           "Size"
+IDS_STRPIMAT            "Material"
+IDS_STRPICOUPLING       "Coupling"
+IDS_STRPIFIXTUBING      "FixTubing"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVFACTORY        "0"
-    IDS_STRPVOEM            "0"
-    IDS_STRPVSIZE           "0"
-    IDS_STRPVMAT            "0"
-    IDS_STRPVCOUPLING       "9"
+IDS_STRPVFACTORY        "0"
+IDS_STRPVOEM            "0"
+IDS_STRPVSIZE           "0"
+IDS_STRPVMAT            "0"
+IDS_STRPVCOUPLING       "9"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNADJUST         "AdjustPara"
-    IDS_STRPIMULT           "Multi"
-    IDS_STRPIBIGTORQ        "BigTorq"
-    IDS_STRPITEST           "Test"
-    IDS_STRPICOLLTIME       "CollectTime"
-    IDS_STRPIAUTOSAVE       "DataPath"
-    IDS_STRPIBREAKOUT       "BreakOut"
-    IDS_STRPIIPPOINT        "Shoulder"
-    IDS_STRPIFILEDATEBEHIND "DateBehind"
-    IDS_STRPITORQUNIT       "TorqUnit"
-    IDS_STRPIIPSHOWMODE     "IPShowMode"
-    IDS_STRPIIPDELTAVAL     "IPDeltaVal"
+IDS_STRPNADJUST         "AdjustPara"
+IDS_STRPIMULT           "Multi"
+IDS_STRPIBIGTORQ        "BigTorq"
+IDS_STRPITEST           "Test"
+IDS_STRPICOLLTIME       "CollectTime"
+IDS_STRPIAUTOSAVE       "DataPath"
+IDS_STRPIBREAKOUT       "BreakOut"
+IDS_STRPIIPPOINT        "Shoulder"
+IDS_STRPIFILEDATEBEHIND "DateBehind"
+IDS_STRPITORQUNIT       "TorqUnit"
+IDS_STRPIIPSHOWMODE     "IPShowMode"
+IDS_STRPIIPDELTAVAL     "IPDeltaVal"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVMULT           "1"
-    IDS_STRPVCOLLTIME       "100"
+IDS_STRPVMULT           "1"
+IDS_STRPVCOLLTIME       "100"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVIPDELTAVAL     "0.1"
-    IDS_STRPNSTAT           "StatPara"
-    IDS_STRPICTRLRANGE      "CtrlRange%d"
-    IDS_STRPISHOULDRANGE    "ShouldRange%d"
-    IDS_STRPIDELTARANGE     "DeltaRange%d"
+IDS_STRPVIPDELTAVAL     "0.1"
+IDS_STRPNSTAT           "StatPara"
+IDS_STRPICTRLRANGE      "CtrlRange%d"
+IDS_STRPISHOULDRANGE    "ShouldRange%d"
+IDS_STRPIDELTARANGE     "DeltaRange%d"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNVALVE          "ValvePara"
-    IDS_STRPIVAVLETORQ      "Valve%dTorq%d"
-    IDS_STRPIVAVLERATIO     "Valve%dRatio%d"
-    IDS_STRPIZOOMRATIO      "ZoomRatio"
+IDS_STRPNVALVE          "ValvePara"
+IDS_STRPIVAVLETORQ      "Valve%dTorq%d"
+IDS_STRPIVAVLERATIO     "Valve%dRatio%d"
+IDS_STRPIZOOMRATIO      "ZoomRatio"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNCALIB          "CalbiPara"
-    IDS_STRPILOAD           "CalibLoad%d"
-    IDS_STRPISTROKE         "CalibStroke%d"
-    IDS_STRPIRETURN         "CalibReturn%d"
+IDS_STRPNCALIB          "CalbiPara"
+IDS_STRPILOAD           "CalibLoad%d"
+IDS_STRPISTROKE         "CalibStroke%d"
+IDS_STRPIRETURN         "CalibReturn%d"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVZOOMRATIO      "1"
+IDS_STRPVZOOMRATIO      "1"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNSHOWPARA       "ShowPara"
-    IDS_STRPIPARANUM        "ParaNum"
-    IDS_STRPILISTNUM        "ListNum"
-    IDS_STRPIMAINNUM        "MainNum"
-    IDS_STRPIFILEINFO       "FileInfo"
-    IDS_STRPISHOWNAME       "ShowName"
-    IDS_STRPICUROPT         "CurOption"
-    IDS_STRPISHOWINFO       "Show"
-    IDS_STRPIOPTION         "Option"
-    IDS_STRPILISTNAME       "ListName"
-    IDS_STRPIMAINNAME       "MainName"
-    IDS_STRPIFILENAME       "FileName"
-    IDS_STRPISTATTYPE       "StatType"
+IDS_STRPNSHOWPARA       "ShowPara"
+IDS_STRPIPARANUM        "ParaNum"
+IDS_STRPILISTNUM        "ListNum"
+IDS_STRPIMAINNUM        "MainNum"
+IDS_STRPIFILEINFO       "FileInfo"
+IDS_STRPISHOWNAME       "ShowName"
+IDS_STRPICUROPT         "CurOption"
+IDS_STRPISHOWINFO       "Show"
+IDS_STRPIOPTION         "Option"
+IDS_STRPILISTNAME       "ListName"
+IDS_STRPIMAINNAME       "MainName"
+IDS_STRPIFILENAME       "FileName"
+IDS_STRPISTATTYPE       "StatType"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVPARANUM        "0"
-    IDS_STRPVLISTNUM        "0"
-    IDS_STRPVMAINNUM        "0"
-    IDS_STRPVFILEINFO       "4"
-    IDS_STRPVFILENAME       "0"
-    IDS_STRPVSTATTYPE       "0"
+IDS_STRPVPARANUM        "0"
+IDS_STRPVLISTNUM        "0"
+IDS_STRPVMAINNUM        "0"
+IDS_STRPVFILEINFO       "4"
+IDS_STRPVFILENAME       "0"
+IDS_STRPVSTATTYPE       "0"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNGLBPARA        "GlbPara"
-    IDS_STRPILANGUAGE       "Language"
-    IDS_STRPIPASSWORD       "Password"
-    IDS_STRPIPARAFILE       "ParaFile"
+IDS_STRPNGLBPARA        "GlbPara"
+IDS_STRPILANGUAGE       "Language"
+IDS_STRPIPASSWORD       "Password"
+IDS_STRPIPARAFILE       "ParaFile"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVPASSWORD       "KaiTai1234"
+IDS_STRPVPASSWORD       "KaiTai1234"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPNXLSSTATPARA    "XlsStat"
-    IDS_STRPISUMMARY        "Summary"
-    IDS_STRPIREPORT         "Report"
-    IDS_STRPIOPERATOR       "Operator"
-    IDS_STRPITALLY          "Tally"
+IDS_STRPNXLSSTATPARA    "XlsStat"
+IDS_STRPISUMMARY        "Summary"
+IDS_STRPIREPORT         "Report"
+IDS_STRPIOPERATOR       "Operator"
+IDS_STRPITALLY          "Tally"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRPVOPERATOR       "13"
-    IDS_STRPVTALLY          "9"
+IDS_STRPVOPERATOR       "13"
+IDS_STRPVTALLY          "9"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRHISGPRINTTITLE   "Print Historical Data"
-    IDS_STRHISLLISTHEAD     "NO,%d;MakeupTime,%d;BreakoutTime,%d;FastenTorq,%d;OptTorq,%d;MakeTorq,%d;MakeTrun,%d;BreakTorq,%d;BreakTrun,%d;OutWellNO,%d;Comment,%d;"
+IDS_STRHISGPRINTTITLE   "Print Historical Data"
+IDS_STRHISLLISTHEAD     "NO,%d;MakeupTime,%d;BreakoutTime,%d;FastenTorq,%d;OptTorq,%d;MakeTorq,%d;MakeTrun,%d;BreakTorq,%d;BreakTrun,%d;OutWellNO,%d;Comment,%d;"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRSCMINIT          "Initialize"
-    IDS_STRSCMMULTI         "Meter calibrate"
-    IDS_STRSCMQIPI          "Peel"
-    IDS_STRSCMTIME          "Time"
+IDS_STRSCMINIT          "Initialize"
+IDS_STRSCMMULTI         "Meter calibrate"
+IDS_STRSCMQIPI          "Peel"
+IDS_STRSCMTIME          "Time"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRCOLLISTHEAD      "MakeUpTime,%d;Turn,%d;Torque,%d;"
-    IDS_STRCALIBLISTHEAD    "Type,%d;NO,%d;CalibTorq,%d;A/D Torq,%d;MinTorq,%d;MaxTorq,%d;"
+IDS_STRCOLLISTHEAD      "MakeUpTime,%d;Turn,%d;Torque,%d;"
+IDS_STRCALIBLISTHEAD    "Type,%d;NO,%d;CalibTorq,%d;A/D Torq,%d;MinTorq,%d;MaxTorq,%d;"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRZEROCORRECT      "calibrate value"
+IDS_STRZEROCORRECT      "calibrate value"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRLCXCONTROL       "Opt  Torq %.f"
-    IDS_STRLCXUPLIMIT       "Max  Torq %.f"
-    IDS_STRLCXLOWLIMIT      "Min  Torq %.f"
-    IDS_STRLCXGOODTAI       "Opt  Shoulder %.f"
-    IDS_STRLCXUPTAI         "Max  Shoulder %.f"
-    IDS_STRLCXLOWTAI        "Min  Shoulder %.f"
-    IDS_STRLCXSHOW          "Show Torq %.f"
-    IDS_STRLCXBEAR          "Bear Torq %.f"
-    IDS_STRLCIPTORQ         "Shoulder %.f"
-    IDS_STRLCZOOMTORQ       "ZoomIn %.f"
+IDS_STRLCXCONTROL       "Opt  Torq %.f"
+IDS_STRLCXUPLIMIT       "Max  Torq %.f"
+IDS_STRLCXLOWLIMIT      "Min  Torq %.f"
+IDS_STRLCXGOODTAI       "Opt  Shoulder %.f"
+IDS_STRLCXUPTAI         "Max  Shoulder %.f"
+IDS_STRLCXLOWTAI        "Min  Shoulder %.f"
+IDS_STRLCXSHOW          "Show Torq %.f"
+IDS_STRLCXBEAR          "Bear Torq %.f"
+IDS_STRLCIPTORQ         "Shoulder %.f"
+IDS_STRLCZOOMTORQ       "ZoomIn %.f"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRLINELABEL        "Torque-Turn Graph:    (Vert=%s, Hori=Turn)"
-    IDS_STRTORQPARA         "Torque Parameter(%s)"
-    IDS_STRTORQUNIT         "Torque(%s)"
-    IDS_STRTORQNMUNIT       "N%sm"
-    IDS_STRTORQLBFTUNIT     "lb%sft"
+IDS_STRLINELABEL        "Torque-Turn Graph:    (Vert=%s, Hori=Turn)"
+IDS_STRTORQPARA         "Torque Parameter(%s)"
+IDS_STRTORQUNIT         "Torque(%s)"
+IDS_STRTORQNMUNIT       "N%sm"
+IDS_STRTORQLBFTUNIT     "lb%sft"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRMARKQUALITY      "Accepted"
-    IDS_STRMARKDISQUAL      "Rejected"
-    IDS_STRMARKLESSLIMIT    "LowTorq"
-    IDS_STRMARKMORELIMIT    "HighTorq"
-    IDS_STRMARKMORESTART    "HighStartTorq"
-    IDS_STRMARKMORECTRL     "HighDeltaOptTorq"
-    IDS_STRMARKLESSCIRC     "LowTurn"
-    IDS_STRMARKMORECIRC     "HighTurn"
+IDS_STRMARKQUALITY      "Accepted"
+IDS_STRMARKDISQUAL      "Rejected"
+IDS_STRMARKLESSLIMIT    "LowTorq"
+IDS_STRMARKMORELIMIT    "HighTorq"
+IDS_STRMARKMORESTART    "HighStartTorq"
+IDS_STRMARKMORECTRL     "HighDeltaOptTorq"
+IDS_STRMARKLESSCIRC     "LowTurn"
+IDS_STRMARKMORECIRC     "HighTurn"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRMARKTRANSLATE    "Translation"
-    IDS_STRMARKNOIPPOINT    "NoShoulder"
-    IDS_STRMARKLOWSHOULD    "LowShlTorq"
-    IDS_STRMARKHIGHTSHOULD  "HighShlTorq"
-    IDS_STRMARKLOWDELTATURN "LowDeltaTurn"
-    IDS_STRMARKHIGHDELTATURN "HighDeltaTurn"
-    IDS_STRMARKLOWSLOPE     "LowShlSlope"
-    IDS_STRMARKOTHERCAUSE   "OtherCause"
-    IDS_STRMARKBREAKOUTINSPECT "BreakOutInspect"
-    IDS_STRMARKGALLING      "Galling"
-    IDS_STRMARKTHREADNOTCLEAN "ThreadNOTClean"
-    IDS_STRMARKGASSEALINSPECT "GasSealInspect"
+IDS_STRMARKTRANSLATE    "Translation"
+IDS_STRMARKNOIPPOINT    "NoShoulder"
+IDS_STRMARKLOWSHOULD    "LowShlTorq"
+IDS_STRMARKHIGHTSHOULD  "HighShlTorq"
+IDS_STRMARKLOWDELTATURN "LowDeltaTurn"
+IDS_STRMARKHIGHDELTATURN "HighDeltaTurn"
+IDS_STRMARKLOWSLOPE     "LowShlSlope"
+IDS_STRMARKOTHERCAUSE   "OtherCause"
+IDS_STRMARKBREAKOUTINSPECT "BreakOutInspect"
+IDS_STRMARKGALLING      "Galling"
+IDS_STRMARKTHREADNOTCLEAN "ThreadNOTClean"
+IDS_STRMARKGASSEALINSPECT "GasSealInspect"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRMAINRUN          "Run"
-    IDS_STRMAINSTOP         "Stop"
-    IDS_STRMAINPORTOPR      "Open/Close Port"
-    IDS_STRMAINVIEWHIS      "View historical data"
+IDS_STRMAINRUN          "Run"
+IDS_STRMAINSTOP         "Stop"
+IDS_STRMAINPORTOPR      "Open/Close Port"
+IDS_STRMAINVIEWHIS      "View historical data"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRMAINOPENPORT     "Open"
-    IDS_STRMAINCLOSEPORT    "Close"
-    IDS_STRMAINPORTCLOSE    "COM%d CLOSE"
-    IDS_STRMAINPORTOPEN     "COM%d OPEN"
-    IDS_STRMAINPORTSIMRAND  "COM%d OPEN(Test-Rand)"
-    IDS_STRMAINPORTSIMTORQ  "COM%d OPEN(Test-TorqueInfo)"
-    IDS_STRMAINPORTSIMMULTI "COM%d OPEN(Test-MultiInfo )"
-    IDS_STRMAINPORTSIMHIS   "COM%d OPEN(Test-SCMHistory)"
+IDS_STRMAINOPENPORT     "Open"
+IDS_STRMAINCLOSEPORT    "Close"
+IDS_STRMAINPORTCLOSE    "COM%d CLOSE"
+IDS_STRMAINPORTOPEN     "COM%d OPEN"
+IDS_STRMAINPORTSIMRAND  "COM%d OPEN(Test-Rand)"
+IDS_STRMAINPORTSIMTORQ  "COM%d OPEN(Test-TorqueInfo)"
+IDS_STRMAINPORTSIMMULTI "COM%d OPEN(Test-MultiInfo )"
+IDS_STRMAINPORTSIMHIS   "COM%d OPEN(Test-SCMHistory)"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFREGCODEERR    "Please input correct register code!"
-    IDS_STRINFREGSUCC       "Successful register!"
-    IDS_STRINFREGFAIL       "Register code is error! Please Get correct register code!"
-    IDS_STRINFNOREG         "Can't use the function in trail Version. Please Get correct register code!"
-    IDS_STRINFSAVEREGFAIL   "Can't save register file!"
+IDS_STRINFREGCODEERR    "Please input correct register code!"
+IDS_STRINFREGSUCC       "Successful register!"
+IDS_STRINFREGFAIL       "Register code is error! Please Get correct register code!"
+IDS_STRINFNOREG         "Can't use the function in trail Version. Please Get correct register code!"
+IDS_STRINFSAVEREGFAIL   "Can't save register file!"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFPARAALIAS     "Please input alias for config parameters!"
-    IDS_STRINFSAVEALIAS     "Save config parameters <%s> succeeded!"
-    IDS_STRINFCONSBEGIN     "The well started operation on %s, during which "
-    IDS_STRINFCONSTUBING    "%s: %d, "
-    IDS_STRINFCONSBHA       "and %d tool buckles were made up. "
-    IDS_STRINFCONSTOTAL     "In total, there were %d oil pipes, of which %d were accepted and %d rejected. "
-    IDS_STRINFCONSEND       "Passed the pressure test on %s."
-    IDS_STRINFSAVEALIASFAIL "Save config parameters <%s> failed!"
-    IDS_STRINFDELETEALIAS   "Delete config parameters <%s> succeeded!"
+IDS_STRINFPARAALIAS     "Please input alias for config parameters!"
+IDS_STRINFSAVEALIAS     "Save config parameters <%s> succeeded!"
+IDS_STRINFCONSBEGIN     "The well started operation on %s, during which "
+IDS_STRINFCONSTUBING    "%s: %d, "
+IDS_STRINFCONSBHA       "and %d tool buckles were made up. "
+IDS_STRINFCONSTOTAL     "In total, there were %d oil pipes, of which %d were accepted and %d rejected. "
+IDS_STRINFCONSEND       "Passed the pressure test on %s."
+IDS_STRINFSAVEALIASFAIL "Save config parameters <%s> failed!"
+IDS_STRINFDELETEALIAS   "Delete config parameters <%s> succeeded!"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFPORTERR       "ProtNo: 0x%2x,Receive PortNo: 0x%2x"
-    IDS_STRINFRCVCMDERR     "MODBUS command Error:%x"
-    IDS_STRINFSNDCMDERR     "Send control comamnd fail:%x"
-    IDS_STRINFSETPORTERR    "The set port is incorrect, please check:%d"
+IDS_STRINFPORTERR       "ProtNo: 0x%2x,Receive PortNo: 0x%2x"
+IDS_STRINFRCVCMDERR     "MODBUS command Error:%x"
+IDS_STRINFSNDCMDERR     "Send control comamnd fail:%x"
+IDS_STRINFSETPORTERR    "The set port is incorrect, please check:%d"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFMAININITFAIL  "Initialize fail!"
-    IDS_STRINFRUNNSETPARA   "Can't set parameter in RUN status, Please STOP first!"
-    IDS_STRINFRUNNFUNTEST   "Can't test function in RUN status, Please STOP first!"
-    IDS_STRINFRUNNMODSCM    "Can't change SCM parameter in RUN status, Please STOP first!"
+IDS_STRINFMAININITFAIL  "Initialize fail!"
+IDS_STRINFRUNNSETPARA   "Can't set parameter in RUN status, Please STOP first!"
+IDS_STRINFRUNNFUNTEST   "Can't test function in RUN status, Please STOP first!"
+IDS_STRINFRUNNMODSCM    "Can't change SCM parameter in RUN status, Please STOP first!"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFRUNNVIEWHIS   "Can't view history data in RUN status, Please STOP first!"
-    IDS_STRINFRUNNCOLLHIS   "Can't collect history data in RUN status, Please STOP first!"
-    IDS_STRINFCOLLHISTEST   "Can't RUN program when TEST collect historical data!"
-    IDS_STRINFRUNNSWITCH    "Can't switch version in RUN status, Please STOP first!"
-    IDS_STRINFSWITCHVER     "Switch the MakeUp / BreakOut VERSION?"
-    IDS_STRINFRUNNCALIB     "Can't calibration equipment in RUN status, Please STOP first!"
-    IDS_STRINFRUNNTUBECFG   "Can't set Tubing parameter in RUN status, Please STOP first!"
-    IDS_STRINFRUNNSHOWPARA  "Can't set Show parameter in RUN status, Please STOP first!"
-    IDS_STRINFRUNNGLBCFG    "Can't set Global config in RUN status, Please STOP first!"
-    IDS_STRINFRUNNCHGUNIT   "Can't change Torque unit in RUN status, Please STOP first!"
-    IDS_STRINFRUNNVALVEPARA "Can't set Valve parameter in RUN status, Please STOP first!"
+IDS_STRINFRUNNVIEWHIS   "Can't view history data in RUN status, Please STOP first!"
+IDS_STRINFRUNNCOLLHIS   "Can't collect history data in RUN status, Please STOP first!"
+IDS_STRINFCOLLHISTEST   "Can't RUN program when TEST collect historical data!"
+IDS_STRINFRUNNSWITCH    "Can't switch version in RUN status, Please STOP first!"
+IDS_STRINFSWITCHVER     "Switch the MakeUp / BreakOut VERSION?"
+IDS_STRINFRUNNCALIB     "Can't calibration equipment in RUN status, Please STOP first!"
+IDS_STRINFRUNNTUBECFG   "Can't set Tubing parameter in RUN status, Please STOP first!"
+IDS_STRINFRUNNSHOWPARA  "Can't set Show parameter in RUN status, Please STOP first!"
+IDS_STRINFRUNNGLBCFG    "Can't set Global config in RUN status, Please STOP first!"
+IDS_STRINFRUNNCHGUNIT   "Can't change Torque unit in RUN status, Please STOP first!"
+IDS_STRINFRUNNVALVEPARA "Can't set Valve parameter in RUN status, Please STOP first!"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFCOLOVERFLOW   "Data number(%u) is exceed to max number(%u)"
-    IDS_STRINFREADDATAERR   "The error num of read data is <%u>, error reasonis <%s>. Please try again!"
-    IDS_STRINFQUALOPTM      "Qualitied record, Optimize it ?"
-    IDS_STRINFFILEERR       "Error file format!"
-    IDS_STRINFREADOVERFLOW  "Because the record num (%d) exceed to %d in file£¬the redundant record can't read!"
-    IDS_STRINFTORQDATAERR   "The data file <%s> is ERROR. The number of record is %d, and %d record is valid, current place 0x%x!"
-    IDS_STRINFTORQDATAOVER  "Data length(%d) is too long, skip this (%d) data!"
-    IDS_STRINFTORQDATASHORT "The data file <%s> is ERROR. Data length(%d) is too short, current place 0x%x, skip this (%d) data!"
-    IDS_STRINFMAXWELLNO     "OutWell NO(%d) is less than the historical NO(%d). Sure to use this?"
+IDS_STRINFCOLOVERFLOW   "Data number(%u) is exceed to max number(%u)"
+IDS_STRINFREADDATAERR   "The error num of read data is <%u>, error reasonis <%s>. Please try again!"
+IDS_STRINFQUALOPTM      "Qualitied record, Optimize it ?"
+IDS_STRINFFILEERR       "Error file format!"
+IDS_STRINFREADOVERFLOW  "Because the record num (%d) exceed to %d in file£¬the redundant record can't read!"
+IDS_STRINFTORQDATAERR   "The data file <%s> is ERROR. The number of record is %d, and %d record is valid, current place 0x%x!"
+IDS_STRINFTORQDATAOVER  "Data length(%d) is too long, skip this (%d) data!"
+IDS_STRINFTORQDATASHORT "The data file <%s> is ERROR. Data length(%d) is too short, current place 0x%x, skip this (%d) data!"
+IDS_STRINFMAXWELLNO     "OutWell NO(%d) is less than the historical NO(%d). Sure to use this?"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFNODRIVE       "NO instrall excel! Please instrall excel softer!"
-    IDS_STRINFCRTXLSFAIL    "Create Excel table file fail!"
-    IDS_STRINFSAVEXLSUCC    "Export file save to %s!"
-    IDS_STRINFOVEREXLERR    "Overwrite file Fail!"
-    IDS_STRINFOPENXLFAIL    "Failed to open Excel template file: %s"
+IDS_STRINFNODRIVE       "NO instrall excel! Please instrall excel softer!"
+IDS_STRINFCRTXLSFAIL    "Create Excel table file fail!"
+IDS_STRINFSAVEXLSUCC    "Export file save to %s!"
+IDS_STRINFOVEREXLERR    "Overwrite file Fail!"
+IDS_STRINFOPENXLFAIL    "Failed to open Excel template file: %s"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRINFINITOLEFAIL   "OLE initialization failed. Make sure that the OLE libraries are the correct version"
-    IDS_STRINFSAVEGRIDFAIL  "Unable to save grid list."
-    IDS_STRINFLOADGRIDFAIL  "Unable to load grid data."
+IDS_STRINFINITOLEFAIL   "OLE initialization failed. Make sure that the OLE libraries are the correct version"
+IDS_STRINFSAVEGRIDFAIL  "Unable to save grid list."
+IDS_STRINFLOADGRIDFAIL  "Unable to load grid data."
 END
 
 STRINGTABLE
 BEGIN
-    IDS_STRERRORPW          "The password was entered incorrectly. Please re-enter it!"
-    IDS_STROLDPWERROR       "Old password entered incorrectly, please re-enter!"
-    IDS_STRNEWPWNULL        "The new password is empty, please re-enter!"
-    IDS_STRNEWPWOK          "Password reset complete!"
-    IDS_STRSUPPORPW         "zsg221813"
-    IDS_STRSMAXTORQ         "FullTorq less than MaxTorq!"
-    IDS_STRSMAXCIR          "FullTurn less than MaxTurn!"
-    IDS_STRSNCFILENAME      "Parameter %s can't contain any of the following characters \\/:*.?""<>|"
-    IDS_STRNULLSHOWNAME     "Parameter name should not be NULL!"
-    IDS_STRNULLSHOWVALUE    "Parameter value should not be NULL!"
-    IDS_STRINVALIDPARA      "Invalid parameter value!"
-    IDS_STRINVALIDTORQ      "Invalid torque value!"
-    IDS_STROPERATESUCC      "%s operation is successful!"
-    IDS_STROPERATEFAIL      "%s operation failed!"
-    IDS_STRDBPASSWORD       "Drill@KT123456"
+IDS_STRERRORPW          "The password was entered incorrectly. Please re-enter it!"
+IDS_STROLDPWERROR       "Old password entered incorrectly, please re-enter!"
+IDS_STRNEWPWNULL        "The new password is empty, please re-enter!"
+IDS_STRNEWPWOK          "Password reset complete!"
+IDS_STRSUPPORPW         "zsg221813"
+IDS_STRSMAXTORQ         "FullTorq less than MaxTorq!"
+IDS_STRSMAXCIR          "FullTurn less than MaxTurn!"
+IDS_STRSNCFILENAME      "Parameter %s can't contain any of the following characters \\/:*.?""<>|"
+IDS_STRNULLSHOWNAME     "Parameter name should not be NULL!"
+IDS_STRNULLSHOWVALUE    "Parameter value should not be NULL!"
+IDS_STRINVALIDPARA      "Invalid parameter value!"
+IDS_STRINVALIDTORQ      "Invalid torque value!"
+IDS_STROPERATESUCC      "%s operation is successful!"
+IDS_STROPERATEFAIL      "%s operation failed!"
+IDS_STRDBPASSWORD       "Drill@KT123456"
 END
 
 #endif    // Chinese (Simplified, PRC) resources

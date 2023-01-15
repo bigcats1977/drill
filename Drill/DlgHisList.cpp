@@ -115,9 +115,9 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
 
-    GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
-    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
+    //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
+    //GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -1732,17 +1732,14 @@ void CDlgHisList::OnBnClickedBtnstatset()
 
 void CDlgHisList::OnBnClickedBtnimportdepth()
 {
-    UINT    i = 0;
-    UINT    nMaxShowPlace = 0;
     CString strFilter;
-    CString strInfo;
-    CString strHead, strTemp;
-    string  strName;
     CString strCSVFile;
     TorqData::Torque* ptTorq = NULL;
+    TorqData::ShowInfo* ptRunningShow = NULL;
     ifstream infile;
     vector<int> SeqNO;
-    vector<float> Depth;
+    vector<string> Depth;
+    int maxSeq = 0, curSeq = 0;
 
     strFilter.Format(IDS_STRCSVFILTER);
 
@@ -1763,13 +1760,33 @@ void CDlgHisList::OnBnClickedBtnimportdepth()
         if (getline(sin, field, ','))
         {
             SeqNO.push_back(stoi(field));
+            maxSeq = MAX(maxSeq, stoi(field));
         }
         if (getline(sin, field, ','))
         {
-            Depth.push_back(stof(field));
+            Depth.push_back(field);
         }
     }
     infile.close();
+
+    if (SeqNO.size() != Depth.size())
+        return;
+    if ((UINT)SeqNO.size() > g_tReadData.nTotal || maxSeq > (int)g_tReadData.nTotal)
+        return;
+
+    int DepthIndex = theApp.m_tXlsStatCfg[g_tGlbCfg.nLangType].GenPara[1];
+    for (size_t i = 0; i < SeqNO.size(); i++)
+    {
+        curSeq = SeqNO[i];
+        if (curSeq > (int)g_tReadData.nTotal|| curSeq < 1)
+            continue;
+        ptTorq = &g_tReadData.tData[curSeq - 1];
+        ptRunningShow = ptTorq->mutable_tshow(DepthIndex);
+        ptRunningShow->set_strvalue(Depth[i]);
+    }
+    theApp.SaveAllData(m_strHisName);
+
+    OnSetActive();
 
     return;
 }
