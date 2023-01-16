@@ -247,13 +247,62 @@ void CDlgHisList::OnBnClickedBtnexport()
 {
     CString strList;
     CString strSheetName;
+    CString strInfo;
 
     strList = theApp.GetSaveDataPath();
     strList += theApp.m_strFileTitle.c_str();
     strList += "_List.xls";
 
     strSheetName.Format(IDS_STRSHEETHISDATA);
-    theApp.SaveList2XlsFile(strList, strSheetName, &m_listHis);
+    //theApp.SaveList2XlsFile(strList, strSheetName, &m_listHis);
+
+    if (!m_tSaveExc.initExcel())
+    {
+        strInfo.Format(IDS_STRINFNODRIVE);
+        theApp.SaveShowMessage(strInfo);
+        return;
+    }
+
+    if (!m_tSaveExc.open(strList) || !m_tSaveExc.loadSheet(1))
+    {
+        m_tSaveExc.close();
+        m_tSaveExc.release();
+        return;
+    }
+
+
+    // 创建表结构
+    int         i = 0;
+    int         iItemIndex = 0;
+    int         iColNum = 0;
+    LVCOLUMN    tColData;
+    CString     strColName;
+    CString     strSql = "";
+    CString     strH = "";
+    CString     strV = "";
+    CString     strTemp;
+
+    // 设置excel第一行的值
+    CHeaderCtrl* ptHead = m_listHis.GetHeaderCtrl();
+    if (!ptHead)
+        return;
+
+    tColData.mask = LVCF_TEXT;
+    tColData.cchTextMax = 100;
+    tColData.pszText = strColName.GetBuffer(100);
+    for (i = 0; i < ptHead->GetItemCount(); i++)
+    {
+        m_listHis.GetColumn(i, &tColData);
+        SetCell(1, i+1, UTF82ASCII(tColData.pszText.GetBuff(0)).c_str());
+    }
+
+    m_tSaveExc.saveAsXLSFile(strList);
+
+
+    m_tSaveExc.close();
+    m_tSaveExc.release();
+
+    return;
 }
 
 /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
@@ -1729,49 +1778,95 @@ void CDlgHisList::OnBnClickedBtnstatset()
     dlgXlsStatSet.DoModal();
 }
 
+//bool CDlgHisList::GetDepthFromCSV(CString filename, vector<int>& SeqNO, vector<string>& Depth)
+//{
+//    ifstream infile;
+//    string line;
+//    string field;
+//    infile.open(filename, ios::in);
+//    if (!infile)
+//        return false;
+//    while (getline(infile, line))
+//    {
+//        istringstream sin(line);
+//        if (getline(sin, field, ','))
+//        {
+//            SeqNO.push_back(stoi(field));
+//        }
+//        if (getline(sin, field, ','))
+//        {
+//            Depth.push_back(field);
+//        }
+//    }
+//    infile.close();
+//
+//    return true;
+//}
+
+bool CDlgHisList::GetDepthInfo(vector<int>& SeqNO, vector<string>& Depth)
+{
+    int         i = 0;
+    int         iRow = 0, iCol = 0;
+    CString     strFile;
+    CString     strFilter;
+    CString     strExt;
+    CString     strInfo;
+
+    strFilter.Format(IDS_STRXLSFILTER);
+
+    CFileDialog fileDlg(TRUE, "xls", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter, NULL);
+
+    COMP_BNE_R(fileDlg.DoModal(), IDOK, false);
+
+    strFile = fileDlg.GetPathName();
+    strExt = fileDlg.GetFileExt();
+
+    if (!m_tSaveExc.initExcel())
+    {
+        strInfo.Format(IDS_STRINFNODRIVE);
+        theApp.SaveShowMessage(strInfo);
+        return false;
+    }
+
+    if (!m_tSaveExc.open(strFile) || !m_tSaveExc.loadSheet(1))
+    {
+        m_tSaveExc.close();
+        m_tSaveExc.release();
+        return false;
+    }
+
+    iRow = m_tSaveExc.getRowCount();//获取sheet中行数
+    iCol = m_tSaveExc.getColumnCount();//获取sheet中列数
+    if (iCol < 2 || iRow < 2)
+    {
+        m_tSaveExc.close();
+        m_tSaveExc.release();
+        return false;
+    }
+
+    for (i = 1; i <= iRow; i++)
+    {
+        SeqNO.push_back(atoi(m_tSaveExc.getCellString(i, 1)));
+        Depth.push_back(m_tSaveExc.getCellString(i, 2).GetBuffer(0));
+    }
+
+    m_tSaveExc.close();
+    m_tSaveExc.release();
+
+    return true;
+}
 
 void CDlgHisList::OnBnClickedBtnimportdepth()
 {
-    CString strFilter;
-    CString strCSVFile;
     TorqData::Torque* ptTorq = NULL;
     TorqData::ShowInfo* ptRunningShow = NULL;
-    ifstream infile;
     vector<int> SeqNO;
     vector<string> Depth;
     int maxSeq = 0, curSeq = 0;
 
-    strFilter.Format(IDS_STRCSVFILTER);
-
-    CFileDialog fileDlg(TRUE, "csv", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter, NULL);
-
-    COMP_BNE(fileDlg.DoModal(), IDOK);
-
-    strCSVFile = fileDlg.GetPathName();
-
-    string line;
-    string field;
-    infile.open(strCSVFile, ios::in);
-    if (!infile)
-        return;
-    while (getline(infile, line))
-    {
-        istringstream sin(line);
-        if (getline(sin, field, ','))
-        {
-            SeqNO.push_back(stoi(field));
-            maxSeq = MAX(maxSeq, stoi(field));
-        }
-        if (getline(sin, field, ','))
-        {
-            Depth.push_back(field);
-        }
-    }
-    infile.close();
+    COMP_BFALSE(GetDepthInfo(SeqNO, Depth));
 
     if (SeqNO.size() != Depth.size())
-        return;
-    if ((UINT)SeqNO.size() > g_tReadData.nTotal || maxSeq > (int)g_tReadData.nTotal)
         return;
 
     int DepthIndex = theApp.m_tXlsStatCfg[g_tGlbCfg.nLangType].GenPara[1];

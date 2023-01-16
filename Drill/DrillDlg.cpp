@@ -1187,7 +1187,7 @@ void CDrillDlg::GetCurNum()
                 m_nBOSeqNO = MAX(i, 1);
             if (ptTorq->bbreakout())
             {
-                m_nMaxOutWellNO = MAX(ptTorq->dwoutwellno(), m_nMaxOutWellNO);
+                m_nMaxOutWellNO = MAX((UINT)ptTorq->dwoutwellno(), m_nMaxOutWellNO);
             }
         }
     }

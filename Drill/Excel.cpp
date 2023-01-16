@@ -54,7 +54,14 @@ bool Excel::open(const char* fileName)
 
 
     LPDISPATCH lpDis = nullptr;
-    lpDis = books.Add(COleVariant(CString(fileName)));
+    try {
+        lpDis = books.Add(COleVariant(CString(fileName)));
+    }
+    catch (CException* e)
+    {
+        // 找不到则新创建一个
+        lpDis = books.Add(vtMissing);
+    }
 
     if (lpDis)
     {

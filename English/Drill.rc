@@ -1602,7 +1602,7 @@ IDS_STRINIFILTER        "Config files (*.ini)|*.ini|All files (*.*)|*.*||"
 IDS_STRPNGFILTER        "DataGraph files (*.png)|*.png|All files (*.*)|*.*||"
 IDS_STRDATFILTER        "Data files (*.pbd)|*.pbd|All files (*.*)|*.*||"
 IDS_STRDOCFILTER        "WORD files (*.doc)|*.doc|All files (*.*)|*.*||"
-IDS_STRXLSFILTER        "EXCEL files (*.xls)|*.xls|All files (*.*)|*.*||"
+IDS_STRXLSFILTER        "EXCEL files (*.csv;*.xls;*.xlsx)|*.csv;*.xls;*.xlsx|All files (*.*)|*.*||"
 IDS_STRCSVFILTER        "CSV files (*.csv)|*.csv|All files (*.*)|*.*||"
 END
 

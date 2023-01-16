@@ -1602,7 +1602,7 @@ BEGIN
     IDS_STRPNGFILTER        "数据图形 (*.png)|*.png|所有文件 (*.*)|*.*||"
     IDS_STRDATFILTER        "数据文件 (*.pbd)|*.pbd|所有文件 (*.*)|*.*||"
     IDS_STRDOCFILTER        "WORD文件 (*.doc)|*.doc|所有文件 (*.*)|*.*||"
-    IDS_STRXLSFILTER        "EXCEL文件 (*.xls)|*.xls|所有文件 (*.*)|*.*||"
+    IDS_STRXLSFILTER        "EXCEL文件 (*.csv;*.xls;*.xlsx)|*.csv;*.xls;*.xlsx|所有文件 (*.*)|*.*||"
     IDS_STRCSVFILTER        "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*||"
 END
 

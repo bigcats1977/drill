@@ -54,6 +54,7 @@ protected:
     afx_msg void OnBnClickedBtnOrgdata();
     afx_msg void OnBnClickedBtngraphexp();
     afx_msg void OnBnClickedBtnstatset();
+    afx_msg void OnBnClickedBtnimportdepth();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
@@ -86,6 +87,7 @@ private:
     void    SetCellFont(int iRow, int iCol, int iNum, UINT dwQuality);
     void    FillReportHead(int& iRow, TorqData::Torque* ptHeadTorq);
     void    FillReportData(int& iRow, TorqData::Torque* ptHeadTorq);
+    bool    GetDepthInfo(vector<int>& SeqNO, vector<string>& Depth);
 
     UINT    m_nMaxShowNum;
     int     m_iWidth;
@@ -96,8 +98,6 @@ private:
     Excel   m_tSaveExc;
 
     XLSSTATCFG* m_ptStat;
-public:
-    afx_msg void OnBnClickedBtnimportdepth();
 };
 
 //{{AFX_INSERT_LOCATION}}
