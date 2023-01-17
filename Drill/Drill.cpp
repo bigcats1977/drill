@@ -1612,7 +1612,7 @@ void CDrillApp::SaveLogInfo()
 }
 
 //保存程序运行状态
-void CDrillApp::SaveAppStatus(UINT nStatus, CString strInfo)
+void CDrillApp::SaveAppStatus(UINT nStatus, string strInfo)
 {
     char* pData = NULL;
     int     iLen = 0;
@@ -1625,7 +1625,8 @@ void CDrillApp::SaveAppStatus(UINT nStatus, CString strInfo)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, 100, "Application is %s Status(%s)!\r\n", (LPCTSTR)g_strStatus[nStatus].c_str(), (LPSTR)(LPCTSTR)strInfo);
+    //iLen = sprintf_s(pData, 100, "Application is %s Status(%s)!\r\n", (LPCTSTR)g_strStatus[nStatus].c_str(), (LPSTR)(LPCTSTR)strInfo);
+    iLen = sprintf_s(pData, 100, "Application is %s Status(%s)!\r\n", (LPCTSTR)g_strStatus[nStatus].c_str(), (LPCTSTR)strInfo.c_str());
     INC_DBG_INFO();
     return;
 }

@@ -40,7 +40,7 @@ public:
     CDrillApp();
     /* 保存调试信息函数 */
     /* 保存程序启动退出开始关闭设置等状态 */
-    void    SaveAppStatus(UINT nStatus, CString strInfo);
+    void    SaveAppStatus(UINT nStatus, string strInfo);
     /* 保存采集数据错误信息 */
     void    SaveCollectErrorData(CString strError, BYTE* pucRcvByte, WORD wLen);
     /* 保存采集数据普通信息 */

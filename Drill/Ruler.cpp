@@ -121,7 +121,7 @@ void CRuler::DrawVerRuler()
     int     i = 0;
     int     iOldAlign = 0;
     int     iOldBkMode = 0;
-    CString str;
+    string  str;
     CRect   rcRuler;
     // drawing tools
     CFont* pOldFont = NULL;
@@ -144,33 +144,33 @@ void CRuler::DrawVerRuler()
 
     for (i = 0; i <= m_iTickNum; i++)
     {
-        str.Format("%d", (int)((m_fTickValue - m_fMinTickVal) * i / m_iTickNum + m_fMinTickVal));
+        str = string_format("%d", (int)((m_fTickValue - m_fMinTickVal) * i / m_iTickNum + m_fMinTickVal));
         y = rcRuler.Height() * (m_iTickNum - i) / m_iTickNum;
         if (i == 0)
         {
             /* 画大刻度 */
             m_MemDC.MoveTo(rcRuler.right, y - 1);
             m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y - 1);
-            str.Format("%d", (int)m_fMinTickVal);
-            m_MemDC.TextOut(rcRuler.right - 6, y - 9, str);
+            str = string_format("%d", (int)m_fMinTickVal);
+            m_MemDC.TextOut(rcRuler.right - 6, y - 9, str.c_str());
             DrawVerScale(y, rcRuler);
             continue;
         }
-
         if (i == m_iTickNum)
         {
             /* 画大刻度 */
             m_MemDC.MoveTo(rcRuler.right, y);
             m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y);
-            m_MemDC.TextOut(rcRuler.right - 6, y, str);
+            m_MemDC.TextOut(rcRuler.right - 6, y, str.c_str());
             continue;
         }
-
+		
         /* else */
+
         /* 画大刻度 */
         m_MemDC.MoveTo(rcRuler.right, y);
         m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y);
-        m_MemDC.TextOut(rcRuler.right - 6, y - 5, str);
+        m_MemDC.TextOut(rcRuler.right - 6, y - 5, str.c_str());
         DrawVerScale(y, rcRuler);
     }
 
@@ -213,7 +213,7 @@ void CRuler::DrawHorRuler()
     double  fXValue = 0;
     double  fStep = 0;
     int     iStrPlace = 0;
-    CString str;
+    string  str;
     CRect   rcRuler;
     // drawing tools
     CFont* pOldFont = NULL;
@@ -222,7 +222,7 @@ void CRuler::DrawHorRuler()
     CPen* pOldPen = m_MemDC.SelectObject(&wbkPen);
     CBrush  wbkBr(GetSysColor(COLOR_BTNFACE));
     CBrush* pOldBrush = m_MemDC.SelectObject(&wbkBr);
-    CString strHFormat = "%.2f";
+    string  strHFormat = "%.2f";
 
     iOldAlign = m_MemDC.SetTextAlign(TA_RIGHT | TA_TOP);
     iOldBkMode = m_MemDC.SetBkMode(TRANSPARENT);
@@ -235,7 +235,7 @@ void CRuler::DrawHorRuler()
     m_MemDC.SelectObject(&wtPen);
     pOldFont = m_MemDC.SelectObject(&theApp.m_tRuleHFont);
 
-    strHFormat.Format("%%.%df", m_nXDecNum);
+    strHFormat = string_format("%%.%df", m_nXDecNum);
 
     fStep = (m_fTickValue - m_fMinTickVal) / m_iTickNum;
     if (m_fMinTickVal < 0)
@@ -253,7 +253,7 @@ void CRuler::DrawHorRuler()
     for (i = 0; i <= m_iTickNum; i++)
     {
         fXValue = i * fStep + m_fMinTickVal;
-        str.Format(strHFormat, fXValue);
+        str = string_format(strHFormat.c_str(), fXValue);
         x = i * rcRuler.Width() / m_iTickNum;
         iStrPlace = x + 10;
         if (i == 0)
@@ -274,7 +274,7 @@ void CRuler::DrawHorRuler()
             iStrPlace = iZeroPlace + 5;
         }
         m_MemDC.TextOut(iStrPlace, rcRuler.top + 2, "      ");
-        m_MemDC.TextOut(iStrPlace, rcRuler.top + 2, str);
+        m_MemDC.TextOut(iStrPlace, rcRuler.top + 2, str.c_str());
 
         /* 最后一个刻度不需要画小刻度 */
         if (i == m_iTickNum)

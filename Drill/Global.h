@@ -1403,6 +1403,7 @@ CString GetCCBString(CComboBox* ptCCB);
 
 string UTF82ASCII(string& strUtf8Code);         //utf-8 ת ascii 
 string ASCII2UTF8(string& strAsciiCode);        //ascii ת Utf8
+string string_format(const char* format, ...);
 #pragma endregion
 
 
