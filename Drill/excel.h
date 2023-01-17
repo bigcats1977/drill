@@ -44,7 +44,7 @@ public:
     int getSheetCount();
 
     //打开excel文件
-    bool open(const char* fileName);
+    bool open(CString fileName);
 
     //关闭打开的excel文件
     void close(bool ifSave = false);
@@ -68,10 +68,10 @@ public:
     CShape addCellPicture(CString strFileName, float fLeft, float fTop, float fWidth, float fHeight);
 
     // 拷贝多行
-    void   copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nNum);
+    void   copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nBeginCol, UINT nEndCol, UINT nNum);
 
     // 设置行高为当前的多少倍
-    void   setMultiRowHeight(UINT nRow, float fMulti);
+    void   setMultiRowHeight(UINT nRow, UINT nBeginCol, UINT nEndCol, float fMulti);
 
     // 设置一行多个单元格的字体和颜色
     void   setMultiColFont(UINT nRow, UINT nCol, UINT nNUm, CString strFontName, long nSize, long nColor = 0);
@@ -81,6 +81,9 @@ public:
 
     //删除指定名称的sheet
     void delNameSheet(CString strSheetName);
+
+    // 写入连续的多个单元格内容
+    bool SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UINT nEndCol, CStringList& slContent);
 
 public:
     //初始化 Excel_OLE
@@ -101,10 +104,14 @@ private:
     CWorkbooks books;             //ExcelBook集合，多文件时使用
     CWorksheet workSheet;         //当前使用sheet
     CWorksheets sheets;           //Excel的sheet集合
-    CRange currentRange;           //当前操作区域
+    CRange wholeRange;            //全部操作区域
+    LPDISPATCH lpDisp;
 
     bool isLoad;                   //是否已经加载了某个sheet数据
     COleSafeArray safeArray;
+
+    int titleToColumn(CString title);
+    CString columnToTitle(int column);
 
 protected:
     static CApplication application;   //Excel进程实例

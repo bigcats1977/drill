@@ -220,9 +220,9 @@ BOOL CDrillApp::InitInstance()
 
     AfxInitRichEdit2();
 
-
-    /* 避免弹出“由于另一个程序正在运行... */
+    // 添加了OLE/COM的初始化代码
     AfxOleInit();
+    /* 避免弹出“由于另一个程序正在运行... */
     COleMessageFilter* ptFilter = AfxOleGetMessageFilter();
     ptFilter->EnableBusyDialog(FALSE);
     /* AfxOleGetMessageFilter()->EnableBusyDialog(FALSE);
@@ -1095,7 +1095,7 @@ BOOL CDrillApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CLis
 bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
 {
     int         i = 0, j = 0;
-    int         iColNum = 0;
+    int         iRowNum = 0, iColNum = 0;
     //LVCOLUMN    tColData;
     CString     strInfo;
     //CString     strColName;
@@ -1104,6 +1104,7 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
     CString     strTime;
     Excel       tSaveExc;
     CTime       tDay = CTime::GetCurrentTime();
+    CStringList slContent;
 
     ASSERT_NULL_R(ptList, false);
 
@@ -1116,7 +1117,6 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
             tDay.GetHour(),      //hh小时
             tDay.GetMinute(),    //mm分钟
             tDay.GetSecond());   //ss秒
-
         filename = strTime + ".xlsx";
     }
 
@@ -1149,19 +1149,20 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
     for (i = 0; i< iColNum; i++)
     {
         ptHead->GetItem(i, &hdi);
-        tSaveExc.setCellString(1, i + 1, hdi.pszText);
+        slContent.AddTail(hdi.pszText);
     }
-    /*strColName.ReleaseBuffer();
-    iColNum = i;*/
 
     // 导入list里面的数据
-    for (i = 0; i < ptList->GetItemCount(); i++)
+    iRowNum = ptList->GetItemCount();
+    for (i = 0; i < iRowNum; i++)
     {
         for (j = 0; j < iColNum; j++)
         {
-            tSaveExc.setCellString(i + 2, j + 1, ptList->GetItemText(i, j));
+            slContent.AddTail(ptList->GetItemText(i, j));
         }
     }
+
+    tSaveExc.SetMultiCellContent(1, iRowNum+1, 1, iColNum, slContent);
 
     tSaveExc.saveAsXLSFile(filename);
     tSaveExc.close();

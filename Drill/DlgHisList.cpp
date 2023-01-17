@@ -1626,8 +1626,8 @@ void CDlgHisList::WriteReportSheet()
             ptHead = &g_tReadData.tData[listNo[it]];
 
             /* ¿½±´Ä¿µÄÎ»ÖÃ */
-            m_tSaveExc.copyMultiRow(iBeginRow, iCurRow, 4);
-            m_tSaveExc.setMultiRowHeight(iCurRow + 1, 2);
+            m_tSaveExc.copyMultiRow(iBeginRow, iCurRow, 1, 13, 4);
+            m_tSaveExc.setMultiRowHeight(iCurRow + 1, 1, 13, 2);
         }
 
         FillReportHead(iCurRow, ptHead);

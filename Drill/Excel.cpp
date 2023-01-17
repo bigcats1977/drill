@@ -13,14 +13,14 @@ CApplication Excel::application;
 
 Excel::Excel() :isLoad(false)
 {
+    lpDisp = NULL;
 }
-
 
 Excel::~Excel()
 {
     close();
+    release();
 }
-
 
 bool Excel::initExcel()
 {
@@ -28,7 +28,7 @@ bool Excel::initExcel()
     if (!application.CreateDispatch(_T("Excel.Application"), nullptr))
     {
         //MessageBox(nullptr, _T("创建Excel服务失败,你可能没有安装EXCEL，请检查!"), _T("错误"), MB_OK);
-        return FALSE;
+        return false;
     }
 
     application.put_DisplayAlerts(FALSE);
@@ -43,37 +43,35 @@ void Excel::release()
     application = nullptr;
 }
 
-bool Excel::open(const char* fileName)
+bool Excel::open(CString fileName)
 {
-
     //先关闭文件
     close();
 
     //利用模板建立新文档
-    books.AttachDispatch(application.get_Workbooks(), true);
+    books.AttachDispatch(application.get_Workbooks());
 
-
-    LPDISPATCH lpDis = nullptr;
     try {
-        lpDis = books.Add(COleVariant(CString(fileName)));
+        //lpDisp = books.Add(COleVariant(fileName));
+        /*打开一个工作簿*/
+        lpDisp = books.Open(fileName,
+            vtMissing, vtMissing, vtMissing, vtMissing, vtMissing,
+            vtMissing, vtMissing, vtMissing, vtMissing, vtMissing,
+            vtMissing, vtMissing, vtMissing, vtMissing);
     }
-    catch (CException* e)
+    catch (...)
     {
         // 找不到则新创建一个
-        lpDis = books.Add(vtMissing);
+        lpDisp = books.Add(vtMissing);
     }
 
-    if (lpDis)
-    {
-        workBook.AttachDispatch(lpDis);
+    if (!lpDisp)
+        return false;
 
-        sheets.AttachDispatch(workBook.get_Worksheets());
-
-        openFileName = fileName;
-        return true;
-    }
-
-    return false;
+    workBook.AttachDispatch(lpDisp);
+    sheets.AttachDispatch(workBook.get_Worksheets());
+    openFileName = fileName;
+    return true;
 }
 
 void Excel::close(bool ifSave)
@@ -96,10 +94,9 @@ void Excel::close(bool ifSave)
         openFileName.Empty();
     }
 
-
-    sheets.ReleaseDispatch();
+    wholeRange.ReleaseDispatch();
     workSheet.ReleaseDispatch();
-    currentRange.ReleaseDispatch();
+    sheets.ReleaseDispatch();
     workBook.ReleaseDispatch();
     books.ReleaseDispatch();
 }
@@ -144,7 +141,6 @@ void Excel::preLoadSheet()
 
     used_range = workSheet.get_UsedRange();
 
-
     VARIANT ret_ary = used_range.get_Value2();
     if (!(ret_ary.vt & VT_ARRAY))
     {
@@ -158,19 +154,22 @@ void Excel::preLoadSheet()
 //按照名称加载sheet表格，也可提前加载所有表格
 bool Excel::loadSheet(long tableId, bool preLoaded)
 {
-    LPDISPATCH lpDis = nullptr;
-    currentRange.ReleaseDispatch();
-    currentRange.ReleaseDispatch();
-    lpDis = sheets.get_Item(COleVariant((long)tableId));
-    if (lpDis)
+    wholeRange.ReleaseDispatch();
+    try 
     {
-        workSheet.AttachDispatch(lpDis, true);
-        currentRange.AttachDispatch(workSheet.get_Cells(), true);
+        lpDisp = sheets.get_Item(COleVariant((long)tableId));
+        workSheet.AttachDispatch(lpDisp);
     }
-    else
+    catch(...)
     {
+        lpDisp = sheets.Add(vtMissing, vtMissing, _variant_t((long)1), vtMissing);
+        workSheet.AttachDispatch(lpDisp);
+        workSheet.put_Name("Sheet1");
+    }
+    if (!lpDisp)
         return false;
-    }
+    
+    wholeRange.AttachDispatch(workSheet.get_Cells());
 
     isLoad = false;
     //如果进行预先加载
@@ -186,20 +185,23 @@ bool Excel::loadSheet(long tableId, bool preLoaded)
 
 bool Excel::loadSheet(CString sheet, bool preLoaded)
 {
-    LPDISPATCH lpDis = nullptr;
-    currentRange.ReleaseDispatch();
-    currentRange.ReleaseDispatch();
+    wholeRange.ReleaseDispatch();
 
-    lpDis = sheets.get_Item(COleVariant(sheet));
-    if (lpDis)
+    try
     {
-        workSheet.AttachDispatch(lpDis, true);
-        currentRange.AttachDispatch(workSheet.get_Cells(), true);
+        lpDisp = sheets.get_Item(COleVariant(sheet));
+        workSheet.AttachDispatch(lpDisp);
     }
-    else
+    catch (...)
     {
+        lpDisp = sheets.Add(vtMissing, vtMissing, _variant_t((long)1), vtMissing);
+        workSheet.AttachDispatch(lpDisp);
+        workSheet.put_Name(sheet);
+    }
+    if (!lpDisp)
         return false;
-    }
+
+    wholeRange.AttachDispatch(workSheet.get_Cells());
 
     isLoad = false;
     //如果进行预先加载
@@ -211,7 +213,6 @@ bool Excel::loadSheet(CString sheet, bool preLoaded)
 
     return true;
 }
-
 
 int Excel::getColumnCount()
 {
@@ -247,7 +248,7 @@ int Excel::getRowCount()
 bool Excel::isCellString(long iRow, long iColumn)
 {
     CRange range;
-    range.AttachDispatch(currentRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
+    range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
     COleVariant vResult = range.get_Value2();
     //VT_BSTR标示字符串
     if (vResult.vt == VT_BSTR)
@@ -260,9 +261,8 @@ bool Excel::isCellString(long iRow, long iColumn)
 
 bool Excel::isCellInt(long iRow, long iColumn)
 {
-
     CRange range;
-    range.AttachDispatch(currentRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
+    range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
     COleVariant vResult = range.get_Value2();
     //VT_BSTR标示字符串
     if (vResult.vt == VT_INT || vResult.vt == VT_R8)
@@ -280,7 +280,7 @@ CString Excel::getCellString(long iRow, long iColumn)
     if (isLoad == false)
     {
         CRange range;
-        range.AttachDispatch(currentRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
+        range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
         vResult = range.get_Value2();
         range.ReleaseDispatch();
     }
@@ -335,7 +335,7 @@ double Excel::getCellDouble(long iRow, long iColumn)
     if (isLoad == false)
     {
         CRange range;
-        range.AttachDispatch(currentRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
+        range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
         vresult = range.get_Value2();
         range.ReleaseDispatch();
     }
@@ -366,7 +366,7 @@ int Excel::getCellInt(long iRow, long iColumn)
     if (isLoad == FALSE)
     {
         CRange range;
-        range.AttachDispatch(currentRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
+        range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
         vresult = range.get_Value2();
         range.ReleaseDispatch();
     }
@@ -414,19 +414,25 @@ CShape Excel::addCellPicture(CString strFileName, float fLeft, float fTop, float
     return shape;
 }
 
-void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nNum)
+void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nBeginCol, UINT nEndCol, UINT nNum)
 {
     CRange      rangeBegin, rangeEnd;
     CString     StartCell, EndCell;
 
-    StartCell.Format("A%d", nSrcRow);
-    EndCell.Format("M%d", nSrcRow + nNum);
+    ASSERT_ZERO(nSrcRow);
+    ASSERT_ZERO(nDestRow);
+    ASSERT_ZERO(nBeginCol);
+    ASSERT_ZERO(nEndCol);
+    ASSERT_ZERO(nNum);
+
+    StartCell.Format("%s%d", columnToTitle(nBeginCol), nSrcRow);// 1-->A
+    EndCell.Format("%s%d", columnToTitle(nEndCol), nSrcRow + nNum);  // 13-->M
     rangeBegin.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
 
 
     /* 拷贝目的位置 */
-    StartCell.Format("A%d", nDestRow);
-    EndCell.Format("M%d", nDestRow + 4);
+    StartCell.Format("%s%d", columnToTitle(nBeginCol), nDestRow);// 1-->A
+    EndCell.Format("%s%d", columnToTitle(nEndCol), nDestRow + nNum);// 13-->M
     rangeEnd.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
     COleVariant varRange;
     varRange.vt = VT_DISPATCH;
@@ -438,13 +444,13 @@ void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nNum)
     rangeBegin.ReleaseDispatch();
 }
 
-void Excel::setMultiRowHeight(UINT nRow, float fMulti)
+void Excel::setMultiRowHeight(UINT nRow, UINT nBeginCol, UINT nEndCol, float fMulti)
 {
     CRange      range;
     CString     StartCell, EndCell;
 
-    StartCell.Format("A%d", nRow);
-    EndCell.Format("M%d", nRow);
+    StartCell.Format("%s%d", columnToTitle(nBeginCol), nRow);// 1-->A
+    EndCell.Format("%s%d", columnToTitle(nEndCol), nRow);// 13-->M
     range.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
     /* 设置油管详情行高为2倍 */
     VARIANT rowHeight = range.get_RowHeight();
@@ -557,4 +563,95 @@ char* Excel::getColumnName(long iColumn)
     _strrev(column_name);
 
     return column_name;
+}
+
+
+int Excel::titleToColumn(CString title)
+{
+    int sum = 0, i = 0;
+
+    for (i = 0; i < title.GetLength(); i++)
+    {
+        sum += (title.GetAt(i) - 'A' + 1) * 26;
+    }
+    return sum;
+}
+
+CString Excel::columnToTitle(int column)
+{
+    CString strTitle;
+    while (column > 0)
+    {
+        strTitle.Insert(0, 'A' + column % 26 - 1);
+        column = column / 26;
+    }
+    return strTitle;
+}
+
+bool Excel::SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UINT nEndCol, CStringList& slContent)
+{
+    int             i, j;
+    int             rows, cols;
+    CString         StartCell, EndCell, strValue;
+    CRange          curRange;
+    COleSafeArray   saRet;
+    DWORD           numElements[2];
+    long            index[2];
+    VARIANT         v;
+    POSITION        rPos;
+
+    ASSERT_ZERO_R(nBeginRow, false);
+    ASSERT_ZERO_R(nEndRow, false);
+    ASSERT_ZERO_R(nBeginCol, false);
+    ASSERT_ZERO_R(nEndCol, false);
+
+    rows = nEndRow - nBeginRow + 1;
+    cols = nEndCol - nBeginCol + 1;
+    if (slContent.GetSize() < rows*cols)
+        return false;
+
+    /*向Sheet中写入多个单元格,规模为10*10 */
+    StartCell.Format("%s%d", columnToTitle(nBeginCol), nBeginRow);
+    EndCell.Format("%s%d", columnToTitle(nEndCol), nEndRow);
+    lpDisp = workSheet.get_Range(_variant_t(StartCell), _variant_t(EndCell));
+    curRange.AttachDispatch(lpDisp);
+    
+    //Number of rows in the range.
+    numElements[0] = rows; 
+    //Number of columns in the range.
+    numElements[1] = cols; 
+    saRet.Create(VT_BSTR, 2, numElements);
+    //saRet.Create(VT_R8, 2, numElements);
+
+    //Fill the SAFEARRAY.
+    rPos = slContent.GetHeadPosition();
+    for (i = 0; i < rows; i++)
+    {
+        index[0] = i;
+        for (j = 0; j < cols; j++)
+        {
+            index[1] = j;
+            
+            //Fill with Strings.
+            VariantInit(&v);
+            v.vt = VT_BSTR;
+            strValue = slContent.GetNext(rPos);
+            v.bstrVal = strValue.AllocSysString();
+            saRet.PutElement(index, v.bstrVal);
+            SysFreeString(v.bstrVal);
+            VariantClear(&v);
+
+            ////Fill with Numbers.
+            //double d;
+            //d = (iRow * 1000) + iCol;
+            //saRet.PutElement(index, &d);
+        }
+    }
+
+    //Set the range value to the SAFEARRAY.
+    curRange.put_Value2(COleVariant(saRet));
+    saRet.Detach();
+    curRange.ReleaseDispatch();
+    
+    return true;
 }
