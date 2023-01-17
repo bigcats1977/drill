@@ -245,64 +245,13 @@ void CDlgHisList::OnDestroy()
 
 void CDlgHisList::OnBnClickedBtnexport()
 {
-    CString strList;
-    CString strSheetName;
-    CString strInfo;
+    string     strFilename;
 
-    strList = theApp.GetSaveDataPath();
-    strList += theApp.m_strFileTitle.c_str();
-    strList += "_List.xls";
+    strFilename = theApp.GetSaveDataPath() + theApp.m_strFileTitle + "_List.xlsx";
 
-    strSheetName.Format(IDS_STRSHEETHISDATA);
-    //theApp.SaveList2XlsFile(strList, strSheetName, &m_listHis);
-
-    if (!m_tSaveExc.initExcel())
-    {
-        strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo);
-        return;
-    }
-
-    if (!m_tSaveExc.open(strList) || !m_tSaveExc.loadSheet(1))
-    {
-        m_tSaveExc.close();
-        m_tSaveExc.release();
-        return;
-    }
-
-
-    // 创建表结构
-    int         i = 0;
-    int         iItemIndex = 0;
-    int         iColNum = 0;
-    LVCOLUMN    tColData;
-    CString     strColName;
-    CString     strSql = "";
-    CString     strH = "";
-    CString     strV = "";
-    CString     strTemp;
-
-    // 设置excel第一行的值
-    CHeaderCtrl* ptHead = m_listHis.GetHeaderCtrl();
-    if (!ptHead)
-        return;
-
-    tColData.mask = LVCF_TEXT;
-    tColData.cchTextMax = 100;
-    tColData.pszText = strColName.GetBuffer(100);
-    for (i = 0; i < ptHead->GetItemCount(); i++)
-    {
-        m_listHis.GetColumn(i, &tColData);
-        SetCell(1, i+1, UTF82ASCII(tColData.pszText.GetBuff(0)).c_str());
-    }
-
-    m_tSaveExc.saveAsXLSFile(strList);
-
-
-    m_tSaveExc.close();
-    m_tSaveExc.release();
-
-    return;
+    BeginWaitCursor();
+    theApp.SaveList2XlsFile(strFilename, &m_listHis);
+    EndWaitCursor();
 }
 
 /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
@@ -497,7 +446,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     WORD        wSchPos = 0;
     double      fCtrlTorq = 0;
     CFile       file;
-    CString     strOrgData;
+    string      strOrgData;
     CString     strInfo;
     CString     strTime;
     CString     strSecHead;
@@ -512,11 +461,9 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     nSelCount = GetSelectItem();
     ASSERT_ZERO(nSelCount);
 
-    strOrgData = theApp.GetSaveDataPath();
-    strOrgData += theApp.m_strFileTitle.c_str();
-    strOrgData += ".txt";
+    strOrgData = theApp.GetSaveDataPath() + theApp.m_strFileTitle + ".txt";
 
-    if (!file.Open(strOrgData, CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone))
+    if (!file.Open(strOrgData.c_str(), CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone))
     {
         file.Close();
         return;
@@ -610,7 +557,7 @@ void CDlgHisList::Export1Img(UINT* pnSel, UINT nSelCount)
     for (i = 0; i < nSelCount; i++)
     {
         strNo.Format(IDS_STRPNGNAME, pdlgPrint->m_strFileName, pnSel[i]);
-        strTempName = theApp.GetSaveDataPath() + strNo;
+        strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
         X = 55;
         Y = 5 + i * fHeight;
@@ -643,7 +590,7 @@ void CDlgHisList::Export2Img(UINT* pnSel, UINT nSelCount)
     for (i = 0; i < nSelCount; i++)
     {
         strNo.Format(IDS_STRPNGNAME, pdlgPrint->m_strFileName, pnSel[i]);
-        strTempName = theApp.GetSaveDataPath() + strNo;
+        strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
         X = 31;
         Y = 5 + i * fHeight;
@@ -684,7 +631,7 @@ void CDlgHisList::Export3Img(UINT* pnSel, UINT nSelCount)
     for (i = 0; i < nSelCount; i++)
     {
         strNo.Format(IDS_STRPNGNAME, pdlgPrint->m_strFileName, pnSel[i]);
-        strTempName = theApp.GetSaveDataPath() + strNo;
+        strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
         iPages = i / 3;
         switch (i % 3)
@@ -749,7 +696,7 @@ void CDlgHisList::Export8Img(UINT* pnSel, UINT nSelCount)
     for (i = 0; i < nSelCount; i++)
     {
         strNo.Format(IDS_STRPNGNAME, pdlgPrint->m_strFileName, pnSel[i]);
-        strTempName = theApp.GetSaveDataPath() + strNo;
+        strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
         iPages = i / 8;
         if (i % 2 == 0)
@@ -779,7 +726,7 @@ void CDlgHisList::Export8Img(UINT* pnSel, UINT nSelCount)
 void CDlgHisList::OnBnClickedBtngraphexp()
 {
     CString     strTmpFile;
-    CString     strXlsFile;
+    string      strXlsFile;
     CString     strItem;
     CString     strInfo;
     CString     strModel;
@@ -849,9 +796,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
         break;
     }
 
-    strXlsFile = theApp.GetSaveDataPath();
-    strXlsFile += theApp.m_strFileTitle.c_str();
-    strXlsFile += strsuffix;
+    strXlsFile = theApp.GetSaveDataPath() + theApp.m_strFileTitle + strsuffix.GetBuffer(0);
 
     m_tSaveExc.saveAsXLSFile(strXlsFile);
     m_tSaveExc.close();
@@ -1475,8 +1420,8 @@ void CDlgHisList::WriteScatterSheet()
     CFile       TempFile;
     CDlgScatter* pDlgScatter = NULL;
     CDlgDataStat* pDlgStat = NULL;
-    CString     strScat;
-    CString     strStat;
+    string      strScat;
+    string      strStat;
 
     COMP_BFALSE(m_tSaveExc.loadSheet(SHEET_SCATTER));
 
@@ -1497,11 +1442,11 @@ void CDlgHisList::WriteScatterSheet()
     /* B1井名 */
     SetCell(1, 2, GetWellNO(FALSE));
 
-    m_tSaveExc.addCellPicture(strScat, 5, 63, 465, 288);
-    TempFile.Remove(strScat);
+    m_tSaveExc.addCellPicture(strScat.c_str(), 5, 63, 465, 288);
+    TempFile.Remove(strScat.c_str());
 
-    m_tSaveExc.addCellPicture(strStat, 5, 440, 465, 288);
-    TempFile.Remove(strStat);
+    m_tSaveExc.addCellPicture(strStat.c_str(), 5, 440, 465, 288);
+    TempFile.Remove(strStat.c_str());
 }
 
 void  CDlgHisList::FillReportHead(int& iRow, TorqData::Torque* ptHeadTorq)
@@ -1715,7 +1660,7 @@ void CDlgHisList::OnBnClickedBtnstatlist()
 {
     CString strTemplate;
     CString strTmpFile;
-    CString strXlsFile;
+    string  strXlsFile;
     CString strItem;
     CString strInfo;
 
@@ -1754,9 +1699,7 @@ void CDlgHisList::OnBnClickedBtnstatlist()
     WriteScatterSheet();
     WriteReportSheet();
 
-    strXlsFile = theApp.GetSaveDataPath();
-    strXlsFile += theApp.m_strFileTitle.c_str();
-    strXlsFile += "_Stat.xlsx";
+    strXlsFile = theApp.GetSaveDataPath() + theApp.m_strFileTitle + "_Stat.xlsx";
 
     // 56: xlExcel8    xls 
     // 51: xlWorkbookDefault   xlsx   

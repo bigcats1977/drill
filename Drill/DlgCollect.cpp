@@ -107,11 +107,10 @@ BOOL CDlgCollect::OnInitDialog()
 
 void CDlgCollect::OnBtnxlssave()
 {
-    CString strSheetName;
-    strSheetName.Format(IDS_STRSHEETCOLLDATA);
-    theApp.SaveList2XlsFile(_T(""), strSheetName, &m_listData);
+    BeginWaitCursor();
+    theApp.SaveList2XlsFile(NULLSTR, &m_listData);
+    EndWaitCursor();
 }
-
 
 void CDlgCollect::OnBtncollect()
 {

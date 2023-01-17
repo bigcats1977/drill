@@ -29,6 +29,6 @@ public:
     CRichEditCtrl m_richSum;
 
 private:
-    CString m_strSumFile;
-    BOOL    m_bReadOnly;
+    string  m_strSumFile;
+    bool    m_bReadOnly;
 };

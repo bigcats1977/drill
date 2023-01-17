@@ -404,9 +404,9 @@ LRESULT CDlgSegCabl::ProcReadCalib(WPARAM wParam, LPARAM lParam)
 
 void CDlgSegCabl::OnBnClickedBtncalibexp()
 {
-    CString strSheetName;
-    strSheetName.Format(IDS_STRSHEETCALIBDATA);
-    theApp.SaveList2XlsFile(_T(""), strSheetName, &m_lsCalibInfo);
+    BeginWaitCursor();
+    theApp.SaveList2XlsFile(NULLSTR, &m_lsCalibInfo);
+    EndWaitCursor();
 }
 
 BOOL CDlgSegCabl::GetCalibInfoFromExcel(CString strName)

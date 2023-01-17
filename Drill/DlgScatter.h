@@ -13,7 +13,7 @@ public:
     CDlgScatter(CWnd* pParent = nullptr);   // 标准构造函数
     virtual ~CDlgScatter();
     void    DrawScatterPlot(void);
-    CString SaveScatterImg(void);
+    string  SaveScatterImg(void);
 
     // 对话框数据
 #ifdef AFX_DESIGN_TIME

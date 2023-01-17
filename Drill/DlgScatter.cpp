@@ -145,7 +145,7 @@ void CDlgScatter::DrawScatterPlot(void)
     UpdateData(FALSE);
 }
 
-CString CDlgScatter::SaveScatterImg(void)
+string CDlgScatter::SaveScatterImg(void)
 {
     CPaintDC    dc(this);
     HDC         hdc;
@@ -153,12 +153,11 @@ CString CDlgScatter::SaveScatterImg(void)
     HBITMAP     hBitmap = NULL; // Î»Í¼¾ä±ú
     HBITMAP     hOldBitmap = NULL;
     CRect       rcClt;
-    CString     strFileName;
+    string      strFileName;
     int         iWidth = 0;
     int         iHeight = 0;
 
-    strFileName = theApp.GetSaveDataPath();
-    strFileName += "Scatter.png";
+    strFileName = theApp.GetSaveDataPath() + "Scatter.png";
 
     GetClientRect(&rcClt);
     iWidth = rcClt.Width();

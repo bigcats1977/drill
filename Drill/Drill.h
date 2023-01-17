@@ -19,7 +19,7 @@ error include 'stdafx.h' before including this file for PCH
 
 #include "resource.h"       // main symbols
 
-#include "odbcinst.h"
+//#include "odbcinst.h"
 //#include "Mylistctrl.h"
 
 #include "DBAccess.h"
@@ -71,8 +71,8 @@ public:
     BOOL    IsDebugInfo(CString strContent);
     void    AdjustParaValue(PARACFG* ptCfg); /* 检查参数是否发生变化 */
     /* 将列表内容导出到excle表格中 */
-    BOOL    SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData);
-
+    //BOOL    SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData);
+    bool    SaveList2XlsFile(string filename, CListCtrl* ptList);
     void    AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType = 0);
     void    ShowMainTitle();
     string  GetQualityInfo(TorqData::Torque* ptTorq);
@@ -89,8 +89,8 @@ public:
     HBITMAP CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr);
     int     CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lprcScr, HDC hMemDC = NULL, HBITMAP hBitmap = NULL);
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
-    BOOL    SaveBmp(HBITMAP hBitmap, CString FileName);
-    BOOL    SavePNG(HBITMAP hBitmap, CString FileName);
+    bool    SaveBmp(HBITMAP hBitmap, string FileName);
+    bool    SavePNG(HBITMAP hBitmap, string FileName);
     double  GetCir(TorqData::Torque* ptTorq, bool bBreakout = false);
     DWORD   GetQuality(TorqData::Torque* ptTorq);
     DWORD   JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut = 0);
@@ -105,7 +105,7 @@ public:
     string  LoadstringFromRes(unsigned string_ID, double val);
     string  LoadstringFromRes(unsigned string_ID, string val);
     void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
-    CString GetSaveDataPath();
+    string  GetSaveDataPath();
     int     SplitString(CString strSource, CStringList& slList);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */
     double  GetMaxCir(TorqData::Torque* ptTorq);
@@ -210,10 +210,10 @@ private:
     void ClearReadTorq();
 
     /* 将列表内容导出到excle表格中 */
-    BOOL CheckExcelDriver(CString& strDriver);
+    /*BOOL CheckExcelDriver(CString& strDriver);
     void ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl* ptlistData);
     BOOL GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile);
-    BOOL MakeSurePathExists(CString& Path, bool FilenameIncluded);
+    BOOL MakeSurePathExists(CString& Path, bool FilenameIncluded);*/
 
     void InitArray();
     void InitVariant();

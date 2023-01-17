@@ -29,7 +29,7 @@ protected:
 public:
     CString m_strLBS3;
     void    ShowCurStat(CString strStatFile);
-    CString SaveStatImg(void);
+    string  SaveStatImg(void);
 
 protected:
     virtual BOOL DestroyWindow();

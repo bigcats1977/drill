@@ -7,6 +7,7 @@
 #include "Winver.h"
 #include "Windows.h"
 #include "math.h"
+#include "excel.h"
 #include "lodepng.h"
 #include "CrashHandler.h"
 #include "DlgPassword.h"
@@ -836,7 +837,7 @@ int CDrillApp::GetQualityIndex(TorqData::Torque* ptTorq)
 
     return QUA_RESU_BAD;
 }
-
+#if 0
 ///////////////////////////////////////////////////////////////////////////////
 //  void ExportListToExcel(CListCtrl* pList, CDatabase* ptDb, CString strTable)
 //  参数：
@@ -1088,6 +1089,85 @@ BOOL CDrillApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CLis
     SaveShowMessage(strWarn);
 
     return TRUE;
+}
+#endif
+
+bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
+{
+    int         i = 0, j = 0;
+    int         iColNum = 0;
+    //LVCOLUMN    tColData;
+    CString     strInfo;
+    //CString     strColName;
+    HDITEM      hdi;
+    TCHAR       lpBuffer[256] = { 0 };
+    CString     strTime;
+    Excel       tSaveExc;
+    CTime       tDay = CTime::GetCurrentTime();
+
+    ASSERT_NULL_R(ptList, false);
+
+    if (filename.empty())
+    {
+        strTime.Format("%04d%02d%02d%02d%02d%02d",
+            tDay.GetYear(),      //yyyy年
+            tDay.GetMonth(),     //mm月份
+            tDay.GetDay(),       //dd日
+            tDay.GetHour(),      //hh小时
+            tDay.GetMinute(),    //mm分钟
+            tDay.GetSecond());   //ss秒
+
+        filename = strTime + ".xlsx";
+    }
+
+    if (!tSaveExc.initExcel())
+    {
+        strInfo.Format(IDS_STRINFNODRIVE);
+        SaveShowMessage(strInfo);
+        return false;
+    }
+
+    if (!tSaveExc.open(filename.c_str()) || !tSaveExc.loadSheet(1))
+    {
+        tSaveExc.close();
+        tSaveExc.release();
+        return false;
+    }
+
+    CHeaderCtrl* ptHead = ptList->GetHeaderCtrl();
+    if (!ptHead)
+    {
+        tSaveExc.close();
+        tSaveExc.release();
+        return false;
+    }
+
+    iColNum = ptHead->GetItemCount();
+    hdi.mask = HDI_TEXT;
+    hdi.pszText = lpBuffer;
+    hdi.cchTextMax = 256;
+    for (i = 0; i< iColNum; i++)
+    {
+        ptHead->GetItem(i, &hdi);
+        tSaveExc.setCellString(1, i + 1, hdi.pszText);
+    }
+    /*strColName.ReleaseBuffer();
+    iColNum = i;*/
+
+    // 导入list里面的数据
+    for (i = 0; i < ptList->GetItemCount(); i++)
+    {
+        for (j = 0; j < iColNum; j++)
+        {
+            tSaveExc.setCellString(i + 2, j + 1, ptList->GetItemText(i, j));
+        }
+    }
+
+    tSaveExc.saveAsXLSFile(filename);
+    tSaveExc.close();
+    tSaveExc.release();
+
+    return true;
 }
 
 void CDrillApp::ShowMainTitle()
@@ -1981,7 +2061,7 @@ int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lpr
 
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
-    SavePNG(hBitmap, strFile);
+    SavePNG(hBitmap, strFile.GetBuffer(0));
 
     return   0;
 }
@@ -2050,7 +2130,7 @@ HANDLE CDrillApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& d
 
 
 /* 保存Bmp图像 */
-BOOL CDrillApp::SaveBmp(HBITMAP hBitmap, CString FileName)
+bool CDrillApp::SaveBmp(HBITMAP hBitmap, string FileName)
 {
     // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
     DWORD               dwBmBitsSize = 0;
@@ -2067,7 +2147,7 @@ BOOL CDrillApp::SaveBmp(HBITMAP hBitmap, CString FileName)
     ASSERT_NULL_R(lpbi, FALSE);
 
     //创建位图文件
-    fh = CreateFile(FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+    fh = CreateFile(FileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
         FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
     COMP_BE_R(fh, INVALID_HANDLE_VALUE, FALSE);
 
@@ -2088,7 +2168,7 @@ BOOL CDrillApp::SaveBmp(HBITMAP hBitmap, CString FileName)
     GlobalUnlock(hDib);
     GlobalFree(hDib);
 
-    return TRUE;
+    return true;
 }
 
 //returns 0 if all went ok, non-0 if error
@@ -2146,7 +2226,7 @@ unsigned CDrillApp::decodeBMP(std::vector<unsigned char>& image, unsigned& w, un
     return 0;
 }
 
-BOOL CDrillApp::SavePNG(HBITMAP hBitmap, CString FileName)
+bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName)
 {
     // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
     DWORD               dwBmBitsSize = 0;
@@ -2161,8 +2241,8 @@ BOOL CDrillApp::SavePNG(HBITMAP hBitmap, CString FileName)
     unsigned            w, h;
 
     hDib = GetImgData(hBitmap, lpbi, dwBmBitsSize);
-    ASSERT_NULL_R(hDib, FALSE);
-    ASSERT_NULL_R(lpbi, FALSE);
+    ASSERT_NULL_R(hDib, false);
+    ASSERT_NULL_R(lpbi, false);
 
     pBuf = new BYTE[sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize];
 
@@ -2181,12 +2261,12 @@ BOOL CDrillApp::SavePNG(HBITMAP hBitmap, CString FileName)
     decodeBMP(image, w, h, pBuf);
 
     lodepng::encode(png, image, lpbi->biWidth, lpbi->biHeight);
-    lodepng::save_file(png, FileName.GetString());
+    lodepng::save_file(png, FileName);
 
     delete[] pBuf;
     GlobalUnlock(hDib);
     GlobalFree(hDib);
-    return TRUE;
+    return true;
 }
 
 void CDrillApp::ClearReadTorq()
@@ -2918,14 +2998,14 @@ double CDrillApp::GetOptTorq(TorqData::Torque* ptTorq)
     return fOptTorq;
 }
 
-CString CDrillApp::GetSaveDataPath()
+string CDrillApp::GetSaveDataPath()
 {
-    CString         strSavePath;
+    string         strSavePath;
 
-    strSavePath = m_strDataPath.c_str();
-    strSavePath += m_strFileTitle.c_str();
+    strSavePath = m_strDataPath;
+    strSavePath += m_strFileTitle;
     strSavePath += "\\";
-    CreateDirectory(strSavePath, NULL);
+    CreateDirectory(strSavePath.c_str(), NULL);
 
     return strSavePath;
 }

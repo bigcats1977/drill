@@ -77,11 +77,9 @@ BOOL CDlgHisSumup::OnSetActive()
     m_richSum.SetReadOnly(TRUE);
     m_bReadOnly = TRUE;
 
-    m_strSumFile = theApp.GetSaveDataPath();
-    m_strSumFile += theApp.m_strFileTitle.c_str();
-    m_strSumFile += ".rtf";
+    m_strSumFile = theApp.GetSaveDataPath() + theApp.m_strFileTitle + ".rtf";
 
-    if (file.Open(m_strSumFile, CFile::modeRead | CFile::shareDenyNone))
+    if (file.Open(m_strSumFile.c_str(), CFile::modeRead | CFile::shareDenyNone))
     {
         es.dwCookie = (DWORD)&file;
         es.pfnCallback = StreamInCallback;
@@ -108,7 +106,7 @@ void CDlgHisSumup::OnBnClickedBtnsavesum()
 {
     UpdateData(TRUE);
 
-    CFile cFile(m_strSumFile, CFile::modeCreate | CFile::modeWrite);
+    CFile cFile(m_strSumFile.c_str(), CFile::modeCreate | CFile::modeWrite);
     // 定义RichEdit的Stream 结构体
     EDITSTREAM es;
     // 设置stream结构体的文件句柄及回调函数

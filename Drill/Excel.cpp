@@ -104,11 +104,11 @@ void Excel::close(bool ifSave)
     books.ReleaseDispatch();
 }
 
-void Excel::saveAsXLSFile(const CString& xlsFile)
+void Excel::saveAsXLSFile(const string& xlsFile)
 {
     // 56: xlExcel8    xls 
     // 51: xlWorkbookDefault   xlsx  
-    workBook.SaveAs(COleVariant(xlsFile),
+    workBook.SaveAs(COleVariant(xlsFile.c_str()),
         _variant_t(51),
         covOptional,
         covOptional,

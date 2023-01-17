@@ -589,7 +589,7 @@ void CDlgHisGrp::OnBtnprntgrp()
 
     GetClientRect(&rcClt);
     hBitmap = theApp.CopyDCToBitmap(ImgDC.m_hDC, &rcClt);
-    theApp.SaveBmp(hBitmap, strFile);
+    theApp.SaveBmp(hBitmap, strFile.GetBuffer(0));
 
     ShellExecute(0, "print", strFile, NULL, NULL, SW_SHOWNORMAL);
 
@@ -603,7 +603,7 @@ void CDlgHisGrp::OnBtnsaveimg()
     CString     strNo;
     HBITMAP     hbm;
     CRect       rcClt;
-    CString     strFileName;
+    string      strFileName;
 
     SHOW_HISGRP_BUTTON(FALSE);
 
@@ -613,8 +613,7 @@ void CDlgHisGrp::OnBtnsaveimg()
     hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
     strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
 
-    strFileName = theApp.GetSaveDataPath();
-    strFileName += strNo;
+    strFileName = theApp.GetSaveDataPath() + strNo.GetBuffer(0);
 
     theApp.SavePNG(hbm, strFileName);
 
@@ -785,10 +784,10 @@ void CDlgHisGrp::PrintOneImage(UINT* pnCur, UINT nIndex, UINT nMax, int iTmpNo)
     CPaintDC    dc(this);
     HDC         hSrcDC;
     CString     strNo;
-    CString     strTempName;
     CRect       rcClt;
     CString     strFilter;
-    CString     strSavePath;
+    string      strTempName;
+    string      strSavePath;
     int         iWidth, iHeight;
     int         iDestX, iDestY;
     int         iTabW = 20, iTabH = 270;
@@ -888,7 +887,7 @@ void CDlgHisGrp::PrintOneImage(UINT* pnCur, UINT nIndex, UINT nMax, int iTmpNo)
     else
         strNo.Format(IDS_STRMULTIPNGNAME, m_strFileName, pnCur[0], nLast);
 
-    strTempName = strSavePath + strNo;
+    strTempName = strSavePath + strNo.GetBuffer(0);
     theApp.SavePNG(hBitmap, strTempName);
 
     return;
@@ -903,7 +902,7 @@ void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
     HBITMAP     hBitmap = NULL; // Î»Í¼¾ä±ú
     CRect       rcClt;
     CString     strNo;
-    CString     strTempName;
+    string      strTempName;
 
     ASSERT_NULL(pnSel);
     ASSERT_ZERO(nSelCount);
@@ -926,9 +925,9 @@ void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
         RedrawWindow();
 
         strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
-        strTempName = theApp.GetSaveDataPath() + strNo;
+        strTempName = theApp.GetSaveDataPath() + strNo.GetBuffer(0);
 
-        theApp.CopyDCToPNGFile(hdc, pnSel[i], strTempName, &rcClt, hMemDC, hBitmap);
+        theApp.CopyDCToPNGFile(hdc, pnSel[i], strTempName.c_str(), &rcClt, hMemDC, hBitmap);
 
         Sleep(400);
     }

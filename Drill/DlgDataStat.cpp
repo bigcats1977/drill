@@ -675,13 +675,13 @@ void CDlgDataStat::OnBnClickedBtnsavestat()
     hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
 
 
-    strFilePath = theApp.GetSaveDataPath();
+    strFilePath = theApp.GetSaveDataPath().c_str();
     strFilePath += theApp.m_strFileTitle.c_str();
 
     m_cbBuckType.GetWindowText(strCurType);
     strName.Format(IDS_STRSTATNAME, strFilePath, strCurType);
     strName.Replace('*', 'X');
-    theApp.SavePNG(hbm, strName);
+    theApp.SavePNG(hbm, strName.GetBuffer(0));
 
     strInfo.Format(IDS_STRINFSAVEXLSUCC, strName);
     theApp.SaveShowMessage(strInfo);
@@ -698,7 +698,7 @@ void CDlgDataStat::OnBnClickedCheckalign()
     BeginCalStat();
 }
 
-CString CDlgDataStat::SaveStatImg(void)
+string CDlgDataStat::SaveStatImg(void)
 {
     CPaintDC    dc(this);
     HDC         hdc;
@@ -706,12 +706,11 @@ CString CDlgDataStat::SaveStatImg(void)
     HBITMAP     hBitmap = NULL; // Î»Í¼¾ä±ú
     HBITMAP     hOldBitmap = NULL;
     CRect       rcClt;
-    CString     strFileName;
+    string      strFileName;
     int         iWidth = 0;
     int         iHeight = 0;
 
-    strFileName = theApp.GetSaveDataPath();
-    strFileName += "DataStat.png";
+    strFileName = theApp.GetSaveDataPath() + "DataStat.png";
 
     GetClientRect(&rcClt);
     iWidth = rcClt.Width();
