@@ -146,7 +146,7 @@ BOOL CDlgCollect::CheckDataValid(int& iCollNum)
         strInfo.Format(IDS_STRINFPORTERR,
             PORT485,
             thepDlg->m_ucRcvByte[0]);
-        INVALID_COLLECTDATA(strInfo);
+        INVALID_COLLECTDATA(strInfo.GetBuffer(0));
     }
 
     if (thepDlg->m_ucRcvByte[1] != 0x10 &&
@@ -154,7 +154,7 @@ BOOL CDlgCollect::CheckDataValid(int& iCollNum)
     {
         strInfo.Format(IDS_STRINFRCVCMDERR,
             thepDlg->m_ucRcvByte[1]);
-        INVALID_COLLECTDATA(strInfo);
+        INVALID_COLLECTDATA(strInfo.GetBuffer(0));
     }
 
     iCollNum = thepDlg->m_ucRcvByte[2];
@@ -163,7 +163,7 @@ BOOL CDlgCollect::CheckDataValid(int& iCollNum)
         strInfo.Format(IDS_STRINFCOLOVERFLOW,
             iCollNum,
             ONEMAXTORQUE);
-        INVALID_COLLECTDATA(strInfo);
+        INVALID_COLLECTDATA(strInfo.GetBuffer(0));
     }
 
     return TRUE;
@@ -274,7 +274,7 @@ void CDlgCollect::CheckErrorTimes()
     strInfo.Format(IDS_STRINFREADDATAERR,
         m_nErrorNum,
         m_strLastError);
-    theApp.SaveShowMessage(strInfo);
+    theApp.SaveShowMessage(strInfo.GetBuffer(0));
 
     //ASSERT_NULL(g_ptParentDlg);
     thepDlg->StartGetValveStatus();

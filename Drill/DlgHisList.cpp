@@ -157,10 +157,10 @@ void CDlgHisList::OnBtnhis()
 
     m_strHisName = fileDlg.GetPathName();
 
-    if (!theApp.ReadHisTorqFromFile(m_strHisName))
+    if (!theApp.ReadHisTorqFromFile(m_strHisName.GetBuffer(0)))
     {
         strInfo.Format(IDS_STRINFFILEERR);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 
@@ -213,7 +213,7 @@ BOOL CDlgHisList::OnSetActive()
     UINT    nCurSel = g_tReadData.nCur;
     CHECK_VALUE_LOW(nCurSel, 1);
     SendMessageToDescendants(WM_SETFONT, (WPARAM)theApp.m_tRuleHFont.GetSafeHandle(), TRUE);
-    if (theApp.ReadHisTorqFromFile(m_strHisName))
+    if (theApp.ReadHisTorqFromFile(m_strHisName.GetBuffer(0)))
     {
         m_nHisTotalRec = g_tReadData.nTotal;
         m_nHisQualyRec = g_tReadData.nQualy;
@@ -536,7 +536,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
     file.Close();
 
     strInfo.Format(IDS_STRINFSAVEXLSUCC, strOrgData);
-    theApp.SaveShowMessage(strInfo);
+    theApp.SaveShowMessage(strInfo.GetBuffer(0));
 }
 
 void CDlgHisList::Export1Img(UINT* pnSel, UINT nSelCount)
@@ -740,7 +740,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
     {
         EndWaitCursor();
         strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 
@@ -756,7 +756,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
         m_tSaveExc.release();
         EndWaitCursor();
         strInfo.Format(IDS_STRINFOPENXLFAIL, TEMPLATE_GRAPHY);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 
@@ -805,7 +805,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
     EndWaitCursor();
 
     strInfo.Format(IDS_STRINFSAVEXLSUCC, strXlsFile);
-    theApp.SaveShowMessage(strInfo);
+    theApp.SaveShowMessage(strInfo.GetBuffer(0));
 
 }
 #if 0
@@ -1671,7 +1671,7 @@ void CDlgHisList::OnBnClickedBtnstatlist()
     {
         EndWaitCursor();
         strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 
@@ -1689,7 +1689,7 @@ void CDlgHisList::OnBnClickedBtnstatlist()
         m_tSaveExc.release();
         EndWaitCursor();
         strInfo.Format(IDS_STRINFOPENXLFAIL, strTmpFile);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 
@@ -1710,7 +1710,7 @@ void CDlgHisList::OnBnClickedBtnstatlist()
     EndWaitCursor();
 
     strInfo.Format(IDS_STRINFSAVEXLSUCC, strXlsFile);
-    theApp.SaveShowMessage(strInfo);
+    theApp.SaveShowMessage(strInfo.GetBuffer(0));
 
     return;
 }
@@ -1767,7 +1767,7 @@ bool CDlgHisList::GetDepthInfo(vector<int>& SeqNO, vector<string>& Depth)
     if (!m_tSaveExc.initExcel())
     {
         strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return false;
     }
 
@@ -1822,7 +1822,7 @@ void CDlgHisList::OnBnClickedBtnimportdepth()
         ptRunningShow = ptTorq->mutable_tshow(DepthIndex);
         ptRunningShow->set_strvalue(Depth[i]);
     }
-    theApp.SaveAllData(m_strHisName);
+    theApp.SaveAllData(m_strHisName.GetBuffer(0));
 
     OnSetActive();
 

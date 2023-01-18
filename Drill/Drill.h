@@ -42,12 +42,12 @@ public:
     /* 保存程序启动退出开始关闭设置等状态 */
     void    SaveAppStatus(UINT nStatus, string strInfo);
     /* 保存采集数据错误信息 */
-    void    SaveCollectErrorData(CString strError, BYTE* pucRcvByte, WORD wLen);
+    void    SaveCollectErrorData(string strError, BYTE* pucRcvByte, WORD wLen);
     /* 保存采集数据普通信息 */
     void    SaveCollectOrgData(BYTE* pucRcvByte, WORD wLen);
     /* 保存MessageBox显示的信息到文件 */
-    void    SaveMessage(CString strMessage);
-    void    SaveShowMessage(CString strMessage, UINT nType = MB_OK);
+    void    SaveMessage(string strMessage);
+    void    SaveShowMessage(string strMessage, UINT nType = MB_OK);
     // 保存串口发送错误数据
     void    SaveSendFailure(UINT nCmdType = 15); /* 默认SCMREAD15 */
     // 保存CRC或者串口错误、长度不对数据
@@ -62,13 +62,13 @@ public:
     // 保存复位时的串口数据
     void    SaveResetData(BYTE* pucRcvByte, WORD wLen);
     // 保存上位机发送到串口数据
-    void    SaveSendData(CString strCmd, BYTE* pucRcvByte, WORD wLen);
+    void    SaveSendData(string strCmd, BYTE* pucRcvByte, WORD wLen);
     // 保存串口操作记录
     void    SavePortOper(UINT nPortOpr);
     // 保存字符串数据到log文件
-    void    SaveStreamData(CString strStream);
+    void    SaveStreamData(string strStream);
 
-    BOOL    IsDebugInfo(CString strContent);
+    BOOL    IsDebugInfo(string strContent);
     void    AdjustParaValue(PARACFG* ptCfg); /* 检查参数是否发生变化 */
     /* 将列表内容导出到excle表格中 */
     //BOOL    SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData);
@@ -87,23 +87,24 @@ public:
     void    StopAlarmSound();
 
     HBITMAP CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr);
-    int     CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lprcScr, HDC hMemDC = NULL, HBITMAP hBitmap = NULL);
+    int     CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, LPRECT lprcScr, HDC hMemDC = NULL, HBITMAP hBitmap = NULL);
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
     bool    SaveBmp(HBITMAP hBitmap, string FileName);
     bool    SavePNG(HBITMAP hBitmap, string FileName);
     double  GetCir(TorqData::Torque* ptTorq, bool bBreakout = false);
     DWORD   GetQuality(TorqData::Torque* ptTorq);
     DWORD   JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut = 0);
-    BOOL    ReadHisTorqFromFile(CString strDataName);
+    BOOL    ReadHisTorqFromFile(string strDataName);
     CString GetStatType(TorqData::Torque* ptTorq, WORD wPlace);
     CString GetTorqSimpDate(TorqData::Torque* ptTorq);
     CString GetTorqFullDate(TorqData::Torque* ptTorq);
     CString GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout = false);
     BOOL    CheckPassWord();
-    string  LoadstringFromRes(unsigned string_ID);
-    string  LoadstringFromRes(unsigned string_ID, int val);
-    string  LoadstringFromRes(unsigned string_ID, double val);
-    string  LoadstringFromRes(unsigned string_ID, string val);
+    //string  LoadstringFromRes(unsigned string_ID);
+    string  LoadstringFromRes(unsigned string_ID, ...);
+    //string  LoadstringFromRes(unsigned string_ID, int val);
+    //string  LoadstringFromRes(unsigned string_ID, double val);
+    //string  LoadstringFromRes(unsigned string_ID, string val);
     void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
     string  GetSaveDataPath();
     int     SplitString(CString strSource, CStringList& slList);
@@ -117,7 +118,7 @@ public:
     int     SeekTorque(CFile& file, int iDataNum);
     int     SeekPBDataPos(CFile& file, int iCurPos);
     int     SeekFileLen(CFile& file);
-    void    UpdateHisData(CString strName, int iDataPlace, TorqData::Torque* ptTorq);
+    void    UpdateHisData(string strName, int iDataPlace, TorqData::Torque* ptTorq);
     int     GetMainIndex(UINT nNO);
     int     GetMainIndexfromData(UINT nNO, TorqData::Torque* ptTorq);
     BOOL    FindNotFileChar(CString strName);
@@ -133,7 +134,7 @@ public:
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
     bool CheckProductDate();
-    void SaveAllData(CString strDataName);
+    void SaveAllData(string strDataName);
     string GetFileNameFromPath(string path);
     void ReloadTorqCfg();
 
@@ -205,8 +206,8 @@ private:
     void SaveHexData(BYTE* pucRcvByte, WORD wLen);
     bool GetProductVersion(CString& strVersion);
     void CreateNewWellFile();
-    BOOL GetTorqDataFromFile(CString strDataName);
-    BOOL ReCalTallyNO(CString strDataName);
+    BOOL GetTorqDataFromFile(string strDataName);
+    BOOL ReCalTallyNO(string strDataName);
     void ClearReadTorq();
 
     /* 将列表内容导出到excle表格中 */

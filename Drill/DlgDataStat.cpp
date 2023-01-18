@@ -223,10 +223,10 @@ void CDlgDataStat::OnBnClickedBtnOpendata()
 
     m_strStatFile = fileDlg.GetPathName();
 
-    if (!theApp.ReadHisTorqFromFile(m_strStatFile))
+    if (!theApp.ReadHisTorqFromFile(m_strStatFile.GetBuffer(0)))
     {
         strInfo.Format(IDS_STRINFFILEERR);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 
@@ -684,7 +684,7 @@ void CDlgDataStat::OnBnClickedBtnsavestat()
     theApp.SavePNG(hbm, strName.GetBuffer(0));
 
     strInfo.Format(IDS_STRINFSAVEXLSUCC, strName);
-    theApp.SaveShowMessage(strInfo);
+    theApp.SaveShowMessage(strInfo.GetBuffer(0));
 
     GetDlgItem(IDC_BTNSAVESTAT)->ShowWindow(TRUE);
     return;

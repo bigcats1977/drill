@@ -491,7 +491,7 @@ void CDlgSegCabl::OnBnClickedBtncalibimp()
     {
         EndWaitCursor();
         strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
     if (!GetCalibInfoFromExcel(stImpFile))
@@ -500,7 +500,7 @@ void CDlgSegCabl::OnBnClickedBtncalibimp()
         m_impExc.release();
         EndWaitCursor();
         strInfo.Format(IDS_STRCALIBFORMARTERR, stImpFile);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
     m_impExc.close();

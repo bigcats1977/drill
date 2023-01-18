@@ -16,7 +16,7 @@ CDBAccess::~CDBAccess()
 
 bool CDBAccess::InitDBHandle()
 {
-    CString strInfo;
+    string  strInfo;
     COMP_BFALSE_R(m_bValidDBFile, false);
 
     try {
@@ -33,7 +33,7 @@ bool CDBAccess::InitDBHandle()
     }
     catch (exception& e)
     {
-        strInfo.Format("%s fail(%s)!!", __FUNCTION__, e.what());
+        strInfo = string_format("%s fail(%s)!!", __FUNCTION__, e.what());
         theApp.SaveMessage(strInfo);
         return false;
     }

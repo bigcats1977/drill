@@ -173,7 +173,7 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
     MINIDUMP_EXCEPTION_INFORMATION mei;
     MINIDUMP_CALLBACK_INFORMATION mci;
     CTime   tDay = CTime::GetCurrentTime();
-    CString strDumpName;
+    string  strDumpName;
 
     // Load dbghelp.dll
     hDbgHelp = LoadLibrary(_T("dbghelp.dll"));
@@ -183,7 +183,7 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
         return;
     }
 
-    strDumpName.Format("crashdump%04d%02d%02d%02d%02d%02d.dmp",
+    strDumpName = string_format("crashdump%04d%02d%02d%02d%02d%02d.dmp",
         tDay.GetYear(),      //yyyy年
         tDay.GetMonth(),     //mm月份
         tDay.GetDay(),       //dd日
@@ -192,7 +192,7 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
         tDay.GetSecond());   //ss秒
 
 // Create the minidump file
-    hFile = CreateFile(strDumpName,
+    hFile = CreateFile(strDumpName.c_str(),
         GENERIC_WRITE,
         0,
         NULL,

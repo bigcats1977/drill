@@ -787,7 +787,7 @@ BOOL CDrillDlg::CheckReg(CString strReg[])
 
     if (strNowDate > strRegDate)
     {
-        theApp.SaveMessage(strRegDate);
+        theApp.SaveMessage(strRegDate.GetBuffer(0));
         return FALSE;
     }
 
@@ -1264,7 +1264,7 @@ void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
 BOOL CDrillDlg::TimeReadPort(UINT nCurStatus)
 {
     BOOL    bReadRes = FALSE;
-    CString strInfo;
+    string  strInfo;
     /* 状态异常 */
     COMP_BG_R(m_nClashSta, RS_MAX, FALSE);
 
@@ -1283,7 +1283,7 @@ BOOL CDrillDlg::TimeReadPort(UINT nCurStatus)
     /* 连续5次没有读取到，设置串口为关闭状态 */
     if (m_iTorqBreakCnt <= 0)
     {
-        strInfo.Format("BreakCnt STOP by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
+        strInfo = string_format("BreakCnt STOP by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
         theApp.SaveMessage(strInfo);
         StopTorque();
 
@@ -1322,7 +1322,7 @@ BOOL CDrillDlg::CheckReadInterval()
 {
     double  fCurTime = 0;
     double  fDiff = 0;
-    CString strInfo;
+    string  strInfo;
     fCurTime = clock() * 1000.0 / CLOCKS_PER_SEC;
 
     fDiff = fCurTime - m_fPreReadTime;
@@ -1330,7 +1330,7 @@ BOOL CDrillDlg::CheckReadInterval()
 
     COMP_BGE_R(fDiff, g_tGlbCfg.nCollectDur, TRUE);
 
-    strInfo.Format("Read Interval is %.0f(<%ld)", fDiff, g_tGlbCfg.nCollectDur);
+    strInfo = string_format("Read Interval is %.0f(<%ld)", fDiff, g_tGlbCfg.nCollectDur);
     theApp.SaveMessage(strInfo);
     return FALSE;
 }
@@ -1491,7 +1491,7 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
         }
 
         /*调试信息，直接跳过*/
-        COMP_BTRUE_CONTINUE(theApp.IsDebugInfo(strTest));
+        COMP_BTRUE_CONTINUE(theApp.IsDebugInfo(strTest.GetBuffer(0)));
 
         /* 小于有效长度的数据，跳过 */
         COMP_BTRUE_CONTINUE(strTest.GetLength() < (ORG_DATAPLACE + ORG_PRNDATALEN));
@@ -1601,7 +1601,7 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
         }
 
         /*调试信息，直接跳过*/
-        COMP_BTRUE_CONTINUE(theApp.IsDebugInfo(strTest));
+        COMP_BTRUE_CONTINUE(theApp.IsDebugInfo(strTest.GetBuffer(0)));
 
         /* 小于有效长度的数据，跳过 */
         COMP_BTRUE_CONTINUE(strTest.GetLength() < (ORG_DATAPLACE + 33));
@@ -2476,7 +2476,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     int     iDelPlus = 0;
     UINT    nDataNum = 0;
     UINT    nSaveNum = 0;
-    CString strInfo;
+    string  strInfo;
 
     COLLECTDATA tCollData[PORT_MAXDATANUM] = { 0 };
 
@@ -2554,7 +2554,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
             {
                 if (m_fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD && fCurCir >= 0.01)
                 {
-                    strInfo.Format("< ShowTorq FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
+                    strInfo = string_format("< ShowTorq FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
                     theApp.SaveMessage(strInfo);
                     m_hrtSaveData.KillTimer();
                     FinishControl();
@@ -2681,7 +2681,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     /* 控制下降 */
     if (bFinish)
     {
-        strInfo.Format("bFinish TRUE FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
+        strInfo = string_format("bFinish TRUE FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
         theApp.SaveMessage(strInfo);
         FinishControl();
         UpdateData(FALSE);
@@ -2760,9 +2760,9 @@ LRESULT CDrillDlg::PortBuffTimerOut(WPARAM wParam, LPARAM lParam)
 
 LRESULT CDrillDlg::SaveDataTimerOut(WPARAM wParam, LPARAM lParam)
 {
-    CString strInfo;
+    string strInfo;
 
-    strInfo.Format("FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
+    strInfo = string_format("FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
     theApp.SaveMessage(strInfo);
 
     /* 杀掉数据保存定时器 */
@@ -2960,7 +2960,7 @@ void CDrillDlg::RunTorque()
     {
         m_bRunStatus = FALSE;
         strInfo.Format(IDS_STRINFMAININITFAIL);
-        theApp.SaveShowMessage(strInfo);
+        theApp.SaveShowMessage(strInfo.GetBuffer(0));
         return;
     }
 

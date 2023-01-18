@@ -434,9 +434,9 @@ void CDrillApp::InitShowPara(SHOWCFG* ptShow, UINT nLang)
 void CDrillApp::InitDefaultConfig(int initStep)
 {
     int i = 0;
-    CString strInfo;
+    string  strInfo;
 
-    strInfo.Format("InitConfigFromDB fail(0x%x)!", initStep);
+    strInfo = string_format("InitConfigFromDB fail(0x%x)!", initStep);
     SaveMessage(strInfo);
 
     // global parameter
@@ -690,7 +690,7 @@ bool CDrillApp::CheckProductDate()
 
     if (strNowDate > strProductDate)
     {
-        SaveMessage(strProductDate);
+        SaveMessage(strProductDate.GetBuffer(0));
         return false;
     }
 
@@ -1123,7 +1123,7 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
     if (!tSaveExc.initExcel())
     {
         strInfo.Format(IDS_STRINFNODRIVE);
-        SaveShowMessage(strInfo);
+        SaveShowMessage(strInfo.GetBuffer(0));
         return false;
     }
 
@@ -1210,16 +1210,16 @@ void CDrillApp::ShowMainTitle()
 /* 无效数据直接跳过，节省读取时间
    无效数据现在都以"####"开头
    CRC数据也不计数了 */
-BOOL CDrillApp::IsDebugInfo(CString strContent)
+BOOL CDrillApp::IsDebugInfo(string strContent)
 {
     int     i = 0;
     int     iPlace = -1;
 
-    COMP_BTRUE_R(strContent.IsEmpty(), FALSE);
+    COMP_BTRUE_R(strContent.empty(), FALSE);
 
     for (i = 0; i < DBG_MAXNUM; i++)
     {
-        iPlace = strContent.Find(m_strDbgHead[i]);
+        iPlace = strContent.find(m_strDbgHead[i].GetBuffer(0));
 
         COMP_BNE_R(iPlace, -1, TRUE);
     }
@@ -1268,15 +1268,14 @@ void CDrillApp::SaveCurTimeAndHead(UINT nType)
     SaveDbgHead(nType);
 }
 
-void CDrillApp::SaveStreamData(CString strStream)
+void CDrillApp::SaveStreamData(string strStream)
 {
     char* pData = NULL;
     int     iLen = 0;
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
-    iLen = strStream.GetLength();
 
-    iLen = sprintf_s(pData, SPRINTFLEN, "%s", strStream.GetBuffer());
+    iLen = sprintf_s(pData, SPRINTFLEN, "%s", strStream.c_str());
     INC_DBG_INFO();
 }
 
@@ -1480,7 +1479,7 @@ void CDrillApp::SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr)
 }
 
 /* 采集数据时出错信息保存 */
-void CDrillApp::SaveCollectErrorData(CString strError, BYTE* pucRcvByte, WORD wLen)
+void CDrillApp::SaveCollectErrorData(string strError, BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
     int     iLen = 0;
@@ -1497,7 +1496,7 @@ void CDrillApp::SaveCollectErrorData(CString strError, BYTE* pucRcvByte, WORD wL
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
     /* Info and data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, "%s (len%2d) ", (LPCTSTR)strError, wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "%s (len%2d) ", strError.c_str(), wLen);
     INC_DBG_INFO();
 
     /* source serial data */
@@ -1555,7 +1554,7 @@ void CDrillApp::SaveResetData(BYTE* pucRcvByte, WORD wLen)
 }
 
 //保存上位机发送到串口数据
-void CDrillApp::SaveSendData(CString strCmd, BYTE* pucRcvByte, WORD wLen)
+void CDrillApp::SaveSendData(string strCmd, BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
     int     iLen = 0;
@@ -1570,7 +1569,7 @@ void CDrillApp::SaveSendData(CString strCmd, BYTE* pucRcvByte, WORD wLen)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* data len */
-    iLen = sprintf_s(pData, SPRINTFLEN, "%s(len%2d)\r\n", (LPCTSTR)strCmd, wLen);
+    iLen = sprintf_s(pData, SPRINTFLEN, "%s(len%2d)\r\n", strCmd.c_str(), wLen);
     INC_DBG_INFO();
 
     /* 对外不展现modbus编码 */
@@ -1679,7 +1678,7 @@ void CDrillApp::SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta)
 }
 
 /* 保存MessageBox显示的信息到文件 */
-void CDrillApp::SaveMessage(CString strMessage)
+void CDrillApp::SaveMessage(string strMessage)
 {
     char* pData = NULL;
     int     iLen = 0;
@@ -1690,15 +1689,15 @@ void CDrillApp::SaveMessage(CString strMessage)
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
     /* Save Info */
-    iLen = sprintf_s(pData, 200, "%s\r\n", (LPCTSTR)strMessage);
+    iLen = sprintf_s(pData, 200, "%s\r\n", (LPCTSTR)strMessage.c_str());
     INC_DBG_INFO();
     return;
 }
 
-void CDrillApp::SaveShowMessage(CString strMessage, UINT nType)
+void CDrillApp::SaveShowMessage(string strMessage, UINT nType)
 {
     SaveMessage(strMessage);
-    AfxMessageBox(strMessage, nType);
+    AfxMessageBox(strMessage.c_str(), nType);
 }
 
 void CDrillApp::StringSubtract(CString& strValue, BYTE ucChar)
@@ -2035,7 +2034,7 @@ HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr)
     return   hBitmap;
 }
 
-int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lprcScr, HDC hMemDC, HBITMAP hBitmap)
+int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, LPRECT lprcScr, HDC hMemDC, HBITMAP hBitmap)
 {
     HBITMAP     hOldBitmap = NULL;
     int         iX = 0;    // 选定区域坐标
@@ -2063,7 +2062,7 @@ int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, CString strFile, LPRECT lpr
 
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
-    SavePNG(hBitmap, strFile.GetBuffer(0));
+    SavePNG(hBitmap, strFile);
 
     return   0;
 }
@@ -2394,7 +2393,7 @@ int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
     return -1;
 }
 
-BOOL CDrillApp::ReadHisTorqFromFile(CString strDataName)
+BOOL CDrillApp::ReadHisTorqFromFile(string strDataName)
 {
     COMP_BFALSE_R(GetTorqDataFromFile(strDataName), FALSE);
 
@@ -2406,7 +2405,7 @@ BOOL CDrillApp::ReadHisTorqFromFile(CString strDataName)
 
 /* 读取历史的扭矩数据文件
    一次最多读取MAXWELLNUM条 */
-BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
+BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
 {
     CFile   file;
     int     i = 0;
@@ -2428,9 +2427,9 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
     double  fRatio = NM2LBFT;
     //string strData;
 
-    COMP_BTRUE_R(strDataName.IsEmpty(), FALSE);
+    COMP_BTRUE_R(strDataName.empty(), FALSE);
 
-    ASSERT_ZERO_R(file.Open(strDataName, CFile::modeRead | CFile::shareDenyNone), FALSE);
+    ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeRead | CFile::shareDenyNone), FALSE);
 
     m_strReadFile = strDataName;
     strTitle = file.GetFileTitle();
@@ -2444,7 +2443,7 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
     if (nNum > MAXWELLNUM)
     {
         strInfo.Format(IDS_STRINFREADOVERFLOW, nNum, MAXWELLNUM);
-        SaveShowMessage(strInfo);
+        SaveShowMessage(strInfo.GetBuffer(0));
         nNum = MAXWELLNUM;
     }
 
@@ -2468,7 +2467,7 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
         iDataLen = SeekFileLen(file);
         if (iDataLen < 0)
         {
-            SaveShowMessage(strInfo);
+            SaveShowMessage(strInfo.GetBuffer(0));
             break;
         }
 
@@ -2478,7 +2477,7 @@ BOOL CDrillApp::GetTorqDataFromFile(CString strDataName)
         if (iDataLen < MIN_TORQDATALEN)
         {
             strInfo.Format(IDS_STRINFTORQDATASHORT, strDataName, iDataLen, file.GetPosition(), i);
-            SaveMessage(strInfo);
+            SaveMessage(strInfo.GetBuffer(0));
             continue;
         }
 
@@ -2769,51 +2768,75 @@ BOOL CDrillApp::CheckPassWord()
     return TRUE;
 }
 
-string CDrillApp::LoadstringFromRes(unsigned string_ID)
+//string CDrillApp::LoadstringFromRes(unsigned string_ID)
+//{
+//    char buffer[MAX_LOADSTRING];
+//
+//    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+//    if (!bytes_copied)
+//        throw std::runtime_error("Resource not found!");
+//
+//    return string(buffer, bytes_copied);
+//}
+
+
+string CDrillApp::LoadstringFromRes(unsigned string_ID, ...)
 {
-    char buffer[MAX_LOADSTRING];
+    char format[MAX_LOADSTRING];
 
-    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-    if (!bytes_copied)
-        throw std::runtime_error("Resource not found!");
+    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, format, MAX_LOADSTRING);
 
-    return string(buffer, bytes_copied);
+    va_list args;
+    va_start(args, format);
+    int count = vsnprintf(NULL, 0, format, args);
+    va_end(args);
+
+    va_start(args, format);
+    char* buff = (char*)malloc((count + 1) * sizeof(char));
+    vsnprintf(buff, (count + 1), format, args);
+    va_end(args);
+
+    string str(buff, count);
+    free(buff);
+
+    return str;
 }
 
-string CDrillApp::LoadstringFromRes(unsigned string_ID, int val)
-{
-    char buffer[MAX_LOADSTRING];
-    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
 
-    return string(buffer);
-}
-
-string CDrillApp::LoadstringFromRes(unsigned string_ID, double val)
-{
-    char buffer[MAX_LOADSTRING];
-    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
-
-    return string(buffer);
-}
-
-string CDrillApp::LoadstringFromRes(unsigned string_ID, string val)
-{
-    string buffer1;
-    char buffer2[MAX_LOADSTRING];
-    buffer1 = LoadstringFromRes(string_ID);
-    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-    snprintf(buffer2, MAX_LOADSTRING, buffer1.c_str(), val.c_str());
-
-    return string(buffer2);
-}
+//string CDrillApp::LoadstringFromRes(unsigned string_ID, int val)
+//{
+//    char buffer[MAX_LOADSTRING];
+//    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+//    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
+//
+//    return string(buffer);
+//}
+//
+//string CDrillApp::LoadstringFromRes(unsigned string_ID, double val)
+//{
+//    char buffer[MAX_LOADSTRING];
+//    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+//    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
+//
+//    return string(buffer);
+//}
+//
+//string CDrillApp::LoadstringFromRes(unsigned string_ID, string val)
+//{
+//    string buffer1;
+//    char buffer2[MAX_LOADSTRING];
+//    buffer1 = LoadstringFromRes(string_ID);
+//    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+//    snprintf(buffer2, MAX_LOADSTRING, buffer1.c_str(), val.c_str());
+//
+//    return string(buffer2);
+//}
 
 /*
     nDataPlace: form 1 开始
     -1表示最后一个数据
 */
-void CDrillApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque* ptTorq)
+void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* ptTorq)
 {
     int     i = 0;
     UINT    nCurPos = 0;    /* 当前数据位置 */
@@ -2843,7 +2866,7 @@ void CDrillApp::UpdateHisData(CString strName, int iDataPlace, TorqData::Torque*
     }
 
     /* write to file */
-    ASSERT_ZERO(file.Open(strName, CFile::modeReadWrite | CFile::shareDenyNone, NULL));
+    ASSERT_ZERO(file.Open(strName.c_str(), CFile::modeReadWrite | CFile::shareDenyNone, NULL));
 
     /* 跳过文件的数据总条数 */
     file.Read(&nTotal, sizeof(UINT));
@@ -3052,7 +3075,7 @@ bool CDrillApp::HaveTallyNO(TorqData::Torque* ptTorq)
 
 /* 返回是否有修改
    20200302 每次都从最开始重新计算 */
-BOOL CDrillApp::ReCalTallyNO(CString strDataName)
+BOOL CDrillApp::ReCalTallyNO(string strDataName)
 {
     int     i = 0;
     int     iTallyIndex = -1;
@@ -3099,14 +3122,14 @@ BOOL CDrillApp::ReCalTallyNO(CString strDataName)
     return TRUE;
 }
 
-void CDrillApp::SaveAllData(CString strDataName)
+void CDrillApp::SaveAllData(string strDataName)
 {
     UINT    i = 0;
     size_t  nDataLen = 0;
     CFile   file;
 
     /* write to file */
-    if (file.Open(strDataName, CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone, NULL))
+    if (file.Open(strDataName.c_str(), CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone, NULL))
     {
         /*更新记录数*/
         file.Write(&g_tReadData.nTotal, sizeof(UINT));
