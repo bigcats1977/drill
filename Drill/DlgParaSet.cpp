@@ -24,7 +24,7 @@ CDlgParaSet::CDlgParaSet(CWnd* pParent /*=NULL*/)
     //{{AFX_DATA_INIT(CDlgParaSet)
     m_strParaAlias = _T("");
     m_strMemo = _T("");
-    m_fControlCir = 0.0;
+    //m_fControlCir = 0.0;
     m_fControl = 0.0;
     m_fOptTorq = 0.0;
     m_fLowerCir = 0.0;
@@ -52,8 +52,8 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
     //{{AFX_DATA_MAP(CDlgParaSet)
-    DDX_Text(pDX, IDC_EDITCONTROLCIR, m_fControlCir);
-    DDX_Control(pDX, IDC_EDITCONTROLCIR, m_neControlCir);
+    /*DDX_Text(pDX, IDC_EDITCONTROLCIR, m_fControlCir);
+    DDX_Control(pDX, IDC_EDITCONTROLCIR, m_neControlCir);*/
     DDX_Text(pDX, IDC_EDITCONTROLTORQ, m_fControl);
     DDX_Control(pDX, IDC_EDITCONTROLTORQ, m_neControl);
     DDX_Text(pDX, IDC_EDITOPTTORQ, m_fOptTorq);
@@ -233,7 +233,7 @@ void CDlgParaSet::SetParaValue(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];
-    m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];
+    //m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];
     m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];
 
     m_fMaxRPM = ptCtrl->fFullRPM;
@@ -358,7 +358,7 @@ BOOL CDlgParaSet::GetParaValue(PARACFG* ptCfg)
 
     ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] = m_fMaxCir;
     ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT] = m_fUpperCir;
-    ptCtrl->fTurnConf[INDEX_TURN_CONTROL] = m_fControlCir;
+    //ptCtrl->fTurnConf[INDEX_TURN_CONTROL] = m_fControlCir;
     ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT] = m_fLowerCir;
     /*  ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]      = m_fMaxDeltaCir;
       ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]      = m_fMinDeltaCir;*/
@@ -570,7 +570,7 @@ void CDlgParaSet::OnEnKillfocusEditmaxcir()
     /* 值没有修改则直接返回 */
     COMP_BE(oldMaxCir, m_fMaxCir);
 
-    m_fControlCir = m_fMaxCir * 3 / 4;
+    //m_fControlCir = m_fMaxCir * 3 / 4;
     UpdateData(FALSE);
 }
 

@@ -30,7 +30,7 @@ public:
     // Dialog Data
         //{{AFX_DATA(CDlgParaSet)
     enum { IDD = IDD_DLGPARASET };
-    double      m_fControlCir;
+    //double      m_fControlCir;
     double      m_fControl;
     double      m_fOptTorq;
     double      m_fLowerCir;
@@ -54,7 +54,7 @@ public:
     CString     m_strSetShowName[MAXPARANUM];
     CString     m_strSetShowOption[MAXPARANUM];
     CColorComboBox  m_cbSetShowOption[MAXPARANUM];
-    CNumEdit    m_neControlCir;
+    //CNumEdit    m_neControlCir;
     CNumEdit    m_neOptTorq;
     CNumEdit    m_neControl;
     CNumEdit    m_neLowerCir;
@@ -108,8 +108,8 @@ protected:
     afx_msg void OnCbnKillfocusCbpara14();
     afx_msg void OnCbnKillfocusCbpara15();
     afx_msg void OnCbnKillfocusCbpara16();
-    afx_msg void OnCbnKillfocusCbpara17();
-    afx_msg void OnCbnKillfocusCbpara18();
+    //afx_msg void OnCbnKillfocusCbpara17();
+    //afx_msg void OnCbnKillfocusCbpara18();
     afx_msg void OnEnKillfocusEditmaxcir();
     afx_msg void OnKillfocusEditopttorq();
     afx_msg void OnCbnSelchangeCbalias();
