@@ -132,11 +132,13 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.nTorqUnit = m_tDBGlbCfg._TorqUnit;
     if (g_tGlbCfg.nTorqUnit == 1)
     {
-        g_tGlbCfg.strUnit = theApp.LoadstringFromRes(IDS_STRTORQLBFTUNIT, BIGPOINT);
+        //g_tGlbCfg.strUnit = theApp.LoadstringFromRes(IDS_STRTORQLBFTUNIT, BIGPOINT);
+        g_tGlbCfg.strUnit = string_format(theApp.LoadstringFromRes(IDS_STRTORQLBFTUNIT).c_str(), BIGPOINT);
     }
     else
     {
-        g_tGlbCfg.strUnit = theApp.LoadstringFromRes(IDS_STRTORQNMUNIT, BIGPOINT);
+        //g_tGlbCfg.strUnit = theApp.LoadstringFromRes(IDS_STRTORQNMUNIT, BIGPOINT);
+        g_tGlbCfg.strUnit = string_format(theApp.LoadstringFromRes(IDS_STRTORQNMUNIT).c_str(), BIGPOINT);
     }
 
     g_tGlbCfg.nCollectDur = m_tDBGlbCfg._CollectDur;

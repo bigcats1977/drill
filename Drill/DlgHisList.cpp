@@ -79,7 +79,7 @@ BOOL CDlgHisList::OnInitDialog()
     string  strHead;
     //CString strTemp;
     CRect   rcView;
-    char buffer[MAX_LOADSTRING];
+    //char buffer[MAX_LOADSTRING];
 
     CPropertyPage::OnInitDialog();
 
@@ -96,21 +96,24 @@ BOOL CDlgHisList::OnInitDialog()
     /* 20221113 去掉斜坡因子 */
     /* 20221220  去掉拐点扭矩，同时显示上扣扭矩/周数和卸扣扭矩/周数 */
     /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
-    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
+    /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
-        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));
+        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));*/
     /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
                    int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
                    int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
                    int(2*m_iWidth));*/
-    m_strFixHead = buffer;
-    strHead = buffer;
+    strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
+        int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
+    //strHead = buffer;
+    m_strFixHead = strHead;
     for (i = 0; i < MAXPARANUM; i++)
     {
         //strTemp.Format("%s, %d;", theApp.m_ptCurShow->strList[i].c_str(), m_iWidth);
         //snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.GetListShowName(theApp.m_ptCurShow, i).c_str(), m_iWidth);
-        snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.m_ptCurShow->strShow[i].c_str(), m_iWidth);
-        strHead += buffer;
+        //snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.m_ptCurShow->strShow[i].c_str(), m_iWidth);
+        strHead += string_format("%s, %d;", theApp.m_ptCurShow->strShow[i].c_str(), m_iWidth);
     }
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();

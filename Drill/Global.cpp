@@ -726,7 +726,7 @@ void CheckLanguage(UINT& nLang)
         nLang = g_tGlbCfg.nLangType;
 }
 
-CString GetCCBString(CComboBox* ptCCB)
+string GetCCBString(CComboBox* ptCCB)
 {
     CString strContent;
     int curSel = 0;
@@ -739,7 +739,7 @@ CString GetCCBString(CComboBox* ptCCB)
     else
         ptCCB->GetLBText(curSel, strContent);
 
-    return strContent;
+    return strContent.GetBuffer(0);
 }
 
 

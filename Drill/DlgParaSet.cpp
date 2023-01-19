@@ -210,7 +210,7 @@ BOOL CDlgParaSet::OnInitDialog()
 
 void CDlgParaSet::UpdateDlgLabel()
 {
-    m_strLBM10 = theApp.LoadstringFromRes(IDS_STRTORQPARA, g_tGlbCfg.strUnit).c_str();
+    m_strLBM10 = string_format(theApp.LoadstringFromRes(IDS_STRTORQPARA).c_str(), g_tGlbCfg.strUnit.c_str()).c_str();
 }
 
 void CDlgParaSet::SetParaValue(PARACFG* ptCfg, SHOWCFG* ptShow)
@@ -295,14 +295,14 @@ void CDlgParaSet::OnParasave()
 
     if (m_strParaAlias.IsEmpty())
     {
-        strInfo = theApp.LoadstringFromRes(IDS_STRINFPARAALIAS, m_strParaAlias.GetBuffer(0));
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFPARAALIAS).c_str(), m_strParaAlias);
         theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
         return;
     }
 
     GetParaValue(&m_tempCfg);
 
-    strInfo = theApp.LoadstringFromRes(IDS_STRINFSAVEALIASFAIL, m_strParaAlias.GetBuffer(0));
+    strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFSAVEALIASFAIL).c_str(), m_strParaAlias);
     /* 保存前先校验下参数的有效范围 */
     theApp.AdjustParaValue(&m_tempCfg);
     // 更新扭矩参数配置
@@ -326,7 +326,7 @@ void CDlgParaSet::OnParasave()
 
     m_bParaChg = true;
 
-    strInfo = theApp.LoadstringFromRes(IDS_STRINFSAVEALIAS, m_strParaAlias.GetBuffer(0));
+    strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFSAVEALIAS).c_str(), m_strParaAlias);
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONEXCLAMATION);
 }
 
@@ -591,13 +591,13 @@ void CDlgParaSet::OnCbnSelchangeCbalias()
     int iAliasID = 0;
     BOOL bRes = TRUE;
     TORQCFGID tCfgID = { 0 };
-    CString strAlias;
+    string    strAlias;
 
     UpdateData(TRUE);
 
     strAlias = GetCCBString(&m_cbAlias);
 
-    iAliasID = theDB.ReadTorqCfgPara(strAlias.GetBuffer(0), &m_tempCfg);
+    iAliasID = theDB.ReadTorqCfgPara(strAlias, &m_tempCfg);
     COMP_BLE(iAliasID, 0);
 
     SetParaValue(&m_tempCfg, &m_tempShow);
@@ -653,7 +653,7 @@ void CDlgParaSet::OnBnClickedDelalias()
 
     InitAliasShow();
 
-    strInfo = theApp.LoadstringFromRes(IDS_STRINFDELETEALIAS, strAlias.GetBuffer(0));
+    strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFDELETEALIAS).c_str(), strAlias);
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONEXCLAMATION);
 }
 

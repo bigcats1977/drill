@@ -100,8 +100,8 @@ public:
     CString GetTorqFullDate(TorqData::Torque* ptTorq);
     CString GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout = false);
     BOOL    CheckPassWord();
-    //string  LoadstringFromRes(unsigned string_ID);
-    string  LoadstringFromRes(unsigned string_ID, ...);
+    string  LoadstringFromRes(unsigned string_ID);
+    //string  LoadstringFromRes(unsigned string_ID, ...);
     //string  LoadstringFromRes(unsigned string_ID, int val);
     //string  LoadstringFromRes(unsigned string_ID, double val);
     //string  LoadstringFromRes(unsigned string_ID, string val);

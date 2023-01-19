@@ -859,15 +859,15 @@ void CSerialPort::EnumerateSerialPorts(CUIntArray& ports)
         //Up to 255 COM ports are supported so we iterate through all of them seeing
         //if we can open them or if we fail to open them, get an access denied or general error error.
         //Both of these cases indicate that there is a COM port at that number.
-        for (UINT i = 1; i < 256; i++)
+        for (int i = 1; i < 256; i++)
         {
             //Form the Raw device name
-            CString sPort;
-            sPort.Format(_T("\\\\.\\COM%d"), i);
+            string sPort;
+            sPort = string_format(_T("\\\\.\\COM%d"), i);
 
             //Try to open the port
             BOOL bSuccess = FALSE;
-            HANDLE hPort = ::CreateFile(sPort, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
+            HANDLE hPort = ::CreateFile(sPort.c_str(), GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
             if (hPort == INVALID_HANDLE_VALUE)
             {
                 DWORD dwError = GetLastError();

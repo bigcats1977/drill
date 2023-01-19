@@ -112,8 +112,8 @@ private:
     //void    DrawBearLine();
     void    ShowTorqNo();
     void    EraseLastOne();
-    void    ShowVarPntText(COLORREF clrText, int x, int y, CString strContent);
-    void    ShowRightPntText(COLORREF clrText, int x, int y, CString strContent);
+    void    ShowVarPntText(COLORREF clrText, int x, int y, string strContent);
+    void    ShowRightPntText(COLORREF clrText, int x, int y, string strContent);
 
     CBitmap     m_bpCross;
     CBitmap     m_bpWCross;

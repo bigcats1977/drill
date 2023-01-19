@@ -34,7 +34,7 @@ BOOL CDlgSegCabl::OnInitDialog()
     string      strHead;
     CRect       rcView;
     int         iWidth = 0;
-    char buffer[MAX_LOADSTRING];
+    //char buffer[MAX_LOADSTRING];
 
     CDialogEx::OnInitDialog();
 
@@ -56,9 +56,10 @@ BOOL CDlgSegCabl::OnInitDialog()
     m_lsCalibInfo.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
     // "类型,%d;段号,%d;校准扭矩,%d;A/D扭矩,%d;最小扭矩,%d;最大扭矩,%d;"
     //strHead.Format(IDS_STRCALIBLISTHEAD,int(iWidth*0.4),int(iWidth*0.4),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8));
-    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
-        int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));
-    strHead = buffer;
+    /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
+        int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));*/
+    strHead = string_format(theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
+        int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));;
     m_lsCalibInfo.SetHeadings(strHead.c_str());
     m_lsCalibInfo.LoadColumnInfo();
 
@@ -387,7 +388,7 @@ LRESULT CDlgSegCabl::ProcReadCalib(WPARAM wParam, LPARAM lParam)
     {
         //strInfo.Format(IDS_STRCALIBREADERROR, strError);
         //AfxMessageBox(strInfo);
-        strInfo = theApp.LoadstringFromRes(IDS_STRCALIBREADERROR, strError);
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRCALIBREADERROR).c_str(), strError.c_str());
         AfxMessageBox(strInfo.c_str());
         return 1;
     }

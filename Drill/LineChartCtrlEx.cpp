@@ -259,14 +259,14 @@ void CLineChartCtrlEx::ShowTorqNo()
 {
 #if 0
     CPoint      ptBegin;
-    CString     strTemp;
+    string     strTemp;
     COMP_BTRUE(m_bBKLine);
-    strTemp.Format("%05d", m_nTorqNo);
+    strTemp = string_format("%05d", m_nTorqNo);
 
     m_MemDC.SetTextColor(CTRLBLACKCOLOR);
     ptBegin.x = int((m_iChartWidth) * 0.5 - 20);
     ptBegin.y = 10;
-    m_MemDC.TextOut(ptBegin.x, ptBegin.y, strTemp);
+    m_MemDC.TextOut(ptBegin.x, ptBegin.y, strTemp.c_str());
 #endif
 }
 
@@ -331,7 +331,7 @@ void CLineChartCtrlEx::DrawVLine(int x)
 }
 
 /* 打印选定点 / 放大点的动态位置的信息 */
-void CLineChartCtrlEx::ShowVarPntText(COLORREF clrText, int x, int y, CString strContent)
+void CLineChartCtrlEx::ShowVarPntText(COLORREF clrText, int x, int y, string strContent)
 {
     int nPos = int(x / m_fOffset);
 
@@ -342,11 +342,11 @@ void CLineChartCtrlEx::ShowVarPntText(COLORREF clrText, int x, int y, CString st
     else
         x = x - CONT_XANTIOFFSET;
 
-    m_MemDC.TextOut(x + 2, y - CONT_YOFFSET - 5, strContent);
+    m_MemDC.TextOut(x + 2, y - CONT_YOFFSET - 5, strContent.c_str());
 }
 
 /* 打印选定点 / 扭矩到竖线右位置 */
-void CLineChartCtrlEx::ShowRightPntText(COLORREF clrText, int x, int y, CString strContent)
+void CLineChartCtrlEx::ShowRightPntText(COLORREF clrText, int x, int y, string strContent)
 {
     int xx = 0;
     int nPos = int(x / m_fOffset);
@@ -360,7 +360,7 @@ void CLineChartCtrlEx::ShowRightPntText(COLORREF clrText, int x, int y, CString 
     else
         x = x - CONT_XANTIOFFSET;
 
-    m_MemDC.TextOut(x + 2, y - CONT_YOFFSET - 5, strContent);
+    m_MemDC.TextOut(x + 2, y - CONT_YOFFSET - 5, strContent.c_str());
 }
 
 void CLineChartCtrlEx::DrawControlLine()
@@ -387,7 +387,8 @@ void CLineChartCtrlEx::DrawControlLine()
     DrawHLine(y);
     /* 显示最佳扭矩值 */
     //strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
-    ShowContent(clrCtrl, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXCONTROL, m_fOptTorq));
+    ShowContent(clrCtrl, y - CONT_YOFFSET, 
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), m_fOptTorq));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -461,7 +462,8 @@ void CLineChartCtrlEx::DrawShowLine()
     /* 显示显示扭矩值 */
     //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
     //ShowContent(clrShow, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrShow, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXSHOW, m_fShow));
+    ShowContent(clrShow, y - CONT_YOFFSET, 
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXSHOW).c_str(), m_fShow));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -469,7 +471,7 @@ void CLineChartCtrlEx::DrawShowLine()
 void CLineChartCtrlEx::DrawBkLine()
 {
     int         iOldMode = 0;
-    CString     strTemp;
+    //CString     strTemp;
     CFont* pOldFont = NULL;
     CClientDC   dc(this);
 
@@ -510,7 +512,7 @@ void CLineChartCtrlEx::DrawBkLine()
 void CLineChartCtrlEx::DrawZoomBkLine()
 {
     int         iOldMode = 0;
-    CString     strTemp;
+    //CString     strTemp;
 
     CFont* pOldFont = NULL;
     CClientDC   dc(this);
@@ -539,7 +541,7 @@ void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
     double      fSelTorq = 0;
     double      fSelCir = 0;
     UINT        i = 0;
-    CString     strTemp;
+    string      strTemp;
     CDC         dcMemory;
     CPen        pnLine(PS_DOT, 1, IP_SELCOLOR);
     CPen* pOldPen = NULL;
@@ -567,8 +569,8 @@ void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
         DrawHLine(y);
 
         /* 显示当前扭矩和周数信息 */
-        strTemp.Format("(%.3f \xA1\xF1 %.f)", fSelCir, fSelTorq);
-        ShowRightPntText(IP_SELCOLOR, x, y, strTemp);
+        strTemp = string_format("(%.3f \xA1\xF1 %.f)", fSelCir, fSelTorq);
+        ShowRightPntText(IP_SELCOLOR, x, y, strTemp.c_str());
     }
     m_MemDC.SelectObject(pOldPen);
 }
@@ -661,7 +663,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
     double      fSelCir = 0;
     int         x = 0, y = 0;
     UINT        i = 0;
-    CString     strTemp;
+    string      strTemp;
     CBitmap* pOldBitmap;
     CDC         dcMemory;
     CPen        pnLine(PS_DOT, 1, ZOOM_SELCOLOR);
@@ -700,7 +702,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
         /* ----- */
         DrawHLine(y);
 
-        strTemp.Format("(%.4f \xA1\xF1 %.f)", fSelCir, fSelTorq);
+        strTemp = string_format("(%.4f \xA1\xF1 %.f)", fSelCir, fSelTorq);
         ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
     }
 
@@ -719,7 +721,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
     /* 放大点扭矩 */
     fSelCir = fMinCir + wZoomPos * m_fWidthCir / MAXLINEITEM; // 当前点在放大图像中的周数
     fSelCir = fDeltaCir - fSelCir;
-    strTemp.Format("(%.4f \xA1\xF1 %.f)", fSelCir, fSetZoomTorq);
+    strTemp = string_format("(%.4f \xA1\xF1 %.f)", fSelCir, fSetZoomTorq);
     ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
 
     m_MemDC.SelectObject(pOldPen);

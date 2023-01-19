@@ -173,7 +173,7 @@ void CDlgHisGrp::EmptyEdit()
 
 void CDlgHisGrp::UpdateDlgLabel()
 {
-    m_strLBG1 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
+    m_strLBG1 = string_format(theApp.LoadstringFromRes(IDS_STRLINELABEL).c_str(), g_tGlbCfg.strUnit.c_str()).c_str();
     m_strLBG10 = g_tGlbCfg.strUnit.c_str();
     m_strLBG16 = g_tGlbCfg.strUnit.c_str();
     /*if (m_bBreakOut)

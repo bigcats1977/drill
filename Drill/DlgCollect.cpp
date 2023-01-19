@@ -68,7 +68,7 @@ BOOL CDlgCollect::OnInitDialog()
 {
     string      strHead;
     CRect       rcView;
-    char        buffer[MAX_LOADSTRING];
+    //char        buffer[MAX_LOADSTRING];
     int         iWidth = 0;
 
     CDialog::OnInitDialog();
@@ -83,10 +83,12 @@ BOOL CDlgCollect::OnInitDialog()
     m_listData.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
     //strHead.Format("上扣时间,%d;扭拧周数,%d;扭拧扭矩,%d;",nWidth*2,nWidth,nWidth);
     //strHead.Format(IDS_STRCOLLISTHEAD,int(iWidth*1.8),(iWidth),(iWidth));
-    snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD).c_str(),
-        int(iWidth * 1.8), (iWidth), (iWidth));
+    /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD),
+        int(iWidth * 1.8), (iWidth), (iWidth));*/
 
-    strHead = buffer;
+    strHead = string_format(theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD).c_str(),
+                int(iWidth * 1.8), (iWidth), (iWidth));
+    //strHead = buffer;
     m_listData.SetHeadings(strHead.c_str());
     m_listData.LoadColumnInfo();
 

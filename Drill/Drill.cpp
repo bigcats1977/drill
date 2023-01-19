@@ -491,7 +491,7 @@ void CDrillApp::InitGlobalPara()
     g_tGlbCfg.strPassWord = LoadstringFromRes(IDS_STRPVPASSWORD);
     g_tGlbCfg.strDataPath = NULLSTR;
 
-    g_tGlbCfg.strUnit = LoadstringFromRes(IDS_STRTORQNMUNIT, BIGPOINT);
+    g_tGlbCfg.strUnit = string_format(LoadstringFromRes(IDS_STRTORQNMUNIT).c_str(), BIGPOINT);
 }
 
 BOOL CDrillApp::SetShowNameFromID(string lsID, SHOWCFG* ptShow, UINT nLang)
@@ -2768,40 +2768,20 @@ BOOL CDrillApp::CheckPassWord()
     return TRUE;
 }
 
-//string CDrillApp::LoadstringFromRes(unsigned string_ID)
-//{
-//    char buffer[MAX_LOADSTRING];
-//
-//    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-//    if (!bytes_copied)
-//        throw std::runtime_error("Resource not found!");
-//
-//    return string(buffer, bytes_copied);
-//}
-
-
-string CDrillApp::LoadstringFromRes(unsigned string_ID, ...)
+string CDrillApp::LoadstringFromRes(unsigned string_ID)
 {
-    char format[MAX_LOADSTRING];
+    //string buffer;
+    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, (LPSTR)buffer.c_str(), MAX_LOADSTRING);
+    //return buffer;
 
-    LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, format, MAX_LOADSTRING);
+    char buffer[MAX_LOADSTRING];
 
-    va_list args;
-    va_start(args, format);
-    int count = vsnprintf(NULL, 0, format, args);
-    va_end(args);
+    unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+    if (!bytes_copied)
+        throw std::runtime_error("Resource not found!");
 
-    va_start(args, format);
-    char* buff = (char*)malloc((count + 1) * sizeof(char));
-    vsnprintf(buff, (count + 1), format, args);
-    va_end(args);
-
-    string str(buff, count);
-    free(buff);
-
-    return str;
+    return string(buffer, bytes_copied);
 }
-
 
 //string CDrillApp::LoadstringFromRes(unsigned string_ID, int val)
 //{

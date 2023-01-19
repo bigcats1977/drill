@@ -653,7 +653,7 @@ void CDrillDlg::InitMainShowPara()
 
 void CDrillDlg::UpdateDlgLabel()
 {
-    m_strLBM2 = theApp.LoadstringFromRes(IDS_STRLINELABEL, g_tGlbCfg.strUnit).c_str();
+    m_strLBM2 = string_format(theApp.LoadstringFromRes(IDS_STRLINELABEL).c_str(), g_tGlbCfg.strUnit.c_str()).c_str();
     if (m_iBreakOut > 0)
         m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
     else
@@ -3896,8 +3896,7 @@ void CDrillDlg::OnHistorylist()
     CMySheet        sheet(theApp.LoadstringFromRes(IDS_STRMAINVIEWHIS).c_str(), this);
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNVIEWHIS));
-
-    theApp.SaveAppStatus(STATUS_HISTORY, __FUNCTION__);
+        theApp.SaveAppStatus(STATUS_HISTORY, __FUNCTION__);
 
     theApp.m_fSheetRatio = 1.0;
 
@@ -4033,7 +4032,7 @@ void CDrillDlg::SetCommShowInfo(UINT nStatus)
         m_cbComm.SetSameIcon(IDI_LEDREDON);
         m_CommStatus.SetIcon(AfxGetApp()->LoadIcon(IDI_MODBUSCLOSE));
         strBtnText = theApp.LoadstringFromRes(IDS_STRMAINOPENPORT);
-        strShow = theApp.LoadstringFromRes(IDS_STRMAINPORTCLOSE, (int)g_tGlbCfg.nPortNO);
+        strShow = string_format(theApp.LoadstringFromRes(IDS_STRMAINPORTCLOSE).c_str(), g_tGlbCfg.nPortNO);
         m_StatusBar.SetPaneText(0, strShow.c_str(), TRUE);
         return;
     }
@@ -4044,7 +4043,7 @@ void CDrillDlg::SetCommShowInfo(UINT nStatus)
 
     if (nStatus == RS_COMM_OPEN)
     {
-        strShow = theApp.LoadstringFromRes(IDS_STRMAINPORTOPEN, (int)g_tGlbCfg.nPortNO);
+        strShow = string_format(theApp.LoadstringFromRes(IDS_STRMAINPORTOPEN).c_str(), g_tGlbCfg.nPortNO);
         /*strShow.Format( IDS_STRMAINPORTOPEN,
                         g_tGlbCfg.nPortNO,
                         115200,
@@ -4054,7 +4053,7 @@ void CDrillDlg::SetCommShowInfo(UINT nStatus)
     }
     else
     {
-        strShow = theApp.LoadstringFromRes((IDS_STRMAINPORTSIMRAND + nStatus - RS_COMM_RAND), (int)g_tGlbCfg.nPortNO);
+        strShow = string_format(theApp.LoadstringFromRes((IDS_STRMAINPORTSIMRAND + nStatus - RS_COMM_RAND)).c_str(), g_tGlbCfg.nPortNO);
     }
 
     m_StatusBar.SetPaneText(0, strShow.c_str(), TRUE);
@@ -4515,7 +4514,7 @@ void CDrillDlg::OnVerUnitNm()
         return;
 
     g_tGlbCfg.nTorqUnit = 0;
-    g_tGlbCfg.strUnit = theApp.LoadstringFromRes(IDS_STRTORQNMUNIT, BIGPOINT);
+    g_tGlbCfg.strUnit = string_format(theApp.LoadstringFromRes(IDS_STRTORQNMUNIT).c_str(), BIGPOINT);
 
     UpdateDlgLabel();
 
@@ -4535,7 +4534,7 @@ void CDrillDlg::OnVerUnitLbft()
         return;
 
     g_tGlbCfg.nTorqUnit = 1;
-    g_tGlbCfg.strUnit = theApp.LoadstringFromRes(IDS_STRTORQLBFTUNIT, BIGPOINT);
+    g_tGlbCfg.strUnit = string_format(theApp.LoadstringFromRes(IDS_STRTORQLBFTUNIT).c_str(), BIGPOINT);
 
     UpdateDlgLabel();
 
@@ -4681,6 +4680,7 @@ void CDrillDlg::OnBnClickedRadiomakeup()
         UpdateData(FALSE);
         return;
     }*/
+    UpdateDlgLabel();
     CheckBreakOut();
 
     UpdateData(FALSE);
@@ -4708,6 +4708,7 @@ void CDrillDlg::OnBnClickedRadiobreakout()
     }*/
     UpdateData(TRUE);
 
+    UpdateDlgLabel();
     GetCurNum();
 
     CheckBreakOut();
