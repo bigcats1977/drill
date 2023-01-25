@@ -155,12 +155,12 @@ void Excel::preLoadSheet()
 bool Excel::loadSheet(long tableId, bool preLoaded)
 {
     wholeRange.ReleaseDispatch();
-    try 
+    try
     {
         lpDisp = sheets.get_Item(COleVariant((long)tableId));
         workSheet.AttachDispatch(lpDisp);
     }
-    catch(...)
+    catch (...)
     {
         lpDisp = sheets.Add(vtMissing, vtMissing, _variant_t((long)1), vtMissing);
         workSheet.AttachDispatch(lpDisp);
@@ -168,7 +168,7 @@ bool Excel::loadSheet(long tableId, bool preLoaded)
     }
     if (!lpDisp)
         return false;
-    
+
     wholeRange.AttachDispatch(workSheet.get_Cells());
 
     isLoad = false;
@@ -607,7 +607,7 @@ bool Excel::SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UI
 
     rows = nEndRow - nBeginRow + 1;
     cols = nEndCol - nBeginCol + 1;
-    if (slContent.GetSize() < rows*cols)
+    if (slContent.GetSize() < rows * cols)
         return false;
 
     /*向Sheet中写入多个单元格,规模为10*10 */
@@ -615,11 +615,11 @@ bool Excel::SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UI
     EndCell.Format("%s%d", columnToTitle(nEndCol), nEndRow);
     lpDisp = workSheet.get_Range(_variant_t(StartCell), _variant_t(EndCell));
     curRange.AttachDispatch(lpDisp);
-    
+
     //Number of rows in the range.
-    numElements[0] = rows; 
+    numElements[0] = rows;
     //Number of columns in the range.
-    numElements[1] = cols; 
+    numElements[1] = cols;
     saRet.Create(VT_BSTR, 2, numElements);
     //saRet.Create(VT_R8, 2, numElements);
 
@@ -631,7 +631,7 @@ bool Excel::SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UI
         for (j = 0; j < cols; j++)
         {
             index[1] = j;
-            
+
             //Fill with Strings.
             VariantInit(&v);
             v.vt = VT_BSTR;
@@ -652,6 +652,6 @@ bool Excel::SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UI
     curRange.put_Value2(COleVariant(saRet));
     saRet.Detach();
     curRange.ReleaseDispatch();
-    
+
     return true;
 }

@@ -194,22 +194,16 @@
     <ClInclude Include="DrillDlg.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="E:\paperprograme\RES\ANGLE.BMP" />
-    <Image Include="e:\paperprograme\res\bitmap2.bmp" />
-    <Image Include="e:\paperprograme\res\bitmap3.bmp" />
-    <Image Include="E:\paperprograme\RES\KONG.BMP" />
     <Image Include="res\6315318.png" />
     <Image Include="res\add.ico" />
     <Image Include="res\ANGLE.BMP" />
     <Image Include="res\apply.ico" />
-    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\BMKONG.BMP" />
     <Image Include="res\cross.bmp" />
     <Image Include="res\cross_w.bmp" />
     <Image Include="res\excel.ico" />
     <Image Include="res\GEARWEEL.ICO" />
     <Image Include="res\HUI.BMP" />
-    <Image Include="res\icon1.ico" />
     <Image Include="res\KONG.BMP" />
     <Image Include="res\LedOff.ico" />
     <Image Include="res\ledoff1.ico" />

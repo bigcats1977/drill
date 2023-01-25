@@ -365,7 +365,7 @@ BOOL CDlgShowSet::CheckShowCfgChanged()
 
     if (0 != memcmp(&m_tempShow.nShow[0], &ptCurShow->nShow[0], sizeof(UINT) * MAXPARANUM) ||
         0 != memcmp(&m_bHisMain[0], &m_bMain[0], sizeof(BOOL) * MAXPARANUM))
-       // 0 != memcmp(&m_bHisList[0], &m_bList[0], sizeof(BOOL) * MAXPARANUM))
+        // 0 != memcmp(&m_bHisList[0], &m_bList[0], sizeof(BOOL) * MAXPARANUM))
     {
         return TRUE;
     }

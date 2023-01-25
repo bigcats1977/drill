@@ -87,7 +87,7 @@ BOOL CDlgCollect::OnInitDialog()
         int(iWidth * 1.8), (iWidth), (iWidth));*/
 
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD).c_str(),
-                int(iWidth * 1.8), (iWidth), (iWidth));
+        int(iWidth * 1.8), (iWidth), (iWidth));
     //strHead = buffer;
     m_listData.SetHeadings(strHead.c_str());
     m_listData.LoadColumnInfo();

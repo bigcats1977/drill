@@ -223,7 +223,6 @@
     <Image Include="res\ANGLE.BMP" />
     <Image Include="res\apply.ico" />
     <Image Include="res\cross.bmp" />
-    <Image Include="res\cross.ico" />
     <Image Include="res\cross_w.bmp" />
     <Image Include="res\excel.ico" />
     <Image Include="res\GEARWEEL.ICO" />
@@ -263,9 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Drill.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

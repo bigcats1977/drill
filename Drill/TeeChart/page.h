@@ -15,24 +15,24 @@
 class CPage : public COleDispatchDriver
 {
 public:
-	CPage() {}		// Calls COleDispatchDriver default constructor
-	CPage(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
-	CPage(const CPage& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
+    CPage() {}		// Calls COleDispatchDriver default constructor
+    CPage(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
+    CPage(const CPage& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-// Attributes
+    // Attributes
 public:
 
-// Operations
+    // Operations
 public:
-	void Next();
-	void Previous();
-	long GetMaxPointsPerPage();
-	void SetMaxPointsPerPage(long nNewValue);
-	long GetCurrent();
-	void SetCurrent(long nNewValue);
-	BOOL GetScaleLastPage();
-	void SetScaleLastPage(BOOL bNewValue);
-	long GetCount();
+    void Next();
+    void Previous();
+    long GetMaxPointsPerPage();
+    void SetMaxPointsPerPage(long nNewValue);
+    long GetCurrent();
+    void SetCurrent(long nNewValue);
+    BOOL GetScaleLastPage();
+    void SetScaleLastPage(BOOL bNewValue);
+    long GetCount();
 };
 
 //{{AFX_INSERT_LOCATION}}

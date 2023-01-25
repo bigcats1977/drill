@@ -43,8 +43,8 @@ END_MESSAGE_MAP()
 
 CEnglishApp::CEnglishApp()
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 
@@ -57,7 +57,7 @@ CEnglishApp theApp;
 
 BOOL CEnglishApp::InitInstance()
 {
-	CWinApp::InitInstance();
+    CWinApp::InitInstance();
 
-	return TRUE;
+    return TRUE;
 }

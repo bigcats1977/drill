@@ -877,7 +877,7 @@ public:
         static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x580, DISPATCH_PROPERTYPUT, VT_EMPTY, nullptr, parms, newValue);
     }
-    void GetChartElement(long x, long y, long * ElementID, long * Arg1, long * Arg2)
+    void GetChartElement(long x, long y, long* ElementID, long* Arg1, long* Arg2)
     {
         static BYTE parms[] = VTS_I4 VTS_I4 VTS_PI4 VTS_PI4 VTS_PI4;
         InvokeHelper(0x581, DISPATCH_METHOD, VT_EMPTY, nullptr, parms, x, y, ElementID, Arg1, Arg2);

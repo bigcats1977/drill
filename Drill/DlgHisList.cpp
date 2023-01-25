@@ -99,10 +99,10 @@ BOOL CDlgHisList::OnInitDialog()
     /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));*/
-    /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
-                   int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                   int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                   int(2*m_iWidth));*/
+        /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
+                       int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
+                       int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
+                       int(2*m_iWidth));*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
@@ -1821,7 +1821,7 @@ void CDlgHisList::OnBnClickedBtnimportdepth()
     for (size_t i = 0; i < SeqNO.size(); i++)
     {
         curSeq = SeqNO[i];
-        if (curSeq > (int)g_tReadData.nTotal|| curSeq < 1)
+        if (curSeq > (int)g_tReadData.nTotal || curSeq < 1)
             continue;
         ptTorq = &g_tReadData.tData[curSeq - 1];
         ptRunningShow = ptTorq->mutable_tshow(DepthIndex);

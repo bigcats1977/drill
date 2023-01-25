@@ -164,7 +164,7 @@ void CRuler::DrawVerRuler()
             m_MemDC.TextOut(rcRuler.right - 6, y, str.c_str());
             continue;
         }
-		
+
         /* else */
 
         /* »­´ó¿Ì¶È */

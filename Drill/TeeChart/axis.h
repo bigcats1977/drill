@@ -21,88 +21,88 @@ class CAxisTitle;
 class CAxis : public COleDispatchDriver
 {
 public:
-	CAxis() {}		// Calls COleDispatchDriver default constructor
-	CAxis(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
-	CAxis(const CAxis& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
+    CAxis() {}		// Calls COleDispatchDriver default constructor
+    CAxis(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
+    CAxis(const CAxis& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-// Attributes
+    // Attributes
 public:
 
-// Operations
+    // Operations
 public:
-	BOOL GetAutomatic();
-	void SetAutomatic(BOOL bNewValue);
-	BOOL GetAutomaticMaximum();
-	void SetAutomaticMaximum(BOOL bNewValue);
-	BOOL GetAutomaticMinimum();
-	void SetAutomaticMinimum(BOOL bNewValue);
-	CPen1 GetAxisPen();
-	long GetAxisType();
-	BOOL GetExactDateTime();
-	void SetExactDateTime(BOOL bNewValue);
-	CPen1 GetGridPen();
-	double GetIncrement();
-	void SetIncrement(double newValue);
-	BOOL GetInverted();
-	void SetInverted(BOOL bNewValue);
-	CAxisLabels GetLabels();
-	BOOL GetLogarithmic();
-	void SetLogarithmic(BOOL bNewValue);
-	double GetMaximum();
-	void SetMaximum(double newValue);
-	double GetMinimum();
-	void SetMinimum(double newValue);
-	long GetMinorTickCount();
-	void SetMinorTickCount(long nNewValue);
-	long GetMinorTickLength();
-	void SetMinorTickLength(long nNewValue);
-	CPen1 GetMinorTicks();
-	long GetPosition();
-	long GetTickInnerLength();
-	void SetTickInnerLength(long nNewValue);
-	long GetTickLength();
-	void SetTickLength(long nNewValue);
-	BOOL GetTickOnLabelsOnly();
-	void SetTickOnLabelsOnly(BOOL bNewValue);
-	CPen1 GetTicks();
-	CPen1 GetTicksInner();
-	CAxisTitle GetTitle();
-	long GetTitleSize();
-	void SetTitleSize(long nNewValue);
-	BOOL GetVisible();
-	void SetVisible(BOOL bNewValue);
-	void AdjustMaxMin();
-	long CalcXPosValue(double SomeValue);
-	long CalcYPosValue(double SomeValue);
-	long CalcXSizeValue(double SomeValue);
-	long CalcYSizeValue(double SomeValue);
-	double CalcPosPoint(long SomeValue);
-	BOOL Clicked(long XCoord, long YCoord);
-	void CustomDraw(long APosLabels, long APosTitle, long APosAxis, BOOL GridVisible);
-	BOOL IsDateTime();
-	double MaxXValue();
-	double MaxYValue();
-	double MinXValue();
-	double MinYValue();
-	void Scroll(double Offset, BOOL CheckLimits);
-	void SetMinMax(double AMin, double AMax);
-	BOOL GetGridCentered();
-	void SetGridCentered(BOOL bNewValue);
-	double GetPositionPercent();
-	void SetPositionPercent(double newValue);
-	double GetStartPosition();
-	void SetStartPosition(double newValue);
-	double GetEndPosition();
-	void SetEndPosition(double newValue);
-	long GetLogarithmicBase();
-	void SetLogarithmicBase(long nNewValue);
-	void CustomDrawMinMax(long APosLabels, long APosTitle, long APosAxis, BOOL GridVisible, double AMinimum, double AMaximum, long AStartPosition, long AEndPosition);
-	CPen1 GetMinorGrid();
-	BOOL GetOtherside();
-	void SetOtherside(BOOL bNewValue);
-	double MaxVisibleSeriesValue(BOOL AllSeries, long SeriesIndex);
-	double MinVisibleSeriesValue(BOOL AllSeries, long SeriesIndex);
-	double CalcIncrement();
+    BOOL GetAutomatic();
+    void SetAutomatic(BOOL bNewValue);
+    BOOL GetAutomaticMaximum();
+    void SetAutomaticMaximum(BOOL bNewValue);
+    BOOL GetAutomaticMinimum();
+    void SetAutomaticMinimum(BOOL bNewValue);
+    CPen1 GetAxisPen();
+    long GetAxisType();
+    BOOL GetExactDateTime();
+    void SetExactDateTime(BOOL bNewValue);
+    CPen1 GetGridPen();
+    double GetIncrement();
+    void SetIncrement(double newValue);
+    BOOL GetInverted();
+    void SetInverted(BOOL bNewValue);
+    CAxisLabels GetLabels();
+    BOOL GetLogarithmic();
+    void SetLogarithmic(BOOL bNewValue);
+    double GetMaximum();
+    void SetMaximum(double newValue);
+    double GetMinimum();
+    void SetMinimum(double newValue);
+    long GetMinorTickCount();
+    void SetMinorTickCount(long nNewValue);
+    long GetMinorTickLength();
+    void SetMinorTickLength(long nNewValue);
+    CPen1 GetMinorTicks();
+    long GetPosition();
+    long GetTickInnerLength();
+    void SetTickInnerLength(long nNewValue);
+    long GetTickLength();
+    void SetTickLength(long nNewValue);
+    BOOL GetTickOnLabelsOnly();
+    void SetTickOnLabelsOnly(BOOL bNewValue);
+    CPen1 GetTicks();
+    CPen1 GetTicksInner();
+    CAxisTitle GetTitle();
+    long GetTitleSize();
+    void SetTitleSize(long nNewValue);
+    BOOL GetVisible();
+    void SetVisible(BOOL bNewValue);
+    void AdjustMaxMin();
+    long CalcXPosValue(double SomeValue);
+    long CalcYPosValue(double SomeValue);
+    long CalcXSizeValue(double SomeValue);
+    long CalcYSizeValue(double SomeValue);
+    double CalcPosPoint(long SomeValue);
+    BOOL Clicked(long XCoord, long YCoord);
+    void CustomDraw(long APosLabels, long APosTitle, long APosAxis, BOOL GridVisible);
+    BOOL IsDateTime();
+    double MaxXValue();
+    double MaxYValue();
+    double MinXValue();
+    double MinYValue();
+    void Scroll(double Offset, BOOL CheckLimits);
+    void SetMinMax(double AMin, double AMax);
+    BOOL GetGridCentered();
+    void SetGridCentered(BOOL bNewValue);
+    double GetPositionPercent();
+    void SetPositionPercent(double newValue);
+    double GetStartPosition();
+    void SetStartPosition(double newValue);
+    double GetEndPosition();
+    void SetEndPosition(double newValue);
+    long GetLogarithmicBase();
+    void SetLogarithmicBase(long nNewValue);
+    void CustomDrawMinMax(long APosLabels, long APosTitle, long APosAxis, BOOL GridVisible, double AMinimum, double AMaximum, long AStartPosition, long AEndPosition);
+    CPen1 GetMinorGrid();
+    BOOL GetOtherside();
+    void SetOtherside(BOOL bNewValue);
+    double MaxVisibleSeriesValue(BOOL AllSeries, long SeriesIndex);
+    double MinVisibleSeriesValue(BOOL AllSeries, long SeriesIndex);
+    double CalcIncrement();
 };
 
 //{{AFX_INSERT_LOCATION}}

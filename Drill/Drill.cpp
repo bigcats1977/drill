@@ -1146,7 +1146,7 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
     hdi.mask = HDI_TEXT;
     hdi.pszText = lpBuffer;
     hdi.cchTextMax = 256;
-    for (i = 0; i< iColNum; i++)
+    for (i = 0; i < iColNum; i++)
     {
         ptHead->GetItem(i, &hdi);
         slContent.AddTail(hdi.pszText);
@@ -1162,7 +1162,7 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
         }
     }
 
-    tSaveExc.SetMultiCellContent(1, iRowNum+1, 1, iColNum, slContent);
+    tSaveExc.SetMultiCellContent(1, iRowNum + 1, 1, iColNum, slContent);
 
     tSaveExc.saveAsXLSFile(filename);
     tSaveExc.close();

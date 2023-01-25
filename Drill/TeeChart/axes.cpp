@@ -19,105 +19,105 @@
 
 CAxis CAxes::GetLeft()
 {
-	LPDISPATCH pDispatch;
-	InvokeHelper(0x1, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
-	return CAxis(pDispatch);
+    LPDISPATCH pDispatch;
+    InvokeHelper(0x1, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
+    return CAxis(pDispatch);
 }
 
 CAxis CAxes::GetRight()
 {
-	LPDISPATCH pDispatch;
-	InvokeHelper(0x2, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
-	return CAxis(pDispatch);
+    LPDISPATCH pDispatch;
+    InvokeHelper(0x2, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
+    return CAxis(pDispatch);
 }
 
 CAxis CAxes::GetTop()
 {
-	LPDISPATCH pDispatch;
-	InvokeHelper(0x3, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
-	return CAxis(pDispatch);
+    LPDISPATCH pDispatch;
+    InvokeHelper(0x3, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
+    return CAxis(pDispatch);
 }
 
 CAxis CAxes::GetBottom()
 {
-	LPDISPATCH pDispatch;
-	InvokeHelper(0x4, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
-	return CAxis(pDispatch);
+    LPDISPATCH pDispatch;
+    InvokeHelper(0x4, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
+    return CAxis(pDispatch);
 }
 
 BOOL CAxes::GetVisible()
 {
-	BOOL result;
-	InvokeHelper(0xa, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
-	return result;
+    BOOL result;
+    InvokeHelper(0xa, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
+    return result;
 }
 
 void CAxes::SetVisible(BOOL bNewValue)
 {
-	static BYTE parms[] =
-		VTS_BOOL;
-	InvokeHelper(0xa, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
-		 bNewValue);
+    static BYTE parms[] =
+        VTS_BOOL;
+    InvokeHelper(0xa, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
+        bNewValue);
 }
 
 CAxis CAxes::GetDepth()
 {
-	LPDISPATCH pDispatch;
-	InvokeHelper(0x5, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
-	return CAxis(pDispatch);
+    LPDISPATCH pDispatch;
+    InvokeHelper(0x5, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, NULL);
+    return CAxis(pDispatch);
 }
 
 BOOL CAxes::GetDrawAxesBeforeSeries()
 {
-	BOOL result;
-	InvokeHelper(0x6, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
-	return result;
+    BOOL result;
+    InvokeHelper(0x6, DISPATCH_PROPERTYGET, VT_BOOL, (void*)&result, NULL);
+    return result;
 }
 
 void CAxes::SetDrawAxesBeforeSeries(BOOL bNewValue)
 {
-	static BYTE parms[] =
-		VTS_BOOL;
-	InvokeHelper(0x6, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
-		 bNewValue);
+    static BYTE parms[] =
+        VTS_BOOL;
+    InvokeHelper(0x6, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms,
+        bNewValue);
 }
 
 long CAxes::AddCustom(BOOL IsHorizontal)
 {
-	long result;
-	static BYTE parms[] =
-		VTS_BOOL;
-	InvokeHelper(0x7, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
-		IsHorizontal);
-	return result;
+    long result;
+    static BYTE parms[] =
+        VTS_BOOL;
+    InvokeHelper(0x7, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+        IsHorizontal);
+    return result;
 }
 
 CAxis CAxes::GetCustom(long CustomAxisIndex)
 {
-	LPDISPATCH pDispatch;
-	static BYTE parms[] =
-		VTS_I4;
-	InvokeHelper(0x8, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, parms,
-		CustomAxisIndex);
-	return CAxis(pDispatch);
+    LPDISPATCH pDispatch;
+    static BYTE parms[] =
+        VTS_I4;
+    InvokeHelper(0x8, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&pDispatch, parms,
+        CustomAxisIndex);
+    return CAxis(pDispatch);
 }
 
 long CAxes::GetCustomCount()
 {
-	long result;
-	InvokeHelper(0x9, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
-	return result;
+    long result;
+    InvokeHelper(0x9, DISPATCH_PROPERTYGET, VT_I4, (void*)&result, NULL);
+    return result;
 }
 
 void CAxes::RemoveCustom(long CustomAxisIndex)
 {
-	static BYTE parms[] =
-		VTS_I4;
-	InvokeHelper(0xb, DISPATCH_METHOD, VT_EMPTY, NULL, parms,
-		 CustomAxisIndex);
+    static BYTE parms[] =
+        VTS_I4;
+    InvokeHelper(0xb, DISPATCH_METHOD, VT_EMPTY, NULL, parms,
+        CustomAxisIndex);
 }
 
 void CAxes::RemoveAllCustom()
 {
-	InvokeHelper(0xc, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+    InvokeHelper(0xc, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
 }

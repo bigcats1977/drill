@@ -19,29 +19,29 @@ class CAxis;
 class CAxes : public COleDispatchDriver
 {
 public:
-	CAxes() {}		// Calls COleDispatchDriver default constructor
-	CAxes(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
-	CAxes(const CAxes& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
+    CAxes() {}		// Calls COleDispatchDriver default constructor
+    CAxes(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
+    CAxes(const CAxes& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-// Attributes
+    // Attributes
 public:
 
-// Operations
+    // Operations
 public:
-	CAxis GetLeft();
-	CAxis GetRight();
-	CAxis GetTop();
-	CAxis GetBottom();
-	BOOL GetVisible();
-	void SetVisible(BOOL bNewValue);
-	CAxis GetDepth();
-	BOOL GetDrawAxesBeforeSeries();
-	void SetDrawAxesBeforeSeries(BOOL bNewValue);
-	long AddCustom(BOOL IsHorizontal);
-	CAxis GetCustom(long CustomAxisIndex);
-	long GetCustomCount();
-	void RemoveCustom(long CustomAxisIndex);
-	void RemoveAllCustom();
+    CAxis GetLeft();
+    CAxis GetRight();
+    CAxis GetTop();
+    CAxis GetBottom();
+    BOOL GetVisible();
+    void SetVisible(BOOL bNewValue);
+    CAxis GetDepth();
+    BOOL GetDrawAxesBeforeSeries();
+    void SetDrawAxesBeforeSeries(BOOL bNewValue);
+    long AddCustom(BOOL IsHorizontal);
+    CAxis GetCustom(long CustomAxisIndex);
+    long GetCustomCount();
+    void RemoveCustom(long CustomAxisIndex);
+    void RemoveAllCustom();
 };
 
 //{{AFX_INSERT_LOCATION}}

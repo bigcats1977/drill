@@ -248,19 +248,7 @@
     <Image Include="res\add.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="E:\paperprograme\RES\ANGLE.BMP">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\apply.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="e:\paperprograme\res\bitmap2.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="e:\paperprograme\res\bitmap3.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\cross.bmp">
@@ -273,12 +261,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\GEARWEEL.ICO">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\icon1.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="E:\paperprograme\RES\KONG.BMP">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\LedOff.ico">

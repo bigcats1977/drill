@@ -217,7 +217,7 @@ void CLineChartCtrlStat::DrawControlLine()
     /* 显示最佳扭矩值 */
     //strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
     //ShowContent(LC_SAFECOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_SAFECOLOR, y - CONT_YOFFSET, 
+    ShowContent(LC_SAFECOLOR, y - CONT_YOFFSET,
         string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), m_fOptTorq));
 
     m_MemDC.SelectObject(pOldPen);
@@ -274,7 +274,7 @@ void CLineChartCtrlStat::DrawShowLine()
     /* 显示显示扭矩值 */
     //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
     //ShowContent(LC_SHOWCOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_SHOWCOLOR, y - CONT_YOFFSET, 
+    ShowContent(LC_SHOWCOLOR, y - CONT_YOFFSET,
         string_format(theApp.LoadstringFromRes(IDS_STRLCXSHOW).c_str(), m_fShow));
 
     m_MemDC.SelectObject(pOldPen);

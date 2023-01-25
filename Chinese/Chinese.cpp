@@ -43,8 +43,8 @@ END_MESSAGE_MAP()
 
 CChineseApp::CChineseApp()
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 
@@ -57,7 +57,7 @@ CChineseApp theApp;
 
 BOOL CChineseApp::InitInstance()
 {
-	CWinApp::InitInstance();
+    CWinApp::InitInstance();
 
-	return TRUE;
+    return TRUE;
 }

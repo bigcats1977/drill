@@ -28,11 +28,11 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-CDrillDlg       *thepDlg = NULL;
-BYTE            g_ucCurValve = 0;
+CDrillDlg* thepDlg = NULL;
+BYTE g_ucCurValve = 0;
 
-CDlgCollect*    m_pdlgCollect = NULL;
-CDlgSegCabl*    m_pdlgCalib = NULL;
+CDlgCollect* m_pdlgCollect = NULL;
+CDlgSegCabl* m_pdlgCalib = NULL;
 
 //#define             TESTPORT
 
@@ -1160,7 +1160,7 @@ void CDrillDlg::GetCurNum()
         file.Read(&m_nCurNO, sizeof(UINT));
     }
     file.Close();
-    
+
     /* 文件记录超量，生成新的文件，序号归零 */
     if (m_nCurNO > MAXWELLNUM)
         // || m_nCurNO == 0)  为什么每天生成一个数据文件？？的源头 20190927
@@ -1176,7 +1176,7 @@ void CDrillDlg::GetCurNum()
         /* 从后往前找最新的入井序号 */
         for (i = g_tReadData.nTotal; i > 0; i--)
         {
-            ptTorq = &g_tReadData.tData[i-1];
+            ptTorq = &g_tReadData.tData[i - 1];
             // 查找最后的入井序号
             if (iTallyNO == 0 && iTallyIndex >= 0 && iTallyIndex < ptTorq->tshow_size())
             {
@@ -3896,7 +3896,7 @@ void CDrillDlg::OnHistorylist()
     CMySheet        sheet(theApp.LoadstringFromRes(IDS_STRMAINVIEWHIS).c_str(), this);
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNVIEWHIS));
-        theApp.SaveAppStatus(STATUS_HISTORY, __FUNCTION__);
+    theApp.SaveAppStatus(STATUS_HISTORY, __FUNCTION__);
 
     theApp.m_fSheetRatio = 1.0;
 
@@ -4181,7 +4181,7 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
         file.Read(&nTorqNum, sizeof(UINT));
         nTorqNum++;
     }
-    
+
     m_dwTotalTorqNum++;
     //m_nTotal = m_dwTotalTorqNum;
 
@@ -4221,7 +4221,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
     COMP_BG(m_nBOSeqNO, g_tReadData.nTotal);
     COMP_BG(m_nBOOutWellNO, g_tReadData.nTotal);
 
-    ptBOData = &g_tReadData.tData[m_nBOSeqNO -1];
+    ptBOData = &g_tReadData.tData[m_nBOSeqNO - 1];
 
     _time64(&curTime);
     ptBOData->set_bbreakout(true);
