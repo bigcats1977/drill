@@ -248,13 +248,18 @@ void CDlgHisList::OnDestroy()
 
 void CDlgHisList::OnBnClickedBtnexport()
 {
-    string     strFilename;
+    string  strInfo;
+    string  strFilename;
 
     strFilename = theApp.GetSaveDataPath() + theApp.m_strFileTitle + "_List.xlsx";
 
     BeginWaitCursor();
     theApp.SaveList2XlsFile(strFilename, &m_listHis);
     EndWaitCursor();
+
+    strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFSAVEXLSUCC).c_str(),
+        strFilename.c_str());
+    theApp.SaveShowMessage(strInfo);
 }
 
 /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
@@ -728,13 +733,12 @@ void CDlgHisList::Export8Img(UINT* pnSel, UINT nSelCount)
 
 void CDlgHisList::OnBnClickedBtngraphexp()
 {
-    CString     strTmpFile;
+    string      strTmpFile;
     string      strXlsFile;
-    CString     strItem;
-    CString     strInfo;
-    CString     strModel;
-    CString     strSheet;
-    CString     strsuffix;
+    string      strInfo;
+    string      strModel;
+    string      strSheet;
+    string      strsuffix;
     UINT        nSelCount = 0;
     int         i = 0;
 
@@ -742,30 +746,30 @@ void CDlgHisList::OnBnClickedBtngraphexp()
     if (!m_tSaveExc.initExcel())
     {
         EndWaitCursor();
-        strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo.GetBuffer(0));
+        strInfo = theApp.LoadstringFromRes(IDS_STRINFNODRIVE);
+        theApp.SaveShowMessage(strInfo);
         return;
     }
 
-    strsuffix.Format("_Img(%d).xlsx", g_tGlbCfg.nImgNum);
-    strSheet.Format("Pic%d", g_tGlbCfg.nImgNum);
+    strsuffix = string_format("_Img(%d).xlsx", g_tGlbCfg.nImgNum);
+    strSheet = string_format("Pic%d", g_tGlbCfg.nImgNum);
 
-    strModel = theApp.m_strAppPath.c_str();
+    strModel = theApp.m_strAppPath;
     strModel += TEMPLATE_GRAPHY;
 
-    if (!m_tSaveExc.open(strModel))
+    if (!m_tSaveExc.open(strModel.c_str()))
     {
         m_tSaveExc.close();
         m_tSaveExc.release();
         EndWaitCursor();
-        strInfo.Format(IDS_STRINFOPENXLFAIL, TEMPLATE_GRAPHY);
-        theApp.SaveShowMessage(strInfo.GetBuffer(0));
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFOPENXLFAIL).c_str(), TEMPLATE_GRAPHY);
+        theApp.SaveShowMessage(strInfo);
         return;
     }
 
-    m_tSaveExc.delNOTNameSheet(strSheet);
+    m_tSaveExc.delNOTNameSheet(strSheet.c_str());
 
-    if (!m_tSaveExc.loadSheet(strSheet))
+    if (!m_tSaveExc.loadSheet(strSheet.c_str()))
     {
         m_tSaveExc.close();
         m_tSaveExc.release();
@@ -799,7 +803,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
         break;
     }
 
-    strXlsFile = theApp.GetSaveDataPath() + theApp.m_strFileTitle + strsuffix.GetBuffer(0);
+    strXlsFile = theApp.GetSaveDataPath() + theApp.m_strFileTitle + strsuffix;
 
     m_tSaveExc.saveAsXLSFile(strXlsFile);
     m_tSaveExc.close();
@@ -807,9 +811,8 @@ void CDlgHisList::OnBnClickedBtngraphexp()
 
     EndWaitCursor();
 
-    strInfo.Format(IDS_STRINFSAVEXLSUCC, strXlsFile);
-    theApp.SaveShowMessage(strInfo.GetBuffer(0));
-
+    strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFSAVEXLSUCC).c_str(), strXlsFile.c_str());
+    theApp.SaveShowMessage(strInfo);
 }
 #if 0
 void CDlgHisList::AddExcelChart(double top, CString strRange)
@@ -1661,11 +1664,10 @@ void CDlgHisList::WriteReportSheet()
     故要操作表，必须先逐步获取Workbooks—>Workbook —>Worksheets —>Worksheet —>Range */
 void CDlgHisList::OnBnClickedBtnstatlist()
 {
-    CString strTemplate;
-    CString strTmpFile;
+    string  strTemplate;
+    string  strTmpFile;
     string  strXlsFile;
-    CString strItem;
-    CString strInfo;
+    string  strInfo;
 
     COMP_BFALSE(theApp.CheckPassWord());
 
@@ -1673,12 +1675,12 @@ void CDlgHisList::OnBnClickedBtnstatlist()
     if (!m_tSaveExc.initExcel())
     {
         EndWaitCursor();
-        strInfo.Format(IDS_STRINFNODRIVE);
-        theApp.SaveShowMessage(strInfo.GetBuffer(0));
+        strInfo = theApp.LoadstringFromRes(IDS_STRINFNODRIVE);
+        theApp.SaveShowMessage(strInfo);
         return;
     }
 
-    strTmpFile = theApp.m_strAppPath.c_str();
+    strTmpFile = theApp.m_strAppPath;
     if (LANGUAGE_CHINESE == m_nCurLang)
         strTemplate = TEMPLATE_RPTCHN;
     else
@@ -1686,13 +1688,13 @@ void CDlgHisList::OnBnClickedBtnstatlist()
     strTmpFile += strTemplate;
 
     /* 打开模板文件 */
-    if (!m_tSaveExc.open(strTmpFile))
+    if (!m_tSaveExc.open(strTmpFile.c_str()))
     {
         m_tSaveExc.close();
         m_tSaveExc.release();
         EndWaitCursor();
-        strInfo.Format(IDS_STRINFOPENXLFAIL, strTmpFile);
-        theApp.SaveShowMessage(strInfo.GetBuffer(0));
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFOPENXLFAIL).c_str(), strTmpFile.c_str());
+        theApp.SaveShowMessage(strInfo);
         return;
     }
 
@@ -1712,8 +1714,8 @@ void CDlgHisList::OnBnClickedBtnstatlist()
 
     EndWaitCursor();
 
-    strInfo.Format(IDS_STRINFSAVEXLSUCC, strXlsFile);
-    theApp.SaveShowMessage(strInfo.GetBuffer(0));
+    strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFSAVEXLSUCC).c_str(), strXlsFile.c_str());
+    theApp.SaveShowMessage(strInfo);
 
     return;
 }
@@ -1828,6 +1830,8 @@ void CDlgHisList::OnBnClickedBtnimportdepth()
     theApp.SaveAllData(m_strHisName.GetBuffer(0));
 
     OnSetActive();
+
+    theApp.SaveShowMessage(theApp.LoadstringFromRes(IDS_STRWELLDEPTHIMSUCC));
 
     return;
 }

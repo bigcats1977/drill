@@ -893,8 +893,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,23,6,30806
- PRODUCTVERSION 3,23,6,30806
+ FILEVERSION 6,24,2,60124
+ PRODUCTVERSION 6,24,2,60124
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -911,13 +911,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Drill Meter Application"
-            VALUE "FileVersion", "3,23,6,2022806"
+            VALUE "FileVersion", "6,24,2,20230124"
             VALUE "InternalName", "Drill Meter"
-            VALUE "LegalCopyright", "Copyright (C) 2022"
+            VALUE "LegalCopyright", "Copyright (C) 2023"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Drill.EXE"
             VALUE "ProductName", "Drill Meter Application"
-            VALUE "ProductVersion", "3,23,6,2022806"
+            VALUE "ProductVersion", "6,24,2,20230124"
         END
     END
     BLOCK "VarFileInfo"
@@ -1148,7 +1148,6 @@ BEGIN
     BEGIN
         MENUITEM "全局配置(&G)...",                 ID_GLBCFG
         MENUITEM "参数设置(&P)...",                 ID_SETPARA
-        MENUITEM "比例阀设置(&V)...",                ID_VALVESET
         MENUITEM "功能调试(&D)...",                 ID_DEBUG
         MENUITEM "修改密码(&M)...",                 ID_MODPW
     END
@@ -1184,7 +1183,6 @@ BEGIN
     BEGIN
         MENUITEM "Global(&G)...",               ID_GLBCFG
         MENUITEM "Parameter(&P)...",            ID_SETPARA
-        MENUITEM "ValveSet(&V)...",             ID_VALVESET
         MENUITEM "FuncDebug(&D)...",            ID_DEBUG
         MENUITEM "Password(&M)...",             ID_MODPW
     END
@@ -1537,10 +1535,10 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRTITLE            "JianHu KaiTai Torque Meter V6.23"
-    IDS_STRTRYOUT           "JianHu KaiTai Torque Meter V6.23(Trial)"
-    IDS_STRBIGTITLE         "JianHu KaiTai Torque Meter V6.23*"
-    IDS_STRBIGTRYOUT        "JianHu KaiTai Torque Meter V6.23*(Trial)"
+    IDS_STRTITLE            "JianHu KaiTai Torque Meter V6.24"
+    IDS_STRTRYOUT           "JianHu KaiTai Torque Meter V6.24(Trial)"
+    IDS_STRBIGTITLE         "JianHu KaiTai Torque Meter V6.24*"
+    IDS_STRBIGTRYOUT        "JianHu KaiTai Torque Meter V6.24*(Trial)"
     IDS_STRONEBLANK         " "
     IDS_STRABINCH           "in"
     IDS_STRABMILMETER       "mm"
@@ -2112,6 +2110,11 @@ BEGIN
     IDS_STRINVALIDTORQ      "Invalid torque value!"
     IDS_STROPERATESUCC      "%s operation is successful!"
     IDS_STROPERATEFAIL      "%s operation failed!"
+    IDS_STRWELLDEPTHIMSUCC  "Import Well depth data successful!"
+END
+
+STRINGTABLE
+BEGIN
     IDS_STRDBPASSWORD       "Drill@KT123456"
 END
 
