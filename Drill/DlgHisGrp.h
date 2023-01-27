@@ -89,6 +89,8 @@ protected:
     afx_msg void OnBnClickedChecktoolbuck();
     afx_msg void OnStnClickedPriorsplit();
     afx_msg void OnStnClickedNextsplit();
+    afx_msg void OnBnClickedRadiosignle();
+    afx_msg void OnBnClickedRadiostand();
     afx_msg LRESULT SelPosChange(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT InterPtZoomIn(WPARAM wParam, LPARAM lParam);
     //afx_msg void OnBnClickedCheckbreakout();

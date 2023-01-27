@@ -120,6 +120,8 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     ON_STN_CLICKED(IDC_NEXTSPLIT, &CDlgHisGrp::OnStnClickedNextsplit)
     //ON_BN_CLICKED(IDC_CHECKHISBREAKOUT, &CDlgHisGrp::OnBnClickedCheckbreakout)
     //}}AFX_MSG_MAP
+    ON_BN_CLICKED(IDC_RADIOSIGNLE, &CDlgHisGrp::OnBnClickedRadiosignle)
+    ON_BN_CLICKED(IDC_RADIOSTAND, &CDlgHisGrp::OnBnClickedRadiostand)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1019,3 +1021,22 @@ void CDlgHisGrp::OnStnClickedNextsplit()
     return;
 }
 
+void CDlgHisGrp::OnBnClickedRadiosignle()
+{
+    ASSERT_NULL(m_ptCurTorq);
+
+    UpdateData(TRUE);
+    m_ptCurTorq->set_bsinglestd(0);
+
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+}
+
+void CDlgHisGrp::OnBnClickedRadiostand()
+{
+    ASSERT_NULL(m_ptCurTorq);
+
+    UpdateData(TRUE);
+    m_ptCurTorq->set_bsinglestd(1);
+
+    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+}

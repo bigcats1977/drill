@@ -1633,6 +1633,8 @@ void CDrillApp::SaveAppStatus(UINT nStatus, string strInfo)
 //保存端口操作记录 打开/关闭
 void CDrillApp::SavePortOper(UINT nPortOpr)
 {
+    return;
+
     char* pData = NULL;
     int     iLen = 0;
 
