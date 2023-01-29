@@ -124,7 +124,8 @@ public:
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque* ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex);
-    DRAWTORQDATA* GetDrawDataFromTorq(UINT nNO, int iMulti = 1);
+	// nType 1:MakeUP, 2: BreakOut, 3: All
+    DRAWTORQDATA* GetDrawDataFromTorq(UINT nNO, UINT nMulti = 1, UINT nType = 3);
     TorqData::Torque* GetOrgTorqFromTorq(UINT nNO);
     //string  GetListShowName(SHOWCFG* ptShow, UINT NO);
     string  GetMainShowName(SHOWCFG* ptShow, UINT NO);
@@ -236,6 +237,8 @@ private:
 
     BOOL UpdateCurOptions(WORD wNum, string value[], UINT nLang = LANGUAGE_CURRENT);
     BOOL GetOptionIDbyValue(string name, string value, UINT nLang = LANGUAGE_CURRENT);
+    bool GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
+    bool GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
 
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
 

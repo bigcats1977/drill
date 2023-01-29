@@ -274,6 +274,7 @@
 #define IDC_HISSIGSTD                   1356
 #define IDC_HISOUTJOINT                 1357
 #define IDC_HISOUTWELL                  1358
+#define IDC_HISGRPTYPE                  1359
 #define IDC_BTNPRI                      1360
 #define IDC_BTNNEXT                     1361
 #define IDC_BTNSAVEIMG                  1362
@@ -283,6 +284,9 @@
 #define IDC_NEXTSPLIT                   1366
 #define IDC_RADIOSIGNLE                 1367
 #define IDC_RADIOSTAND                  1368
+#define IDC_RADIOGRPBOTH                1369
+#define IDC_RADIOGRPMU                  1370
+#define IDC_RADIOGRPBO                  1371
 #define IDC_EDITHISTORY                 1400
 #define IDC_BTNHIS                      1401
 #define IDC_CHECKALLIMG                 1402

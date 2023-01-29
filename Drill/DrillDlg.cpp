@@ -4224,11 +4224,11 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
     ptBOData = &g_tReadData.tData[m_nBOSeqNO - 1];
 
     _time64(&curTime);
+    ptBOData->set_fbomaxtorq(m_fMaxTorq);
     ptBOData->set_bbreakout(true);
     ptBOData->set_bocoltime(curTime);
     duration = _difftime64(curTime, m_tStartTime);
     ptBOData->set_fbreakoutdur(_difftime64(curTime, m_tStartTime));
-    ptBOData->set_fbomaxtorq(m_fMaxTorq);
     ptBOData->set_dwbocount(ptPBData->dwmucount());
 
     ptBOData->set_dwoutwellno(m_nBOOutWellNO);

@@ -118,7 +118,7 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
 
-    //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
     //GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
     //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
 

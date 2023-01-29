@@ -1888,7 +1888,6 @@ DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut)
     dwQuality = QUA_RESU_GOOD;
     if (iBreakOut <= 0)
     {
-
         GET_CTRL_TORQ(fMaxTorq, ptTorq);
         fCircle = GetCir(ptTorq);
 
@@ -2612,9 +2611,7 @@ TorqData::Torque* CDrillApp::GetOrgTorqFromTorq(UINT nNO)
     return ptOrg;
 }
 
-/*  nNO 从0开始计数
-    iMulti在放大时使用 */
-DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
+bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti)
 {
     int i = 0;
     int iDrawPnt = 0;
@@ -2630,25 +2627,12 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
     double fPreRpm = 0;
     double fCurRpm = 0;
     double fPlusPerPnt = 1.0;
-    TorqData::Torque* ptOrg = NULL;
-    DRAWTORQDATA* ptDraw = NULL;
 
-    COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
-    COMP_BGE_R(nNO, MAXWELLNUM, NULL);
+    ASSERT_NULL_R(ptOrg, false);
+    ASSERT_NULL_R(ptDraw, false);
 
-    ptOrg = &g_tReadData.tData[nNO];
-    ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
-
-    ptDraw = &m_tCurDrawTorq;
-    if (iMulti > 1)
-        ptDraw = &m_tCurZoomTorq;
-
-    memset(ptDraw, 0, sizeof(DRAWTORQDATA));
-    ptDraw->ptOrgTorq = ptOrg;
-
-    fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / iMulti / MAXLINEITEM;
-
-    iDrawPnt = (int)ceil(g_tReadData.nTotalPlus[nNO] / fPlusPerPnt);
+    fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / nMulti / MAXLINEITEM;
+    iDrawPnt = (int)ceil(ptOrg->dwtotalplus() / fPlusPerPnt);
     if (iDrawPnt < 2)
         iDrawPnt = 2;
 
@@ -2661,8 +2645,10 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
 
     iPriorDataIndex = iDataIndex;
     iPriorDrawIndex = iDrawIndex;
-    iDrawIndex = 1;
-    for (iDataIndex = 1; iDataIndex < ptOrg->ftorque_size() - 1; iDataIndex++)
+    iDrawIndex++;
+    iDataIndex++;
+
+    for (;iDataIndex < ptOrg->dwmucount() - 1; iDataIndex++)
     {
         fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
         /* 跳过delta脉冲为0的情况 */
@@ -2694,6 +2680,7 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
         if (iInsCnt == 0)
         {
             //ptDraw->fTorque[iDrawIndex - 1] = fCurTorq;
+            // iDrawIndex == iPriorDrawIndex
             ptDraw->fTorque[iDrawIndex] = MAX(ptDraw->fTorque[iDrawIndex], fCurTorq);
             ptDraw->fRpm[iDrawIndex] = fCurRpm;
         }
@@ -2706,10 +2693,10 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
         {
             fPreTorq = ptOrg->ftorque(iPriorDataIndex);
             fPreRpm = ptOrg->frpm(iPriorDataIndex);
-            for (i = 0; i < iInsCnt; i++)
+            for (i = 1; i <= iInsCnt; i++)
             {
-                ptDraw->fTorque[i + iPriorDrawIndex + 1] = (fCurTorq - fPreTorq) * (i + 1) / iInsCnt + fPreTorq;
-                ptDraw->fRpm[i + iPriorDrawIndex + 1] = (fCurRpm - fPreRpm) * (i + 1) / iInsCnt + fPreRpm;
+                ptDraw->fTorque[i + iPriorDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+                ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
             }
         }
         iPriorDrawIndex = iDrawIndex;
@@ -2717,26 +2704,192 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, int iMulti)
         fCurTorq = 0;
     }
 
+    // last point
     iInsCnt = iDrawPnt - 1 - iDrawIndex;
     if (iInsCnt <= 1)
     {
-        ptDraw->fTorque[iDrawPnt - 1] = ptOrg->ftorque(ptOrg->ftorque_size() - 1);
-        ptDraw->fRpm[iDrawPnt - 1] = ptOrg->frpm(ptOrg->ftorque_size() - 1);
+        ptDraw->fTorque[iDrawIndex] = MAX(ptOrg->fmaxtorq(), ptDraw->fTorque[iDrawIndex]);
+        ptDraw->fRpm[iDrawIndex] = MAX(ptOrg->frpm(ptOrg->dwmucount() - 1), ptDraw->fRpm[iDrawIndex]);
+        if (iInsCnt < 0)
+            iDrawPnt = iDrawIndex + 1;
     }
     else
     {
-        fCurTorq = ptOrg->ftorque(ptOrg->ftorque_size() - 1);
-        fCurRpm = ptOrg->frpm(ptOrg->ftorque_size() - 1);
+        fCurTorq = ptOrg->ftorque(ptOrg->dwmucount() - 1);
+        fCurRpm = ptOrg->frpm(ptOrg->dwmucount() - 1);
         fPreTorq = ptOrg->ftorque(iPriorDataIndex);
         fPreRpm = ptOrg->frpm(iPriorDataIndex);
-        for (i = 0; i < iInsCnt; i++)
+        for (i = 1; i <= iInsCnt; i++)
         {
-            ptDraw->fTorque[i + iDrawIndex + 1] = (fCurTorq - fPreTorq) * (i + 1) / iInsCnt + fPreTorq;
-            ptDraw->fRpm[i + iDrawIndex + 1] = (fCurRpm - fPreRpm) * (i + 1) / iInsCnt + fPreRpm;
+            ptDraw->fTorque[i + iDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+            ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
         }
     }
 
     ptDraw->wCount = iDrawPnt;
+    return true;
+}
+
+bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti)
+{
+    int i = 0;
+    int iDrawPnt = 0;
+    int iDataPlus = 0;
+    int iDrawPlus = 0;
+    int iDrawIndex = 0;
+    int iDataIndex = 0;
+    int iInsCnt = 0;
+    int iPriorDataIndex = 0;
+    int iPriorDrawIndex = 0;
+    double fPreTorq = 0;
+    double fCurTorq = 0;
+    double fPreRpm = 0;
+    double fCurRpm = 0;
+    double fPlusPerPnt = 1.0;
+
+    ASSERT_NULL_R(ptOrg, false);
+    ASSERT_NULL_R(ptDraw, false);
+
+    fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / nMulti / MAXLINEITEM;
+    iDrawPnt = (int)ceil(ptOrg->dwbototalplus() / fPlusPerPnt);
+    if (iDrawPnt < 2)
+        iDrawPnt = 2;
+
+    if (ptDraw->wCount > 0)
+    {
+        ptDraw->fTorque[ptDraw->wCount] = 0;
+        ptDraw->fRpm[ptDraw->wCount] = ptDraw->fRpm[ptDraw->wCount - 1];
+        ptDraw->wCount++;
+    }
+
+    iDrawPnt += ptDraw->wCount;
+    iDrawIndex = ptDraw->wCount;
+    iDataIndex = ptOrg->dwmucount();
+    iDataPlus = ptOrg->dwdelplus(iDataIndex);
+    if (iDrawIndex > 0)
+        iDataPlus += ptOrg->dwtotalplus();
+    iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
+
+    ptDraw->fTorque[iDrawIndex] = ptOrg->ftorque(ptOrg->dwmucount());
+    ptDraw->fRpm[iDrawIndex] = ptOrg->frpm(ptOrg->dwmucount());
+
+    iPriorDataIndex = iDataIndex;
+    iPriorDrawIndex = iDrawIndex;
+    iDrawIndex++;
+    iDataIndex++;
+
+    int totalCount = ptOrg->dwmucount() + ptOrg->dwbocount();
+    for (;iDataIndex < totalCount - 1; iDataIndex++)
+    {
+        fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
+        /* 跳过delta脉冲为0的情况 */
+        if (ptOrg->dwdelplus(iDataIndex) == 0)
+            continue;
+        fCurRpm = ptOrg->frpm(iDataIndex);
+
+        iDataPlus += ptOrg->dwdelplus(iDataIndex);
+
+        /* data分辨率大于draw分辨率时, 只更新当前扭矩 */
+        if (iDataPlus <= iDrawPlus)
+        {
+            iInsCnt = 0;
+        }
+        else
+        {
+            for (; iDrawIndex < iDrawPnt; iDrawIndex++)
+            {
+                iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
+                // 当前的iDrawIndex不设置，取iDrawIndex-1
+                if (iDrawPlus > iDataPlus)
+                    break;
+            }
+
+            /* (priorData+1) -- Data
+               (priorDraw+1) -- Draw-1 */
+            iInsCnt = iDrawIndex - iPriorDrawIndex;
+        }
+        if (iInsCnt == 0)
+        {
+            //ptDraw->fTorque[iDrawIndex - 1] = fCurTorq;
+            // iDrawIndex == iPriorDrawIndex
+            ptDraw->fTorque[iDrawIndex] = MAX(ptDraw->fTorque[iDrawIndex], fCurTorq);
+            ptDraw->fRpm[iDrawIndex] = fCurRpm;
+        }
+        else if (iInsCnt == 1)
+        {
+            ptDraw->fTorque[iDrawIndex] = fCurTorq;
+            ptDraw->fRpm[iDrawIndex] = fCurRpm;
+        }
+        else
+        {
+            fPreTorq = ptOrg->ftorque(iPriorDataIndex);
+            fPreRpm = ptOrg->frpm(iPriorDataIndex);
+            for (i = 1; i <= iInsCnt; i++)
+            {
+                ptDraw->fTorque[i + iPriorDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+                ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+            }
+        }
+        iPriorDrawIndex = iDrawIndex;
+        iPriorDataIndex = iDataIndex;
+        fCurTorq = 0;
+    }
+
+    // last point
+    iInsCnt = iDrawPnt - 1 - iDrawIndex;
+    if (iInsCnt <= 1)
+    {
+        ptDraw->fTorque[iDrawIndex] = MAX(ptOrg->ftorque(totalCount - 1), ptDraw->fTorque[iDrawIndex]);
+        ptDraw->fRpm[iDrawIndex] = ptOrg->frpm(totalCount - 1);
+        if (iInsCnt < 0)
+            iDrawPnt = iDrawIndex + 1;
+    }
+    else
+    {
+        fCurTorq = ptOrg->ftorque(totalCount - 1);
+        fCurRpm = ptOrg->frpm(totalCount - 1);
+        fPreTorq = ptOrg->ftorque(iPriorDataIndex);
+        fPreRpm = ptOrg->frpm(iPriorDataIndex);
+        for (i = 1; i <= iInsCnt; i++)
+        {
+            ptDraw->fTorque[i + iDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+            ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+        }
+    }
+
+    ptDraw->wCount = iDrawPnt;
+    return true;
+}
+
+/*  nNO 从0开始计数
+    iMulti在放大时使用 */
+DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, UINT nMulti, UINT nType)
+{
+    double fPlusPerPnt = 1.0;
+    TorqData::Torque* ptOrg = NULL;
+    DRAWTORQDATA* ptDraw = NULL;
+
+    COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
+    COMP_BGE_R(nNO, MAXWELLNUM, NULL);
+
+    ptOrg = &g_tReadData.tData[nNO];
+    ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
+
+    ptDraw = &m_tCurDrawTorq;
+    if (nMulti > 1)
+        ptDraw = &m_tCurZoomTorq;
+
+    memset(ptDraw, 0, sizeof(DRAWTORQDATA));
+    ptDraw->ptOrgTorq = ptOrg;
+
+    if (ptOrg->dwmucount() > 0 && (nType & 0x01))
+    {
+        GetMakeupDrawData(ptOrg, ptDraw, nMulti);
+    }
+    if (ptOrg->bbreakout() && ptOrg->dwbocount() > 0 && (nType & 0x02))
+    {
+        GetBreakoutDrawData(ptOrg, ptDraw, nMulti);
+    }
     return ptDraw;
 }
 

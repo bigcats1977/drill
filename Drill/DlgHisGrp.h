@@ -22,7 +22,7 @@ public:
     CDlgHisGrp();
     ~CDlgHisGrp();
 
-    void    ShowCurData(BOOL bNew = TRUE);
+    void    ShowCurData(bool bNew = true);
     void    ResetHisLineByCurData();
     void    ResetHisLineByCfg(PARACFG* ptCfg);
     void    OnPrint(CDC* pDC, CPrintInfo* pInfo);
@@ -54,7 +54,8 @@ public:
     CString     m_strHisShowValue[MAXPARANUM];
     CString     m_strOutJoint;      //  接头外径
     CString     m_strOutWellNO;     //  起出序号
-    int         m_iSingleSTD;       //单根/立柱 0/1
+    int         m_iSingleSTD;       // 单根/立柱 0/1
+    int         m_iGrpType;         // 显示图形类型 0：全部;1:上扣;2:卸扣
     //}}AFX_DATA
 public:
     CLineChartCtrlEx    m_wndLineHis;
@@ -91,6 +92,9 @@ protected:
     afx_msg void OnStnClickedNextsplit();
     afx_msg void OnBnClickedRadiosignle();
     afx_msg void OnBnClickedRadiostand();
+    afx_msg void OnBnClickedRadiogrpboth();
+    afx_msg void OnBnClickedRadiogrpmu();
+    afx_msg void OnBnClickedRadiogrpbo();
     afx_msg LRESULT SelPosChange(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT InterPtZoomIn(WPARAM wParam, LPARAM lParam);
     //afx_msg void OnBnClickedCheckbreakout();
@@ -105,6 +109,7 @@ private:
     BOOL    JudgeValidPosition(int iPos);
     BOOL    GetCirRange(double* fMin, double* fMax);
     void    UpdateTallyNO();
+    void    CheckGrpType();
 
     /* 清空EDIT控件信息 */
     void    EmptyEdit();

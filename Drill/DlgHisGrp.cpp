@@ -35,6 +35,7 @@ CDlgHisGrp::CDlgHisGrp() : CPropertyPage(CDlgHisGrp::IDD)
     //m_bBreakOut = FALSE;
     //}}AFX_DATA_INIT
     m_nBeginPos = 0;
+    m_iGrpType = 0;
 }
 
 CDlgHisGrp::~CDlgHisGrp()
@@ -82,6 +83,7 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HISEDTOUTJOINT, m_strOutJoint);
     DDX_Text(pDX, IDC_HISEDTOUTWELL, m_strOutWellNO);
     DDX_Radio(pDX, IDC_RADIOSIGNLE, m_iSingleSTD);
+    DDX_Radio(pDX, IDC_RADIOGRPBOTH, m_iGrpType);
     DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[0]);
     DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[1]);
     DDX_Text(pDX, IDC_HISEDIT03, m_strHisShowValue[2]);
@@ -103,7 +105,6 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     //{{AFX_MSG_MAP(CDlgHisGrp)
     ON_BN_CLICKED(IDC_BTNPRI, OnBtnpri)
@@ -122,6 +123,9 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     //}}AFX_MSG_MAP
     ON_BN_CLICKED(IDC_RADIOSIGNLE, &CDlgHisGrp::OnBnClickedRadiosignle)
     ON_BN_CLICKED(IDC_RADIOSTAND, &CDlgHisGrp::OnBnClickedRadiostand)
+    ON_BN_CLICKED(IDC_RADIOGRPBOTH, &CDlgHisGrp::OnBnClickedRadiogrpboth)
+    ON_BN_CLICKED(IDC_RADIOGRPMU, &CDlgHisGrp::OnBnClickedRadiogrpmu)
+    ON_BN_CLICKED(IDC_RADIOGRPBO, &CDlgHisGrp::OnBnClickedRadiogrpbo)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -334,7 +338,7 @@ BOOL CDlgHisGrp::OnSetActive()
 {
     SendMessageToDescendants(WM_SETFONT, (WPARAM)theApp.m_tRuleHFont.GetSafeHandle(), TRUE);
 
-    ShowCurData(TRUE);
+    ShowCurData(true);
 
     return CPropertyPage::OnSetActive();
 }
@@ -345,11 +349,11 @@ void CDlgHisGrp::OnBtnpri()
     if (g_tReadData.nCur > 1)
     {
         g_tReadData.nCur--;
-        ShowCurData(TRUE);
+        ShowCurData(true);
         return;
     }
 
-    ShowCurData(FALSE);
+    ShowCurData(false);
 
     return;
 }
@@ -360,11 +364,11 @@ void CDlgHisGrp::OnBtnnext()
     if (g_tReadData.nCur < g_tReadData.nTotal)
     {
         g_tReadData.nCur++;
-        ShowCurData(TRUE);
+        ShowCurData(true);
         return;
     }
 
-    ShowCurData(FALSE);
+    ShowCurData(false);
 
     return;
 }
@@ -399,6 +403,18 @@ BOOL CDlgHisGrp::CheckCurData(UINT* pnCur, UINT nMax)
     }
 
     return TRUE;
+}
+
+void CDlgHisGrp::CheckGrpType()
+{
+    GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(TRUE);
+    if (!g_tReadData.tData[g_tReadData.nCur - 1].bbreakout())
+    {
+        GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(FALSE);
+        if (m_iGrpType == 2)
+            m_iGrpType = 0;
+
+    }
 }
 
 void CDlgHisGrp::CheckCurSplit()
@@ -508,15 +524,22 @@ BOOL CDlgHisGrp::CheckCursor(UINT* pnCur, UINT nMax)
     return TRUE;
 }
 
-void CDlgHisGrp::ShowCurData(BOOL bNew)
+void CDlgHisGrp::ShowCurData(bool bNew)
 {
     char    aucTemp[250];
+    UINT    nType = 3;  // 1:MakeUP, 2: BreakOut, 3: All
 
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
     COMP_BFALSE(CheckCurData(&g_tReadData.nCur, g_tReadData.nTotal));
+    
+    // 设置显示图形按钮
+    CheckGrpType();
 
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
-    m_ptCurDraw = theApp.GetDrawDataFromTorq(g_tReadData.nCur - 1);
+    if (m_iGrpType > 0)
+        nType = m_iGrpType;
+
+    m_ptCurDraw = theApp.GetDrawDataFromTorq(g_tReadData.nCur - 1, 1, nType);
     ASSERT_NULL(m_ptCurDraw);
     m_ptCurTorq = m_ptCurDraw->ptOrgTorq;
     ASSERT_NULL(m_ptCurTorq);
@@ -691,7 +714,7 @@ void CDlgHisGrp::OnModRemark()
     if (bModified)
     {
         theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
-        ShowCurData(FALSE);
+        ShowCurData(false);
 
         /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
         if (iQuality != dlgRemark.m_iQuality)
@@ -850,7 +873,7 @@ void CDlgHisGrp::PrintOneImage(UINT* pnCur, UINT nIndex, UINT nMax, int iTmpNo)
         if (pnCur[i] == 0)
             break;
         g_tReadData.nCur = pnCur[i];
-        ShowCurData(TRUE);
+        ShowCurData(true);
         RedrawWindow();
 
         nLast = pnCur[i];
@@ -923,7 +946,7 @@ void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
     for (i = 0; i < nSelCount; i++)
     {
         g_tReadData.nCur = pnSel[i];
-        ShowCurData(TRUE);
+        ShowCurData(true);
         RedrawWindow();
 
         strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
@@ -1002,7 +1025,7 @@ void CDlgHisGrp::OnStnClickedPriorsplit()
         m_wndLineHis.ClearSelPnt();
     }
 
-    ShowCurData(FALSE);
+    ShowCurData(false);
 
     return;
 }
@@ -1016,7 +1039,7 @@ void CDlgHisGrp::OnStnClickedNextsplit()
         m_wndLineHis.ClearSelPnt();
     }
 
-    ShowCurData(FALSE);
+    ShowCurData(false);
 
     return;
 }
@@ -1039,4 +1062,22 @@ void CDlgHisGrp::OnBnClickedRadiostand()
     m_ptCurTorq->set_bsinglestd(1);
 
     theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+}
+
+void CDlgHisGrp::OnBnClickedRadiogrpboth()
+{
+    UpdateData(TRUE);
+    ShowCurData(false);
+}
+
+void CDlgHisGrp::OnBnClickedRadiogrpmu()
+{
+    UpdateData(TRUE);
+    ShowCurData(false);
+}
+
+void CDlgHisGrp::OnBnClickedRadiogrpbo()
+{
+    UpdateData(TRUE);
+    ShowCurData(false);
 }
