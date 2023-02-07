@@ -2760,6 +2760,14 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
         ptDraw->fTorque[ptDraw->wCount] = 0;
         ptDraw->fRpm[ptDraw->wCount] = ptDraw->fRpm[ptDraw->wCount - 1];
         ptDraw->wCount++;
+
+        // 上扣卸扣之间增加20个空数据
+        for (i = 0; i < 20; i++)
+        {
+            ptDraw->fTorque[ptDraw->wCount] = 0;
+            ptDraw->fRpm[ptDraw->wCount] = 0;
+            ptDraw->wCount++;
+        }
     }
 
     iDrawPnt += ptDraw->wCount;
