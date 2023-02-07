@@ -531,7 +531,7 @@ void CDlgHisGrp::ShowCurData(bool bNew)
 
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
     COMP_BFALSE(CheckCurData(&g_tReadData.nCur, g_tReadData.nTotal));
-    
+
     // 设置显示图形按钮
     CheckGrpType();
 

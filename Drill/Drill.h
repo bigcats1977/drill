@@ -79,6 +79,7 @@ public:
     int     GetQualityIndex(TorqData::Torque* ptTorq);
     void    GetMACAddr(UCHAR* pcMac);
     void    StringSubtract(CString& strValue, BYTE ucChar);
+    void    StringSubtract(string& strValue, BYTE ucChar);
     void    SplitRegString(CString strReg[], CString strRegCode);
     void    MergeRegString(CString strReg[], CString& strRegCode);
     BOOL    LoadLanguageDll(UINT nLang = LANGUAGE_CURRENT, BOOL bUpdate = TRUE);
@@ -124,7 +125,7 @@ public:
     BOOL    FindNotFileChar(CString strName);
     CString GetTorqShowName(TorqData::Torque* ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex);
-	// nType 1:MakeUP, 2: BreakOut, 3: All
+    // nType 1:MakeUP, 2: BreakOut, 3: All
     DRAWTORQDATA* GetDrawDataFromTorq(UINT nNO, UINT nMulti = 1, UINT nType = 3);
     TorqData::Torque* GetOrgTorqFromTorq(UINT nNO);
     //string  GetListShowName(SHOWCFG* ptShow, UINT NO);
@@ -135,9 +136,12 @@ public:
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
     bool CheckProductDate();
+    bool GetDateFromString(string date, CTime& time);
+    bool CheckGenDate(string GenDate, string RegDate, int iYear);
     void SaveAllData(string strDataName);
     string GetFileNameFromPath(string path);
     void ReloadTorqCfg();
+    string base64_decode(string encoded_string);
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
@@ -241,7 +245,7 @@ private:
     bool GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
 
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
-
+    bool     is_base64(unsigned char c);
     /* 找不到MAC时的默认MAC */
     BYTE     m_ucDefaultMac[5];
 
@@ -250,6 +254,8 @@ private:
     double  m_fAdjInfPnt[COLLECTPOINTS];            //相邻点拐点
     double  m_fIntSlope[COLLECTPOINTS];             //间隔点斜率
     double  m_fIntInfPnt[COLLECTPOINTS];            //间隔点拐点
+
+    string   m_base64chars;
 };
 
 

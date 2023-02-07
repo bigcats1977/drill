@@ -78,8 +78,8 @@ public:
     BOOL        RunIniAutoFile();
     BOOL        PortQueIsEmpty();
 
-    BOOL    GetVolMacFromRegStr(CString strReg[], DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
-    BOOL    GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
+    bool        GetVolMacFromRegStr(string strRegCode, DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
+    bool        GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
 
     BYTE        m_ucRcvByte[PORTBUFF];      /*modbus接收消息数值*/
     WORD        m_wRcvLen;
@@ -238,7 +238,7 @@ private:
     void CreateNewWellFile();
     BOOL TimeValidWell(CString strFileName);
     void CheckAppReg();
-    BOOL CheckReg(CString strReg[]);
+    bool CheckRegCode(string strRegCode);
     void SaveTorqNum();
 
     /* 扭矩数据相关函数 */

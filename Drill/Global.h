@@ -242,25 +242,25 @@ using namespace std;
 #pragma region REGISTER
 #define REGCODEVALUE            0x60    /* 保存的注册码的差值 */
 #define REGCODESEGNUM           6       /* 注册码分为6段，长度分别定义如下 */
-#define REGCODELEN1             4
-#define REGCODELEN2             4
-#define REGCODELEN3             4
-#define REGCODELEN4             6
-#define REGCODELEN5             4
-#define REGCODELEN6             4
+#define REGCODELEN              6
+
+#define MACHVOL1LEN		        8
+#define MACHVOL2LEN		        8
+#define MACHMAC1LEN		        6
+#define MACHMAC2LEN		        4
 
 /* REGCODE计算的常数定义 */
-#define MAC0XOR                 0x789789
-#define MAC0AND                 0x00FFFFFF
-#define MAC0DEC                 0x197712
-#define MAC1XOR                 0x7890
-#define MAC1AND                 0x0000FFFF
-#define MAC1DEC                 0x1207
-#define VOL0XOR                 0x51085759
-#define VOL0DEC                 0x66666666
-#define VOL1XOR                 0x13963349
-#define VOL1DEC                 0x12345678
-#define DPATHV2                 0x1f5d876e
+#define MAC0XOR         0x789789
+#define MAC0AND         0x00FFFFFF
+//#define MAC0DEC         0x197712
+#define MAC1XOR         0x7890
+#define MAC1AND         0x0000FFFF
+//#define MAC1DEC         0x1207
+#define VOL0XOR         0x51685759
+//#define VOL0DEC         0x21832475      // 0x66666666 change
+#define VOL1XOR         0x13963349
+//#define VOL1DEC         0x68497915      // 0x12345678 change
+#define DPATHV2         0x1f5d876e
 #pragma endregion
 
 #pragma region TORQUE CONTROL
@@ -834,15 +834,21 @@ typedef struct tagXLSSTATCFG
     int         InfoPara[STATPARA_INFONUM];     /* 报告(Page4)显示参数序号 */
 }XLSSTATCFG;
 
-#define     MAXNAME     50
-#define     MAXREGCODE  26
+#define     MAXMACHCODE 26
+#define     MAXREGCODE  36
+#define     HALFREGCODE 18
+#define     TIMESTRLEN   8
 typedef struct tagDBREG
 {
-    BYTE        strRegCode[MAXREGCODE];
+    BYTE        strCode1[HALFREGCODE];
+    BYTE        strGenDate[TIMESTRLEN];     // 填写注册码时间，检查日期往前随机30天
+                                            // 如果当前日期小于检查日期，说明修改过日期，注册无效，除非重新注册
     BYTE        bRsv1 : 3;
     BYTE        bReged : 1;
     BYTE        bRsv2 : 4;
-    BYTE        strName[MAXNAME];
+    BYTE        nYear;
+    BYTE        strRegDate[TIMESTRLEN];     // 软件有效日期，注册日期往后××年
+    BYTE        strCode2[HALFREGCODE];
 }DBREG;
 
 /*  状态定义参见TorqueDlg.h, 如PLCSTATUS_WAIT

@@ -618,12 +618,12 @@ const string  g_strPortOpr[PORTOPR_MAXNUM] = {
 
 /* 注册码的各个段的长度 */
 const UINT   g_nValidLen[REGCODESEGNUM] = {
-            REGCODELEN1,
-            REGCODELEN2,
-            REGCODELEN3,
-            REGCODELEN4,
-            REGCODELEN5,
-            REGCODELEN6,
+            REGCODELEN,
+            REGCODELEN,
+            REGCODELEN,
+            REGCODELEN,
+            REGCODELEN,
+            REGCODELEN,
 };
 
 /* 读取的历史保存的扭矩控制数据，包括文件名称，数据个数等信息 */

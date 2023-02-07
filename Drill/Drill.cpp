@@ -78,6 +78,9 @@ void CDrillApp::InitVariant()
     m_bShowCRC = FALSE;
     m_nPBHead = htonl(PBHEAD);
     m_strReadFile.clear();
+    m_base64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz"
+        "0123456789+/";
 }
 
 void CDrillApp::InitLanguage()
@@ -1704,11 +1707,18 @@ void CDrillApp::SaveShowMessage(string strMessage, UINT nType)
 
 void CDrillApp::StringSubtract(CString& strValue, BYTE ucChar)
 {
-    int  i = 0;
-
-    for (i = 0; i < strValue.GetLength(); i++)
+    for (int i = 0; i < strValue.GetLength(); i++)
     {
         strValue.SetAt(i, strValue.GetAt(i) - ucChar);
+    }
+}
+
+void CDrillApp::StringSubtract(string& strValue, BYTE ucChar)
+{
+    for (size_t i = 0; i < strValue.length(); i++)
+    {
+        strValue[i] -= ucChar;
+        //strValue.SetAt(i, strValue.GetAt(i) - ucChar);
     }
 }
 
@@ -1731,6 +1741,7 @@ void CDrillApp::MergeRegString(CString strReg[], CString& strRegCode)
 
     ASSERT_NULL(strReg);
 
+    strRegCode.Empty();
     for (i = 0; i < REGCODESEGNUM; i++)
     {
         strRegCode += strReg[i];
@@ -2456,7 +2467,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     if (memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
     {
         g_tReadData.bHaveHead = TRUE;
-    }
+}
 #endif
     BeginWaitCursor();
 
@@ -2648,7 +2659,7 @@ bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw
     iDrawIndex++;
     iDataIndex++;
 
-    for (;iDataIndex < ptOrg->dwmucount() - 1; iDataIndex++)
+    for (; iDataIndex < ptOrg->dwmucount() - 1; iDataIndex++)
     {
         fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
         /* 跳过delta脉冲为0的情况 */
@@ -2787,7 +2798,7 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
     iDataIndex++;
 
     int totalCount = ptOrg->dwmucount() + ptOrg->dwbocount();
-    for (;iDataIndex < totalCount - 1; iDataIndex++)
+    for (; iDataIndex < totalCount - 1; iDataIndex++)
     {
         fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
         /* 跳过delta脉冲为0的情况 */
@@ -3365,4 +3376,110 @@ string CDrillApp::GetFileNameFromPath(string path)
     iPos = path.find_last_of('\\') + 1;
     filename = path.substr(iPos, path.length() - iPos);
     return filename;
+}
+
+bool CDrillApp::GetDateFromString(string date, CTime& time)
+{
+    string temp;
+    int iYear, iMonth, iDay;
+    if (date.length() != 8)
+        return false;
+
+    temp = date.substr(0, 4);
+    iYear = strtoul(temp.c_str(), NULL, 10);
+    if (iYear < 2020)
+        return false;
+
+    temp = date.substr(4, 2);
+    iMonth = strtoul(temp.c_str(), NULL, 10);
+    if (iMonth < 1 || iMonth > 12)
+        return false;
+
+    temp = date.substr(6, 2);
+    iDay = strtoul(temp.c_str(), NULL, 10);
+    if (iDay < 1 || iDay > 31)
+        return false;
+
+    time = CTime(iYear, iMonth, iDay, 0, 0, 0);
+    return true;
+}
+
+bool CDrillApp::CheckGenDate(string GenDate, string RegDate, int iYear)
+{
+    CTime   curTime = CTime::GetCurrentTime();
+    CTime   genTime, regTime;
+
+    if (iYear < 0 || iYear > 255)
+        return false;
+
+    if (GenDate >= RegDate)
+        return false;
+
+    if (!GetDateFromString(GenDate, genTime))
+        return false;
+    if (!GetDateFromString(RegDate, regTime))
+        return false;
+
+    // 生成日期和注册码日期相差整年
+    if ((genTime.GetYear() + iYear != regTime.GetYear()) ||
+        (genTime.GetMonth() != regTime.GetMonth()) ||
+        (genTime.GetMonth() != regTime.GetMonth()))
+        return false;
+
+    // 修改了系统日期，返回失败
+    if (curTime < genTime)
+        return false;
+
+    // 超过使用期限
+    // 加上使用当天
+    curTime -= CTimeSpan(1, 0, 0, 0);
+    if (curTime > regTime)
+        return false;
+    return true;
+}
+
+bool CDrillApp::is_base64(unsigned char c) {
+    return (isalnum(c) || (c == '+') || (c == '/'));
+}
+
+string CDrillApp::base64_decode(string encoded_string)
+{
+    int in_len = encoded_string.size();
+    int i = 0;
+    int j = 0;
+    int in_ = 0;
+    unsigned char char_array_4[4], char_array_3[3];
+    string ret;
+
+    while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
+        char_array_4[i++] = encoded_string[in_]; in_++;
+        if (i == 4) {
+            for (i = 0; i < 4; i++)
+                char_array_4[i] = (unsigned char)m_base64chars.find(char_array_4[i]);
+
+            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+            for (i = 0; (i < 3); i++)
+                ret += char_array_3[i];
+            i = 0;
+        }
+    }
+
+    if (i) {
+        for (j = i; j < 4; j++)
+            char_array_4[j] = 0;
+
+        for (j = 0; j < 4; j++)
+            char_array_4[j] = (unsigned char)m_base64chars.find(char_array_4[j]);
+
+        char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+        char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+        char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+        for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+    }
+
+    return ret;
 }
