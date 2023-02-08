@@ -160,10 +160,8 @@ public:
     enum { IDD = IDD_ABOUTBOX };
     CButtonST   m_btnReg;
     CButtonST   m_btnOK;
-    CString     m_strRegCode;
     CString     m_strReg[REGCODESEGNUM];
     //CString     m_strName;
-    CString     m_strRegDate;
     CString     m_strMachine;
     //}}AFX_DATA
 
@@ -188,12 +186,10 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    int     SplitRegCode(CString strSource, CString strDest[], int iBegin);
     void    AutoFillRegCode(UINT nEditNo);
-    void    SaveRegFile(string genDate, int iYears);
-    bool    GetDateFromMachine(CString strMachine, int& Year, int& Month, int& Day);
-
-    DBREG* m_ptdbReg;
+    void    SplitRegString(string strRegCode);
+    void    MergeRegString(string& strRegCode);
+    int     SplitRegCode(CString strSource, CString strDest[], int iBegin);
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -203,8 +199,6 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
     //{{AFX_DATA_INIT(CAboutDlg)
     //m_strName = _T("");
     m_strMachine = _T("");
-    m_strRegCode = _T("");
-    m_strRegDate = _T("");
     //}}AFX_DATA_INIT
 
     for (i = 0; i < REGCODESEGNUM; i++)
@@ -242,192 +236,71 @@ END_MESSAGE_MAP()
 
 BOOL CAboutDlg::OnInitDialog()
 {
-    DWORD   adwPCVol[2];
-    DWORD   adwPCMac[2];
-    DWORD   adwRegVol[2];
-    DWORD   adwRegMac[2];
-    //CString strRegCode;
-    CTime   tNowDate = CTime::GetCurrentTime();
-    int     iYear, iMonth, iDay;
-    char    buffer[50] = { 0 };
-
     CDialog::OnInitDialog();
 
     m_btnOK.SetIconAndText(IDI_APPLY, IDS_STROK);
     m_btnReg.SetIconAndText(IDI_LOCKUP, IDS_STRREGISTER);
 
-    m_ptdbReg = &theApp.m_tdbReg;
-    //m_strName = m_ptdbReg->strName;
-    memcpy(&buffer[0], m_ptdbReg->strCode1, HALFREGCODE);
-    memcpy(&buffer[HALFREGCODE], m_ptdbReg->strCode2, HALFREGCODE);
-    buffer[MAXREGCODE] = '\0';
-    m_strRegCode = buffer;
-
-    memcpy(&buffer[0], m_ptdbReg->strRegDate, TIMESTRLEN);
-    buffer[TIMESTRLEN] = '\0';
-    m_strRegDate = buffer;
-
-    if ((!m_ptdbReg->bReged) || (m_strRegCode.GetLength() < MAXREGCODE))
+    if (theApp.m_tReg.Machine())
     {
-        iYear = tNowDate.GetYear();
-        iMonth = tNowDate.GetMonth();
-        iDay = tNowDate.GetDay();
+        m_strMachine = theApp.m_tReg.GetMachineCode().c_str();
     }
     else
     {
-        /* Reged */
-        //theApp.StringSubtract(m_strName, REGCODEVALUE);
-        theApp.StringSubtract(m_strRegCode, REGCODEVALUE);
-        theApp.StringSubtract(m_strRegDate, REGCODEVALUE);
-
-        theApp.SplitRegString(m_strReg, m_strRegCode);
-
-        m_btnReg.ShowWindow(FALSE);
-
-        thepDlg->GetVolMacFromRegStr(m_strRegCode.GetBuffer(0), adwRegVol, adwRegMac, iYear, iMonth, iDay);
+        m_strMachine = theApp.m_tReg.GenMachineCode().c_str();
     }
-
-    /* 获取机器上的卷和MAC信息 */
-    thepDlg->GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
-
-    adwPCMac[0] ^= MAC0XOR;
-    adwPCMac[1] ^= MAC1XOR;
-    adwPCMac[0] &= MAC0AND;
-    adwPCMac[1] &= MAC1AND;
-    adwPCVol[0] ^= VOL0XOR;
-    adwPCVol[1] ^= VOL1XOR;
-
-    m_strMachine.Format("%08X%04X%08X%06X", adwPCVol[0], adwPCMac[1], adwPCVol[1], adwPCMac[0]);
+    /* Reged */
+    if(theApp.m_tReg.Reged())
+    {
+        SplitRegString(theApp.m_tReg.GetRegisterCode());
+        m_btnReg.ShowWindow(FALSE);
+    }
 
     UpdateData(FALSE);
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CAboutDlg::SaveRegFile(string genDate, int iYears)
-{
-    int             i = 0;
-    HANDLE          hDir;
-    CFile           newfile;
-
-    if (m_strRegCode.GetLength() != MAXREGCODE)
-        return;
-
-    hDir = CreateFile(theApp.m_strRegFile.c_str(),//folder
-        GENERIC_READ | GENERIC_WRITE,//readwrite
-        0,//share
-        NULL,//security attribute
-        CREATE_ALWAYS,//创建
-        FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN,//dwFlagsAndAttributes,
-        NULL);//temphandle
-    if (hDir == INVALID_HANDLE_VALUE)
-    {
-        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFSAVEREGFAIL).c_str());
-        CloseHandle(hDir);
-        return;
-    }
-    CloseHandle(hDir);
-
-    memset(m_ptdbReg, 0, sizeof(DBREG));
-    m_ptdbReg->bRsv1 = 6;
-    m_ptdbReg->bReged = 1;
-    m_ptdbReg->bRsv2 = 12;
-    m_ptdbReg->nYear = iYears + REGCODEVALUE;
-
-    for (i = 0; i < HALFREGCODE; i++)
-    {
-        m_ptdbReg->strCode1[i] = m_strRegCode.GetAt(i) + REGCODEVALUE;
-        m_ptdbReg->strCode2[i] = m_strRegCode.GetAt(i + HALFREGCODE) + REGCODEVALUE;;
-    }for (i = 0; i < TIMESTRLEN; i++)
-    {
-
-        m_ptdbReg->strGenDate[i] = genDate[i] + REGCODEVALUE;
-        m_ptdbReg->strRegDate[i] = m_strRegDate.GetAt(i) + REGCODEVALUE;
-    }
-
-    newfile.Open(theApp.m_strRegFile.c_str(), CFile::modeWrite, NULL);
-    newfile.Write(m_ptdbReg, sizeof(DBREG));
-    newfile.Write(&thepDlg->m_dwTotalTorqNum, sizeof(DWORD));
-    newfile.Close();
-}
-
-
-bool CAboutDlg::GetDateFromMachine(CString strMachine, int& Year, int& Month, int& Day)
-{
-    CString strDate;
-    DWORD	vol1 = 0;
-    if (strMachine.GetLength() != MAXMACHCODE)
-        return false;
-
-    // date info store after vol1 and mac2
-    strDate = strMachine.Mid(MACHVOL1LEN + MACHMAC2LEN, MACHVOL2LEN);
-    vol1 = strtoul(strDate, NULL, 16);
-    vol1 ^= VOL1XOR;
-
-    // Year,Month,Day
-    Year = (vol1 & 0x00FFFF00) >> 8;
-    Month = (vol1 & 0x000000FF);
-    Day = (vol1 & 0xFF000000) >> 24;
-
-    return true;
-}
-
 void CAboutDlg::OnRegedit()
 {
-    int     i = 0;
-    int     iYear, iMonth, iDay;
-    int     regYear, regMonth, regDay, iYears = 0;
-    DWORD   adwRegVol[2];
-    DWORD   adwRegMac[2];
-    DWORD   adwPCVol[2];
-    DWORD   adwPCMac[2];
-    UINT    nRegLen[REGCODESEGNUM];
-    string  strGenDate;
-    CTime   curTime = CTime::GetCurrentTime();
+    string  strRegCode;
 
-    UpdateData();
+    UpdateData(TRUE);
 
-    for (i = 0; i < REGCODESEGNUM; i++)
+    MergeRegString(strRegCode);
+    if (!theApp.m_tReg.CheckRegCode(m_strMachine.GetBuffer(0), strRegCode))
     {
-        nRegLen[i] = m_strReg[i].GetLength();
-    }
-
-    if (memcmp(nRegLen, g_nValidLen, REGCODESEGNUM * sizeof(UINT)) != 0)
-    {
-        AfxMessageBox(IDS_STRINFREGCODEERR);
-        return;
-    }
-
-    /* 获取注册码中的卷和MAC信息 */
-    theApp.MergeRegString(m_strReg, m_strRegCode);
-    thepDlg->GetVolMacFromRegStr(m_strRegCode.GetBuffer(0), adwRegVol, adwRegMac, iYear, iMonth, iDay);
-
-    // 注册码中的日期应该和机器码的日期相等，年份差整数倍
-    GetDateFromMachine(m_strMachine, regYear, regMonth, regDay);
-    if (iYear <= regYear || iMonth != regMonth || iDay != regDay)
-        return;
-    iYears = iYear - regYear;
-
-    /* 获取机器上的卷和MAC信息 */
-    thepDlg->GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
-
-    m_strRegDate.Empty();
-    if (memcmp(adwRegVol, adwPCVol, 2 * sizeof(DWORD)) == 0 &&
-        memcmp(adwRegMac, adwPCMac, 2 * sizeof(DWORD)) == 0)
-    {
-        strGenDate = string_format("%04d%02d%02d", regYear, regMonth, regDay);
-        m_strRegDate.Format("%04d%02d%02d", iYear, iMonth, iDay);
-        SaveRegFile(strGenDate, iYears);
-
+        /* 注册失败 */
         theApp.ShowMainTitle();
-        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGSUCC).c_str());
-        OnOK();
+        AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGFAIL).c_str());
         return;
     }
 
-    /* 注册失败 */
+    /* 注册成功 */
     theApp.ShowMainTitle();
-    AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGFAIL).c_str());
+    AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGSUCC).c_str());
+    OnOK();
+
+}
+
+void CAboutDlg::SplitRegString(string strRegCode)
+{
+    int  begin = 0;
+
+    for (int i = 0; i < REGCODESEGNUM; i++)
+    {
+        m_strReg[i] = strRegCode.substr(begin, REGCODELEN).c_str();
+        begin += REGCODELEN;
+    }
+}
+
+void CAboutDlg::MergeRegString(string& strRegCode)
+{
+    strRegCode.clear();
+    for (int i = 0; i < REGCODESEGNUM; i++)
+    {
+        strRegCode += m_strReg[i].GetBuffer(0);
+    }
 }
 
 /* 输入一串有'-' 分割的注册号码，自动从当前输入框将后续输入框的字符串检出，并设置到输入框中
@@ -525,7 +398,7 @@ CDrillDlg::CDrillDlg(CWnd* pParent /*=NULL*/)
     m_strTorque = _T("0");
     m_fRpm = 0.0f;
     m_nCurNO = 1;
-    m_dwTotalTorqNum = 0;
+    //m_dwTotalTorqNum = 0;
     m_nCRCERR = 0;
     m_nClashERR = 0;
     m_nInterval = 20;   //时间需要修改20191208
@@ -572,7 +445,7 @@ void CDrillDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDITCRC, m_nCRCERR);
     DDX_Text(pDX, IDC_DATASHOW, m_strRecvData);
     DDX_Text(pDX, IDC_EDITCLASH, m_nClashERR);
-    DDX_Text(pDX, IDC_EDITTOTAL, m_dwTotalTorqNum);
+    DDX_Text(pDX, IDC_EDITTOTAL, theApp.m_tReg.m_dwTotalTorqNum);
     DDX_Check(pDX, IDC_SETTOOLBUCK, m_bToolBuck);
     DDX_Text(pDX, IDC_QUALITY, m_strQuality);
     DDX_Radio(pDX, IDC_RADIOMAKEUP, m_iBreakOut);
@@ -753,219 +626,6 @@ void CDrillDlg::InitDlgControl()
     return;
 }
 
-/* 获取注册信息和校验 */
-void  CDrillDlg::CheckAppReg()
-{
-    CFile           file;
-    CFileFind       find;
-    ULONGLONG       iLen = 0;
-    string          strCode;
-    string          strGenDate;
-    string          strRegDate;
-    int             iYear;
-    char            buffer[50] = { 0 };
-
-    memset(&theApp.m_tdbReg, 0, sizeof(DBREG));
-    theApp.m_tdbReg.bRsv1 = 6;
-    theApp.m_tdbReg.bRsv2 = 12;
-
-    COMP_BFALSE(find.FindFile(theApp.m_strRegFile.c_str(), 0));
-
-    file.Open(theApp.m_strRegFile.c_str(), CFile::modeRead | CFile::shareDenyNone, NULL);
-    iLen = file.GetLength();
-    if (iLen == 0)
-    {
-        file.Close();
-        return;
-    }
-    file.Read(&theApp.m_tdbReg, sizeof(DBREG));
-    if (iLen > sizeof(DBREG))
-    {
-        file.Read(&m_dwTotalTorqNum, sizeof(DWORD));
-    }
-    file.Close();
-
-    theApp.m_tdbReg.bReged = 0;
-
-    iYear = theApp.m_tdbReg.nYear;
-
-    /*校验注册码是否正常*/
-    memcpy(&buffer[0], theApp.m_tdbReg.strCode1, HALFREGCODE);
-    memcpy(&buffer[HALFREGCODE], theApp.m_tdbReg.strCode2, HALFREGCODE);
-    buffer[MAXREGCODE] = '\0';
-    strCode = buffer;
-
-    memcpy(&buffer[0], theApp.m_tdbReg.strGenDate, TIMESTRLEN);
-    buffer[TIMESTRLEN] = '\0';
-    strGenDate = buffer;
-    memcpy(&buffer[0], theApp.m_tdbReg.strRegDate, TIMESTRLEN);
-    buffer[TIMESTRLEN] = '\0';
-    strRegDate = buffer;
-
-    theApp.StringSubtract(strCode, REGCODEVALUE);
-    theApp.StringSubtract(strGenDate, REGCODEVALUE);
-    theApp.StringSubtract(strRegDate, REGCODEVALUE);
-    iYear -= REGCODEVALUE;
-
-    if (!theApp.CheckGenDate(strGenDate, strRegDate, iYear))
-        return;
-
-    /* 校验注册码 */
-    /* 免注册版，直接注释掉Check */
-    if (CheckRegCode(strCode))
-    {
-        theApp.m_tdbReg.bReged = 1;
-    }
-
-    return;
-}
-
-/* 验证注册码是否有效 */
-bool CDrillDlg::CheckRegCode(string strRegCode)
-{
-    DWORD adwRegVol[2];
-    DWORD adwRegMac[2];
-    DWORD adwPCVol[2];
-    DWORD adwPCMac[2];
-    int   iYear, iMonth, iDay;
-    CTime   tNowDate;
-    string  strRegDate;
-    string  strNowDate;
-
-    if (strRegCode.length() != MAXREGCODE)
-        return false;
-
-    /* 获取注册码中的卷和MAC信息 */
-    GetVolMacFromRegStr(strRegCode, adwRegVol, adwRegMac, iYear, iMonth, iDay);
-
-    /* 获取机器上的卷和MAC信息 */
-    GetVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
-
-    if (memcmp(adwRegVol, adwPCVol, 2 * sizeof(DWORD)) != 0 ||
-        memcmp(adwRegMac, adwPCMac, 2 * sizeof(DWORD)) != 0)
-    {
-        return FALSE;
-    }
-
-    // 检查日期是否超过5年
-    tNowDate = CTime::GetCurrentTime();
-    tNowDate = CTime(tNowDate.GetYear() - VALID_YEAR,
-        tNowDate.GetMonth(),
-        tNowDate.GetDay(),
-        0, 0, 0);
-    strNowDate = tNowDate.Format("%Y%m%d");
-    strRegDate = string_format("%4d%02d%02d", iYear, iMonth, iDay);
-
-    if (strNowDate > strRegDate)
-    {
-        theApp.SaveMessage(strRegDate);
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-/* 从原始注册码解密运算 */
-bool CDrillDlg::GetVolMacFromRegStr(string strRegCode, DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay)
-{
-    int		iBegin = 0;
-    string  strMachine, strTemp;
-
-    ASSERT_NULL_R(pdwVol, false);
-    ASSERT_NULL_R(pdwMac, false);
-    if (strRegCode.length() != MAXREGCODE)
-        return false;
-
-    strRegCode.pop_back();
-    strRegCode.push_back('=');
-    strMachine = theApp.base64_decode(strRegCode);
-
-    /*pdwVol[0] = strtoul(strReg[4] + strReg[5], NULL, 16);
-    pdwVol[1] = strtoul(strReg[0] + strReg[1], NULL, 16);
-    pdwMac[0] = strtoul(strReg[3], NULL, 16);
-    pdwMac[1] = strtoul(strReg[2], NULL, 16);*/
-
-    //pdwVol[0] = ~pdwVol[0];    ///////// 解密运算
-    //pdwVol[0] ^= VOL0DEC;       ///////// 解密运算
-    //pdwVol[0] ^= VOL0XOR;
-
-    //pdwVol[1] = ~pdwVol[1];    ///////// 解密运算
-    //pdwVol[1] ^= VOL1DEC;       ///////// 解密运算
-    //pdwVol[1] ^= VOL1XOR;
-
-    //pdwMac[0] = ~pdwMac[0];
-    //pdwMac[0] ^= MAC0DEC;
-    //pdwMac[0] ^= MAC0XOR;
-    //pdwMac[0] &= 0xFFFFFF;
-
-    //pdwMac[1] = ~pdwMac[1];
-    //pdwMac[1] ^= MAC1DEC;
-    //pdwMac[1] ^= MAC1XOR;
-    //pdwMac[1] &= 0xFFFF;
-
-    iBegin = 0;
-    strTemp = strMachine.substr(iBegin, MACHVOL1LEN);
-    pdwVol[0] = strtoul(strTemp.c_str(), NULL, 16);
-    pdwVol[0] ^= VOL0XOR; // restore source data
-
-    iBegin += MACHVOL1LEN;
-    strTemp = strMachine.substr(iBegin, MACHMAC2LEN);
-    pdwMac[1] = strtoul(strTemp.c_str(), NULL, 16);
-    pdwMac[1] ^= MAC1XOR;
-
-    iBegin += MACHMAC2LEN;
-    strTemp = strMachine.substr(iBegin, MACHVOL2LEN);
-    pdwVol[1] = strtoul(strTemp.c_str(), NULL, 16);
-    pdwVol[1] ^= VOL1XOR;
-
-    iBegin += MACHVOL2LEN;
-    strTemp = strMachine.substr(20, MACHMAC1LEN);
-    pdwMac[0] = strtoul(strTemp.c_str(), NULL, 16);
-    pdwMac[0] ^= MAC0XOR;
-
-    iYear = (pdwVol[1] & 0x00FFFF00) >> 8;
-    iMonth = (pdwVol[1] & 0x000000FF);
-    iDay = (pdwVol[1] & 0xFF000000) >> 24;
-
-    return true;
-}
-
-bool CDrillDlg::GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay)
-{
-    UCHAR ucMac[5];
-
-    ASSERT_NULL_R(pdwVol, false);
-    ASSERT_NULL_R(pdwMac, false);
-
-    GetVolumeInformation("C:\\", NULL, NULL, &pdwVol[0], NULL, NULL, NULL, 0);
-    pdwVol[1] = (iDay << 24) + (iYear << 8) + iMonth;
-
-    theApp.GetMACAddr(ucMac);
-    pdwMac[0] = ((ucMac[0] * 256) + ucMac[1]) * 256 + ucMac[2];
-    pdwMac[1] = (ucMac[3] * 256) + ucMac[4];
-
-    return true;
-}
-
-void CDrillDlg::SaveTorqNum()
-{
-    CFile           file;
-    CFileFind       find;
-
-    COMP_BFALSE(find.FindFile(theApp.m_strRegFile.c_str(), 0));
-
-    file.Open(theApp.m_strRegFile.c_str(), CFile::modeRead | CFile::modeWrite | CFile::shareDenyNone, NULL);
-    if (file.GetLength() == 0)
-    {
-        file.Close();
-        return;
-    }
-    file.Seek(sizeof(DBREG), CFile::current);
-    file.Write(&m_dwTotalTorqNum, sizeof(DWORD));
-    file.Close();
-}
-
-
 BOOL CDrillDlg::OnInitDialog()
 {
     CRect       rcTmp;
@@ -1025,18 +685,16 @@ BOOL CDrillDlg::OnInitDialog()
     /* 获取当前数据序号 */
     GetCurNum();
 
-    m_dwTotalTorqNum = 0;
     /*检查注册情况*/
-    CheckAppReg();
-    /* 检查产品有效日期 */
-    if (!theApp.CheckProductDate())
+    if (theApp.m_tReg.CheckAppReg())
     {
-        theApp.m_tdbReg.bReged = 0;
+        /* 检查产品有效日期 */
+        theApp.m_tReg.CheckProductDate();
+        //theApp.m_tdbReg.bReged = 1;
     }
-    //theApp.m_tdbReg.bReged = 1;
 
-    if (0 == m_dwTotalTorqNum)
-        m_dwTotalTorqNum = g_tReadData.nTotal;
+    if (theApp.m_tReg.m_dwTotalTorqNum < g_tReadData.nTotal)
+        theApp.m_tReg.m_dwTotalTorqNum = g_tReadData.nTotal;
 
     SHOW_MAINDLG_BUTTON(theApp.m_bShowCRC);
 
@@ -2873,7 +2531,6 @@ LRESULT CDrillDlg::SaveDataTimerOut(WPARAM wParam, LPARAM lParam)
 
 LRESULT CDrillDlg::SaveDebugTimerOut(WPARAM wParam, LPARAM lParam)
 {
-    SaveTorqNum();
     theApp.SaveLogInfo();
     return 0;
 }
@@ -3452,7 +3109,6 @@ BOOL CDrillDlg::DestroyWindow()
 
     theApp.SaveAppStatus(STATUS_EXIT, __FUNCTION__);
 
-    SaveTorqNum();
     theApp.SaveLogInfo();
 
     if (m_bAutoFileOpen)
@@ -4233,6 +3889,8 @@ void CDrillDlg::SaveIntoData(TorqData::Torque* ptPBData)
         SaveBreakoutData(ptPBData);
     else
         SaveMakeupData(ptPBData);
+
+    theApp.m_tReg.SaveTorqNum();
 }
 
 /* 将当前扭矩数据添加到扭矩结构文件中 */
@@ -4281,7 +3939,7 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
         nTorqNum++;
     }
 
-    m_dwTotalTorqNum++;
+    theApp.m_tReg.m_dwTotalTorqNum++;
     //m_nTotal = m_dwTotalTorqNum;
 
     /* 更新文件数据数目 */

@@ -29,7 +29,7 @@ public:
     CDrillDlg(CWnd* pParent = NULL);   // standard constructor
 
     /* 串口读取CRC错误时，停止尝试保存数据，重启串口 */
-    void        RestartComm();
+    void    RestartComm();
 
     BOOL        SendData(UINT nParaType);
     void        ReStart();
@@ -78,9 +78,6 @@ public:
     BOOL        RunIniAutoFile();
     BOOL        PortQueIsEmpty();
 
-    bool        GetVolMacFromRegStr(string strRegCode, DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay);
-    bool        GetVolMacInfo(DWORD pdwVol[], DWORD pdwMac[], int iYear, int iMonth, int iDay);
-
     BYTE        m_ucRcvByte[PORTBUFF];      /*modbus接收消息数值*/
     WORD        m_wRcvLen;
     CTime       m_tSetTime;
@@ -107,7 +104,7 @@ public:
     UINT        m_nCRCERR;
     UINT        m_nClashERR;
     CString     m_strRecvData;
-    DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
+    //DWORD       m_dwTotalTorqNum;           /* 扭矩上扣最大数目 */
     BOOL        m_bToolBuck;        /* 是否为工具扣 */
     int         m_iBreakOut;        /* 是否进行卸扣操作 0:上扣；1：卸扣*/
     CString     m_strQuality;
@@ -150,6 +147,8 @@ protected:
     afx_msg void OnAppExit();
     afx_msg void OnZero();
     afx_msg void OnScm();
+    afx_msg void OnSegcalib();
+    afx_msg void OnGlbCfg();
     afx_msg void OnHistorylist();
     afx_msg void OnHistorystat();
     afx_msg void OnShowtest();
@@ -173,7 +172,8 @@ protected:
     afx_msg void OnBnClickedRadiomakeup();
     afx_msg void OnBnClickedRadiobreakout();
     afx_msg void OnBnClickedBtnshowset();
-    //}}AFX_MSG
+    afx_msg void OnEnKillfocusEdhisseqno();
+    afx_msg void OnEnKillfocusEdbreakoutno();
     afx_msg LRESULT CollectTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT GuardTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT PortBuffTimerOut(WPARAM wParam, LPARAM lParam);
@@ -182,8 +182,7 @@ protected:
     afx_msg LRESULT ALarmPlayTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
-    afx_msg void OnSegcalib();
-    afx_msg void OnGlbCfg();
+    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
 private:
@@ -237,9 +236,6 @@ private:
     void GetCurWellFile();
     void CreateNewWellFile();
     BOOL TimeValidWell(CString strFileName);
-    void CheckAppReg();
-    bool CheckRegCode(string strRegCode);
-    void SaveTorqNum();
 
     /* 扭矩数据相关函数 */
     void ResetData();
@@ -329,8 +325,6 @@ private:
     UINT            m_nCurTallyNO;      /* 入井序号 */
     UINT            m_nMaxOutWellNO;    /* 最大取出序号 */
 public:
-    afx_msg void OnEnKillfocusEdhisseqno();
-    afx_msg void OnEnKillfocusEdbreakoutno();
 };
 
 extern CDrillDlg* thepDlg;

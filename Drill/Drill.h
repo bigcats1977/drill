@@ -23,6 +23,7 @@ error include 'stdafx.h' before including this file for PCH
 //#include "Mylistctrl.h"
 
 #include "DBAccess.h"
+#include "RegProc.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CDrillApp:
@@ -78,10 +79,6 @@ public:
     string  GetQualityInfo(TorqData::Torque* ptTorq);
     int     GetQualityIndex(TorqData::Torque* ptTorq);
     void    GetMACAddr(UCHAR* pcMac);
-    void    StringSubtract(CString& strValue, BYTE ucChar);
-    void    StringSubtract(string& strValue, BYTE ucChar);
-    void    SplitRegString(CString strReg[], CString strRegCode);
-    void    MergeRegString(CString strReg[], CString& strRegCode);
     BOOL    LoadLanguageDll(UINT nLang = LANGUAGE_CURRENT, BOOL bUpdate = TRUE);
     void    ReOpenWindow();
     void    PlayAlarmSound();
@@ -135,18 +132,16 @@ public:
     BOOL SetShowNameFromID(string lsID, SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
-    bool CheckProductDate();
-    bool GetDateFromString(string date, CTime& time);
-    bool CheckGenDate(string GenDate, string RegDate, int iYear);
     void SaveAllData(string strDataName);
     string GetFileNameFromPath(string path);
     void ReloadTorqCfg();
-    string base64_decode(string encoded_string);
+    bool GetProductVersion(CString& strVersion);
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
-    SHOWCFG* m_ptCurShow;
-    DBREG           m_tdbReg;
+    SHOWCFG*        m_ptCurShow;
+    //DBREG           m_tdbReg;
+    CRegProc        m_tReg;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     VALVECFG        m_tValveCfg;        /* 阀值配置 */
     string          m_strDllFile;       /* 动态链接库文件名称 */
@@ -209,7 +204,6 @@ private:
     void SaveCurTimeAndHead(UINT nType);
     BOOL MsgLenIsZero(WORD wLen, UINT nType);
     void SaveHexData(BYTE* pucRcvByte, WORD wLen);
-    bool GetProductVersion(CString& strVersion);
     void CreateNewWellFile();
     BOOL GetTorqDataFromFile(string strDataName);
     BOOL ReCalTallyNO(string strDataName);
@@ -224,6 +218,7 @@ private:
     void InitArray();
     void InitVariant();
     void InitLanguage();
+    void InitSysPath();
     void InitDefaultConfig(int initstep);
 
     void InitConfigFromDB();
@@ -255,7 +250,6 @@ private:
     double  m_fIntSlope[COLLECTPOINTS];             //间隔点斜率
     double  m_fIntInfPnt[COLLECTPOINTS];            //间隔点拐点
 
-    string   m_base64chars;
 };
 
 

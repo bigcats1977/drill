@@ -178,6 +178,7 @@
     <ClInclude Include="Mylistctrl.h" />
     <ClInclude Include="MySheet.h" />
     <ClInclude Include="NumEdit.h" />
+    <ClInclude Include="RegProc.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Ruler.h" />
     <ClInclude Include="SerialPort.h" />
@@ -290,6 +291,7 @@
     <ClCompile Include="Mylistctrl.cpp" />
     <ClCompile Include="MySheet.cpp" />
     <ClCompile Include="NumEdit.cpp" />
+    <ClCompile Include="RegProc.cpp" />
     <ClCompile Include="Ruler.cpp" />
     <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="sqlite3.c" />

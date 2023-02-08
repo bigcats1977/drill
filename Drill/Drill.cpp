@@ -73,27 +73,55 @@ BOOL CALLBACK EnumWndProc(HWND hwnd, LPARAM lParam)
     return FALSE;
 }
 
+void CDrillApp::InitSysPath()
+{
+    CTime   time = CTime::GetCurrentTime();//得到当前时间
+    char buffer[MAX_PATH + 1] = { 0 };
+
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    (_tcsrchr(buffer, _T('\\')))[1] = 0; // 删除文件名，只获得路径字串
+    m_strAppPath = buffer;
+
+    /* 创建数据路径 */
+    m_strDataPath = m_strAppPath + "Data\\";
+    CreateDirectory(m_strDataPath.c_str(), NULL);
+
+    /* 创建操作记录路径 */
+    m_strLogPath = m_strAppPath + "Log\\";
+    CreateDirectory(m_strLogPath.c_str(), NULL);
+
+    /*注册文件路径*/
+    m_strRegFile = m_strAppPath + REGNAME;
+
+    /* 动态链接库路径 */
+    m_strDllFile = m_strAppPath + CHNDLLNAME;
+
+    /*构造保存正常Log数据的文件路径*/
+    m_strLogFile = m_strLogPath;
+    m_strLogFile += time.Format(IDS_STRDATEFORM);
+    m_strLogFile += _T(".dbg");
+}
+
 void CDrillApp::InitVariant()
 {
     m_bShowCRC = FALSE;
     m_nPBHead = htonl(PBHEAD);
     m_strReadFile.clear();
-    m_base64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz"
-        "0123456789+/";
+    m_tReg = CRegProc(m_strRegFile);
 }
 
 void CDrillApp::InitLanguage()
 {
-    int     i = 0;
-
-    for (i = 0; i < LANGUAGE_NUM; i++)
+    for (int i = 0; i < LANGUAGE_NUM; i++)
     {
         m_hLangDLL[i] = NULL;
     }
 
     m_hLangDLL[LANGUAGE_CHINESE] = ::LoadLibrary(CHNDLLNAME);
     m_hLangDLL[LANGUAGE_ENGLISH] = ::LoadLibrary(ENGDLLNAME);
+
+    LoadLanguageDll(g_tGlbCfg.nLangType, FALSE);
+    m_ptCurShow = &m_tShowCfg[g_tGlbCfg.nLangType];
 }
 
 void CDrillApp::ClearTorqCfgPara(PARACFG* ptCfg)
@@ -206,12 +234,8 @@ void CDrillApp::InitArray()
 
 BOOL CDrillApp::InitInstance()
 {
-    CTime   time = CTime::GetCurrentTime();//得到当前时间
     string  strFont;
     HDC     hdcScreen;
-    int     i = 0;
-    BOOL    bModified = FALSE;
-    string  strDbFile;
 
     CCrashHandler ch;
     ch.SetProcessExceptionHandlers();
@@ -289,40 +313,12 @@ BOOL CDrillApp::InitInstance()
        /*  符号分析命令
            !analyze -v */
 
-           //这里得到的是程序当前路径
-    char buffer[MAX_PATH + 1] = { 0 };
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    (_tcsrchr(buffer, _T('\\')))[1] = 0; // 删除文件名，只获得路径字串
-    m_strAppPath = buffer;
-
-    /* 创建数据路径 */
-    m_strDataPath = m_strAppPath + "Data\\";
-    CreateDirectory(m_strDataPath.c_str(), NULL);
-
-    /* 创建操作记录路径 */
-    m_strLogPath = m_strAppPath + "Log\\";
-    CreateDirectory(m_strLogPath.c_str(), NULL);
-
-    /*注册文件路径*/
-    m_strRegFile = m_strAppPath + REGNAME;
-
-    /* 动态链接库路径 */
-    m_strDllFile = m_strAppPath + CHNDLLNAME;
-
-    /*构造保存正常Log数据的文件路径*/
-    m_strLogFile = m_strLogPath;
-    m_strLogFile += time.Format(IDS_STRDATEFORM);
-    m_strLogFile += _T(".dbg");
+    //这里得到的是程序当前路径
+    InitSysPath();
 
     /* 打开OrgFile*/
     m_tSaveLog.iCur = 0;
     m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
-
-    /* 初始化数组、变量 */
-    InitVariant();
-    InitLanguage();
-    InitArray();
-    SetRegistryKey(_T("zsg Applications"));
 
     /* 获取数据库文件 */
     UINT initStep = 0xFFFFFFFF;
@@ -332,8 +328,12 @@ BOOL CDrillApp::InitInstance()
         InitDefaultConfig(initStep);
     }
 
-    LoadLanguageDll(g_tGlbCfg.nLangType, FALSE);
-    m_ptCurShow = &m_tShowCfg[g_tGlbCfg.nLangType];
+    /* 初始化数组、变量 */
+    InitVariant();
+    InitLanguage();
+    InitArray();
+    SetRegistryKey(_T("zsg Applications"));
+
 
     CDrillDlg dlg;
     m_pMainWnd = &dlg;
@@ -664,38 +664,6 @@ bool CDrillApp::GetProductVersion(CString& strVersion)
     strVersion = strTemp.Right(strTemp.GetLength() - iPlace - 1);
 
     free(pBlock);
-
-    return true;
-}
-
-bool CDrillApp::CheckProductDate()
-{
-    bool    bRet = false;
-    CTime   tNowDate;
-    int     iRandDay = 0;
-    CString strProductDate;
-    CString strNowDate;
-
-    bRet = GetProductVersion(strProductDate);
-    COMP_BE_R(bRet, false, false);
-
-    /* 有效期5年+(31以内)随机天数 */
-    tNowDate = CTime::GetCurrentTime();
-
-    iRandDay = rand() % 31;
-    tNowDate += CTimeSpan(iRandDay, 0, 0, 0);
-
-    tNowDate = CTime(tNowDate.GetYear() - VALID_YEAR,
-        tNowDate.GetMonth(),
-        tNowDate.GetDay(),
-        0, 0, 0);
-    strNowDate = tNowDate.Format("%Y%m%d");
-
-    if (strNowDate > strProductDate)
-    {
-        SaveMessage(strProductDate.GetBuffer(0));
-        return false;
-    }
 
     return true;
 }
@@ -1181,7 +1149,7 @@ void CDrillApp::ShowMainTitle()
 
     m_nTorqMulti = 1;
 
-    if (m_tdbReg.bReged)
+    if (m_tReg.Reged())
     {
         strAppName = LoadstringFromRes(IDS_STRTITLE);
         //strAppName.Format(IDS_STRTITLE);
@@ -1703,49 +1671,6 @@ void CDrillApp::SaveShowMessage(string strMessage, UINT nType)
 {
     SaveMessage(strMessage);
     AfxMessageBox(strMessage.c_str(), nType);
-}
-
-void CDrillApp::StringSubtract(CString& strValue, BYTE ucChar)
-{
-    for (int i = 0; i < strValue.GetLength(); i++)
-    {
-        strValue.SetAt(i, strValue.GetAt(i) - ucChar);
-    }
-}
-
-void CDrillApp::StringSubtract(string& strValue, BYTE ucChar)
-{
-    for (size_t i = 0; i < strValue.length(); i++)
-    {
-        strValue[i] -= ucChar;
-        //strValue.SetAt(i, strValue.GetAt(i) - ucChar);
-    }
-}
-
-void CDrillApp::SplitRegString(CString strReg[], CString strRegCode)
-{
-    int  i = 0;
-
-    ASSERT_NULL(strReg);
-
-    for (i = 0; i < REGCODESEGNUM; i++)
-    {
-        strReg[i] = strRegCode.Left(g_nValidLen[i]);
-        strRegCode.Delete(0, g_nValidLen[i]);
-    }
-}
-
-void CDrillApp::MergeRegString(CString strReg[], CString& strRegCode)
-{
-    int  i = 0;
-
-    ASSERT_NULL(strReg);
-
-    strRegCode.Empty();
-    for (i = 0; i < REGCODESEGNUM; i++)
-    {
-        strRegCode += strReg[i];
-    }
 }
 
 void CDrillApp::AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType)
@@ -3376,110 +3301,4 @@ string CDrillApp::GetFileNameFromPath(string path)
     iPos = path.find_last_of('\\') + 1;
     filename = path.substr(iPos, path.length() - iPos);
     return filename;
-}
-
-bool CDrillApp::GetDateFromString(string date, CTime& time)
-{
-    string temp;
-    int iYear, iMonth, iDay;
-    if (date.length() != 8)
-        return false;
-
-    temp = date.substr(0, 4);
-    iYear = strtoul(temp.c_str(), NULL, 10);
-    if (iYear < 2020)
-        return false;
-
-    temp = date.substr(4, 2);
-    iMonth = strtoul(temp.c_str(), NULL, 10);
-    if (iMonth < 1 || iMonth > 12)
-        return false;
-
-    temp = date.substr(6, 2);
-    iDay = strtoul(temp.c_str(), NULL, 10);
-    if (iDay < 1 || iDay > 31)
-        return false;
-
-    time = CTime(iYear, iMonth, iDay, 0, 0, 0);
-    return true;
-}
-
-bool CDrillApp::CheckGenDate(string GenDate, string RegDate, int iYear)
-{
-    CTime   curTime = CTime::GetCurrentTime();
-    CTime   genTime, regTime;
-
-    if (iYear < 0 || iYear > 255)
-        return false;
-
-    if (GenDate >= RegDate)
-        return false;
-
-    if (!GetDateFromString(GenDate, genTime))
-        return false;
-    if (!GetDateFromString(RegDate, regTime))
-        return false;
-
-    // 生成日期和注册码日期相差整年
-    if ((genTime.GetYear() + iYear != regTime.GetYear()) ||
-        (genTime.GetMonth() != regTime.GetMonth()) ||
-        (genTime.GetMonth() != regTime.GetMonth()))
-        return false;
-
-    // 修改了系统日期，返回失败
-    if (curTime < genTime)
-        return false;
-
-    // 超过使用期限
-    // 加上使用当天
-    curTime -= CTimeSpan(1, 0, 0, 0);
-    if (curTime > regTime)
-        return false;
-    return true;
-}
-
-bool CDrillApp::is_base64(unsigned char c) {
-    return (isalnum(c) || (c == '+') || (c == '/'));
-}
-
-string CDrillApp::base64_decode(string encoded_string)
-{
-    int in_len = encoded_string.size();
-    int i = 0;
-    int j = 0;
-    int in_ = 0;
-    unsigned char char_array_4[4], char_array_3[3];
-    string ret;
-
-    while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
-        char_array_4[i++] = encoded_string[in_]; in_++;
-        if (i == 4) {
-            for (i = 0; i < 4; i++)
-                char_array_4[i] = (unsigned char)m_base64chars.find(char_array_4[i]);
-
-            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-            for (i = 0; (i < 3); i++)
-                ret += char_array_3[i];
-            i = 0;
-        }
-    }
-
-    if (i) {
-        for (j = i; j < 4; j++)
-            char_array_4[j] = 0;
-
-        for (j = 0; j < 4; j++)
-            char_array_4[j] = (unsigned char)m_base64chars.find(char_array_4[j]);
-
-        char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-        char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-        char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-        for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
-    }
-
-    return ret;
 }

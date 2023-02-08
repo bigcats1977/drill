@@ -616,16 +616,6 @@ const string  g_strPortOpr[PORTOPR_MAXNUM] = {
             _T("CLOSE"),
 };
 
-/* 注册码的各个段的长度 */
-const UINT   g_nValidLen[REGCODESEGNUM] = {
-            REGCODELEN,
-            REGCODELEN,
-            REGCODELEN,
-            REGCODELEN,
-            REGCODELEN,
-            REGCODELEN,
-};
-
 /* 读取的历史保存的扭矩控制数据，包括文件名称，数据个数等信息 */
 TORQUEDATA      g_tReadData;
 
