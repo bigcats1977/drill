@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include "Global.h"
-using namespace std;
+#include <afxdb.h>
 
+using namespace std;
 
 #define REGNAME         _T("reg.dat")
 

@@ -530,7 +530,6 @@ bool CRegProc::CheckAppReg()
 {
     CFile           file;
     CTime           curTime = CTime::GetCurrentTime();
-    DWORD           dwSaveNum;
 
     m_tdbReg.bReged = 0;
     m_tdbReg.bMach = 0;
