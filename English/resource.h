@@ -827,6 +827,8 @@
 #define IDS_STRLCXBEAR                  51307
 #define IDS_STRLCIPTORQ                 51308
 #define IDS_STRLCZOOMTORQ               51309
+#define IDS_STRLCMAKETORQ               51310
+#define IDS_STRLCBREAKTORQ              51311
 #define IDS_STRLINELABEL                51350
 #define IDS_STRTORQPARA                 51351
 #define IDS_STRTORQUNIT                 51352
