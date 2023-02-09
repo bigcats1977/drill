@@ -7,6 +7,7 @@ using namespace std;
 
 #define REGNAME         _T("reg.dat")
 
+#define MAXREGYEAR      200
 #define REGCODEVALUE    0x55    /* 保存的注册码的差值 */
 #define REGCODESEGNUM   6       /* 注册码分为6段，长度分别定义如下 */
 #define REGCODELEN      6
@@ -32,7 +33,7 @@ using namespace std;
 #define MAXREGCODE      36
 #define HALFREGCODE     18
 #define TIMESTRLEN      8
-#define TORQNUMLEN      4
+#define TORQNUMLEN      8
 typedef struct tagDBREG
 {
     BYTE    strMachCode[MAXMACHCODE];
@@ -43,7 +44,7 @@ typedef struct tagDBREG
     BYTE    bReged : 1;
     BYTE    bMach : 1;                  // 机器码有效
     BYTE    bRsv2 : 3;
-    BYTE    nYear;
+    BYTE    ucYear;
     BYTE    strRegDate[TIMESTRLEN];     // 软件有效日期，注册日期往后××年
     BYTE    strCode2[HALFREGCODE];
     BYTE    strUseDate[TIMESTRLEN];     // 软件最新使用日期
@@ -72,22 +73,19 @@ public:
     string  GenMachineCode();
     bool    CheckRegCode(string strMach, string strReg);
 
-    void    SaveRegFile(int iYears, bool bReged);
+    void    SaveRegFile();
 
 
 private:
     string          m_strRegFile;
     DBREG           m_tdbReg;
 
-    vector<string>  m_strReg;
     string          m_strMachine;
     string          m_strRegCode;
 
     string          m_strRegDate;
     string          m_strGenDate;
     string          m_strUseDate;
-
-    int             m_iYear;
 
     string          m_base64chars;
 private:

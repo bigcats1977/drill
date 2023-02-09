@@ -10,7 +10,8 @@ CRegProc::CRegProc(string regFile)
 {
     CFile           file;
     CFileFind       find;
-    char            buffer[DBREGLEN + 1] = { 0 };
+    int             reglen = 0;
+    char            *buffer;
     string          info;
 
     InitValue();
@@ -18,21 +19,27 @@ CRegProc::CRegProc(string regFile)
     if (regFile.size() < sizeof(REGNAME))
         return;
 
+    m_strRegFile = regFile;
+
     // bMach == 0
     COMP_BFALSE(find.FindFile(regFile.c_str(), 0));
 
     file.Open(regFile.c_str(), CFile::modeRead | CFile::shareDenyNone, NULL);
-    if (file.GetLength() < DBREGLEN)
+    reglen = (int)file.GetLength();
+    if (reglen < DBREGLEN)
     {
         file.Close();
         return;
     }
-    file.Read(buffer, DBREGLEN);
+
+    buffer = (char*)calloc(reglen + 1, 1);
+    file.Read(buffer, reglen);
     file.Close();
 
     info = base64_decode(buffer);
+    free(buffer);
 
-    m_tdbReg.bReged = 0;
+    memcpy(&m_tdbReg, info.c_str(), DBREGLEN);
 
     GetRegInfoFromDBREG();
 }
@@ -44,20 +51,18 @@ CRegProc::~CRegProc()
 void CRegProc::InitValue()
 {
     m_dwTotalTorqNum = 0;
-    m_iYear = 0;
 
     memset(&m_tdbReg, 0, DBREGLEN);
     m_tdbReg.bRsv1 = 6;
     m_tdbReg.bRsv2 = 5;
 
     m_strRegFile.clear();
+
     m_strMachine.clear();
     m_strRegCode.clear();
     m_strRegDate.clear();
     m_strGenDate.clear();
     m_strUseDate.clear();
-
-    m_strReg.clear();
 
     m_base64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz"
@@ -112,7 +117,9 @@ string CRegProc::GenMachineCode()
     m_strGenDate = string_format("%04d%02d%02d", iYear, iMonth, iDay);
     m_strRegCode = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     m_strRegDate = "20000101";
-    SaveRegFile(0, false);
+    m_tdbReg.ucYear = 0;
+    m_tdbReg.bReged = 0;
+    SaveRegFile();
 
     return m_strMachine;
 }
@@ -139,6 +146,7 @@ bool CRegProc::CheckRegCode(string strMach, string strReg)
         return false;
     }
     iYears = regYear - machYear;
+    COMP_BG_R(iYears, MAXREGYEAR, false);
 
     COMP_BFALSE_R(GenVolMacInfo(adwPCVol, adwPCMac, regYear, regMonth, regDay), false);
 
@@ -146,17 +154,22 @@ bool CRegProc::CheckRegCode(string strMach, string strReg)
     if (memcmp(adwRegVol, adwPCVol, 2 * sizeof(DWORD)) == 0 &&
         memcmp(adwRegMac, adwPCMac, 2 * sizeof(DWORD)) == 0)
     {
+        m_tdbReg.bMach = 1;
+        m_tdbReg.bReged = 1;
+        m_tdbReg.ucYear = (BYTE)iYears;
+        m_strMachine = strMach;
+        m_strRegCode = strReg;
         m_strGenDate = string_format("%04d%02d%02d", machYear, machMonth, machDay);
         m_strRegDate = string_format("%04d%02d%02d", regYear, regMonth, regDay);
         m_strUseDate = string_format("%04d%02d%02d", curTime.GetYear(), curTime.GetMonth(), curTime.GetDay());
-        SaveRegFile(iYears, true);
+        SaveRegFile();
         return true;
     }
 
     return false;
 }
 
-void CRegProc::SaveRegFile(int iYears, bool bReged)
+void CRegProc::SaveRegFile()
 {
     HANDLE          hDir;
     CFile           newfile;
@@ -167,7 +180,7 @@ void CRegProc::SaveRegFile(int iYears, bool bReged)
     if (m_strRegCode.size() != MAXREGCODE)
         return;
 
-    hDir = CreateFile(theApp.m_strRegFile.c_str(),//folder
+    hDir = CreateFile(m_strRegFile.c_str(),//folder
         GENERIC_READ | GENERIC_WRITE,//readwrite
         0,//share
         NULL,//security attribute
@@ -182,13 +195,6 @@ void CRegProc::SaveRegFile(int iYears, bool bReged)
     }
     CloseHandle(hDir);
 
-    memset(&m_tdbReg, 0, sizeof(DBREG));
-    m_tdbReg.bRsv1 = 6;
-    m_tdbReg.bReged = bReged;
-    m_tdbReg.bMach = 1;
-    m_tdbReg.bRsv2 = 5;
-
-    m_tdbReg.nYear = iYears + REGCODEVALUE;
     GenRegArrayFromStr(m_tdbReg.strMachCode, MAXMACHCODE, m_strMachine);
     GenRegArrayFromStr(m_tdbReg.strCode1, HALFREGCODE, m_strRegCode.substr(0, HALFREGCODE));
     GenRegArrayFromStr(m_tdbReg.strCode2, HALFREGCODE, m_strRegCode.substr(HALFREGCODE, HALFREGCODE));
@@ -201,8 +207,8 @@ void CRegProc::SaveRegFile(int iYears, bool bReged)
 
     strStream = base64_encode((char*)&m_tdbReg, DBREGLEN);
 
-    newfile.Open(theApp.m_strRegFile.c_str(), CFile::modeWrite, NULL);
-    newfile.Write(strStream.c_str(), DBREGLEN);
+    newfile.Open(m_strRegFile.c_str(), CFile::modeWrite, NULL);
+    newfile.Write(strStream.c_str(), strStream.size());
     newfile.Close();
 }
 
@@ -239,7 +245,6 @@ bool CRegProc::GenRegArrayFromStr(BYTE* pData, int len, string str)
 bool CRegProc::GetRegInfoFromDBREG()
 {
     string strTorqNum;
-    m_iYear = m_tdbReg.nYear > REGCODEVALUE ? (m_tdbReg.nYear - REGCODEVALUE) : 0;
 
     m_strMachine = GetRegStrFromArray(m_tdbReg.strMachCode, MAXMACHCODE);
     m_strRegCode = GetRegStrFromArray(m_tdbReg.strCode1, HALFREGCODE);
@@ -276,7 +281,7 @@ bool CRegProc::CheckRegDate()
     CTime   genTime, regTime, UseTime;
     CTime   curTime = CTime::GetCurrentTime();
 
-    if (m_iYear < 0 || m_iYear > 255)
+    if (m_tdbReg.ucYear > MAXREGYEAR)
         return false;
 
     if (m_strGenDate.size() != TIMESTRLEN ||
@@ -295,7 +300,7 @@ bool CRegProc::CheckRegDate()
         return false;
 
     // 生成日期和注册码日期相差整年
-    if ((genTime.GetYear() + m_iYear != regTime.GetYear()) ||
+    if ((genTime.GetYear() + m_tdbReg.ucYear != regTime.GetYear()) ||
         (genTime.GetMonth() != regTime.GetMonth()) ||
         (genTime.GetMonth() != regTime.GetMonth()))
         return false;
@@ -548,11 +553,7 @@ bool CRegProc::CheckAppReg()
     m_strUseDate = string_format("%04d%02d%02d", curTime.GetYear(), curTime.GetMonth(), curTime.GetDay());
     GenRegArrayFromStr(m_tdbReg.strUseDate, TIMESTRLEN, m_strUseDate);
 
-    file.Open(m_strRegFile.c_str(), CFile::modeWrite, NULL);
-    file.Write(&m_tdbReg, sizeof(DBREG));
-    dwSaveNum = m_dwTotalTorqNum ^ DPATHV2;
-    file.Write(&dwSaveNum, sizeof(DWORD));
-    file.Close();
+    SaveRegFile();
 
     return true;
 }
@@ -649,18 +650,15 @@ void CRegProc::SaveTorqNum()
 {
     CFile           file;
     CFileFind       find;
-    DWORD			dwSaveNum;
 
     COMP_BFALSE(find.FindFile(m_strRegFile.c_str(), 0));
 
     file.Open(m_strRegFile.c_str(), CFile::modeRead | CFile::modeWrite | CFile::shareDenyNone, NULL);
-    if (file.GetLength() == 0)
+    if (file.GetLength() < DBREGLEN)
     {
         file.Close();
         return;
     }
-    file.Seek(sizeof(DBREG), CFile::current);
-    dwSaveNum = m_dwTotalTorqNum ^ DPATHV2;
-    file.Write(&dwSaveNum, sizeof(DWORD));
-    file.Close();
+
+    SaveRegFile();
 }
