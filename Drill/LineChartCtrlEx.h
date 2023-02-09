@@ -63,7 +63,7 @@ public:
     void    DrawSpike(BOOL bStop = FALSE);
     BOOL    RemoveAt();
     BOOL    Add(COLORREF clrLine, double fUpper, double fLower, BYTE uType = LINETYPE_MAIN);
-    void    DrawBkLine();
+    void    DrawBkLine(bool bCtrl = true);
     void    FinishDraw();
     void    DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMaxCir, double fDeltaCir, double fSetZoomTorq = -1);
     void    DrawSelInfo(UINT nBeginPos, UINT nTotal);
@@ -72,6 +72,8 @@ public:
     UINT    GetCurPoints();
     void    SetStartPoint(UINT nBegin);
     void    DrawFinLine();
+    void    DrawMakeupLine(double fTorq, int begin, int end);
+    void    DrawBreakoutLine(double fTorq, int begin, int end);
 
 public:
     /* 扭矩显示相关参数 */
@@ -106,6 +108,7 @@ private:
     void    DrawGridLine(COLORREF clrBk = LC_BKCOLOR);
     void    DrawHLine(int y);
     void    DrawVLine(int x);
+    void    DrawHLine(int begin, int end, int height);
     void    DrawControlLine();
     void    DrawAlarmLine();
     void    DrawShowLine();
@@ -114,6 +117,8 @@ private:
     void    EraseLastOne();
     void    ShowVarPntText(COLORREF clrText, int x, int y, string strContent);
     void    ShowRightPntText(COLORREF clrText, int x, int y, string strContent);
+    void    ShowContent(COLORREF clrText, int y, string trContent, UINT nLeftOffset = 0);
+    void    ShowContent(COLORREF clrText, int x, int y, string trContent);
 
     CBitmap     m_bpCross;
     CBitmap     m_bpWCross;

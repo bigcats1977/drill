@@ -250,7 +250,7 @@ BOOL CAboutDlg::OnInitDialog()
         m_strMachine = theApp.m_tReg.GenMachineCode().c_str();
     }
     /* Reged */
-    if(theApp.m_tReg.Reged())
+    if (theApp.m_tReg.Reged())
     {
         SplitRegString(theApp.m_tReg.GetRegisterCode());
         m_btnReg.ShowWindow(FALSE);

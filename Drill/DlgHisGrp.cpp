@@ -281,7 +281,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
     /* 重新设置刻度 */
     m_xHisAxis1.SetTickPara(10, fMaxCir, fMinCir);
     m_yHisAxis1.SetTickPara(20, m_ptCurTorq->fmaxlimit());
-    m_wndLineHis.DrawBkLine();
+    m_wndLineHis.DrawBkLine(false);
 
     m_wndRpmHis.SetBkColor(RGB(255, 255, 255));
     m_wndRpmHis.m_bBKLine = FALSE;
@@ -448,9 +448,9 @@ void CDlgHisGrp::CheckCurSplit()
 void CDlgHisGrp::DrawCurTorque()
 {
     int     i = 0;
-    double  fTorq = 0;
-    int     iBegin = 0;
-    int     iEnd = 0;
+    int     iBegin = 0, iEnd = 0;
+    int     iLineB = 0, iLineE = 0;
+    UINT    nType = 3;
     UINT    nBeginPos = 0;
 
     ASSERT_NULL(m_ptCurDraw);
@@ -458,7 +458,6 @@ void CDlgHisGrp::DrawCurTorque()
 
     ResetHisLineByCurData();
 
-    GET_CTRL_TORQ(fTorq, m_ptCurTorq);
     ASSERT_ZERO(m_ptCurDraw->wCount);
 
     /* 如果记录数据大于一圈，显示最后一圈的数据，留空10 */
@@ -488,6 +487,29 @@ void CDlgHisGrp::DrawCurTorque()
     m_wndRpmHis.Go();
 
     m_nBeginPos = iBegin;
+
+    // Draw makeup/breakout line
+    if (m_iGrpType > 0)
+        nType = m_iGrpType;
+
+    if (m_ptCurTorq->dwmucount() > 0 && (nType & 0x01))
+    {
+        if (iBegin < m_ptCurDraw->wMUEndPos)
+        {
+            iLineB = 0;
+            iLineE = MIN(500, m_ptCurDraw->wMUEndPos - iBegin);
+            m_wndLineHis.DrawMakeupLine(m_ptCurTorq->fmaxtorq(), iLineB, iLineE);
+        }
+    }
+    if (m_ptCurTorq->bbreakout() && m_ptCurTorq->dwbocount() > 0 && (nType & 0x02))
+    {
+        if (iEnd > m_ptCurDraw->wMUEndPos + 20)
+        {
+            iLineB = MAX(m_ptCurDraw->wMUEndPos + 20 - iBegin, 0);
+            iLineE = 500;
+            m_wndLineHis.DrawBreakoutLine(m_ptCurTorq->fbomaxtorq(), iLineB, iLineE);
+        }
+    }
 
     return;
 }

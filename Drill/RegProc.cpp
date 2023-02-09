@@ -11,7 +11,7 @@ CRegProc::CRegProc(string regFile)
     CFile           file;
     CFileFind       find;
     int             reglen = 0;
-    char            *buffer;
+    char*           buffer;
     string          info;
 
     InitValue();

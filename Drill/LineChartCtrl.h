@@ -44,7 +44,7 @@ typedef struct tagLINECHARITEM
 #define     CONT_XSCALE         0.75    /* 文字开始位置(相对于整体宽度) */
 #define     CONT_XANTIRANGE     425     /* 坐标超过该位置时，需要反方向显示文字 */
 #define     CONT_XANTIOFFSET    80      /* 文字贴右边时，反方向调整 */
-#define     CONT_XRIGHTRANGE    380     /* 拐点/选中的信息如果太大，则方向显示文字 */
+#define     CONT_XRIGHTRANGE    380     /* 拐点/选中的信息如果太大，则反方向显示文字 */
 
 class CLineChartCtrl : public CWnd
 {
@@ -96,7 +96,6 @@ private:
     void    DrawGridLine();
 
 protected:
-    void    ShowContent(COLORREF clrText, int y, string trContent, UINT nLeftOffset = 0);
     void    GetMemDC();
 
     CDC      m_MemDC;

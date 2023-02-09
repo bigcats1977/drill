@@ -293,24 +293,3 @@ void CLineChartCtrl::SetBkColor(COLORREF clrBk)
     m_clrBk = clrBk;
 }
 
-
-/* 打印说明文字 */
-void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset)
-{
-    CPoint  ptBegin;
-    CRect   rectCont;
-    char    strPrint[MAX_LOADSTRING];
-
-    m_MemDC.SetTextColor(clrText);
-    ptBegin.x = int((m_iChartWidth)*CONT_XSCALE);
-    ptBegin.y = y;
-
-    rectCont.left = 0;
-    rectCont.right = m_rcClient.right - nLeftOffset;
-    rectCont.top = y;
-    rectCont.bottom = m_rcClient.bottom;
-
-    snprintf(strPrint, MAX_LOADSTRING, "%s          ", strContent.c_str());
-    //strPrint = strContent + _T("          ");
-    m_MemDC.DrawText(strPrint, -1, &rectCont, DT_SINGLELINE | DT_RIGHT | DT_TOP);
-}

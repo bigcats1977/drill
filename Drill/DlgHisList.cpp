@@ -95,7 +95,8 @@ BOOL CDlgHisList::OnInitDialog()
     /* 20220922 钻杆版本无最大/最小扭矩 */
     /* 20221113 去掉斜坡因子 */
     /* 20221220  去掉拐点扭矩，同时显示上扣扭矩/周数和卸扣扭矩/周数 */
-    /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
+    /* 去掉夹紧扭矩 */
+    /*"序号,%d;上扣时间,%d;卸扣时间,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
     /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));*/
@@ -104,7 +105,7 @@ BOOL CDlgHisList::OnInitDialog()
                        int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
                        int(2*m_iWidth));*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
-        int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+        int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
     //strHead = buffer;
     m_strFixHead = strHead;
@@ -273,7 +274,7 @@ VOID CDlgHisList::ShowHisTorqList()
     CString     strNo;
     CString     strTime, strBOTime;
     CString     strMakeTurn, strBreakTurn;
-    CString     strCtrlTorq, strOptTorq;
+    CString     strOptTorq; // strCtrlTorq, 
     CString     strMakeTorq, strBreakTorq;
     CString     strOutWellNO, strMemo;
     CString     strShowPara[MAXPARANUM];
@@ -297,7 +298,7 @@ VOID CDlgHisList::ShowHisTorqList()
 
         /* 20180102 序号删除后自动更新 */
         strNo.Format("%d", i + 1);
-        strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
+        //strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
         strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
         strMemo = ptTorq->strmemo().c_str();
 
@@ -317,11 +318,11 @@ VOID CDlgHisList::ShowHisTorqList()
             strOutWellNO.Format("%d", ptTorq->dwoutwellno());
         }
 
-        /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
+        /*"序号,%d;上扣时间,%d;卸扣时间,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
         slShow.AddTail(strNo);
         slShow.AddTail(strTime);
         slShow.AddTail(strBOTime);
-        slShow.AddTail(strCtrlTorq);
+        //slShow.AddTail(strCtrlTorq);
         slShow.AddTail(strOptTorq);
         slShow.AddTail(strMakeTorq);
         slShow.AddTail(strMakeTurn);

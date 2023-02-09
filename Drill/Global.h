@@ -875,9 +875,12 @@ typedef struct tagTORQUEDATA
 }TORQUEDATA;
 
 /* 最大10屏，考虑放大5倍，10*500*5 */
+#define SPLITPOSNUM     20          // 上扣扭矩和卸扣扭矩数据之间的间隔点数
 typedef struct tagDRAWTORQDATA
 {
     WORD        wCount;
+    WORD        wMUEndPos;
+
     double      fTorque[25000];
     double      fRpm[25000];
 

@@ -313,7 +313,7 @@ BOOL CDrillApp::InitInstance()
        /*  符号分析命令
            !analyze -v */
 
-    //这里得到的是程序当前路径
+           //这里得到的是程序当前路径
     InitSysPath();
 
     /* 打开OrgFile*/
@@ -2392,7 +2392,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     if (memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
     {
         g_tReadData.bHaveHead = TRUE;
-}
+    }
 #endif
     BeginWaitCursor();
 
@@ -2663,6 +2663,7 @@ bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw
     }
 
     ptDraw->wCount = iDrawPnt;
+    ptDraw->wMUEndPos = iDrawPnt;
     return true;
 }
 
@@ -2698,7 +2699,7 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
         ptDraw->wCount++;
 
         // 上扣卸扣之间增加20个空数据
-        for (i = 0; i < 20; i++)
+        for (i = 0; i < SPLITPOSNUM; i++)
         {
             ptDraw->fTorque[ptDraw->wCount] = 0;
             ptDraw->fRpm[ptDraw->wCount] = 0;

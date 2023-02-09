@@ -245,6 +245,56 @@ void CLineChartCtrlEx::DrawFinLine()
     Invalidate(FALSE);
 }
 
+
+// just for hisgrip
+void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
+{
+    int     x = 0;
+    int     y = 0;
+    string  strVal;
+    CPen* pOldPen = NULL;
+    COLORREF clrCtrl = CTRLBKCOLOR;
+
+    CPen penSafe(PS_DOT, 1, clrCtrl);
+
+    pOldPen = m_MemDC.SelectObject(&penSafe);
+
+    /* ----- */
+    x = MAX(0, end - 100);
+    // 上扣扭矩位置
+    y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
+    DrawHLine(begin, end, y);
+    /* 显示上扣扭矩值 */
+    strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCMAKETORQ).c_str(), fTorq);
+    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 5, strVal);
+
+    m_MemDC.SelectObject(pOldPen);
+}
+
+void CLineChartCtrlEx::DrawBreakoutLine(double fTorq, int begin, int end)
+{
+    int     x = 0;
+    int     y = 0;
+    string  strVal;
+    CPen* pOldPen = NULL;
+    COLORREF clrCtrl = CTRLBKCOLOR;
+
+    CPen penSafe(PS_DOT, 1, clrCtrl);
+
+    pOldPen = m_MemDC.SelectObject(&penSafe);
+
+    /* ----- */
+    x = begin;
+    // 卸扣扭矩位置
+    y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
+    DrawHLine(begin, end, y);
+    /* 显示卸扣扭矩值 */
+    strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCBREAKTORQ).c_str(), fTorq);
+    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 5, strVal);
+
+    m_MemDC.SelectObject(pOldPen);
+}
+
 BOOL CLineChartCtrlEx::RemoveAt()
 {
     m_iStaticX = 0;
@@ -311,6 +361,20 @@ void CLineChartCtrlEx::DrawHLine(int y)
     ptBegin.y = y;
     ptEnd.x = m_iChartWidth;
     ptEnd.y = y;
+    m_MemDC.MoveTo(ptBegin);
+    m_MemDC.LineTo(ptEnd);
+}
+
+/* ----- */
+void  CLineChartCtrlEx::DrawHLine(int begin, int end, int height)
+{
+    CPoint  ptBegin;
+    CPoint  ptEnd;
+
+    ptBegin.x = begin;
+    ptBegin.y = height;
+    ptEnd.x = end;
+    ptEnd.y = height;
     m_MemDC.MoveTo(ptBegin);
     m_MemDC.LineTo(ptEnd);
 }
@@ -468,7 +532,7 @@ void CLineChartCtrlEx::DrawShowLine()
     m_MemDC.SelectObject(pOldPen);
 }
 
-void CLineChartCtrlEx::DrawBkLine()
+void CLineChartCtrlEx::DrawBkLine(bool bCtrl)
 {
     int         iOldMode = 0;
     //CString     strTemp;
@@ -497,7 +561,10 @@ void CLineChartCtrlEx::DrawBkLine()
     //ShowTorqNo();
 
     /* 控制线 */
-    DrawControlLine();
+    if (bCtrl)
+    {
+        DrawControlLine();
+    }
 
     /* 告警线 */
     DrawAlarmLine();
@@ -735,4 +802,35 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
     dcMemory.SelectObject(pOldBitmap);
     dcMemory.DeleteDC();
     return;
+}
+
+
+/* 打印说明文字 */
+void  CLineChartCtrlEx::ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset)
+{
+    CRect   rectCont;
+    char    strPrint[MAX_LOADSTRING];
+
+    m_MemDC.SetTextColor(clrText);
+
+    rectCont.left = 0;
+    rectCont.right = m_rcClient.right - nLeftOffset;
+    rectCont.top = y;
+    rectCont.bottom = m_rcClient.bottom;
+
+    snprintf(strPrint, MAX_LOADSTRING, "%s          ", strContent.c_str());
+    //strPrint = strContent + _T("          ");
+    m_MemDC.DrawText(strPrint, -1, &rectCont, DT_SINGLELINE | DT_RIGHT | DT_TOP);
+}
+
+void CLineChartCtrlEx::ShowContent(COLORREF clrText, int x, int y, string strContent)
+{
+    m_MemDC.SetTextColor(clrText);
+
+    if (x < CONT_XANTIRANGE)
+        x += 10;
+    else
+        x = x - CONT_XANTIOFFSET;
+
+    m_MemDC.TextOut(x, y, strContent.c_str());
 }
