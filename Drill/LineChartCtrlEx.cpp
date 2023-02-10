@@ -205,6 +205,53 @@ BOOL CLineChartCtrlEx::Add(COLORREF clrLine, double fUpper, double fLower, BYTE 
     return TRUE;
 }
 
+// 卸扣时动态更新图形高度
+bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
+{
+    CPoint  ptOld;
+    CPoint  ptNew;
+    double  fRange = 0;
+
+    m_tItem.m_fUpper = fUpper;
+    if (m_tItem.m_nPos == 0)
+        return true;
+
+    CPen    pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
+    CPen*   pOldPen = m_MemDC.SelectObject(&pnLine);
+    // Erase
+    ptNew.x = 0;
+    ptNew.y = 0;
+    m_MemDC.MoveTo(ptNew);
+    m_MemDC.LineTo(ptNew);
+
+    m_iStaticX -= m_tItem.m_nPos;
+    m_iStaticX = m_iStaticX < 0 ? 0 : m_iStaticX;
+    for (UINT i = 0; i < m_tItem.m_nPos; i++)
+    {
+        ptOld.x = int(m_iStaticX * m_fOffset);
+        m_iStaticX++;
+        ptNew.x = int(m_iStaticX * m_fOffset);
+
+        COMP_BGE_R(m_iStaticX, MAXLINEITEM, false);
+
+        fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
+        ptOld.y = m_iChartHeight;
+        if (m_tItem.m_nPos >= 2)
+        {
+            ptOld.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos - 2] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+        }
+        ptNew.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+
+        m_MemDC.MoveTo(ptOld);
+        m_MemDC.LineTo(ptNew);
+
+        m_MemDC.SelectObject(pOldPen);
+    }
+
+    Invalidate(FALSE);
+    return true;
+}
+
 void CLineChartCtrlEx::FinishDraw()
 {
     CPoint  ptNew;
@@ -532,7 +579,7 @@ void CLineChartCtrlEx::DrawShowLine()
     m_MemDC.SelectObject(pOldPen);
 }
 
-void CLineChartCtrlEx::DrawBkLine(bool bCtrl)
+void CLineChartCtrlEx::DrawBkLine(bool bBreakOut)
 {
     int         iOldMode = 0;
     //CString     strTemp;
@@ -560,14 +607,15 @@ void CLineChartCtrlEx::DrawBkLine(bool bCtrl)
     /* 扭矩序号 */
     //ShowTorqNo();
 
-    /* 控制线 */
-    if (bCtrl)
+    // 卸扣时只保留最大扭矩，不画其他控制线
+    if (!bBreakOut)
     {
+        /* 控制线 */
         DrawControlLine();
+        /* 告警线 */
+        DrawAlarmLine();
     }
 
-    /* 告警线 */
-    DrawAlarmLine();
 
     /*显示扭矩*/
     DrawShowLine();

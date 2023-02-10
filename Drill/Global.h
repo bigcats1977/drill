@@ -305,7 +305,8 @@ using namespace std;
 //#define INDEX_TORQ_BEAR             7       /* 肩负扭矩 */
 //#define INDEX_TORQ_UPPERTAI         8       /* 最大台阶扭矩 */
 //#define INDEX_TORQ_LOWERTAI         9       /* 最小台阶扭矩 */
-#define MAXTORQCONFNUM              (INDEX_TORQ_SHOW+1)
+#define INDEX_TORQ_INITBO             4       /* 卸扣初始扭矩 */
+#define MAXTORQCONFNUM              (INDEX_TORQ_INITBO+1)
 
 
 #define INDEX_TURN_MAXLIMIT         0       /* 最大周数 */

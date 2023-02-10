@@ -324,7 +324,7 @@ private:
 
     UINT            m_nCurTallyNO;      /* 入井序号 */
     UINT            m_nMaxOutWellNO;    /* 最大取出序号 */
-public:
+    double          m_fMaxBORange;      /* 卸扣时最大卸扣扭矩限制值 */
 };
 
 extern CDrillDlg* thepDlg;

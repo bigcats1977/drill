@@ -280,7 +280,6 @@ void CAboutDlg::OnRegedit()
     theApp.ShowMainTitle();
     AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGSUCC).c_str());
     OnOK();
-
 }
 
 void CAboutDlg::SplitRegString(string strRegCode)
@@ -402,6 +401,7 @@ CDrillDlg::CDrillDlg(CWnd* pParent /*=NULL*/)
     m_nCRCERR = 0;
     m_nClashERR = 0;
     m_nInterval = 20;   //时间需要修改20191208
+    m_fMaxBORange = 1000;
     m_nBOSeqNO = 0;
     m_nBOOutWellNO = 0;
     m_strRecvData = _T("");
@@ -2389,6 +2389,17 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     if (i >= PORT_MAXDATANUM)
         nDataNum = PORT_MAXDATANUM;
 
+    // 20230210 卸扣时检查是否需要更新画扭矩范围
+    if (m_iBreakOut > 0)
+    {
+        if (m_fMaxTorq > m_fMaxBORange * 0.8)
+        {
+            m_fMaxBORange = HAND_CEIL(m_fMaxTorq * 1.2);
+            m_yAxis1.SetTickPara(20, m_fMaxBORange);
+            m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
+        }
+    }
+
     if (nDataNum > 0)
     {
         /* for 卸扣 */
@@ -2895,8 +2906,20 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
 
     m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_MAIN);
     m_xAxis1.SetTickPara(10, m_wndTorque.m_fMaxCir);
-    m_yAxis1.SetTickPara(20, m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
-    m_wndTorque.DrawBkLine();
+    if (m_iBreakOut > 0)
+    {
+        m_fMaxBORange = m_ptCtrl->fTorqConf[INDEX_TORQ_INITBO];
+        m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
+        m_yAxis1.SetTickPara(20, m_fMaxBORange);
+        m_wndTorque.DrawBkLine(true);
+    }
+    else
+    {
+        m_fMaxBORange = 1000;
+        m_yAxis1.SetTickPara(20, m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
+        m_wndTorque.DrawBkLine(false);
+    }
+
     m_wndRpm.Add(RGB(255, 255, 255), m_ptCtrl->fFullRPM, 0.0);
     m_xAxis2.SetTickPara(10, m_wndTorque.m_fMaxCir);
     m_yAxis2.SetTickPara(3, m_ptCtrl->fFullRPM);
@@ -4422,6 +4445,7 @@ void CDrillDlg::OnBnClickedRadiomakeup()
     CString strValue;
     string  strInfo;
 
+    ASSERT_ZERO(m_iBreakOut);
     if (m_bRunStatus)
     {
         strShow = theApp.LoadstringFromRes(IDS_STRINFRUNNSWITCH);
@@ -4438,6 +4462,7 @@ void CDrillDlg::OnBnClickedRadiomakeup()
         return;
     }*/
     UpdateDlgLabel();
+    ResetLineChart();
     CheckBreakOut();
 
     UpdateData(FALSE);
@@ -4449,6 +4474,7 @@ void CDrillDlg::OnBnClickedRadiobreakout()
     CString strValue;
     string  strInfo;
 
+    COMP_BG(m_iBreakOut, 0);
     if (m_bRunStatus)
     {
         strShow = theApp.LoadstringFromRes(IDS_STRINFRUNNSWITCH);
@@ -4466,6 +4492,7 @@ void CDrillDlg::OnBnClickedRadiobreakout()
     UpdateData(TRUE);
 
     UpdateDlgLabel();
+    ResetLineChart();
     GetCurNum();
 
     CheckBreakOut();

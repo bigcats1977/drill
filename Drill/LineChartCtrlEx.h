@@ -63,7 +63,8 @@ public:
     void    DrawSpike(BOOL bStop = FALSE);
     BOOL    RemoveAt();
     BOOL    Add(COLORREF clrLine, double fUpper, double fLower, BYTE uType = LINETYPE_MAIN);
-    void    DrawBkLine(bool bCtrl = true);
+    bool    UpdateMaxHeight(double fUpper);
+    void    DrawBkLine(bool bBreakOut);
     void    FinishDraw();
     void    DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMaxCir, double fDeltaCir, double fSetZoomTorq = -1);
     void    DrawSelInfo(UINT nBeginPos, UINT nTotal);

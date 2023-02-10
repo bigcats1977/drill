@@ -107,10 +107,6 @@ private:
     void        StringSubtract(CString& strValue, BYTE ucChar);
     void        StringSubtract(string& strValue, BYTE ucChar);
 
-
-    void        SaveRegFile(string genDate, string curDate, int iYears, bool bReged);
-
-
     bool        is_base64(unsigned char c);
     string      base64_encode(char const* bytes_to_encode, int in_len);
     string      base64_decode(string encoded_string);
