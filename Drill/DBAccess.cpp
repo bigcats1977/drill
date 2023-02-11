@@ -305,9 +305,9 @@ vector<int> CDBAccess::ReadCurOptionIndex(int type)
         return lsOpt;
         break;
 
-        //case 1: //listno
-        //    lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
-        //    break;
+    //case 1: //listno
+    //    lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
+    //    break;
 
     case 1: //mainno
         lsIndexs = GetIDFromList(m_tDBShowCfg._lsMainNO[g_tGlbCfg.nLangType]);

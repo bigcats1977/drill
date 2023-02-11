@@ -57,8 +57,8 @@ CDrillApp::CDrillApp()
 /////////////////////////////////////////////////////////////////////////////
 // The one and only CDrillApp object
 
-CDrillApp   theApp;
-CDBAccess   theDB;
+CDrillApp theApp;
+CDBAccess theDB;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDrillApp initialization
@@ -313,7 +313,7 @@ BOOL CDrillApp::InitInstance()
        /*  符号分析命令
            !analyze -v */
 
-           //这里得到的是程序当前路径
+    //这里得到的是程序当前路径
     InitSysPath();
 
     /* 打开OrgFile*/
@@ -487,7 +487,7 @@ void CDrillApp::InitGlobalPara()
     g_tGlbCfg.fRpmAdj = 3.5;
     //g_tGlbCfg.fIPDeltaVal = 0.1;
 
-    //g_tGlbCfg.bCheckIP = 1;
+    //g_tGlbCfg.bCheckIP = true;
     g_tGlbCfg.bBigTorq = false;
     g_tGlbCfg.bDateBehind = false;
 
@@ -808,260 +808,6 @@ int CDrillApp::GetQualityIndex(TorqData::Torque* ptTorq)
 
     return QUA_RESU_BAD;
 }
-#if 0
-///////////////////////////////////////////////////////////////////////////////
-//  void ExportListToExcel(CListCtrl* pList, CDatabase* ptDb, CString strTable)
-//  参数：
-//      pList       需要导出的List控件指针
-//      ptDb        CDatabase指针
-//      strTitle    导出的数据表标题
-//  说明:
-//      导出CListCtrl控件的全部数据到Excel文件。Excel文件名由用户通过“另存为”
-//      对话框输入指定。创建名为strTitle的工作表，将List控件内的所有数据（包括
-//      列名和数据项）以文本的形式保存到Excel工作表中。保持行列关系。
-//
-//  edit by [r]@dotlive.cnblogs.com
-///////////////////////////////////////////////////////////////////////////////
-void CDrillApp::ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl* ptlistData)
-{
-    // 创建表结构
-    int         i = 0;
-    int         iItemIndex = 0;
-    int         iColNum = 0;
-    LVCOLUMN    tColData;
-    CString     strColName;
-    CString     strSql = "";
-    CString     strH = "";
-    CString     strV = "";
-    CString     strTemp;
-
-    ASSERT_NULL(ptDb);
-    ASSERT_NULL(ptlistData);
-
-    tColData.mask = LVCF_TEXT;
-    tColData.cchTextMax = 100;
-    tColData.pszText = strColName.GetBuffer(100);
-    for (i = 0; ptlistData->GetColumn(i, &tColData); i++)
-    {
-        if (i != 0)
-        {
-            strSql = strSql + ", ";
-            strH = strH + ", ";
-        }
-        strSql = strSql + " [" + tColData.pszText + "] TEXT";
-        strH = strH + " [" + tColData.pszText + "] ";
-    }
-    strColName.ReleaseBuffer();
-    iColNum = i;
-
-    strTemp.Format(IDS_STRCREATETABLE, strSheetName);
-    strSql = strTemp + strSql + " ) ";
-    ptDb->ExecuteSQL(strSql);
-
-    // 插入数据项
-    for (iItemIndex = 0; iItemIndex < ptlistData->GetItemCount(); iItemIndex++)
-    {
-        strV = "";
-        for (i = 0; i < iColNum; i++)
-        {
-            if (i != 0)
-            {
-                strV = strV + ", ";
-            }
-            strV = strV + " '" + ptlistData->GetItemText(iItemIndex, i) + "' ";
-        }
-
-        strTemp.Format(IDS_STRINSERTTABLE, strSheetName);
-        strSql = strTemp + strH + ")" +
-            " VALUES(" + strV + ")";
-        ptDb->ExecuteSQL(strSql);
-    }
-
-    return;
-}
-
-//////////////////////////////////////////////////////////////////////////////
-//名称：CheckExcelDriver
-//功能：检查ODBC中Excel驱动是否有效
-//作者：徐景周(jingzhou_xu@163.net)
-//组织：未来工作室(Future Studio)
-//日期：2002.9.1
-/////////////////////////////////////////////////////////////////////////////
-BOOL CDrillApp::CheckExcelDriver(CString& strDriver)
-{
-    char    aucBuf[2001];
-    WORD    wBufMax = 2000;
-    WORD    wBufOut = 0;
-    char* pszBuf = aucBuf;
-    CString strWarn;
-
-    // 获取已安装驱动的名称(涵数在odbcinst.h里)
-    COMP_BFALSE_R(SQLGetInstalledDrivers(aucBuf, wBufMax, &wBufOut), FALSE);
-
-    // 检索已安装的驱动是否有Excel...
-    do
-    {
-        if (strstr(pszBuf, "Excel") != 0)
-        {
-            //发现 !
-            strDriver = CString(pszBuf);
-            break;
-        }
-        pszBuf = strchr(pszBuf, '\0') + 1;
-    } while (pszBuf[1] != '\0');
-
-    if (strDriver.IsEmpty())
-    {
-        // 没有发现Excel驱动
-        strWarn.Format(IDS_STRINFNODRIVE);
-        SaveShowMessage(strWarn);
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-//获得默认的文件名
-//默认文件名：yyyymmddhhmmss.xls
-BOOL CDrillApp::GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile)
-{
-    CString strTime;
-    CString strAllFilter;
-    CString strTitle;
-    CString strFilter;
-    CTime   tDay = CTime::GetCurrentTime();
-
-    strTime = sDefTitle;
-    if (sDefTitle.IsEmpty())
-    {
-        strTime.Format("%04d%02d%02d%02d%02d%02d",
-            tDay.GetYear(),      //yyyy年
-            tDay.GetMonth(),     //mm月份
-            tDay.GetDay(),       //dd日
-            tDay.GetHour(),      //hh小时
-            tDay.GetMinute(),    //mm分钟
-            tDay.GetSecond());   //ss秒
-    }
-
-    sExcelFile = strTime + ".xls";
-
-    // prompt the user (with all document templates)
-    CFileDialog dlgFile(FALSE, ".xls", sExcelFile);
-
-    strTitle.Format(IDS_STREXPORT);
-    strFilter = "Excel File(*.xls)";
-    strFilter += (TCHAR)'\0';   // next string please
-    strFilter += _T("*.xls");
-    strFilter += (TCHAR)'\0';   // last string
-    dlgFile.m_ofn.nMaxCustFilter++;
-    dlgFile.m_ofn.nFilterIndex = 1;
-
-    // append the "*.*" all files filter
-    VERIFY(strAllFilter.LoadString(AFX_IDS_ALLFILTER));
-    strFilter += strAllFilter;
-    strFilter += (TCHAR)'\0';   // next string please
-    strFilter += _T("*.*");
-    strFilter += (TCHAR)'\0';   // last string
-    dlgFile.m_ofn.nMaxCustFilter++;
-
-    dlgFile.m_ofn.lpstrFilter = strFilter;
-    dlgFile.m_ofn.lpstrTitle = strTitle;
-
-    // open cancelled
-    COMP_BE_R(dlgFile.DoModal(), IDCANCEL, FALSE);
-
-    sExcelFile.ReleaseBuffer();
-
-    sExcelFile = dlgFile.GetPathName();
-    if (MakeSurePathExists(sExcelFile, true))
-    {
-        // delete the file
-        if (!DeleteFile(sExcelFile))
-        {
-            AfxMessageBox(LoadstringFromRes(IDS_STRINFOVEREXLERR).c_str());
-            return FALSE;
-        }
-    }
-    return TRUE;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//  BOOL MakeSurePathExists( CString &Path,bool FilenameIncluded)
-//  参数：
-//      Path                路径
-//      FilenameIncluded    路径是否包含文件名
-//  返回值:
-//      文件是否存在
-//  说明:
-//      判断Path文件(FilenameIncluded=true)是否存在,存在返回TURE，不存在返回FALSE
-//      自动创建目录
-//
-///////////////////////////////////////////////////////////////////////////////
-BOOL CDrillApp::MakeSurePathExists(CString& Path,
-    bool FilenameIncluded)
-{
-    int iPos = 0;
-
-    while ((iPos = Path.Find('\\', iPos + 1)) != -1)
-        CreateDirectory(Path.Left(iPos), NULL);
-
-    if (!FilenameIncluded)
-        CreateDirectory(Path, NULL);
-
-    return !_access(Path, 0);
-}
-
-BOOL CDrillApp::SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData)
-{
-    CDatabase   database;
-    CString     strDriver;
-    CString     strWarn;
-    CString     strExcelFile;
-    CString     strSql;
-
-    ASSERT_NULL_R(ptlistData, FALSE);
-
-    // 检索是否安装有Excel驱动 "Microsoft Excel Driver (*.xls)"
-    COMP_BFALSE_R(CheckExcelDriver(strDriver), FALSE);
-
-    // 如果strFileName为空，取默认文件名，按当前时间
-    if (strFileName.IsEmpty())
-    {
-        COMP_BFALSE_R(GetDefaultXlsFileName(_T(""), strExcelFile), FALSE);
-    }
-    else
-    {
-        strExcelFile = strFileName;
-        if (MakeSurePathExists(strFileName, true))
-        {
-            DeleteFile(strFileName);
-        }
-    }
-
-    // 创建进行存取的字符串
-    strSql.Format(IDS_STRCRTEXCDB, strDriver, strExcelFile, strExcelFile);
-
-    // 创建数据库 (Excel表格文件)
-    if (!database.OpenEx(strSql, CDatabase::noOdbcDialog))
-    {
-        strWarn.Format(IDS_STRINFCRTXLSFAIL);
-        SaveShowMessage(strWarn);
-        // 关闭数据库
-        database.Close();
-        return FALSE;
-    }
-
-    ExportListToExcel(strSheetName, &database, ptlistData);
-
-    // 关闭数据库
-    database.Close();
-
-    strWarn.Format(IDS_STRINFSAVEXLSUCC, strExcelFile);
-    SaveShowMessage(strWarn);
-
-    return TRUE;
-}
-#endif
 
 bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
 {
@@ -1864,8 +1610,8 @@ BOOL CDrillApp::JudgeTranslate(TorqData::Torque* ptTorq)
 
     for (i = ptTorq->ftorque_size() - 1; i > iTranCount; i--)
     {
-        //if(ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // 小于控制扭矩的15%
-        //if(ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
+        //if (ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // 小于控制扭矩的15%
+        //if (ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
         //    break;
 
         fTemp = (ptTorq->ftorque(i) - ptTorq->ftorque(i - iTranCount)) / fCtrlTorq;
@@ -2305,7 +2051,7 @@ int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
 {
     int     i = 0;
     int     iFileLen = 0;
-    char    cTmpRead[100];
+    char    cTmpRead[MAXSKIPLEN + 1] = { 0 };
 
     // 无论有无head都找
     //COMP_BFALSE_R(g_tReadData.bHaveHead, 0);
@@ -2515,7 +2261,6 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         }
 
         g_tReadData.nTotal++;
-
         dwQuality = GetQuality(ptTorq);
         if (dwQuality & QUA_RESU_QUALITYBIT)
         {
@@ -2870,10 +2615,6 @@ BOOL CDrillApp::CheckPassWord()
 
 string CDrillApp::LoadstringFromRes(unsigned string_ID)
 {
-    //string buffer;
-    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, (LPSTR)buffer.c_str(), MAX_LOADSTRING);
-    //return buffer;
-
     char buffer[MAX_LOADSTRING];
 
     unsigned bytes_copied = LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);

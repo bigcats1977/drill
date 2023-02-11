@@ -96,6 +96,7 @@ private:
     void    DrawGridLine();
 
 protected:
+    void    ShowContent(COLORREF clrText, int y, string trContent, UINT nLeftOffset = 0);
     void    GetMemDC();
 
     CDC      m_MemDC;

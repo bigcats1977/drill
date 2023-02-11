@@ -837,7 +837,6 @@ string UTF82ASCII(string& strUtf8Code)
     return strRet;
 }
 
-
 string string_format(const char* format, ...)
 {
     va_list args;

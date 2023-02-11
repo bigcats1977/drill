@@ -27,7 +27,6 @@
 #include <afxdlgs.h>
 #include <afxcontrolbars.h>
 #include <afxdisp.h>
-#include <afxcontrolbars.h>
 
 
 #include "Global.h"

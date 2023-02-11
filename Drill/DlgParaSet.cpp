@@ -657,7 +657,6 @@ void CDlgParaSet::OnBnClickedDelalias()
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONEXCLAMATION);
 }
 
-
 void CDlgParaSet::OnBnClickedRadiosetsingle()
 {
     COLORREF    clrCtrl = m_clrNormal;

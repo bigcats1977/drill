@@ -59,7 +59,7 @@ BOOL CDlgSegCabl::OnInitDialog()
     /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
         int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
-        int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));;
+        int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));
     m_lsCalibInfo.SetHeadings(strHead.c_str());
     m_lsCalibInfo.LoadColumnInfo();
 

@@ -166,7 +166,6 @@ void CRuler::DrawVerRuler()
         }
 
         /* else */
-
         /* »­´ó¿Ì¶È */
         m_MemDC.MoveTo(rcRuler.right, y);
         m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y);

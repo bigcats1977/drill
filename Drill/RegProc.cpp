@@ -647,17 +647,9 @@ string CRegProc::base64_decode(string encoded_string)
 
 void CRegProc::SaveTorqNum()
 {
-    CFile           file;
     CFileFind       find;
 
     COMP_BFALSE(find.FindFile(m_strRegFile.c_str(), 0));
-
-    file.Open(m_strRegFile.c_str(), CFile::modeRead | CFile::modeWrite | CFile::shareDenyNone, NULL);
-    if (file.GetLength() < DBREGLEN)
-    {
-        file.Close();
-        return;
-    }
 
     SaveRegFile();
 }

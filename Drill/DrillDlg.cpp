@@ -154,7 +154,6 @@ class CAboutDlg : public CDialog
 public:
     CAboutDlg();
 
-    //CDrillDlg* m_ptParent;
     // Dialog Data
         //{{AFX_DATA(CAboutDlg)
     enum { IDD = IDD_ABOUTBOX };
@@ -561,7 +560,7 @@ void CDrillDlg::InitMainShowPara()
     {
         m_strMainName[i] = theApp.GetMainShowName(m_ptShow, i).c_str();
 
-        //if(i<4) /* 管材显示参数，在后面没获取 */
+        //if (i < 4) /* 管材显示参数，在后面没获取 */
         //{
         //    continue;
         //}
@@ -720,7 +719,6 @@ void CDrillDlg::OnSysCommand(UINT nID, LPARAM lParam)
     if ((nID & 0xFFF0) == IDM_ABOUTBOX)
     {
         CAboutDlg dlgAbout;
-        //dlgAbout.m_ptParent = this;
         dlgAbout.DoModal();
     }
     else
@@ -1180,7 +1178,7 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
 
     /* 根据Plus计算数据的点数 */
     CalcPointNum(ptCollData, NULL);
-    if (m_iBreakOut == 0)
+    if (0 == m_iBreakOut)
     {
         ptCollData->ucStatus = PLCSTATUS_NORMAL;
         if (ptCollData->fTorque > m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL])
@@ -2132,9 +2130,9 @@ BOOL CDrillDlg::CheckPortData(BYTE* pData, int iLen, BOOL& bFini)
 
             case COM_READMULTI:
                 iNum = pData[8];
-                if (iLen == (10 + iNum * 4))
-                    bFini = TRUE;
-                break;
+                    if (iLen == (10 + iNum * 4))
+                        bFini = TRUE;
+                    break;
             default:
                 return FALSE;
                 break;

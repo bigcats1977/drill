@@ -205,6 +205,42 @@ BOOL CLineChartCtrlEx::Add(COLORREF clrLine, double fUpper, double fLower, BYTE 
     return TRUE;
 }
 
+
+void CLineChartCtrlEx::EraseLine()
+{
+    CPoint  ptOld;
+    CPoint  ptNew;
+    double  fRange = 0;
+
+    if (m_tItem.m_nPos == 0)
+        return;
+
+    CPen    pnLine(PS_SOLID, 1, CTRLBKCOLOR);
+    CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
+
+    fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
+    ptOld.y = m_iChartHeight;
+
+    for (UINT i = 1; i <= m_tItem.m_nPos; i++)
+    {
+        ptOld.x = int(i - 1 * m_fOffset);
+        ptNew.x = int(i * m_fOffset);
+
+        if (i > 1)
+        {
+            ptOld.y = (int)((((fRange - m_tItem.m_fData[i - 2] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+        }
+        ptNew.y = (int)((((fRange - m_tItem.m_fData[i - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+
+        m_MemDC.MoveTo(ptOld);
+        m_MemDC.LineTo(ptNew);
+    }
+
+    m_MemDC.SelectObject(pOldPen);
+    Invalidate(TRUE);
+    return;
+}
+
 // 卸扣时动态更新图形高度
 bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
 {
@@ -216,39 +252,31 @@ bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
     if (m_tItem.m_nPos == 0)
         return true;
 
+    DrawBkLine(true);
+    Invalidate(TRUE);
+
     CPen    pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
     CPen*   pOldPen = m_MemDC.SelectObject(&pnLine);
-    // Erase
-    ptNew.x = 0;
-    ptNew.y = 0;
-    m_MemDC.MoveTo(ptNew);
-    m_MemDC.LineTo(ptNew);
 
-    m_iStaticX -= m_tItem.m_nPos;
-    m_iStaticX = m_iStaticX < 0 ? 0 : m_iStaticX;
-    for (UINT i = 0; i < m_tItem.m_nPos; i++)
+    fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
+    ptOld.y = m_iChartHeight;
+    for (UINT i = 1; i <= m_tItem.m_nPos; i++)
     {
-        ptOld.x = int(m_iStaticX * m_fOffset);
-        m_iStaticX++;
-        ptNew.x = int(m_iStaticX * m_fOffset);
+        ptOld.x = int(i - 1 * m_fOffset);
+        ptNew.x = int(i * m_fOffset);
 
-        COMP_BGE_R(m_iStaticX, MAXLINEITEM, false);
-
-        fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
-        ptOld.y = m_iChartHeight;
-        if (m_tItem.m_nPos >= 2)
+        if (i > 1)
         {
-            ptOld.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos - 2] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+            ptOld.y = (int)((((fRange - m_tItem.m_fData[i - 2] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
         }
-        ptNew.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+        ptNew.y = (int)((((fRange - m_tItem.m_fData[i - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
 
         m_MemDC.MoveTo(ptOld);
         m_MemDC.LineTo(ptNew);
-
-        m_MemDC.SelectObject(pOldPen);
     }
 
-    Invalidate(FALSE);
+    m_MemDC.SelectObject(pOldPen);
+    Invalidate(TRUE);
     return true;
 }
 
@@ -595,7 +623,6 @@ void CLineChartCtrlEx::DrawBkLine(bool bBreakOut)
 
     GetMemDC();
 
-
     /* 画背景格子线 */
     DrawGridLine();
     iOldMode = m_MemDC.SetBkMode(TRANSPARENT);
@@ -612,10 +639,10 @@ void CLineChartCtrlEx::DrawBkLine(bool bBreakOut)
     {
         /* 控制线 */
         DrawControlLine();
+
         /* 告警线 */
         DrawAlarmLine();
     }
-
 
     /*显示扭矩*/
     DrawShowLine();

@@ -991,9 +991,9 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
     ASSERT_NULL(m_ptCurTorq);
 
     UpdateData(TRUE);
-    m_ptCurTorq->set_btoolbuck(0);
+    m_ptCurTorq->set_btoolbuck(false);
     if (m_bToolBuck)
-        m_ptCurTorq->set_btoolbuck(1);
+        m_ptCurTorq->set_btoolbuck(true);
 
     theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }

@@ -119,9 +119,9 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
 
-    GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
-    //GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
-    //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);
+    //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
+    /*GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
+    GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);*/
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // EXCEPTION: OCX Property Pages should return FALSE
@@ -294,10 +294,10 @@ VOID CDlgHisList::ShowHisTorqList()
         ptTorq = theApp.GetOrgTorqFromTorq(i);
         if (NULL == ptTorq)
             continue;
-        strTime = theApp.GetTorqCollTime(ptTorq);
 
         /* 20180102 序号删除后自动更新 */
         strNo.Format("%d", i + 1);
+        strTime = theApp.GetTorqCollTime(ptTorq);
         //strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
         strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
         strMemo = ptTorq->strmemo().c_str();
@@ -521,7 +521,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
         pPrnData += iLen;
 
         /* 3.22 版本打印delplus */
-        //if(VERSION_RECPLUS(ptTorq))
+        //if (VERSION_RECPLUS(ptTorq))
         {
             sprintf_s(pPrnData, SPRINTFLEN, "%s", aucHead);
             g_tOrgData.iCur += iHeadLen;

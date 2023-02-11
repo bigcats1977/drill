@@ -29,7 +29,7 @@ public:
     CDrillDlg(CWnd* pParent = NULL);   // standard constructor
 
     /* 串口读取CRC错误时，停止尝试保存数据，重启串口 */
-    void    RestartComm();
+    void        RestartComm();
 
     BOOL        SendData(UINT nParaType);
     void        ReStart();

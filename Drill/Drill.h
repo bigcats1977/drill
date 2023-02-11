@@ -240,7 +240,7 @@ private:
     bool GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
 
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
-    bool     is_base64(unsigned char c);
+
     /* 找不到MAC时的默认MAC */
     BYTE     m_ucDefaultMac[5];
 
@@ -249,12 +249,11 @@ private:
     double  m_fAdjInfPnt[COLLECTPOINTS];            //相邻点拐点
     double  m_fIntSlope[COLLECTPOINTS];             //间隔点斜率
     double  m_fIntInfPnt[COLLECTPOINTS];            //间隔点拐点
-
 };
 
 
-extern CDrillApp 	theApp;
-extern CDBAccess  	theDB;
+extern CDrillApp theApp;
+extern CDBAccess theDB;
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
