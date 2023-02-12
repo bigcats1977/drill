@@ -450,6 +450,7 @@ void CDlgHisGrp::DrawCurTorque()
     int     i = 0;
     int     iBegin = 0, iEnd = 0;
     int     iLineB = 0, iLineE = 0;
+    int     interval = 0;
     UINT    nType = 3;
     UINT    nBeginPos = 0;
 
@@ -499,13 +500,14 @@ void CDlgHisGrp::DrawCurTorque()
             iLineB = 0;
             iLineE = MIN(500, m_ptCurDraw->wMUEndPos - iBegin);
             m_wndLineHis.DrawMakeupLine(m_ptCurTorq->fmaxtorq(), iLineB, iLineE);
+            interval = SPLITPOSNUM;
         }
     }
     if (m_ptCurTorq->bbreakout() && m_ptCurTorq->dwbocount() > 0 && (nType & 0x02))
     {
-        if (iEnd > m_ptCurDraw->wMUEndPos + 20)
+        if (iEnd > m_ptCurDraw->wMUEndPos + interval)
         {
-            iLineB = MAX(m_ptCurDraw->wMUEndPos + 20 - iBegin, 0);
+            iLineB = MAX(m_ptCurDraw->wMUEndPos + interval - iBegin, 0);
             iLineE = 500;
             m_wndLineHis.DrawBreakoutLine(m_ptCurTorq->fbomaxtorq(), iLineB, iLineE);
         }

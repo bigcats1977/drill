@@ -2387,17 +2387,6 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     if (i >= PORT_MAXDATANUM)
         nDataNum = PORT_MAXDATANUM;
 
-    // 20230210 卸扣时检查是否需要更新画扭矩范围
-    if (m_iBreakOut > 0)
-    {
-        if (m_fMaxTorq > m_fMaxBORange * 0.8)
-        {
-            m_fMaxBORange = HAND_CEIL(m_fMaxTorq * 1.2);
-            m_yAxis1.SetTickPara(20, m_fMaxBORange);
-            m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
-        }
-    }
-
     if (nDataNum > 0)
     {
         /* for 卸扣 */
@@ -2442,6 +2431,17 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         }
 
         UpdateData(FALSE);
+    }
+
+    // 20230210 卸扣时检查是否需要更新画扭矩范围
+    if (m_iBreakOut > 0)
+    {
+        if (m_fMaxTorq > m_fMaxBORange * 0.9)
+        {
+            m_fMaxBORange = HAND_CEIL(m_fMaxBORange * 1.2);
+            m_yAxis1.SetTickPara(20, m_fMaxBORange);
+            m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
+        }
     }
 
     /* 控制下降 */

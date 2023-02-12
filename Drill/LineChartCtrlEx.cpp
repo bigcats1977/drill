@@ -260,19 +260,15 @@ bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
 
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     ptOld.y = m_iChartHeight;
+    ptOld.x = 0;
     for (UINT i = 1; i <= m_tItem.m_nPos; i++)
     {
-        ptOld.x = int(i - 1 * m_fOffset);
         ptNew.x = int(i * m_fOffset);
-
-        if (i > 1)
-        {
-            ptOld.y = (int)((((fRange - m_tItem.m_fData[i - 2] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
-        }
         ptNew.y = (int)((((fRange - m_tItem.m_fData[i - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
 
         m_MemDC.MoveTo(ptOld);
         m_MemDC.LineTo(ptNew);
+        ptOld = ptNew;
     }
 
     m_MemDC.SelectObject(pOldPen);
@@ -320,7 +316,6 @@ void CLineChartCtrlEx::DrawFinLine()
     Invalidate(FALSE);
 }
 
-
 // just for hisgrip
 void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
 {
@@ -335,13 +330,15 @@ void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
     pOldPen = m_MemDC.SelectObject(&penSafe);
 
     /* ----- */
+    begin = int(begin * m_fOffset);
+    end = int(end * m_fOffset);
     x = MAX(0, end - 100);
     // 上扣扭矩位置
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
     /* 显示上扣扭矩值 */
     strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCMAKETORQ).c_str(), fTorq);
-    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 5, strVal);
+    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -359,13 +356,15 @@ void CLineChartCtrlEx::DrawBreakoutLine(double fTorq, int begin, int end)
     pOldPen = m_MemDC.SelectObject(&penSafe);
 
     /* ----- */
+    begin = int(begin * m_fOffset);
+    end = int(end * m_fOffset);
     x = begin;
     // 卸扣扭矩位置
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
     /* 显示卸扣扭矩值 */
     strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCBREAKTORQ).c_str(), fTorq);
-    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 5, strVal);
+    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -565,14 +564,16 @@ void CLineChartCtrlEx::DrawAlarmLine()
     /* 显示最小扭矩值 */
     //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrAlarm, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT, m_fLowerLimit));
+    ShowContent(clrAlarm, y - CONT_YOFFSET, 
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT).c_str(), m_fLowerLimit));
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fUpperLimit) / m_fMaxLimit);
     DrawHLine(y);
     /* 显示最大扭矩值 */
     //strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrAlarm, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT, m_fUpperLimit));
+    ShowContent(clrAlarm, y - CONT_YOFFSET,
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT).c_str(), m_fUpperLimit));
 #endif
     m_MemDC.SelectObject(pOldPen);
 }
