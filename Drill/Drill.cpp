@@ -134,7 +134,7 @@ void CDrillApp::ClearTorqCfgPara(PARACFG* ptCfg)
     m_tParaCfg.strMemo.clear();
     for (i = 0; i < MAXPARANUM; i++)
         ptCfg->strValue[i].clear();
-    m_tParaCfg.tCtrl.ucVer = 2;
+    //m_tParaCfg.tCtrl.ucVer = 2;
 }
 
 void CDrillApp::ReloadTorqCfg()
@@ -313,7 +313,7 @@ BOOL CDrillApp::InitInstance()
        /*  符号分析命令
            !analyze -v */
 
-    //这里得到的是程序当前路径
+           //这里得到的是程序当前路径
     InitSysPath();
 
     /* 打开OrgFile*/
@@ -1530,7 +1530,7 @@ DWORD CDrillApp::GetQuality(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
-    if (ptTorq->bbreakout())
+    if (HaveBreakout(ptTorq) && !HaveMakeUP(ptTorq))
         return QUA_RESU_GOOD;
 
 #ifndef TEST_QUALITY
@@ -1551,7 +1551,8 @@ DWORD CDrillApp::GetQuality(TorqData::Torque* ptTorq)
 不合格-工厂端位移
 ***-*****位置不够"-"可以不要
 */
-DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut)
+// 卸扣数据不在此处判断
+DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq)
 {
     DWORD       dwQuality = QUA_RESU_BAD; /* 默认质量NOK */
     WORD        wIPPos = 0;
@@ -1568,26 +1569,24 @@ DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut)
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
 
     dwQuality = QUA_RESU_GOOD;
-    if (iBreakOut <= 0)
+
+    GET_CTRL_TORQ(fMaxTorq, ptTorq);
+    fCircle = GetCir(ptTorq);
+
+    //SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
+    //SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
+    /* 实际的起始扭矩大于最佳扭矩的15% */
+    SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
+
+    /* 超过台阶再平移周数超过0.2 */
+    SET_QUALITY_BIT(JudgeTranslate(ptTorq), QUA_TRANSLATE, dwQuality);
+
+    /* 图形周数小于0.20或者贴边 */
+    SET_QUALITY_BIT(fCircle < ptTorq->flowercir(), QUA_CIRC_LESS_LIMIT, dwQuality);
+
+    if (dwQuality == 0)
     {
-        GET_CTRL_TORQ(fMaxTorq, ptTorq);
-        fCircle = GetCir(ptTorq);
-
-        //SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
-        //SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
-        /* 实际的起始扭矩大于最佳扭矩的15% */
-        SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
-
-        /* 超过台阶再平移周数超过0.2 */
-        SET_QUALITY_BIT(JudgeTranslate(ptTorq), QUA_TRANSLATE, dwQuality);
-
-        /* 图形周数小于0.20或者贴边 */
-        SET_QUALITY_BIT(fCircle < ptTorq->flowercir(), QUA_CIRC_LESS_LIMIT, dwQuality);
-
-        if (dwQuality == 0)
-        {
-            return QUA_RESU_GOOD;
-        }
+        return QUA_RESU_GOOD;
     }
 
     return dwQuality;
@@ -1603,12 +1602,12 @@ BOOL CDrillApp::JudgeTranslate(TorqData::Torque* ptTorq)
     int     iCount = 0;
 
     ASSERT_NULL_R(ptTorq, TRUE);
-    ASSERT_ZERO_R(ptTorq->ftorque_size(), TRUE);
+    ASSERT_ZERO_R(ptTorq->dwmucount(), TRUE);
 
     iTranCount = (int)((0.2 / ptTorq->fmaxcir()) * 500 + 0.5);
-    GET_CTRL_TORQ(fCtrlTorq, ptTorq);
+    fCtrlTorq = ptTorq->fmumaxtorq();
 
-    for (i = ptTorq->ftorque_size() - 1; i > iTranCount; i--)
+    for (i = ptTorq->dwmucount() - 1; i > iTranCount; i--)
     {
         //if (ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // 小于控制扭矩的15%
         //if (ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
@@ -1632,21 +1631,28 @@ CString CDrillApp::GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout)
 
     ASSERT_NULL_R(ptTorq, _T(""));
 
-    colTime = ptTorq->coltime();
+    colTime = ptTorq->mucoltime();
     if (bBreakout)
         colTime = ptTorq->bocoltime();
 
+    if (colTime == 0)
+        return "";
     COleDateTime olett(colTime);
     return olett.Format(_T("%Y-%m-%d %H:%M:%S"));
 }
 
-CString CDrillApp::GetTorqFullDate(TorqData::Torque* ptTorq)
+CString CDrillApp::GetTorqFullDate(TorqData::Torque* ptTorq, bool bBreakout)
 {
     __time64_t  colTime;
 
     ASSERT_NULL_R(ptTorq, _T(""));
 
-    colTime = ptTorq->coltime();
+    colTime = ptTorq->mucoltime();
+    if (bBreakout)
+        colTime = ptTorq->bocoltime();
+
+    if (colTime == 0)
+        return "";
     COleDateTime olett(colTime);
 
     if (LANGUAGE_CHINESE == g_tGlbCfg.nLangType)
@@ -1658,14 +1664,18 @@ CString CDrillApp::GetTorqFullDate(TorqData::Torque* ptTorq)
     return olett.Format(_T("%b %d, %Y"));
 }
 
-CString CDrillApp::GetTorqSimpDate(TorqData::Torque* ptTorq)
+CString CDrillApp::GetTorqSimpDate(TorqData::Torque* ptTorq, bool bBreakout)
 {
     __time64_t  colTime;
 
     ASSERT_NULL_R(ptTorq, _T(""));
 
-    colTime = ptTorq->coltime();
+    colTime = ptTorq->mucoltime();
+    if (bBreakout)
+        colTime = ptTorq->bocoltime();
 
+    if (colTime == 0)
+        return "";
     COleDateTime olett(colTime);
     return olett.Format(_T("%Y-%m-%d"));
 }
@@ -2175,16 +2185,17 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         ptTorq = &g_tReadData.tData[nValid];
         pSplit = &g_tReadData.tSplit[nValid];
 
-        g_tReadData.nTotalPlus[nValid] = ptTorq->dwtotalplus();
-        if (ptTorq->bbreakout())
-            g_tReadData.nTotalPlus[nValid] += ptTorq->dwbototalplus();
-
+        g_tReadData.nTotalPlus[nValid] = 0;
+        if (HaveMakeUP(ptTorq))
+            g_tReadData.nTotalPlus[nValid] += ptTorq->dwmuplus();
+        if (HaveBreakout(ptTorq))
+            g_tReadData.nTotalPlus[nValid] += ptTorq->dwboplus();
         if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
         {
             iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
-        if (ptTorq->bbreakout())   /* 从前往后分屏 */
+        if (HaveBreakout(ptTorq))   /* 从前往后分屏 */
         {
             if (iTotalPnt > MAXLINEITEM)
             {
@@ -2244,15 +2255,12 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
             if (g_tGlbCfg.nTorqUnit == 1) // N.m --> lb.ft
                 fRatio = NM2LBFT;
 
-            ptTorq->set_fmaxtorq(fRatio * ptTorq->fmaxtorq());
+            ptTorq->set_fmumaxtorq(fRatio * ptTorq->fmumaxtorq());
+            ptTorq->set_fbomaxtorq(fRatio * ptTorq->fbomaxtorq());
             ptTorq->set_fmaxlimit(fRatio * ptTorq->fmaxlimit());
             ptTorq->set_fcontrol(fRatio * ptTorq->fcontrol());
             ptTorq->set_fopttorq(fRatio * ptTorq->fopttorq());
             ptTorq->set_fshow(fRatio * ptTorq->fshow());
-            if (ptTorq->bbreakout())
-            {
-                ptTorq->set_fbomaxtorq(fRatio * ptTorq->fbomaxtorq());
-            }
 
             for (j = 0; j < ptTorq->ftorque_size(); j++)
             {
@@ -2311,9 +2319,10 @@ bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw
 
     ASSERT_NULL_R(ptOrg, false);
     ASSERT_NULL_R(ptDraw, false);
+    COMP_BFALSE_R(HaveMakeUP(ptOrg), false);
 
     fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / nMulti / MAXLINEITEM;
-    iDrawPnt = (int)ceil(ptOrg->dwtotalplus() / fPlusPerPnt);
+    iDrawPnt = (int)ceil(ptOrg->dwmuplus() / fPlusPerPnt);
     if (iDrawPnt < 2)
         iDrawPnt = 2;
 
@@ -2389,7 +2398,7 @@ bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw
     iInsCnt = iDrawPnt - 1 - iDrawIndex;
     if (iInsCnt <= 1)
     {
-        ptDraw->fTorque[iDrawIndex] = MAX(ptOrg->fmaxtorq(), ptDraw->fTorque[iDrawIndex]);
+        ptDraw->fTorque[iDrawIndex] = MAX(ptOrg->fmumaxtorq(), ptDraw->fTorque[iDrawIndex]);
         ptDraw->fRpm[iDrawIndex] = MAX(ptOrg->frpm(ptOrg->dwmucount() - 1), ptDraw->fRpm[iDrawIndex]);
         if (iInsCnt < 0)
             iDrawPnt = iDrawIndex + 1;
@@ -2431,9 +2440,10 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
 
     ASSERT_NULL_R(ptOrg, false);
     ASSERT_NULL_R(ptDraw, false);
+    COMP_BFALSE_R(HaveBreakout(ptOrg), false);
 
     fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / nMulti / MAXLINEITEM;
-    iDrawPnt = (int)ceil(ptOrg->dwbototalplus() / fPlusPerPnt);
+    iDrawPnt = (int)ceil(ptOrg->dwboplus() / fPlusPerPnt);
     if (iDrawPnt < 2)
         iDrawPnt = 2;
 
@@ -2457,7 +2467,7 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
     iDataIndex = ptOrg->dwmucount();
     iDataPlus = ptOrg->dwdelplus(iDataIndex);
     if (iDrawIndex > 0)
-        iDataPlus += ptOrg->dwtotalplus();
+        iDataPlus += ptOrg->dwmuplus();
     iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
 
     ptDraw->fTorque[iDrawIndex] = ptOrg->ftorque(ptOrg->dwmucount());
@@ -2576,7 +2586,7 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, UINT nMulti, UINT nType)
     {
         GetMakeupDrawData(ptOrg, ptDraw, nMulti);
     }
-    if (ptOrg->bbreakout() && ptOrg->dwbocount() > 0 && (nType & 0x02))
+    if (ptOrg->dwbocount() > 0 && (nType & 0x02))
     {
         GetBreakoutDrawData(ptOrg, ptDraw, nMulti);
     }
@@ -2780,9 +2790,9 @@ double CDrillApp::GetCir(TorqData::Torque* ptTorq, bool bBreakout)
     ASSERT_NULL_R(ptTorq, 0);
 
     if (!bBreakout)
-        fCir = THOUSANDTH(ptTorq->dwtotalplus() / ptTorq->fplus());
+        fCir = THOUSANDTH(ptTorq->dwmuplus() / ptTorq->fplus());
     else
-        fCir = THOUSANDTH(ptTorq->dwbototalplus() / ptTorq->fplus());
+        fCir = THOUSANDTH(ptTorq->dwboplus() / ptTorq->fplus());
 
     return fCir;
 }
@@ -2885,11 +2895,27 @@ int CDrillApp::SplitString(CString strSource, CStringList& slList)
     return -2;
 }
 
+bool CDrillApp::HaveMakeUP(TorqData::Torque* ptTorq)
+{
+    ASSERT_NULL_R(ptTorq, false);
+    if (ptTorq->dwmucount() > 0)
+        return true;
+    return false;
+}
+
+bool CDrillApp::HaveBreakout(TorqData::Torque* ptTorq)
+{
+    ASSERT_NULL_R(ptTorq, false);
+    if (ptTorq->dwbocount() > 0)
+        return true;
+    return false;
+}
+
 bool CDrillApp::HaveTallyNO(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL_R(ptTorq, false);
 
-    if (QUA_RESU_GOOD == ptTorq->dwquality())
+    if (ptTorq->dwmucount() > 0 && QUA_RESU_GOOD == ptTorq->dwquality())
         return true;
     return false;
 }

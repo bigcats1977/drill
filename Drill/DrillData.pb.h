@@ -354,48 +354,45 @@ namespace TorqData {
         // accessors -------------------------------------------------------
 
         enum : int {
-            kFTorqueFieldNumber = 6,
-            kFRpmFieldNumber = 7,
-            kTShowFieldNumber = 8,
-            kDwDelPlusFieldNumber = 13,
-            kLlColTimeFieldNumber = 15,
-            kStrMemoFieldNumber = 22,
-            kStrRemarkFieldNumber = 23,
-            kStrBOJointFieldNumber = 87,
-            kColtimeFieldNumber = 1,
-            kDwSeqNoFieldNumber = 2,
-            kDwQualityFieldNumber = 3,
-            kFMaxTorqFieldNumber = 5,
-            kDwTotalPlusFieldNumber = 11,
-            kDwColInterFieldNumber = 14,
-            kDwVerFieldNumber = 16,
+            kFTorqueFieldNumber = 1,
+            kFRpmFieldNumber = 2,
+            kDwDelPlusFieldNumber = 3,
+            kTShowFieldNumber = 4,
+            kStrMemoFieldNumber = 23,
+            kStrRemarkFieldNumber = 24,
+            kStrBOJointFieldNumber = 86,
+            kDwSeqNoFieldNumber = 11,
+            kDwQualityFieldNumber = 12,
+            kDwColInterFieldNumber = 13,
             kBToolBuckFieldNumber = 21,
-            kBBreakOutFieldNumber = 25,
-            kBSingleSTDFieldNumber = 28,
+            kBSingleSTDFieldNumber = 22,
             kFMaxLimitFieldNumber = 31,
-            kFControlFieldNumber = 33,
-            kFShowFieldNumber = 36,
-            kFOptTorqFieldNumber = 40,
+            kFControlFieldNumber = 32,
+            kFShowFieldNumber = 33,
+            kFOptTorqFieldNumber = 34,
             kFMaxCirFieldNumber = 41,
             kFUpperCirFieldNumber = 42,
             kFControlCirFieldNumber = 43,
             kFLowerCirFieldNumber = 44,
+            kDwTorqUnitFieldNumber = 25,
+            kDwMUCountFieldNumber = 72,
             kFPlusFieldNumber = 51,
             kFMaxRPMFieldNumber = 52,
             kFCutFieldNumber = 53,
             kFRpmAdjFieldNumber = 54,
-            kDwTorqUnitFieldNumber = 27,
-            kDwMUCountFieldNumber = 81,
             kFMultiFieldNumber = 55,
-            kFMakeupDurFieldNumber = 73,
-            kFBreakOutDurFieldNumber = 74,
+            kMUcoltimeFieldNumber = 71,
+            kFMUMaxTorqFieldNumber = 74,
+            kFMUDurationFieldNumber = 75,
+            kDwMUPlusFieldNumber = 73,
+            kDwOutWellNOFieldNumber = 80,
+            kBOcoltimeFieldNumber = 81,
             kDwBOCountFieldNumber = 82,
-            kDwBOTotalPlusFieldNumber = 83,
-            kBOcoltimeFieldNumber = 85,
-            kFBOMaxTorqFieldNumber = 86,
-            kDwOutWellNOFieldNumber = 84,
+            kDwBOPlusFieldNumber = 83,
+            kFBOMaxTorqFieldNumber = 84,
+            kFBODurationFieldNumber = 85,
         };
-        // repeated double fTorque = 6 [packed = true];
+        // repeated double fTorque = 1 [packed = true];
         int ftorque_size() const;
     private:
         int _internal_ftorque_size() const;
@@ -417,7 +414,7 @@ namespace TorqData {
         ::PROTOBUF_NAMESPACE_ID::RepeatedField< double >*
             mutable_ftorque();
 
-        // repeated double fRpm = 7 [packed = true];
+        // repeated double fRpm = 2 [packed = true];
         int frpm_size() const;
     private:
         int _internal_frpm_size() const;
@@ -439,25 +436,7 @@ namespace TorqData {
         ::PROTOBUF_NAMESPACE_ID::RepeatedField< double >*
             mutable_frpm();
 
-        // repeated .TorqData.ShowInfo tShow = 8;
-        int tshow_size() const;
-    private:
-        int _internal_tshow_size() const;
-    public:
-        void clear_tshow();
-        ::TorqData::ShowInfo* mutable_tshow(int index);
-        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >*
-            mutable_tshow();
-    private:
-        const ::TorqData::ShowInfo& _internal_tshow(int index) const;
-        ::TorqData::ShowInfo* _internal_add_tshow();
-    public:
-        const ::TorqData::ShowInfo& tshow(int index) const;
-        ::TorqData::ShowInfo* add_tshow();
-        const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >&
-            tshow() const;
-
-        // repeated int32 dwDelPlus = 13 [packed = true];
+        // repeated int32 dwDelPlus = 3 [packed = true];
         int dwdelplus_size() const;
     private:
         int _internal_dwdelplus_size() const;
@@ -479,21 +458,25 @@ namespace TorqData {
         ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
             mutable_dwdelplus();
 
-        // bytes llColTime = 15;
-        void clear_llcoltime();
-        const std::string& llcoltime() const;
-        template <typename ArgT0 = const std::string&, typename... ArgT>
-        void set_llcoltime(ArgT0 && arg0, ArgT... args);
-        std::string* mutable_llcoltime();
-        PROTOBUF_NODISCARD std::string* release_llcoltime();
-        void set_allocated_llcoltime(std::string * llcoltime);
+        // repeated .TorqData.ShowInfo tShow = 4;
+        int tshow_size() const;
     private:
-        const std::string& _internal_llcoltime() const;
-        inline PROTOBUF_ALWAYS_INLINE void _internal_set_llcoltime(const std::string & value);
-        std::string* _internal_mutable_llcoltime();
+        int _internal_tshow_size() const;
     public:
+        void clear_tshow();
+        ::TorqData::ShowInfo* mutable_tshow(int index);
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >*
+            mutable_tshow();
+    private:
+        const ::TorqData::ShowInfo& _internal_tshow(int index) const;
+        ::TorqData::ShowInfo* _internal_add_tshow();
+    public:
+        const ::TorqData::ShowInfo& tshow(int index) const;
+        ::TorqData::ShowInfo* add_tshow();
+        const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >&
+            tshow() const;
 
-        // bytes strMemo = 22;
+        // bytes strMemo = 23;
         void clear_strmemo();
         const std::string& strmemo() const;
         template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -507,7 +490,7 @@ namespace TorqData {
         std::string* _internal_mutable_strmemo();
     public:
 
-        // bytes strRemark = 23;
+        // bytes strRemark = 24;
         void clear_strremark();
         const std::string& strremark() const;
         template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -521,7 +504,7 @@ namespace TorqData {
         std::string* _internal_mutable_strremark();
     public:
 
-        // bytes strBOJoint = 87;
+        // bytes strBOJoint = 86;
         void clear_strbojoint();
         const std::string& strbojoint() const;
         template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -535,16 +518,7 @@ namespace TorqData {
         std::string* _internal_mutable_strbojoint();
     public:
 
-        // fixed64 coltime = 1;
-        void clear_coltime();
-        uint64_t coltime() const;
-        void set_coltime(uint64_t value);
-    private:
-        uint64_t _internal_coltime() const;
-        void _internal_set_coltime(uint64_t value);
-    public:
-
-        // int32 dwSeqNo = 2;
+        // int32 dwSeqNo = 11;
         void clear_dwseqno();
         int32_t dwseqno() const;
         void set_dwseqno(int32_t value);
@@ -553,7 +527,7 @@ namespace TorqData {
         void _internal_set_dwseqno(int32_t value);
     public:
 
-        // int32 dwQuality = 3;
+        // int32 dwQuality = 12;
         void clear_dwquality();
         int32_t dwquality() const;
         void set_dwquality(int32_t value);
@@ -562,40 +536,13 @@ namespace TorqData {
         void _internal_set_dwquality(int32_t value);
     public:
 
-        // double fMaxTorq = 5;
-        void clear_fmaxtorq();
-        double fmaxtorq() const;
-        void set_fmaxtorq(double value);
-    private:
-        double _internal_fmaxtorq() const;
-        void _internal_set_fmaxtorq(double value);
-    public:
-
-        // int32 dwTotalPlus = 11;
-        void clear_dwtotalplus();
-        int32_t dwtotalplus() const;
-        void set_dwtotalplus(int32_t value);
-    private:
-        int32_t _internal_dwtotalplus() const;
-        void _internal_set_dwtotalplus(int32_t value);
-    public:
-
-        // int32 dwColInter = 14;
+        // int32 dwColInter = 13;
         void clear_dwcolinter();
         int32_t dwcolinter() const;
         void set_dwcolinter(int32_t value);
     private:
         int32_t _internal_dwcolinter() const;
         void _internal_set_dwcolinter(int32_t value);
-    public:
-
-        // int32 dwVer = 16;
-        void clear_dwver();
-        int32_t dwver() const;
-        void set_dwver(int32_t value);
-    private:
-        int32_t _internal_dwver() const;
-        void _internal_set_dwver(int32_t value);
     public:
 
         // bool bToolBuck = 21;
@@ -607,16 +554,7 @@ namespace TorqData {
         void _internal_set_btoolbuck(bool value);
     public:
 
-        // bool bBreakOut = 25;
-        void clear_bbreakout();
-        bool bbreakout() const;
-        void set_bbreakout(bool value);
-    private:
-        bool _internal_bbreakout() const;
-        void _internal_set_bbreakout(bool value);
-    public:
-
-        // bool bSingleSTD = 28;
+        // bool bSingleSTD = 22;
         void clear_bsinglestd();
         bool bsinglestd() const;
         void set_bsinglestd(bool value);
@@ -634,7 +572,7 @@ namespace TorqData {
         void _internal_set_fmaxlimit(double value);
     public:
 
-        // double fControl = 33;
+        // double fControl = 32;
         void clear_fcontrol();
         double fcontrol() const;
         void set_fcontrol(double value);
@@ -643,7 +581,7 @@ namespace TorqData {
         void _internal_set_fcontrol(double value);
     public:
 
-        // double fShow = 36;
+        // double fShow = 33;
         void clear_fshow();
         double fshow() const;
         void set_fshow(double value);
@@ -652,7 +590,7 @@ namespace TorqData {
         void _internal_set_fshow(double value);
     public:
 
-        // double fOptTorq = 40;
+        // double fOptTorq = 34;
         void clear_fopttorq();
         double fopttorq() const;
         void set_fopttorq(double value);
@@ -697,6 +635,24 @@ namespace TorqData {
         void _internal_set_flowercir(double value);
     public:
 
+        // int32 dwTorqUnit = 25;
+        void clear_dwtorqunit();
+        int32_t dwtorqunit() const;
+        void set_dwtorqunit(int32_t value);
+    private:
+        int32_t _internal_dwtorqunit() const;
+        void _internal_set_dwtorqunit(int32_t value);
+    public:
+
+        // int32 dwMUCount = 72;
+        void clear_dwmucount();
+        int32_t dwmucount() const;
+        void set_dwmucount(int32_t value);
+    private:
+        int32_t _internal_dwmucount() const;
+        void _internal_set_dwmucount(int32_t value);
+    public:
+
         // double fPlus = 51;
         void clear_fplus();
         double fplus() const;
@@ -733,24 +689,6 @@ namespace TorqData {
         void _internal_set_frpmadj(double value);
     public:
 
-        // int32 dwTorqUnit = 27;
-        void clear_dwtorqunit();
-        int32_t dwtorqunit() const;
-        void set_dwtorqunit(int32_t value);
-    private:
-        int32_t _internal_dwtorqunit() const;
-        void _internal_set_dwtorqunit(int32_t value);
-    public:
-
-        // int32 dwMUCount = 81;
-        void clear_dwmucount();
-        int32_t dwmucount() const;
-        void set_dwmucount(int32_t value);
-    private:
-        int32_t _internal_dwmucount() const;
-        void _internal_set_dwmucount(int32_t value);
-    public:
-
         // double fMulti = 55;
         void clear_fmulti();
         double fmulti() const;
@@ -760,22 +698,58 @@ namespace TorqData {
         void _internal_set_fmulti(double value);
     public:
 
-        // double fMakeupDur = 73;
-        void clear_fmakeupdur();
-        double fmakeupdur() const;
-        void set_fmakeupdur(double value);
+        // fixed64 MUcoltime = 71;
+        void clear_mucoltime();
+        uint64_t mucoltime() const;
+        void set_mucoltime(uint64_t value);
     private:
-        double _internal_fmakeupdur() const;
-        void _internal_set_fmakeupdur(double value);
+        uint64_t _internal_mucoltime() const;
+        void _internal_set_mucoltime(uint64_t value);
     public:
 
-        // double fBreakOutDur = 74;
-        void clear_fbreakoutdur();
-        double fbreakoutdur() const;
-        void set_fbreakoutdur(double value);
+        // double fMUMaxTorq = 74;
+        void clear_fmumaxtorq();
+        double fmumaxtorq() const;
+        void set_fmumaxtorq(double value);
     private:
-        double _internal_fbreakoutdur() const;
-        void _internal_set_fbreakoutdur(double value);
+        double _internal_fmumaxtorq() const;
+        void _internal_set_fmumaxtorq(double value);
+    public:
+
+        // double fMUDuration = 75;
+        void clear_fmuduration();
+        double fmuduration() const;
+        void set_fmuduration(double value);
+    private:
+        double _internal_fmuduration() const;
+        void _internal_set_fmuduration(double value);
+    public:
+
+        // int32 dwMUPlus = 73;
+        void clear_dwmuplus();
+        int32_t dwmuplus() const;
+        void set_dwmuplus(int32_t value);
+    private:
+        int32_t _internal_dwmuplus() const;
+        void _internal_set_dwmuplus(int32_t value);
+    public:
+
+        // int32 dwOutWellNO = 80;
+        void clear_dwoutwellno();
+        int32_t dwoutwellno() const;
+        void set_dwoutwellno(int32_t value);
+    private:
+        int32_t _internal_dwoutwellno() const;
+        void _internal_set_dwoutwellno(int32_t value);
+    public:
+
+        // fixed64 BOcoltime = 81;
+        void clear_bocoltime();
+        uint64_t bocoltime() const;
+        void set_bocoltime(uint64_t value);
+    private:
+        uint64_t _internal_bocoltime() const;
+        void _internal_set_bocoltime(uint64_t value);
     public:
 
         // int32 dwBOCount = 82;
@@ -787,25 +761,16 @@ namespace TorqData {
         void _internal_set_dwbocount(int32_t value);
     public:
 
-        // int32 dwBOTotalPlus = 83;
-        void clear_dwbototalplus();
-        int32_t dwbototalplus() const;
-        void set_dwbototalplus(int32_t value);
+        // int32 dwBOPlus = 83;
+        void clear_dwboplus();
+        int32_t dwboplus() const;
+        void set_dwboplus(int32_t value);
     private:
-        int32_t _internal_dwbototalplus() const;
-        void _internal_set_dwbototalplus(int32_t value);
+        int32_t _internal_dwboplus() const;
+        void _internal_set_dwboplus(int32_t value);
     public:
 
-        // fixed64 BOcoltime = 85;
-        void clear_bocoltime();
-        uint64_t bocoltime() const;
-        void set_bocoltime(uint64_t value);
-    private:
-        uint64_t _internal_bocoltime() const;
-        void _internal_set_bocoltime(uint64_t value);
-    public:
-
-        // double fBOMaxTorq = 86;
+        // double fBOMaxTorq = 84;
         void clear_fbomaxtorq();
         double fbomaxtorq() const;
         void set_fbomaxtorq(double value);
@@ -814,13 +779,13 @@ namespace TorqData {
         void _internal_set_fbomaxtorq(double value);
     public:
 
-        // int32 dwOutWellNO = 84;
-        void clear_dwoutwellno();
-        int32_t dwoutwellno() const;
-        void set_dwoutwellno(int32_t value);
+        // double fBODuration = 85;
+        void clear_fboduration();
+        double fboduration() const;
+        void set_fboduration(double value);
     private:
-        int32_t _internal_dwoutwellno() const;
-        void _internal_set_dwoutwellno(int32_t value);
+        double _internal_fboduration() const;
+        void _internal_set_fboduration(double value);
     public:
 
         // @@protoc_insertion_point(class_scope:TorqData.Torque)
@@ -833,22 +798,16 @@ namespace TorqData {
         struct Impl_ {
             ::PROTOBUF_NAMESPACE_ID::RepeatedField< double > ftorque_;
             ::PROTOBUF_NAMESPACE_ID::RepeatedField< double > frpm_;
-            ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo > tshow_;
             ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > dwdelplus_;
             mutable std::atomic<int> _dwdelplus_cached_byte_size_;
-            ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr llcoltime_;
+            ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo > tshow_;
             ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strmemo_;
             ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strremark_;
             ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr strbojoint_;
-            uint64_t coltime_;
             int32_t dwseqno_;
             int32_t dwquality_;
-            double fmaxtorq_;
-            int32_t dwtotalplus_;
             int32_t dwcolinter_;
-            int32_t dwver_;
             bool btoolbuck_;
-            bool bbreakout_;
             bool bsinglestd_;
             double fmaxlimit_;
             double fcontrol_;
@@ -858,20 +817,23 @@ namespace TorqData {
             double fuppercir_;
             double fcontrolcir_;
             double flowercir_;
+            int32_t dwtorqunit_;
+            int32_t dwmucount_;
             double fplus_;
             double fmaxrpm_;
             double fcut_;
             double frpmadj_;
-            int32_t dwtorqunit_;
-            int32_t dwmucount_;
             double fmulti_;
-            double fmakeupdur_;
-            double fbreakoutdur_;
-            int32_t dwbocount_;
-            int32_t dwbototalplus_;
-            uint64_t bocoltime_;
-            double fbomaxtorq_;
+            uint64_t mucoltime_;
+            double fmumaxtorq_;
+            double fmuduration_;
+            int32_t dwmuplus_;
             int32_t dwoutwellno_;
+            uint64_t bocoltime_;
+            int32_t dwbocount_;
+            int32_t dwboplus_;
+            double fbomaxtorq_;
+            double fboduration_;
             mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
         };
         union { Impl_ _impl_; };
@@ -994,87 +956,7 @@ namespace TorqData {
 
     // Torque
 
-    // fixed64 coltime = 1;
-    inline void Torque::clear_coltime() {
-        _impl_.coltime_ = uint64_t{ 0u };
-    }
-    inline uint64_t Torque::_internal_coltime() const {
-        return _impl_.coltime_;
-    }
-    inline uint64_t Torque::coltime() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.coltime)
-        return _internal_coltime();
-    }
-    inline void Torque::_internal_set_coltime(uint64_t value) {
-
-        _impl_.coltime_ = value;
-    }
-    inline void Torque::set_coltime(uint64_t value) {
-        _internal_set_coltime(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.coltime)
-    }
-
-    // int32 dwSeqNo = 2;
-    inline void Torque::clear_dwseqno() {
-        _impl_.dwseqno_ = 0;
-    }
-    inline int32_t Torque::_internal_dwseqno() const {
-        return _impl_.dwseqno_;
-    }
-    inline int32_t Torque::dwseqno() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.dwSeqNo)
-        return _internal_dwseqno();
-    }
-    inline void Torque::_internal_set_dwseqno(int32_t value) {
-
-        _impl_.dwseqno_ = value;
-    }
-    inline void Torque::set_dwseqno(int32_t value) {
-        _internal_set_dwseqno(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.dwSeqNo)
-    }
-
-    // int32 dwQuality = 3;
-    inline void Torque::clear_dwquality() {
-        _impl_.dwquality_ = 0;
-    }
-    inline int32_t Torque::_internal_dwquality() const {
-        return _impl_.dwquality_;
-    }
-    inline int32_t Torque::dwquality() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.dwQuality)
-        return _internal_dwquality();
-    }
-    inline void Torque::_internal_set_dwquality(int32_t value) {
-
-        _impl_.dwquality_ = value;
-    }
-    inline void Torque::set_dwquality(int32_t value) {
-        _internal_set_dwquality(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.dwQuality)
-    }
-
-    // double fMaxTorq = 5;
-    inline void Torque::clear_fmaxtorq() {
-        _impl_.fmaxtorq_ = 0;
-    }
-    inline double Torque::_internal_fmaxtorq() const {
-        return _impl_.fmaxtorq_;
-    }
-    inline double Torque::fmaxtorq() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.fMaxTorq)
-        return _internal_fmaxtorq();
-    }
-    inline void Torque::_internal_set_fmaxtorq(double value) {
-
-        _impl_.fmaxtorq_ = value;
-    }
-    inline void Torque::set_fmaxtorq(double value) {
-        _internal_set_fmaxtorq(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.fMaxTorq)
-    }
-
-    // repeated double fTorque = 6 [packed = true];
+    // repeated double fTorque = 1 [packed = true];
     inline int Torque::_internal_ftorque_size() const {
         return _impl_.ftorque_.size();
     }
@@ -1121,7 +1003,7 @@ namespace TorqData {
         return _internal_mutable_ftorque();
     }
 
-    // repeated double fRpm = 7 [packed = true];
+    // repeated double fRpm = 2 [packed = true];
     inline int Torque::_internal_frpm_size() const {
         return _impl_.frpm_.size();
     }
@@ -1168,67 +1050,7 @@ namespace TorqData {
         return _internal_mutable_frpm();
     }
 
-    // repeated .TorqData.ShowInfo tShow = 8;
-    inline int Torque::_internal_tshow_size() const {
-        return _impl_.tshow_.size();
-    }
-    inline int Torque::tshow_size() const {
-        return _internal_tshow_size();
-    }
-    inline void Torque::clear_tshow() {
-        _impl_.tshow_.Clear();
-    }
-    inline ::TorqData::ShowInfo* Torque::mutable_tshow(int index) {
-        // @@protoc_insertion_point(field_mutable:TorqData.Torque.tShow)
-        return _impl_.tshow_.Mutable(index);
-    }
-    inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >*
-        Torque::mutable_tshow() {
-        // @@protoc_insertion_point(field_mutable_list:TorqData.Torque.tShow)
-        return &_impl_.tshow_;
-    }
-    inline const ::TorqData::ShowInfo& Torque::_internal_tshow(int index) const {
-        return _impl_.tshow_.Get(index);
-    }
-    inline const ::TorqData::ShowInfo& Torque::tshow(int index) const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.tShow)
-        return _internal_tshow(index);
-    }
-    inline ::TorqData::ShowInfo* Torque::_internal_add_tshow() {
-        return _impl_.tshow_.Add();
-    }
-    inline ::TorqData::ShowInfo* Torque::add_tshow() {
-        ::TorqData::ShowInfo* _add = _internal_add_tshow();
-        // @@protoc_insertion_point(field_add:TorqData.Torque.tShow)
-        return _add;
-    }
-    inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >&
-        Torque::tshow() const {
-        // @@protoc_insertion_point(field_list:TorqData.Torque.tShow)
-        return _impl_.tshow_;
-    }
-
-    // int32 dwTotalPlus = 11;
-    inline void Torque::clear_dwtotalplus() {
-        _impl_.dwtotalplus_ = 0;
-    }
-    inline int32_t Torque::_internal_dwtotalplus() const {
-        return _impl_.dwtotalplus_;
-    }
-    inline int32_t Torque::dwtotalplus() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.dwTotalPlus)
-        return _internal_dwtotalplus();
-    }
-    inline void Torque::_internal_set_dwtotalplus(int32_t value) {
-
-        _impl_.dwtotalplus_ = value;
-    }
-    inline void Torque::set_dwtotalplus(int32_t value) {
-        _internal_set_dwtotalplus(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.dwTotalPlus)
-    }
-
-    // repeated int32 dwDelPlus = 13 [packed = true];
+    // repeated int32 dwDelPlus = 3 [packed = true];
     inline int Torque::_internal_dwdelplus_size() const {
         return _impl_.dwdelplus_.size();
     }
@@ -1275,7 +1097,87 @@ namespace TorqData {
         return _internal_mutable_dwdelplus();
     }
 
-    // int32 dwColInter = 14;
+    // repeated .TorqData.ShowInfo tShow = 4;
+    inline int Torque::_internal_tshow_size() const {
+        return _impl_.tshow_.size();
+    }
+    inline int Torque::tshow_size() const {
+        return _internal_tshow_size();
+    }
+    inline void Torque::clear_tshow() {
+        _impl_.tshow_.Clear();
+    }
+    inline ::TorqData::ShowInfo* Torque::mutable_tshow(int index) {
+        // @@protoc_insertion_point(field_mutable:TorqData.Torque.tShow)
+        return _impl_.tshow_.Mutable(index);
+    }
+    inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >*
+        Torque::mutable_tshow() {
+        // @@protoc_insertion_point(field_mutable_list:TorqData.Torque.tShow)
+        return &_impl_.tshow_;
+    }
+    inline const ::TorqData::ShowInfo& Torque::_internal_tshow(int index) const {
+        return _impl_.tshow_.Get(index);
+    }
+    inline const ::TorqData::ShowInfo& Torque::tshow(int index) const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.tShow)
+        return _internal_tshow(index);
+    }
+    inline ::TorqData::ShowInfo* Torque::_internal_add_tshow() {
+        return _impl_.tshow_.Add();
+    }
+    inline ::TorqData::ShowInfo* Torque::add_tshow() {
+        ::TorqData::ShowInfo* _add = _internal_add_tshow();
+        // @@protoc_insertion_point(field_add:TorqData.Torque.tShow)
+        return _add;
+    }
+    inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TorqData::ShowInfo >&
+        Torque::tshow() const {
+        // @@protoc_insertion_point(field_list:TorqData.Torque.tShow)
+        return _impl_.tshow_;
+    }
+
+    // int32 dwSeqNo = 11;
+    inline void Torque::clear_dwseqno() {
+        _impl_.dwseqno_ = 0;
+    }
+    inline int32_t Torque::_internal_dwseqno() const {
+        return _impl_.dwseqno_;
+    }
+    inline int32_t Torque::dwseqno() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.dwSeqNo)
+        return _internal_dwseqno();
+    }
+    inline void Torque::_internal_set_dwseqno(int32_t value) {
+
+        _impl_.dwseqno_ = value;
+    }
+    inline void Torque::set_dwseqno(int32_t value) {
+        _internal_set_dwseqno(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.dwSeqNo)
+    }
+
+    // int32 dwQuality = 12;
+    inline void Torque::clear_dwquality() {
+        _impl_.dwquality_ = 0;
+    }
+    inline int32_t Torque::_internal_dwquality() const {
+        return _impl_.dwquality_;
+    }
+    inline int32_t Torque::dwquality() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.dwQuality)
+        return _internal_dwquality();
+    }
+    inline void Torque::_internal_set_dwquality(int32_t value) {
+
+        _impl_.dwquality_ = value;
+    }
+    inline void Torque::set_dwquality(int32_t value) {
+        _internal_set_dwquality(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.dwQuality)
+    }
+
+    // int32 dwColInter = 13;
     inline void Torque::clear_dwcolinter() {
         _impl_.dwcolinter_ = 0;
     }
@@ -1293,77 +1195,6 @@ namespace TorqData {
     inline void Torque::set_dwcolinter(int32_t value) {
         _internal_set_dwcolinter(value);
         // @@protoc_insertion_point(field_set:TorqData.Torque.dwColInter)
-    }
-
-    // bytes llColTime = 15;
-    inline void Torque::clear_llcoltime() {
-        _impl_.llcoltime_.ClearToEmpty();
-    }
-    inline const std::string& Torque::llcoltime() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.llColTime)
-        return _internal_llcoltime();
-    }
-    template <typename ArgT0, typename... ArgT>
-    inline PROTOBUF_ALWAYS_INLINE
-        void Torque::set_llcoltime(ArgT0&& arg0, ArgT... args) {
-
-        _impl_.llcoltime_.SetBytes(static_cast<ArgT0&&>(arg0), args..., GetArenaForAllocation());
-        // @@protoc_insertion_point(field_set:TorqData.Torque.llColTime)
-    }
-    inline std::string* Torque::mutable_llcoltime() {
-        std::string* _s = _internal_mutable_llcoltime();
-        // @@protoc_insertion_point(field_mutable:TorqData.Torque.llColTime)
-        return _s;
-    }
-    inline const std::string& Torque::_internal_llcoltime() const {
-        return _impl_.llcoltime_.Get();
-    }
-    inline void Torque::_internal_set_llcoltime(const std::string& value) {
-
-        _impl_.llcoltime_.Set(value, GetArenaForAllocation());
-    }
-    inline std::string* Torque::_internal_mutable_llcoltime() {
-
-        return _impl_.llcoltime_.Mutable(GetArenaForAllocation());
-    }
-    inline std::string* Torque::release_llcoltime() {
-        // @@protoc_insertion_point(field_release:TorqData.Torque.llColTime)
-        return _impl_.llcoltime_.Release();
-    }
-    inline void Torque::set_allocated_llcoltime(std::string* llcoltime) {
-        if (llcoltime != nullptr) {
-
-        }
-        else {
-
-        }
-        _impl_.llcoltime_.SetAllocated(llcoltime, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.llcoltime_.IsDefault()) {
-            _impl_.llcoltime_.Set("", GetArenaForAllocation());
-        }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        // @@protoc_insertion_point(field_set_allocated:TorqData.Torque.llColTime)
-    }
-
-    // int32 dwVer = 16;
-    inline void Torque::clear_dwver() {
-        _impl_.dwver_ = 0;
-    }
-    inline int32_t Torque::_internal_dwver() const {
-        return _impl_.dwver_;
-    }
-    inline int32_t Torque::dwver() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.dwVer)
-        return _internal_dwver();
-    }
-    inline void Torque::_internal_set_dwver(int32_t value) {
-
-        _impl_.dwver_ = value;
-    }
-    inline void Torque::set_dwver(int32_t value) {
-        _internal_set_dwver(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.dwVer)
     }
 
     // bool bToolBuck = 21;
@@ -1386,7 +1217,27 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.bToolBuck)
     }
 
-    // bytes strMemo = 22;
+    // bool bSingleSTD = 22;
+    inline void Torque::clear_bsinglestd() {
+        _impl_.bsinglestd_ = false;
+    }
+    inline bool Torque::_internal_bsinglestd() const {
+        return _impl_.bsinglestd_;
+    }
+    inline bool Torque::bsinglestd() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.bSingleSTD)
+        return _internal_bsinglestd();
+    }
+    inline void Torque::_internal_set_bsinglestd(bool value) {
+
+        _impl_.bsinglestd_ = value;
+    }
+    inline void Torque::set_bsinglestd(bool value) {
+        _internal_set_bsinglestd(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.bSingleSTD)
+    }
+
+    // bytes strMemo = 23;
     inline void Torque::clear_strmemo() {
         _impl_.strmemo_.ClearToEmpty();
     }
@@ -1437,7 +1288,7 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set_allocated:TorqData.Torque.strMemo)
     }
 
-    // bytes strRemark = 23;
+    // bytes strRemark = 24;
     inline void Torque::clear_strremark() {
         _impl_.strremark_.ClearToEmpty();
     }
@@ -1488,27 +1339,7 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set_allocated:TorqData.Torque.strRemark)
     }
 
-    // bool bBreakOut = 25;
-    inline void Torque::clear_bbreakout() {
-        _impl_.bbreakout_ = false;
-    }
-    inline bool Torque::_internal_bbreakout() const {
-        return _impl_.bbreakout_;
-    }
-    inline bool Torque::bbreakout() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.bBreakOut)
-        return _internal_bbreakout();
-    }
-    inline void Torque::_internal_set_bbreakout(bool value) {
-
-        _impl_.bbreakout_ = value;
-    }
-    inline void Torque::set_bbreakout(bool value) {
-        _internal_set_bbreakout(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.bBreakOut)
-    }
-
-    // int32 dwTorqUnit = 27;
+    // int32 dwTorqUnit = 25;
     inline void Torque::clear_dwtorqunit() {
         _impl_.dwtorqunit_ = 0;
     }
@@ -1526,26 +1357,6 @@ namespace TorqData {
     inline void Torque::set_dwtorqunit(int32_t value) {
         _internal_set_dwtorqunit(value);
         // @@protoc_insertion_point(field_set:TorqData.Torque.dwTorqUnit)
-    }
-
-    // bool bSingleSTD = 28;
-    inline void Torque::clear_bsinglestd() {
-        _impl_.bsinglestd_ = false;
-    }
-    inline bool Torque::_internal_bsinglestd() const {
-        return _impl_.bsinglestd_;
-    }
-    inline bool Torque::bsinglestd() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.bSingleSTD)
-        return _internal_bsinglestd();
-    }
-    inline void Torque::_internal_set_bsinglestd(bool value) {
-
-        _impl_.bsinglestd_ = value;
-    }
-    inline void Torque::set_bsinglestd(bool value) {
-        _internal_set_bsinglestd(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.bSingleSTD)
     }
 
     // double fMaxLimit = 31;
@@ -1568,7 +1379,7 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.fMaxLimit)
     }
 
-    // double fControl = 33;
+    // double fControl = 32;
     inline void Torque::clear_fcontrol() {
         _impl_.fcontrol_ = 0;
     }
@@ -1588,7 +1399,7 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.fControl)
     }
 
-    // double fShow = 36;
+    // double fShow = 33;
     inline void Torque::clear_fshow() {
         _impl_.fshow_ = 0;
     }
@@ -1608,7 +1419,7 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.fShow)
     }
 
-    // double fOptTorq = 40;
+    // double fOptTorq = 34;
     inline void Torque::clear_fopttorq() {
         _impl_.fopttorq_ = 0;
     }
@@ -1808,47 +1619,27 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.fMulti)
     }
 
-    // double fMakeupDur = 73;
-    inline void Torque::clear_fmakeupdur() {
-        _impl_.fmakeupdur_ = 0;
+    // fixed64 MUcoltime = 71;
+    inline void Torque::clear_mucoltime() {
+        _impl_.mucoltime_ = uint64_t{ 0u };
     }
-    inline double Torque::_internal_fmakeupdur() const {
-        return _impl_.fmakeupdur_;
+    inline uint64_t Torque::_internal_mucoltime() const {
+        return _impl_.mucoltime_;
     }
-    inline double Torque::fmakeupdur() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.fMakeupDur)
-        return _internal_fmakeupdur();
+    inline uint64_t Torque::mucoltime() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.MUcoltime)
+        return _internal_mucoltime();
     }
-    inline void Torque::_internal_set_fmakeupdur(double value) {
+    inline void Torque::_internal_set_mucoltime(uint64_t value) {
 
-        _impl_.fmakeupdur_ = value;
+        _impl_.mucoltime_ = value;
     }
-    inline void Torque::set_fmakeupdur(double value) {
-        _internal_set_fmakeupdur(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.fMakeupDur)
-    }
-
-    // double fBreakOutDur = 74;
-    inline void Torque::clear_fbreakoutdur() {
-        _impl_.fbreakoutdur_ = 0;
-    }
-    inline double Torque::_internal_fbreakoutdur() const {
-        return _impl_.fbreakoutdur_;
-    }
-    inline double Torque::fbreakoutdur() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.fBreakOutDur)
-        return _internal_fbreakoutdur();
-    }
-    inline void Torque::_internal_set_fbreakoutdur(double value) {
-
-        _impl_.fbreakoutdur_ = value;
-    }
-    inline void Torque::set_fbreakoutdur(double value) {
-        _internal_set_fbreakoutdur(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.fBreakOutDur)
+    inline void Torque::set_mucoltime(uint64_t value) {
+        _internal_set_mucoltime(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.MUcoltime)
     }
 
-    // int32 dwMUCount = 81;
+    // int32 dwMUCount = 72;
     inline void Torque::clear_dwmucount() {
         _impl_.dwmucount_ = 0;
     }
@@ -1866,6 +1657,106 @@ namespace TorqData {
     inline void Torque::set_dwmucount(int32_t value) {
         _internal_set_dwmucount(value);
         // @@protoc_insertion_point(field_set:TorqData.Torque.dwMUCount)
+    }
+
+    // int32 dwMUPlus = 73;
+    inline void Torque::clear_dwmuplus() {
+        _impl_.dwmuplus_ = 0;
+    }
+    inline int32_t Torque::_internal_dwmuplus() const {
+        return _impl_.dwmuplus_;
+    }
+    inline int32_t Torque::dwmuplus() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.dwMUPlus)
+        return _internal_dwmuplus();
+    }
+    inline void Torque::_internal_set_dwmuplus(int32_t value) {
+
+        _impl_.dwmuplus_ = value;
+    }
+    inline void Torque::set_dwmuplus(int32_t value) {
+        _internal_set_dwmuplus(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.dwMUPlus)
+    }
+
+    // double fMUMaxTorq = 74;
+    inline void Torque::clear_fmumaxtorq() {
+        _impl_.fmumaxtorq_ = 0;
+    }
+    inline double Torque::_internal_fmumaxtorq() const {
+        return _impl_.fmumaxtorq_;
+    }
+    inline double Torque::fmumaxtorq() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.fMUMaxTorq)
+        return _internal_fmumaxtorq();
+    }
+    inline void Torque::_internal_set_fmumaxtorq(double value) {
+
+        _impl_.fmumaxtorq_ = value;
+    }
+    inline void Torque::set_fmumaxtorq(double value) {
+        _internal_set_fmumaxtorq(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.fMUMaxTorq)
+    }
+
+    // double fMUDuration = 75;
+    inline void Torque::clear_fmuduration() {
+        _impl_.fmuduration_ = 0;
+    }
+    inline double Torque::_internal_fmuduration() const {
+        return _impl_.fmuduration_;
+    }
+    inline double Torque::fmuduration() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.fMUDuration)
+        return _internal_fmuduration();
+    }
+    inline void Torque::_internal_set_fmuduration(double value) {
+
+        _impl_.fmuduration_ = value;
+    }
+    inline void Torque::set_fmuduration(double value) {
+        _internal_set_fmuduration(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.fMUDuration)
+    }
+
+    // int32 dwOutWellNO = 80;
+    inline void Torque::clear_dwoutwellno() {
+        _impl_.dwoutwellno_ = 0;
+    }
+    inline int32_t Torque::_internal_dwoutwellno() const {
+        return _impl_.dwoutwellno_;
+    }
+    inline int32_t Torque::dwoutwellno() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.dwOutWellNO)
+        return _internal_dwoutwellno();
+    }
+    inline void Torque::_internal_set_dwoutwellno(int32_t value) {
+
+        _impl_.dwoutwellno_ = value;
+    }
+    inline void Torque::set_dwoutwellno(int32_t value) {
+        _internal_set_dwoutwellno(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.dwOutWellNO)
+    }
+
+    // fixed64 BOcoltime = 81;
+    inline void Torque::clear_bocoltime() {
+        _impl_.bocoltime_ = uint64_t{ 0u };
+    }
+    inline uint64_t Torque::_internal_bocoltime() const {
+        return _impl_.bocoltime_;
+    }
+    inline uint64_t Torque::bocoltime() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.BOcoltime)
+        return _internal_bocoltime();
+    }
+    inline void Torque::_internal_set_bocoltime(uint64_t value) {
+
+        _impl_.bocoltime_ = value;
+    }
+    inline void Torque::set_bocoltime(uint64_t value) {
+        _internal_set_bocoltime(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.BOcoltime)
     }
 
     // int32 dwBOCount = 82;
@@ -1888,67 +1779,27 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.dwBOCount)
     }
 
-    // int32 dwBOTotalPlus = 83;
-    inline void Torque::clear_dwbototalplus() {
-        _impl_.dwbototalplus_ = 0;
+    // int32 dwBOPlus = 83;
+    inline void Torque::clear_dwboplus() {
+        _impl_.dwboplus_ = 0;
     }
-    inline int32_t Torque::_internal_dwbototalplus() const {
-        return _impl_.dwbototalplus_;
+    inline int32_t Torque::_internal_dwboplus() const {
+        return _impl_.dwboplus_;
     }
-    inline int32_t Torque::dwbototalplus() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.dwBOTotalPlus)
-        return _internal_dwbototalplus();
+    inline int32_t Torque::dwboplus() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.dwBOPlus)
+        return _internal_dwboplus();
     }
-    inline void Torque::_internal_set_dwbototalplus(int32_t value) {
+    inline void Torque::_internal_set_dwboplus(int32_t value) {
 
-        _impl_.dwbototalplus_ = value;
+        _impl_.dwboplus_ = value;
     }
-    inline void Torque::set_dwbototalplus(int32_t value) {
-        _internal_set_dwbototalplus(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.dwBOTotalPlus)
-    }
-
-    // int32 dwOutWellNO = 84;
-    inline void Torque::clear_dwoutwellno() {
-        _impl_.dwoutwellno_ = 0;
-    }
-    inline int32_t Torque::_internal_dwoutwellno() const {
-        return _impl_.dwoutwellno_;
-    }
-    inline int32_t Torque::dwoutwellno() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.dwOutWellNO)
-        return _internal_dwoutwellno();
-    }
-    inline void Torque::_internal_set_dwoutwellno(int32_t value) {
-
-        _impl_.dwoutwellno_ = value;
-    }
-    inline void Torque::set_dwoutwellno(int32_t value) {
-        _internal_set_dwoutwellno(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.dwOutWellNO)
+    inline void Torque::set_dwboplus(int32_t value) {
+        _internal_set_dwboplus(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.dwBOPlus)
     }
 
-    // fixed64 BOcoltime = 85;
-    inline void Torque::clear_bocoltime() {
-        _impl_.bocoltime_ = uint64_t{ 0u };
-    }
-    inline uint64_t Torque::_internal_bocoltime() const {
-        return _impl_.bocoltime_;
-    }
-    inline uint64_t Torque::bocoltime() const {
-        // @@protoc_insertion_point(field_get:TorqData.Torque.BOcoltime)
-        return _internal_bocoltime();
-    }
-    inline void Torque::_internal_set_bocoltime(uint64_t value) {
-
-        _impl_.bocoltime_ = value;
-    }
-    inline void Torque::set_bocoltime(uint64_t value) {
-        _internal_set_bocoltime(value);
-        // @@protoc_insertion_point(field_set:TorqData.Torque.BOcoltime)
-    }
-
-    // double fBOMaxTorq = 86;
+    // double fBOMaxTorq = 84;
     inline void Torque::clear_fbomaxtorq() {
         _impl_.fbomaxtorq_ = 0;
     }
@@ -1968,7 +1819,27 @@ namespace TorqData {
         // @@protoc_insertion_point(field_set:TorqData.Torque.fBOMaxTorq)
     }
 
-    // bytes strBOJoint = 87;
+    // double fBODuration = 85;
+    inline void Torque::clear_fboduration() {
+        _impl_.fboduration_ = 0;
+    }
+    inline double Torque::_internal_fboduration() const {
+        return _impl_.fboduration_;
+    }
+    inline double Torque::fboduration() const {
+        // @@protoc_insertion_point(field_get:TorqData.Torque.fBODuration)
+        return _internal_fboduration();
+    }
+    inline void Torque::_internal_set_fboduration(double value) {
+
+        _impl_.fboduration_ = value;
+    }
+    inline void Torque::set_fboduration(double value) {
+        _internal_set_fboduration(value);
+        // @@protoc_insertion_point(field_set:TorqData.Torque.fBODuration)
+    }
+
+    // bytes strBOJoint = 86;
     inline void Torque::clear_strbojoint() {
         _impl_.strbojoint_.ClearToEmpty();
     }

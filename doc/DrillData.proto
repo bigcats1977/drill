@@ -9,31 +9,27 @@ message ShowInfo
 }
 
 message Torque {
-   fixed64  coltime     = 1;
-   int32    dwSeqNo     = 2;
-   int32    dwQuality   = 3; 
-   double   fMaxTorq    = 5;
+   repeated double  fTorque   = 1 [packed=true];
+   repeated double  fRpm      = 2 [packed=true];
+   repeated int32   dwDelPlus = 3[packed=true];
+   repeated ShowInfo tShow    = 4;
    
-   repeated double  fTorque   = 6 [packed=true];
-   repeated double  fRpm      = 7 [packed=true];
-   repeated ShowInfo tShow    = 8;
-   int32    dwTotalPlus = 11;
-   repeated int32   dwDelPlus = 13[packed=true];
-   int32    dwColInter  = 14;
-   bytes    llColTime   = 15;
-   int32    dwVer       = 16;
+   int32    dwSeqNo     = 11;
+   int32    dwQuality   = 12; 
+   int32    dwColInter  = 13;
+   //bytes    llColTime   = 14;
+   //int32    dwVer       = 15;
    
    bool     bToolBuck   = 21;
-   bytes    strMemo     = 22;
-   bytes    strRemark   = 23;
-   bool     bBreakOut   = 25;
-   int32    dwTorqUnit  = 27;  
-   bool     bSingleSTD  = 28;  
+   bool     bSingleSTD  = 22;  
+   bytes    strMemo     = 23;
+   bytes    strRemark   = 24;
+   int32    dwTorqUnit  = 25;  
      
    double   fMaxLimit   = 31;  
-   double   fControl    = 33;
-   double   fShow       = 36;
-   double   fOptTorq    = 40;
+   double   fControl    = 32;
+   double   fShow       = 33;
+   double   fOptTorq    = 34;
   
    double   fMaxCir     = 41;
    double   fUpperCir   = 42;
@@ -46,14 +42,17 @@ message Torque {
    double   fRpmAdj     = 54;
    double   fMulti      = 55;
 
-   double   fMakeupDur  = 73;
-   double   fBreakOutDur= 74;
+   fixed64  MUcoltime   = 71;
+   int32	dwMUCount   = 72;
+   int32    dwMUPlus    = 73;
+   double   fMUMaxTorq  = 74;
+   double   fMUDuration = 75;
    
-   int32	dwMUCount   = 81;
+   int32    dwOutWellNO = 80;
+   fixed64  BOcoltime 	= 81;
    int32	dwBOCount   = 82;
-   int32    dwBOTotalPlus= 83;
-   int32    dwOutWellNO = 84;
-   fixed64  BOcoltime 	= 85;
-   double	fBOMaxTorq  = 86;
-   bytes    strBOJoint  = 87;
+   int32    dwBOPlus    = 83;
+   double	fBOMaxTorq  = 84;
+   double   fBODuration = 85;
+   bytes    strBOJoint  = 86;
 }

@@ -255,8 +255,8 @@ bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
     DrawBkLine(true);
     Invalidate(TRUE);
 
-    CPen    pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
-    CPen*   pOldPen = m_MemDC.SelectObject(&pnLine);
+    CPen  pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
+    CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
 
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     ptOld.y = m_iChartHeight;
@@ -564,7 +564,7 @@ void CLineChartCtrlEx::DrawAlarmLine()
     /* 显示最小扭矩值 */
     //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
-    ShowContent(clrAlarm, y - CONT_YOFFSET, 
+    ShowContent(clrAlarm, y - CONT_YOFFSET,
         string_format(theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT).c_str(), m_fLowerLimit));
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fUpperLimit) / m_fMaxLimit);

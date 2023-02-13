@@ -269,7 +269,6 @@ VOID CDlgHisList::ShowHisTorqList()
     UINT        i = 0;
     int         j = 0;
     int         iItem = 0;
-    double      fTorque = 0;
     WORD        wPara = 0;
     CString     strNo;
     CString     strTime, strBOTime;
@@ -297,25 +296,36 @@ VOID CDlgHisList::ShowHisTorqList()
 
         /* 20180102 序号删除后自动更新 */
         strNo.Format("%d", i + 1);
-        strTime = theApp.GetTorqCollTime(ptTorq);
-        //strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
-        strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
         strMemo = ptTorq->strmemo().c_str();
+        if (theApp.HaveMakeUP(ptTorq))
+        {
+            strTime = theApp.GetTorqCollTime(ptTorq, false);
+            strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
+            strMakeTorq.Format("%d", (int)ptTorq->fmumaxtorq());
+            strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq));
+        }
+        else
+        {
+            strTime = _T("-");
+            strOptTorq = _T("-");
+            strMakeTorq = _T("-");
+            strMakeTurn = _T("-");
+        }
+        //strCtrlTorq.Format("%d", (int)ptTorq->fcontrol());
 
-        strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq));
-
-        GET_CTRL_TORQ(fTorque, ptTorq);
-        strMakeTorq.Format("%d", (int)fTorque);
-        strBOTime = _T("-");
-        strBreakTorq = _T("-");
-        strBreakTurn = _T("-");
-        strOutWellNO = _T("-");
-        if (ptTorq->bbreakout())
+        if (theApp.HaveBreakout(ptTorq))
         {
             strBOTime = theApp.GetTorqCollTime(ptTorq, true);
             strBreakTorq.Format("%d", (int)ptTorq->fbomaxtorq());
             strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, true));
             strOutWellNO.Format("%d", ptTorq->dwoutwellno());
+        }
+        else
+        {
+            strBOTime = _T("-");
+            strBreakTorq = _T("-");
+            strBreakTurn = _T("-");
+            strOutWellNO = _T("-");
         }
 
         /*"序号,%d;上扣时间,%d;卸扣时间,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
@@ -521,23 +531,19 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
         pPrnData += iLen;
 
         /* 3.22 版本打印delplus */
-        //if (VERSION_RECPLUS(ptTorq))
+        sprintf_s(pPrnData, SPRINTFLEN, "%s", aucHead);
+        g_tOrgData.iCur += iHeadLen;
+        pPrnData += iHeadLen;
+        for (j = 0; j < ptTorq->ftorque_size(); j++)
         {
-            sprintf_s(pPrnData, SPRINTFLEN, "%s", aucHead);
-            g_tOrgData.iCur += iHeadLen;
-            pPrnData += iHeadLen;
-            for (j = 0; j < ptTorq->ftorque_size(); j++)
-            {
-                iLen = sprintf_s(pPrnData, SPRINTFLEN, "%6d,", ptTorq->dwdelplus(j));
-                g_tOrgData.iCur += iLen;
-                pPrnData += iLen;
-            }
-
-            iLen = sprintf_s(pPrnData, SPRINTFLEN, "\r\n");
+            iLen = sprintf_s(pPrnData, SPRINTFLEN, "%6d,", ptTorq->dwdelplus(j));
             g_tOrgData.iCur += iLen;
             pPrnData += iLen;
-
         }
+
+        iLen = sprintf_s(pPrnData, SPRINTFLEN, "\r\n");
+        g_tOrgData.iCur += iLen;
+        pPrnData += iLen;
 
         file.Write(g_tOrgData.aucLog, g_tOrgData.iCur);
     }

@@ -620,10 +620,10 @@ typedef struct tagCONTROLPARA
     int         iSingleSTD;     /* 单根立柱 */
 
     //WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
-    BYTE        ucVer;        /* 0: 2017年数据结构
-                                 1: 显示参数名称长度固定25；最多30个显示参数；NLV格式: 显示参数的值长度根据L
-                                    0～14：正常显示名称，15 Factory
-                                 2: 2022 0Factory, 1~15正常数据 */
+    //BYTE        ucVer;        /* 0: 2017年数据结构
+    //                             1: 显示参数名称长度固定25；最多30个显示参数；NLV格式: 显示参数的值长度根据L
+    //                                0～14：正常显示名称，15 Factory
+    //                             2: 2022 0Factory, 1~15正常数据 */
     BYTE        ucRsv;
 }CONTROLPARA;
 
@@ -1221,9 +1221,9 @@ typedef struct tagPORTDATA
 
    /* 获取图像的控制扭矩 */
 #define GET_CTRL_TORQ(fTorq, ptTorq)        {                       \
-        fTorq = ptTorq->fmaxtorq();                                 \
-        if(0 == fTorq && ptTorq->ftorque_size() > 1)                \
-            fTorq = ptTorq->ftorque(ptTorq->ftorque_size()-1);      \
+        fTorq = ptTorq->fmumaxtorq();                               \
+        if(fTorq < ptTorq->fbomaxtorq())                            \
+            fTorq = ptTorq->fbomaxtorq();                           \
     }
 
 /* 判断程序注册状态 */

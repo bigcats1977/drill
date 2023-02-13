@@ -91,11 +91,11 @@ public:
     bool    SavePNG(HBITMAP hBitmap, string FileName);
     double  GetCir(TorqData::Torque* ptTorq, bool bBreakout = false);
     DWORD   GetQuality(TorqData::Torque* ptTorq);
-    DWORD   JudgeQuality(TorqData::Torque* ptTorq, int iBreakOut = 0);
+    DWORD   JudgeQuality(TorqData::Torque* ptTorq);
     BOOL    ReadHisTorqFromFile(string strDataName);
     CString GetStatType(TorqData::Torque* ptTorq, WORD wPlace);
-    CString GetTorqSimpDate(TorqData::Torque* ptTorq);
-    CString GetTorqFullDate(TorqData::Torque* ptTorq);
+    CString GetTorqSimpDate(TorqData::Torque* ptTorq, bool bBreakout = false);
+    CString GetTorqFullDate(TorqData::Torque* ptTorq, bool bBreakout = false);
     CString GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout = false);
     BOOL    CheckPassWord();
     string  LoadstringFromRes(unsigned string_ID);
@@ -131,6 +131,8 @@ public:
     void ClearTorqCfgPara(PARACFG* ptCfg);
     BOOL SetShowNameFromID(string lsID, SHOWCFG* ptShow, UINT nLang = LANGUAGE_CURRENT);
     BOOL SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow);
+    bool HaveMakeUP(TorqData::Torque* ptTorq);
+    bool HaveBreakout(TorqData::Torque* ptTorq);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
     void SaveAllData(string strDataName);
     string GetFileNameFromPath(string path);
@@ -139,7 +141,7 @@ public:
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
-    SHOWCFG*        m_ptCurShow;
+    SHOWCFG* m_ptCurShow;
     //DBREG           m_tdbReg;
     CRegProc        m_tReg;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];

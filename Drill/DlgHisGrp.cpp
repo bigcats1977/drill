@@ -191,40 +191,48 @@ void CDlgHisGrp::UpdateDlgLabel()
 /* 设置EDIT控件内容 */
 void CDlgHisGrp::SetCurEdit()
 {
-    double      fTorq = 0;
-    WORD        i = 0;
-
     ASSERT_NULL(m_ptCurTorq);
 
     m_strNo.Format("%d", g_tReadData.nCur);
-    m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
+    m_iSingleSTD = (int)m_ptCurTorq->bsinglestd();
     m_bToolBuck = m_ptCurTorq->btoolbuck();
-    //m_bBreakOut = m_ptCurTorq->bbreakout();
     m_strMemo = m_ptCurTorq->strmemo().c_str();
+    //m_bBreakOut = m_ptCurTorq->bbreakout();
     /* 显示参数 */
-    for (i = 0; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
+    for (int i = 0; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         m_strHisShowName[i] = theApp.GetTorqShowName(m_ptCurTorq, i);
         m_strHisShowValue[i] = theApp.GetTorqShowValue(m_ptCurTorq, i);
     }
     m_strQuality = theApp.GetQualityInfo(m_ptCurTorq).c_str();
-    m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
 
-    GET_CTRL_TORQ(fTorq, m_ptCurTorq);
-    m_iSingleSTD = (int)m_ptCurTorq->bsinglestd();
-    m_strControl.Format("%d", (int)fTorq);
-    m_strBOTime = NULLSTR;
-    m_strBOTorq = NULLSTR;
-    m_strBOCir = NULLSTR;
-    m_strOutWellNO = NULLSTR;
-    m_strOutJoint = NULLSTR;
-    if (m_ptCurTorq->bbreakout())
+    if (theApp.HaveMakeUP(m_ptCurTorq))
+    {
+        m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
+        m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
+        m_strControl.Format("%d", (int)m_ptCurTorq->fmumaxtorq());
+    }
+    else
+    {
+        m_strTime = NULLSTR;
+        m_strCir = NULLSTR;
+        m_strControl = NULLSTR;
+    }
+    if (theApp.HaveBreakout(m_ptCurTorq))
     {
         m_strBOTime = theApp.GetTorqCollTime(m_ptCurTorq, true);
         m_strBOTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
         m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, true));
         m_strOutWellNO.Format("%d", m_ptCurTorq->dwoutwellno());
         m_strOutJoint = m_ptCurTorq->strbojoint().c_str();
+    }
+    else
+    {
+        m_strBOTime = NULLSTR;
+        m_strBOTorq = NULLSTR;
+        m_strBOCir = NULLSTR;
+        m_strOutWellNO = NULLSTR;
+        m_strOutJoint = NULLSTR;
     }
 }
 
@@ -281,7 +289,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
     /* 重新设置刻度 */
     m_xHisAxis1.SetTickPara(10, fMaxCir, fMinCir);
     m_yHisAxis1.SetTickPara(20, m_ptCurTorq->fmaxlimit());
-    m_wndLineHis.DrawBkLine(m_ptCurTorq->bbreakout());
+    m_wndLineHis.DrawBkLine(theApp.HaveBreakout(m_ptCurTorq));
 
     m_wndRpmHis.SetBkColor(RGB(255, 255, 255));
     m_wndRpmHis.m_bBKLine = FALSE;
@@ -407,14 +415,19 @@ BOOL CDlgHisGrp::CheckCurData(UINT* pnCur, UINT nMax)
 
 void CDlgHisGrp::CheckGrpType()
 {
-    GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(TRUE);
-    if (!g_tReadData.tData[g_tReadData.nCur - 1].bbreakout())
-    {
-        GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(FALSE);
-        if (m_iGrpType == 2)
-            m_iGrpType = 0;
+    TorqData::Torque* ptTorq;
 
+    ptTorq = &g_tReadData.tData[g_tReadData.nCur - 1];
+    GetDlgItem(IDC_RADIOGRPMU)->EnableWindow(FALSE);
+    GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(FALSE);
+    if (!theApp.HaveMakeUP(ptTorq) || !theApp.HaveBreakout(ptTorq))
+    {
+        m_iGrpType = 0;
+        return;
     }
+
+    GetDlgItem(IDC_RADIOGRPMU)->EnableWindow(TRUE);
+    GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(TRUE);
 }
 
 void CDlgHisGrp::CheckCurSplit()
@@ -499,11 +512,11 @@ void CDlgHisGrp::DrawCurTorque()
         {
             iLineB = 0;
             iLineE = MIN(500, m_ptCurDraw->wMUEndPos - iBegin);
-            m_wndLineHis.DrawMakeupLine(m_ptCurTorq->fmaxtorq(), iLineB, iLineE);
+            m_wndLineHis.DrawMakeupLine(m_ptCurTorq->fmumaxtorq(), iLineB, iLineE);
             interval = SPLITPOSNUM;
         }
     }
-    if (m_ptCurTorq->bbreakout() && m_ptCurTorq->dwbocount() > 0 && (nType & 0x02))
+    if (m_ptCurTorq->dwbocount() > 0 && (nType & 0x02))
     {
         if (iEnd > m_ptCurDraw->wMUEndPos + interval)
         {
@@ -999,35 +1012,7 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
 
     theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
-#if 0
-void CDlgHisGrp::OnBnClickedCheckbreakout()
-{
-    ASSERT_NULL(m_ptCurTorq);
 
-    UpdateData(TRUE);
-    m_ptCurTorq->set_bbreakout(0);
-    m_strTorqType = theApp.LoadstringFromRes(IDS_STRMAKEUP).c_str();
-    if (m_bBreakOut) {
-        m_ptCurTorq->set_bbreakout(1);
-        m_strTorqType = theApp.LoadstringFromRes(IDS_STRBREAKOUT).c_str();
-    }
-
-    /* 质量重新判定 */
-    DWORD dwQuality = theApp.JudgeQuality(m_ptCurTorq, m_bBreakOut);
-    m_ptCurTorq->set_dwquality(dwQuality);
-
-    m_strQuality = theApp.GetQualityInfo(m_ptCurTorq).c_str();
-
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
-
-    DrawCurTorque();
-
-    UpdateData(FALSE);
-
-    /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
-    UpdateTallyNO();
-}
-#endif
 void CDlgHisGrp::OnEnKillfocusHismemo()
 {
     ASSERT_NULL(m_ptCurTorq);
