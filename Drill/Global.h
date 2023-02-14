@@ -960,11 +960,11 @@ typedef struct tagSHOWPARANAME
 
 
 #define MAXLINEITEM     500
-#define COLLECTPOINTS   5*MAXLINEITEM
+#define COLLECTPOINTS   10*MAXLINEITEM // 默认存10屏数据×2周
 #define TESTNUM         COLLECTPOINTS
 typedef struct tagCOLLECTORQUE
 {
-    UINT        nCurCount;
+    //UINT        nCurCount;
     UINT        nAllCount;
     DWORD       dwQuality;
     CTime       tTime;

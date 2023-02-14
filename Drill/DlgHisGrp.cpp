@@ -280,7 +280,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
 
     m_wndLineHis.SetBkColor(RGB(255, 255, 255));
     m_wndLineHis.m_bBKLine = FALSE;
-    m_wndLineHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxlimit(), 0.0, LINETYPE_HISG);
+    m_wndLineHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxlimit(), 0.0, m_wndLineHis.m_fMaxCir, LINETYPE_HISG);
 
     fMinCir = 0;
     fMaxCir = m_wndLineHis.m_fMaxCir;
@@ -293,7 +293,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
 
     m_wndRpmHis.SetBkColor(RGB(255, 255, 255));
     m_wndRpmHis.m_bBKLine = FALSE;
-    m_wndRpmHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxrpm(), 0.0);
+    m_wndRpmHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxrpm(), 0.0, m_wndLineHis.m_fMaxCir);
 
     /* 重新设置刻度 */
     m_xHisAxis2.SetTickPara(10, fMaxCir, fMinCir);
@@ -330,11 +330,11 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG* ptCfg)
     m_wndLineHis.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     //m_wndLineHis.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* 肩负扭矩 */
 
-    m_wndLineHis.Add(RGB(255, 255, 255), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_HISG);
+    m_wndLineHis.Add(RGB(255, 255, 255), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT], LINETYPE_HISG);
     m_xHisAxis1.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     m_yHisAxis1.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
     m_wndLineHis.DrawBkLine(false);
-    m_wndRpmHis.Add(RGB(255, 255, 255), ptCtrl->fFullRPM, 0.0);
+    m_wndRpmHis.Add(RGB(255, 255, 255), ptCtrl->fFullRPM, 0.0, m_wndLineHis.m_fMaxCir);
     m_xHisAxis2.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     m_yHisAxis2.SetTickPara(3, ptCtrl->fFullRPM);
     m_wndRpmHis.DrawBkLine();

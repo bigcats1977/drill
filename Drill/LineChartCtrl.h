@@ -60,6 +60,7 @@ public:
     int             m_iStaticX;
     double          m_fOffset;
     BOOL            m_bBKLine;
+    double          m_fMaxCir;     /* 最大周数 */
     // Operations
 public:
     // Overrides
@@ -79,11 +80,13 @@ public:
     BOOL    RemoveAt();
     void    Go();
     void    Erase();
-    BOOL    Add(COLORREF clrLine, double fUpper, double fLower);
+    BOOL    Add(COLORREF clrLine, double fUpper, double fLower, double fMaxCir);
     void    SetBkColor(COLORREF clrBk);
     void    FinishDraw();
     void    SetStartPoint(UINT nBegin);
     void    DrawFinLine();
+    UINT    GetCurPoint();
+    bool    UpdateMaxWidth(double fMaxCir);
 
     // Generated message map functions
 protected:

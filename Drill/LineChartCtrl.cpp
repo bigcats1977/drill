@@ -176,14 +176,22 @@ void CLineChartCtrl::DrawSpike()
     m_MemDC.SelectObject(pOldPen);
 }
 
-BOOL CLineChartCtrl::Add(COLORREF clrLine, double fUpper, double fLower)
+BOOL CLineChartCtrl::Add(COLORREF clrLine, double fUpper, double fLower, double fMaxCir)
 {
+    GetClientRect(&m_rcClient);
+
+    /* 获取画图区域的宽和高 */
+    m_iChartWidth = m_rcClient.Width() - 1;
+    m_iChartHeight = m_rcClient.Height() - 1;
+
     memset(&m_tItem, 0, sizeof(LINECHARITEM));
     m_tItem.m_clrLine = clrLine;
     m_tItem.m_fLower = fLower;
     m_tItem.m_fUpper = fUpper;
     m_tItem.m_nPos = 0;
     m_bLastPoint = FALSE;
+    m_fMaxCir = fMaxCir <= 0 ? 1 : fMaxCir;
+    m_fOffset = (m_iChartWidth * fMaxCir) / MAXLINEITEM;
 
     return TRUE;
 }
@@ -275,13 +283,6 @@ void CLineChartCtrl::DrawGridLine()
 
 void CLineChartCtrl::DrawBkLine()
 {
-    GetClientRect(&m_rcClient);
-
-    /* 获取画图区域的宽和高 */
-    m_iChartWidth = m_rcClient.Width() - 1;
-    m_iChartHeight = m_rcClient.Height() - 1;
-    m_fOffset = (m_iChartWidth * 1.0) / MAXLINEITEM;
-
     GetMemDC();
 
     /* 画背景格子线 */
@@ -314,3 +315,74 @@ void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UI
     //strPrint = strContent + _T("          ");
     m_MemDC.DrawText(strPrint, -1, &rectCont, DT_SINGLELINE | DT_RIGHT | DT_TOP);
 }
+
+UINT CLineChartCtrl::GetCurPoint()
+{
+    return m_tItem.m_nPos;
+}
+
+bool CLineChartCtrl::UpdateMaxWidth(double fMaxCir)
+{
+    CPoint  ptOld;
+    CPoint  ptNew;
+    double  fRange = 0;
+    double  fRatio = 0;
+    double* pOldData = NULL;
+    UINT    nNewCount = 0;
+    UINT    nOldCount = 0;
+    UINT    nPrePos = 0;
+
+    nOldCount = m_tItem.m_nPos;
+    nNewCount = int(nOldCount * m_fMaxCir / fMaxCir + 0.5);
+    m_fMaxCir = fMaxCir <= 0 ? 1 : fMaxCir;
+    m_fOffset = (m_iChartWidth * fMaxCir) / MAXLINEITEM;
+
+    if (m_tItem.m_nPos == 0)
+        return true;
+
+    DrawBkLine();
+    Invalidate(TRUE);
+
+    m_tItem.m_nPos = nNewCount;
+
+    CPen  pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
+    CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
+
+    pOldData = (double*)calloc(nOldCount, sizeof(double));
+    memcpy(pOldData, m_tItem.m_fData, nOldCount * sizeof(double));
+    memset(m_tItem.m_fData, 0, nOldCount * sizeof(double));
+
+    /* 第一个数据直接拷贝 */
+    m_tItem.m_fData[0] = pOldData[0];
+    fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
+    ptOld.y = m_iChartHeight;
+    ptOld.x = 0;
+    for (int i = 1; i < (int)(nNewCount - 1); i++)
+    {
+        nPrePos = UINT(i / (nNewCount * 1.0) * nOldCount);
+        if (nPrePos == nOldCount)
+        {
+            break;
+        }
+        m_tItem.m_fData[i] = pOldData[nPrePos];
+
+        ptNew.x = int(i * m_fOffset);
+        ptNew.y = (int)((((fRange - m_tItem.m_fData[i - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+
+        m_MemDC.MoveTo(ptOld);
+        m_MemDC.LineTo(ptNew);
+        ptOld = ptNew;
+    }
+    /* 最后一个数据直接拷贝 */
+    m_tItem.m_fData[nNewCount - 1] = pOldData[nOldCount - 1];
+    ptNew.x = int(nNewCount * m_fOffset);
+    ptNew.y = (int)((((fRange - m_tItem.m_fData[nNewCount - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+    m_MemDC.MoveTo(ptOld);
+    m_MemDC.LineTo(ptNew);
+
+    free(pOldData);
+    m_MemDC.SelectObject(pOldPen);
+    Invalidate(TRUE);
+    return true;
+}
+

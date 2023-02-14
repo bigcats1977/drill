@@ -401,6 +401,7 @@ CDrillDlg::CDrillDlg(CWnd* pParent /*=NULL*/)
     m_nClashERR = 0;
     m_nInterval = 20;   //时间需要修改20191208
     m_fMaxBORange = 1000;
+    m_fCurMaxTurn = 2;
     m_nBOSeqNO = 0;
     m_nBOOutWellNO = 0;
     m_strRecvData = _T("");
@@ -995,7 +996,7 @@ void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
     }
 
     iCurPoints = int((iPlus * MAXLINEITEM) /
-        (g_tGlbCfg.nPlusPerTurn * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]) + 0.5);
+        (g_tGlbCfg.nPlusPerTurn * m_fCurMaxTurn) + 0.5);
 
     if (ptOrgData != NULL)
         ptOrgData->ucPointNum = iCurPoints;
@@ -1200,7 +1201,7 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
     m_strRecvData.Format("%ld,%ld,%d", (int)ptCollData->fTorque, ptCollData->nOrgPlus, ptCollData->ucStatus);
 
     /*300编码器，转速太快，除2降1倍*/
-    ptCollData->fRpm = m_iOutPoints * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] * 0.8 / g_tGlbCfg.fRpmAdj;
+    ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
 
     return TRUE;
 }
@@ -1300,7 +1301,7 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
 
     /* 300编码器，转速太快，除m_fRpmAdj降速度 */
     if (fRpm == 0)
-        tOrgData.fRpm = ptCollData->fRpm = m_iOutPoints * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] * 0.8 / g_tGlbCfg.fRpmAdj;
+        tOrgData.fRpm = ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
     else
         tOrgData.fRpm = ptCollData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
 
@@ -1666,7 +1667,7 @@ void CDrillDlg::SetTorqDataCfg(TorqData::Torque* ptPBData)
     ptPBData->set_fopttorq(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
     ptPBData->set_fshow(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
 
-    ptPBData->set_fmaxcir(m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
+    ptPBData->set_fmaxcir(m_fCurMaxTurn);
     ptPBData->set_fuppercir(m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
     ptPBData->set_fcontrolcir(m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL]);
     ptPBData->set_flowercir(m_ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT]);
@@ -1687,14 +1688,14 @@ void CDrillDlg::FinishSetStatus()
     DWORD   dwQuality = 0;
     WORD    wIPPos = 0;
     WORD    wIPPlus = 0;
-    int     iCurIPPos = 0;
+    //int     iCurIPPos = 0;
     double  fDelCir = 0;
 
     COMP_BL(m_tSaveData.ftorque_size(), 1);
 
     SetTorqDataCfg(&m_tSaveData);
 
-    if (m_iBreakOut == 0)
+    /*if (m_iBreakOut == 0)
     {
         for (i = m_tCollData.nAllCount - 1; i > 0; i--)
         {
@@ -1709,7 +1710,7 @@ void CDrillDlg::FinishSetStatus()
                 break;
             }
         }
-    }
+    }*/
 
     /* 质量判定 */
     dwQuality = QUA_RESU_GOOD;
@@ -1990,7 +1991,7 @@ void CDrillDlg::SavePortNormalInfo(COLLECTDATA* ptCollData)
 
     /* 300编码器，转速太快，除m_fRpmAdj降速度 */
     if (fRpm == 0)
-        tOrgData.fRpm = ptCollData->fRpm = m_iOutPoints * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] * 0.8 / g_tGlbCfg.fRpmAdj;
+        tOrgData.fRpm = ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
     else
         tOrgData.fRpm = ptCollData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
 
@@ -2256,7 +2257,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         memcpy(&tCollData[0], ptCollData, PORT_MAXDATANUM * sizeof(COLLECTDATA));
     }
     /* 获取数据完成，开始处理数据，画图或者保存 */
-    fCurCir = m_tCollData.nAllCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM;
+    fCurCir = m_wndTorque.GetCurPoint() * m_fCurMaxTurn / MAXLINEITEM;
 
     for (i = 0; i < PORT_MAXDATANUM; i++)
     {
@@ -2422,7 +2423,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
 
         /* 图形超过控制周数，自动刷新
            现场有时因为周数设置小，图形超过，满屏周数 没图形 */
-        fCurCir = (m_tCollData.nCurCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM);
+        /*fCurCir = (m_tCollData.nCurCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM);
         if (fCurCir > m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL] || fCurCir > m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT])
         {
             ClearInfo(FALSE);
@@ -2430,7 +2431,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
             m_iPriorCnt += m_tCollData.nCurCount;
             m_tCollData.nCurCount = 0;
             m_iShowPlus = tCollData[nDataNum - 1].nOrgPlus;
-        }
+        }*/
 
         UpdateData(FALSE);
     }
@@ -2444,6 +2445,21 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
             m_yAxis1.SetTickPara(20, m_fMaxBORange);
             m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
         }
+    }
+
+    // 20230214 当前周数超过最大周数，更新最大周数
+    UINT nPoints = m_wndTorque.GetCurPoint();
+    if (nPoints > 300)
+        int kkk = 0;
+    fCurCir = m_wndTorque.GetCurPoint() * m_fCurMaxTurn / MAXLINEITEM;
+    if (m_wndTorque.GetCurPoint() > MAXLINEITEM * 0.9)
+    {
+        // 每次加1周
+        m_fCurMaxTurn += 1;
+        m_xAxis1.SetTickPara(20, m_fCurMaxTurn);
+        m_xAxis2.SetTickPara(20, m_fCurMaxTurn);
+        m_wndTorque.UpdateMaxWidth(m_fCurMaxTurn, (m_iBreakOut > 0));
+        m_wndRpm.UpdateMaxWidth(m_fCurMaxTurn);
     }
 
     /* 控制下降 */
@@ -2643,7 +2659,7 @@ BOOL CDrillDlg::RunInitRand()
 
     for (i = 1; i < TESTNUM; i++)
     {
-        fTorq = rand() * 100.0 / RAND_MAX;
+        fTorq = rand() * 10.0 / RAND_MAX;
         m_fTestTorq[i] = m_fTestTorq[i - 1] + fTorq * iCtrl;
         /*if (g_tGlbCfg.iBreakOut > 0)
         {
@@ -2904,7 +2920,7 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
     m_wndTorque.m_fMaxLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     //m_wndTorque.m_bBear = m_ptComm->bBear;
 
-    m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_MAIN);
+    m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, m_fCurMaxTurn, LINETYPE_MAIN);
     m_xAxis1.SetTickPara(10, m_wndTorque.m_fMaxCir);
     if (m_iBreakOut > 0)
     {
@@ -2920,7 +2936,7 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
         m_wndTorque.DrawBkLine(false);
     }
 
-    m_wndRpm.Add(RGB(255, 255, 255), m_ptCtrl->fFullRPM, 0.0);
+    m_wndRpm.Add(RGB(255, 255, 255), m_ptCtrl->fFullRPM, 0.0, m_fCurMaxTurn);
     m_xAxis2.SetTickPara(10, m_wndTorque.m_fMaxCir);
     m_yAxis2.SetTickPara(3, m_ptCtrl->fFullRPM);
     m_wndRpm.DrawBkLine();
@@ -3842,13 +3858,14 @@ void CDrillDlg::SetCommShowInfo(UINT nStatus)
 void CDrillDlg::ResetData()
 {
     m_tCollData.nAllCount = 0;
-    m_tCollData.nCurCount = 0;
+    //m_tCollData.nCurCount = 0;
     m_tCollData.dwQuality = 0;
     m_fMaxTorq = 0;
+    m_fCurMaxTurn = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
 
     m_iShowPlus = 0;
     m_iPriorPlus = 0;
-    m_iPriorCnt = 0;
+    //m_iPriorCnt = 0;
     _time64(&m_tStartTime);
 
     if (NULL != m_ptPortData)
@@ -3881,16 +3898,16 @@ BOOL CDrillDlg::InsertData(COLLECTTORQUE* ptColl, double torque, double rpm)
         ptColl->nAllCount -= MAXLINEITEM;
         return FALSE;
     }
-    if (ptColl->nCurCount >= MAXLINEITEM)
+    /*if (ptColl->nCurCount >= MAXLINEITEM)
     {
         m_iPriorCnt += m_tCollData.nCurCount;
         ptColl->nCurCount = 0;
-    }
+    }*/
 
     ptColl->fTorque[ptColl->nAllCount] = torque;
     ptColl->fRpm[ptColl->nAllCount] = rpm;
     ptColl->nAllCount++;
-    ptColl->nCurCount++;
+    //ptColl->nCurCount++;
 
     return TRUE;
 }

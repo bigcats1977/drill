@@ -277,7 +277,7 @@ private:
     bool            m_bAutoFileOpen;    /* 调试函数文件是否打开 */
 
     int             m_iShowPlus;        /* 显示前的脉冲数，实际脉冲需要减掉显示脉冲，才能计算圈数 */
-    int             m_iPriorCnt;        /* 之前屏的点数 */
+    //int             m_iPriorCnt;        /* 之前屏的点数 */
     int             m_iPriorPlus;       /* 上一次脉冲数 */
     __time64_t      m_tStartTime;       /* 开始上扣的时间 */
 
@@ -325,6 +325,7 @@ private:
     UINT            m_nCurTallyNO;      /* 入井序号 */
     UINT            m_nMaxOutWellNO;    /* 最大取出序号 */
     double          m_fMaxBORange;      /* 卸扣时最大卸扣扭矩限制值 */
+    double          m_fCurMaxTurn;      /* 采集数据时最大周数 */
 };
 
 extern CDrillDlg* thepDlg;
