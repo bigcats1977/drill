@@ -268,7 +268,7 @@ BOOL CDrillApp::InitInstance()
     float dpiY = (float)GetDeviceCaps(hdcScreen, LOGPIXELSY) / 96;
 
     ScaleY = (ScaleY > dpiY) ? ScaleY : dpiY;
-    m_ucDPILevel = (BYTE)(ScaleY * 4 + 0.5);
+    m_ucDPILevel = (BYTE)ceil(ScaleY * 4);// + 0.5);
 
     m_nScreenX = GetSystemMetrics(SM_CXFULLSCREEN);
     m_nScreenY = GetSystemMetrics(SM_CYFULLSCREEN);
@@ -327,6 +327,8 @@ BOOL CDrillApp::InitInstance()
         theApp.SaveMessage("InitConfigFromDB fail!! Using Default Config.");
         InitDefaultConfig(initStep);
     }
+	
+	g_tGlbCfg.nTest = 1;
 
     /* 初始化数组、变量 */
     InitVariant();
@@ -1604,7 +1606,7 @@ BOOL CDrillApp::JudgeTranslate(TorqData::Torque* ptTorq)
     ASSERT_NULL_R(ptTorq, TRUE);
     ASSERT_ZERO_R(ptTorq->dwmucount(), TRUE);
 
-    iTranCount = (int)((0.2 / ptTorq->fmaxcir()) * 500 + 0.5);
+    iTranCount = (int)ceil((0.2 / ptTorq->fmaxcir()) * 500);
     fCtrlTorq = ptTorq->fmumaxtorq();
 
     for (i = ptTorq->dwmucount() - 1; i > iTranCount; i--)
@@ -2216,7 +2218,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         }
         else    /* 从后往前分屏 */
         {
-            iCtrlCount = int(GetCtrlCir(ptTorq) * MAXLINEITEM / GetMaxCir(ptTorq) + 0.5);
+            iCtrlCount = (int)ceil(GetCtrlCir(ptTorq) * MAXLINEITEM / GetMaxCir(ptTorq));
             if (iCtrlCount < 0)
             {
                 break;

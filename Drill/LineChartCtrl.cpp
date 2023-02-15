@@ -318,7 +318,7 @@ void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UI
 
 UINT CLineChartCtrl::GetCurPoint()
 {
-    return m_tItem.m_nPos;
+    return (UINT)ceil(m_tItem.m_nPos * m_fOffset);
 }
 
 bool CLineChartCtrl::UpdateMaxWidth(double fMaxCir)
@@ -333,7 +333,7 @@ bool CLineChartCtrl::UpdateMaxWidth(double fMaxCir)
     UINT    nPrePos = 0;
 
     nOldCount = m_tItem.m_nPos;
-    nNewCount = int(nOldCount * m_fMaxCir / fMaxCir + 0.5);
+    nNewCount = (UINT)ceil(nOldCount * m_fMaxCir / fMaxCir);
     m_fMaxCir = fMaxCir <= 0 ? 1 : fMaxCir;
     m_fOffset = (m_iChartWidth * fMaxCir) / MAXLINEITEM;
 

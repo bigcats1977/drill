@@ -995,8 +995,7 @@ void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
         //m_iOutPoints = 0;
     }
 
-    iCurPoints = int((iPlus * MAXLINEITEM) /
-        (g_tGlbCfg.nPlusPerTurn * m_fCurMaxTurn) + 0.5);
+    iCurPoints = (int)ceil((iPlus * MAXLINEITEM) / (g_tGlbCfg.nPlusPerTurn * m_fCurMaxTurn));
 
     if (ptOrgData != NULL)
         ptOrgData->ucPointNum = iCurPoints;
@@ -2257,7 +2256,8 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         memcpy(&tCollData[0], ptCollData, PORT_MAXDATANUM * sizeof(COLLECTDATA));
     }
     /* 获取数据完成，开始处理数据，画图或者保存 */
-    fCurCir = m_wndTorque.GetCurPoint() * m_fCurMaxTurn / MAXLINEITEM;
+    // fCurCir = m_tCollData.nAllCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM;
+    fCurCir = m_tCollData.nAllCount * m_fCurMaxTurn / MAXLINEITEM;
 
     for (i = 0; i < PORT_MAXDATANUM; i++)
     {
@@ -2398,7 +2398,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         else if (bHaveS3)
             m_strTorque.Format("%.0f", m_fMaxTorq);
         else    /* 显示最后一个有效数据 */
-            m_strTorque.Format("%.0f", tCollData[nDataNum - 1].fTorque);
+            m_strTorque.Format("%.0f, %.2f", tCollData[nDataNum - 1].fTorque, fCurCir);
         m_fRpm = tCollData[nDataNum - 1].fRpm;
 
         for (i = 0; i < (int)nDataNum && i < PORT_MAXDATANUM; i++)
@@ -2449,10 +2449,13 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
 
     // 20230214 当前周数超过最大周数，更新最大周数
     UINT nPoints = m_wndTorque.GetCurPoint();
+    CString strPnt;
+    strPnt.Format("%d\r\n", nPoints);
+    OutputDebugString(strPnt);
     if (nPoints > 300)
         int kkk = 0;
-    fCurCir = m_wndTorque.GetCurPoint() * m_fCurMaxTurn / MAXLINEITEM;
-    if (m_wndTorque.GetCurPoint() > MAXLINEITEM * 0.9)
+    fCurCir = m_tCollData.nAllCount * m_fCurMaxTurn / MAXLINEITEM;
+    if (fCurCir > m_fCurMaxTurn * 0.9)
     {
         // 每次加1周
         m_fCurMaxTurn += 1;

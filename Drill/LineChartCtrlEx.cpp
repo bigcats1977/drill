@@ -288,7 +288,7 @@ bool CLineChartCtrlEx::UpdateMaxWidth(double fMaxCir, bool bBreakOut)
     UINT    nPrePos = 0;
 
     nOldCount = m_tItem.m_nPos;
-    nNewCount = int(nOldCount * m_fMaxCir / fMaxCir + 0.5);
+    nNewCount = (UINT)ceil(nOldCount * m_fMaxCir / fMaxCir);
     m_fMaxCir = fMaxCir <= 0 ? 1 : fMaxCir;
     m_fOffset = (m_iChartWidth * fMaxCir) / MAXLINEITEM;
 
