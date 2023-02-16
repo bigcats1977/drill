@@ -62,9 +62,8 @@ public:
     //void    InvalidateCtrl();
     void    DrawSpike(BOOL bStop = FALSE);
     BOOL    RemoveAt();
-    BOOL    Add(COLORREF clrLine, double fUpper, double fLower, double fMaxCir, BYTE uType);
+    BOOL    Add(COLORREF clrLine, double fUpper, double fLower, BYTE uType);
     bool    UpdateMaxHeight(double fUpper);
-    bool    UpdateMaxWidth(double fMaxCir, bool bBreakOut);
     void    DrawBkLine(bool bBreakOut);
     void    FinishDraw();
     void    DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMaxCir, double fDeltaCir, double fSetZoomTorq = -1);
@@ -77,6 +76,7 @@ public:
     void    EraseLine();
     void    DrawMakeupLine(double fTorq, int begin, int end);
     void    DrawBreakoutLine(double fTorq, int begin, int end);
+    bool    ReDrawLine(double* pData, UINT nCount, bool bBreakOut);
 
 public:
     /* 扭矩显示相关参数 */

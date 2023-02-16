@@ -176,7 +176,7 @@ void CLineChartCtrl::DrawSpike()
     m_MemDC.SelectObject(pOldPen);
 }
 
-BOOL CLineChartCtrl::Add(COLORREF clrLine, double fUpper, double fLower, double fMaxCir)
+BOOL CLineChartCtrl::Add(COLORREF clrLine, double fUpper, double fLower)
 {
     GetClientRect(&m_rcClient);
 
@@ -190,8 +190,7 @@ BOOL CLineChartCtrl::Add(COLORREF clrLine, double fUpper, double fLower, double 
     m_tItem.m_fUpper = fUpper;
     m_tItem.m_nPos = 0;
     m_bLastPoint = FALSE;
-    m_fMaxCir = fMaxCir <= 0 ? 1 : fMaxCir;
-    m_fOffset = (m_iChartWidth * fMaxCir) / MAXLINEITEM;
+    m_fOffset = (m_iChartWidth * 1.0) / MAXLINEITEM;
 
     return TRUE;
 }
@@ -318,53 +317,36 @@ void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UI
 
 UINT CLineChartCtrl::GetCurPoint()
 {
-    return (UINT)ceil(m_tItem.m_nPos * m_fOffset);
+    //return (UINT)ceil(m_tItem.m_nPos * m_fOffset);
+    return m_tItem.m_nPos;
 }
 
-bool CLineChartCtrl::UpdateMaxWidth(double fMaxCir)
+bool CLineChartCtrl::ReDrawLine(double* pData, UINT nCount)
 {
     CPoint  ptOld;
     CPoint  ptNew;
     double  fRange = 0;
-    double  fRatio = 0;
-    double* pOldData = NULL;
-    UINT    nNewCount = 0;
-    UINT    nOldCount = 0;
-    UINT    nPrePos = 0;
 
-    nOldCount = m_tItem.m_nPos;
-    nNewCount = (UINT)ceil(nOldCount * m_fMaxCir / fMaxCir);
-    m_fMaxCir = fMaxCir <= 0 ? 1 : fMaxCir;
-    m_fOffset = (m_iChartWidth * fMaxCir) / MAXLINEITEM;
-
-    if (m_tItem.m_nPos == 0)
-        return true;
+    ASSERT_NULL_R(pData, false);
+    ASSERT_ZERO_R(m_tItem.m_nPos, true);
 
     DrawBkLine();
     Invalidate(TRUE);
 
-    m_tItem.m_nPos = nNewCount;
+    memset(m_tItem.m_fData, 0, m_tItem.m_nPos * sizeof(double));
+    m_tItem.m_nPos = nCount;
 
     CPen  pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
     CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
 
-    pOldData = (double*)calloc(nOldCount, sizeof(double));
-    memcpy(pOldData, m_tItem.m_fData, nOldCount * sizeof(double));
-    memset(m_tItem.m_fData, 0, nOldCount * sizeof(double));
-
     /* 第一个数据直接拷贝 */
-    m_tItem.m_fData[0] = pOldData[0];
+    m_tItem.m_fData[0] = pData[0];
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     ptOld.y = m_iChartHeight;
     ptOld.x = 0;
-    for (int i = 1; i < (int)(nNewCount - 1); i++)
+    for (int i = 1; i < (int)(nCount - 1); i++)
     {
-        nPrePos = UINT(i / (nNewCount * 1.0) * nOldCount);
-        if (nPrePos == nOldCount)
-        {
-            break;
-        }
-        m_tItem.m_fData[i] = pOldData[nPrePos];
+        m_tItem.m_fData[i] = pData[i];
 
         ptNew.x = int(i * m_fOffset);
         ptNew.y = (int)((((fRange - m_tItem.m_fData[i - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
@@ -374,13 +356,12 @@ bool CLineChartCtrl::UpdateMaxWidth(double fMaxCir)
         ptOld = ptNew;
     }
     /* 最后一个数据直接拷贝 */
-    m_tItem.m_fData[nNewCount - 1] = pOldData[nOldCount - 1];
-    ptNew.x = int(nNewCount * m_fOffset);
-    ptNew.y = (int)((((fRange - m_tItem.m_fData[nNewCount - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
+    m_tItem.m_fData[nCount - 1] = pData[nCount - 1];
+    ptNew.x = int(nCount * m_fOffset);
+    ptNew.y = (int)((((fRange - m_tItem.m_fData[nCount - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
     m_MemDC.MoveTo(ptOld);
     m_MemDC.LineTo(ptNew);
 
-    free(pOldData);
     m_MemDC.SelectObject(pOldPen);
     Invalidate(TRUE);
     return true;

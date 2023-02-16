@@ -2448,21 +2448,21 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     }
 
     // 20230214 当前周数超过最大周数，更新最大周数
-    UINT nPoints = m_wndTorque.GetCurPoint();
-    CString strPnt;
-    strPnt.Format("%d\r\n", nPoints);
-    OutputDebugString(strPnt);
-    if (nPoints > 300)
-        int kkk = 0;
-    fCurCir = m_tCollData.nAllCount * m_fCurMaxTurn / MAXLINEITEM;
-    if (fCurCir > m_fCurMaxTurn * 0.9)
+    UINT nOld = m_wndTorque.GetCurPoint();
+    UINT nNew = nOld;
+    if (nOld > MAXLINEITEM * 0.8)
     {
+        nNew = (UINT)ceil(nOld * m_fCurMaxTurn / (m_fCurMaxTurn + 1));
+        ZoomData(m_tCollData.fTorque, nOld, nNew);
+        ZoomData(m_tCollData.fRpm, nOld, nNew);
+        m_tCollData.nAllCount = nNew;
+
         // 每次加1周
         m_fCurMaxTurn += 1;
         m_xAxis1.SetTickPara(20, m_fCurMaxTurn);
         m_xAxis2.SetTickPara(20, m_fCurMaxTurn);
-        m_wndTorque.UpdateMaxWidth(m_fCurMaxTurn, (m_iBreakOut > 0));
-        m_wndRpm.UpdateMaxWidth(m_fCurMaxTurn);
+        m_wndTorque.ReDrawLine(m_tCollData.fTorque, nNew, (m_iBreakOut > 0));
+        m_wndRpm.ReDrawLine(m_tCollData.fRpm, nNew);
     }
 
     /* 控制下降 */
@@ -2476,6 +2476,37 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     }
 
     return 0;
+}
+
+bool CDrillDlg::ZoomData(double* pData, UINT nOldCount, UINT nNewCount)
+{
+    int     i = 0;
+    UINT    nPrePos = 0;
+    double* pOldData = NULL;
+
+    ASSERT_NULL_R(pData, false);
+
+    pOldData = (double*)calloc(nOldCount, sizeof(double));
+    memcpy(pOldData, pData, nOldCount * sizeof(double));
+    memset(pData, 0, nOldCount * sizeof(double));
+
+    /* 第一个数据直接拷贝 */
+    pData[0] = pOldData[0];
+    for (int i = 1; i < (int)(nNewCount - 1); i++)
+    {
+        nPrePos = UINT(i / (nNewCount * 1.0) * nOldCount);
+        if (nPrePos == nOldCount)
+        {
+            break;
+        }
+        pData[i] = pOldData[nPrePos];
+    }
+    /* 最后一个数据直接拷贝 */
+    pData[nNewCount - 1] = pOldData[nOldCount - 1];
+
+    free(pOldData);
+
+    return true;
 }
 
 /* 控制扭矩或者停止后10s，需要清零数据、清除减速、卸荷灯 */
@@ -2923,7 +2954,7 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
     m_wndTorque.m_fMaxLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* 最大上限 */
     //m_wndTorque.m_bBear = m_ptComm->bBear;
 
-    m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, m_fCurMaxTurn, LINETYPE_MAIN);
+    m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_MAIN);
     m_xAxis1.SetTickPara(10, m_wndTorque.m_fMaxCir);
     if (m_iBreakOut > 0)
     {
@@ -2939,7 +2970,7 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
         m_wndTorque.DrawBkLine(false);
     }
 
-    m_wndRpm.Add(RGB(255, 255, 255), m_ptCtrl->fFullRPM, 0.0, m_fCurMaxTurn);
+    m_wndRpm.Add(RGB(255, 255, 255), m_ptCtrl->fFullRPM, 0.0);
     m_xAxis2.SetTickPara(10, m_wndTorque.m_fMaxCir);
     m_yAxis2.SetTickPara(3, m_ptCtrl->fFullRPM);
     m_wndRpm.DrawBkLine();

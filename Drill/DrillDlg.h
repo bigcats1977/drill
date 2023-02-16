@@ -263,6 +263,7 @@ private:
     BOOL   JudgeRunStatus(unsigned wInfo);
     void   CanModLastData(BOOL bCan);
     void   CheckBreakOut();
+    bool   ZoomData(double* pData, UINT nOldCount, UINT nNewCount);
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/

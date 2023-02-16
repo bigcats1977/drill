@@ -271,7 +271,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
     m_wndLineZoom.RemoveAt();
     m_wndLineZoom.SetBkColor(RGB(255, 255, 255));
     m_wndLineZoom.m_bBKLine = TRUE;
-    m_wndLineZoom.Add(clrZoom, m_fMaxTorq, m_fMinTorq, theApp.GetMaxCir(ptDraw->ptOrgTorq), LINETYPE_ZOOM);
+    m_wndLineZoom.Add(clrZoom, m_fMaxTorq, m_fMinTorq, LINETYPE_ZOOM);
 
     m_wndLineZoom.DrawZoomBkLine();
 
