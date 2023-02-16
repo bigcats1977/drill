@@ -290,6 +290,7 @@ bool CLineChartCtrlEx::ReDrawLine(double* pData, UINT nCount,  bool bBreakOut)
 
     memset(m_tItem.m_fData, 0, m_tItem.m_nPos * sizeof(double));
     m_tItem.m_nPos = nCount;
+    m_iStaticX = nCount;
 
     CPen  pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
     CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
