@@ -117,8 +117,8 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     ON_BN_CLICKED(IDC_CHECKTOOLBUCK, &CDlgHisGrp::OnBnClickedChecktoolbuck)
     ON_BN_CLICKED(IDC_BTNREMARK, OnModRemark)
     ON_EN_KILLFOCUS(IDC_HISMEMO, &CDlgHisGrp::OnEnKillfocusHismemo)
-    ON_STN_CLICKED(IDC_PRIORSPLIT, &CDlgHisGrp::OnStnClickedPriorsplit)
-    ON_STN_CLICKED(IDC_NEXTSPLIT, &CDlgHisGrp::OnStnClickedNextsplit)
+    //ON_STN_CLICKED(IDC_PRIORSPLIT, &CDlgHisGrp::OnStnClickedPriorsplit)
+    //ON_STN_CLICKED(IDC_NEXTSPLIT, &CDlgHisGrp::OnStnClickedNextsplit)
     //ON_BN_CLICKED(IDC_CHECKHISBREAKOUT, &CDlgHisGrp::OnBnClickedCheckbreakout)
     //}}AFX_MSG_MAP
     ON_BN_CLICKED(IDC_RADIOSIGNLE, &CDlgHisGrp::OnBnClickedRadiosignle)
@@ -235,7 +235,7 @@ void CDlgHisGrp::SetCurEdit()
         m_strOutJoint = NULLSTR;
     }
 }
-
+#if 0
 BOOL CDlgHisGrp::GetCirRange(double* fMin, double* fMax)
 {
     int    i = 0;
@@ -256,7 +256,7 @@ BOOL CDlgHisGrp::GetCirRange(double* fMin, double* fMax)
 
     return TRUE;
 }
-
+#endif
 void CDlgHisGrp::ResetHisLineByCurData()
 {
     int    i = 0;
@@ -284,7 +284,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
 
     fMinCir = 0;
     fMaxCir = m_wndLineHis.m_fMaxCir;
-    GetCirRange(&fMinCir, &fMaxCir);
+    //GetCirRange(&fMinCir, &fMaxCir);
 
     /* 重新设置刻度 */
     m_xHisAxis1.SetTickPara(10, fMaxCir, fMinCir);
@@ -429,7 +429,7 @@ void CDlgHisGrp::CheckGrpType()
     GetDlgItem(IDC_RADIOGRPMU)->EnableWindow(TRUE);
     GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(TRUE);
 }
-
+#if 0
 void CDlgHisGrp::CheckCurSplit()
 {
     /* 按钮先置灰 */
@@ -457,7 +457,7 @@ void CDlgHisGrp::CheckCurSplit()
 
     return;
 }
-
+#endif
 void CDlgHisGrp::DrawCurTorque()
 {
     int     i = 0;
@@ -476,15 +476,17 @@ void CDlgHisGrp::DrawCurTorque()
 
     /* 如果记录数据大于一圈，显示最后一圈的数据，留空10 */
     i = 0;
-    theApp.GetShowDataRange(m_ptCurDraw, iBegin, iEnd, &m_tCurSplit);
+    iBegin = 0;
+    iEnd = m_ptCurDraw->wCount;
+    //theApp.GetShowDataRange(m_ptCurDraw, iBegin, iEnd, &m_tCurSplit);
     /* 多屏的第一屏时，贴右画图 */
-    if (iBegin == 0 && m_tCurSplit.iSplitNum > 1)
-    {
-        nBeginPos = MAXLINEITEM - iEnd;
-        // SetStartPoint 需要在m_fOffset初始化后再设置，一般在DrawZoomBkLine之后即可
-        m_wndLineHis.SetStartPoint(nBeginPos);
-        m_wndRpmHis.SetStartPoint(nBeginPos);
-    }
+    //if (iBegin == 0 && m_tCurSplit.iSplitNum > 1)
+    //{
+    //    nBeginPos = MAXLINEITEM - iEnd;
+    //    // SetStartPoint 需要在m_fOffset初始化后再设置，一般在DrawZoomBkLine之后即可
+    //    m_wndLineHis.SetStartPoint(nBeginPos);
+    //    m_wndRpmHis.SetStartPoint(nBeginPos);
+    //}
 
     for (i = iBegin; i < iEnd - 1; i++)
     {
@@ -583,11 +585,11 @@ void CDlgHisGrp::ShowCurData(bool bNew)
 
     if (bNew)
     {
-        m_tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
+        //m_tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
         m_wndLineHis.ClearSelPnt();
     }
 
-    CheckCurSplit();
+    //CheckCurSplit();
 
     /* 设置参数 */
     SetCurEdit();
@@ -793,13 +795,15 @@ LRESULT CDlgHisGrp::SelPosChange(WPARAM wParam, LPARAM lParam)
 */
 BOOL CDlgHisGrp::JudgeValidPosition(int iPos)
 {
-    int  iCur = m_tCurSplit.iCur;
+    //int  iCur = m_tCurSplit.iCur;
 
     ASSERT_NULL_R(m_ptCurDraw, FALSE);
     COMP_BLE_R(iPos, 0, FALSE);
     COMP_BGE_R(iPos, MAXLINEITEM, FALSE);
-    COMP_BG_R(m_tCurSplit.iSplitNum, MAXSPLIITNUM, FALSE);
-
+    //COMP_BG_R(m_tCurSplit.iSplitNum, MAXSPLIITNUM, FALSE);
+    if (iPos >= m_ptCurDraw->wCount)
+        return FALSE;
+#if 0
     /* 单屏数据 */
     if (m_tCurSplit.iSplitNum <= 1)
     {
@@ -821,7 +825,7 @@ BOOL CDlgHisGrp::JudgeValidPosition(int iPos)
                 return FALSE;
         }
     }
-
+#endif
     return TRUE;
 }
 
@@ -833,7 +837,7 @@ LRESULT CDlgHisGrp::InterPtZoomIn(WPARAM wParam, LPARAM lParam)
     COMP_BFALSE_R(JudgeValidPosition(lParam), 1);
 
     dlgZoom.m_nPos = lParam;
-    dlgZoom.m_tSplit = m_tCurSplit;
+    //dlgZoom.m_tSplit = m_tCurSplit;
 
     dlgZoom.DoModal();
 
@@ -1024,7 +1028,7 @@ void CDlgHisGrp::OnEnKillfocusHismemo()
     UpdateData(FALSE);
     theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
-
+#if 0
 void CDlgHisGrp::OnStnClickedPriorsplit()
 {
     if (m_tCurSplit.iCur > 1)
@@ -1052,7 +1056,7 @@ void CDlgHisGrp::OnStnClickedNextsplit()
 
     return;
 }
-
+#endif
 void CDlgHisGrp::OnBnClickedRadiosignle()
 {
     ASSERT_NULL(m_ptCurTorq);

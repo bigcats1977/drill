@@ -299,7 +299,7 @@ private:
     double      m_fMaxTorq;
     COLLECTTORQUE   m_tCollData;        /* 当前的扭矩结构数据，可以超过正常图形4倍 */
     PORTDATA* m_ptPortData;
-    TorqData::Torque   m_tSaveData;        /* 从collectData获取最后MAXPOINT保存到saveData */
+    TorqData::Torque   m_tSaveData;     /* 从collectData获取最后MAXPOINT保存到saveData */
 
     /* 高精度定时器 */
     CHighResTimer   m_hrtReadPort;      /* 串口定时器 */

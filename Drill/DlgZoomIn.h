@@ -22,7 +22,7 @@ public:
     CRuler      m_xZoomAxis;
     CRuler      m_yZoomAxis;
     UINT        m_nPos; //src pos
-    SPLITPOINT  m_tSplit;
+    //SPLITPOINT  m_tSplit;
 
     CLineChartCtrlEx    m_wndLineZoom;
 

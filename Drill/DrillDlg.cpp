@@ -2398,7 +2398,8 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         else if (bHaveS3)
             m_strTorque.Format("%.0f", m_fMaxTorq);
         else    /* 显示最后一个有效数据 */
-            m_strTorque.Format("%.0f, %.2f", tCollData[nDataNum - 1].fTorque, fCurCir);
+			m_strTorque.Format("%.0f", tCollData[nDataNum - 1].fTorque);
+            // m_strTorque.Format("%.0f, %.2f", tCollData[nDataNum - 1].fTorque, fCurCir);
         m_fRpm = tCollData[nDataNum - 1].fRpm;
 
         for (i = 0; i < (int)nDataNum && i < PORT_MAXDATANUM; i++)
@@ -2450,7 +2451,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     // 20230214 当前周数超过最大周数，更新最大周数
     UINT nOld = m_wndTorque.GetCurPoint();
     UINT nNew = nOld;
-    if (nOld > MAXLINEITEM * 0.8)
+    if (nOld > MAXLINEITEM * AUTOUPDTURNRATIO)
     {
         nNew = (UINT)ceil(nOld * m_fCurMaxTurn / (m_fCurMaxTurn + 1));
         ZoomData(m_tCollData.fTorque, nOld, nNew);
@@ -2693,7 +2694,7 @@ BOOL CDrillDlg::RunInitRand()
 
     for (i = 1; i < TESTNUM; i++)
     {
-        fTorq = rand() * 10.0 / RAND_MAX;
+        fTorq = rand() * 20.0 / RAND_MAX;
         m_fTestTorq[i] = m_fTestTorq[i - 1] + fTorq * iCtrl;
         /*if (g_tGlbCfg.iBreakOut > 0)
         {

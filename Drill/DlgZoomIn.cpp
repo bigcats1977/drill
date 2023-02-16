@@ -168,8 +168,8 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
     }
 
     /* 单屏直接返回 */
-    COMP_BLE(m_tSplit.iSplitNum, 1);
-
+    //COMP_BLE(m_tSplit.iSplitNum, 1);
+#if 0
     /* 多屏重新计算圈数范围 */
     /* 计算当前扭矩当前屏的圈数范围 */
 
@@ -178,6 +178,7 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
 
     m_fMinCir += fBeginCir;
     m_fMaxCir += fBeginCir;
+#endif
     return;
 }
 
@@ -189,11 +190,11 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
     UINT    nStartPoint = 0;
     TorqData::Torque* ptTorq = NULL;
 
-    SPLITPOINT  tCurSplit;      /* 当前分屏信息 */
+    //SPLITPOINT  tCurSplit;      /* 当前分屏信息 */
 
     ASSERT_NULL(ptDraw);
     ptTorq = ptDraw->ptOrgTorq;
-    tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
+    //tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
 
     if (m_nCurZoom <= 0)
         m_nCurZoom = 1;
@@ -210,22 +211,24 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
         m_fMaxCir = fSrcMaxCir;
     }
 
-    theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit, m_nCurZoom);
+    iBegin = 0;
+    iEnd = ptDraw->wCount;
+    //theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit, m_nCurZoom);
 
     /* 多屏的第一屏时，贴右画图 */
     m_iZoomPos = m_nPos + iBegin;
-    if (m_tSplit.iSplitNum > 1)
-    {
-        if (iBegin == 0)
-        {
-            nStartPoint = MAXLINEITEM - iEnd;
-            m_iZoomPos = m_nPos - nStartPoint;
-        }
-        else
-        {
-            //nStartPoint = 0;
-        }
-    }
+    //if (m_tSplit.iSplitNum > 1)
+    //{
+    //    if (iBegin == 0)
+    //    {
+    //        nStartPoint = MAXLINEITEM - iEnd;
+    //        m_iZoomPos = m_nPos - nStartPoint;
+    //    }
+    //    else
+    //    {
+    //        //nStartPoint = 0;
+    //    }
+    //}
 
     m_iBegin = (UINT)(m_fMinCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin;
     /* 20200312 避免放大时，放大LineCtrlEx画的点超过500，m_nPos为0，放大图像无法点击鼠标 */
@@ -304,7 +307,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
         m_wndLineZoom.Go();
     }
 
-    theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
+    //theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
     fmaxcir = theApp.GetMaxCir(ptDraw->ptOrgTorq);
     fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq);
 

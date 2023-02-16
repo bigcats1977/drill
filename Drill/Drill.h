@@ -103,7 +103,7 @@ public:
     //string  LoadstringFromRes(unsigned string_ID, int val);
     //string  LoadstringFromRes(unsigned string_ID, double val);
     //string  LoadstringFromRes(unsigned string_ID, string val);
-    void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
+    //void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
     string  GetSaveDataPath();
     int     SplitString(CString strSource, CStringList& slList);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */

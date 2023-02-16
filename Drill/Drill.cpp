@@ -1974,7 +1974,7 @@ void CDrillApp::ClearReadTorq()
     g_tReadData.nQualy = 0;
     g_tReadData.nUnQualy = 0;
 
-    memset(&g_tReadData.tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
+    //memset(&g_tReadData.tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
 
     for (i = 0; i < MAXWELLNUM; i++)
         g_tReadData.tData[i].Clear();
@@ -2115,8 +2115,8 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     CString strTitle;
     bool    bRes;
     TorqData::Torque* ptTorq = NULL;
-    SPLITPOINT* pSplit = NULL;
-    int     iSplitPos = 0;
+    //SPLITPOINT* pSplit = NULL;
+    //int     iSplitPos = 0;
     char    cPBHead[PBHEADLEN + 1] = { 0 };
     DWORD   dwQuality = 0;
     double  fRatio = NM2LBFT;
@@ -2185,7 +2185,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         /* 20190609最后一屏按控制周数，其他按满屏计算 */
         /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */
         ptTorq = &g_tReadData.tData[nValid];
-        pSplit = &g_tReadData.tSplit[nValid];
+        //pSplit = &g_tReadData.tSplit[nValid];
 
         g_tReadData.nTotalPlus[nValid] = 0;
         if (HaveMakeUP(ptTorq))
@@ -2196,7 +2196,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         {
             iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
-
+#if 0
         if (HaveBreakout(ptTorq))   /* 从前往后分屏 */
         {
             if (iTotalPnt > MAXLINEITEM)
@@ -2248,7 +2248,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
                 }
             }
         }
-
+#endif
         /* NM  < ---- > lbft (* ratio) */
         if (g_tGlbCfg.nTorqUnit != ptTorq->dwtorqunit())
         {
@@ -2759,7 +2759,7 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
     delete pcBuff;
     return;
 }
-
+#if 0
 void CDrillApp::GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti)
 {
     ASSERT_NULL(ptDraw);
@@ -2784,7 +2784,7 @@ void CDrillApp::GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, S
 
     return;
 }
-
+#endif
 double CDrillApp::GetCir(TorqData::Torque* ptTorq, bool bBreakout)
 {
     double fCir = 0;

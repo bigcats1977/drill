@@ -252,6 +252,7 @@ using namespace std;
 #define DIFF_CIRCUIT            0.1
 #define DIFF_TIME               1
 #define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
+#define AUTOUPDTURNRATIO        0.9     // 超过90%(450)点自动增加周数
 
 #define IP_SLOPE_PER            1       /* 默认拐点百分比 */
 
@@ -853,15 +854,15 @@ typedef struct tagSTATCFG
     //double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
 }STATCFG;
 
-#define     MAXSPLIITNUM        10
-typedef struct tagSplit
-{
-    int     iCur;           /* 范围1~iSplitNum */
-    int     iCtrlPnt;       /* 控制周数对应点数，上扣有效，卸扣写死为500 */
-    int     iSplitNum;
-    int     iBegin[MAXSPLIITNUM];
-    int     iEnd[MAXSPLIITNUM];
-}SPLITPOINT;
+//#define     MAXSPLIITNUM        10
+//typedef struct tagSplit
+//{
+//    int     iCur;           /* 范围1~iSplitNum */
+//    int     iCtrlPnt;       /* 控制周数对应点数，上扣有效，卸扣写死为500 */
+//    int     iSplitNum;
+//    int     iBegin[MAXSPLIITNUM];
+//    int     iEnd[MAXSPLIITNUM];
+//}SPLITPOINT;
 
 #define     MAXWELLNUM   5000
 typedef struct tagTORQUEDATA
@@ -872,7 +873,7 @@ typedef struct tagTORQUEDATA
     UINT    nUnQualy;
     UINT    nTotalPlus[MAXWELLNUM];
     TorqData::Torque  tData[MAXWELLNUM];
-    SPLITPOINT        tSplit[MAXWELLNUM];   // 多屏数据时，读取后设置分屏起点终点
+    //SPLITPOINT        tSplit[MAXWELLNUM];   // 多屏数据时，读取后设置分屏起点终点
 }TORQUEDATA;
 
 /* 最大10屏，考虑放大5倍，10*500*5 */
@@ -960,8 +961,8 @@ typedef struct tagSHOWPARANAME
 
 
 #define MAXLINEITEM     500
-#define COLLECTPOINTS   10*MAXLINEITEM // 默认存10屏数据×2周
-#define TESTNUM         COLLECTPOINTS
+#define COLLECTPOINTS   (MAXLINEITEM + 50) // 自动缩放周数
+#define TESTNUM         10*MAXLINEITEM
 typedef struct tagCOLLECTORQUE
 {
     //UINT        nCurCount;

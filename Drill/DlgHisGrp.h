@@ -88,8 +88,8 @@ protected:
     afx_msg void OnModRemark();
     afx_msg void OnEnKillfocusHismemo();
     afx_msg void OnBnClickedChecktoolbuck();
-    afx_msg void OnStnClickedPriorsplit();
-    afx_msg void OnStnClickedNextsplit();
+    //afx_msg void OnStnClickedPriorsplit();
+    //afx_msg void OnStnClickedNextsplit();
     afx_msg void OnBnClickedRadiosignle();
     afx_msg void OnBnClickedRadiostand();
     afx_msg void OnBnClickedRadiogrpboth();
@@ -104,10 +104,10 @@ protected:
 private:
     void    DrawCurTorque();
     BOOL    CheckCurData(UINT* pnCur, UINT nMax);
-    void    CheckCurSplit();
+    //void    CheckCurSplit();
     void    UpdateDlgLabel();
     BOOL    JudgeValidPosition(int iPos);
-    BOOL    GetCirRange(double* fMin, double* fMax);
+    //BOOL    GetCirRange(double* fMin, double* fMax);
     void    UpdateTallyNO();
     void    CheckGrpType();
 
@@ -119,7 +119,7 @@ private:
     BOOL    CheckCursor(UINT* pnCur, UINT nMax);
     UINT    m_nIPTorq;
     UINT    m_nBeginPos;
-    SPLITPOINT  m_tCurSplit;
+    //SPLITPOINT  m_tCurSplit;
     DRAWTORQDATA* m_ptCurDraw;
     TorqData::Torque* m_ptCurTorq;
 };

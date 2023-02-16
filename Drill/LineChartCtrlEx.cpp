@@ -566,7 +566,8 @@ void CLineChartCtrlEx::DrawControlLine()
     pOldPen = m_MemDC.SelectObject(&penSafe);
 
     /* | */
-    x = int((m_iChartWidth)*m_fControlCir / m_fWidthCir);
+    //x = int((m_iChartWidth)*m_fControlCir / m_fWidthCir);
+    x = int(m_iChartWidth*AUTOUPDTURNRATIO);
     DrawVLine(x);
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fOptTorq) / m_fMaxLimit);
