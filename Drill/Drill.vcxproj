@@ -124,6 +124,7 @@
     <ClInclude Include="DBAccess.h" />
     <ClInclude Include="DBBase.h" />
     <ClInclude Include="DBGlbCfg.h" />
+    <ClInclude Include="DBServerCfg.h" />
     <ClInclude Include="DBShowCfg.h" />
     <ClInclude Include="DBShowName.h" />
     <ClInclude Include="DBShowOption.h" />
@@ -133,7 +134,9 @@
     <ClInclude Include="DBValveCfg.h" />
     <ClInclude Include="DBXlsStatCfg.h" />
     <ClInclude Include="DlgGlbCfg.h" />
+    <ClInclude Include="DlgServerCfg.h" />
     <ClInclude Include="DrillData.pb.h" />
+    <ClInclude Include="FtpFile.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="DlgSegCabl.h" />
     <ClInclude Include="CFont0.h" />
@@ -246,6 +249,7 @@
     <ClCompile Include="DBAccess.cpp" />
     <ClCompile Include="DBBase.cpp" />
     <ClCompile Include="DBGlbCfg.cpp" />
+    <ClCompile Include="DBServerCfg.cpp" />
     <ClCompile Include="DBShowCfg.cpp" />
     <ClCompile Include="DBShowName.cpp" />
     <ClCompile Include="DBShowOption.cpp" />
@@ -255,7 +259,9 @@
     <ClCompile Include="DBValveCfg.cpp" />
     <ClCompile Include="DBXlsStatCfg.cpp" />
     <ClCompile Include="DlgGlbCfg.cpp" />
+    <ClCompile Include="DlgServerCfg.cpp" />
     <ClCompile Include="DrillData.pb.cc" />
+    <ClCompile Include="FtpFile.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="DlgSegCabl.cpp" />
     <ClCompile Include="DlgXlsStatSet.cpp" />

@@ -3,11 +3,13 @@
 
 #include "stdafx.h"
 #include "Drill.h"
+#include "FtpFile.h"
 #include "DlgHisList.h"
 #include "DlgHisGrp.h"
 #include "DlgXlsStatSet.h"
 #include "DlgScatter.h"
 #include "DlgDataStat.h"
+#include "DlgServerCfg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -66,6 +68,8 @@ BEGIN_MESSAGE_MAP(CDlgHisList, CPropertyPage)
     ON_BN_CLICKED(IDC_BTNSTATLIST, &CDlgHisList::OnBnClickedBtnstatlist)
     ON_BN_CLICKED(IDC_BTNSTATSET, &CDlgHisList::OnBnClickedBtnstatset)
     ON_BN_CLICKED(IDC_BTNIMPORTDEPTH, &CDlgHisList::OnBnClickedBtnimportdepth)
+    ON_BN_CLICKED(IDC_BTNSRVCFG, &CDlgHisList::OnBnClickedBtnsrvcfg)
+    ON_BN_CLICKED(IDC_BTNUPLOAD, &CDlgHisList::OnBnClickedBtnupload)
     ON_WM_DESTROY()
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -376,6 +380,7 @@ VOID CDlgHisList::ShowHisTorqList()
     GetDlgItem(IDC_BTNSTATLIST)->EnableWindow(m_listHis.GetItemCount() > 0);
     //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(m_listHis.GetItemCount() > 0);
+    GetDlgItem(IDC_BTNUPLOAD)->EnableWindow(m_listHis.GetItemCount() > 0);
 
     m_listHis.SetRedraw(1);
 }
@@ -1841,4 +1846,50 @@ void CDlgHisList::OnBnClickedBtnimportdepth()
     theApp.SaveShowMessage(theApp.LoadstringFromRes(IDS_STRWELLDEPTHIMSUCC));
 
     return;
+}
+
+void CDlgHisList::OnBnClickedBtnsrvcfg()
+{
+    CDlgServerCfg DlgServCfg;
+    DlgServCfg.DoModal();
+}
+
+void CDlgHisList::OnBnClickedBtnupload()
+{
+    int  iPos;
+    bool bRes = false;
+    string filename;
+    string strPath;
+    string target;
+    string strInfo;
+    __time64_t  colTime;
+    CFtpFile ftpfile(theApp.m_tServCfg.strIPAddr, theApp.m_tServCfg.strUserName, theApp.m_tServCfg.strPassword);
+
+    colTime = g_tReadData.tData[0].mucoltime();
+    COleDateTime olett(colTime);
+
+    strPath = theApp.m_tServCfg.strTargetPath + olett.Format(_T("%Y")).GetBuffer(0) + _T("/") + GetWellNO(FALSE).GetBuffer(0) + _T("/");
+    //if (!ftpfile.FTP_CreateDirectory(ASCII2UTF8(strPath)))
+    if (!ftpfile.FTP_CreateDirectory(strPath))
+    {
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFCREATEDIRFAIL).c_str(), strPath);
+        theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
+        return;
+    }
+
+    filename = strPath + m_strHisName.GetBuffer(0);
+    iPos = filename.find_last_of('\\') + 1;
+    filename = filename.substr(iPos, filename.length() - iPos);
+    target = strPath + filename;
+    //bRes = ftpfile.FTP_Upload(ASCII2UTF8(target).c_str(), m_strHisName.GetBuffer(0));
+    bRes = ftpfile.FTP_Upload(target.c_str(), m_strHisName.GetBuffer(0));
+    if (bRes)
+    {
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADSUCC).c_str(), filename);
+    }
+    else
+    {
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADFAIL).c_str(), filename);
+    }
+    theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
 }

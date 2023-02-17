@@ -198,6 +198,17 @@ void CDrillApp::InitValvePara(VALVECFG* ptCfg)
     ptCfg->ucRatio[1][2] = 10;
 }
 
+void CDrillApp::InitServerPara(SERVERCFG* ptCfg)
+{
+    ASSERT_NULL(ptCfg);
+
+    ptCfg->strIPAddr = LoadstringFromRes(IDS_STRSERVIPADDR);// "222.188.29.94";
+    ptCfg->nFTPPort = stoi(LoadstringFromRes(IDS_STRSERVFTPPORT)); // 21;
+    ptCfg->strUserName = LoadstringFromRes(IDS_STRSERVUSERNAME); // "zsg";
+    ptCfg->strPassword = LoadstringFromRes(IDS_STRSERVPASSWORD); // "123456";
+    ptCfg->strTargetPath = LoadstringFromRes(IDS_STRSERVTARGETPATH); // "/homes/zsg/";
+}
+
 BOOL CDrillApp::LoadLanguageDll(UINT nLang, BOOL bUpdate)
 {
     CString strValue;
@@ -464,6 +475,10 @@ void CDrillApp::InitDefaultConfig(int initStep)
     if (initStep & 16)
     {
         InitValvePara(&m_tValveCfg);
+    }
+    if (initStep & 32)
+    {
+        InitServerPara(&m_tServCfg);
     }
 
     return;

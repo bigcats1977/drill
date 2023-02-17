@@ -10,6 +10,7 @@
 #include "DBValTorque.h"
 #include "DBXlsStatCfg.h"
 #include "DBValveCfg.h"
+#include "DBServerCfg.h"
 
 class CDBAccess
 {
@@ -22,6 +23,9 @@ public:
 
     bool    ReadGlobalPara();
     bool    UpdateGlobalPara();
+
+    bool    ReadServerPara(SERVERCFG* ptServer);
+    bool    UpdateServerPara(SERVERCFG* ptServer);
 
     vector<string> GetNamesByIndexs(string indexs);
 
@@ -63,5 +67,6 @@ private:
     CDBTorqueCfg    m_tDBTorqueCfg;
     CDBXlsStatCfg   m_tDBXlsStatCfg;
     CDBValveCfg     m_tDBValveCfg;
+    CDBServerCfg    m_tDBServCfg;
 };
 

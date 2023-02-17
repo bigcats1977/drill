@@ -73,6 +73,7 @@
 #define IDB_ANGLE                       192
 #define IDB_KONG                        193
 #define IDB_HUI                         194
+#define IDD_DLGSERVCFG                  196
 #define IDC_REGEDIT                     1000
 #define IDC_REGNAME                     1001
 #define IDC_MACHINE                     1002
@@ -302,6 +303,8 @@
 #define IDC_BTNSCATTER                  1412
 #define IDC_BTNSTATSET                  1413
 #define IDC_BTNIMPORTDEPTH              1414
+#define IDC_BTNSRVCFG                   1415
+#define IDC_BTNUPLOAD                   1416
 #define IDC_COMBOREMARK                 1480
 #define IDC_RADIONOQUALITY              1481
 #define IDC_RADIOQUALITY                1482
@@ -362,6 +365,7 @@
 #define IDC_STATIC_L3                   1572
 #define IDC_STATIC_L4                   1573
 #define IDC_STATIC_L6                   1574
+#define IDC_STATIC_L5                   1575
 #define IDC_STATIC_S1                   1580
 #define IDC_LINE_STATTORQUE             1600
 #define IDC_XSTATAXIS                   1601
@@ -615,6 +619,11 @@
 #define IDC_COMBOBAUD                   2257
 #define IDC_COMBOTEST                   2258
 #define IDC_STATICTEST                  2259
+#define IDC_IPADDR                      2301
+#define IDC_EDITPORT                    2302
+#define IDC_EDITFUSERNAME               2303
+#define IDC_EDITFPASSWORD               2304
+#define IDC_EDITROOTPATH                2305
 #define ID_SETPARA                      32770
 #define ID_ABOUT                        32771
 #define ID_DEBUG                        32772
@@ -925,6 +934,9 @@
 #define IDS_STRINFSAVEXLSUCC            52502
 #define IDS_STRINFOVEREXLERR            52503
 #define IDS_STRINFOPENXLFAIL            52504
+#define IDS_STRINFCREATEDIRFAIL         52505
+#define IDS_STRINFUPLOADSUCC            52506
+#define IDS_STRINFUPLOADFAIL            52507
 #define IDS_STRINFINITOLEFAIL           52700
 #define IDS_STRINFSAVEGRIDFAIL          52701
 #define IDS_STRINFLOADGRIDFAIL          52702
@@ -944,6 +956,11 @@
 #define IDS_STROPERATEFAIL              52814
 #define IDS_STRWELLDEPTHIMSUCC          52815
 #define IDS_STRDBPASSWORD               52816
+#define IDS_STRSERVIPADDR               52901
+#define IDS_STRSERVFTPPORT              52902
+#define IDS_STRSERVUSERNAME             52903
+#define IDS_STRSERVPASSWORD             52904
+#define IDS_STRSERVTARGETPATH           52905
 #define IDS_STRTAGKIND                  54003
 #define IDS_STRBUCKLE                   54005
 #define IDS_STRALLSTAT                  54006
@@ -991,7 +1008,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        196
+#define _APS_NEXT_RESOURCE_VALUE        198
 #define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         2260
 #define _APS_NEXT_SYMED_VALUE           108

@@ -55,11 +55,13 @@ protected:
     afx_msg void OnBnClickedBtngraphexp();
     afx_msg void OnBnClickedBtnstatset();
     afx_msg void OnBnClickedBtnimportdepth();
+    afx_msg void OnBnClickedBtnsrvcfg();
+    afx_msg void OnBnClickedBtnupload();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
 public:
-    void        SetDataPlace(UINT nCur);
+    void    SetDataPlace(UINT nCur);
 
 private:
     VOID    ShowHisTorqList();
