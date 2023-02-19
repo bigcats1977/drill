@@ -30,6 +30,7 @@ bool CDBAccess::InitDBHandle()
         m_tDBTorqueCfg = CDBTorqueCfg();
         m_tDBXlsStatCfg = CDBXlsStatCfg();
         m_tDBValveCfg = CDBValveCfg();
+        m_tDBServCfg = CDBServerCfg();
     }
     catch (exception& e)
     {
@@ -109,6 +110,13 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
         theApp.SaveMessage("ReadValvePara fail!!");
         //return false;
     }
+
+    if (!ReadServerPara(&theApp.m_tServCfg))
+    {
+        initstep |= 32;
+        theApp.SaveMessage("ReadServerPara fail!!");
+    }
+
     if (initstep != 0)
         return false;
 
@@ -178,6 +186,31 @@ bool CDBAccess::UpdateGlobalPara()
     if (!m_tDBGlbCfg.UpdateGlbCfg(&g_tGlbCfg))
         return false;
     m_tDBGlbCfg.Reload();
+    return true;
+}
+
+bool CDBAccess::ReadServerPara(SERVERCFG* ptServer)
+{
+    ASSERT_NULL_R(ptServer, false);
+    COMP_BFALSE_R(m_bValidDBFile, false);
+
+    ptServer->strIPAddr = m_tDBServCfg._IPAddr;
+    ptServer->nFTPPort = m_tDBServCfg._FTPPort;
+    ptServer->strUserName = m_tDBServCfg._UserName;
+    ptServer->strPassword = m_tDBServCfg._Password;
+    ptServer->strTargetPath = m_tDBServCfg._TargetPath;
+
+    return true;
+}
+
+bool CDBAccess::UpdateServerPara(SERVERCFG* ptServer)
+{
+    ASSERT_NULL_R(ptServer, false);
+    COMP_BFALSE_R(m_bValidDBFile, false);
+
+    if (!m_tDBServCfg.UpdateServerCfg(ptServer))
+        return false;
+    m_tDBServCfg.Reload();
     return true;
 }
 

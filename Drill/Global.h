@@ -456,7 +456,8 @@ using namespace std;
 #define T_TORQUECFG             7   /* 程序参数值配置表 */
 #define T_XLSSTATCFG            8   /* 导出excel统计配置表 */
 #define T_VALVECFG              9   /* 比例阀配置表 */
-#define MAXTABLENUM             (T_VALVECFG +1)
+#define T_SERVERCFG             10  /* FTP服务器配置表 */
+#define MAXTABLENUM             (T_SERVERCFG +1)
 
 #define DB_INVALID_VAL          -1
 #define DB_INVALID_UINT         2147483647
@@ -763,6 +764,15 @@ typedef struct tagGLBCFG
 
     string      strUnit;        /* 对应扭矩单位的字符串 */
 }GLBCFG;
+
+typedef struct tagSERVERCFG
+{
+    UINT    nFTPPort;
+    string  strIPAddr;
+    string  strUserName;
+    string  strPassword;
+    string  strTargetPath;
+}SERVERCFG;
 
 typedef struct tagSHOWOPTION
 {

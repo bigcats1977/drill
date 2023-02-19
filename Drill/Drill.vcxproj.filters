@@ -246,6 +246,15 @@
     <ClInclude Include="RegProc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FtpFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBServerCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgServerCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\add.ico">
@@ -565,6 +574,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegProc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FtpFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DBServerCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgServerCfg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

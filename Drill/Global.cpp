@@ -12,6 +12,7 @@ const string  g_tTableName[MAXTABLENUM] = {
     "T_TorqueCfg",
     "T_XlsStatCfg",
     "T_ValveCfg",
+    "T_ServerCfg",
 };
 
 /* 默认显示参数名称，没有数据库时使用这些名称 */

@@ -146,6 +146,7 @@ public:
     CRegProc        m_tReg;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     VALVECFG        m_tValveCfg;        /* 阀值配置 */
+    SERVERCFG       m_tServCfg;
     string          m_strDllFile;       /* 动态链接库文件名称 */
     string          m_strAppPath;
     string          m_strRegFile;       /* 保存注册信息的文件，隐藏
@@ -229,6 +230,7 @@ private:
     void InitTorqCfgPara(PARACFG* ptCfg);
     void InitXlsStatPara(XLSSTATCFG* ptStat);
     void InitValvePara(VALVECFG* ptCfg);
+    void InitServerPara(SERVERCFG* ptCfg);
 
     void AdjustTorquePara(CONTROLPARA* ptCtrl);
     void AdjustCircuitPara(CONTROLPARA* ptCtrl);
