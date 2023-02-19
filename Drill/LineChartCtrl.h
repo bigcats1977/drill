@@ -85,7 +85,7 @@ public:
     void    SetStartPoint(UINT nBegin);
     void    DrawFinLine();
     UINT    GetCurPoint();
-    bool    ReDrawLine(double *pData, UINT nCount);
+    bool    ReDrawLine(double* pData, UINT nCount);
 
     // Generated message map functions
 protected:

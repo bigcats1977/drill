@@ -317,7 +317,6 @@ void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UI
 
 UINT CLineChartCtrl::GetCurPoint()
 {
-    //return (UINT)ceil(m_tItem.m_nPos * m_fOffset);
     return m_tItem.m_nPos;
 }
 

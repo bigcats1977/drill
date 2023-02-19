@@ -276,7 +276,7 @@ bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
     return true;
 }
 
-bool CLineChartCtrlEx::ReDrawLine(double* pData, UINT nCount,  bool bBreakOut)
+bool CLineChartCtrlEx::ReDrawLine(double* pData, UINT nCount, bool bBreakOut)
 {
     CPoint  ptOld;
     CPoint  ptNew;
@@ -322,7 +322,6 @@ bool CLineChartCtrlEx::ReDrawLine(double* pData, UINT nCount,  bool bBreakOut)
     Invalidate(TRUE);
     return true;
 }
-
 
 void CLineChartCtrlEx::FinishDraw()
 {
@@ -381,6 +380,7 @@ void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
     begin = int(begin * m_fOffset);
     end = int(end * m_fOffset);
     x = MAX(0, end - 100);
+    //x = begin;
     // …œø€≈§æÿŒª÷√
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
@@ -567,7 +567,7 @@ void CLineChartCtrlEx::DrawControlLine()
 
     /* | */
     //x = int((m_iChartWidth)*m_fControlCir / m_fWidthCir);
-    x = int(m_iChartWidth*AUTOUPDTURNRATIO);
+    x = int(m_iChartWidth * AUTOUPDTURNRATIO);
     DrawVLine(x);
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fOptTorq) / m_fMaxLimit);

@@ -246,14 +246,16 @@ void CLineChartCtrlStat::DrawAlarmLine()
     /* 显示最小扭矩值 */
     //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
     //ShowContent(LC_ALARMCOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT, m_fLowerLimit));
+    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, 
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT).c_str(), m_fLowerLimit));
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fUpperLimit) / m_fMaxLimit);
     DrawHLine(y);
     /* 显示最大扭矩值 */
     //strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
     //ShowContent(LC_ALARMCOLOR, y-CONT_YOFFSET, strTemp);
-    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT, m_fUpperLimit));
+    ShowContent(LC_ALARMCOLOR, y - CONT_YOFFSET, 
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT).c_str(), m_fUpperLimit));
 #endif
     m_MemDC.SelectObject(pOldPen);
 }
