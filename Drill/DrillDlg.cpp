@@ -2172,7 +2172,7 @@ LONG CDrillDlg::OnCommunication(WPARAM Char, LPARAM num)
 
     /* 定时获取的数据信息，封装到各个collect函数中设置值 */
     memcpy(&PortBuf[iDataLen], (BYTE*)Char, iLen);
-    theApp.SaveCommunication((BYTE*)Char, iLen, DBG_RCVCOM);
+    // theApp.SaveCommunication((BYTE*)Char, iLen, DBG_RCVCOM);
     iDataLen += iLen;
 
     /* 非法数据，清零返回 */
@@ -3631,7 +3631,7 @@ BOOL CDrillDlg::SendData(UINT nParaType)
 #else
     COMP_BFALSE_R(m_bComm, FALSE);
     m_tPort.WriteToPort((char*)m_ucSndByte, wLen);
-    theApp.SaveCommunication(m_ucSndByte, wLen, DBG_SNDCMD);
+    // theApp.SaveCommunication(m_ucSndByte, wLen, DBG_SNDCMD);
 #endif
     return TRUE;
 }
