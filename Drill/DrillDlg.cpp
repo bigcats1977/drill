@@ -1661,7 +1661,10 @@ void CDrillDlg::SetTorqDataCfg(TorqData::Torque* ptPBData)
     ptPBData->set_strremark(m_ptCfg->strRemark);
     //ptPBData->set_dwver(m_ptCtrl->ucVer);
 
-    ptPBData->set_fmaxlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
+    if (m_iBreakOut)
+        ptPBData->set_fmaxlimit(m_fMaxBORange);
+    else
+        ptPBData->set_fmaxlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
     ptPBData->set_fcontrol(m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]);
     ptPBData->set_fopttorq(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
     ptPBData->set_fshow(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
@@ -2263,6 +2266,18 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     {
         if (PLCSTATUS_REVERSE == tCollData[i].ucStatus)
         {
+            if (m_iBreakOut > 0)
+            {
+                if (m_fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW] && fCurCir >= 0.01)
+                {
+                    strInfo = string_format("< REVERSE BreakOut FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
+                    theApp.SaveMessage(strInfo);
+                    m_hrtSaveData.KillTimer();
+                    FinishControl();
+                    return 0;
+                }
+            }
+
             ReStart();
             m_iShowPlus = tCollData[i].nOrgPlus;
             UpdateOutData(0, 0);
@@ -2310,7 +2325,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         {
             if (m_iBreakOut > 0)
             {
-                if (m_fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD && fCurCir >= 0.01)
+                if (m_fMaxTorq > m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW] && fCurCir >= 0.01)
                 {
                     strInfo = string_format("< ShowTorq FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
                     theApp.SaveMessage(strInfo);
@@ -2842,7 +2857,7 @@ void CDrillDlg::DrawLastPoint()
         FinishSetStatus();
 
         /* 大于减速扭矩才存盘 */
-        if (m_fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD)
+        if (m_fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW])
         {
             SaveIntoData(&m_tSaveData);
         }
