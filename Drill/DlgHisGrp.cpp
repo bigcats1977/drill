@@ -164,7 +164,7 @@ void CDlgHisGrp::EmptyEdit()
     int  i = 0;
 
     /* œ‘ æ≤Œ ˝ */
-    for (i = 0; i < 15; i++)
+    for (i = 0; i < MAXPARANUM; i++)
         m_strHisShowValue[i].Empty();
     m_strMemo = NULLSTR;
     m_strControl = NULLSTR;

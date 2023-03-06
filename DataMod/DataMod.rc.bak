@@ -1,0 +1,526 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (Simplified, PRC) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DataMod.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\DataMod.ico"
+
+IDI_OPEN                ICON                    "res\\open.ico"
+
+IDI_NEXT                ICON                    "res\\MARK0023.ICO"
+
+IDI_PRIOR               ICON                    "res\\prior.ico"
+
+IDI_SAVE                ICON                    "res\\Save.ico"
+
+IDI_PRINT               ICON                    "res\\Print.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 建湖凯泰扭矩仪数据维护"
+FONT 9, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "扭矩仪数据维护 6.24 版",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "版权所有 (C) 2023",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_DATAMOD_DIALOG DIALOGEX 0, 0, 572, 399
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "建湖凯泰扭矩仪数据维护 V6.24"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "",IDC_STATIC,7,254,472,140
+    GROUPBOX        "记录文件名称",IDC_STATIC,7,7,472,249
+    PUSHBUTTON      "打开...",IDC_BTNOPENDATA,439,30,35,16
+    CONTROL         "其他源文件",IDC_CHECKOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,253,50,10
+    PUSHBUTTON      "打开...",IDC_BTNOPENDATA2,439,261,35,16,WS_DISABLED
+    EDITTEXT        IDC_EDITSRC2,114,261,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDITSRC,518,85,40,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    PUSHBUTTON      "删除记录",IDC_BTNDEL,493,13,66,20,WS_DISABLED
+    PUSHBUTTON      "优化记录",IDC_BTNOPT,493,51,66,20,WS_DISABLED
+    EDITTEXT        IDC_EDITINSERT,518,113,40,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    PUSHBUTTON      "插入记录",IDC_BTNINSERT,493,138,66,20,WS_DISABLED
+    CONTROL         "单个替换",IDC_RADIOSINGLE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,515,177,48,10
+    CONTROL         "批量替换",IDC_RADIOMULTI,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,515,192,48,10
+    EDITTEXT        IDC_EDITDEST,518,206,40,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDITDEST2,518,222,40,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    PUSHBUTTON      "替换记录",IDC_BTNREPLACE,493,239,66,20,WS_DISABLED
+    CONTROL         "更新入井序号",IDC_CHECKUPDWELLNO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,487,279,68,10
+    LTEXT           "名称",IDC_STATIC,483,299,31,8
+    EDITTEXT        IDC_EDITWELLNAME,518,296,40,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "文件合并",IDC_BTNMERGE,493,344,66,20,WS_DISABLED
+    PUSHBUTTON      "密码保护",IDC_BTNPW,493,371,66,20
+    CONTROL         "List1",IDC_LISTDATA,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,9,48,469,205
+    LTEXT           "插入序号",IDC_STATIC,483,116,31,8
+    LTEXT           "源序号",IDC_STATIC,483,89,31,8
+    LTEXT           "目标序号",IDC_STATIC,483,209,31,8
+    GROUPBOX        "删除",IDC_STATIC,478,3,85,37
+    GROUPBOX        "插入",IDC_STATIC,478,101,85,64
+    GROUPBOX        "替换",IDC_STATIC,478,167,85,97
+    GROUPBOX        "数据优化",IDC_STATIC,478,41,85,37
+    LTEXT           "结束序号",IDC_STATIC,483,225,31,8
+    EDITTEXT        IDC_EDTOTAL,231,12,40,16,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDQUALIFY,335,12,40,16,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDUNQUALIFY,436,12,40,16,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDTOTAL2,42,261,31,16,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "上扣总数",IDC_STATIC_L2,179,15,40,8
+    LTEXT           "合格总数",IDC_STATIC_L4,283,15,40,8
+    LTEXT           "不合格数",IDC_STATIC_L6,387,15,40,8
+    LTEXT           "总数",IDC_STATIC_L3,12,264,22,8
+    EDITTEXT        IDC_EDITHISDATA,11,30,424,16,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDITHISDATA2,158,261,277,16,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "源序号",IDC_STATIC,81,264,22,8
+    CONTROL         "",IDC_LISTDATA2,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,9,285,469,102
+END
+
+IDD_DLGLISTMOD DIALOGEX 0, 0, 363, 314
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "数据优化"
+FONT 9, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "优化",ID_OPTIMITED,231,141,50,20
+    EDITTEXT        IDC_EDITCTRL,276,24,53,14,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_LISTDATA,"SysListView32",LVS_REPORT | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,7,19,199,288
+    PUSHBUTTON      "退出",IDCANCEL,297,141,50,20
+    LTEXT           "扭矩数据",IDC_STATIC,7,7,33,8
+    GROUPBOX        "数据优化",IDC_STATIC,215,7,141,99
+    CONTROL         "实际扭矩",IDC_RADIOCONTROL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,222,24,48,10
+    CONTROL         "实际周数",IDC_RADIOCIRCLE,"Button",BS_AUTORADIOBUTTON,222,46,48,10
+    EDITTEXT        IDC_EDITCIRCLE,275,46,53,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "直接修改数据",IDC_RADIODETAIL,"Button",BS_AUTORADIOBUTTON,222,68,64,10
+    CONTROL         "强制合格",IDC_CHECKQUALITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,222,113,48,10
+    CONTROL         "图形重叠优化",IDC_RADIOOVERLAP,"Button",BS_AUTORADIOBUTTON,222,90,64,10
+END
+
+IDD_DLGHISGRP DIALOGEX 0, 0, 705, 362
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "单个数据优化"
+FONT 9, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "CustomHisTorq",IDC_LINE_HISTORQUE,"LINE_TORQUE_CTRL",0x0,35,18,334,222
+    PUSHBUTTON      "前一个",IDC_BTNPRI,385,326,50,20
+    PUSHBUTTON      "后一个",IDC_BTNNEXT,462,326,50,20
+    PUSHBUTTON      "改图形",IDC_BTNMOD,539,326,50,20
+    PUSHBUTTON      "改参数",IDC_BTNMODPARA,616,326,50,20
+    EDITTEXT        IDC_HISNO,439,14,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISTIME,439,36,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISBOTIME,439,58,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISCONTROL,439,80,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISBREAKOUT,439,102,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISCIR,439,124,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISBOCIR,439,146,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISQUALITY,439,168,75,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "说明",IDC_BTNREMARK,515,168,25,14
+    EDITTEXT        IDC_HISEDIT01,439,190,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT02,439,212,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT03,439,234,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT04,439,256,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT05,439,278,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDTOUTJOINT,439,300,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT06,598,14,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT07,598,36,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT08,598,58,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT09,598,80,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT10,598,102,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT11,598,124,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT12,598,146,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT13,598,168,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT14,598,190,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDIT15,598,212,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISEDTOUTWELL,598,234,75,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "单根",IDC_RADIOSIGNLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,588,259,30,10
+    CONTROL         "立柱",IDC_RADIOSTAND,"Button",BS_AUTORADIOBUTTON,648,259,30,10
+    CONTROL         "全部",IDC_RADIOGRPBOTH,"Button",BS_AUTORADIOBUTTON | WS_GROUP,588,273,25,10
+    CONTROL         "上扣",IDC_RADIOGRPMU,"Button",BS_AUTORADIOBUTTON,618,273,25,10
+    CONTROL         "卸扣",IDC_RADIOGRPBO,"Button",BS_AUTORADIOBUTTON,648,273,25,10
+    EDITTEXT        IDC_HISMEMO,586,287,94,14,ES_MULTILINE | ES_AUTOVSCROLL
+    CONTROL         "工具扣",IDC_CHECKTOOLBUCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,553,305,45,10
+    CONTROL         "CustomHisRpm",IDC_LINE_HISRPM,"LINE_RPM_CTRL",0x0,35,284,334,49
+    LTEXT           "扭矩-周数曲线图        （单位:纵轴=N.m, 横轴=周）",IDC_STATIC_G1,35,8,334,10
+    LTEXT           "",IDC_XHISAXIS1,35,245,334,10,NOT WS_GROUP
+    LTEXT           "",IDC_YHISAXIS1,7,18,27,222,NOT WS_GROUP
+    LTEXT           "",IDC_XHISAXIS2,35,340,334,10,NOT WS_GROUP
+    LTEXT           "",IDC_YHISAXIS2,14,284,20,51,NOT WS_GROUP
+    GROUPBOX        "",IDC_STATIC_G2,7,2,370,264
+    LTEXT           "转速-周数曲线图        （单位:纵轴=周/分, 横轴=周）",IDC_STATIC_G3,35,273,334,10
+    GROUPBOX        "",IDC_STATIC_G4,7,266,370,91
+    LTEXT           "上扣周数",IDC_STATIC_G7,390,126,44,10
+    LTEXT           "上扣扭矩",IDC_STATIC_G8,390,82,44,10
+    LTEXT           "周",IDC_STATIC_G9,517,126,20,10
+    LTEXT           "N.m",IDC_STATIC_G10,517,82,20,10
+    LTEXT           "备    注",IDC_STATIC_G12,553,289,30,10
+    LTEXT           "上扣时间",IDC_STATIC_G13,390,38,44,10
+    LTEXT           "质量说明",IDC_STATIC_G14,392,170,44,10
+    LTEXT           "电脑编号",IDC_STATIC_G19,390,16,44,10
+    LTEXT           "参数01",IDC_HISSHOW01,390,192,44,10
+    LTEXT           "参数02",IDC_HISSHOW02,390,214,44,10
+    LTEXT           "参数03",IDC_HISSHOW03,390,236,44,10
+    LTEXT           "参数04",IDC_HISSHOW04,390,258,44,10
+    LTEXT           "参数05",IDC_HISSHOW05,390,280,44,10
+    LTEXT           "起出外径",IDC_HISOUTJOINT,390,302,44,10
+    LTEXT           "参数06",IDC_HISSHOW06,553,16,44,10
+    LTEXT           "参数07",IDC_HISSHOW07,553,38,44,10
+    LTEXT           "参数08",IDC_HISSHOW08,553,60,44,10
+    LTEXT           "参数09",IDC_HISSHOW09,553,82,44,10
+    LTEXT           "参数10",IDC_HISSHOW10,553,104,44,10
+    LTEXT           "参数11",IDC_HISSHOW11,553,126,44,10
+    LTEXT           "参数12",IDC_HISSHOW12,553,148,44,10
+    LTEXT           "参数13",IDC_HISSHOW13,553,170,44,10
+    LTEXT           "参数14",IDC_HISSHOW14,553,192,44,10
+    LTEXT           "参数15",IDC_HISSHOW15,553,214,44,10
+    LTEXT           "单根立柱",IDC_HISSIGSTD,553,261,35,10
+    LTEXT           "图    形",IDC_HISGRPTYPE,553,275,25,10
+    LTEXT           "起出序号",IDC_HISOUTWELL,553,236,44,10
+    GROUPBOX        "",IDC_STATIC_G24,545,2,135,73
+    GROUPBOX        "",IDC_STATIC_G25,385,184,157,134
+    GROUPBOX        "",IDC_STATIC_G26,545,73,135,112
+    GROUPBOX        "",IDC_STATIC_G27,545,184,135,68
+    GROUPBOX        "",IDC_STATIC_G28,545,249,135,69
+    LTEXT           "卸扣扭矩",IDC_STATIC_G11,390,104,44,10
+    LTEXT           "N.m",IDC_STATIC_G16,517,104,20,10
+    LTEXT           "mm",IDC_STATIC_G17,517,280,20,10
+    LTEXT           "mm",IDC_STATIC_G18,517,302,20,10
+    LTEXT           "卸扣周数",IDC_STATIC_G20,392,148,44,10
+    LTEXT           "周",IDC_STATIC_G21,517,148,20,10
+    GROUPBOX        "",IDC_STATIC_G29,385,2,157,183
+    LTEXT           "卸扣时间",IDC_STATIC_G22,391,60,44,10
+END
+
+IDD_DLGREMARK DIALOGEX 0, 0, 202, 119
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "质量备注说明"
+FONT 9, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,145,13,50,20
+    PUSHBUTTON      "退出",IDCANCEL,145,41,50,20
+    COMBOBOX        IDC_COMBOREMARK,49,73,74,139,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "质量备注",IDC_STATIC,11,75,33,8
+    GROUPBOX        "质量设定",IDC_STATIC,7,7,117,55
+    CONTROL         "不合格",IDC_RADIONOQUALITY,"Button",BS_AUTORADIOBUTTON | WS_GROUP,21,44,40,10
+    CONTROL         "合格",IDC_RADIOQUALITY,"Button",BS_AUTORADIOBUTTON,21,22,32,10
+    LTEXT           "拐点扭矩",IDC_STATIC,11,96,33,8
+    EDITTEXT        IDC_EDITSHOULDER,49,93,74,12,ES_AUTOHSCROLL
+END
+
+IDD_DLGPASSWORD DIALOGEX 0, 0, 163, 40
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "密码保护"
+FONT 9, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_EDITPASSWORD,29,16,69,13,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "输入",IDOK,106,16,50,13
+    LTEXT           "密码",IDC_STATIC,7,18,17,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 6,24,1,30305
+ PRODUCTVERSION 6,24,1,30305
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x29L
+#else
+ FILEFLAGS 0x28L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "CompanyName", "南京创品数控技术有限公司"
+            VALUE "FileDescription", "扭矩仪数据维护"
+            VALUE "FileVersion", "6,24,1,20230305"
+            VALUE "InternalName", "扭矩仪数据维护"
+            VALUE "LegalCopyright", "版权所有 (C) 2023"
+            VALUE "LegalTrademarks", "CPCNC"
+            VALUE "OriginalFilename", "扭矩仪数据维护.EXE"
+            VALUE "ProductName", "扭矩仪数据维护 应用程序"
+            VALUE "ProductVersion", "6,24,1,20230305"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_DATAMOD_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 563
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 394
+    END
+
+    IDD_DLGLISTMOD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 356
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 307
+    END
+
+    IDD_DLGHISGRP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 698
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 356
+    END
+
+    IDD_DLGREMARK, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 196
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 116
+    END
+
+    IDD_DLGPASSWORD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 156
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 33
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_CROSS               BITMAP                  "res\\cross.bmp"
+
+IDB_CROSSWHITE          BITMAP                  "res\\cross_w.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DATAMOD_DIALOG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DLGHISGRP AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DLGREMARK AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DLGPASSWORD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DLGLISTMOD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "关于 DataMod(&A)..."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STRFONTDEAAULT      "宋体"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STRHISLLISTHEAD     "序号,%d;上扣时间,%d;卸扣时间,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"
+    IDS_STRLCXCONTROL       "最佳扭矩 %.f"
+    IDS_STRLCXUPLIMIT       "最大扭矩 %.f"
+    IDS_STRLCXLOWLIMIT      "最小扭矩 %.f"
+    IDS_STRLCXGOODTAI       "最佳台阶 %.f"
+    IDS_STRLCXUPTAI         "最大台阶 %.f"
+    IDS_STRLCXLOWTAI        "最小台阶 %.f"
+    IDS_STRLCXSHOW          "显示扭矩 %.f"
+    IDS_STRLCXBEAR          "肩负扭矩 %.f"
+    IDS_STRLCIPTORQ         "拐点扭矩 %.f"
+    IDS_STRLCMAKETORQ       "上扣扭矩 %.f"
+    IDS_STRLCBREAKTORQ      "卸扣扭矩 %.f"
+    IDS_STRLINELABEL        "扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）"
+    IDS_STRTORQPARA         "扭矩参数(单位: %s)"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STRMARKQUALITY      "合格"
+    IDS_STRMARKDISQUAL      "不合格"
+    IDS_STRMARKLESSLIMIT    "上扣扭矩过低"
+    IDS_STRMARKMORELIMIT    "上扣扭矩过高"
+    IDS_STRMARKMORESTART    "起始扭矩过高"
+    IDS_STRMARKMORECTRL     "最优扭矩差距过大"
+    IDS_STRMARKLESSCIRC     "周数过低"
+    IDS_STRMARKMORECIRC     "周数过高"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STRMARKTRANSLATE    "图形平移"
+    IDS_STRMARKNOIPPOINT    "找不到拐点"
+    IDS_STRMARKLOWSHOULD    "拐点扭矩过低"
+    IDS_STRMARKHIGHTSHOULD  "拐点扭矩过高"
+    IDS_STRMARKLOWDELTATURN "圈数差值过低"
+    IDS_STRMARKHIGHDELTATURN "圈数差值过高"
+    IDS_STRMARKLOWSLOPE     "拐点斜率过低"
+    IDS_STRMARKOTHERCAUSE   "其他原因"
+    IDS_STRMARKSHACKINSPECT "卸扣检查"
+    IDS_STRMARKGALLING      "粘扣"
+    IDS_STRMARKHYDTONGSLIP  "液压钳打滑"
+    IDS_STRMARKTHREADNOTCLEAN "丝扣清洗不干净"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STRERRORPW          "密码输入错误，只能使用基本功能!"
+    IDS_STRSUPPORPW         "zsg221813"
+    IDS_STRDEFAULTPW        "Ktwh888"
+END
+
+#endif    // Chinese (Simplified, PRC) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\DataMod.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

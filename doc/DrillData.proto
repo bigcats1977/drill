@@ -43,16 +43,16 @@ message Torque {
    double   fMulti      = 55;
 
    fixed64  MUcoltime   = 71;
-   int32	dwMUCount   = 72;
+   int32    dwMUCount   = 72;
    int32    dwMUPlus    = 73;
    double   fMUMaxTorq  = 74;
    double   fMUDuration = 75;
    
    int32    dwOutWellNO = 80;
    fixed64  BOcoltime 	= 81;
-   int32	dwBOCount   = 82;
+   int32    dwBOCount   = 82;
    int32    dwBOPlus    = 83;
-   double	fBOMaxTorq  = 84;
+   double   fBOMaxTorq  = 84;
    double   fBODuration = 85;
    bytes    strBOJoint  = 86;
 }
