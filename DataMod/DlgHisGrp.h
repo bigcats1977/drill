@@ -95,6 +95,7 @@ private:
     void    EnableCtrlforMod();
     void    UpdateTallyNO();
     void    CheckGrpType();
+    __time64_t GetTimeFromStr(CString strTime);
 
     /* 清空EDIT控件信息 */
     void    EmptyEdit();

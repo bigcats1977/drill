@@ -1977,18 +1977,18 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRLCXCONTROL       "Opt  Torq %.f"
-    IDS_STRLCXUPLIMIT       "Max  Torq %.f"
-    IDS_STRLCXLOWLIMIT      "Min  Torq %.f"
-    IDS_STRLCXGOODTAI       "Opt  Shoulder %.f"
-    IDS_STRLCXUPTAI         "Max  Shoulder %.f"
-    IDS_STRLCXLOWTAI        "Min  Shoulder %.f"
-    IDS_STRLCXSHOW          "Show Torq %.f"
-    IDS_STRLCXBEAR          "Bear Torq %.f"
-    IDS_STRLCIPTORQ         "Shoulder %.f"
-    IDS_STRLCZOOMTORQ       "ZoomIn %.f"
-    IDS_STRLCMAKETORQ       "Make Torq %.f"
-    IDS_STRLCBREAKTORQ      "Break Torq %.f"
+    IDS_STRLCXCONTROL       "Opt  Torq %d"
+    IDS_STRLCXUPLIMIT       "Max  Torq %d"
+    IDS_STRLCXLOWLIMIT      "Min  Torq %d"
+    IDS_STRLCXGOODTAI       "Opt  Shoulder %d"
+    IDS_STRLCXUPTAI         "Max  Shoulder %d"
+    IDS_STRLCXLOWTAI        "Min  Shoulder %d"
+    IDS_STRLCXSHOW          "Show Torq %d"
+    IDS_STRLCXBEAR          "Bear Torq %d"
+    IDS_STRLCIPTORQ         "Shoulder %d"
+    IDS_STRLCZOOMTORQ       "ZoomIn %d"
+    IDS_STRLCMAKETORQ       "Make Torq %d"
+    IDS_STRLCBREAKTORQ      "Break Torq %d"
 END
 
 STRINGTABLE

@@ -4056,6 +4056,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
 {
     __time64_t curTime;
     double  duration;
+    double  fMaxCir = 0;
     int iBOTotalPlus = 0;
     string filename;
 
@@ -4072,6 +4073,27 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
         ptBOData = &g_tReadData.tData[m_nBOSeqNO - 1];
 
         _time64(&curTime);
+
+        // update torque max limit
+        if (m_fMaxBORange > ptBOData->fmaxlimit())
+        {
+            ptBOData->set_fmaxlimit(m_fMaxBORange);
+        }
+
+        // update maxcir for 2 data
+        if (ptBOData->fmaxcir() > 0)
+        {
+
+            fMaxCir = theApp.GetCir(ptBOData) + theApp.GetCir(ptPBData, true);
+            if (fMaxCir > ptBOData->fmaxcir())
+            {
+                ptBOData->set_fmaxcir(ceil(fMaxCir + 0.5));
+            }
+        }
+        else
+            ptBOData->set_fmaxcir(ptPBData->fmaxcir());
+
+
         ptBOData->set_fbomaxtorq(m_fMaxTorq);
         //ptBOData->set_bbreakout(true);
         ptBOData->set_bocoltime(curTime);

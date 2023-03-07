@@ -78,7 +78,7 @@ CDataModDlg::CDataModDlg(CWnd* pParent /*=NULL*/)
     m_nTotal2 = 0;
     m_nSrc2 = 1;
     m_bUpdWellNO = TRUE;
-    
+
     m_bCanMod = FALSE;
     m_bHaveOtherSrc = FALSE;
     //}}AFX_DATA_INIT
@@ -186,7 +186,7 @@ BOOL CDataModDlg::OnInitDialog()
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); // int(0.9 * m_iWidth),
     strHead = m_strFixHead;*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
-        int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
+        int(2 * m_iWidth), int(2 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
     m_strFixHead = strHead;
     for (i = 0; i < MAXPARANUM; i++)
@@ -205,7 +205,7 @@ BOOL CDataModDlg::OnInitDialog()
 #if 0
     m_bCanMod = TRUE;
 #else
-	m_bCanMod = theApp.CheckPassWord();
+    m_bCanMod = theApp.CheckPassWord();
     if (m_bCanMod)
     {
         m_btnPW.EnableWindow(FALSE);
@@ -274,7 +274,7 @@ void CDataModDlg::EnableCtrl()
 {
     BOOL bEnable = FALSE;
 
-    if(m_listData.GetItemCount() > 0)
+    if (m_listData.GetItemCount() > 0)
     {
         bEnable = TRUE;
     }
@@ -293,7 +293,7 @@ void CDataModDlg::EnableCtrl()
     GetDlgItem(IDC_RADIOSINGLE)->EnableWindow(bEnable);
     GetDlgItem(IDC_RADIOMULTI)->EnableWindow(bEnable);
     GetDlgItem(IDC_CHECKUPDWELLNO)->EnableWindow(bEnable);
-    
+
     GetDlgItem(IDC_EDITSRC)->EnableWindow(bEnable && !m_bHaveOtherSrc);
     m_btnMerge.EnableWindow(bEnable && m_listData2.GetItemCount() > 0);
 }
@@ -392,7 +392,7 @@ BOOL CDataModDlg::DestroyWindow()
     }
     m_listData.DeleteAllItems();
     m_listData2.DeleteAllItems();
-    
+
     return CDialog::DestroyWindow();
 }
 
@@ -438,10 +438,10 @@ void CDataModDlg::OnBtndel()
 
 VOID CDataModDlg::ShowHisTorqList(bool bFirst)
 {
-    UINT        i       = 0;
-    int         j       = 0;
+    UINT        i = 0;
+    int         j = 0;
     int         iItem = 0;
-    WORD        wPara   = 0;
+    WORD        wPara = 0;
     CString     strNo;
     CString     strTime, strBOTime;
     CString     strMakeTurn, strBreakTurn;
@@ -472,9 +472,9 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
     ASSERT_ZERO(ptAllData->nTotal);
 
     plsShow->SetRedraw(0);
-    
+
     BeginWaitCursor();
-    if(bFirst)
+    if (bFirst)
         m_ptStatTorq = &ptAllData->tData[ptAllData->nTotal - 1];
     for (i = 0; i < ptAllData->nTotal; i++)
     {
@@ -549,7 +549,7 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
         {
             plsShow->SetItemData(iItem, TORQ_TOOLBUCKLE);
         }
-        else if(bFirst)   // 非工具扣设置为统计序号
+        else if (bFirst)   // 非工具扣设置为统计序号
         {
             if (strMemo.IsEmpty())
                 m_ptStatTorq = ptTorq;
@@ -565,8 +565,8 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
 
 void CDataModDlg::ReReadTorqFile()
 {
-	theApp.ReadHisTorqFromFile(m_strDataName.GetBuffer(0));
-	
+    theApp.ReadHisTorqFromFile(m_strDataName.GetBuffer(0));
+
     UpdateTorqNum();
 
     m_listData.DeleteAllItems();
@@ -657,7 +657,7 @@ BOOL CDataModDlg::DelSelectData()
     for (i = 0; i < (int)g_tReadData.nTotal; i++)
     {
         /* 本记录需要删除，跳过，不保存 */
-        if (m_nSelItem[k]-1 == i)
+        if (m_nSelItem[k] - 1 == i)
         {
             k++;
             continue;
@@ -675,6 +675,7 @@ BOOL CDataModDlg::DelSelectData()
 
         //g_tReadData.tData[i].SerializeToString(&strTorq);
         //nLeng = strTorq.size();
+        file.Write(&theApp.m_nPBHead, PBHEADLEN);
         file.Write(&nDataLen, sizeof(UINT));
         file.Write(theApp.m_cProtoBuf, nDataLen);
         nNewNum++;
@@ -695,7 +696,7 @@ void CDataModDlg::OnBtnreplace()
 {
     UINT  i = 0;
     TorqData::Torque* ptInsTorq = NULL;
-    
+
     UpdateData(TRUE);
 
     /* 入参有效性判断 */
@@ -746,25 +747,96 @@ void CDataModDlg::ReplaceTorque(UINT nDest, UINT nSrc)
 
 void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
 {
+    int i = 0, index = 0;
+    int  muCount = 0;
+    double fMaxCir = 0;
+    double fMaxLimit = 0;
     TorqData::Torque  tTempData;
+    TorqData::Torque* ptDest = NULL;
 
     ASSERT_NULL(ptSrc);
     JUDGE_RANGE(nDest, g_tReadData.nTotal);
 
     tTempData = g_tReadData.tData[nDest - 1];
+    ptDest = &g_tReadData.tData[nDest - 1];
+
+    tTempData.set_dwquality(ptSrc->dwquality());
+    tTempData.set_btoolbuck(ptSrc->btoolbuck());
+    tTempData.set_bsinglestd(ptSrc->bsinglestd());
 
     tTempData.clear_ftorque();
     tTempData.clear_frpm();
     tTempData.clear_dwdelplus();
-    for (int i = 0; i < ptSrc->ftorque_size(); i++)
+    if (theApp.HaveMakeUP(ptSrc))
     {
-        theApp.UpdateTorqRpm(&tTempData, i, ptSrc->ftorque(i), ptSrc->frpm(i));
-        theApp.UpdateDelplus(&tTempData, i, ptSrc->dwdelplus(i));
+        if (!theApp.HaveMakeUP(&tTempData))
+        {
+            tTempData.set_mucoltime(ptSrc->mucoltime());
+        }
+        tTempData.set_dwmucount(ptSrc->dwmucount());
+        tTempData.set_dwmuplus(ptSrc->dwmuplus());
+        tTempData.set_fmumaxtorq(ptSrc->fmumaxtorq());
+        tTempData.set_fmuduration(ptSrc->fmuduration());
+        muCount = ptSrc->dwmucount();
+        fMaxLimit = ptSrc->fmaxlimit();
+
+        for (i = 0; i < ptSrc->dwmucount(); i++)
+        {
+            theApp.UpdateTorqRpm(&tTempData, i, ptSrc->ftorque(i), ptSrc->frpm(i));
+            theApp.UpdateDelplus(&tTempData, i, ptSrc->dwdelplus(i));
+        }
     }
-    tTempData.set_dwquality(ptSrc->dwquality());
-    tTempData.set_btoolbuck(ptSrc->btoolbuck());
-    tTempData.set_fmumaxtorq(ptSrc->fmumaxtorq());
-    tTempData.set_fbomaxtorq(ptSrc->fbomaxtorq());
+    else
+    {
+        muCount = ptDest->dwmucount();
+        fMaxLimit = ptDest->fmaxlimit();
+        for (i = 0; i < ptDest->dwmucount(); i++)
+        {
+            theApp.UpdateTorqRpm(&tTempData, i, ptDest->ftorque(i), ptDest->frpm(i));
+            theApp.UpdateDelplus(&tTempData, i, ptDest->dwdelplus(i));
+        }
+    }
+    if (theApp.HaveBreakout(ptSrc))
+    {
+        if (!theApp.HaveBreakout(&tTempData))
+        {
+            tTempData.set_bocoltime(ptSrc->bocoltime());
+            tTempData.set_dwoutwellno(ptSrc->dwoutwellno());
+        }
+        tTempData.set_dwbocount(ptSrc->dwbocount());
+        tTempData.set_dwboplus(ptSrc->dwboplus());
+        tTempData.set_fbomaxtorq(ptSrc->fbomaxtorq());
+        tTempData.set_fboduration(ptSrc->fboduration());
+        fMaxLimit = fMaxLimit > ptSrc->fmaxlimit() ? fMaxLimit : ptSrc->fmaxlimit();
+
+        for (i = 0; i < ptSrc->dwbocount(); i++)
+        {
+            index = i + ptSrc->dwmucount();
+            theApp.UpdateTorqRpm(&tTempData, i + muCount, ptSrc->ftorque(index), ptSrc->frpm(index));
+            theApp.UpdateDelplus(&tTempData, i + muCount, ptSrc->dwdelplus(index));
+        }
+    }
+    else
+    {
+        fMaxLimit = fMaxLimit > ptDest->fmaxlimit() ? fMaxLimit : ptDest->fmaxlimit();
+        for (i = 0; i < ptDest->dwbocount(); i++)
+        {
+            index = i + ptDest->dwmucount();
+            theApp.UpdateTorqRpm(&tTempData, i + muCount, ptDest->ftorque(index), ptDest->frpm(index));
+            theApp.UpdateDelplus(&tTempData, i + muCount, ptDest->dwdelplus(index));
+        }
+    }
+
+    if (fMaxLimit > tTempData.fmaxlimit())
+    {
+        tTempData.set_fmaxlimit(fMaxLimit);
+    }
+
+    fMaxCir = theApp.GetCir(&tTempData) + theApp.GetCir(&tTempData, true);
+    if (fMaxCir > tTempData.fmaxcir())
+    {
+        tTempData.set_fmaxcir(ceil(fMaxCir + 0.5));
+    }
 
     theApp.UpdateHisData(m_strDataName, nDest, &tTempData);
 
@@ -861,7 +933,7 @@ void CDataModDlg::OnBtninsert()
         {
             //nDataLen = g_tReadData.tData[m_nSelItem[i]-1].ByteSizeLong();
             nDataLen = ptInsTorq->ByteSizeLong();
-            
+
             if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
                 return;
             memset(theApp.m_cProtoBuf, 0, MAXPROBUFF);
@@ -873,8 +945,7 @@ void CDataModDlg::OnBtninsert()
 
             //g_tReadData.tData[m_iSelItem[i]].SerializeToString(&strTorq);
             //nLeng = strTorq.size();
-            if (g_tReadData.bHaveHead)
-                file.Write(&theApp.m_nPBHead, PBHEADLEN);
+            file.Write(&theApp.m_nPBHead, PBHEADLEN);
             file.Write(&nDataLen, sizeof(UINT));
             file.Write(theApp.m_cProtoBuf, nDataLen);
 
@@ -1102,7 +1173,7 @@ CString CDataModDlg::GetFileName(CString path)
 
 void CDataModDlg::OnBnClickedBtnmerge()
 {
-    UINT i = 0, j = 0, nTotal  = 0;
+    UINT i = 0, j = 0, nTotal = 0;
     CString strInfo;
     int     iLeft = 0;
     UINT    nItemNum = 0;
@@ -1169,8 +1240,7 @@ void CDataModDlg::OnBnClickedBtnmerge()
         if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
             continue;
 
-        if (g_tReadData.bHaveHead)
-            file.Write(&theApp.m_nPBHead, PBHEADLEN);
+        file.Write(&theApp.m_nPBHead, PBHEADLEN);
         file.Write(&nDataLen, sizeof(UINT));
         file.Write(theApp.m_cProtoBuf, nDataLen);
 
@@ -1186,8 +1256,7 @@ void CDataModDlg::OnBnClickedBtnmerge()
         if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
             continue;
 
-        if (g_tReadData.bHaveHead)
-            file.Write(&theApp.m_nPBHead, PBHEADLEN);
+        file.Write(&theApp.m_nPBHead, PBHEADLEN);
         file.Write(&nDataLen, sizeof(UINT));
         file.Write(theApp.m_cProtoBuf, nDataLen);
 
@@ -1203,8 +1272,7 @@ void CDataModDlg::OnBnClickedBtnmerge()
         if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
             continue;
 
-        if (g_tReadData.bHaveHead)
-            file.Write(&theApp.m_nPBHead, PBHEADLEN);
+        file.Write(&theApp.m_nPBHead, PBHEADLEN);
         file.Write(&nDataLen, sizeof(UINT));
         file.Write(theApp.m_cProtoBuf, nDataLen);
 

@@ -623,13 +623,6 @@ const string  g_strPortOpr[PORTOPR_MAXNUM] = {
 TORQUEDATA      g_tReadData;
 TORQUEDATA      g_tReadData2;   // 其他文件的原始数据
 
-GLBCFG          g_tGlbCfg = { 0 };
-
-//添加的标识只运行一次的属性名
-string  g_strPropName = _T("Torque.exe");     //自己定义一个属性名
-HANDLE  g_hValue = (HANDLE)1;        //自己定义一个属性值
-
-
 string GetCurTime()
 {
     time_t t = time(NULL);
@@ -712,12 +705,6 @@ vector<int> GetIDFromList(string lsVals)
         }
     }
     return Vals;
-}
-
-void CheckLanguage(UINT& nLang)
-{
-    if (nLang >= LANGUAGE_NUM)
-        nLang = g_tGlbCfg.nLangType;
 }
 
 string GetCCBString(CComboBox* ptCCB)

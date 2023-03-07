@@ -11,16 +11,16 @@
 class CListCtrlEdit : public CEdit, public CListCtrlEditBase
 {
 public:
-    BOOL CreateEx(CWnd *pParent, CListCtrl *pCtrl ,DWORD dwStyle = EA_DEFAULT, int iID = -1);
+    BOOL CreateEx(CWnd* pParent, CListCtrl* pCtrl, DWORD dwStyle = EA_DEFAULT, int iID = -1);
 
-// Operations
+    // Operations
 public:
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CListCtrlEdit)
-    public:
-    virtual BOOL PreTranslateMessage(MSG *pMsg);
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CListCtrlEdit)
+public:
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
     //}}AFX_VIRTUAL
 
 // Implementation
@@ -32,7 +32,7 @@ public:
 protected:
     //{{AFX_MSG(CListCtrlEdit)
     afx_msg void OnDestroy();
-    afx_msg void OnKillFocus(CWnd *pNewWnd);
+    afx_msg void OnKillFocus(CWnd* pNewWnd);
     //}}AFX_MSG
 
     DECLARE_MESSAGE_MAP()

@@ -198,7 +198,6 @@
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap2.bmp" />
     <Image Include="res\cross.bmp" />
     <Image Include="res\cross_w.bmp" />
     <Image Include="res\DataMod.ico" />

@@ -103,7 +103,6 @@ public:
     //string  LoadstringFromRes(unsigned string_ID, int val);
     //string  LoadstringFromRes(unsigned string_ID, double val);
     //string  LoadstringFromRes(unsigned string_ID, string val);
-    //void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
     string  GetSaveDataPath();
     int     SplitString(CString strSource, CStringList& slList);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */
@@ -157,7 +156,7 @@ public:
     string          m_strLogFile;
     string          m_strLogPath;       /* log路径 */
 
-    string          m_strReadFile;      /* 读取历史文件路径 */
+    //string          m_strReadFile;      /* 读取历史文件路径 now in g_tReadData*/
     string          m_strFileTitle;     /* 读取历史文件纯名称 */
     string          m_strAutoSaveFile;  /* CTRL+SHIFT+T 保存的数据文件名称?
                                            在data个路径下，后缀名修改为.dbg */
@@ -236,7 +235,6 @@ private:
     void AdjustCircuitPara(CONTROLPARA* ptCtrl);
 
     BOOL JudgeTranslate(TorqData::Torque* ptTorq);
-    WORD GetIPPlace(int iCurPnt, int iInterval);
 
     BOOL UpdateCurOptions(WORD wNum, string value[], UINT nLang = LANGUAGE_CURRENT);
     BOOL GetOptionIDbyValue(string name, string value, UINT nLang = LANGUAGE_CURRENT);
@@ -247,12 +245,6 @@ private:
 
     /* 找不到MAC时的默认MAC */
     BYTE     m_ucDefaultMac[5];
-
-    /* 计算拐点的全局变量 */
-    double  m_fAdjSlope[COLLECTPOINTS];             //相邻点斜率
-    double  m_fAdjInfPnt[COLLECTPOINTS];            //相邻点拐点
-    double  m_fIntSlope[COLLECTPOINTS];             //间隔点斜率
-    double  m_fIntInfPnt[COLLECTPOINTS];            //间隔点拐点
 };
 
 

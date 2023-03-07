@@ -1978,18 +1978,18 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRLCXCONTROL       "最佳扭矩 %.f"
-    IDS_STRLCXUPLIMIT       "最大扭矩 %.f"
-    IDS_STRLCXLOWLIMIT      "最小扭矩 %.f"
-    IDS_STRLCXGOODTAI       "最佳台阶 %.f"
-    IDS_STRLCXUPTAI         "最大台阶 %.f"
-    IDS_STRLCXLOWTAI        "最小台阶 %.f"
-    IDS_STRLCXSHOW          "显示扭矩 %.f"
-    IDS_STRLCXBEAR          "肩负扭矩 %.f"
-    IDS_STRLCIPTORQ         "拐点扭矩 %.f"
-    IDS_STRLCZOOMTORQ       "放大扭矩 %.f"
-    IDS_STRLCMAKETORQ       "上扣扭矩 %.f"
-    IDS_STRLCBREAKTORQ      "卸扣扭矩 %.f"
+    IDS_STRLCXCONTROL       "最佳扭矩 %d"
+    IDS_STRLCXUPLIMIT       "最大扭矩 %d"
+    IDS_STRLCXLOWLIMIT      "最小扭矩 %d"
+    IDS_STRLCXGOODTAI       "最佳台阶 %d"
+    IDS_STRLCXUPTAI         "最大台阶 %d"
+    IDS_STRLCXLOWTAI        "最小台阶 %d"
+    IDS_STRLCXSHOW          "显示扭矩 %d"
+    IDS_STRLCXBEAR          "肩负扭矩 %d"
+    IDS_STRLCIPTORQ         "拐点扭矩 %d"
+    IDS_STRLCZOOMTORQ       "放大扭矩 %d"
+    IDS_STRLCMAKETORQ       "上扣扭矩 %d"
+    IDS_STRLCBREAKTORQ      "卸扣扭矩 %d"
 END
 
 STRINGTABLE

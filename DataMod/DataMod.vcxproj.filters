@@ -123,9 +123,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap2.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\cross.bmp">
       <Filter>Resource Files</Filter>
     </Image>

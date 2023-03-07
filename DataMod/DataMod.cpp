@@ -336,8 +336,6 @@ void CDataModApp::ClearReadTorq(TORQUEDATA* pAllData)
     pAllData->nQualy = 0;
     pAllData->nUnQualy = 0;
 
-    memset(&pAllData->tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
-
     for (i = 0; i < MAXWELLNUM; i++)
         pAllData->tData[i].Clear();
     pAllData->strFileName.clear();
@@ -447,13 +445,7 @@ int  CDataModApp::SeekPBDataPos(CFile& file, int iCurPos)
         }
     }
 
-    if (g_tReadData.bHaveHead)
-        return -1;
-    else // 没有pbhead
-    {
-        file.Seek(iCurPos, CFile::begin);
-        return 0;
-    }
+    return -1;
 }
 
 BOOL CDataModApp::ReadHisTorqFromFile(string strDataName, TORQUEDATA* pAllData)
@@ -461,7 +453,7 @@ BOOL CDataModApp::ReadHisTorqFromFile(string strDataName, TORQUEDATA* pAllData)
     COMP_BFALSE_R(GetTorqDataFromFile(strDataName, pAllData), FALSE);
 
     /* 没有更新入井序号，直接返回正确，否则重新读一次 */
-    COMP_BFALSE_R(ReCalTallyNO(strDataName), TRUE);
+    COMP_BFALSE_R(ReCalTallyNO(strDataName, pAllData), TRUE);
 
     return GetTorqDataFromFile(strDataName, pAllData);
 }
@@ -494,12 +486,10 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
 
     ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeRead | CFile::shareDenyNone), FALSE);
 
-    m_strReadFile = strDataName;
-    //strTitle = file.GetFileTitle();
-    //strTitle.Delete(strTitle.GetLength() - 4, 4);
-    //m_strFileTitle = strTitle;
-
-    ClearReadTorq();
+    if (NULL == pAllData)
+        pAllData = &g_tReadData;
+    ClearReadTorq(pAllData);
+    pAllData->strFileName = strDataName;
 
     file.SeekToBegin();
     file.Read(&nNum, sizeof(UINT));
@@ -510,16 +500,6 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
         nNum = MAXWELLNUM;
     }
 
-    /* 检查文件是否有头 */
-#if 0
-    g_tReadData.bHaveHead = FALSE;
-    file.Read(cPBHead, PBHEADLEN);
-    file.Seek(sizeof(UINT), CFile::begin);
-    if (memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
-    {
-        g_tReadData.bHaveHead = TRUE;
-    }
-#endif
     BeginWaitCursor();
 
     for (i = 0; i < (int)nNum; i++)
@@ -542,108 +522,35 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
             continue;
         }
 
-        bRes = g_tReadData.tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
+        bRes = pAllData->tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
         if (!bRes)
             continue;
 
         /* 数据大于1屏时设置分屏信息 */
         /* 20190609最后一屏按控制周数，其他按满屏计算 */
         /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */
-        ptTorq = &g_tReadData.tData[nValid];
+        ptTorq = &pAllData->tData[nValid];
         //pSplit = &g_tReadData.tSplit[nValid];
 
-        g_tReadData.nTotalPlus[nValid] = 0;
+        pAllData->nTotalPlus[nValid] = 0;
         if (HaveMakeUP(ptTorq))
-            g_tReadData.nTotalPlus[nValid] += ptTorq->dwmuplus();
+            pAllData->nTotalPlus[nValid] += ptTorq->dwmuplus();
         if (HaveBreakout(ptTorq))
-            g_tReadData.nTotalPlus[nValid] += ptTorq->dwboplus();
+            pAllData->nTotalPlus[nValid] += ptTorq->dwboplus();
         if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
         {
-            iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
-        }
-#if 0
-        if (HaveBreakout(ptTorq))   /* 从前往后分屏 */
-        {
-            if (iTotalPnt > MAXLINEITEM)
-            {
-                // 按 MAXLINEITEM 直接分屏
-                pSplit->iCtrlPnt = MAXLINEITEM;
-                pSplit->iSplitNum = (int)ceil(iTotalPnt * 1.0 / MAXLINEITEM);
-                iSplitPos = 0;
-                pSplit->iCur = 1;
-                for (j = 0; j < pSplit->iSplitNum && j < MAXSPLIITNUM; j++)
-                {
-                    pSplit->iBegin[j] = iSplitPos;
-                    pSplit->iEnd[j] = MIN(iSplitPos + MAXLINEITEM, iTotalPnt);
-                    iSplitPos += MAXLINEITEM;
-                    if (iSplitPos >= iTotalPnt)
-                        break;
-                }
-            }
-        }
-        else    /* 从后往前分屏 */
-        {
-            iCtrlCount = (int)ceil(GetCtrlCir(ptTorq) * MAXLINEITEM / GetMaxCir(ptTorq));
-            if (iCtrlCount < 0)
-            {
-                break;
-            }
-
-            pSplit->iCtrlPnt = iCtrlCount;
-
-            if (iTotalPnt > iCtrlCount)
-            {
-                pSplit->iSplitNum = 1 + (int)ceil((iTotalPnt - iCtrlCount) * 1.0 / MAXLINEITEM);
-                iSplitPos = iTotalPnt;
-                j = MIN(pSplit->iSplitNum, MAXSPLIITNUM);
-                pSplit->iCur = j;
-
-                // 第一屏到iCtrlCount, 其他满屏
-                pSplit->iEnd[j - 1] = iSplitPos;
-                pSplit->iBegin[j - 1] = MAX(iSplitPos - iCtrlCount, 0);
-                iSplitPos -= iCtrlCount;
-                j--;
-                for (; j >= 0; j--)
-                {
-                    pSplit->iEnd[j - 1] = iSplitPos;
-                    pSplit->iBegin[j - 1] = MAX(iSplitPos - MAXLINEITEM, 0);
-                    iSplitPos -= MAXLINEITEM;
-                    if (iSplitPos <= 0)
-                        break;
-                }
-            }
-        }
-#endif
-        /* NM  < ---- > lbft (* ratio) */
-        if (g_tGlbCfg.nTorqUnit != ptTorq->dwtorqunit())
-        {
-            /* 0 (N.M) lb.ft --> N.m  */
-            fRatio = LBFT2NM;
-            if (g_tGlbCfg.nTorqUnit == 1) // N.m --> lb.ft
-                fRatio = NM2LBFT;
-
-            ptTorq->set_fmumaxtorq(fRatio * ptTorq->fmumaxtorq());
-            ptTorq->set_fbomaxtorq(fRatio * ptTorq->fbomaxtorq());
-            ptTorq->set_fmaxlimit(fRatio * ptTorq->fmaxlimit());
-            ptTorq->set_fcontrol(fRatio * ptTorq->fcontrol());
-            ptTorq->set_fopttorq(fRatio * ptTorq->fopttorq());
-            ptTorq->set_fshow(fRatio * ptTorq->fshow());
-
-            for (j = 0; j < ptTorq->ftorque_size(); j++)
-            {
-                ptTorq->set_ftorque(j, fRatio * ptTorq->ftorque(j));
-            }
+            iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
-        g_tReadData.nTotal++;
+        pAllData->nTotal++;
         dwQuality = GetQuality(ptTorq);
         if (dwQuality & QUA_RESU_QUALITYBIT)
         {
-            g_tReadData.nQualy++;
+            pAllData->nQualy++;
         }
         else
         {
-            g_tReadData.nUnQualy++;
+            pAllData->nUnQualy++;
         }
         nValid++;
     }
@@ -655,9 +562,7 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
     return TRUE;
 }
 
-/*  nNO 从0开始计数
-    iMulti在放大时使用 */
-DRAWTORQDATA* CDataModApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nTotalPlus, int iMulti)
+bool  CDataModApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti)
 {
     int i = 0;
     int iDrawPnt = 0;
@@ -673,33 +578,13 @@ DRAWTORQDATA* CDataModApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nTo
     double fPreRpm = 0;
     double fCurRpm = 0;
     double fPlusPerPnt = 1.0;
-    DRAWTORQDATA* ptDraw = NULL;
 
-    ASSERT_NULL_R(ptOrg, NULL);
-    ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
+    ASSERT_NULL_R(ptOrg, false);
+    ASSERT_NULL_R(ptDraw, false);
+    COMP_BFALSE_R(HaveMakeUP(ptOrg), false);
 
-    ptDraw = &m_tCurDrawTorq;
-    if (iMulti > 1)
-        ptDraw = &m_tCurZoomTorq;
-
-    memset(ptDraw, 0, sizeof(DRAWTORQDATA));
-    ptDraw->ptOrgTorq = ptOrg;
-    if (!VERSION_RECPLUS(ptOrg))   // 3.21及之前版本
-    {
-        for (i = 0; i < ptOrg->ftorque_size(); i++)
-        {
-            ptDraw->fTorque[i] = ptOrg->ftorque(i);
-            ptDraw->fRpm[i] = ptOrg->frpm(i);
-        }
-
-        ptDraw->wCount = ptOrg->ftorque_size();
-
-        return ptDraw;
-    }
-
-    fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / iMulti / MAXLINEITEM;
-
-    iDrawPnt = (int)ceil(nTotalPlus / fPlusPerPnt);
+    fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / nMulti / MAXLINEITEM;
+    iDrawPnt = (int)ceil(ptOrg->dwmuplus() / fPlusPerPnt);
     if (iDrawPnt < 2)
         iDrawPnt = 2;
 
@@ -712,16 +597,15 @@ DRAWTORQDATA* CDataModApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nTo
 
     iPriorDataIndex = iDataIndex;
     iPriorDrawIndex = iDrawIndex;
-    iDrawIndex = 1;
-    for (iDataIndex = 1; iDataIndex < ptOrg->ftorque_size() - 1; iDataIndex++)
+    iDrawIndex++;
+    iDataIndex++;
+
+    for (; iDataIndex < ptOrg->dwmucount() - 1; iDataIndex++)
     {
-        fCurTorq = ptOrg->ftorque(iDataIndex);
+        fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
         /* 跳过delta脉冲为0的情况 */
-        while (ptOrg->dwdelplus(iDataIndex) == 0 && iDataIndex < ptOrg->ftorque_size() - 1)
-        {
-            iDataIndex++;
-            fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
-        }
+        if (ptOrg->dwdelplus(iDataIndex) == 0)
+            continue;
         fCurRpm = ptOrg->frpm(iDataIndex);
 
         iDataPlus += ptOrg->dwdelplus(iDataIndex);
@@ -748,48 +632,221 @@ DRAWTORQDATA* CDataModApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nTo
         if (iInsCnt == 0)
         {
             //ptDraw->fTorque[iDrawIndex - 1] = fCurTorq;
-            ptDraw->fTorque[iDrawIndex - 1] = MAX(ptDraw->fTorque[iDrawIndex - 1], fCurTorq);
-            ptDraw->fRpm[iDrawIndex - 1] = fCurRpm;
+            // iDrawIndex == iPriorDrawIndex
+            ptDraw->fTorque[iDrawIndex] = MAX(ptDraw->fTorque[iDrawIndex], fCurTorq);
+            ptDraw->fRpm[iDrawIndex] = fCurRpm;
         }
         else if (iInsCnt == 1)
         {
-            ptDraw->fTorque[iDrawIndex - 1] = fCurTorq;
-            ptDraw->fRpm[iDrawIndex - 1] = fCurRpm;
+            ptDraw->fTorque[iDrawIndex] = fCurTorq;
+            ptDraw->fRpm[iDrawIndex] = fCurRpm;
         }
         else
         {
             fPreTorq = ptOrg->ftorque(iPriorDataIndex);
             fPreRpm = ptOrg->frpm(iPriorDataIndex);
-            for (i = 0; i < iInsCnt; i++)
+            for (i = 1; i <= iInsCnt; i++)
             {
-                ptDraw->fTorque[i + iPriorDrawIndex + 1] = (fCurTorq - fPreTorq) * (i + 1) / iInsCnt + fPreTorq;
-                ptDraw->fRpm[i + iPriorDrawIndex + 1] = (fCurRpm - fPreRpm) * (i + 1) / iInsCnt + fPreRpm;
+                ptDraw->fTorque[i + iPriorDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+                ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
             }
         }
         iPriorDrawIndex = iDrawIndex;
         iPriorDataIndex = iDataIndex;
+        fCurTorq = 0;
     }
 
+    // last point
     iInsCnt = iDrawPnt - 1 - iDrawIndex;
     if (iInsCnt <= 1)
     {
-        ptDraw->fTorque[iDrawPnt - 1] = ptOrg->ftorque(ptOrg->ftorque_size() - 1);
-        ptDraw->fRpm[iDrawPnt - 1] = ptOrg->frpm(ptOrg->ftorque_size() - 1);
+        ptDraw->fTorque[iDrawIndex] = MAX(ptOrg->fmumaxtorq(), ptDraw->fTorque[iDrawIndex]);
+        ptDraw->fRpm[iDrawIndex] = MAX(ptOrg->frpm(ptOrg->dwmucount() - 1), ptDraw->fRpm[iDrawIndex]);
+        if (iInsCnt < 0)
+            iDrawPnt = iDrawIndex + 1;
     }
     else
     {
-        fCurTorq = ptOrg->ftorque(ptOrg->ftorque_size() - 1);
-        fCurRpm = ptOrg->frpm(ptOrg->ftorque_size() - 1);
+        fCurTorq = ptOrg->ftorque(ptOrg->dwmucount() - 1);
+        fCurRpm = ptOrg->frpm(ptOrg->dwmucount() - 1);
         fPreTorq = ptOrg->ftorque(iPriorDataIndex);
         fPreRpm = ptOrg->frpm(iPriorDataIndex);
-        for (i = 0; i < iInsCnt; i++)
+        for (i = 1; i <= iInsCnt; i++)
         {
-            ptDraw->fTorque[i + iDrawIndex + 1] = (fCurTorq - fPreTorq) * (i + 1) / iInsCnt + fPreTorq;
-            ptDraw->fRpm[i + iDrawIndex + 1] = (fCurRpm - fPreRpm) * (i + 1) / iInsCnt + fPreRpm;
+            ptDraw->fTorque[i + iDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+            ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
         }
     }
 
     ptDraw->wCount = iDrawPnt;
+    ptDraw->wMUEndPos = iDrawPnt;
+    return true;
+}
+
+bool CDataModApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti)
+{
+    int i = 0;
+    int iDrawPnt = 0;
+    int iDataPlus = 0;
+    int iDrawPlus = 0;
+    int iDrawIndex = 0;
+    int iDataIndex = 0;
+    int iInsCnt = 0;
+    int iPriorDataIndex = 0;
+    int iPriorDrawIndex = 0;
+    double fPreTorq = 0;
+    double fCurTorq = 0;
+    double fPreRpm = 0;
+    double fCurRpm = 0;
+    double fPlusPerPnt = 1.0;
+
+    ASSERT_NULL_R(ptOrg, false);
+    ASSERT_NULL_R(ptDraw, false);
+    COMP_BFALSE_R(HaveBreakout(ptOrg), false);
+
+    fPlusPerPnt = ptOrg->fplus() * ptOrg->fmaxcir() / nMulti / MAXLINEITEM;
+    iDrawPnt = (int)ceil(ptOrg->dwboplus() / fPlusPerPnt);
+    if (iDrawPnt < 2)
+        iDrawPnt = 2;
+
+    if (ptDraw->wCount > 0)
+    {
+        ptDraw->fTorque[ptDraw->wCount] = 0;
+        ptDraw->fRpm[ptDraw->wCount] = ptDraw->fRpm[ptDraw->wCount - 1];
+        ptDraw->wCount++;
+
+        // 上扣卸扣之间增加20个空数据
+        for (i = 0; i < SPLITPOSNUM; i++)
+        {
+            ptDraw->fTorque[ptDraw->wCount] = 0;
+            ptDraw->fRpm[ptDraw->wCount] = 0;
+            ptDraw->wCount++;
+        }
+    }
+
+    iDrawPnt += ptDraw->wCount;
+    iDrawIndex = ptDraw->wCount;
+    iDataIndex = ptOrg->dwmucount();
+    iDataPlus = ptOrg->dwdelplus(iDataIndex);
+    if (iDrawIndex > 0)
+        iDataPlus += ptOrg->dwmuplus();
+    iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
+
+    ptDraw->fTorque[iDrawIndex] = ptOrg->ftorque(ptOrg->dwmucount());
+    ptDraw->fRpm[iDrawIndex] = ptOrg->frpm(ptOrg->dwmucount());
+
+    iPriorDataIndex = iDataIndex;
+    iPriorDrawIndex = iDrawIndex;
+    iDrawIndex++;
+    iDataIndex++;
+
+    int totalCount = ptOrg->dwmucount() + ptOrg->dwbocount();
+    for (; iDataIndex < totalCount - 1; iDataIndex++)
+    {
+        fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
+        /* 跳过delta脉冲为0的情况 */
+        if (ptOrg->dwdelplus(iDataIndex) == 0)
+            continue;
+        fCurRpm = ptOrg->frpm(iDataIndex);
+
+        iDataPlus += ptOrg->dwdelplus(iDataIndex);
+
+        /* data分辨率大于draw分辨率时, 只更新当前扭矩 */
+        if (iDataPlus <= iDrawPlus)
+        {
+            iInsCnt = 0;
+        }
+        else
+        {
+            for (; iDrawIndex < iDrawPnt; iDrawIndex++)
+            {
+                iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
+                // 当前的iDrawIndex不设置，取iDrawIndex-1
+                if (iDrawPlus > iDataPlus)
+                    break;
+            }
+
+            /* (priorData+1) -- Data
+               (priorDraw+1) -- Draw-1 */
+            iInsCnt = iDrawIndex - iPriorDrawIndex;
+        }
+        if (iInsCnt == 0)
+        {
+            //ptDraw->fTorque[iDrawIndex - 1] = fCurTorq;
+            // iDrawIndex == iPriorDrawIndex
+            ptDraw->fTorque[iDrawIndex] = MAX(ptDraw->fTorque[iDrawIndex], fCurTorq);
+            ptDraw->fRpm[iDrawIndex] = fCurRpm;
+        }
+        else if (iInsCnt == 1)
+        {
+            ptDraw->fTorque[iDrawIndex] = fCurTorq;
+            ptDraw->fRpm[iDrawIndex] = fCurRpm;
+        }
+        else
+        {
+            fPreTorq = ptOrg->ftorque(iPriorDataIndex);
+            fPreRpm = ptOrg->frpm(iPriorDataIndex);
+            for (i = 1; i <= iInsCnt; i++)
+            {
+                ptDraw->fTorque[i + iPriorDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+                ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+            }
+        }
+        iPriorDrawIndex = iDrawIndex;
+        iPriorDataIndex = iDataIndex;
+        fCurTorq = 0;
+    }
+
+    // last point
+    iInsCnt = iDrawPnt - 1 - iDrawIndex;
+    if (iInsCnt <= 1)
+    {
+        ptDraw->fTorque[iDrawIndex] = MAX(ptOrg->ftorque(totalCount - 1), ptDraw->fTorque[iDrawIndex]);
+        ptDraw->fRpm[iDrawIndex] = ptOrg->frpm(totalCount - 1);
+        if (iInsCnt < 0)
+            iDrawPnt = iDrawIndex + 1;
+    }
+    else
+    {
+        fCurTorq = ptOrg->ftorque(totalCount - 1);
+        fCurRpm = ptOrg->frpm(totalCount - 1);
+        fPreTorq = ptOrg->ftorque(iPriorDataIndex);
+        fPreRpm = ptOrg->frpm(iPriorDataIndex);
+        for (i = 1; i <= iInsCnt; i++)
+        {
+            ptDraw->fTorque[i + iDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
+            ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+        }
+    }
+
+    ptDraw->wCount = iDrawPnt;
+    return true;
+}
+
+/*  nNO 从0开始计数
+    iMulti在放大时使用 */
+DRAWTORQDATA* CDataModApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nMulti, UINT nType)
+{
+    DRAWTORQDATA* ptDraw = NULL;
+
+    ASSERT_NULL_R(ptOrg, NULL);
+    ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
+
+    ptDraw = &m_tCurDrawTorq;
+    if (nMulti > 1)
+        ptDraw = &m_tCurZoomTorq;
+
+    memset(ptDraw, 0, sizeof(DRAWTORQDATA));
+    ptDraw->ptOrgTorq = ptOrg;
+
+    if (ptOrg->dwmucount() > 0 && (nType & 0x01))
+    {
+        GetMakeupDrawData(ptOrg, ptDraw, nMulti);
+    }
+    if (ptOrg->dwbocount() > 0 && (nType & 0x02))
+    {
+        GetBreakoutDrawData(ptOrg, ptDraw, nMulti);
+    }
     return ptDraw;
 }
 
@@ -826,6 +883,8 @@ BOOL CDataModApp::CheckPassWord()
     CString         strCompPW;
     CString         strSupPW;
     CDlgPassword    dlgPW;
+
+    return TRUE;
 
     if (IDOK != dlgPW.DoModal())
     {
@@ -959,6 +1018,7 @@ void CDataModApp::UpdateHisData(CString filename, int iDataPlace, TorqData::Torq
     /* 跳到当前数据开始位置，写入更新的数据信息 */
     file.Seek(nCurPos, CFile::begin);
 
+    file.Write(&theApp.m_nPBHead, PBHEADLEN);
     file.Write(&iCurLen, sizeof(UINT));
     file.Write(pcBuff, iCurLen);
 
@@ -976,31 +1036,6 @@ void CDataModApp::UpdateHisData(CString filename, int iDataPlace, TorqData::Torq
     file.Close();
 
     delete pcBuff;
-    return;
-}
-
-void CDataModApp::GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti)
-{
-    ASSERT_NULL(ptDraw);
-
-    iBegin = 0;
-    iEnd = ptDraw->wCount;
-    if (nMulti != 1 && VERSION_RECPLUS(ptDraw->ptOrgTorq))  // for 3.22 放大数据
-        iEnd = (int)ceil(ptDraw->wCount * 1.0 / nMulti);
-
-    ASSERT_NULL(ptSplit);
-    ASSERT_ZERO(ptSplit->iSplitNum);
-
-    /* 默认第一屏 */
-    iBegin = ptSplit->iBegin[0];
-    iEnd = ptSplit->iEnd[0];
-
-    COMP_BG(ptSplit->iCur, ptSplit->iSplitNum);
-    COMP_BL(ptSplit->iCur, 1);
-
-    iBegin = ptSplit->iBegin[ptSplit->iCur - 1];
-    iEnd = ptSplit->iEnd[ptSplit->iCur - 1];
-
     return;
 }
 
@@ -1123,7 +1158,7 @@ bool CDataModApp::HaveTallyNO(TorqData::Torque* ptTorq)
 
 /* 返回是否有修改
    20200302 每次都从最开始重新计算 */
-BOOL CDataModApp::ReCalTallyNO(string strDataName)
+BOOL CDataModApp::ReCalTallyNO(string strDataName, TORQUEDATA* pAllData)
 {
     int     i = 0;
     int     iTallyIndex = -1;
@@ -1134,14 +1169,17 @@ BOOL CDataModApp::ReCalTallyNO(string strDataName)
     TorqData::Torque* ptTorq = NULL;
     TorqData::ShowInfo* ptRunningShow = NULL;
 
-    iTallyIndex = GetMainIndexfromData(&g_tReadData.tData[0]);
+    if (NULL == pAllData)
+        pAllData = &g_tReadData;
+
+    iTallyIndex = GetMainIndexfromData(&pAllData->tData[0]);
     COMP_BL_R(iTallyIndex, 0, FALSE);
 
     BeginWaitCursor();
     /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
     for (i = 1; i <= (int)g_tReadData.nTotal; i++)
     {
-        ptTorq = &g_tReadData.tData[i - 1];
+        ptTorq = &pAllData->tData[i - 1];
 
         strOldNO = GetTorqShowValue(ptTorq, iTallyIndex);
         ptRunningShow = ptTorq->mutable_tshow(iTallyIndex);
@@ -1165,30 +1203,33 @@ BOOL CDataModApp::ReCalTallyNO(string strDataName)
 
     COMP_BFALSE_R(bModified, FALSE);
 
-    SaveAllData(strDataName);
+    SaveAllData(strDataName, pAllData);
 
     return TRUE;
 }
 
-void CDataModApp::SaveAllData(string strDataName)
+void CDataModApp::SaveAllData(string strDataName, TORQUEDATA* pAllData)
 {
     UINT    i = 0;
     size_t  nDataLen = 0;
     CFile   file;
 
+    if (NULL == pAllData)
+        pAllData = &g_tReadData;
+
     /* write to file */
     if (file.Open(strDataName.c_str(), CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone, NULL))
     {
         /*更新记录数*/
-        file.Write(&g_tReadData.nTotal, sizeof(UINT));
+        file.Write(&pAllData->nTotal, sizeof(UINT));
 
-        for (i = 0; i < g_tReadData.nTotal; i++)
+        for (i = 0; i < pAllData->nTotal; i++)
         {
-            nDataLen = g_tReadData.tData[i].ByteSizeLong();
+            nDataLen = pAllData->tData[i].ByteSizeLong();
             if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
                 continue;
             memset(m_cProtoBuf, 0, MAXPROBUFF);
-            if (!g_tReadData.tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
+            if (!pAllData->tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
             {
                 continue;
             }

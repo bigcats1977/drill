@@ -120,9 +120,9 @@ private:
     void    SetCell(long irow, long icolumn, double fValue);
     void    SetCell(long irow, long icolumn, int iValue);
     UINT    GetSelectItem();
-    int     GetOperInfo(CStringList &slOper);
-    bool    GetSrcTorq(TorqData::Torque **ptSrc);
-    
+    int     GetOperInfo(CStringList& slOper);
+    bool    GetSrcTorq(TorqData::Torque** ptSrc);
+
     UINT    m_nSelItem[MAXWELLNUM];     /* 记录选定的记录的序号 */
     TorqData::Torque* m_ptStatTorq;     /* 统计数据的地址，从最后开始排除工具扣,且没有备注 */
 };

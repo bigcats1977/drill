@@ -94,9 +94,9 @@ public:
     double       m_fWidthCir;   /* 画图的真实宽度的周数，一般等于m_fMaxCir，因为左边界为0
                                    对于放大的图, 左边m_fMinCir非0, 该参数小于m_fMaxCir */
 
-    //BOOL         m_bBear;
+                                   //BOOL         m_bBear;
 
-    // Generated message map functions
+                                   // Generated message map functions
 protected:
     //{{AFX_MSG(CLineChartCtrlEx)
     afx_msg void OnPaint();

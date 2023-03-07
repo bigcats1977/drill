@@ -30,26 +30,26 @@
 
 class CRuler : public CStatic
 {
-// Construction
+    // Construction
 public:
     CRuler();
 
-// Attributes
+    // Attributes
 public:
     UINT        m_nRulerType;
     int         m_iTickNum;
     double      m_fTickValue;
     double      m_fMinTickVal;
 
-// Operations
+    // Operations
 public:
-    void SetRulerType(UINT nRulerType =RT_HORIZONTAL);
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CRuler)
-    //}}AFX_VIRTUAL
+    void SetRulerType(UINT nRulerType = RT_HORIZONTAL);
+    // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CRuler)
+        //}}AFX_VIRTUAL
 
-// Implementation
+    // Implementation
 public:
     void    SetTickPara(int iTickNum, double fMaxVal, double fMinVal = 0);
     void    SetXAxisDecNum(UINT nNum);

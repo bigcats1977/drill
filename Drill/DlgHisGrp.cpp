@@ -597,7 +597,7 @@ void CDlgHisGrp::ShowCurData(bool bNew)
     /* 画图 */
     DrawCurTorque();
 
-    GetFileTitle(theApp.m_strReadFile.c_str(), aucTemp, 250);
+    GetFileTitle(g_tReadData.strFileName.c_str(), aucTemp, 250);
 
     m_strFileName = aucTemp;
 
@@ -752,7 +752,7 @@ void CDlgHisGrp::OnModRemark()
 
     if (bModified)
     {
-        theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+        theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
         ShowCurData(false);
 
         /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
@@ -1014,7 +1014,7 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
     if (m_bToolBuck)
         m_ptCurTorq->set_btoolbuck(true);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnEnKillfocusHismemo()
@@ -1026,7 +1026,7 @@ void CDlgHisGrp::OnEnKillfocusHismemo()
     m_ptCurTorq->set_strmemo(m_strMemo);
 
     UpdateData(FALSE);
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 #if 0
 void CDlgHisGrp::OnStnClickedPriorsplit()
@@ -1064,7 +1064,7 @@ void CDlgHisGrp::OnBnClickedRadiosignle()
     UpdateData(TRUE);
     m_ptCurTorq->set_bsinglestd(0);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnBnClickedRadiostand()
@@ -1074,7 +1074,7 @@ void CDlgHisGrp::OnBnClickedRadiostand()
     UpdateData(TRUE);
     m_ptCurTorq->set_bsinglestd(1);
 
-    theApp.UpdateHisData(theApp.m_strReadFile.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnBnClickedRadiogrpboth()

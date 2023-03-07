@@ -128,7 +128,7 @@ void CDlgListMod::ShowTorqValue()
         strNo.Format("%d", (i + 1));
         strTorq.Format("%8.2f ", m_ptModTorq->ftorque(i));
         strRpm.Format("%8.2f ", m_ptModTorq->frpm(i));
-        if(bPulse)
+        if (bPulse)
             strPulse.Format("%d ", m_ptModTorq->dwdelplus(i));
 
         iRow = m_lsData.InsertItem(0, strNo);  //插入行
@@ -250,7 +250,7 @@ BOOL CDlgListMod::CircleOptimByTorq(TorqData::Torque* pSrcData, TorqData::Torque
 
         if (nPrePos == nSrcCount)
         {
-            if(nSrcCount > 0)
+            if (nSrcCount > 0)
                 theApp.UpdateTorqRpm(pDestData, i, pSrcData->ftorque(nSrcCount - 1), pSrcData->frpm(nSrcCount - 1));
             continue;
         }
@@ -317,7 +317,7 @@ BOOL CDlgListMod::CircleOptim(TorqData::Torque* pSrcData, TorqData::Torque* pDes
 
     if (VERSION_RECPLUS(pSrcData))
     {
-       return CircleOptimByPulse(pSrcData, pDestData);
+        return CircleOptimByPulse(pSrcData, pDestData);
     }
     else /* 老版本 */
     {

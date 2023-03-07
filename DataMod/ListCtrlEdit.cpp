@@ -24,7 +24,7 @@ static char THIS_FILE[] = __FILE__;
 
 CListCtrlEdit::CListCtrlEdit()
 {
-   m_hWnd = NULL;
+    m_hWnd = NULL;
 }
 
 CListCtrlEdit::~CListCtrlEdit()
@@ -42,16 +42,16 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CListCtrlEdit message handlers
 
-BOOL CListCtrlEdit::CreateEx(CWnd *pParent, CListCtrl *pCtrl, DWORD dwStyle, int iID)
+BOOL CListCtrlEdit::CreateEx(CWnd* pParent, CListCtrl* pCtrl, DWORD dwStyle, int iID)
 {
-    CFont   *pFont = NULL;
+    CFont* pFont = NULL;
 
-    if (!Create(dwStyle,CRect(0,0,0,0),pParent, iID))
+    if (!Create(dwStyle, CRect(0, 0, 0, 0), pParent, iID))
         return FALSE;
 
     m_pParentList = pCtrl;
-    m_pInEdit     = this;
-    pFont   = GetParent()->GetFont();
+    m_pInEdit = this;
+    pFont = GetParent()->GetFont();
     SetFont(pFont);
 
     return TRUE;
@@ -63,11 +63,11 @@ BOOL CListCtrlEdit::CreateEx(CWnd *pParent, CListCtrl *pCtrl, DWORD dwStyle, int
 ///////////////////////////////////////////////////////////////////////////
 
 void CListCtrlEdit::OnDestroy()
- {
+{
     CEdit::OnDestroy();
 
     // TODO: Add your message handler code here
-   OnDestroyEx();
+    OnDestroyEx();
 
 }
 void CListCtrlEdit::OnKillFocus(CWnd* pNewWnd)
@@ -80,10 +80,10 @@ void CListCtrlEdit::OnKillFocus(CWnd* pNewWnd)
 
 BOOL CListCtrlEdit::PreTranslateMessage(MSG* pMsg)
 {
-   if(PreTranslateMessageEx(pMsg))
-       return TRUE;
+    if (PreTranslateMessageEx(pMsg))
+        return TRUE;
 
-   return CEdit::PreTranslateMessage(pMsg);
+    return CEdit::PreTranslateMessage(pMsg);
 }
 
 

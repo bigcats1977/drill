@@ -41,7 +41,6 @@ public:
     string  LoadstringFromRes(unsigned string_ID, int val);
     string  LoadstringFromRes(unsigned string_ID, double val);
     string  LoadstringFromRes(unsigned string_ID, string val);
-    void    GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti = 1);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */
     double  GetMaxCir(TorqData::Torque* ptTorq);
     double  GetCtrlCir(TorqData::Torque* ptTorq);
@@ -58,7 +57,7 @@ public:
 
     CString GetTorqShowName(TorqData::Torque* ptTorq, int iIndex);
     CString GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex);
-    DRAWTORQDATA* GetDrawDataFromTorq(TorqData::Torque* ptTorq, UINT nTotalPlus, int iMulti = 1);
+    DRAWTORQDATA* GetDrawDataFromTorq(TorqData::Torque* ptTorq, UINT nMulti = 1, UINT nType = 3);
     bool HaveMakeUP(TorqData::Torque* ptTorq);
     bool HaveBreakout(TorqData::Torque* ptTorq);
     bool HaveTallyNO(TorqData::Torque* ptTorq);
@@ -74,7 +73,7 @@ public:
     CFont           m_tRuleVFont;
     CFont           m_tRuleHFont;
     CFont           m_tPntTextFont;
-    string          m_strReadFile;
+    //string          m_strReadFile;
     char            m_cProtoBuf[MAXPROBUFF];
     DRAWTORQDATA    m_tCurDrawTorq;
     DRAWTORQDATA    m_tCurZoomTorq;
@@ -97,9 +96,11 @@ public:
 
 private:
     BOOL GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData);
-    BOOL ReCalTallyNO(string strDataName);
-    void SaveAllData(string strDataName);
+    BOOL ReCalTallyNO(string strDataName, TORQUEDATA* pAllData);
+    void SaveAllData(string strDataName, TORQUEDATA* pAllData);
     BOOL JudgeTranslate(TorqData::Torque* ptTorq);
+    bool GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
+    bool GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
 };
 
 extern CDataModApp theApp;

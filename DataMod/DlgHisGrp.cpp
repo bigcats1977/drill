@@ -178,7 +178,7 @@ void CDlgHisGrp::UpdateDlgLabel(UINT nUnit)
     if (nUnit != 0)
         strUnit.Format("lb%sft", BIGPOINT);
 
-    m_strLBG1 = string_format(theApp.LoadstringFromRes(IDS_STRLINELABEL).c_str(), g_tGlbCfg.strUnit.c_str()).c_str();
+    m_strLBG1 = string_format(theApp.LoadstringFromRes(IDS_STRLINELABEL).c_str(), strUnit).c_str();
 
     m_strLBG10 = strUnit;
     m_strLBG16 = strUnit;
@@ -231,28 +231,7 @@ void CDlgHisGrp::SetCurEdit()
         m_strOutJoint = NULLSTR;
     }
 }
-#if 0
-BOOL CDlgHisGrp::GetCirRange(double* fMin, double* fMax)
-{
-    int    i = 0;
-    double fBeginCir = 0;
-    double fMaxCir = m_wndLineHis.m_fMaxCir; /* 满屏的周数 */
 
-    ASSERT_NULL_R(fMin, FALSE);
-    ASSERT_NULL_R(fMax, FALSE);
-
-    /* 单屏采用默认值，在外面已经初始化 */
-    COMP_BLE_R(m_tCurSplit.iSplitNum, 1, TRUE);
-
-    /* 多屏重新计算圈数范围 */
-    /* 计算当前扭矩当前屏的圈数范围 */
-    *fMin = m_tCurSplit.iEnd[0] * fMaxCir / MAXLINEITEM - fMaxCir
-        + fMaxCir * (m_tCurSplit.iCur - 1);
-    *fMax = *fMin + fMaxCir;
-
-    return TRUE;
-}
-#endif
 void CDlgHisGrp::ResetHisLineByCurData()
 {
     int    i = 0;
@@ -571,8 +550,7 @@ void CDlgHisGrp::ShowCurData(bool bNew)
     if (m_iGrpType > 0)
         nType = m_iGrpType;
 
-    m_ptCurDraw = theApp.GetDrawDataFromTorq(&m_ptTorData->tData[m_ptTorData->nCur - 1],
-        m_ptTorData->nTotalPlus[m_ptTorData->nCur - 1]);
+    m_ptCurDraw = theApp.GetDrawDataFromTorq(&m_ptTorData->tData[m_ptTorData->nCur - 1], 1, nType);
     ASSERT_NULL(m_ptCurDraw);
     m_ptCurTorq = m_ptCurDraw->ptOrgTorq;
     ASSERT_NULL(m_ptCurTorq);
@@ -610,12 +588,30 @@ void CDlgHisGrp::OnBtnmod()
     return;
 }
 
+__time64_t CDlgHisGrp::GetTimeFromStr(CString strTime)
+{
+    struct tm tmTime = { 0 };
+
+    if (strTime.IsEmpty())
+        return 0;
+
+    sscanf(strTime, "%4d-%2d-%2d %2d:%2d:%2d",
+        &tmTime.tm_year,
+        &tmTime.tm_mon,
+        &tmTime.tm_mday,
+        &tmTime.tm_hour,
+        &tmTime.tm_min,
+        &tmTime.tm_sec);
+    tmTime.tm_year -= 1900;
+    tmTime.tm_mon--;
+    tmTime.tm_isdst = -1;
+
+    return mktime(&tmTime);
+}
+
 void CDlgHisGrp::OnBtnmodpara()
 {
     int             i = 0;
-    CString         strTime;
-    COleDateTime    tempTime;
-    __time64_t      curTime;
     TorqData::ShowInfo* ptShow = NULL;
 
     UpdateData(TRUE);
@@ -623,25 +619,8 @@ void CDlgHisGrp::OnBtnmodpara()
     ASSERT_NULL(m_ptCurTorq);
 
     /* 修改数据的生成时间 */
-    tempTime.ParseDateTime(m_strTime);
-    struct tm tmTime = { 0 };
-    /* 2018-03-31 23:25 ->time_t*/
-    //strptime(m_strTime, _T("%Y-%m-%d %H:%M"), &tmTime);
-
-    sscanf(m_strTime, "%4d-%2d-%2d %2d:%2d",
-        &tmTime.tm_year,
-        &tmTime.tm_mon,
-        &tmTime.tm_mday,
-        &tmTime.tm_hour,
-        &tmTime.tm_min);
-
-    tmTime.tm_year -= 1900;
-    tmTime.tm_mon--;
-
-    tmTime.tm_isdst = -1;
-
-    curTime = mktime(&tmTime);
-    m_ptCurTorq->set_mucoltime(curTime);
+    m_ptCurTorq->set_mucoltime(GetTimeFromStr(m_strTime));
+    m_ptCurTorq->set_bocoltime(GetTimeFromStr(m_strBOTime));
     m_ptCurTorq->set_strmemo(m_strMemo);
 
     /* 修改数据的环境参数 */

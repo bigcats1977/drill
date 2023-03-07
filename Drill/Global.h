@@ -883,7 +883,7 @@ typedef struct tagTORQUEDATA
     UINT    nUnQualy;
     UINT    nTotalPlus[MAXWELLNUM];
     TorqData::Torque  tData[MAXWELLNUM];
-    //SPLITPOINT        tSplit[MAXWELLNUM];   // 多屏数据时，读取后设置分屏起点终点
+    string  strFileName;
 }TORQUEDATA;
 
 /* 最大10屏，考虑放大5倍，10*500*5 */

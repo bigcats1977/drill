@@ -7,7 +7,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -29,7 +29,7 @@ CListCtrlMap::~CListCtrlMap()
 //////////////////////////////////////////////////////////////////////
 //插入
 //////////////////////////////////////////////////////////////////////
-void CListCtrlMap::Insert(CListCtrl *pCtrl, CWnd *pWnd, int iIndex)
+void CListCtrlMap::Insert(CListCtrl* pCtrl, CWnd* pWnd, int iIndex)
 {
     PLISTCTRLMAP pMap = NULL;
 
@@ -37,12 +37,12 @@ void CListCtrlMap::Insert(CListCtrl *pCtrl, CWnd *pWnd, int iIndex)
     ASSERT_NULL(pWnd);
 
     pMap = GetCtrlMap(pCtrl);
-    if(pMap == NULL)//新增
+    if (pMap == NULL)//新增
     {
         pMap = new LISTCTRLMAP;
         ASSERT_NULL(pMap);
 
-        ZeroMemory(pMap,sizeof(LISTCTRLMAP));
+        ZeroMemory(pMap, sizeof(LISTCTRLMAP));
         InsertWnd(pMap, pWnd, iIndex);
         pMap->pCtrl = pCtrl;
         pMap->pNext = m_pMap;
@@ -57,13 +57,13 @@ void CListCtrlMap::Insert(CListCtrl *pCtrl, CWnd *pWnd, int iIndex)
 //////////////////////////////////////////////////////////////////////
 //删除
 //////////////////////////////////////////////////////////////////////
-void CListCtrlMap::Delete(CListCtrl *pCtrl, CWnd *pWnd, int iIndex)
+void CListCtrlMap::Delete(CListCtrl* pCtrl, CWnd* pWnd, int iIndex)
 {
     PLISTCTRLMAP pMap = NULL;
     PLISTCTRLMAP pDel = NULL;
 
     ASSERT_NULL(m_pMap);
-    
+
     //第1节点
     if (m_pMap->pCtrl == pCtrl)
     {
@@ -76,14 +76,14 @@ void CListCtrlMap::Delete(CListCtrl *pCtrl, CWnd *pWnd, int iIndex)
         }
 
         DeleteWnd(m_pMap, iIndex);
-        return ;
+        return;
     }
 
     // 循环查找待删除节点的上一个节点
     for (pMap = m_pMap; pMap != NULL; pMap = pMap->pNext)
     {
         pDel = pMap->pNext;
-        if  (pDel != NULL && pDel->pCtrl == pCtrl)
+        if (pDel != NULL && pDel->pCtrl == pCtrl)
         {
             pMap->pNext = pDel->pNext;
 
@@ -93,7 +93,7 @@ void CListCtrlMap::Delete(CListCtrl *pCtrl, CWnd *pWnd, int iIndex)
                 delete pDel;
                 break;
             }
-            
+
             DeleteWnd(pDel, iIndex);
             break;
         }
@@ -104,29 +104,29 @@ void CListCtrlMap::DeleteWnd(PLISTCTRLMAP pMap, int iIndex)
 {
     ASSERT_NULL(pMap);
 
-    if(VALIDMAPINDEX(iIndex))
+    if (VALIDMAPINDEX(iIndex))
     {
         pMap->szWnd[iIndex] = NULL;
     }
 }
 
-void CListCtrlMap::InsertWnd(PLISTCTRLMAP pMap, CWnd *pWnd, int iIndex)
+void CListCtrlMap::InsertWnd(PLISTCTRLMAP pMap, CWnd* pWnd, int iIndex)
 {
     ASSERT_NULL(pMap);
 
-    if(VALIDMAPINDEX(iIndex))
+    if (VALIDMAPINDEX(iIndex))
     {
         pMap->szWnd[iIndex] = pWnd;
     }
 }
 
-CWnd *CListCtrlMap::GetSubWnd(CListCtrl *pCtrl, int iSubItem)
+CWnd* CListCtrlMap::GetSubWnd(CListCtrl* pCtrl, int iSubItem)
 {
     PLISTCTRLMAP pMap = NULL;
-    
+
     ASSERT_NULL_R(pCtrl, NULL);
 
-    if(VALIDMAPINDEX(iSubItem))
+    if (VALIDMAPINDEX(iSubItem))
     {
         pMap = GetCtrlMap(pCtrl);
         ASSERT_NULL_R(pMap, NULL);
@@ -137,7 +137,7 @@ CWnd *CListCtrlMap::GetSubWnd(CListCtrl *pCtrl, int iSubItem)
     return NULL;
 }
 
-PLISTCTRLMAP CListCtrlMap::GetCtrlMap(CListCtrl *pCtrl)
+PLISTCTRLMAP CListCtrlMap::GetCtrlMap(CListCtrl* pCtrl)
 {
     PLISTCTRLMAP pMap = NULL;
 

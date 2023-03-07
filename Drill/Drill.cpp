@@ -106,7 +106,6 @@ void CDrillApp::InitVariant()
 {
     m_bShowCRC = FALSE;
     m_nPBHead = htonl(PBHEAD);
-    m_strReadFile.clear();
     m_tReg = CRegProc(m_strRegFile);
 }
 
@@ -1529,20 +1528,6 @@ void CDrillApp::StopAlarmSound()
     PlaySound(NULL, 0, 0);
 }
 
-/* 当前位置往前找iInterval个点，找到<=0的位置 */
-WORD CDrillApp::GetIPPlace(int iCurPnt, int iInterval)
-{
-    int     i = 0;
-
-    for (i = iCurPnt - 1; i > (iCurPnt - 1 - iInterval) && i > 0; i--)
-    {
-        if (m_fAdjInfPnt[i] <= 0)
-            return i;
-    }
-
-    return 0;
-}
-
 DWORD CDrillApp::GetQuality(TorqData::Torque* ptTorq)
 {
     ASSERT_NULL_R(ptTorq, QUA_RESU_BAD);
@@ -2019,7 +2004,7 @@ int CDrillApp::SeekFileLen(CFile& file)
     if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) != 0)
         file.Seek(iFilePos, CFile::begin);*/
 
-        /* 跳过实际的长度，包括可能的尾巴 */
+    /* 跳过实际的长度，包括可能的尾巴 */
     file.Read(&nLeng, sizeof(UINT));
     iFirstPos = (int)file.GetPosition();
     if ((iFirstPos + (int)nLeng > iFileLen) || (nLeng > MAXPROBUFF))
@@ -2141,12 +2126,13 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
 
     ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeRead | CFile::shareDenyNone), FALSE);
 
-    m_strReadFile = strDataName;
+    //m_strReadFile = strDataName;
     strTitle = file.GetFileTitle();
     strTitle.Delete(strTitle.GetLength() - 4, 4);
     m_strFileTitle = strTitle;
 
     ClearReadTorq();
+    g_tReadData.strFileName = strDataName;
 
     file.SeekToBegin();
     file.Read(&nNum, sizeof(UINT));
@@ -2190,7 +2176,6 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
             SaveMessage(strInfo.GetBuffer(0));
             continue;
         }
-
 
         bRes = g_tReadData.tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
         if (!bRes)
@@ -2582,7 +2567,6 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
     iMulti在放大时使用 */
 DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, UINT nMulti, UINT nType)
 {
-    double fPlusPerPnt = 1.0;
     TorqData::Torque* ptOrg = NULL;
     DRAWTORQDATA* ptDraw = NULL;
 
@@ -2774,32 +2758,7 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
     delete pcBuff;
     return;
 }
-#if 0
-void CDrillApp::GetShowDataRange(DRAWTORQDATA* ptDraw, int& iBegin, int& iEnd, SPLITPOINT* ptSplit, UINT nMulti)
-{
-    ASSERT_NULL(ptDraw);
 
-    iBegin = 0;
-    iEnd = ptDraw->wCount;
-    if (nMulti != 1)  // for 3.22 放大数据
-        iEnd = (int)ceil(ptDraw->wCount * 1.0 / nMulti);
-
-    ASSERT_NULL(ptSplit);
-    ASSERT_ZERO(ptSplit->iSplitNum);
-
-    /* 默认第一屏 */
-    iBegin = ptSplit->iBegin[0];
-    iEnd = ptSplit->iEnd[0];
-
-    COMP_BG(ptSplit->iCur, ptSplit->iSplitNum);
-    COMP_BL(ptSplit->iCur, 1);
-
-    iBegin = ptSplit->iBegin[ptSplit->iCur - 1];
-    iEnd = ptSplit->iEnd[ptSplit->iCur - 1];
-
-    return;
-}
-#endif
 double CDrillApp::GetCir(TorqData::Torque* ptTorq, bool bBreakout)
 {
     double fCir = 0;

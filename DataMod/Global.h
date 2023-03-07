@@ -909,16 +909,6 @@ typedef struct tagSTATCFG
     double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
 }STATCFG;
 
-#define     MAXSPLIITNUM        10
-typedef struct tagSplit
-{
-    int     iCur;           /* 范围1~iSplitNum */
-    int     iCtrlPnt;       /* 控制周数对应点数，上扣有效，卸扣写死为500 */
-    int     iSplitNum;
-    int     iBegin[MAXSPLIITNUM];
-    int     iEnd[MAXSPLIITNUM];
-}SPLITPOINT;
-
 #define     MAXWELLNUM   5000
 typedef struct tagTORQUEDATA
 {
@@ -926,10 +916,8 @@ typedef struct tagTORQUEDATA
     UINT    nTotal;
     UINT    nQualy;
     UINT    nUnQualy;
-    bool    bHaveHead;  /* 文件中每个数据前面是否有头隔断 */
     UINT    nTotalPlus[MAXWELLNUM];
     TorqData::Torque  tData[MAXWELLNUM];
-    SPLITPOINT        tSplit[MAXWELLNUM];   // 多屏数据时，读取后设置分屏起点终点
     string  strFileName;
 }TORQUEDATA;
 
@@ -1425,9 +1413,6 @@ extern TUBECFG              g_tDefTubeCfg[];
 
 extern TORQUEDATA           g_tReadData;
 extern TORQUEDATA           g_tReadData2;
-extern GLBCFG               g_tGlbCfg;
-extern string               g_strPropName;
-extern HANDLE               g_hValue;
 
 #pragma endregion
 
@@ -1437,7 +1422,6 @@ string GetListFromArray(UINT* parray, int num);
 string GetListFromArray(BOOL* parray, int num);
 string GetListFromArray(BYTE* parray, int num);
 vector<int> GetIDFromList(string lsVals);
-void CheckLanguage(UINT& nLang);
 string GetCCBString(CComboBox* ptCCB);
 
 string UTF82ASCII(string& strUtf8Code);         //utf-8 转 ascii 

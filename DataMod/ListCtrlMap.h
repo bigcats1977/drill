@@ -13,20 +13,20 @@
 
 typedef struct _tagListCtrlMap
 {
-   CListCtrl *pCtrl;
-   CWnd      *szWnd[IT_MAX];
-   struct _tagListCtrlMap *pNext;
-}LISTCTRLMAP, *PLISTCTRLMAP;
+    CListCtrl* pCtrl;
+    CWnd* szWnd[IT_MAX];
+    struct _tagListCtrlMap* pNext;
+}LISTCTRLMAP, * PLISTCTRLMAP;
 
 class CListCtrlMap
 {
 public:
-    static PLISTCTRLMAP GetCtrlMap(CListCtrl *pCtrl);
-    static CWnd         *GetSubWnd(CListCtrl *pCtrl, int iSubItem);
-    void    Insert(CListCtrl *pCtrl, CWnd *pWnd, int iIndex );
-    void    Delete(CListCtrl *pCtrl, CWnd *pWnd, int inIndex );
+    static PLISTCTRLMAP GetCtrlMap(CListCtrl* pCtrl);
+    static CWnd* GetSubWnd(CListCtrl* pCtrl, int iSubItem);
+    void    Insert(CListCtrl* pCtrl, CWnd* pWnd, int iIndex);
+    void    Delete(CListCtrl* pCtrl, CWnd* pWnd, int inIndex);
     void    DeleteWnd(PLISTCTRLMAP pMap, int iIndex);
-    void    InsertWnd(PLISTCTRLMAP pMap, CWnd *pWnd, int iIndex);
+    void    InsertWnd(PLISTCTRLMAP pMap, CWnd* pWnd, int iIndex);
 
     CListCtrlMap();
     virtual ~CListCtrlMap();
