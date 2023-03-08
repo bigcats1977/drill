@@ -31,7 +31,7 @@ public:
 
     // Attributes
 public:
-    bool    bSecondData;
+    BOOL    bSecondData;
     UINT    nShowNum;
 
     // Operations

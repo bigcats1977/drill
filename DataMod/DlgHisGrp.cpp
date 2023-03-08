@@ -29,7 +29,8 @@ static char THIS_FILE[] = __FILE__;
         }                                                               \
     }
 
-#define  CANMODIFY     (m_bCanMod && !m_bSencond)
+#define  CANMODIFY      (m_bCanMod && !m_bSecond)
+#define  READONLY       (!m_bCanMod || m_bSecond)
 
 CDlgHisGrp::CDlgHisGrp(CWnd* pParent /*=NULL*/)
     : CDialog(CDlgHisGrp::IDD, pParent)
@@ -42,6 +43,7 @@ CDlgHisGrp::CDlgHisGrp(CWnd* pParent /*=NULL*/)
     m_nBeginPos = 0;
     m_iGrpType = 0;
     m_bCanMod = FALSE;
+    m_bSecond = FALSE;
 }
 
 void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
@@ -115,6 +117,11 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CDialog)
     //ON_BN_CLICKED(IDC_BTNSAVE, OnBtnsave)
     ON_MESSAGE(WM_UPDATE_SELPOS, SelPosChange)
     ON_BN_CLICKED(IDC_CHECKTOOLBUCK, OnBnClickedChecktoolbuck)
+    ON_BN_CLICKED(IDC_RADIOSIGNLE, OnBnClickedRadiosignle)
+    ON_BN_CLICKED(IDC_RADIOSTAND, OnBnClickedRadiostand)
+    ON_BN_CLICKED(IDC_RADIOGRPBOTH, OnBnClickedRadiogrpboth)
+    ON_BN_CLICKED(IDC_RADIOGRPMU, OnBnClickedRadiogrpmu)
+    ON_BN_CLICKED(IDC_RADIOGRPBO, OnBnClickedRadiogrpbo)
     //ON_BN_CLICKED(IDC_CHECKHISSHACKLE, OnBnClickedCheckhisshackle)
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -207,12 +214,14 @@ void CDlgHisGrp::SetCurEdit()
         m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
         m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
         m_strControl.Format("%d", (int)m_ptCurTorq->fmumaxtorq());
+        ((CEdit*)GetDlgItem(IDC_HISTIME))->SetReadOnly(READONLY);
     }
     else
     {
         m_strTime = NULLSTR;
         m_strCir = NULLSTR;
         m_strControl = NULLSTR;
+        ((CEdit*)GetDlgItem(IDC_HISTIME))->SetReadOnly(TRUE);
     }
     if (theApp.HaveBreakout(m_ptCurTorq))
     {
@@ -221,6 +230,9 @@ void CDlgHisGrp::SetCurEdit()
         m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, true));
         m_strOutWellNO.Format("%d", m_ptCurTorq->dwoutwellno());
         m_strOutJoint = m_ptCurTorq->strbojoint().c_str();
+        ((CEdit*)GetDlgItem(IDC_HISBOTIME))->SetReadOnly(READONLY);
+        ((CEdit*)GetDlgItem(IDC_HISEDTOUTJOINT))->SetReadOnly(READONLY);
+        ((CEdit*)GetDlgItem(IDC_HISEDTOUTWELL))->SetReadOnly(READONLY);
     }
     else
     {
@@ -229,6 +241,9 @@ void CDlgHisGrp::SetCurEdit()
         m_strBOCir = NULLSTR;
         m_strOutWellNO = NULLSTR;
         m_strOutJoint = NULLSTR;
+        ((CEdit*)GetDlgItem(IDC_HISBOTIME))->SetReadOnly(TRUE);
+        ((CEdit*)GetDlgItem(IDC_HISEDTOUTJOINT))->SetReadOnly(TRUE);
+        ((CEdit*)GetDlgItem(IDC_HISEDTOUTWELL))->SetReadOnly(TRUE);
     }
 }
 
@@ -387,12 +402,9 @@ BOOL CDlgHisGrp::CheckCurData(UINT* pnCur, UINT nMax)
 
 void CDlgHisGrp::CheckGrpType()
 {
-    TorqData::Torque* ptTorq;
-
-    ptTorq = &g_tReadData.tData[g_tReadData.nCur - 1];
     GetDlgItem(IDC_RADIOGRPMU)->EnableWindow(FALSE);
     GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(FALSE);
-    if (!theApp.HaveMakeUP(ptTorq) || !theApp.HaveBreakout(ptTorq))
+    if (!theApp.HaveMakeUP(m_ptCurTorq) || !theApp.HaveBreakout(m_ptCurTorq))
     {
         m_iGrpType = 0;
         return;
@@ -543,9 +555,6 @@ void CDlgHisGrp::ShowCurData(bool bNew)
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
     COMP_BFALSE(CheckCurData(&m_ptTorData->nCur, m_ptTorData->nTotal));
 
-    // 设置显示图形按钮
-    CheckGrpType();
-
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
     if (m_iGrpType > 0)
         nType = m_iGrpType;
@@ -554,6 +563,8 @@ void CDlgHisGrp::ShowCurData(bool bNew)
     ASSERT_NULL(m_ptCurDraw);
     m_ptCurTorq = m_ptCurDraw->ptOrgTorq;
     ASSERT_NULL(m_ptCurTorq);
+    // 设置显示图形按钮
+    CheckGrpType();
 
     if (bNew)
     {
@@ -809,6 +820,46 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
 
     m_bModified = TRUE;
 }
+void CDlgHisGrp::OnBnClickedRadiosignle()
+{
+    ASSERT_NULL(m_ptCurTorq);
+
+    UpdateData(TRUE);
+    m_ptCurTorq->set_bsinglestd(0);
+
+    m_bModified = TRUE;
+}
+
+void CDlgHisGrp::OnBnClickedRadiostand()
+{
+    ASSERT_NULL(m_ptCurTorq);
+
+    UpdateData(TRUE);
+    m_ptCurTorq->set_bsinglestd(1);
+
+    m_bModified = TRUE;
+}
+
+void CDlgHisGrp::OnBnClickedRadiogrpboth()
+{
+    UpdateData(TRUE);
+    m_wndLineHis.ClearSelPnt();
+    ShowCurData(false);
+}
+
+void CDlgHisGrp::OnBnClickedRadiogrpmu()
+{
+    UpdateData(TRUE);
+    m_wndLineHis.ClearSelPnt();
+    ShowCurData(false);
+}
+
+void CDlgHisGrp::OnBnClickedRadiogrpbo()
+{
+    UpdateData(TRUE);
+    m_wndLineHis.ClearSelPnt();
+    ShowCurData(false);
+}
 
 //void CDlgHisGrp::OnBnClickedCheckhisshackle()
 //{
@@ -826,23 +877,24 @@ void CDlgHisGrp::EnableCtrlforMod()
 {
     GetDlgItem(IDC_BTNREMARK)->EnableWindow(CANMODIFY);
     GetDlgItem(IDC_CHECKTOOLBUCK)->EnableWindow(CANMODIFY);
+    GetDlgItem(IDC_RADIOSIGNLE)->EnableWindow(CANMODIFY);
+    GetDlgItem(IDC_RADIOSTAND)->EnableWindow(CANMODIFY);
     //GetDlgItem(IDC_CHECKHISSHACKLE)->EnableWindow(CANMODIFY);
-    ((CEdit*)GetDlgItem(IDC_HISTIME))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISMEMO))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT01))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT02))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT03))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT04))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT05))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT06))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT07))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT08))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT09))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT10))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT11))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT12))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT13))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT14))->SetReadOnly(!m_bCanMod);
-    ((CEdit*)GetDlgItem(IDC_HISEDIT15))->SetReadOnly(!m_bCanMod);
+    ((CEdit*)GetDlgItem(IDC_HISTIME))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISMEMO))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT01))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT02))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT03))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT04))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT05))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT06))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT07))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT08))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT09))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT10))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT11))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT12))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT13))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT14))->SetReadOnly(READONLY);
+    ((CEdit*)GetDlgItem(IDC_HISEDIT15))->SetReadOnly(READONLY);
 }
-

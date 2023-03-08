@@ -1080,17 +1080,20 @@ void CDlgHisGrp::OnBnClickedRadiostand()
 void CDlgHisGrp::OnBnClickedRadiogrpboth()
 {
     UpdateData(TRUE);
+    m_wndLineHis.ClearSelPnt();
     ShowCurData(false);
 }
 
 void CDlgHisGrp::OnBnClickedRadiogrpmu()
 {
     UpdateData(TRUE);
+    m_wndLineHis.ClearSelPnt();
     ShowCurData(false);
 }
 
 void CDlgHisGrp::OnBnClickedRadiogrpbo()
 {
     UpdateData(TRUE);
+    m_wndLineHis.ClearSelPnt();
     ShowCurData(false);
 }

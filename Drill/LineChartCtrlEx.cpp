@@ -747,7 +747,7 @@ void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
         DrawHLine(y);
 
         /* 显示当前扭矩和周数信息 */
-        strTemp = string_format("(%.3f \xA1\xF1 %.f)", fSelCir, (int)fSelTorq);
+        strTemp = string_format("(%.3f \xA1\xF1 %d)", fSelCir, (int)fSelTorq);
         ShowRightPntText(IP_SELCOLOR, x, y, strTemp.c_str());
     }
     m_MemDC.SelectObject(pOldPen);
@@ -880,7 +880,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
         /* ----- */
         DrawHLine(y);
 
-        strTemp = string_format("(%.4f \xA1\xF1 %.f)", fSelCir, (int)fSelTorq);
+        strTemp = string_format("(%.4f \xA1\xF1 %d)", fSelCir, (int)fSelTorq);
         ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
     }
 
@@ -899,7 +899,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
     /* 放大点扭矩 */
     fSelCir = fMinCir + wZoomPos * m_fWidthCir / MAXLINEITEM; // 当前点在放大图像中的周数
     fSelCir = fDeltaCir - fSelCir;
-    strTemp = string_format("(%.4f \xA1\xF1 %.f)", fSelCir, (int)fSetZoomTorq);
+    strTemp = string_format("(%.4f \xA1\xF1 %d)", fSelCir, (int)fSetZoomTorq);
     ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
 
     m_MemDC.SelectObject(pOldPen);

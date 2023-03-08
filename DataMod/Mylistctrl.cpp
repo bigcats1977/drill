@@ -30,7 +30,7 @@ CMylistctrl::CMylistctrl()
     m_iSortCol = -1;
     m_bSortAscending = TRUE;
     m_iHighlight = 0;
-    bSecondData = false;
+    bSecondData = FALSE;
     nShowNum = 0;
 }
 
@@ -154,7 +154,7 @@ void CMylistctrl::OnLButtonDblClk(UINT nFlags, CPoint point)
         theApp.m_pdlgOpt->m_ptTorData = &g_tReadData2;
     }
 
-    theApp.m_pdlgOpt->m_bSencond = bSecondData;
+    theApp.m_pdlgOpt->m_bSecond = bSecondData;
 
     theApp.m_pdlgOpt->ShowCurData(TRUE);
     theApp.m_pdlgOpt->ShowWindow(SW_SHOW);

@@ -1177,7 +1177,7 @@ BOOL CDataModApp::ReCalTallyNO(string strDataName, TORQUEDATA* pAllData)
 
     BeginWaitCursor();
     /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
-    for (i = 1; i <= (int)g_tReadData.nTotal; i++)
+    for (i = 1; i <= (int)pAllData->nTotal; i++)
     {
         ptTorq = &pAllData->tData[i - 1];
 

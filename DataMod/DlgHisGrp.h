@@ -58,7 +58,7 @@ public:
     CLineChartCtrlEx    m_wndLineHis;
     CLineChartCtrl      m_wndRpmHis;
     BOOL        m_bCanMod;
-    bool        m_bSencond;
+    BOOL        m_bSecond;
     TORQUEDATA* m_ptTorData;
 
     void SetModified();
@@ -81,6 +81,11 @@ protected:
     afx_msg void OnBtnmodpara();
     afx_msg void OnBtnremark();
     afx_msg void OnBnClickedChecktoolbuck();
+    afx_msg void OnBnClickedRadiosignle();
+    afx_msg void OnBnClickedRadiostand();
+    afx_msg void OnBnClickedRadiogrpboth();
+    afx_msg void OnBnClickedRadiogrpmu();
+    afx_msg void OnBnClickedRadiogrpbo();
     afx_msg LRESULT SelPosChange(WPARAM wParam, LPARAM lParam);
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()

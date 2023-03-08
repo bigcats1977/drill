@@ -94,7 +94,6 @@ protected:
     DECLARE_MESSAGE_MAP()
 private:
     BOOL DelSelectData();
-    void ReplaceTorque(UINT nDest, UINT nSrc);
     void ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc);
     UINT GetSelectItem(CString* pstrItem);
     void EnableCtrl();

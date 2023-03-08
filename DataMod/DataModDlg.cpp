@@ -201,7 +201,7 @@ BOOL CDataModDlg::OnInitDialog()
     m_listData2.SetHeadings(strHead.c_str());
     m_listData2.LoadColumnInfo();
     m_listData2.nShowNum = MAXPARANUM;
-    m_listData2.bSecondData = true;
+    m_listData2.bSecondData = TRUE;
 #if 0
     m_bCanMod = TRUE;
 #else
@@ -341,14 +341,13 @@ void CDataModDlg::OnBtnopendata()
     m_strDataName = fileDlg.GetPathName();
     theApp.ReadHisTorqFromFile(m_strDataName.GetBuffer(0));
     UpdateTorqNum();
+    m_listData.DeleteAllItems();
 
     if (g_tReadData.nTotal <= 0)
     {
         UpdateData(FALSE);
         return;
     }
-
-    m_listData.DeleteAllItems();
 
     /* update list head */
     strHead = m_strFixHead.c_str();
@@ -735,16 +734,6 @@ void CDataModDlg::OnBtnreplace()
 
 /*  将nSrc记录替换nDest记录
     替换时，目的数据的时间和配置不变*/
-void CDataModDlg::ReplaceTorque(UINT nDest, UINT nSrc)
-{
-    TorqData::Torque* ptSrc = NULL;
-
-    JUDGE_RANGE(nSrc, g_tReadData.nTotal);
-    ptSrc = &g_tReadData.tData[nSrc - 1];
-
-    ReplaceTorque(nDest, ptSrc);
-}
-
 void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
 {
     int i = 0, index = 0;
@@ -780,7 +769,7 @@ void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
         muCount = ptSrc->dwmucount();
         fMaxLimit = ptSrc->fmaxlimit();
 
-        for (i = 0; i < ptSrc->dwmucount(); i++)
+        for (i = 0; i < muCount; i++)
         {
             theApp.UpdateTorqRpm(&tTempData, i, ptSrc->ftorque(i), ptSrc->frpm(i));
             theApp.UpdateDelplus(&tTempData, i, ptSrc->dwdelplus(i));
@@ -790,7 +779,7 @@ void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
     {
         muCount = ptDest->dwmucount();
         fMaxLimit = ptDest->fmaxlimit();
-        for (i = 0; i < ptDest->dwmucount(); i++)
+        for (i = 0; i < muCount; i++)
         {
             theApp.UpdateTorqRpm(&tTempData, i, ptDest->ftorque(i), ptDest->frpm(i));
             theApp.UpdateDelplus(&tTempData, i, ptDest->dwdelplus(i));
@@ -1124,14 +1113,13 @@ void CDataModDlg::OnBtnopendata2()
     m_nTotal2 = g_tReadData2.nTotal;
     m_nSrc2 = g_tReadData2.nTotal == 0 ? 0 : 1;
     GetDlgItem(IDC_EDITSRC2)->EnableWindow(m_bHaveOtherSrc && g_tReadData2.nTotal > 0);
+    m_listData2.DeleteAllItems();
 
     if (g_tReadData2.nTotal <= 0)
     {
         UpdateData(FALSE);
         return;
     }
-
-    m_listData2.DeleteAllItems();
 
     /* update list head */
     strHead = m_strFixHead.c_str();
