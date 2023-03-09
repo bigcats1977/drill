@@ -89,7 +89,7 @@ public:
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
     bool    SaveBmp(HBITMAP hBitmap, string FileName);
     bool    SavePNG(HBITMAP hBitmap, string FileName);
-    double  GetCir(TorqData::Torque* ptTorq, bool bBreakout = false);
+    double  GetCir(TorqData::Torque* ptTorq, UINT nType = TYPE_TOTAL);
     DWORD   GetQuality(TorqData::Torque* ptTorq);
     DWORD   JudgeQuality(TorqData::Torque* ptTorq);
     BOOL    ReadHisTorqFromFile(string strDataName);

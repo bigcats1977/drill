@@ -262,6 +262,11 @@ using namespace std;
 #define STEPTORQUE              20      /* 削平突起时，后一个数据比前一个数据累增的步长 */
 #define PRIKETORQ               500     /* 小于这个扭矩且小于台阶扭矩，不削平 */
 
+// 上扣/卸扣数据类型定义
+#define TYPE_MAKEUP             0x01    // 0001
+#define TYPE_BREAKOUT           0x02    // 0010
+#define TYPE_TOTAL              0x03    // 0011
+
 /*
     0：待机/反转、数据丢弃
     1：正常显示；

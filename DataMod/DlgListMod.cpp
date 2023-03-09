@@ -28,7 +28,7 @@ CDlgListMod::CDlgListMod(CWnd* pParent /*=NULL*/)
 {
     //{{AFX_DATA_INIT(CDlgListMod)
     m_fCir = 0.0f;
-    m_fTorque = 0.0f;
+    m_nTorque = 0;
     m_iMethod = OPTIM_METH_CTRLTORQ;
     m_bQuality = TRUE;
     //}}AFX_DATA_INIT
@@ -42,7 +42,7 @@ void CDlgListMod::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LISTDATA, m_lsData);
     DDX_Text(pDX, IDC_EDITCIRCLE, m_fCir);
     DDX_Radio(pDX, IDC_RADIOCONTROL, m_iMethod);
-    DDX_Text(pDX, IDC_EDITCTRL, m_fTorque);
+    DDX_Text(pDX, IDC_EDITCTRL, m_nTorque);
     DDX_Check(pDX, IDC_CHECKQUALITY, m_bQuality);
     //}}AFX_DATA_MAP
 }
@@ -85,15 +85,17 @@ BOOL CDlgListMod::OnInitDialog()
     m_lceEdit.CreateEx(this, &m_lsData, ES_CENTER);
 
     m_lsData.InsertColumn(0, "序号", LVCFMT_CENTER, 50);//插入列
-    m_lsData.InsertColumn(1, "扭矩", LVCFMT_CENTER, 100);
-    m_lsData.InsertColumn(2, "转速", LVCFMT_CENTER, 100);
-    m_lsData.InsertColumn(3, "脉冲", LVCFMT_CENTER, 100);
+    m_lsData.InsertColumn(1, "扭矩", LVCFMT_CENTER, 135);
+    m_lsData.InsertColumn(2, "转速", LVCFMT_CENTER, 135);
+    //m_lsData.InsertColumn(3, "脉冲", LVCFMT_CENTER, 100);
 
     /* 在扭矩列插入Edit控件 */
     m_lceEdit.Insert(1);
 
-    GET_CTRL_TORQ(m_fTorque, m_ptModTorq);
-    m_fCir = theApp.GetCir(m_ptModTorq);
+    double fTorque;
+    GET_CTRL_TORQ(fTorque, m_ptModTorq);
+    m_fCir = theApp.GetCir(m_ptModTorq, TYPE_TOTAL);
+    m_nTorque = (UINT)fTorque;
 
     m_lsData.EnableWindow(FALSE);
 
@@ -110,7 +112,6 @@ void CDlgListMod::ShowTorqValue()
     int     i = 0;
     int     iRow = 0;
     int     nCount = 0;
-    bool    bPulse = false;
     CString strNo, strTorq, strRpm, strPulse;
 
     m_lsData.DeleteAllItems();
@@ -119,22 +120,19 @@ void CDlgListMod::ShowTorqValue()
     nCount = m_ptModTorq->ftorque_size();
     ASSERT_ZERO(nCount);
 
-    m_fCir = theApp.GetCir(m_ptModTorq);
-    strPulse = _T("");
-    bPulse = VERSION_RECPLUS(m_ptModTorq);
+    m_fCir = theApp.GetCir(m_ptModTorq, TYPE_TOTAL);
 
     for (i = (nCount - 1); i >= 0; i--)
     {
         strNo.Format("%d", (i + 1));
         strTorq.Format("%8.2f ", m_ptModTorq->ftorque(i));
         strRpm.Format("%8.2f ", m_ptModTorq->frpm(i));
-        if (bPulse)
-            strPulse.Format("%d ", m_ptModTorq->dwdelplus(i));
+        strPulse.Format("%d ", m_ptModTorq->dwdelplus(i));
 
         iRow = m_lsData.InsertItem(0, strNo);  //插入行
         m_lsData.SetItemText(iRow, 1, strTorq); //设置扭矩
         m_lsData.SetItemText(iRow, 2, strRpm); //设置转速
-        m_lsData.SetItemText(iRow, 3, strPulse); //设置脉冲
+        //m_lsData.SetItemText(iRow, 3, strPulse); //设置脉冲
     }
 }
 
@@ -194,7 +192,7 @@ BOOL CDlgListMod::CtrlTorqOptim(TorqData::Torque* pSrcData, TorqData::Torque* pD
     /* 源数据个数为0，或者源数据最大扭矩为0，直接返回 */
     ASSERT_NULL_R(pSrcData, FALSE);
     ASSERT_NULL_R(pDestData, FALSE);
-    ASSERT_ZERO_R(m_fTorque, FALSE);
+    ASSERT_ZERO_R(m_nTorque, FALSE);
 
     nCount = pSrcData->ftorque_size();
     GET_CTRL_TORQ(fSrcCtrl, pSrcData);
@@ -202,23 +200,28 @@ BOOL CDlgListMod::CtrlTorqOptim(TorqData::Torque* pSrcData, TorqData::Torque* pD
     ASSERT_ZERO_R(nCount, FALSE);
 
     /* 目的扭矩和现有控制扭矩相等, 不需要优化，直接返回 */
-    COMP_BE_R(m_fTorque, fSrcCtrl, FALSE);
+    COMP_BE_R(m_nTorque, fSrcCtrl, FALSE);
 
-    fRate = m_fTorque / fSrcCtrl;
+    fRate = m_nTorque / fSrcCtrl;
     for (i = 0; i < (int)nCount; i++)
     {
         pDestData->set_ftorque(i, pSrcData->ftorque(i) * fRate);
     }
+    if (theApp.HaveMakeUP(pSrcData))
+    {
+        pDestData->set_fmumaxtorq(pSrcData->fmumaxtorq() * fRate);
+    }
+    if (theApp.HaveBreakout(pSrcData))
+    {
+        pDestData->set_fbomaxtorq(pSrcData->fbomaxtorq() * fRate);
+    }
     return TRUE;
 }
 
-BOOL CDlgListMod::CircleOptimByTorq(TorqData::Torque* pSrcData, TorqData::Torque* pDestData)
+/* 修改周数，图像左右拉伸 */
+BOOL CDlgListMod::CircleOptim(TorqData::Torque* pSrcData, TorqData::Torque* pDestData)
 {
     int     i = 0;
-    UINT    nDestCount = 0;
-    UINT    nSrcCount = 0;
-    UINT    nPrePos = 0;
-    double  fPrePos = 0;
     double  fRate = 0;
     double  fScrCir = 0;
 
@@ -226,68 +229,13 @@ BOOL CDlgListMod::CircleOptimByTorq(TorqData::Torque* pSrcData, TorqData::Torque
     ASSERT_NULL_R(pDestData, FALSE);
 
     /* 源数据个数为0，直接返回失败 */
-    nSrcCount = pSrcData->ftorque_size();
-    ASSERT_ZERO_R(nSrcCount, FALSE);
+    fScrCir = theApp.GetCir(pSrcData, TYPE_TOTAL);
+    ASSERT_ZERO_R(fScrCir, FALSE);
 
     /* 目的周数和现有周数相等，直接返回成功 */
-    fScrCir = nSrcCount * pSrcData->fmaxcir() / MAXLINEITEM;
     COMP_BE_R(m_fCir, fScrCir, FALSE);
 
-    /* 实际需要控制点数 */
-    nDestCount = (UINT)(m_fCir * MAXLINEITEM / pSrcData->fmaxcir());
-
-    pDestData->clear_ftorque();
-    pDestData->clear_frpm();
-
-    /* 第一个数据直接拷贝 */
-    theApp.UpdateTorqRpm(pDestData, 0, pSrcData->ftorque(0), pSrcData->frpm(0));
-
-    for (i = 1; i < (int)(nDestCount - 1); i++)
-    {
-        fPrePos = i / (nDestCount * 1.0) * nSrcCount;
-        nPrePos = UINT(fPrePos);
-        fRate = fPrePos - int(fPrePos);
-
-        if (nPrePos == nSrcCount)
-        {
-            if (nSrcCount > 0)
-                theApp.UpdateTorqRpm(pDestData, i, pSrcData->ftorque(nSrcCount - 1), pSrcData->frpm(nSrcCount - 1));
-            continue;
-        }
-
-        /* 其他数据 */
-        theApp.UpdateTorqRpm(pDestData, i,
-            pSrcData->ftorque(nPrePos) + (pSrcData->ftorque(nPrePos + 1) - pSrcData->ftorque(nPrePos)) * fRate,
-            pSrcData->frpm(nPrePos));
-
-        /* 避免突起 */
-        if (pDestData->ftorque(i) < pDestData->ftorque(i - 1))
-            pDestData->set_ftorque(i, pDestData->ftorque(i - 1) + 5);
-    }
-
-    /* 最后一个数据直接拷贝 */
-    theApp.UpdateTorqRpm(pDestData, nDestCount - 1, pSrcData->ftorque(nSrcCount - 1), pSrcData->frpm(nSrcCount - 1));
-
-    /* 2010-8-6 为避免平顶，最后一个数据至少比倒数第二个大10 */
-    if (nDestCount > 2)
-    {
-        if (pDestData->ftorque(nDestCount - 1) - pDestData->ftorque(nDestCount - 2) < 10)
-        {
-            pDestData->set_ftorque(nDestCount - 2, pDestData->ftorque(nDestCount - 1) - 10);
-        }
-    }
-    return TRUE;
-}
-
-BOOL CDlgListMod::CircleOptimByPulse(TorqData::Torque* pSrcData, TorqData::Torque* pDestData)
-{
-    int     i = 0;
-    double  fRate = 0;
-
-    ASSERT_NULL_R(pSrcData, FALSE);
-    ASSERT_NULL_R(pDestData, FALSE);
-
-    fRate = m_fCir / theApp.GetCir(pSrcData);
+    fRate = m_fCir / fScrCir;
     pDestData->set_dwmuplus((UINT)(pDestData->dwmuplus() * fRate));
     pDestData->set_dwboplus((UINT)(pDestData->dwboplus() * fRate));
 
@@ -298,31 +246,6 @@ BOOL CDlgListMod::CircleOptimByPulse(TorqData::Torque* pSrcData, TorqData::Torqu
     }
 
     return TRUE;
-}
-
-/* 修改周数，图像左右拉伸 */
-BOOL CDlgListMod::CircleOptim(TorqData::Torque* pSrcData, TorqData::Torque* pDestData)
-{
-    double  fScrCir = 0;
-
-    ASSERT_NULL_R(pSrcData, FALSE);
-    ASSERT_NULL_R(pDestData, FALSE);
-
-    /* 源数据个数为0，直接返回失败 */
-    fScrCir = theApp.GetCir(pSrcData);
-    ASSERT_ZERO_R(fScrCir, FALSE);
-
-    /* 目的周数和现有周数相等，直接返回成功 */
-    COMP_BE_R(m_fCir, fScrCir, FALSE);
-
-    if (VERSION_RECPLUS(pSrcData))
-    {
-        return CircleOptimByPulse(pSrcData, pDestData);
-    }
-    else /* 老版本 */
-    {
-        return CircleOptimByTorq(pSrcData, pDestData);
-    }
 }
 
 /* 修改数据，周数不变，扭矩值/RPM直接修改 */

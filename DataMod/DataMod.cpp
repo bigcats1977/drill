@@ -254,7 +254,7 @@ DWORD CDataModApp::JudgeQuality(TorqData::Torque* ptTorq, int iShackle)
     dwQuality = QUA_RESU_GOOD;
 
     GET_CTRL_TORQ(fMaxTorq, ptTorq);
-    fCircle = GetCir(ptTorq);
+    fCircle = GetCir(ptTorq, TYPE_MAKEUP);
 
     //SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
     //SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
@@ -575,7 +575,7 @@ bool  CDataModApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDr
     int iPriorDrawIndex = 0;
     double fPreTorq = 0;
     double fCurTorq = 0;
-    double fPreRpm = 0;
+    //double fPreRpm = 0;
     double fCurRpm = 0;
     double fPlusPerPnt = 1.0;
 
@@ -644,11 +644,12 @@ bool  CDataModApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDr
         else
         {
             fPreTorq = ptOrg->ftorque(iPriorDataIndex);
-            fPreRpm = ptOrg->frpm(iPriorDataIndex);
+            //fPreRpm = ptOrg->frpm(iPriorDataIndex);
             for (i = 1; i <= iInsCnt; i++)
             {
                 ptDraw->fTorque[i + iPriorDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
-                ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+                //ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+                ptDraw->fRpm[i + iPriorDrawIndex] = fCurRpm;
             }
         }
         iPriorDrawIndex = iDrawIndex;
@@ -670,11 +671,12 @@ bool  CDataModApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDr
         fCurTorq = ptOrg->ftorque(ptOrg->dwmucount() - 1);
         fCurRpm = ptOrg->frpm(ptOrg->dwmucount() - 1);
         fPreTorq = ptOrg->ftorque(iPriorDataIndex);
-        fPreRpm = ptOrg->frpm(iPriorDataIndex);
+        //fPreRpm = ptOrg->frpm(iPriorDataIndex);
         for (i = 1; i <= iInsCnt; i++)
         {
             ptDraw->fTorque[i + iDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
-            ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+            //ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+            ptDraw->fRpm[i + iDrawIndex] = fCurRpm;
         }
     }
 
@@ -696,7 +698,7 @@ bool CDataModApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptD
     int iPriorDrawIndex = 0;
     double fPreTorq = 0;
     double fCurTorq = 0;
-    double fPreRpm = 0;
+    //double fPreRpm = 0;
     double fCurRpm = 0;
     double fPlusPerPnt = 1.0;
 
@@ -785,11 +787,12 @@ bool CDataModApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptD
         else
         {
             fPreTorq = ptOrg->ftorque(iPriorDataIndex);
-            fPreRpm = ptOrg->frpm(iPriorDataIndex);
+            //fPreRpm = ptOrg->frpm(iPriorDataIndex);
             for (i = 1; i <= iInsCnt; i++)
             {
                 ptDraw->fTorque[i + iPriorDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
-                ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+                //ptDraw->fRpm[i + iPriorDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+                ptDraw->fRpm[i + iPriorDrawIndex] = fCurRpm;
             }
         }
         iPriorDrawIndex = iDrawIndex;
@@ -811,11 +814,12 @@ bool CDataModApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptD
         fCurTorq = ptOrg->ftorque(totalCount - 1);
         fCurRpm = ptOrg->frpm(totalCount - 1);
         fPreTorq = ptOrg->ftorque(iPriorDataIndex);
-        fPreRpm = ptOrg->frpm(iPriorDataIndex);
+        //fPreRpm = ptOrg->frpm(iPriorDataIndex);
         for (i = 1; i <= iInsCnt; i++)
         {
             ptDraw->fTorque[i + iDrawIndex] = (fCurTorq - fPreTorq) * i / iInsCnt + fPreTorq;
-            ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+            //ptDraw->fRpm[i + iDrawIndex] = (fCurRpm - fPreRpm) * i / iInsCnt + fPreRpm;
+            ptDraw->fRpm[i + iDrawIndex] = fCurRpm;
         }
     }
 
@@ -1039,16 +1043,16 @@ void CDataModApp::UpdateHisData(CString filename, int iDataPlace, TorqData::Torq
     return;
 }
 
-double CDataModApp::GetCir(TorqData::Torque* ptTorq, bool bBreakout)
+double CDataModApp::GetCir(TorqData::Torque* ptTorq, UINT nType)
 {
     double fCir = 0;
 
     ASSERT_NULL_R(ptTorq, 0);
 
-    if (!bBreakout)
-        fCir = THOUSANDTH(ptTorq->dwmuplus() / ptTorq->fplus());
-    else
-        fCir = THOUSANDTH(ptTorq->dwboplus() / ptTorq->fplus());
+    if(nType & TYPE_MAKEUP)
+        fCir += THOUSANDTH(ptTorq->dwmuplus() / ptTorq->fplus());
+    if(nType & TYPE_BREAKOUT)
+        fCir += THOUSANDTH(ptTorq->dwboplus() / ptTorq->fplus());
 
     return fCir;
 }

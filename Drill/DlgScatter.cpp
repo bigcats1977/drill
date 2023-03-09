@@ -135,7 +135,7 @@ void CDlgScatter::DrawScatterPlot(void)
             continue;
         CHECK_VALUE_LOW(m_fFullTorq, fTorque);
 
-        fCir = theApp.GetCir(ptTorq);
+        fCir = theApp.GetCir(ptTorq, TYPE_TOTAL);
         CHECK_VALUE_LOW(m_fFullCir, fCir);
     }
     ResetScatLineByData(&g_tReadData.tData[g_tReadData.nTotal - 1]);

@@ -306,7 +306,7 @@ VOID CDlgHisList::ShowHisTorqList()
             strTime = theApp.GetTorqCollTime(ptTorq, false);
             strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
             strMakeTorq.Format("%d", (int)ptTorq->fmumaxtorq());
-            strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq));
+            strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq, TYPE_MAKEUP));
         }
         else
         {
@@ -321,7 +321,7 @@ VOID CDlgHisList::ShowHisTorqList()
         {
             strBOTime = theApp.GetTorqCollTime(ptTorq, true);
             strBreakTorq.Format("%d", (int)ptTorq->fbomaxtorq());
-            strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, true));
+            strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, TYPE_BREAKOUT));
             strOutWellNO.Format("%d", ptTorq->dwoutwellno());
         }
         else
@@ -1335,7 +1335,7 @@ void CDlgHisList::WriteQualitySheet()
 
         /* final */
         GET_CTRL_TORQ(fTorque, ptTorq);
-        fCir = theApp.GetCir(ptTorq);
+        fCir = theApp.GetCir(ptTorq, TYPE_TOTAL);
         fAveTorq[0] += fTorque;
         fAveTurn[0] += fCir;
 
@@ -1566,7 +1566,7 @@ void CDlgHisList::FillReportData(int& iRow, TorqData::Torque* ptHeadTorq)
         GET_CTRL_TORQ(fTorque, ptTorq);
         SetCell(iRow, iCol++, int(fTorque));
         /* F final turn */
-        fCir = theApp.GetCir(ptTorq);
+        fCir = theApp.GetCir(ptTorq, TYPE_TOTAL);
         SetCell(iRow, iCol++, fCir);
 
         iCol += 2;

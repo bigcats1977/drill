@@ -309,7 +309,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
 
     //theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
     fmaxcir = theApp.GetMaxCir(ptDraw->ptOrgTorq);
-    fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq);
+    fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq, TYPE_TOTAL);
 
     m_nZoomTorq = (UINT)ptDraw->fTorque[m_iZoomPos];
     m_wndLineZoom.DrawZoomInfo(iZoomPos, m_fMinCir, fmaxcir, fDeltaCir, m_nZoomTorq);

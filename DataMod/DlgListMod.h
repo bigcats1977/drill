@@ -39,7 +39,7 @@ public:
         //{{AFX_DATA(CDlgListMod)
     enum { IDD = IDD_DLGLISTMOD };
     CListCtrl   m_lsData;
-    double      m_fTorque;
+    UINT        m_nTorque;
     double      m_fCir;
     int         m_iMethod;
     BOOL        m_bQuality;
@@ -75,8 +75,6 @@ private:
 
     void ShowTorqValue();
     int  GetInsertNum(double fT1, double fT2);
-    BOOL CircleOptimByTorq(TorqData::Torque* pSrcData, TorqData::Torque* pDestData);
-    BOOL CircleOptimByPulse(TorqData::Torque* pSrcData, TorqData::Torque* pDestData);
 };
 
 //{{AFX_INSERT_LOCATION}}

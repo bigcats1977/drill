@@ -212,7 +212,7 @@ void CDlgHisGrp::SetCurEdit()
     if (theApp.HaveMakeUP(m_ptCurTorq))
     {
         m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
-        m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
+        m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, TYPE_MAKEUP));
         m_strControl.Format("%d", (int)m_ptCurTorq->fmumaxtorq());
         ((CEdit*)GetDlgItem(IDC_HISTIME))->SetReadOnly(READONLY);
     }
@@ -227,7 +227,7 @@ void CDlgHisGrp::SetCurEdit()
     {
         m_strBOTime = theApp.GetTorqCollTime(m_ptCurTorq, true);
         m_strBOTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
-        m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, true));
+        m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, TYPE_BREAKOUT));
         m_strOutWellNO.Format("%d", m_ptCurTorq->dwoutwellno());
         m_strOutJoint = m_ptCurTorq->strbojoint().c_str();
         ((CEdit*)GetDlgItem(IDC_HISBOTIME))->SetReadOnly(READONLY);
@@ -448,7 +448,7 @@ void CDlgHisGrp::DrawCurTorque()
     int     iBegin = 0, iEnd = 0;
     int     iLineB = 0, iLineE = 0;
     int     interval = 0;
-    UINT    nType = 3;
+    UINT    nType = TYPE_TOTAL;
     UINT    nBeginPos = 0;
 
     ASSERT_NULL(m_ptCurDraw);
@@ -492,7 +492,7 @@ void CDlgHisGrp::DrawCurTorque()
     if (m_iGrpType > 0)
         nType = m_iGrpType;
 
-    if (m_ptCurTorq->dwmucount() > 0 && (nType & 0x01))
+    if (m_ptCurTorq->dwmucount() > 0 && (nType & TYPE_MAKEUP))
     {
         if (iBegin < m_ptCurDraw->wMUEndPos)
         {
@@ -502,7 +502,7 @@ void CDlgHisGrp::DrawCurTorque()
             interval = SPLITPOSNUM;
         }
     }
-    if (m_ptCurTorq->dwbocount() > 0 && (nType & 0x02))
+    if (m_ptCurTorq->dwbocount() > 0 && (nType & TYPE_BREAKOUT))
     {
         if (iEnd > m_ptCurDraw->wMUEndPos + interval)
         {
@@ -629,10 +629,18 @@ void CDlgHisGrp::OnBtnmodpara()
 
     ASSERT_NULL(m_ptCurTorq);
 
-    /* 修改数据的生成时间 */
-    m_ptCurTorq->set_mucoltime(GetTimeFromStr(m_strTime));
-    m_ptCurTorq->set_bocoltime(GetTimeFromStr(m_strBOTime));
     m_ptCurTorq->set_strmemo(m_strMemo);
+
+    if (theApp.HaveBreakout(m_ptCurTorq)) 
+    {
+        m_ptCurTorq->set_mucoltime(GetTimeFromStr(m_strTime));
+    }
+    if (theApp.HaveBreakout(m_ptCurTorq))
+    {
+        m_ptCurTorq->set_bocoltime(GetTimeFromStr(m_strBOTime));
+        m_ptCurTorq->set_dwoutwellno(atoi(m_strOutWellNO));
+        m_ptCurTorq->set_strbojoint(m_strOutJoint);
+    }
 
     /* 修改数据的环境参数 */
     for (i = 0; i < MAXPARANUM && i < m_ptCurTorq->tshow_size(); i++)
@@ -640,6 +648,7 @@ void CDlgHisGrp::OnBtnmodpara()
         ptShow = (TorqData::ShowInfo*)&m_ptCurTorq->tshow(i);
         ptShow->set_strvalue(m_strHisShowValue[i].GetBuffer(0));
     }
+
 
     SetModified();
 

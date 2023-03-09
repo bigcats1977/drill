@@ -1618,7 +1618,7 @@ void CDrillDlg::MorePointInsertData(COLLECTDATA* ptCollData, BOOL bFinish)
     double  fPreTorque = 0;    /* 前一次扭矩，PointNum > 1时计算数据 */
     double  fPreRpm = 0;    /* 前一次转速 */
     double  fInsTorque = 0;
-    double  fInsRpm = 0;
+    //double  fInsRpm = 0;
     BOOL    bInsertOK = FALSE;
 
     ASSERT_NULL(ptCollData);
@@ -1643,9 +1643,9 @@ void CDrillDlg::MorePointInsertData(COLLECTDATA* ptCollData, BOOL bFinish)
     for (i = 0; i < m_iOutPoints; i++)
     {
         fInsTorque = (m_fOutTorque - fPreTorque) * (i + 1) / m_iOutPoints + fPreTorque;
-        fInsRpm = (ptCollData->fRpm - fPreRpm) * (i + 1) / m_iOutPoints + fPreRpm;
+        //fInsRpm = (ptCollData->fRpm - fPreRpm) * (i + 1) / m_iOutPoints + fPreRpm;
 
-        INSERT_DATA(fInsTorque, fInsRpm, FALSE);
+        INSERT_DATA(fInsTorque, fPreRpm, FALSE);
     }
 
     UpdateOutData(ptCollData);
@@ -4084,7 +4084,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
         if (ptBOData->fmaxcir() > 0)
         {
 
-            fMaxCir = theApp.GetCir(ptBOData) + theApp.GetCir(ptPBData, true);
+            fMaxCir = theApp.GetCir(ptBOData, TYPE_TOTAL);
             if (fMaxCir > ptBOData->fmaxcir())
             {
                 ptBOData->set_fmaxcir(ceil(fMaxCir + 0.5));

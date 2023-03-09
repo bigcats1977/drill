@@ -487,7 +487,7 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
             strTime = theApp.GetTorqCollTime(ptTorq, false);
             strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
             strMakeTorq.Format("%d", (int)ptTorq->fmumaxtorq());
-            strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq));
+            strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq, TYPE_MAKEUP));
         }
         else
         {
@@ -502,7 +502,7 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
         {
             strBOTime = theApp.GetTorqCollTime(ptTorq, true);
             strBreakTorq.Format("%d", (int)ptTorq->fbomaxtorq());
-            strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, true));
+            strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, TYPE_BREAKOUT));
             strOutWellNO.Format("%d", ptTorq->dwoutwellno());
         }
         else
@@ -821,7 +821,7 @@ void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
         tTempData.set_fmaxlimit(fMaxLimit);
     }
 
-    fMaxCir = theApp.GetCir(&tTempData) + theApp.GetCir(&tTempData, true);
+    fMaxCir = theApp.GetCir(&tTempData, TYPE_TOTAL);
     if (fMaxCir > tTempData.fmaxcir())
     {
         tTempData.set_fmaxcir(ceil(fMaxCir + 0.5));

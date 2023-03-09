@@ -28,7 +28,7 @@ public:
     CDataModApp();
     string  GetQualityInfo(TorqData::Torque* ptTorq);
     int     GetQualityIndex(TorqData::Torque* ptTorq);
-    double  GetCir(TorqData::Torque* ptTorq, bool bBreakout = false);
+    double  GetCir(TorqData::Torque* ptTorq, UINT nType = TYPE_TOTAL);
     DWORD   GetQuality(TorqData::Torque* ptTorq);
     DWORD   JudgeQuality(TorqData::Torque* ptTorq, int iShackle = 0);
     BOOL    ReadHisTorqFromFile(string strDataName, TORQUEDATA* pAllData = NULL);

@@ -209,7 +209,7 @@ void CDlgHisGrp::SetCurEdit()
     if (theApp.HaveMakeUP(m_ptCurTorq))
     {
         m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
-        m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq));
+        m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, TYPE_MAKEUP));
         m_strControl.Format("%d", (int)m_ptCurTorq->fmumaxtorq());
     }
     else
@@ -222,7 +222,7 @@ void CDlgHisGrp::SetCurEdit()
     {
         m_strBOTime = theApp.GetTorqCollTime(m_ptCurTorq, true);
         m_strBOTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
-        m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, true));
+        m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, TYPE_BREAKOUT));
         m_strOutWellNO.Format("%d", m_ptCurTorq->dwoutwellno());
         m_strOutJoint = m_ptCurTorq->strbojoint().c_str();
     }
