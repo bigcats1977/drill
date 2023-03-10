@@ -914,8 +914,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 6,24,3,60128
- PRODUCTVERSION 6,24,3,60128
+ FILEVERSION 6,24,5,60310
+ PRODUCTVERSION 6,24,5,60310
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -932,13 +932,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Drill Meter Application"
-            VALUE "FileVersion", "6,24,3,20230128"
+            VALUE "FileVersion", "6,24,5,20230310"
             VALUE "InternalName", "Drill Meter"
             VALUE "LegalCopyright", "Copyright (C) 2023"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Drill.EXE"
             VALUE "ProductName", "Drill Meter Application"
-            VALUE "ProductVersion", "6,24,3,20230128"
+            VALUE "ProductVersion", "6,24,5,20230310"
         END
     END
     BLOCK "VarFileInfo"
