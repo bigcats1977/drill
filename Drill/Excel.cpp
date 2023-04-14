@@ -580,10 +580,12 @@ int Excel::titleToColumn(CString title)
 CString Excel::columnToTitle(int column)
 {
     CString strTitle;
+    column = column <= 0 ? 1 : column;
     while (column > 0)
     {
-        strTitle.Insert(0, 'A' + column % 26 - 1);
-        column = column / 26;
+        int m = column % 26 == 0 ? 26 : column % 26;
+        strTitle.Insert(0, 'A' + m - 1);
+        column = (column - m) / 26;
     }
     return strTitle;
 }
