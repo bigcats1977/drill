@@ -182,13 +182,13 @@ void CDlgDataStat::UpdateDlgLabel()
     switch (g_tGlbCfg.nLangType)
     {
     case LANGUAGE_CHINESE:
-        m_strLBS3.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit);
+        m_strLBS3.Format("扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）", g_tGlbCfg.strUnit.c_str());
         break;
     case LANGUAGE_ENGLISH:
-        m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit);
+        m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit.c_str());
         break;
         /*case LANGUAGE_RUSSIAN:
-            m_strLBS3.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", g_tGlbCfg.strUnit);
+            m_strLBS3.Format("граф. КМЧО(Ед.:  В. ось=%s, О. ось=об.)", g_tGlbCfg.strUnit.c_str());
             break;*/
     }
 }

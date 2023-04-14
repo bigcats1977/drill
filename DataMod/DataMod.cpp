@@ -505,7 +505,7 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
     for (i = 0; i < (int)nNum; i++)
     {
         iFilePos = (int)file.GetPosition();
-        strInfo.Format("<%s>文件数据有误，总记录%d,%d条有效，当前位置%d！", strDataName, nNum, i, file.GetPosition());
+        strInfo.Format("<%s>文件数据有误，总记录%d,%d条有效，当前位置%d！", strDataName.c_str(), nNum, i-1, file.GetPosition());
 
         iDataLen = SeekFileLen(file);
         if (iDataLen < 0)

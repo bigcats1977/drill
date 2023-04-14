@@ -555,7 +555,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
 
     file.Close();
 
-    strInfo.Format(IDS_STRINFSAVEXLSUCC, strOrgData);
+    strInfo.Format(IDS_STRINFSAVEXLSUCC, strOrgData.c_str());
     theApp.SaveShowMessage(strInfo.GetBuffer(0));
 }
 

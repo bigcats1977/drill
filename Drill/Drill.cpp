@@ -330,6 +330,7 @@ BOOL CDrillApp::InitInstance()
     m_tSaveLog.iCur = 0;
     m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
 
+    InitArray();
     /* 获取数据库文件 */
     UINT initStep = 0xFFFFFFFF;
     if (!theDB.InitConfigFromDB(initStep))
@@ -343,7 +344,6 @@ BOOL CDrillApp::InitInstance()
     /* 初始化数组、变量 */
     InitVariant();
     InitLanguage();
-    InitArray();
     SetRegistryKey(_T("zsg Applications"));
 
 
@@ -2158,7 +2158,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     for (i = 0; i < (int)nNum; i++)
     {
         iFilePos = (int)file.GetPosition();
-        strInfo.Format(IDS_STRINFTORQDATAERR, strDataName, nNum, i, file.GetPosition());
+        strInfo.Format(IDS_STRINFTORQDATAERR, strDataName.c_str(), nNum, i-1, file.GetPosition());
 
         iDataLen = SeekFileLen(file);
         if (iDataLen < 0)
@@ -2172,7 +2172,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
 
         if (iDataLen < MIN_TORQDATALEN)
         {
-            strInfo.Format(IDS_STRINFTORQDATASHORT, strDataName, iDataLen, file.GetPosition(), i);
+            strInfo.Format(IDS_STRINFTORQDATASHORT, strDataName.c_str(), iDataLen, file.GetPosition(), i);
             SaveMessage(strInfo.GetBuffer(0));
             continue;
         }
