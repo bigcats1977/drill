@@ -1661,10 +1661,18 @@ void CDrillDlg::SetTorqDataCfg(TorqData::Torque* ptPBData)
     ptPBData->set_strremark(m_ptCfg->strRemark);
     //ptPBData->set_dwver(m_ptCtrl->ucVer);
 
+    // 20230421 在设置最大扭矩前进行质量判定，无法获得最大扭矩，导致误判，
+    // 修改为先设置最大扭矩
     if (m_iBreakOut)
+    {
+        ptPBData->set_fbomaxtorq(m_fMaxTorq);
         ptPBData->set_fmaxlimit(m_fMaxBORange);
+    }
     else
+    {
+        ptPBData->set_fmumaxtorq(m_fMaxTorq);
         ptPBData->set_fmaxlimit(m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
+    }
     ptPBData->set_fcontrol(m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]);
     ptPBData->set_fopttorq(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
     ptPBData->set_fshow(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
