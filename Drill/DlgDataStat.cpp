@@ -710,7 +710,8 @@ string CDlgDataStat::SaveStatImg(void)
     int         iWidth = 0;
     int         iHeight = 0;
 
-    strFileName = theApp.GetSaveDataPath() + "DataStat.png";
+    // strFileName = theApp.GetSaveDataPath() + "DataStat.png";
+    strFileName = theApp.m_strDataPath + "DataStat.png";
 
     GetClientRect(&rcClt);
     iWidth = rcClt.Width();
