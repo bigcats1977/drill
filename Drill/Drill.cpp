@@ -1332,9 +1332,32 @@ void CDrillApp::SaveSendFailure(UINT nCmdType)
     return;
 }
 
+void CDrillApp::AutoupdateLogFile()
+{
+    CTime   time = CTime::GetCurrentTime();//得到当前时间
+    string  newLog;
+    // NOT save when no run status 超过20秒则跳过
+    /*if (time.GetHour() > 0 ||time.GetMinute() > 0 || time.GetSecond() > 20)
+        return;*/
+
+    newLog = m_strLogPath;
+    newLog += time.Format(IDS_STRDATEFORM);
+    newLog += _T(".dbg");
+    if (m_strLogFile == newLog)
+        return;
+
+    m_SaveLogFile.Close();
+    m_strLogFile = newLog;
+
+    m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
+}
+
 void CDrillApp::SaveLogInfo()
 {
     COMP_BL(m_tSaveLog.iCur, 1);
+
+    // 20230524 到新的一天，自动更新log文件
+    AutoupdateLogFile();
 
     m_SaveLogFile.SeekToEnd();
     m_SaveLogFile.Write(m_tSaveLog.aucLog, m_tSaveLog.iCur);

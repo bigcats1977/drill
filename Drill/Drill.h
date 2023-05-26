@@ -240,6 +240,7 @@ private:
     BOOL GetOptionIDbyValue(string name, string value, UINT nLang = LANGUAGE_CURRENT);
     bool GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
     bool GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
+    void AutoupdateLogFile();
 
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
 
