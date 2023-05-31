@@ -3010,7 +3010,7 @@ CString CDrillApp::GetTorqShowName(TorqData::Torque* ptTorq, int iIndex)
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if (iIndex > ptTorq->tshow_size())
+    if (iIndex >= ptTorq->tshow_size())
         return NULLSTR;
 
     // cur version iIndex 从1开始, 0为Factory
@@ -3026,7 +3026,7 @@ CString CDrillApp::GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex)
     COMP_BL_R(iIndex, 0, NULLSTR);
     COMP_BGE_R(iIndex, MAXPARANUM, NULLSTR);
 
-    if (iIndex > ptTorq->tshow_size())
+    if (iIndex >= ptTorq->tshow_size())
         return NULLSTR;
 
     return ptTorq->tshow(iIndex).strvalue().c_str();

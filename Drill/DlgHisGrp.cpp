@@ -199,7 +199,7 @@ void CDlgHisGrp::SetCurEdit()
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     //m_bBreakOut = m_ptCurTorq->bbreakout();
     /* œ‘ æ≤Œ ˝ */
-    for (int i = 0; i <= m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
+    for (int i = 0; i < m_ptCurTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         m_strHisShowName[i] = theApp.GetTorqShowName(m_ptCurTorq, i);
         m_strHisShowValue[i] = theApp.GetTorqShowValue(m_ptCurTorq, i);
