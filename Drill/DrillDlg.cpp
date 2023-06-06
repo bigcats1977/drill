@@ -1688,7 +1688,8 @@ void CDrillDlg::SetTorqDataCfg(TorqData::Torque* ptPBData)
     ptPBData->set_fcut(g_tGlbCfg.fDiscount);
     ptPBData->set_frpmadj(g_tGlbCfg.fRpmAdj);
     ptPBData->set_fmulti(g_tGlbCfg.fMulti);
-    ptPBData->set_bsinglestd(m_ptCtrl->iSingleSTD != 0);
+    //ptPBData->set_bsinglestd(m_ptCtrl->iSingleSTD != 0);
+    ptPBData->set_dwcolumns(m_ptCtrl->iSingleSTD);
 }
 
 /*扭矩控制完成，LastPoint设置为TRUE，判断控制质量并存盘*/

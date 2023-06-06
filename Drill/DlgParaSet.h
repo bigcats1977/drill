@@ -13,6 +13,7 @@
 #include "ColorRadio.h"
 //#include "TubeCfg.h"
 
+#define  MAXCOLUMNS     3
 /////////////////////////////////////////////////////////////////////////////
 // CDlgParaSet dialog
 
@@ -71,9 +72,8 @@ public:
     //CNumEdit    m_neMinShlSlope;
     //CNumEdit    m_neMaxDeltaCir;
     //CNumEdit    m_neMinDeltaCir;
-    int           m_iSingleSTD;       //单根/立柱 0/1
-    CColorRadio   m_rdSingle;
-    CColorRadio   m_rdStand;
+    int           m_iSingleSTD;       //单根/两根/三根 0/1/2
+    CColorRadio   m_rdSingle[MAXCOLUMNS];
     //}}AFX_DATA
 
 
@@ -115,8 +115,9 @@ protected:
     afx_msg void OnCbnSelchangeCbalias();
     afx_msg void OnCbnKillfocusCbalias();
     afx_msg void OnBnClickedDelalias();
-    afx_msg void OnBnClickedRadiosetsingle();
-    afx_msg void OnBnClickedRadiosetstand();
+    afx_msg void OnBnClickedRadiosetone();
+    afx_msg void OnBnClickedRadiosettwo();
+    afx_msg void OnBnClickedRadiosetthree();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
@@ -125,6 +126,7 @@ private:
     void JudgeShowParaChanged(UINT nIndex);
     void UpdateDlgLabel();
     void InitAliasShow();
+    void CheckColumns(int cur);
     CString DelCurAliasContent();
 
     COLORREF    m_clrNormal;

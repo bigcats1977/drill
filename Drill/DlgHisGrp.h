@@ -90,8 +90,9 @@ protected:
     afx_msg void OnBnClickedChecktoolbuck();
     //afx_msg void OnStnClickedPriorsplit();
     //afx_msg void OnStnClickedNextsplit();
-    afx_msg void OnBnClickedRadiosignle();
-    afx_msg void OnBnClickedRadiostand();
+    afx_msg void OnBnClickedRadioone();
+    afx_msg void OnBnClickedRadiotwo();
+    afx_msg void OnBnClickedRadiothree();
     afx_msg void OnBnClickedRadiogrpboth();
     afx_msg void OnBnClickedRadiogrpmu();
     afx_msg void OnBnClickedRadiogrpbo();

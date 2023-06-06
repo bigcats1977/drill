@@ -167,10 +167,9 @@
 #define IDC_CBPARA14                    1134
 #define IDC_CBPARA15                    1135
 #define IDC_CBPARA16                    1136
-#define IDC_CBPARA17                    1137
-#define IDC_CBPARA18                    1138
-#define IDC_RADIOSETSINGLE              1139
-#define IDC_RADIOSETSTAND               1140
+#define IDC_RADIOSETONE                 1137
+#define IDC_RADIOSETTWO                 1138
+#define IDC_RADIOSETTHREE               1139
 #define IDC_SHOWSET01                   1141
 #define IDC_SHOWSET02                   1142
 #define IDC_SHOWSET03                   1143
@@ -189,10 +188,8 @@
 #define IDC_SHOWSET16                   1156
 #define IDC_CKFIXEDTUBING               1159
 #define IDC_PARANEW                     1160
-#define IDC_SHOWSET17                   1160
 #define IDC_PARASAVE                    1161
 #define IDC_PARAOPEN                    1162
-#define IDC_SHOWSET18                   1162
 #define IDC_DEFAULT                     1163
 #define IDC_DELALIAS                    1164
 #define IDC_EDITMAXDELTACIR             1165
@@ -283,11 +280,12 @@
 #define IDC_BTNREMARK                   1364
 #define IDC_PRIORSPLIT                  1365
 #define IDC_NEXTSPLIT                   1366
-#define IDC_RADIOSIGNLE                 1367
-#define IDC_RADIOSTAND                  1368
-#define IDC_RADIOGRPBOTH                1369
-#define IDC_RADIOGRPMU                  1370
-#define IDC_RADIOGRPBO                  1371
+#define IDC_RADIOONE                    1367
+#define IDC_RADIOTWO                    1368
+#define IDC_RADIOTHREE                  1369
+#define IDC_RADIOGRPBOTH                1370
+#define IDC_RADIOGRPMU                  1371
+#define IDC_RADIOGRPBO                  1372
 #define IDC_EDITHISTORY                 1400
 #define IDC_BTNHIS                      1401
 #define IDC_CHECKALLIMG                 1402
@@ -450,8 +448,6 @@
 #define IDC_EDSHOWNAME14                1764
 #define IDC_EDSHOWNAME15                1765
 #define IDC_EDSHOWNAME16                1766
-#define IDC_EDSHOWNAME17                1767
-#define IDC_EDSHOWNAME18                1768
 #define IDC_CHECKLIST1                  1771
 #define IDC_CHECKLIST2                  1772
 #define IDC_CHECKLIST3                  1773
@@ -468,8 +464,6 @@
 #define IDC_CHECKLIST14                 1784
 #define IDC_CHECKLIST15                 1785
 #define IDC_CHECKLIST16                 1786
-#define IDC_CHECKLIST17                 1787
-#define IDC_CHECKLIST18                 1788
 #define IDC_RADIOSHOWFILE0              1790
 #define IDC_RADIOSHOWFILE1              1791
 #define IDC_RADIOSHOWFILE2              1792
@@ -487,8 +481,6 @@
 #define IDC_RADIOSHOWFILE14             1804
 #define IDC_RADIOSHOWFILE15             1805
 #define IDC_RADIOSHOWFILE16             1806
-#define IDC_RADIOSHOWFILE17             1807
-#define IDC_RADIOSHOWFILE18             1808
 #define IDC_RADIOSHOWSTAT0              1810
 #define IDC_RADIOSHOWSTAT1              1811
 #define IDC_RADIOSHOWSTAT2              1812
@@ -506,8 +498,6 @@
 #define IDC_RADIOSHOWSTAT14             1824
 #define IDC_RADIOSHOWSTAT15             1825
 #define IDC_RADIOSHOWSTAT16             1826
-#define IDC_RADIOSHOWSTAT17             1827
-#define IDC_RADIOSHOWSTAT18             1828
 #define IDC_CHECKMAIN1                  1831
 #define IDC_CHECKMAIN2                  1832
 #define IDC_CHECKMAIN3                  1833
@@ -524,8 +514,6 @@
 #define IDC_CHECKMAIN14                 1844
 #define IDC_CHECKMAIN15                 1845
 #define IDC_CHECKMAIN16                 1846
-#define IDC_CHECKMAIN17                 1847
-#define IDC_CHECKMAIN18                 1848
 #define IDC_LINE_ZOOMTORQ               1850
 #define IDC_XZOOMAXIS                   1851
 #define IDC_YZOOMAXIS                   1852

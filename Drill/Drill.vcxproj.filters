@@ -132,33 +132,6 @@
     <ClInclude Include="ColorRadio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CWorksheet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CWorkbook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CWorkbooks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CWorksheets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CRange.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CChart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CChartObjects.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CChartObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CShapes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgScatter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -168,19 +141,7 @@
     <ClInclude Include="SerialPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CApplication.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgXlsStatSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFont0.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cnterior.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lodepng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CShape.h">
@@ -189,55 +150,10 @@
     <ClInclude Include="DlgSegCabl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="excel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlite3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SqliteProc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DBGlbCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBShowCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBShowOption.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBShowName.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgGlbCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBValTorque.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBValTurn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBTorqueCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBXlsStatCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBValveCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBAccess.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DrillData.pb.h">
@@ -246,13 +162,22 @@
     <ClInclude Include="RegProc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FtpFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBServerCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgServerCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\DBAccess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\SqliteProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Office\excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\FtpFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\lodepng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -516,58 +441,13 @@
     <ClCompile Include="DlgXlsStatSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lodepng.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DlgSegCabl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Excel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sqlite3.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SqliteProc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DBGlbCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBShowCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBShowOption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBShowName.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DlgGlbCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBValTorque.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBValTurn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBTorqueCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBXlsStatCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBValveCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBAccess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrillData.pb.cc">
@@ -576,13 +456,58 @@
     <ClCompile Include="RegProc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FtpFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBServerCfg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DlgServerCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBAccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBGlbCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBServerCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBShowCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBShowName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBShowOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBTorqueCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBValTorque.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBValTurn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBValveCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBXlsStatCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\SqliteProc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Office\Excel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\FtpFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\lodepng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

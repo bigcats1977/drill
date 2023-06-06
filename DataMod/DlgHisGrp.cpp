@@ -86,7 +86,7 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     //DDX_Text(pDX, IDC_HISSHOW16, m_strHisShowName[15]);
     DDX_Text(pDX, IDC_HISEDTOUTJOINT, m_strOutJoint);
     DDX_Text(pDX, IDC_HISEDTOUTWELL, m_strOutWellNO);
-    DDX_Radio(pDX, IDC_RADIOSIGNLE, m_iSingleSTD);
+    DDX_Radio(pDX, IDC_RADIOONE, m_iSingleSTD);
     DDX_Radio(pDX, IDC_RADIOGRPBOTH, m_iGrpType);
     DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[0]);
     DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[1]);
@@ -117,8 +117,9 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CDialog)
     //ON_BN_CLICKED(IDC_BTNSAVE, OnBtnsave)
     ON_MESSAGE(WM_UPDATE_SELPOS, SelPosChange)
     ON_BN_CLICKED(IDC_CHECKTOOLBUCK, OnBnClickedChecktoolbuck)
-    ON_BN_CLICKED(IDC_RADIOSIGNLE, OnBnClickedRadiosignle)
-    ON_BN_CLICKED(IDC_RADIOSTAND, OnBnClickedRadiostand)
+    ON_BN_CLICKED(IDC_RADIOONE, OnBnClickedRadioone)
+    ON_BN_CLICKED(IDC_RADIOTWO, OnBnClickedRadiotwo)
+    ON_BN_CLICKED(IDC_RADIOTHREE, OnBnClickedRadiothree)
     ON_BN_CLICKED(IDC_RADIOGRPBOTH, OnBnClickedRadiogrpboth)
     ON_BN_CLICKED(IDC_RADIOGRPMU, OnBnClickedRadiogrpmu)
     ON_BN_CLICKED(IDC_RADIOGRPBO, OnBnClickedRadiogrpbo)
@@ -198,7 +199,7 @@ void CDlgHisGrp::SetCurEdit()
     ASSERT_NULL(m_ptCurTorq);
 
     m_strNo.Format("%d", m_ptTorData->nCur);
-    m_iSingleSTD = (int)m_ptCurTorq->bsinglestd();
+    m_iSingleSTD = m_ptCurTorq->dwcolumns();
     m_bToolBuck = m_ptCurTorq->btoolbuck();
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     /* ÏÔÊ¾²ÎÊý */
@@ -829,22 +830,30 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
 
     m_bModified = TRUE;
 }
-void CDlgHisGrp::OnBnClickedRadiosignle()
+void CDlgHisGrp::OnBnClickedRadioone()
 {
     ASSERT_NULL(m_ptCurTorq);
 
     UpdateData(TRUE);
-    m_ptCurTorq->set_bsinglestd(0);
+    m_ptCurTorq->set_dwcolumns(0);
 
     m_bModified = TRUE;
 }
-
-void CDlgHisGrp::OnBnClickedRadiostand()
+void CDlgHisGrp::OnBnClickedRadiotwo()
 {
     ASSERT_NULL(m_ptCurTorq);
 
     UpdateData(TRUE);
-    m_ptCurTorq->set_bsinglestd(1);
+    m_ptCurTorq->set_dwcolumns(1);
+
+    m_bModified = TRUE;
+}
+void CDlgHisGrp::OnBnClickedRadiothree()
+{
+    ASSERT_NULL(m_ptCurTorq);
+
+    UpdateData(TRUE);
+    m_ptCurTorq->set_dwcolumns(2);
 
     m_bModified = TRUE;
 }
@@ -886,8 +895,9 @@ void CDlgHisGrp::EnableCtrlforMod()
 {
     GetDlgItem(IDC_BTNREMARK)->EnableWindow(CANMODIFY);
     GetDlgItem(IDC_CHECKTOOLBUCK)->EnableWindow(CANMODIFY);
-    GetDlgItem(IDC_RADIOSIGNLE)->EnableWindow(CANMODIFY);
-    GetDlgItem(IDC_RADIOSTAND)->EnableWindow(CANMODIFY);
+    GetDlgItem(IDC_RADIOONE)->EnableWindow(CANMODIFY);
+    GetDlgItem(IDC_RADIOTWO)->EnableWindow(CANMODIFY);
+    GetDlgItem(IDC_RADIOTHREE)->EnableWindow(CANMODIFY);
     //GetDlgItem(IDC_CHECKHISSHACKLE)->EnableWindow(CANMODIFY);
     ((CEdit*)GetDlgItem(IDC_HISTIME))->SetReadOnly(READONLY);
     ((CEdit*)GetDlgItem(IDC_HISMEMO))->SetReadOnly(READONLY);

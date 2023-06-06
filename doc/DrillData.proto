@@ -24,8 +24,9 @@ message Torque {
    bool     bSingleSTD  = 22;  
    bytes    strMemo     = 23;
    bytes    strRemark   = 24;
-   int32    dwTorqUnit  = 25;  
-     
+   int32    dwTorqUnit  = 25;
+   int32    dwColumns   = 26;   
+ 
    double   fMaxLimit   = 31;  
    double   fControl    = 32;
    double   fShow       = 33;

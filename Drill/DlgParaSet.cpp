@@ -90,9 +90,10 @@ void CDlgParaSet::DoDataExchange(CDataExchange* pDX)
     //DDX_Control(pDX, IDC_EDITMINDELTACIR, m_neMinDeltaCir);
     DDX_Text(pDX, IDC_EDITMEMO, m_strMemo);
     DDX_Text(pDX, IDC_STATIC_M10, m_strLBM10);
-    DDX_Radio(pDX, IDC_RADIOSETSINGLE, m_iSingleSTD);
-    DDX_Control(pDX, IDC_RADIOSETSINGLE, m_rdSingle);
-    DDX_Control(pDX, IDC_RADIOSETSTAND, m_rdStand);
+    DDX_Radio(pDX, IDC_RADIOSETONE, m_iSingleSTD);
+    DDX_Control(pDX, IDC_RADIOSETONE, m_rdSingle[0]);
+    DDX_Control(pDX, IDC_RADIOSETTWO, m_rdSingle[1]);
+    DDX_Control(pDX, IDC_RADIOSETTHREE, m_rdSingle[2]);
     DDX_Text(pDX, IDC_SHOWSET01, m_strSetShowName[0]);
     DDX_Text(pDX, IDC_SHOWSET02, m_strSetShowName[1]);
     DDX_Text(pDX, IDC_SHOWSET03, m_strSetShowName[2]);
@@ -177,8 +178,9 @@ BEGIN_MESSAGE_MAP(CDlgParaSet, CDialog)
     ON_CBN_SELCHANGE(IDC_CBALIAS, &CDlgParaSet::OnCbnSelchangeCbalias)
     ON_CBN_KILLFOCUS(IDC_CBALIAS, &CDlgParaSet::OnCbnKillfocusCbalias)
     ON_BN_CLICKED(IDC_DELALIAS, &CDlgParaSet::OnBnClickedDelalias)
-    ON_BN_CLICKED(IDC_RADIOSETSINGLE, &CDlgParaSet::OnBnClickedRadiosetsingle)
-    ON_BN_CLICKED(IDC_RADIOSETSTAND, &CDlgParaSet::OnBnClickedRadiosetstand)
+    ON_BN_CLICKED(IDC_RADIOSETONE, &CDlgParaSet::OnBnClickedRadiosetone)
+    ON_BN_CLICKED(IDC_RADIOSETTWO, &CDlgParaSet::OnBnClickedRadiosettwo)
+    ON_BN_CLICKED(IDC_RADIOSETTHREE, &CDlgParaSet::OnBnClickedRadiosetthree)
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -657,26 +659,33 @@ void CDlgParaSet::OnBnClickedDelalias()
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONEXCLAMATION);
 }
 
-void CDlgParaSet::OnBnClickedRadiosetsingle()
+void CDlgParaSet::CheckColumns(int cur)
 {
+    int i = 0;
     COLORREF    clrCtrl = m_clrNormal;
-    if (0 != theApp.m_tParaCfg.tCtrl.iSingleSTD)
-    {
-        clrCtrl = m_clrChanged;
-    }
 
-    m_rdSingle.SetForeColor(clrCtrl);
-    m_rdSingle.Invalidate();
+    for (i = 0; i < MAXCOLUMNS; i++)
+    {
+        clrCtrl = m_clrNormal;
+        if (cur != theApp.m_tParaCfg.tCtrl.iSingleSTD)
+        {
+            if (i == cur || i == theApp.m_tParaCfg.tCtrl.iSingleSTD)
+                clrCtrl = m_clrChanged;
+        }
+
+        m_rdSingle[i].SetForeColor(clrCtrl);
+        m_rdSingle[i].Invalidate();
+    }
 }
-
-void CDlgParaSet::OnBnClickedRadiosetstand()
+void CDlgParaSet::OnBnClickedRadiosetone()
 {
-    COLORREF    clrCtrl = m_clrNormal;
-    if (1 != theApp.m_tParaCfg.tCtrl.iSingleSTD)
-    {
-        clrCtrl = m_clrChanged;
-    }
-
-    m_rdStand.SetForeColor(clrCtrl);
-    m_rdStand.Invalidate();
+    CheckColumns(0);
+}
+void CDlgParaSet::OnBnClickedRadiosettwo()
+{
+    CheckColumns(1);
+}
+void CDlgParaSet::OnBnClickedRadiosetthree()
+{
+    CheckColumns(2);
 }

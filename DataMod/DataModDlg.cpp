@@ -751,7 +751,7 @@ void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
 
     tTempData.set_dwquality(ptSrc->dwquality());
     tTempData.set_btoolbuck(ptSrc->btoolbuck());
-    tTempData.set_bsinglestd(ptSrc->bsinglestd());
+    tTempData.set_dwcolumns(ptSrc->dwcolumns());
 
     tTempData.clear_ftorque();
     tTempData.clear_frpm();

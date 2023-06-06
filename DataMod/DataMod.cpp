@@ -526,6 +526,10 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
         if (!bRes)
             continue;
 
+        // 20230606 老版本单根立柱值在bsinglestd中，需要设置到columns中，以便后续程序通过columns显示和设置
+        if (ptTorq->bsinglestd() && ptTorq->dwcolumns() == 0)
+            ptTorq->set_dwcolumns(1);
+
         /* 数据大于1屏时设置分屏信息 */
         /* 20190609最后一屏按控制周数，其他按满屏计算 */
         /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */

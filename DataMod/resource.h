@@ -146,11 +146,12 @@
 #define IDC_HISGRPTYPE                  1359
 #define IDC_PRIORSPLIT                  1365
 #define IDC_NEXTSPLIT                   1366
-#define IDC_RADIOSIGNLE                 1367
-#define IDC_RADIOSTAND                  1368
-#define IDC_RADIOGRPBOTH                1369
-#define IDC_RADIOGRPMU                  1370
-#define IDC_RADIOGRPBO                  1371
+#define IDC_RADIOONE                    1367
+#define IDC_RADIOTWO                    1368
+#define IDC_RADIOTHREE                  1369
+#define IDC_RADIOGRPBOTH                1370
+#define IDC_RADIOGRPMU                  1371
+#define IDC_RADIOGRPBO                  1372
 #define IDC_EDITSHOULDER                1483
 #define IDC_NHISWELL                    1500
 #define IDC_NHISTEAM                    1501

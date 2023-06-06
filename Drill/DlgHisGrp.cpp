@@ -82,7 +82,7 @@ void CDlgHisGrp::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_HISSHOW15, m_strHisShowName[14]);
     DDX_Text(pDX, IDC_HISEDTOUTJOINT, m_strOutJoint);
     DDX_Text(pDX, IDC_HISEDTOUTWELL, m_strOutWellNO);
-    DDX_Radio(pDX, IDC_RADIOSIGNLE, m_iSingleSTD);
+    DDX_Radio(pDX, IDC_RADIOONE, m_iSingleSTD);
     DDX_Radio(pDX, IDC_RADIOGRPBOTH, m_iGrpType);
     DDX_Text(pDX, IDC_HISEDIT01, m_strHisShowValue[0]);
     DDX_Text(pDX, IDC_HISEDIT02, m_strHisShowValue[1]);
@@ -121,8 +121,9 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     //ON_STN_CLICKED(IDC_NEXTSPLIT, &CDlgHisGrp::OnStnClickedNextsplit)
     //ON_BN_CLICKED(IDC_CHECKHISBREAKOUT, &CDlgHisGrp::OnBnClickedCheckbreakout)
     //}}AFX_MSG_MAP
-    ON_BN_CLICKED(IDC_RADIOSIGNLE, &CDlgHisGrp::OnBnClickedRadiosignle)
-    ON_BN_CLICKED(IDC_RADIOSTAND, &CDlgHisGrp::OnBnClickedRadiostand)
+    ON_BN_CLICKED(IDC_RADIOONE, &CDlgHisGrp::OnBnClickedRadioone)
+    ON_BN_CLICKED(IDC_RADIOTWO, &CDlgHisGrp::OnBnClickedRadiotwo)
+    ON_BN_CLICKED(IDC_RADIOTHREE, &CDlgHisGrp::OnBnClickedRadiothree)
     ON_BN_CLICKED(IDC_RADIOGRPBOTH, &CDlgHisGrp::OnBnClickedRadiogrpboth)
     ON_BN_CLICKED(IDC_RADIOGRPMU, &CDlgHisGrp::OnBnClickedRadiogrpmu)
     ON_BN_CLICKED(IDC_RADIOGRPBO, &CDlgHisGrp::OnBnClickedRadiogrpbo)
@@ -194,7 +195,7 @@ void CDlgHisGrp::SetCurEdit()
     ASSERT_NULL(m_ptCurTorq);
 
     m_strNo.Format("%d", g_tReadData.nCur);
-    m_iSingleSTD = (int)m_ptCurTorq->bsinglestd();
+    m_iSingleSTD = m_ptCurTorq->dwcolumns();
     m_bToolBuck = m_ptCurTorq->btoolbuck();
     m_strMemo = m_ptCurTorq->strmemo().c_str();
     //m_bBreakOut = m_ptCurTorq->bbreakout();
@@ -1057,22 +1058,30 @@ void CDlgHisGrp::OnStnClickedNextsplit()
     return;
 }
 #endif
-void CDlgHisGrp::OnBnClickedRadiosignle()
+void CDlgHisGrp::OnBnClickedRadioone()
 {
     ASSERT_NULL(m_ptCurTorq);
 
     UpdateData(TRUE);
-    m_ptCurTorq->set_bsinglestd(0);
+    m_ptCurTorq->set_dwcolumns(0);
 
     theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }
-
-void CDlgHisGrp::OnBnClickedRadiostand()
+void CDlgHisGrp::OnBnClickedRadiotwo()
 {
     ASSERT_NULL(m_ptCurTorq);
 
     UpdateData(TRUE);
-    m_ptCurTorq->set_bsinglestd(1);
+    m_ptCurTorq->set_dwcolumns(1);
+
+    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+}
+void CDlgHisGrp::OnBnClickedRadiothree()
+{
+    ASSERT_NULL(m_ptCurTorq);
+
+    UpdateData(TRUE);
+    m_ptCurTorq->set_dwcolumns(2);
 
     theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
 }

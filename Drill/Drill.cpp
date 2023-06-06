@@ -339,7 +339,7 @@ BOOL CDrillApp::InitInstance()
         InitDefaultConfig(initStep);
     }
 	
-	g_tGlbCfg.nTest = 1;
+	//g_tGlbCfg.nTest = 1;
 
     /* 初始化数组、变量 */
     InitVariant();
@@ -2210,6 +2210,9 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         ptTorq = &g_tReadData.tData[nValid];
         //pSplit = &g_tReadData.tSplit[nValid];
 
+        // 20230606 老版本单根立柱值在bsinglestd中，需要设置到columns中，以便后续程序通过columns显示和设置
+        if (ptTorq->bsinglestd() && ptTorq->dwcolumns() == 0)
+            ptTorq->set_dwcolumns(1);
         g_tReadData.nTotalPlus[nValid] = 0;
         if (HaveMakeUP(ptTorq))
             g_tReadData.nTotalPlus[nValid] += ptTorq->dwmuplus();
@@ -2219,59 +2222,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         {
             iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
-#if 0
-        if (HaveBreakout(ptTorq))   /* 从前往后分屏 */
-        {
-            if (iTotalPnt > MAXLINEITEM)
-            {
-                // 按 MAXLINEITEM 直接分屏
-                pSplit->iCtrlPnt = MAXLINEITEM;
-                pSplit->iSplitNum = (int)ceil(iTotalPnt * 1.0 / MAXLINEITEM);
-                iSplitPos = 0;
-                pSplit->iCur = 1;
-                for (j = 0; j < pSplit->iSplitNum && j < MAXSPLIITNUM; j++)
-                {
-                    pSplit->iBegin[j] = iSplitPos;
-                    pSplit->iEnd[j] = MIN(iSplitPos + MAXLINEITEM, iTotalPnt);
-                    iSplitPos += MAXLINEITEM;
-                    if (iSplitPos >= iTotalPnt)
-                        break;
-                }
-            }
-        }
-        else    /* 从后往前分屏 */
-        {
-            iCtrlCount = (int)ceil(GetCtrlCir(ptTorq) * MAXLINEITEM / GetMaxCir(ptTorq));
-            if (iCtrlCount < 0)
-            {
-                break;
-            }
 
-            pSplit->iCtrlPnt = iCtrlCount;
-
-            if (iTotalPnt > iCtrlCount)
-            {
-                pSplit->iSplitNum = 1 + (int)ceil((iTotalPnt - iCtrlCount) * 1.0 / MAXLINEITEM);
-                iSplitPos = iTotalPnt;
-                j = MIN(pSplit->iSplitNum, MAXSPLIITNUM);
-                pSplit->iCur = j;
-
-                // 第一屏到iCtrlCount, 其他满屏
-                pSplit->iEnd[j - 1] = iSplitPos;
-                pSplit->iBegin[j - 1] = MAX(iSplitPos - iCtrlCount, 0);
-                iSplitPos -= iCtrlCount;
-                j--;
-                for (; j >= 0; j--)
-                {
-                    pSplit->iEnd[j - 1] = iSplitPos;
-                    pSplit->iBegin[j - 1] = MAX(iSplitPos - MAXLINEITEM, 0);
-                    iSplitPos -= MAXLINEITEM;
-                    if (iSplitPos <= 0)
-                        break;
-                }
-            }
-        }
-#endif
         /* NM  < ---- > lbft (* ratio) */
         if (g_tGlbCfg.nTorqUnit != ptTorq->dwtorqunit())
         {

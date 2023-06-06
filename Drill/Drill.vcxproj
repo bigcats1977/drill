@@ -47,7 +47,7 @@
     <IntDir>Debug\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>DrillMeterV6.24</TargetName>
-    <IncludePath>.\;$(IncludePath)</IncludePath>
+    <IncludePath>.\;.\Protocol;.\Office;.\DB;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Release\</OutDir>
@@ -55,7 +55,7 @@
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>DrillMeterV6.24</TargetName>
-    <IncludePath>.\;$(IncludePath)</IncludePath>
+    <IncludePath>.\;.\Protocol;.\Office;.\DB;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,42 +117,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BtnST.h" />
-    <ClInclude Include="CApplication.h" />
-    <ClInclude Include="CChart.h" />
-    <ClInclude Include="CChartObject.h" />
-    <ClInclude Include="CChartObjects.h" />
-    <ClInclude Include="DBAccess.h" />
-    <ClInclude Include="DBBase.h" />
-    <ClInclude Include="DBGlbCfg.h" />
-    <ClInclude Include="DBServerCfg.h" />
-    <ClInclude Include="DBShowCfg.h" />
-    <ClInclude Include="DBShowName.h" />
-    <ClInclude Include="DBShowOption.h" />
-    <ClInclude Include="DBValTurn.h" />
-    <ClInclude Include="DBTorqueCfg.h" />
-    <ClInclude Include="DBValTorque.h" />
-    <ClInclude Include="DBValveCfg.h" />
-    <ClInclude Include="DBXlsStatCfg.h" />
+    <ClInclude Include="DB\DBAccess.h" />
+    <ClInclude Include="DB\SqliteProc.h" />
     <ClInclude Include="DlgGlbCfg.h" />
     <ClInclude Include="DlgServerCfg.h" />
     <ClInclude Include="DrillData.pb.h" />
-    <ClInclude Include="FtpFile.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="DlgSegCabl.h" />
-    <ClInclude Include="CFont0.h" />
-    <ClInclude Include="Cnterior.h" />
     <ClInclude Include="CShape.h" />
     <ClInclude Include="DlgXlsStatSet.h" />
     <ClInclude Include="CeXDib.h" />
     <ClInclude Include="ColorComboBox.h" />
     <ClInclude Include="ColorRadio.h" />
-    <ClInclude Include="CRange.h" />
     <ClInclude Include="CrashHandler.h" />
-    <ClInclude Include="CShapes.h" />
-    <ClInclude Include="CWorkbook.h" />
-    <ClInclude Include="CWorkbooks.h" />
-    <ClInclude Include="CWorksheet.h" />
-    <ClInclude Include="CWorksheets.h" />
     <ClInclude Include="DlgCollect.h" />
     <ClInclude Include="DlgDataStat.h" />
     <ClInclude Include="DlgFuncTest.h" />
@@ -171,23 +148,21 @@
     <ClInclude Include="DlgValveSet.h" />
     <ClInclude Include="DlgZero.h" />
     <ClInclude Include="DlgZoomIn.h" />
-    <ClInclude Include="excel.h" />
     <ClInclude Include="HighResTimer.h" />
     <ClInclude Include="LineChartCtrl.h" />
     <ClInclude Include="LineChartCtrlEx.h" />
     <ClInclude Include="LineChartCtrlStat.h" />
-    <ClInclude Include="lodepng.h" />
     <ClInclude Include="MenuEx.h" />
     <ClInclude Include="Mylistctrl.h" />
     <ClInclude Include="MySheet.h" />
     <ClInclude Include="NumEdit.h" />
+    <ClInclude Include="Office\excel.h" />
+    <ClInclude Include="Protocol\FtpFile.h" />
+    <ClInclude Include="Protocol\lodepng.h" />
     <ClInclude Include="RegProc.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Ruler.h" />
     <ClInclude Include="SerialPort.h" />
-    <ClInclude Include="sqlite3.h" />
-    <ClInclude Include="sqlite3ext.h" />
-    <ClInclude Include="SqliteProc.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="TeeChart\axes.h" />
     <ClInclude Include="TeeChart\axis.h" />
@@ -246,22 +221,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BtnST.cpp" />
-    <ClCompile Include="DBAccess.cpp" />
-    <ClCompile Include="DBBase.cpp" />
-    <ClCompile Include="DBGlbCfg.cpp" />
-    <ClCompile Include="DBServerCfg.cpp" />
-    <ClCompile Include="DBShowCfg.cpp" />
-    <ClCompile Include="DBShowName.cpp" />
-    <ClCompile Include="DBShowOption.cpp" />
-    <ClCompile Include="DBValTurn.cpp" />
-    <ClCompile Include="DBTorqueCfg.cpp" />
-    <ClCompile Include="DBValTorque.cpp" />
-    <ClCompile Include="DBValveCfg.cpp" />
-    <ClCompile Include="DBXlsStatCfg.cpp" />
+    <ClCompile Include="DB\DBAccess.cpp" />
+    <ClCompile Include="DB\DBBase.cpp" />
+    <ClCompile Include="DB\DBGlbCfg.cpp" />
+    <ClCompile Include="DB\DBServerCfg.cpp" />
+    <ClCompile Include="DB\DBShowCfg.cpp" />
+    <ClCompile Include="DB\DBShowName.cpp" />
+    <ClCompile Include="DB\DBShowOption.cpp" />
+    <ClCompile Include="DB\DBTorqueCfg.cpp" />
+    <ClCompile Include="DB\DBValTorque.cpp" />
+    <ClCompile Include="DB\DBValTurn.cpp" />
+    <ClCompile Include="DB\DBValveCfg.cpp" />
+    <ClCompile Include="DB\DBXlsStatCfg.cpp" />
+    <ClCompile Include="DB\sqlite3.c" />
+    <ClCompile Include="DB\SqliteProc.cpp" />
     <ClCompile Include="DlgGlbCfg.cpp" />
     <ClCompile Include="DlgServerCfg.cpp" />
     <ClCompile Include="DrillData.pb.cc" />
-    <ClCompile Include="FtpFile.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="DlgSegCabl.cpp" />
     <ClCompile Include="DlgXlsStatSet.cpp" />
@@ -287,21 +263,20 @@
     <ClCompile Include="DlgValveSet.cpp" />
     <ClCompile Include="DlgZero.cpp" />
     <ClCompile Include="DlgZoomIn.cpp" />
-    <ClCompile Include="Excel.cpp" />
     <ClCompile Include="HighResTimer.cpp" />
     <ClCompile Include="LineChartCtrl.cpp" />
     <ClCompile Include="LineChartCtrlEx.cpp" />
     <ClCompile Include="LineChartCtrlStat.cpp" />
-    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="MenuEx.cpp" />
     <ClCompile Include="Mylistctrl.cpp" />
     <ClCompile Include="MySheet.cpp" />
     <ClCompile Include="NumEdit.cpp" />
+    <ClCompile Include="Office\Excel.cpp" />
+    <ClCompile Include="Protocol\FtpFile.cpp" />
+    <ClCompile Include="Protocol\lodepng.cpp" />
     <ClCompile Include="RegProc.cpp" />
     <ClCompile Include="Ruler.cpp" />
     <ClCompile Include="SerialPort.cpp" />
-    <ClCompile Include="sqlite3.c" />
-    <ClCompile Include="SqliteProc.cpp" />
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="TeeChart\axes.cpp" />
     <ClCompile Include="TeeChart\axis.cpp" />
