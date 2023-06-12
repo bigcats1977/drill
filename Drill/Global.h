@@ -773,7 +773,7 @@ typedef struct tagGLBCFG
 typedef struct tagSERVERCFG
 {
     UINT    nFTPPort;
-    string  strIPAddr;
+    string  strFTPAddr;
     string  strUserName;
     string  strPassword;
     string  strTargetPath;

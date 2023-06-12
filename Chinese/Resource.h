@@ -612,6 +612,7 @@
 #define IDC_EDITFUSERNAME               2303
 #define IDC_EDITFPASSWORD               2304
 #define IDC_EDITROOTPATH                2305
+#define IDC_EDITFTPADDR                 2306
 #define ID_SETPARA                      32770
 #define ID_ABOUT                        32771
 #define ID_DEBUG                        32772
@@ -949,6 +950,8 @@
 #define IDS_STRSERVUSERNAME             52903
 #define IDS_STRSERVPASSWORD             52904
 #define IDS_STRSERVTARGETPATH           52905
+#define IDS_STRSERVTCPPORT              52906
+#define IDS_STRSERVFTPADDR              52907
 #define IDS_STRTAGKIND                  54003
 #define IDS_STRBUCKLE                   54005
 #define IDS_STRALLSTAT                  54006
@@ -998,7 +1001,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        198
 #define _APS_NEXT_COMMAND_VALUE         32801
-#define _APS_NEXT_CONTROL_VALUE         2260
+#define _APS_NEXT_CONTROL_VALUE         2307
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

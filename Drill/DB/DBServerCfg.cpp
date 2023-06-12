@@ -13,8 +13,8 @@ CDBServerCfg::~CDBServerCfg()
 
 void CDBServerCfg::Empty()
 {
-    _FTPPort = 22;
-    _IPAddr.clear();
+    _FTPPort = 21;
+    _FTPAddr.clear();
     _UserName.clear();
     _Password.clear();
     _TargetPath.clear();
@@ -38,7 +38,7 @@ void CDBServerCfg::GetTable()
 
     nIndex = col;
 
-    _Sqlite->GetValue(pResult[nIndex++], _IPAddr);
+    _Sqlite->GetValue(pResult[nIndex++], _FTPAddr);
     _Sqlite->GetValue(pResult[nIndex++], _FTPPort);
     _Sqlite->GetValue(pResult[nIndex++], _UserName);
     _Sqlite->GetValue(pResult[nIndex++], _Password);
@@ -56,8 +56,8 @@ BOOL CDBServerCfg::UpdateServerCfg(SERVERCFG* ptfg)
     COMP_BFALSE_R(_ValidDB, FALSE);
     ASSERT_NULL_R(ptfg, FALSE);
 
-    fields.push_back("IPAddr");
-    values.push_back(ptfg->strIPAddr);
+    fields.push_back("FTPAddr");
+    values.push_back(ptfg->strFTPAddr);
     fields.push_back("FTPPort");
     values.push_back(to_string(ptfg->nFTPPort));
     fields.push_back("UserName");

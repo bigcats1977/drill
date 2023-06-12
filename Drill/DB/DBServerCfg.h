@@ -3,7 +3,7 @@
 class CDBServerCfg : public CDBBase
 {
 public:
-    string  _IPAddr;
+    string  _FTPAddr;
     UINT    _FTPPort;
     string  _UserName;
     string  _Password;

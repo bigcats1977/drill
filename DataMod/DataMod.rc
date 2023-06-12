@@ -290,8 +290,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 6,24,2,60310
- PRODUCTVERSION 6,24,2,60310
+ FILEVERSION 6,24,6,60612
+ PRODUCTVERSION 6,24,6,60612
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -308,13 +308,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "南京创品数控技术有限公司"
             VALUE "FileDescription", "扭矩仪数据维护"
-            VALUE "FileVersion", "6,24,2,20230310"
+            VALUE "FileVersion", "6,24,6,20230612"
             VALUE "InternalName", "扭矩仪数据维护"
             VALUE "LegalCopyright", "版权所有 (C) 2023"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "扭矩仪数据维护.EXE"
             VALUE "ProductName", "扭矩仪数据维护 应用程序"
-            VALUE "ProductVersion", "6,24,2,20230310"
+            VALUE "ProductVersion", "6,24,6,20230612"
         END
     END
     BLOCK "VarFileInfo"

@@ -194,7 +194,7 @@ bool CDBAccess::ReadServerPara(SERVERCFG* ptServer)
     ASSERT_NULL_R(ptServer, false);
     COMP_BFALSE_R(m_bValidDBFile, false);
 
-    ptServer->strIPAddr = m_tDBServCfg._IPAddr;
+    ptServer->strFTPAddr = m_tDBServCfg._FTPAddr;
     ptServer->nFTPPort = m_tDBServCfg._FTPPort;
     ptServer->strUserName = m_tDBServCfg._UserName;
     ptServer->strPassword = m_tDBServCfg._Password;

@@ -1863,7 +1863,7 @@ void CDlgHisList::OnBnClickedBtnupload()
     string target;
     string strInfo;
     __time64_t  colTime;
-    CFtpFile ftpfile(theApp.m_tServCfg.strIPAddr, theApp.m_tServCfg.strUserName, theApp.m_tServCfg.strPassword);
+    CFtpFile ftpfile(theApp.m_tServCfg.strFTPAddr, theApp.m_tServCfg.strUserName, theApp.m_tServCfg.strPassword);
 
     colTime = g_tReadData.tData[0].mucoltime();
     COleDateTime olett(colTime);
@@ -1872,7 +1872,7 @@ void CDlgHisList::OnBnClickedBtnupload()
     //if (!ftpfile.FTP_CreateDirectory(ASCII2UTF8(strPath)))
     if (!ftpfile.FTP_CreateDirectory(strPath))
     {
-        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFCREATEDIRFAIL).c_str(), strPath);
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFCREATEDIRFAIL).c_str(), strPath.c_str());
         theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
         return;
     }
@@ -1885,11 +1885,11 @@ void CDlgHisList::OnBnClickedBtnupload()
     bRes = ftpfile.FTP_Upload(target.c_str(), m_strHisName.GetBuffer(0));
     if (bRes)
     {
-        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADSUCC).c_str(), filename);
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADSUCC).c_str(), filename.c_str());
     }
     else
     {
-        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADFAIL).c_str(), filename);
+        strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADFAIL).c_str(), filename.c_str());
     }
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
 }

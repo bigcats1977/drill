@@ -23,7 +23,7 @@ CDlgServerCfg::~CDlgServerCfg()
 void CDlgServerCfg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_IPADDR, m_IPAddr);
+    DDX_Text(pDX, IDC_EDITFTPADDR, m_strFTPAddr);
     DDX_Text(pDX, IDC_EDITPORT, m_nFTPPort);
     DDX_Text(pDX, IDC_EDITFUSERNAME, m_strUsername);
     DDX_Text(pDX, IDC_EDITFPASSWORD, m_strPassword);
@@ -60,14 +60,15 @@ bool CDlgServerCfg::GetParaValue(SERVERCFG* ptCfg)
 
     ASSERT_NULL_R(ptCfg, false);
 
-    m_IPAddr.GetWindowText(strTemp);
-    ptCfg->strIPAddr = strTemp.GetBuffer(0);
+    //m_IPAddr.GetWindowText(strTemp);
+    //ptCfg->strIPAddr = strTemp.GetBuffer(0);
     ptCfg->nFTPPort = m_nFTPPort;
+    ptCfg->strFTPAddr = m_strFTPAddr.GetBuffer(0);
     ptCfg->strUserName = m_strUsername.GetBuffer(0);
     ptCfg->strPassword = m_strPassword.GetBuffer(0);
     ptCfg->strTargetPath = m_strTargetPath.GetBuffer(0);
     if (ptCfg->nFTPPort == 0 ||
-        ptCfg->strIPAddr.empty() ||
+        ptCfg->strFTPAddr.empty() ||
         ptCfg->strUserName.empty() ||
         ptCfg->strPassword.empty() ||
         ptCfg->strTargetPath.empty())
@@ -82,8 +83,9 @@ void CDlgServerCfg::SetParaValue(SERVERCFG* ptCfg)
 {
     ASSERT_NULL(ptCfg);
 
-    m_IPAddr.SetWindowText(ptCfg->strIPAddr.c_str());
+    //m_IPAddr.SetWindowText(ptCfg->strIPAddr.c_str());
     m_nFTPPort = ptCfg->nFTPPort;
+    m_strFTPAddr = ptCfg->strFTPAddr.c_str();
     m_strUsername = ptCfg->strUserName.c_str();
     m_strPassword = ptCfg->strPassword.c_str();
     m_strTargetPath = ptCfg->strTargetPath.c_str();
@@ -102,7 +104,7 @@ void CDlgServerCfg::OnOK()
         return;
     }
 
-    theDB.UpdateGlobalPara();
+    theDB.UpdateServerPara(&theApp.m_tServCfg);
 
     UpdateData(FALSE);
 
@@ -127,7 +129,7 @@ HBRUSH CDlgServerCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
 
     case IDC_IPADDR:
-        JUDGE_STRPARA_CHANGE(strContent, theApp.m_tServCfg.strIPAddr.c_str());
+        JUDGE_STRPARA_CHANGE(strContent, theApp.m_tServCfg.strFTPAddr.c_str());
         break;
     case IDC_EDITFUSERNAME:
         JUDGE_STRPARA_CHANGE(strContent, theApp.m_tServCfg.strUserName.c_str());

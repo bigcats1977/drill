@@ -201,11 +201,11 @@ void CDrillApp::InitServerPara(SERVERCFG* ptCfg)
 {
     ASSERT_NULL(ptCfg);
 
-    ptCfg->strIPAddr = LoadstringFromRes(IDS_STRSERVIPADDR);// "222.188.29.94";
+    ptCfg->strFTPAddr = LoadstringFromRes(IDS_STRSERVFTPADDR);// "kt888.synology.me";
     ptCfg->nFTPPort = stoi(LoadstringFromRes(IDS_STRSERVFTPPORT)); // 21;
     ptCfg->strUserName = LoadstringFromRes(IDS_STRSERVUSERNAME); // "zsg";
     ptCfg->strPassword = LoadstringFromRes(IDS_STRSERVPASSWORD); // "123456";
-    ptCfg->strTargetPath = LoadstringFromRes(IDS_STRSERVTARGETPATH); // "/homes/zsg/";
+    ptCfg->strTargetPath = LoadstringFromRes(IDS_STRSERVTARGETPATH); // "/homes/ftpupload/";
 }
 
 BOOL CDrillApp::LoadLanguageDll(UINT nLang, BOOL bUpdate)

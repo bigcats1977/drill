@@ -15,8 +15,8 @@ public:
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGSERVCFG };
 #endif
-    CIPAddressCtrl	m_IPAddr;
     UINT			m_nFTPPort;
+    CString			m_strFTPAddr;
     CString			m_strUsername;
     CString			m_strPassword;
     CString			m_strTargetPath;

@@ -895,7 +895,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "FTP server config"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_IPADDR,"SysIPAddress32",WS_TABSTOP,59,18,117,15
+    EDITTEXT        IDC_EDITFTPADDR,59,18,117,15,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDITPORT,59,44,69,15,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDITFUSERNAME,59,70,117,15,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDITFPASSWORD,59,96,117,15,ES_PASSWORD | ES_AUTOHSCROLL
@@ -916,8 +916,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 6,24,5,60310
- PRODUCTVERSION 6,24,5,60310
+ FILEVERSION 6,24,6,60612
+ PRODUCTVERSION 6,24,6,60612
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -934,13 +934,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Drill Meter Application"
-            VALUE "FileVersion", "6,24,5,20230310"
+            VALUE "FileVersion", "6,24,6,20230612"
             VALUE "InternalName", "Drill Meter"
             VALUE "LegalCopyright", "Copyright (C) 2023"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Drill.EXE"
             VALUE "ProductName", "Drill Meter Application"
-            VALUE "ProductVersion", "6,24,5,20230310"
+            VALUE "ProductVersion", "6,24,6,20230612"
         END
     END
     BLOCK "VarFileInfo"
@@ -2162,7 +2162,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRSERVIPADDR       "222.188.29.94"
+    IDS_STRSERVIPADDR       "61.147.53.43"
+    IDS_STRSERVFTPADDR      "kt888.synology.me"
     IDS_STRSERVFTPPORT      "21"
     IDS_STRSERVUSERNAME     "ftpupload"
     IDS_STRSERVPASSWORD     "FTP@upload2"
