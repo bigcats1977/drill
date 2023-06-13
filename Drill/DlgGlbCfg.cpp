@@ -156,7 +156,7 @@ void CDlgGlbCfg::SetParaValue(GLBCFG* ptCfg)
     m_cbPort.SetCurSel(ptCfg->nPortNO - 1);
     SelComboItem(&m_cbBaud, m_Baud, ptCfg->nBaudRate);
     SelComboItem(&m_cbImgNum, m_ImgNum, ptCfg->nImgNum);
-    if (ptCfg->nTest < 4)
+    if (ptCfg->nTest < COLL_HISTORY)
         m_cbTest.SetCurSel(ptCfg->nTest);
     else
         m_cbTest.SetCurSel(0);

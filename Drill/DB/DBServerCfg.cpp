@@ -3,7 +3,7 @@
 CDBServerCfg::CDBServerCfg()
 {
     _TableIndex = T_SERVERCFG;
-    Reload();
+    GetTable();
 }
 
 CDBServerCfg::~CDBServerCfg()
@@ -53,7 +53,7 @@ BOOL CDBServerCfg::UpdateServerCfg(SERVERCFG* ptfg)
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
+    COMP_BFALSE_R(Valid(), FALSE);
     ASSERT_NULL_R(ptfg, FALSE);
 
     fields.push_back("FTPAddr");

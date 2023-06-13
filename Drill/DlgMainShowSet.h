@@ -1,5 +1,5 @@
 #pragma once
-#include "afxwin.h"
+//#include "afxwin.h"
 
 #include "ColorComboBox.h"
 //#include "TubeCfg.h"
@@ -16,7 +16,7 @@ public:
     SHOWCFG* m_ptShow;
     PARACFG     m_tempCfg;
 
-    // Dialog Data
+// Dialog Data
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGMAINSHOW };
 #endif

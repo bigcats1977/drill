@@ -32,7 +32,7 @@ CDlgHisGrp::CDlgHisGrp() : CPropertyPage(CDlgHisGrp::IDD)
     //{{AFX_DATA_INIT(CDlgHisGrp)
     EmptyEdit();
     m_bToolBuck = FALSE;
-    //m_bBreakOut = FALSE;
+    //m_bShackle = FALSE;
     //}}AFX_DATA_INIT
     m_nBeginPos = 0;
     m_iGrpType = 0;
@@ -120,13 +120,13 @@ BEGIN_MESSAGE_MAP(CDlgHisGrp, CPropertyPage)
     //ON_STN_CLICKED(IDC_PRIORSPLIT, &CDlgHisGrp::OnStnClickedPriorsplit)
     //ON_STN_CLICKED(IDC_NEXTSPLIT, &CDlgHisGrp::OnStnClickedNextsplit)
     //ON_BN_CLICKED(IDC_CHECKHISBREAKOUT, &CDlgHisGrp::OnBnClickedCheckbreakout)
-    //}}AFX_MSG_MAP
     ON_BN_CLICKED(IDC_RADIOONE, &CDlgHisGrp::OnBnClickedRadioone)
     ON_BN_CLICKED(IDC_RADIOTWO, &CDlgHisGrp::OnBnClickedRadiotwo)
     ON_BN_CLICKED(IDC_RADIOTHREE, &CDlgHisGrp::OnBnClickedRadiothree)
     ON_BN_CLICKED(IDC_RADIOGRPBOTH, &CDlgHisGrp::OnBnClickedRadiogrpboth)
     ON_BN_CLICKED(IDC_RADIOGRPMU, &CDlgHisGrp::OnBnClickedRadiogrpmu)
     ON_BN_CLICKED(IDC_RADIOGRPBO, &CDlgHisGrp::OnBnClickedRadiogrpbo)
+    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -147,7 +147,6 @@ BOOL CDlgHisGrp::OnInitDialog()
     theApp.AdaptDlgCtrlSize(this, 2);
     m_ptCurDraw = NULL;
     m_ptCurTorq = NULL;
-
     ResetHisLineByCfg(&theApp.m_tParaCfg);
 
     UpdateData(FALSE);
@@ -166,7 +165,10 @@ void CDlgHisGrp::EmptyEdit()
 
     /* 显示参数 */
     for (i = 0; i < MAXPARANUM; i++)
+    {
+        m_strHisShowName[i].Empty();
         m_strHisShowValue[i].Empty();
+    }
     m_strMemo = NULLSTR;
     m_strControl = NULLSTR;
     m_strBOTorq = NULLSTR;
@@ -772,7 +774,7 @@ void CDlgHisGrp::UpdateTallyNO()
 
     // Reload file and recal Tally NO
     pSheet = (CPropertySheet*)GetOwner();
-    pSheet->SetActivePage(0);
+    pSheet->SetActivePage(1);
 }
 
 /* 左键单击 wParam :True 显示/ false: 不显示 */

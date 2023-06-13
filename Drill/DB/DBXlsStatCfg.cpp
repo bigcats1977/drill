@@ -4,7 +4,7 @@ CDBXlsStatCfg::CDBXlsStatCfg()
 {
     _TableIndex = T_XLSSTATCFG;
 
-    Reload();
+    GetTable();
 }
 
 CDBXlsStatCfg::~CDBXlsStatCfg()
@@ -70,7 +70,7 @@ bool CDBXlsStatCfg::GetInfoByLang(XLSSTATCFG* ptCfg, UINT nLang)
     vector<int>::iterator it;
     int iOffset = 0;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     ASSERT_NULL_R(ptCfg, false);
     CheckLanguage(nLang);
 
@@ -101,7 +101,7 @@ bool CDBXlsStatCfg::UpdateInfo(XLSSTATCFG* ptCfg)
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     ASSERT_NULL_R(ptCfg, false);
 
     condition = "LangType=" + to_string(*_CurLang);

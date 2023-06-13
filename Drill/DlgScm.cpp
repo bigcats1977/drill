@@ -12,7 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//CDrillDlg* g_ptScmParentDlg;
 /////////////////////////////////////////////////////////////////////////////
 // CDlgScm dialog
 
@@ -142,7 +141,7 @@ BOOL CDlgScm::OnInitDialog()
     m_tDate = CTime::GetCurrentTime();
     m_tTime = m_tDate;
 
-    //g_ptScmParentDlg = (CDrillDlg*)GetParent();
+    // m_pParentDlg = (CTorqueDlg*)GetParent();
 
     UpdateData(FALSE);
 

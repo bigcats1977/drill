@@ -2,7 +2,7 @@
 
 #include "LineChartCtrlStat.h"
 #include "Ruler.h"
-#include "afxwin.h"
+//#include "afxwin.h"
 #include ".\TeeChart\tchart.h"
 
 #define     MAXSTATLEVEL        4

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <numeric>
 #include <time.h> 
 #include <afxdb.h>
 #include <io.h>
@@ -32,6 +33,7 @@ using namespace std;
 #define WM_SAVEDEBUGTIMEROUT    WM_USER + 5007
 #define WM_ALARMPLAYTIMEROUT    WM_USER + 5008
 #define WM_READVALVETIMEROUT    WM_USER + 5009
+#define WM_WITSRPTTIMEROUT      WM_USER + 5010
 
 #define WM_INTERPT_CHANGE       WM_USER + 6001
 #define WM_UPDATE_SELPOS        WM_USER + 6002
@@ -53,6 +55,8 @@ using namespace std;
 #define PORTBUFF_TIMER          7       // 485串口保护定时器，上位机发送命令前，如果串口有数据，定时保护
                                     // 单片机发送完成后，再发送命令
 #define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
+#define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
+#define WITSRPT_TLEN            1000    // 1s上报一组数据
 #define COLLECT_TIMER           10      // 收集单片机数据定时器
 #define COLLECT_TLEN            1000    // 收集单片机数据定时时长 //2000
 #define WNDSHOW_TIMER           11      // 帮助旋转显示定时器
@@ -400,15 +404,16 @@ using namespace std;
 #define DBG_MESSAGE                 3   /* MessageBox显示信息 */
 #define DBG_SNDCMD                  4   /* 发送串口请求 */
 #define DBG_RCVCOM                  5   /* 接收串口消息 */
-#define DBG_MAXNUM                  (DBG_RCVCOM+1)
+#define DBG_SNDTCP                  6   /* 发送TCP消息 */
+#define DBG_MAXNUM                  (DBG_SNDTCP+1)
 /* 调试信息头的长度固定为4 */
 #define DBG_HEADLEN                 5
 #pragma endregion
 
 #pragma region MAX RANGE
-#define     SHOWPARANAMELEN     25
-#define     MAXPARALEN          200
-#define     HALFPARALEN         50
+//#define     SHOWPARANAMELEN     25
+//#define     MAXPARALEN          200
+//#define     HALFPARALEN         50
 
 #define     MAXPWLEN            32
 #define     MAXSKIPLEN          64  /* 总共跳64个字节 */
@@ -446,7 +451,9 @@ using namespace std;
 #define STATUS_CHGUNIT          16  /* 修改扭矩单位 */
 #define STATUS_CALIB            17  /* 校准 */
 #define STATUS_TUBECFG          18  /* 油管参数设置 */
-#define STATUS_MAXNUM           (STATUS_TUBECFG +1)
+#define STATUS_GLBCFG           19  /* 全局参数设置 */
+#define STATUS_WITSCFG          20  /* WITS参数设置 */
+#define STATUS_MAXNUM           (STATUS_WITSCFG +1)
 #pragma endregion
 
 #pragma region DATABASE
@@ -462,10 +469,23 @@ using namespace std;
 #define T_XLSSTATCFG            8   /* 导出excel统计配置表 */
 #define T_VALVECFG              9   /* 比例阀配置表 */
 #define T_SERVERCFG             10  /* FTP服务器配置表 */
-#define MAXTABLENUM             (T_SERVERCFG +1)
+#define T_WITSCFG               11  /* WITS(TCP)配置表 */
+#define MAXTABLENUM             (T_WITSCFG +1)
 
 #define DB_INVALID_VAL          -1
 #define DB_INVALID_UINT         2147483647
+
+#define DB_INIT_SUCCESS         0x0000
+#define DB_INIT_GLOBAL          0x0001
+#define DB_INIT_SHOW            0x0002
+#define DB_INIT_XLS_STAT        0x0004
+#define DB_INIT_TORQUE_CFG      0x0008
+#define DB_INIT_TUBING_INFO     0x0010
+#define DB_INIT_TUBING_CFG      0x0020
+#define DB_INIT_VALVE_CFG       0x0040
+#define DB_INIT_SERVER_CFG      0x0080
+#define DB_INIT_REJECT_CAUSE    0x0100
+#define DB_INIT_WITS_CFG        0x0200
 #pragma endregion
 
 #pragma region SHOW PARAMETER
@@ -550,7 +570,7 @@ using namespace std;
 #define QUA_HIGHT_DELTATURN     0x00001000
 #define QUA_LOW_SLOPE           0x00002000
 #define QUA_OTHER_CAUSE         0x00004000
-#define QUA_BREAKOUT_INSPECT       0x00008000  /* 卸扣检查 手工设置 shackle inspection */
+#define QUA_SHACK_INSPECT       0x00008000  /* 卸扣检查 手工设置 shackle inspection */
 #define QUA_GALLING             0x00010000  /* 粘扣 手工设置 */
 #define QUA_THREADNOTCLEAN      0x00020000  /* 丝扣清洗不干净 手工设置 */
 #define QUA_GASSEALINSPECT      0x00040000  /* 气检不合格   手工设置 */
@@ -590,6 +610,23 @@ using namespace std;
 #ifndef BFT_BITMAP
 #define BFT_BITMAP              0x4d42   // 'BM'
 #endif
+
+#pragma endregion
+
+#pragma region Struct WITSREPORT
+/* TCP传输协议：
+1、帧头 && ，帧尾!!，每个数据之间回车换行分隔（十六进制为0D 0A）
+2、每行开头固定项目数字定为80
+3、具体传输数据，每行仅一个具体序号数据，一包数据可包含多行数据
+4、每根管需传输数据包数，为扭矩数组长度 + 1，具体规定为：
+(1)	每包数据固定包含01、02、03数据
+(2)	第一包数据传输01~03，11~28
+(3)	后续包数据传输01~03，51~53
+*/
+#define WITSRPT_FIXHEADNUM      3   // 每个报文固定参数: 日期，时间，套管号
+#define WITSRPT_REPEATNUM       3   // 重复上报数据: 扭矩，周数，时间
+#define WITSRPT_CALPARANUM      5   // 上扣完成后扭矩计算参数，比如上扣扭矩，拐点扭矩，增量扭矩，台阶比，台阶时间等
+#define WITSRPT_SHOWPARANUM     15  // 最多15个显示参数
 
 #pragma endregion
 
@@ -644,20 +681,21 @@ typedef struct tagPORTCFG
 }PORTCFG;
 
 #if 0
-#define MAXTUBEPARALEN   51
-typedef struct tagFixTubePara
+//#define MAXTUBEPARALEN   51
+// just load row of valid state
+typedef struct tagMultiName
 {
     UINT        nNO;
     //char        aucName[LANGUAGE_NUM][MAXTUBEPARALEN];
-    string      strName[LANGUAGE_NUM + 1];
-}FIXTUBEPARA;
+    string      strName[LANGUAGE_NUM];
+}MULTINAME;
 
-typedef struct tagFixTubeInfo
+typedef struct tagMultiNameInfo
 {
     bool        bDbData;
     UINT        nNum;
-    FIXTUBEPARA* ptPara;
-}FIXTUBEINFO;
+    MULTINAME*  ptNames;
+}MULTINAMEINFO;
 
 //#define  TUBECFGTORQNUM         6
 #define  HALFTUBETORQNUM        3
@@ -778,6 +816,16 @@ typedef struct tagSERVERCFG
     string  strPassword;
     string  strTargetPath;
 }SERVERCFG;
+
+typedef struct tagWITSCFG
+{
+    UINT    nTCPPort;
+    vector<int> ShowParas;
+    vector<int> FixItems;
+    vector<int> RepeatItems;
+    vector<int> CalItems;
+    vector<int> ShowItems;
+}WITSCFG;
 
 typedef struct tagSHOWOPTION
 {
@@ -998,6 +1046,18 @@ typedef struct tagPORTDATA
     double      fRpm[COLLPORTNUM];
     int         iDelPlus[COLLPORTNUM];
 }PORTDATA;
+
+#define         WITSMAXRPTNUM       20
+#define         MAXRPTNUM           10000
+typedef struct tagWITSRPTDATA
+{
+    long        tStart;
+    UINT        nCount;
+    UINT        nRptIdx;
+    double      fTorque[MAXRPTNUM];
+    double      fTurn[MAXRPTNUM];
+    double      fDuration[MAXRPTNUM];
+}WITSRPTDATA;
 #pragma endregion
 
 #pragma region MACRO COMMAND
@@ -1361,12 +1421,12 @@ extern const string         g_strPortOpr[];
 extern const UINT           g_nMainNameNO[];
 
 extern const SHOWPARANAME   g_tNameInfo[];
-//extern FIXTUBEPARA          g_tDefFactory[];
-//extern FIXTUBEPARA          g_tDefOEM[];
-//extern FIXTUBEPARA          g_tDefSize[];
-//extern FIXTUBEPARA          g_tDefMater[];
-//extern FIXTUBEPARA          g_tDefCoupl[];
-//extern TUBECFG              g_tDefTubeCfg[];
+//extern MULTINAME          g_tDefFactory[];
+//extern MULTINAME          g_tDefOEM[];
+//extern MULTINAME          g_tDefSize[];
+//extern MULTINAME          g_tDefMater[];
+//extern MULTINAME          g_tDefCoupl[];
+//extern TUBECFG            g_tDefTubeCfg[];
 
 extern TORQUEDATA           g_tReadData;
 extern GLBCFG               g_tGlbCfg;
@@ -1377,6 +1437,7 @@ extern HANDLE               g_hValue;
 
 #pragma region Global Function
 string  GetCurTime();
+string GetListFromVector(vector<int> array);
 string GetListFromArray(UINT* parray, int num);
 string GetListFromArray(BOOL* parray, int num);
 string GetListFromArray(BYTE* parray, int num);

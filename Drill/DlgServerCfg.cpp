@@ -104,7 +104,7 @@ void CDlgServerCfg::OnOK()
         return;
     }
 
-    theDB.UpdateServerPara(&theApp.m_tServCfg);
+    theDB.UpdateServerCfg(&theApp.m_tServCfg);
 
     UpdateData(FALSE);
 

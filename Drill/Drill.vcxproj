@@ -47,7 +47,8 @@
     <IntDir>Debug\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>DrillMeterV6.24</TargetName>
-    <IncludePath>.\;.\Protocol;.\Office;.\DB;$(IncludePath)</IncludePath>
+    <IncludePath>.\;.\DB;.\Protocol;.\Office;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Release\</OutDir>
@@ -121,12 +122,11 @@
     <ClInclude Include="DB\SqliteProc.h" />
     <ClInclude Include="DlgGlbCfg.h" />
     <ClInclude Include="DlgServerCfg.h" />
+    <ClInclude Include="DlgWITSCfg.h" />
     <ClInclude Include="DrillData.pb.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="DlgSegCabl.h" />
-    <ClInclude Include="CShape.h" />
     <ClInclude Include="DlgXlsStatSet.h" />
-    <ClInclude Include="CeXDib.h" />
     <ClInclude Include="ColorComboBox.h" />
     <ClInclude Include="ColorRadio.h" />
     <ClInclude Include="CrashHandler.h" />
@@ -159,13 +159,13 @@
     <ClInclude Include="Office\excel.h" />
     <ClInclude Include="Protocol\FtpFile.h" />
     <ClInclude Include="Protocol\lodepng.h" />
+    <ClInclude Include="Protocol\Socket.h" />
+    <ClInclude Include="Protocol\WITSEnc.h" />
     <ClInclude Include="RegProc.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Ruler.h" />
     <ClInclude Include="SerialPort.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="TeeChart\axes.h" />
-    <ClInclude Include="TeeChart\axis.h" />
     <ClInclude Include="TeeChart\page.h" />
     <ClInclude Include="TeeChart\series.h" />
     <ClInclude Include="TeeChart\tchart.h" />
@@ -228,6 +228,7 @@
     <ClCompile Include="DB\DBShowCfg.cpp" />
     <ClCompile Include="DB\DBShowName.cpp" />
     <ClCompile Include="DB\DBShowOption.cpp" />
+    <ClCompile Include="DB\DBWITSCfg.cpp" />
     <ClCompile Include="DB\DBTorqueCfg.cpp" />
     <ClCompile Include="DB\DBValTorque.cpp" />
     <ClCompile Include="DB\DBValTurn.cpp" />
@@ -237,11 +238,11 @@
     <ClCompile Include="DB\SqliteProc.cpp" />
     <ClCompile Include="DlgGlbCfg.cpp" />
     <ClCompile Include="DlgServerCfg.cpp" />
+    <ClCompile Include="DlgWITSCfg.cpp" />
     <ClCompile Include="DrillData.pb.cc" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="DlgSegCabl.cpp" />
     <ClCompile Include="DlgXlsStatSet.cpp" />
-    <ClCompile Include="CeXDib.cpp" />
     <ClCompile Include="ColorComboBox.cpp" />
     <ClCompile Include="ColorRadio.cpp" />
     <ClCompile Include="CrashHandler.cpp" />
@@ -274,12 +275,12 @@
     <ClCompile Include="Office\Excel.cpp" />
     <ClCompile Include="Protocol\FtpFile.cpp" />
     <ClCompile Include="Protocol\lodepng.cpp" />
+    <ClCompile Include="Protocol\Socket.cpp" />
+    <ClCompile Include="Protocol\WITSEnc.cpp" />
     <ClCompile Include="RegProc.cpp" />
     <ClCompile Include="Ruler.cpp" />
     <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="StdAfx.cpp" />
-    <ClCompile Include="TeeChart\axes.cpp" />
-    <ClCompile Include="TeeChart\axis.cpp" />
     <ClCompile Include="TeeChart\page.cpp" />
     <ClCompile Include="TeeChart\series.cpp" />
     <ClCompile Include="TeeChart\tchart.cpp" />

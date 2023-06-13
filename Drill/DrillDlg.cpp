@@ -19,6 +19,8 @@
 #include "DlgRemark.h"
 #include "DlgSegCabl.h"
 #include "DlgGlbCfg.h"
+#include "DlgWITSCfg.h"
+#include "WITSEnc.h"
 #include <Nb30.h>
 #include <ctime>
 
@@ -489,6 +491,7 @@ BEGIN_MESSAGE_MAP(CDrillDlg, CDialog)
     ON_COMMAND(ID_COLLECTDATA, OnCollectdata)
     ON_BN_CLICKED(IDC_BTRUN, OnBtrun)
     ON_MESSAGE(WM_COLLECTTIMEROUT, CollectTimerOut)
+    ON_MESSAGE(WM_WITSRPTTIMEROUT, WITSReportTimerOut)
     ON_MESSAGE(WM_GUARDTIMEROUT, GuardTimerOut)
     ON_MESSAGE(WM_PORTBUFFTIMEROUT, PortBuffTimerOut)
     ON_MESSAGE(WM_SAVEDATATIMEROUT, SaveDataTimerOut)
@@ -521,6 +524,7 @@ BEGIN_MESSAGE_MAP(CDrillDlg, CDialog)
     //ON_BN_CLICKED(IDC_BTNBREAKOUTFILE, &CDrillDlg::OnBnClickedBtnBreakoutFile)
     ON_COMMAND(ID_SEGCALIB, &CDrillDlg::OnSegcalib)
     ON_COMMAND(ID_GLBCFG, &CDrillDlg::OnGlbCfg)
+    ON_COMMAND(ID_WITSCFG, &CDrillDlg::OnWITSCfg)
     ON_EN_KILLFOCUS(IDC_EDHISSEQNO, &CDrillDlg::OnEnKillfocusEdhisseqno)
     ON_EN_KILLFOCUS(IDC_EDBREAKOUTNO, &CDrillDlg::OnEnKillfocusEdbreakoutno)
 END_MESSAGE_MAP()
@@ -534,6 +538,7 @@ void CDrillDlg::InitVariant()
     m_ptShow = theApp.m_ptCurShow;
     m_ptCfg = &theApp.m_tParaCfg;
     m_ptCtrl = &m_ptCfg->tCtrl;
+    m_ptWITS = &theApp.m_tWITSCfg;
     //m_ptComm = &theApp.m_tParaCfg.tComm;
 
     /* 初始化变量 */
@@ -1736,6 +1741,10 @@ void CDrillDlg::FinishSetStatus()
     }
 
     SetShowPara(&m_tSaveData);
+
+    // report calculator info by TCP
+    ReportWITSEnd();
+
     UpdateData(FALSE);
 
     return;
@@ -1813,6 +1822,12 @@ void CDrillDlg::HRTReadPort(CWnd* pUser)
 {
     CDrillDlg* pThis = (CDrillDlg*)pUser;
     pThis->SendMessage(WM_COLLECTTIMEROUT, 0, 0);
+}
+
+void CDrillDlg::HRTWITSReport(CWnd* pUser)
+{
+    CDrillDlg* pThis = (CDrillDlg*)pUser;
+    pThis->SendMessage(WM_WITSRPTTIMEROUT, 0, 0);
 }
 
 void CDrillDlg::HRTSaveData(CWnd* pUser)
@@ -2092,6 +2107,17 @@ LRESULT CDrillDlg::CollectTimerOut(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
+LRESULT CDrillDlg::WITSReportTimerOut(WPARAM wParam, LPARAM lParam)
+{
+    string strData;
+
+    COMP_BFALSE_R(theApp.isTCPConnected(), 0);
+
+    strData = WITSEnc::EncWITSTorqData(m_nCurNO, m_ptWITS, &m_tWITSRptData);
+    theApp.ReportWITSByTCP(strData);
+    return 0;
+}
+
 BOOL CDrillDlg::CheckPortData(BYTE* pData, int iLen, BOOL& bFini)
 {
     int     iNum = 0;
@@ -2267,6 +2293,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     {
         memcpy(&tCollData[0], ptCollData, PORT_MAXDATANUM * sizeof(COLLECTDATA));
     }
+
     /* 获取数据完成，开始处理数据，画图或者保存 */
     // fCurCir = m_tCollData.nAllCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM;
     fCurCir = m_tCollData.nAllCount * m_fCurMaxTurn / MAXLINEITEM;
@@ -2422,7 +2449,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         else if (bHaveS3)
             m_strTorque.Format("%.0f", m_fMaxTorq);
         else    /* 显示最后一个有效数据 */
-			m_strTorque.Format("%.0f", tCollData[nDataNum - 1].fTorque);
+            m_strTorque.Format("%.0f", tCollData[nDataNum - 1].fTorque);
             // m_strTorque.Format("%.0f, %.2f", tCollData[nDataNum - 1].fTorque, fCurCir);
         m_fRpm = tCollData[nDataNum - 1].fRpm;
 
@@ -2442,6 +2469,8 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
                 MorePointInsertData(&tCollData[i], bFinish);
             }
         }
+
+        RecordReportData();
 
         /* 计算圈数 */
         //SHOWCIRINFO(m_tCollData.nCurCount, m_tCollData.nAllCount, m_ptCtrl->fMaxCir, m_strCircle);
@@ -2464,9 +2493,9 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     // 20230210 卸扣时检查是否需要更新画扭矩范围
     if (m_iBreakOut > 0)
     {
-        if (m_fMaxTorq > m_fMaxBORange * 0.9)
+        if (m_fMaxTorq > m_fMaxBORange * 0.8)
         {
-            m_fMaxBORange = HAND_CEIL(m_fMaxBORange * 1.2);
+            m_fMaxBORange = HAND_CEIL(m_fMaxTorq * 1.2);
             m_yAxis1.SetTickPara(20, m_fMaxBORange);
             m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
         }
@@ -2830,6 +2859,8 @@ void CDrillDlg::RunTorque()
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
     /* 定时保存CRC和调试信息 */
     m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
+    // TCP 定时上报WITS是数据定时器
+    m_hrtWITSReport.CreateTimer(this, WITSRPT_TLEN, HRTWITSReport);
     CanModLastData(FALSE);
 
     theApp.SaveAppStatus(STATUS_RUN, __FUNCTION__);
@@ -2927,6 +2958,9 @@ void CDrillDlg::OnBtrun()
     string strInfo;
 
     JUDGE_REG_STATUS();
+
+    // only for test
+    // g_tGlbCfg.nTest = COLL_RECOVERY;
 
     if (g_tGlbCfg.nTest == COLL_HISTORY)
     {
@@ -3101,6 +3135,8 @@ void CDrillDlg::OnGlbCfg()
 
     if (IDOK != dlgGlbCfg.DoModal())
         return;
+
+    theApp.SaveAppStatus(STATUS_GLBCFG, __FUNCTION__);
 }
 
 void CDrillDlg::OnBnClickedBtnshowset()
@@ -3864,6 +3900,10 @@ void CDrillDlg::RestartComm()
 
     /* 复位定时器到时后，重新打开Timer1收集串口数据 */
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
+    /* 定时保存CRC和调试信息 */
+    m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
+    // TCP 定时上报WITS数据定时器
+    m_hrtWITSReport.CreateTimer(this, WITSRPT_TLEN, HRTWITSReport);
 
     return;
 }
@@ -3932,6 +3972,8 @@ void CDrillDlg::ResetData()
         m_ptPortData->nSaveCount = 0;
         m_ptPortData->nLastPlus = 0;
     }
+    
+    memset(&m_tWITSRptData, 0, sizeof(m_tWITSRptData));
 }
 
 BOOL CDrillDlg::InsertData(COLLECTTORQUE* ptColl, double torque, double rpm)
@@ -4231,6 +4273,7 @@ void CDrillDlg::KillAllTimer()
     m_hrtSaveData.KillTimer();
     m_hrtSaveDebug.KillTimer();
     m_hrtReadValve.KillTimer();
+    m_hrtWITSReport.KillTimer();
 }
 
 /* 填写WORD16到字节中 */
@@ -4782,4 +4825,61 @@ void CDrillDlg::OnEnKillfocusEdbreakoutno()
     }
 
     GetDlgItem(IDC_BTRUN)->EnableWindow(true);
+}
+
+void CDrillDlg::OnWITSCfg()
+{
+    CDlgWITSCfg  dlgWITSCfg;
+
+    COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNWITSCFG));
+
+    //COMP_BFALSE(theApp.CheckPassWord());
+
+    dlgWITSCfg.m_tempShow = *m_ptShow;
+    if (IDOK != dlgWITSCfg.DoModal())
+        return;
+
+    theApp.SaveAppStatus(STATUS_WITSCFG, __FUNCTION__);
+}
+
+void CDrillDlg::RecordReportData()
+{
+    long  curTime = GetTickCount();
+    double fTurn = 0;
+
+    if (m_tWITSRptData.tStart == 0)
+    {
+        ReportWITSStart();
+
+        m_tWITSRptData.tStart = curTime;
+        m_tWITSRptData.fTorque[0] = m_fMaxTorq;
+        m_tWITSRptData.fTurn[0] = 0;
+        m_tWITSRptData.fDuration[0] = 0;
+        m_tWITSRptData.nCount = 1;
+        m_tWITSRptData.nRptIdx = 0;
+    }
+    else
+    {
+        fTurn = THOUSANDTH((m_iPriorPlus - m_iShowPlus) * 1.0 / g_tGlbCfg.nPlusPerTurn);
+        m_tWITSRptData.fTorque[m_tWITSRptData.nCount] = m_fMaxTorq;
+        m_tWITSRptData.fTurn[m_tWITSRptData.nCount] = fTurn;
+        m_tWITSRptData.fDuration[m_tWITSRptData.nCount] = (curTime - m_tWITSRptData.tStart) / 1000.0;
+        m_tWITSRptData.nCount++;
+    }
+}
+
+void CDrillDlg::ReportWITSStart()
+{
+    string strData;
+    COMP_BFALSE(theApp.isTCPConnected());
+    strData = WITSEnc::EncWITSTorqConfig(m_nCurNO, m_ptWITS, m_ptShow);
+    theApp.ReportWITSByTCP(strData);
+}
+
+void CDrillDlg::ReportWITSEnd()
+{
+    string strData;
+    COMP_BFALSE(theApp.isTCPConnected());
+    strData = WITSEnc::EncWITSTorqQuality(m_nCurNO, m_ptWITS, &m_tWITSRptData, &m_tSaveData);
+    theApp.ReportWITSByTCP(strData);
 }

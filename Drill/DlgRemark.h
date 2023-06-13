@@ -45,13 +45,12 @@ protected:
     DECLARE_MESSAGE_MAP()
 public:
     virtual BOOL OnInitDialog();
-
-private:
-    void SetRejCause();
-public:
     afx_msg void OnBnClickedRadionoquality();
     afx_msg void OnBnClickedRadioquality();
     afx_msg void OnCbnSelchangeComboremark();
+
+private:
+    void SetRejCause();
 };
 
 //{{AFX_INSERT_LOCATION}}

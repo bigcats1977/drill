@@ -3,7 +3,7 @@
 CDBValveCfg::CDBValveCfg()
 {
     _TableIndex = T_VALVECFG;
-    Reload();
+    GetTable();
 }
 
 CDBValveCfg::~CDBValveCfg()
@@ -51,7 +51,7 @@ bool CDBValveCfg::UpdateGlbCfg(VALVECFG* ptCfg)
     vector<string> values;
     string value;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     ASSERT_NULL_R(ptCfg, false);
 
     value = GetListFromArray(&ptCfg->ucTorq[0][0], VALVERATIONUM);
@@ -95,7 +95,7 @@ bool CDBValveCfg::GetGlbCfg(VALVECFG* ptCfg)
 {
     bool bRes = false;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
+    COMP_BFALSE_R(Valid(), FALSE);
     ASSERT_NULL_R(ptCfg, FALSE);
 
     bRes = GetValues(_V1Torq, &ptCfg->ucTorq[0][0]);

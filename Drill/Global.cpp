@@ -13,6 +13,7 @@ const string  g_tTableName[MAXTABLENUM] = {
     "T_XlsStatCfg",
     "T_ValveCfg",
     "T_ServerCfg",
+    "T_WITSCfg",
 };
 
 /* 默认显示参数名称，没有数据库时使用这些名称 */
@@ -41,7 +42,7 @@ const SHOWPARANAME g_tNameInfo[MAXPARANUM] = {
 const UINT g_nMainNameNO[MAXMAINPARA] = { 0,1,2,3,6,7,10,15 };
 #if 0
 /* 默认厂家名称表 */
-FIXTUBEPARA     g_tDefFactory[MAXDEFFACTORYNUM] = {
+MULTINAME     g_tDefFactory[MAXDEFFACTORYNUM] = {
     {0x00,      "JFE",      "JFE",      "JFE"},         // JFE Steel Corporation, JFE
     {0x01,      "天钢",     "TianJin",  "TianJin"},     // Tianjin Steel Pipes, TJSP
     {0x02,      "衡钢",     "HengYang", "HengYang"},    // Hunan Hengyang Steel Pipe, HYSP
@@ -54,7 +55,7 @@ FIXTUBEPARA     g_tDefFactory[MAXDEFFACTORYNUM] = {
 };
 
 /* 默认管件名称表 */
-FIXTUBEPARA   g_tDefOEM[MAXDEFOEMNUM] = {
+MULTINAME   g_tDefOEM[MAXDEFOEMNUM] = {
     /*JFE*/
     {0x0000,    "2-7/8\"JFE",   "2-7/8\"JFE",   "2-7/8\"JFE"},
     {0x0001,    "3-1/2\"JFE",   "3-1/2\"JFE",   "3-1/2\"JFE"},
@@ -101,7 +102,7 @@ FIXTUBEPARA   g_tDefOEM[MAXDEFOEMNUM] = {
 };
 
 /* 默认管件规格表 */
-FIXTUBEPARA  g_tDefSize[MAXDEFSIZENUM] = {
+MULTINAME  g_tDefSize[MAXDEFSIZENUM] = {
     /*JFE*/
     {0x0000,    "73X5.51 EUE",          "73X5.51 EUE",          "73X5.51 EUE"},
     {0x0001,    "88.9X6.45 EUE",        "88.9X6.45 EUE",        "88.9X6.45 EUE"},
@@ -218,7 +219,7 @@ FIXTUBEPARA  g_tDefSize[MAXDEFSIZENUM] = {
 };
 
 /* 默认材质钢级表 */
-FIXTUBEPARA   g_tDefMater[MAXDEFMATERNUM] = {
+MULTINAME   g_tDefMater[MAXDEFMATERNUM] = {
     /*JFE*/
     {0x0000,    "N80",                  "N80",                  "N80"},
     {0x0001,    "P110",                 "P110",                 "P110"},
@@ -263,7 +264,7 @@ FIXTUBEPARA   g_tDefMater[MAXDEFMATERNUM] = {
 };
 
 /* 默认系统管材配置表 */
-FIXTUBEPARA    g_tDefCoupl[MAXDEFCOUPLNUM] = {
+MULTINAME    g_tDefCoupl[MAXDEFCOUPLNUM] = {
     /*JFE*/
     {0x0000,    "88.9X149.2",           "88.9X149.2",           "88.9X149.2"},
     {0x0001,    "88.9X174",             "88.9X174",             "88.9X174"},
@@ -609,6 +610,8 @@ const string g_strStatus[STATUS_MAXNUM] = {
             _T("CHGUNIT"),
             _T("CALIB"),
             _T("TUBECFG"),
+            _T("GLBCFG"),
+            _T("WITSCFG"),
 };
 
 /* 定义串口操作字符串 */
@@ -637,6 +640,17 @@ string GetCurTime()
     strftime(buff, 20, "%Y-%m-%d %H:%M:%S", &local);
 
     return string(buff);
+}
+
+string GetListFromVector(vector<int> array)
+{
+    string lsIDs;
+    string delimiter = ",";
+
+    for (size_t i = 0; i < array.size(); i++)
+        lsIDs += to_string(array[i]) + delimiter;
+
+    return lsIDs;
 }
 
 string GetListFromArray(BOOL* parray, int num)

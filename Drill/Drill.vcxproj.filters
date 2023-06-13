@@ -18,9 +18,6 @@
     <ClInclude Include="BtnST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CeXDib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CrashHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,19 +93,10 @@
     <ClInclude Include="DlgShowSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TeeChart\axes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TeeChart\axis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TeeChart\page.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TeeChart\series.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TeeChart\tchart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgStatSet.h">
@@ -144,9 +132,6 @@
     <ClInclude Include="DlgXlsStatSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgSegCabl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -156,28 +141,40 @@
     <ClInclude Include="DlgGlbCfg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgServerCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DrillData.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RegProc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgServerCfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DB\DBAccess.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DB\SqliteProc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Office\excel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Protocol\FtpFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Protocol\lodepng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Office\excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\SqliteProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TeeChart\tchart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\Socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgWITSCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\WITSEnc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -318,9 +315,6 @@
     <ClCompile Include="BtnST.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CeXDib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CrashHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -393,12 +387,6 @@
     <ClCompile Include="DlgShowSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TeeChart\axes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TeeChart\axis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TeeChart\page.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -453,13 +441,25 @@
     <ClCompile Include="DrillData.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RegProc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DlgServerCfg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RegProc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="DB\DBAccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\FtpFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Office\Excel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeeChart\tchart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DB\DBBase.cpp">
@@ -501,13 +501,16 @@
     <ClCompile Include="DB\sqlite3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Office\Excel.cpp">
+    <ClCompile Include="Protocol\Socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol\FtpFile.cpp">
+    <ClCompile Include="DlgWITSCfg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol\lodepng.cpp">
+    <ClCompile Include="DB\DBWITSCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\WITSEnc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

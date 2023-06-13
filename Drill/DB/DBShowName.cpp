@@ -3,7 +3,7 @@
 CDBShowName::CDBShowName()
 {
     _TableIndex = T_SHOWNAME;
-    Reload();
+    GetTable();
 }
 
 CDBShowName::~CDBShowName()
@@ -63,7 +63,7 @@ int  CDBShowName::GetIndexByNO(int NO)
     vector<int>::iterator it;
     int iOffset = 0;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
 
     it = find(_lsNO.begin(), _lsNO.end(), NO);
     while (it != _lsNO.end())
@@ -88,7 +88,7 @@ vector<string> CDBShowName::GetNamesByNOs(string NOs, UINT nLang)
     vector<int>::iterator it;
     int iOffset = 0;
 
-    COMP_BFALSE_R(_ValidDB, lsNames);
+    COMP_BFALSE_R(Valid(), lsNames);
     if (NOs.empty())
         return lsNames;
     CheckLanguage(nLang);
@@ -123,7 +123,7 @@ vector<string> CDBShowName::GetNamesByIndexs(string indexs)
     vector<int> lsIndex;
     vector<int>::iterator it;
 
-    COMP_BFALSE_R(_ValidDB, lsNames);
+    COMP_BFALSE_R(Valid(), lsNames);
     if (indexs.empty())
         return lsNames;
 
@@ -156,7 +156,7 @@ vector<int> CDBShowName::GetIndexsByNOs(string NOs)
     vector<int>::iterator it;
     int iOffset = 0;
 
-    COMP_BFALSE_R(_ValidDB, lsIndexs);
+    COMP_BFALSE_R(Valid(), lsIndexs);
     if (NOs.empty())
         return lsIndexs;
 
@@ -191,7 +191,7 @@ int CDBShowName::GetNOByName(string Name, int& Index)
 
     Index = -1;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
     if (Name.empty())
         return DB_INVALID_VAL;
 
@@ -251,7 +251,7 @@ int CDBShowName::UpdateShowName(int NO, string Name)
     string sql;
     string xxx;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
+    COMP_BFALSE_R(Valid(), FALSE);
     if (Name.empty())
         return DB_INVALID_VAL;
     iNO = GetNOByName(Name, Index);

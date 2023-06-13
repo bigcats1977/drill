@@ -5,7 +5,7 @@ CDBValTorque::CDBValTorque()
 {
     _TableIndex = T_VALTORQUE;
 
-    Reload();
+    GetTable();
 }
 
 CDBValTorque::~CDBValTorque()
@@ -90,7 +90,7 @@ int CDBValTorque::QueryIDByInfo(CONTROLPARA* ptCtrl)
     int  autoindex = 0;
     int i = 0;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
     ASSERT_NULL_R(ptCtrl, DB_INVALID_VAL);
 
     // GET torque value by fix tubing parameter
@@ -124,7 +124,7 @@ int CDBValTorque::GetIndexByInfo(CONTROLPARA* ptCtrl)
     vector<string> strValues;
     int index = DB_INVALID_VAL;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
     ASSERT_NULL_R(ptCtrl, DB_INVALID_VAL);
 
     index = QueryIDByInfo(ptCtrl);

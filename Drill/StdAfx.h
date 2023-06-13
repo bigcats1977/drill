@@ -27,7 +27,7 @@
 #include <afxdlgs.h>
 #include <afxcontrolbars.h>
 #include <afxdisp.h>
-
+#include <afxsock.h>        // MFC socket extensions
 
 #include "Global.h"
 

@@ -5,16 +5,16 @@
 CDBBase::CDBBase()
 {
     _Sqlite = &theDB.m_tSqlite;
-    if (!theDB.m_bValidDBFile)
+    /*if (!theDB.m_bValidDBFile)
     {
-        _ValidDB = false;
+        Valid() = false;
         return;
-    }
+    }*/
     _CurLang = &g_tGlbCfg.nLangType;
-    _ValidDB = true;
+    /*Valid() = true;*/
     //_Update = TRUE;
 
-    Reload();
+    GetTable();
 }
 
 CDBBase::~CDBBase()
@@ -24,12 +24,14 @@ CDBBase::~CDBBase()
 
 void CDBBase::Empty()
 {
-    _Count = -1;
+    _Count = 0;
 }
 
 void CDBBase::GetTable()
 {
-    COMP_BFALSE(_ValidDB);
+    _Count = 0;
+    //Valid() = false;
+    //COMP_BFALSE(Valid());
 }
 
 void CDBBase::Reload()
@@ -44,7 +46,7 @@ void CDBBase::Reload()
 
 bool CDBBase::Valid()
 {
-    return (_Count >= 0);
+    return (_Count > 0);
 }
 
 

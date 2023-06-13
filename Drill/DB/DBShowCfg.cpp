@@ -4,7 +4,7 @@ CDBShowCfg::CDBShowCfg()
 {
     _TableIndex = T_SHOWCFG;
 
-    Reload();
+    GetTable();
 }
 
 CDBShowCfg::~CDBShowCfg()
@@ -87,7 +87,7 @@ bool CDBShowCfg::UpdateShowCfg(SHOWCFG* ptShow)
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     ASSERT_NULL_R(ptShow, false);
 
     condition = "LangType=" + to_string(*_CurLang);
@@ -132,7 +132,7 @@ bool CDBShowCfg::UpdateAlias(UINT Alias)
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
 
     condition = "LangType=" + to_string(*_CurLang);
 

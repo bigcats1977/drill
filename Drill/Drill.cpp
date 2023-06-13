@@ -6,7 +6,6 @@
 #include "DrillDlg.h"
 #include "Winver.h"
 #include "Windows.h"
-#include "math.h"
 #include "excel.h"
 #include "lodepng.h"
 #include "CrashHandler.h"
@@ -203,9 +202,35 @@ void CDrillApp::InitServerPara(SERVERCFG* ptCfg)
 
     ptCfg->strFTPAddr = LoadstringFromRes(IDS_STRSERVFTPADDR);// "kt888.synology.me";
     ptCfg->nFTPPort = stoi(LoadstringFromRes(IDS_STRSERVFTPPORT)); // 21;
-    ptCfg->strUserName = LoadstringFromRes(IDS_STRSERVUSERNAME); // "zsg";
-    ptCfg->strPassword = LoadstringFromRes(IDS_STRSERVPASSWORD); // "123456";
+    ptCfg->strUserName = LoadstringFromRes(IDS_STRSERVUSERNAME); // "ftpupload";
+    ptCfg->strPassword = LoadstringFromRes(IDS_STRSERVPASSWORD); // "FTP@upload2";
     ptCfg->strTargetPath = LoadstringFromRes(IDS_STRSERVTARGETPATH); // "/homes/ftpupload/";
+}
+
+void CDrillApp::InitWITSPara(WITSCFG* ptCfg)
+{
+    ASSERT_NULL(ptCfg);
+    vector<int> showParas = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };    //{ 1, 3, 4, 6, 14 };
+    vector<int> showItems = { 8016,8031,8012,8018,8032,8021,8033,8034,8035,8036,8037,8038,8039,8017,8040 }; // { 8016, 8012, 8018, 8021, 8017 };
+    vector<int> fixItems;
+    vector<int> repeatItems;
+    vector<int> calItems;
+
+    ptCfg->nTCPPort = stoi(LoadstringFromRes(IDS_STRSERVTCPPORT)); // 9600;
+    ptCfg->ShowParas = showParas;
+    ptCfg->ShowItems = showItems;
+
+    fixItems.resize(WITSRPT_FIXHEADNUM);
+    std::iota(fixItems.begin(), fixItems.end(), 8001);
+    ptCfg->FixItems = fixItems;
+
+    repeatItems.resize(WITSRPT_REPEATNUM);
+    std::iota(repeatItems.begin(), repeatItems.end(), 8051);
+    ptCfg->RepeatItems = repeatItems;
+
+    calItems.resize(WITSRPT_CALPARANUM);
+    std::iota(calItems.begin(), calItems.end(), 8024);
+    ptCfg->CalItems = calItems;
 }
 
 BOOL CDrillApp::LoadLanguageDll(UINT nLang, BOOL bUpdate)
@@ -240,6 +265,127 @@ void CDrillApp::InitArray()
     m_strDbgHead[3] = _T("#INF ");
     m_strDbgHead[4] = _T("@SND ");
     m_strDbgHead[5] = _T("@RCV ");
+    m_strDbgHead[6] = _T("@TCP ");
+}
+
+void CDrillApp::InitTCPServer()
+{
+    string strInfo;
+    if (mi_Socket.GetSocketCount())
+    {
+        CloseSockets();
+    }
+
+    //u32_BindIP = 0          -- > listen on all network adapters
+    DWORD u32_EventTimeout = (PROCESS_EVENTS_IN_GUI_THREAD) ? 50 : INFINITE;
+    DWORD u32_Err = mi_Socket.Listen(0, m_tWITSCfg.nTCPPort, u32_EventTimeout, MAX_SERVER_IDLE_TIME);
+    if (u32_Err)
+    {
+        strInfo = string_format("Listen Error %s", mi_Socket.GetErrMsg(u32_Err));
+        SaveTCPData(strInfo);
+        CloseSockets();
+        return;
+    }
+
+    // runs until an error occurred or all sockets have closed
+#if PROCESS_EVENTS_IN_GUI_THREAD
+    ProcessEvents();
+#else
+    DWORD u32_ID;
+    mh_Thread = ::CreateThread(0, 0, ProcessEventThread, this, 0, &u32_ID);
+#endif
+}
+
+ULONG WINAPI CDrillApp::ProcessEventThread(void* p_Param)
+{
+    CDrillApp* p_This = (CDrillApp*)p_Param;
+    p_This->ProcessEvents();
+    CloseHandle(p_This->mh_Thread);
+    return 0;
+}
+
+// Process all events which occur on one of the open sockets
+void CDrillApp::ProcessEvents()
+{
+    while (TRUE) // Loop runs until the main window was closed or a severe error occurred
+    {
+#if PROCESS_EVENTS_IN_GUI_THREAD
+        PumpMessages();
+#endif
+
+        TCP::cSocket::cMemory* pi_RecvMem;
+        SOCKET  h_Socket;
+        DWORD u32_Event, u32_IP, u32_Read, u32_Sent;
+        DWORD u32_Err = mi_Socket.ProcessEvents(&u32_Event, &u32_IP, &h_Socket, &pi_RecvMem, &u32_Read, &u32_Sent);
+        string strInfo;
+
+        if (u32_Err == ERROR_TIMEOUT) // 50 ms interval has elapsed
+            continue;
+
+        CString s_Msg, s_Events;
+        if (u32_Event) // ATTENTION: u32_Event may be == 0 -> do nothing.
+        {
+            char s8_Events[200];
+            mi_Socket.FormatEvents(u32_Event, s8_Events);
+            s_Events += s8_Events;
+
+            if (u32_Event & FD_READ)  s_Msg.Format(_T(" %d Bytes received."), u32_Read);
+            if (u32_Event & FD_WRITE) s_Msg.Format(_T(" %d Bytes sent"), u32_Sent);
+            
+            strInfo = s_Events.GetBuffer(0);
+            strInfo += s_Msg.GetBuffer(0);
+            SaveTCPData(strInfo);
+            //Print(s_Events + s_Msg);
+
+            if (u32_Event & FD_READ && pi_RecvMem) // pi_RecvMem may be NULL if an error occurred!!
+            {
+                ProcessReceivedDataNormal(pi_RecvMem);
+                /*switch (me_DemoMode)
+                {
+                case E_NORMAL:   ProcessReceivedDataNormal(pi_RecvMem); break;
+                case E_PREFIXED: ProcessReceivedDataPrefix(pi_RecvMem); break;
+                case E_TELNET:   ProcessReceivedDataTelnet(pi_RecvMem); break;
+                }*/
+            }
+        }
+
+        // It is NOT necessary to update the Combobox after FD_READ or FD_WRITE
+        //mb_RefreshCombo |= (u32_Event & (FD_ACCEPT | FD_CONNECT | FD_CLOSE) || u32_Err);
+        if (u32_Err)
+        {
+            // mi_Socket.Close() has been called -> don't print this error message
+            if (u32_Err == WSAENOTCONN)
+                break;
+
+            // Print all the other error messages
+            strInfo = string_format("ProcessEvent Error %s\r\n", mi_Socket.GetErrMsg(u32_Err));
+            SaveTCPData(strInfo);
+
+            // An error normally means that the socket has a problem -> abort the loop.
+            // A few errors should not abort the processing:
+            if (u32_Err != WSAECONNABORTED && // e.g. after the other side was killed in TaskManager 
+                u32_Err != WSAECONNRESET && // Connection reset by peer.
+                u32_Err != WSAECONNREFUSED && // FD_ACCEPT with already 62 clients connected
+                u32_Err != WSAESHUTDOWN)      // Sending data to a socket just in the short timespan 
+                break;                        //   between shutdown() and closesocket()
+        }
+    }; // end loop
+
+    CloseSockets();
+
+    SaveTCPData(_T("Stop Listening.\r\n"));
+}
+
+void CDrillApp::ProcessReceivedDataNormal(TCP::cSocket::cMemory* pi_RecvMem)
+{
+    char* s8_Buf = pi_RecvMem->GetBuffer();
+    DWORD u32_Len = pi_RecvMem->GetLength();
+
+    string s_String = string_format("Received: '%s'", s8_Buf);
+    SaveTCPData(s_String);
+
+    // Delete all received data from the receive memory
+    pi_RecvMem->DeleteLeft(u32_Len);
 }
 
 BOOL CDrillApp::InitInstance()
@@ -323,7 +469,7 @@ BOOL CDrillApp::InitInstance()
        /*  符号分析命令
            !analyze -v */
 
-           //这里得到的是程序当前路径
+    //这里得到的是程序当前路径
     InitSysPath();
 
     /* 打开OrgFile*/
@@ -338,9 +484,9 @@ BOOL CDrillApp::InitInstance()
         theApp.SaveMessage("InitConfigFromDB fail!! Using Default Config.");
         InitDefaultConfig(initStep);
     }
-	
-	//g_tGlbCfg.nTest = 1;
 
+    // for debug
+    // g_tGlbCfg.nTest = 4;
     /* 初始化数组、变量 */
     InitVariant();
     InitLanguage();
@@ -373,6 +519,8 @@ int CDrillApp::ExitInstance()
     int i = 0;
 
     m_SaveLogFile.Close();
+
+    CloseSockets();
 
     DeleteObject(m_tLineTextFont);
     DeleteObject(m_tRuleHFont);
@@ -455,29 +603,33 @@ void CDrillApp::InitDefaultConfig(int initStep)
     SaveMessage(strInfo);
 
     // global parameter
-    if (initStep & 1)
+    if (initStep & DB_INIT_GLOBAL)
         InitGlobalPara();
 
     // Show parameter
     for (i = 0; i < LANGUAGE_NUM; i++)
     {
-        if (initStep & 2)
+        if (initStep & DB_INIT_SHOW)
             InitShowPara(&m_tShowCfg[i], i);
-        if (initStep & 4)
+        if (initStep & DB_INIT_XLS_STAT)
             InitXlsStatPara(&m_tXlsStatCfg[i]);
     }
 
-    if (initStep & 8)
+    if (initStep & DB_INIT_TORQUE_CFG)
     {
         InitTorqCfgPara(&m_tParaCfg);
     }
-    if (initStep & 16)
+    if (initStep & DB_INIT_VALVE_CFG)
     {
         InitValvePara(&m_tValveCfg);
     }
-    if (initStep & 32)
+    if (initStep & DB_INIT_SERVER_CFG)
     {
         InitServerPara(&m_tServCfg);
+    }
+    if (initStep & DB_INIT_WITS_CFG)
+    {
+        InitWITSPara(&m_tWITSCfg);
     }
 
     return;
@@ -762,7 +914,6 @@ int CDrillApp::GetMainIndexfromData(UINT nNO, TorqData::Torque* ptTorq)
     return -1;
 }
 
-
 string  CDrillApp::GetQualityInfo(TorqData::Torque* ptTorq)
 {
     int     i = 0;
@@ -1010,6 +1161,45 @@ void CDrillApp::SaveStreamData(string strStream)
 
     iLen = sprintf_s(pData, SPRINTFLEN, "%s", strStream.c_str());
     INC_DBG_INFO();
+}
+
+void CDrillApp::SaveTCPData(string strData)
+{
+    int     iLen = 0;
+    char* pData = NULL;
+
+    ASSERT_ZERO(strData.size());
+    COMP_BFALSE(m_bShowCRC);
+
+    /* Send Communication Time */
+    SaveCurTimeAndHead(DBG_SNDTCP);
+
+    strData += "\r\n";
+
+    iLen = (int)strData.size();
+    if (m_tSaveLog.iCur + iLen >= MAXSAVELEN)
+    {
+        SaveLogInfo();
+    }
+
+    memcpy(&m_tSaveLog.aucLog[m_tSaveLog.iCur], (LPCTSTR)strData.c_str(), iLen);
+    m_tSaveLog.iCur += iLen;
+
+    //pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
+
+
+    //m_tSaveLog.iCur += iLen;                                \
+    //    pData += iLen;                                          \
+    //    if (m_tSaveLog.iCur >= MAXSAVELEN) {
+    //        \
+    //            SaveLogInfo();                                      \
+    //            pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];        \
+    //    }
+
+    ///* Save Info */
+    //iLen = sprintf_s(pData, 1024, "%s\r\n", (LPCTSTR)strData.c_str());
+    //INC_DBG_INFO();
+    return;
 }
 
 void CDrillApp::SaveHexData(BYTE* pucRcvByte, WORD wLen)
@@ -1705,6 +1895,32 @@ CString CDrillApp::GetTorqSimpDate(TorqData::Torque* ptTorq, bool bBreakout)
     return olett.Format(_T("%Y-%m-%d"));
 }
 
+/* 2018-03-31 23:25 */
+bool CDrillApp::GetTimeFromString(CString strTime, __time64_t& time)
+{
+    struct tm tmTime = { 0 };
+
+    if (strTime.IsEmpty())
+        return false;
+
+    sscanf_s(strTime, "%4d-%2d-%2d %2d:%2d:%2d",
+        &tmTime.tm_year,
+        &tmTime.tm_mon,
+        &tmTime.tm_mday,
+        &tmTime.tm_hour,
+        &tmTime.tm_min,
+        &tmTime.tm_sec);
+
+    tmTime.tm_year -= 1900;
+    tmTime.tm_mon--;
+    tmTime.tm_isdst = -1;
+    time = mktime(&tmTime);
+
+    /*COleDateTime olett(time);
+    CString temp = olett.Format(_T("%Y-%m-%d %H:%M:%S"));*/
+    return true;
+}
+
 /* 拷贝指定区域到DC的位图中 */
 HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr)
 {
@@ -2084,7 +2300,7 @@ int CDrillApp::SeekTorque(CFile& file, int iDataNum)
 
 int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
 {
-    int     i = 0;
+    int     i = 0, j = 0, skip = 0;
     int     iFileLen = 0;
     char    cTmpRead[MAXSKIPLEN + 1] = { 0 };
 
@@ -2102,7 +2318,17 @@ int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
     {
         if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) == 0)
         {
-            file.Seek(iCurPos + i + PBHEADLEN, CFile::begin);
+            skip = 0;
+            for (j = i + 4; j < MAXSKIPLEN; j += 4)
+            {
+                if (memcmp(&cTmpRead[j], &m_nPBHead, PBHEADLEN) == 0)
+                {
+                    skip = j - i;
+                }
+                else
+                    break;
+            }
+            file.Seek(iCurPos + i + skip + PBHEADLEN, CFile::begin);
             return 0;
         }
     }
@@ -2147,7 +2373,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
 
     COMP_BTRUE_R(strDataName.empty(), FALSE);
 
-    ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeRead | CFile::shareDenyNone), FALSE);
+    ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeReadWrite | CFile::shareDenyNone), FALSE);
 
     //m_strReadFile = strDataName;
     strTitle = file.GetFileTitle();
@@ -2166,22 +2392,12 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         nNum = MAXWELLNUM;
     }
 
-    /* 检查文件是否有头 */
-#if 0
-    g_tReadData.bHaveHead = FALSE;
-    file.Read(cPBHead, PBHEADLEN);
-    file.Seek(sizeof(UINT), CFile::begin);
-    if (memcmp(cPBHead, &m_nPBHead, PBHEADLEN) == 0)
-    {
-        g_tReadData.bHaveHead = TRUE;
-    }
-#endif
     BeginWaitCursor();
 
     for (i = 0; i < (int)nNum; i++)
     {
         iFilePos = (int)file.GetPosition();
-        strInfo.Format(IDS_STRINFTORQDATAERR, strDataName.c_str(), nNum, i-1, file.GetPosition());
+        strInfo.Format(IDS_STRINFTORQDATAERR, strDataName.c_str(), nNum, i, file.GetPosition());
 
         iDataLen = SeekFileLen(file);
         if (iDataLen < 0)
@@ -2717,6 +2933,7 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
     /* 跳到当前数据开始位置，写入更新的数据信息 */
     file.Seek(nCurPos, CFile::begin);
 
+    file.Write(&theApp.m_nPBHead, PBHEADLEN);
     file.Write(&iCurLen, sizeof(UINT));
     file.Write(pcBuff, iCurLen);
 
@@ -3023,4 +3240,51 @@ string CDrillApp::GetFileNameFromPath(string path)
     iPos = path.find_last_of('\\') + 1;
     filename = path.substr(iPos, path.length() - iPos);
     return filename;
+}
+
+int CDrillApp::ReportWITSByTCP(string strData)
+{
+    string strInfo;
+
+    ASSERT_ZERO_R(mi_Socket.GetSocketCount(), -1);
+    ASSERT_ZERO_R(strData.size(), -2);
+
+    mi_Socket.GetAllConnectedSockets(&mi_SocketList);
+    SOCKET h_Socket = mi_SocketList.GetKeyByIndex(0);
+    DWORD u32_Err = mi_Socket.SendTo(h_Socket, (char*)strData.c_str(), strData.size());
+
+    SaveTCPData(strData);
+
+    ASSERT_ZERO_R(u32_Err, 0);
+    switch (u32_Err)
+    {
+    case WSAEWOULDBLOCK:
+        SaveTCPData(_T("WSAEWOULDBLOCK -> The data will be send after the next FD_WRITE event."));
+        return 0;
+
+    case WSA_IO_PENDING:
+        SaveTCPData(_T("WSA_IO_PENDING -> Error: A previous Send operation is still pending. This data will not be sent."));
+        return 0;
+
+    default:
+        strInfo = string_format("-> Error %s", mi_Socket.GetErrMsg(u32_Err));
+        // Severe error -> abort event loop
+        CloseSockets();
+        return u32_Err;
+    };
+
+    return 0;
+}
+
+bool CDrillApp::isTCPConnected()
+{
+    return mi_Socket.GetSocketCount() > 0;
+}
+
+void CDrillApp::CloseSockets()
+{
+    if (mi_Socket.GetSocketCount())
+    {
+        mi_Socket.Close();
+    }
 }

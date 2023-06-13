@@ -4,7 +4,7 @@ CDBTorqueCfg::CDBTorqueCfg()
 {
     _TableIndex = T_TORQUECFG;
 
-    Reload();
+    GetTable();
 }
 
 CDBTorqueCfg::~CDBTorqueCfg()
@@ -82,7 +82,7 @@ bool CDBTorqueCfg::GetParaCfgById(int index, PARACFG* ptCfg, TORQCFGID* ptID)
     vector<int>::iterator it;
     CONTROLPARA* ptCtrl = NULL;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     ASSERT_NULL_R(ptCfg, false);
     ASSERT_NULL_R(ptID, false);
 
@@ -115,7 +115,7 @@ int CDBTorqueCfg::UpdateParaByAlias(PARACFG* ptCfg, TORQCFGID* ptID)
     vector<string> strValues;
     vector<string>::iterator it;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
     ASSERT_NULL_R(ptCfg, DB_INVALID_VAL);
     ASSERT_NULL_R(ptID, DB_INVALID_VAL);
     if (ptCfg->strAlias.size() <= 0)
@@ -204,7 +204,7 @@ bool CDBTorqueCfg::DeleteParaCfgByID(int Index)
 {
     string strCond;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     COMP_BLE_R(Index, 0, false);
 
     strCond = "AutoIndex=" + to_string(Index) + " And LangType = " + to_string(*_CurLang);

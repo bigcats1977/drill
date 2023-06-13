@@ -11,6 +11,7 @@
 #include "DBXlsStatCfg.h"
 #include "DBValveCfg.h"
 #include "DBServerCfg.h"
+#include "DBWITSCfg.h"
 
 class CDBAccess
 {
@@ -24,8 +25,11 @@ public:
     bool    ReadGlobalPara();
     bool    UpdateGlobalPara();
 
-    bool    ReadServerPara(SERVERCFG* ptServer);
-    bool    UpdateServerPara(SERVERCFG* ptServer);
+    bool    ReadServerCfg(SERVERCFG* ptServer);
+    bool    UpdateServerCfg(SERVERCFG* ptServer);
+
+    bool    ReadWITSCfg(WITSCFG* ptWITSCfg);
+    bool    UpdateWITSCfg(WITSCFG* ptWITSCfg);
 
     vector<string> GetNamesByIndexs(string indexs);
 
@@ -35,6 +39,7 @@ public:
     bool    UpdateShowName(SHOWCFG* ptShow);
     vector<string> GetOptionsByIndex(UINT showIndex);
     vector<int> ReadCurOptionIndex(int type = 0);
+    vector<int> ReadCurShowIndex();
     vector<string> ReadOptionsByShowIndex(int index);
 
     bool    ReadTorqCfgPara(int iAlias, PARACFG* ptCfg);
@@ -54,7 +59,7 @@ public:
     bool    UpdateXlsStatPara(XLSSTATCFG* ptStat);
 
     SqliteProc      m_tSqlite;              /* SQLite3 数据库配置文件 */
-    bool            m_bValidDBFile;
+    //bool            m_bValidDBFile;
 
 private:
 
@@ -68,5 +73,6 @@ private:
     CDBXlsStatCfg   m_tDBXlsStatCfg;
     CDBValveCfg     m_tDBValveCfg;
     CDBServerCfg    m_tDBServCfg;
+    CDBWITSCfg      m_tDBWITSCfg;
 };
 

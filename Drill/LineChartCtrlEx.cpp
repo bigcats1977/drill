@@ -614,7 +614,7 @@ void CLineChartCtrlEx::DrawAlarmLine()
     //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
     ShowContent(clrAlarm, y - CONT_YOFFSET,
-        string_format(theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT).c_str(), m_fLowerLimit));
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXLOWLIMIT).c_str(), (int)m_fLowerLimit));
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fUpperLimit) / m_fMaxLimit);
     DrawHLine(y);
@@ -622,7 +622,7 @@ void CLineChartCtrlEx::DrawAlarmLine()
     //strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
     ShowContent(clrAlarm, y - CONT_YOFFSET,
-        string_format(theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT).c_str(), m_fUpperLimit));
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXUPLIMIT).c_str(), (int)m_fUpperLimit));
 #endif
     m_MemDC.SelectObject(pOldPen);
 }

@@ -24,6 +24,7 @@ error include 'stdafx.h' before including this file for PCH
 
 #include "DBAccess.h"
 #include "RegProc.h"
+#include "Socket.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CDrillApp:
@@ -68,6 +69,7 @@ public:
     void    SavePortOper(UINT nPortOpr);
     // 保存字符串数据到log文件
     void    SaveStreamData(string strStream);
+    void    SaveTCPData(string strData);
 
     BOOL    IsDebugInfo(string strContent);
     void    AdjustParaValue(PARACFG* ptCfg); /* 检查参数是否发生变化 */
@@ -137,15 +139,21 @@ public:
     string GetFileNameFromPath(string path);
     void ReloadTorqCfg();
     bool GetProductVersion(CString& strVersion);
+    void InitTCPServer();
+    int  ReportWITSByTCP(string strData);
+    void CloseSockets();
+    bool isTCPConnected();
+    bool GetTimeFromString(CString strTime, __time64_t& time);
 
     PARACFG         m_tParaCfg;
     SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* 显示参数的所有参数设置 */
-    SHOWCFG* m_ptCurShow;
+    SHOWCFG*        m_ptCurShow;
     //DBREG           m_tdbReg;
     CRegProc        m_tReg;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
     VALVECFG        m_tValveCfg;        /* 阀值配置 */
     SERVERCFG       m_tServCfg;
+    WITSCFG         m_tWITSCfg;
     string          m_strDllFile;       /* 动态链接库文件名称 */
     string          m_strAppPath;
     string          m_strRegFile;       /* 保存注册信息的文件，隐藏
@@ -185,6 +193,9 @@ public:
 
     CALIBCTRL       m_tCalibCtrl;           /* 分段校准信息 */
 
+    TCP::cSocket      mi_Socket;
+    HANDLE            mh_Thread;
+    TCP::cSocket::cHash<SOCKET, DWORD> mi_SocketList;
 
     // Overrides
     // ClassWizard generated virtual function overrides
@@ -193,6 +204,8 @@ public:
     virtual BOOL InitInstance();
     virtual int ExitInstance();
     //}}AFX_VIRTUAL
+    static ULONG WINAPI ProcessEventThread(void* p_Param);
+    void    ProcessEvents();
 
 // Implementation
 
@@ -230,6 +243,7 @@ private:
     void InitXlsStatPara(XLSSTATCFG* ptStat);
     void InitValvePara(VALVECFG* ptCfg);
     void InitServerPara(SERVERCFG* ptCfg);
+    void InitWITSPara(WITSCFG* ptCfg);
 
     void AdjustTorquePara(CONTROLPARA* ptCtrl);
     void AdjustCircuitPara(CONTROLPARA* ptCtrl);
@@ -243,6 +257,7 @@ private:
     void AutoupdateLogFile();
 
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
+    void ProcessReceivedDataNormal(TCP::cSocket::cMemory* pi_RecvMem);
 
     /* 找不到MAC时的默认MAC */
     BYTE     m_ucDefaultMac[5];

@@ -1,11 +1,10 @@
-#include <afxwin.h>
 #pragma once
+#include <afxwin.h>
 class CColorRadio : public CButton
 {
 public:
     CColorRadio();
     ~CColorRadio();
-
 
     COLORREF m_ForeColor;
     COLORREF m_BackColor;

@@ -19,7 +19,7 @@ public:
 protected:
     UINT        _TableIndex;
 
-    bool        _ValidDB;
+    //bool        Valid();
     SqliteProc* _Sqlite;
     UINT* _CurLang;
 

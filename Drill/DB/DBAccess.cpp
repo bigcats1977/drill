@@ -17,7 +17,6 @@ CDBAccess::~CDBAccess()
 bool CDBAccess::InitDBHandle()
 {
     string  strInfo;
-    COMP_BFALSE_R(m_bValidDBFile, false);
 
     try {
         m_tDBGlbCfg = CDBGlbCfg();
@@ -31,6 +30,7 @@ bool CDBAccess::InitDBHandle()
         m_tDBXlsStatCfg = CDBXlsStatCfg();
         m_tDBValveCfg = CDBValveCfg();
         m_tDBServCfg = CDBServerCfg();
+        m_tDBWITSCfg = CDBWITSCfg();
     }
     catch (exception& e)
     {
@@ -48,8 +48,6 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
     string strDbFile;
     string strPW;
 
-    m_bValidDBFile = false;
-
     strDbFile = theApp.m_strAppPath + SQLITEFILE;
     strPW = theApp.LoadstringFromRes(IDS_STRDBPASSWORD);
     theApp.SaveMessage(strDbFile.c_str());
@@ -61,18 +59,17 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
         return false;
     }
 
-    m_bValidDBFile = true;
     if (!InitDBHandle())
     {
         theApp.SaveMessage("InitDBHandle fail!!");
         return false;
     }
 
-    initstep = 0;
+    initstep = DB_INIT_SUCCESS;
     // global parameter
     if (!ReadGlobalPara())
     {
-        initstep |= 1;
+        initstep |= DB_INIT_GLOBAL;
         theApp.SaveMessage("ReadGlobalPara fail!!");
         //return false;
     }
@@ -82,7 +79,7 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
         // Show parameter
         if (!ReadShowPara(&theApp.m_tShowCfg[i], i))
         {
-            initstep |= 2;
+            initstep |= DB_INIT_SHOW;
             theApp.SaveMessage("ReadShowPara fail!!");
             //return false;
         }
@@ -90,7 +87,7 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
         // excel statastic config
         if (!ReadXlsStatPara(&theApp.m_tXlsStatCfg[i], i))
         {
-            initstep |= 4;
+            initstep |= DB_INIT_XLS_STAT;
             theApp.SaveMessage("ReadXlsStatPara fail!!");
             // return false;
         }
@@ -99,25 +96,31 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
     // Torque&Turn parameter
     if (!ReadTorqCfgPara(theApp.m_tShowCfg[g_tGlbCfg.nLangType].nAlias, &theApp.m_tParaCfg))
     {
-        initstep |= 8;
+        initstep |= DB_INIT_TORQUE_CFG;
         theApp.SaveMessage("ReadTorqCfgPara fail!!");
         // return false;
     }
 
     if (!ReadValvePara(&theApp.m_tValveCfg))
     {
-        initstep |= 16;
+        initstep |= DB_INIT_VALVE_CFG;
         theApp.SaveMessage("ReadValvePara fail!!");
         //return false;
     }
 
-    if (!ReadServerPara(&theApp.m_tServCfg))
+    if (!ReadServerCfg(&theApp.m_tServCfg))
     {
-        initstep |= 32;
-        theApp.SaveMessage("ReadServerPara fail!!");
+        initstep |= DB_INIT_SERVER_CFG;
+        theApp.SaveMessage("ReadServerCfg fail!!");
     }
 
-    if (initstep != 0)
+    if (!ReadWITSCfg(&theApp.m_tWITSCfg))
+    {
+        initstep |= DB_INIT_WITS_CFG;
+        theApp.SaveMessage("ReadWITSCfg fail!!");
+    }
+
+    if (initstep != DB_INIT_SUCCESS)
         return false;
 
     /* 系统参数路径，写死，不存储 */
@@ -127,7 +130,7 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
 
 bool CDBAccess::ReadGlobalPara()
 {
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBGlbCfg.Valid(), false);
 
     g_tGlbCfg.nLangType = m_tDBGlbCfg._LangType;
     if (g_tGlbCfg.nLangType >= LANGUAGE_NUM)
@@ -156,7 +159,6 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.nZoomIn = m_tDBGlbCfg._ZoomIn;
     g_tGlbCfg.nImgNum = m_tDBGlbCfg._ImgNum;
     //g_tGlbCfg.nTest = m_tDBGlbCfg._Test;
-    //g_tGlbCfg.iBreakOut = m_tDBGlbCfg._BreakOut;
 
     g_tGlbCfg.fDiscount = m_tDBGlbCfg._Discount;
     g_tGlbCfg.fMulti = m_tDBGlbCfg._Multi;
@@ -168,7 +170,6 @@ bool CDBAccess::ReadGlobalPara()
     g_tGlbCfg.bDateBehind = m_tDBGlbCfg._DateBehind;
 
     g_tGlbCfg.strPassWord = m_tDBGlbCfg._Password;
-    //g_tGlbCfg.strBreakOutFile = m_tDBGlbCfg._BreakOutFile;
     g_tGlbCfg.strDataPath = m_tDBGlbCfg._DataPath;
 
     return true;
@@ -176,7 +177,7 @@ bool CDBAccess::ReadGlobalPara()
 
 bool CDBAccess::UpdateGlobalPara()
 {
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBGlbCfg.Valid(), false);
 
     CHECK_PARA_ROUND(g_tGlbCfg.nLangType, LANGUAGE_CHINESE, LANGUAGE_NUM, LANGUAGE_CHINESE);
     CHECK_PARA_ROUND(g_tGlbCfg.fDiscount, 0.5, 2.0, 1.0);
@@ -189,10 +190,10 @@ bool CDBAccess::UpdateGlobalPara()
     return true;
 }
 
-bool CDBAccess::ReadServerPara(SERVERCFG* ptServer)
+bool CDBAccess::ReadServerCfg(SERVERCFG* ptServer)
 {
     ASSERT_NULL_R(ptServer, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBServCfg.Valid(), false);
 
     ptServer->strFTPAddr = m_tDBServCfg._FTPAddr;
     ptServer->nFTPPort = m_tDBServCfg._FTPPort;
@@ -203,10 +204,10 @@ bool CDBAccess::ReadServerPara(SERVERCFG* ptServer)
     return true;
 }
 
-bool CDBAccess::UpdateServerPara(SERVERCFG* ptServer)
+bool CDBAccess::UpdateServerCfg(SERVERCFG* ptServer)
 {
     ASSERT_NULL_R(ptServer, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBServCfg.Valid(), false);
 
     if (!m_tDBServCfg.UpdateServerCfg(ptServer))
         return false;
@@ -214,11 +215,42 @@ bool CDBAccess::UpdateServerPara(SERVERCFG* ptServer)
     return true;
 }
 
+bool CDBAccess::ReadWITSCfg(WITSCFG* ptWITSCfg)
+{
+    ASSERT_NULL_R(ptWITSCfg, false);
+    COMP_BFALSE_R(m_tDBWITSCfg.Valid(), false);
+
+    COMP_BNE_R(m_tDBWITSCfg._FixItems.size(), WITSRPT_FIXHEADNUM, false);
+    COMP_BNE_R(m_tDBWITSCfg._RepeatItems.size(), WITSRPT_REPEATNUM, false);
+    COMP_BNE_R(m_tDBWITSCfg._CalItems.size(), WITSRPT_CALPARANUM, false);
+    COMP_BNE_R(m_tDBWITSCfg._ShowParas.size(), m_tDBWITSCfg._ShowItems.size(), false);
+
+    ptWITSCfg->nTCPPort = m_tDBWITSCfg._TCPPort;
+    ptWITSCfg->ShowParas = m_tDBWITSCfg._ShowParas;
+    ptWITSCfg->FixItems = m_tDBWITSCfg._FixItems;
+    ptWITSCfg->RepeatItems = m_tDBWITSCfg._RepeatItems;
+    ptWITSCfg->CalItems = m_tDBWITSCfg._CalItems;
+    ptWITSCfg->ShowItems = m_tDBWITSCfg._ShowItems;
+
+    return true;
+}
+
+bool CDBAccess::UpdateWITSCfg(WITSCFG* ptWITSCfg)
+{
+    ASSERT_NULL_R(ptWITSCfg, false);
+    COMP_BFALSE_R(m_tDBWITSCfg.Valid(), false);
+
+    if (!m_tDBWITSCfg.UpdateWITSCfg(ptWITSCfg))
+        return false;
+    m_tDBWITSCfg.Reload();
+    return true;
+}
+
 vector<string> CDBAccess::GetNamesByIndexs(string indexs)
 {
     vector<string> lsNames;
 
-    COMP_BFALSE_R(m_bValidDBFile, lsNames);
+    COMP_BFALSE_R(m_tDBShowName.Valid(), lsNames);
     return m_tDBShowName.GetNamesByIndexs(indexs);
 }
 
@@ -231,7 +263,7 @@ bool CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
     UINT    i = 0;
 
     ASSERT_NULL_R(ptShow, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBShowCfg.Valid(), false);
     COMP_BLE_R(m_tDBShowCfg._lsParaNum.size(), 0, false);
 
     CheckLanguage(nLang);
@@ -264,7 +296,7 @@ bool CDBAccess::ReadShowPara(SHOWCFG* ptShow, UINT nLang)
 bool CDBAccess::UpdateShowAlias(SHOWCFG* ptShow, UINT Alias)
 {
     ASSERT_NULL_R(ptShow, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBShowCfg.Valid(), false);
 
     if (!m_tDBShowCfg.UpdateAlias(Alias))
     {
@@ -280,7 +312,7 @@ bool CDBAccess::UpdateShowAlias(SHOWCFG* ptShow, UINT Alias)
 bool CDBAccess::UpdateShowPara(SHOWCFG* ptShow)
 {
     ASSERT_NULL_R(ptShow, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBShowCfg.Valid(), false);
 
     if (!m_tDBShowCfg.UpdateShowCfg(ptShow))
         return false;
@@ -297,7 +329,7 @@ bool CDBAccess::UpdateShowName(SHOWCFG* ptShow)
     int index = 0;
 
     ASSERT_NULL_R(ptShow, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBShowName.Valid(), false);
 
     // update show name
     for (i = 0; i < MAXPARANUM; i++)
@@ -318,7 +350,7 @@ bool CDBAccess::UpdateShowName(SHOWCFG* ptShow)
 vector<string> CDBAccess::GetOptionsByIndex(UINT showIndex)
 {
     vector<string> lsOptions;
-    COMP_BFALSE_R(m_bValidDBFile, lsOptions);
+    COMP_BFALSE_R(m_tDBShowOpt.Valid(), lsOptions);
     return m_tDBShowOpt.GetOptionsByNameIndex(showIndex);
 }
 
@@ -327,7 +359,7 @@ vector<int> CDBAccess::ReadCurOptionIndex(int type)
     size_t i = 0;
     vector<int> lsIndexs;
     vector<int> lsOpt;
-    COMP_BFALSE_R(m_bValidDBFile, lsIndexs);
+    COMP_BFALSE_R(m_tDBShowCfg.Valid(), lsIndexs);
 
     lsOpt = GetIDFromList(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
     if (lsOpt.size() <= 0)
@@ -338,9 +370,9 @@ vector<int> CDBAccess::ReadCurOptionIndex(int type)
         return lsOpt;
         break;
 
-        //case 1: //listno
-        //    lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
-        //    break;
+    //case 1: //listno
+    //    lsIndexs = GetIDFromList(m_tDBShowCfg._lsListNO[g_tGlbCfg.nLangType]);
+    //    break;
 
     case 1: //mainno
         lsIndexs = GetIDFromList(m_tDBShowCfg._lsMainNO[g_tGlbCfg.nLangType]);
@@ -353,17 +385,29 @@ vector<int> CDBAccess::ReadCurOptionIndex(int type)
     return lsIndexs;
 }
 
+vector<int> CDBAccess::ReadCurShowIndex()
+{
+    vector<int> lsIndexs;
+    COMP_BFALSE_R(m_tDBShowCfg.Valid(), lsIndexs);
+
+    if (m_tDBShowCfg._lsShowPara.size() > 0)
+        lsIndexs = GetIDFromList(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
+    //lsIndexs = m_tDBShowName.GetIndexsByNOs(m_tDBShowCfg._lsShowPara[g_tGlbCfg.nLangType]);
+
+    return lsIndexs;
+}
+
 vector<string> CDBAccess::ReadOptionsByShowIndex(int index)
 {
     vector<string> lsOptions;
-    COMP_BFALSE_R(m_bValidDBFile, lsOptions);
+    COMP_BFALSE_R(m_tDBShowOpt.Valid(), lsOptions);
     return m_tDBShowOpt.GetOptionsByNameIndex(index);
 }
 
 bool  CDBAccess::ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang)
 {
     ASSERT_NULL_R(ptStat, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBXlsStatCfg.Valid(), false);
 
     return m_tDBXlsStatCfg.GetInfoByLang(ptStat, nLang);
 }
@@ -371,7 +415,7 @@ bool  CDBAccess::ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang)
 bool CDBAccess::UpdateXlsStatPara(XLSSTATCFG* ptStat)
 {
     ASSERT_NULL_R(ptStat, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBXlsStatCfg.Valid(), false);
     if (!m_tDBXlsStatCfg.UpdateInfo(ptStat))
         return false;
 
@@ -385,7 +429,10 @@ bool CDBAccess::ReadTorqCfgPara(int iAlias, PARACFG* ptCfg)
     TORQCFGID  tCfgID = { 0 };
 
     ASSERT_NULL_R(ptCfg, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBTorqueCfg.Valid(), false);
+    COMP_BFALSE_R(m_tDBValTorque.Valid(), false);
+    COMP_BFALSE_R(m_tDBValTurn.Valid(), false);
+    COMP_BFALSE_R(m_tDBShowOpt.Valid(), false);
     COMP_BLE_R(iAlias, 0, false);
 
     theApp.ClearTorqCfgPara(ptCfg);
@@ -403,7 +450,7 @@ int CDBAccess::ReadTorqCfgPara(string sAlias, PARACFG* ptCfg)
     int index = 0;
 
     ASSERT_NULL_R(ptCfg, DB_INVALID_VAL);
-    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
+    COMP_BFALSE_R(m_tDBTorqueCfg.Valid(), DB_INVALID_VAL);
 
     index = m_tDBTorqueCfg.GetIndexByAlias(sAlias);
     COMP_BLE_R(index, 0, index);
@@ -417,7 +464,7 @@ bool CDBAccess::DeleteAlias(string sAlias)
 {
     int index = 0;
 
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBTorqueCfg.Valid(), false);
 
     index = m_tDBTorqueCfg.GetIndexByAlias(sAlias);
     COMP_BLE_R(index, 0, false);
@@ -437,7 +484,10 @@ int CDBAccess::UpdateTorqCfgPara(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     ASSERT_NULL_R(ptCfg, DB_INVALID_VAL);
     ASSERT_NULL_R(ptShow, DB_INVALID_VAL);
-    COMP_BFALSE_R(m_bValidDBFile, DB_INVALID_VAL);
+    COMP_BFALSE_R(m_tDBValTorque.Valid(), DB_INVALID_VAL);
+    COMP_BFALSE_R(m_tDBValTurn.Valid(), DB_INVALID_VAL);
+    COMP_BFALSE_R(m_tDBShowOpt.Valid(), DB_INVALID_VAL);
+    COMP_BFALSE_R(m_tDBTorqueCfg.Valid(), DB_INVALID_VAL);
 
     // torque config
     tCfgID.nTorqueID = m_tDBValTorque.GetIndexByInfo(&ptCfg->tCtrl);
@@ -469,7 +519,7 @@ vector<string> CDBAccess::ReadAllAlias()
     size_t i = 0;
     vector<string> strAlias;
 
-    COMP_BFALSE_R(m_bValidDBFile, strAlias);
+    COMP_BFALSE_R(m_tDBTorqueCfg.Valid(), strAlias);
 
     if (m_tDBTorqueCfg._lsAlias.size() <= 0)
         return strAlias;
@@ -487,7 +537,7 @@ vector<string> CDBAccess::ReadAllAlias()
 bool CDBAccess::ReadValvePara(VALVECFG* ptCfg)
 {
     ASSERT_NULL_R(ptCfg, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBValveCfg.Valid(), false);
 
     COMP_BFALSE_R(m_tDBValveCfg.GetGlbCfg(ptCfg), false);
 
@@ -497,7 +547,7 @@ bool CDBAccess::ReadValvePara(VALVECFG* ptCfg)
 bool CDBAccess::UpdateValvePara(VALVECFG* ptCfg)
 {
     ASSERT_NULL_R(ptCfg, false);
-    COMP_BFALSE_R(m_bValidDBFile, false);
+    COMP_BFALSE_R(m_tDBValveCfg.Valid(), false);
 
     if (!m_tDBValveCfg.UpdateGlbCfg(ptCfg))
         return false;

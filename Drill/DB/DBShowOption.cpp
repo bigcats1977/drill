@@ -4,7 +4,7 @@ CDBShowOption::CDBShowOption()
 {
     _TableIndex = T_SHOWOPTION;
 
-    Reload();
+    GetTable();
 }
 
 CDBShowOption::~CDBShowOption()
@@ -106,7 +106,7 @@ string CDBShowOption::GetOptionByNO(int NO)
 {
     vector<int>::iterator it;
 
-    COMP_BFALSE_R(_ValidDB, NULLSTR);
+    COMP_BFALSE_R(Valid(), NULLSTR);
     COMP_BL_R(NO, 0, NULLSTR);
 
     it = find(_lsNO.begin(), _lsNO.end(), NO);
@@ -126,7 +126,7 @@ vector<string> CDBShowOption::GetOptionsByNOs(string NOs)
     char delimiter = ',';
     vector<int>::iterator it;
 
-    COMP_BFALSE_R(_ValidDB, lsOptions);
+    COMP_BFALSE_R(Valid(), lsOptions);
     if (NOs.empty())
         return lsOptions;
 
@@ -156,7 +156,7 @@ bool CDBShowOption::GetOptionsByNOS(string NOs, string Values[])
     char delimiter = ',';
     vector<int>::iterator it;
 
-    COMP_BFALSE_R(_ValidDB, false);
+    COMP_BFALSE_R(Valid(), false);
     if (NOs.empty())
         return false;
 
@@ -239,7 +239,7 @@ string CDBShowOption::GetNOsByOptions(UINT* NameID, string* Values)
     int i = 0;
     string ValIndexs;
 
-    COMP_BFALSE_R(_ValidDB, ValIndexs);
+    COMP_BFALSE_R(Valid(), ValIndexs);
     ASSERT_NULL_R(NameID, ValIndexs);
     ASSERT_NULL_R(Values, ValIndexs);
 

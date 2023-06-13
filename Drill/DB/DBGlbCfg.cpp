@@ -3,7 +3,7 @@
 CDBGlbCfg::CDBGlbCfg()
 {
     _TableIndex = T_GLBCFG;
-    Reload();
+    GetTable();
 }
 
 CDBGlbCfg::~CDBGlbCfg()
@@ -25,7 +25,6 @@ void CDBGlbCfg::Empty()
     _ZoomIn = 5;
     _ImgNum = 8;
     //_Test = 0;
-    //_BreakOut = 0;
 
     _Discount = 1;
     _Multi = 1;
@@ -37,7 +36,6 @@ void CDBGlbCfg::Empty()
     _DateBehind = false;
 
     _Password.clear();
-    //_BreakOutFile.clear();
     _DataPath.clear();
 }
 
@@ -71,7 +69,6 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _ZoomIn);
     _Sqlite->GetValue(pResult[nIndex++], _ImgNum);
     //_Sqlite->GetValue(pResult[nIndex++], _Test);
-    //_Sqlite->GetValue(pResult[nIndex++], _BreakOut);
 
     _Sqlite->GetValue(pResult[nIndex++], _Discount);
     _Sqlite->GetValue(pResult[nIndex++], _Multi);
@@ -83,7 +80,6 @@ void CDBGlbCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _DateBehind);
 
     _Sqlite->GetValue(pResult[nIndex++], _Password);
-    //_Sqlite->GetValue(pResult[nIndex++], _BreakOutFile);
     _Sqlite->GetValue(pResult[nIndex++], _DataPath);
 
     _Sqlite->FreeResult(&pResult);
@@ -95,7 +91,7 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG* ptfg)
     vector<string> fields;
     vector<string> values;
 
-    COMP_BFALSE_R(_ValidDB, FALSE);
+    COMP_BFALSE_R(Valid(), FALSE);
     ASSERT_NULL_R(ptfg, FALSE);
 
     fields.push_back("LangType");
@@ -122,8 +118,6 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG* ptfg)
     values.push_back(to_string(ptfg->nImgNum));
     /*fields.push_back("Test");
     values.push_back(to_string(ptfg->nTest));*/
-    /*fields.push_back("BreakOut");
-    values.push_back(to_string(ptfg->iBreakOut));*/
 
     fields.push_back("Discount");
     values.push_back(to_string(ptfg->fDiscount));
@@ -143,8 +137,6 @@ BOOL CDBGlbCfg::UpdateGlbCfg(GLBCFG* ptfg)
 
     fields.push_back("Password");
     values.push_back(ptfg->strPassWord);
-    /*fields.push_back("BreakOutFile");
-    values.push_back(ptfg->strBreakOutFile);*/
     fields.push_back("DataPath");
     values.push_back(ptfg->strDataPath);
 

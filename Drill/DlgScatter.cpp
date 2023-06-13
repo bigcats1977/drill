@@ -157,8 +157,7 @@ string CDlgScatter::SaveScatterImg(void)
     int         iWidth = 0;
     int         iHeight = 0;
 
-    // strFileName = theApp.GetSaveDataPath() + "Scatter.png";
-    strFileName = theApp.m_strDataPath + "Scatter.png";
+    strFileName = theApp.m_strDataPath + "Scatter.png";//  theApp.GetSaveDataPath() + "Scatter.png";
 
     GetClientRect(&rcClt);
     iWidth = rcClt.Width();

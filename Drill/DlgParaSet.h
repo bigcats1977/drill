@@ -7,7 +7,7 @@
 // DlgParaSet.h : header file
 //
 
-#include "afxwin.h"
+//#include "afxwin.h"
 #include "ColorComboBox.h"
 #include "NumEdit.h"
 #include "ColorRadio.h"

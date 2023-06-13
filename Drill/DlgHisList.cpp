@@ -104,10 +104,10 @@ BOOL CDlgHisList::OnInitDialog()
     /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));*/
-        /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
-                       int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                       int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                       int(2*m_iWidth));*/
+    /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
+                   int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
+                   int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
+                   int(2*m_iWidth));*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
@@ -1550,7 +1550,7 @@ void CDlgHisList::FillReportData(int& iRow, TorqData::Torque* ptHeadTorq)
         if (NULL == ptTorq)
             continue;
 
-        /*if(0 != strType.CompareNoCase(theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBETYPE)))
+        /*if (0 != strType.CompareNoCase(theApp.GetTorqShowValue(ptTorq, SHOWPARA_TUBETYPE)))
             continue;*/
 
         iCol = 2;

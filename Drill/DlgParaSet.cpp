@@ -398,41 +398,41 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     case IDC_EDITSHOWTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
         break;
-        /*case IDC_EDITUPPERTORQ:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
-            break;*/
+    /*case IDC_EDITUPPERTORQ:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]);
+        break;*/
     case IDC_EDITCONTROLTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_CONTROL]);
         break;
     case IDC_EDITOPTTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL]);
         break;
-        /*case IDC_EDITLOWERTORQ:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
-            break;*/
+    /*case IDC_EDITLOWERTORQ:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]);
+        break;*/
     case IDC_EDITMAXTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
         break;
-        /*case IDC_EDITUPPERTAI:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]);
-            break;
-        case IDC_EDITSPEEDTORQ:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
-            break;
-        case IDC_EDITLOWERTAI:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]);
-            break;
-        case IDC_EDITMINSHLSLOPE:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fMinShlSlope);
-            break;
-        case IDC_EDITMAXDELTACIR:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]);
-            break;
-        case IDC_EDITMINDELTACIR:
-            JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
-            break;*/
+    /*case IDC_EDITUPPERTAI:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]);
+        break;
+    case IDC_EDITSPEEDTORQ:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]);
+        break;
+    case IDC_EDITLOWERTAI:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]);
+        break;
+    case IDC_EDITMINSHLSLOPE:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fMinShlSlope);
+        break;
+    case IDC_EDITMAXDELTACIR:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MAXDELTA]);
+        break;
+    case IDC_EDITMINDELTACIR:
+        JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
+        break;*/
 
-            // 扭拧周数
+        // 扭拧周数
     case IDC_EDITUPPERCIR:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
         break;
@@ -540,14 +540,6 @@ void CDlgParaSet::OnCbnKillfocusCbpara16()
 {
     JudgeShowParaChanged(15);
 }
-//void CDlgParaSet::OnCbnKillfocusCbpara17()
-//{
-//    JudgeShowParaChanged(16);
-//}
-//void CDlgParaSet::OnCbnKillfocusCbpara18()
-//{
-//    JudgeShowParaChanged(17);
-//}
 
 /* 20210419 最大，最小是最佳的1.1    0.9倍，满屏是1.3倍，修改最佳扭矩后默认值 */
 void CDlgParaSet::OnKillfocusEditopttorq()

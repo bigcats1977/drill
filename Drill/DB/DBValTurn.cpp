@@ -4,7 +4,7 @@ CDBValTurn::CDBValTurn()
 {
     _TableIndex = T_VALTURN;
 
-    Reload();
+    GetTable();
 }
 
 CDBValTurn::~CDBValTurn()
@@ -89,7 +89,7 @@ int CDBValTurn::QueryIDByInfo(CONTROLPARA* ptCtrl)
     int   i = 0;
     int Autoindex = 0;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
     ASSERT_NULL_R(ptCtrl, DB_INVALID_VAL);
 
     // GET Turn value by fix tubing parameter
@@ -123,7 +123,7 @@ int CDBValTurn::GetIndexByInfo(CONTROLPARA* ptCtrl)
     vector<string> strValues;
     int index = 0;
 
-    COMP_BFALSE_R(_ValidDB, DB_INVALID_VAL);
+    COMP_BFALSE_R(Valid(), DB_INVALID_VAL);
     ASSERT_NULL_R(ptCtrl, DB_INVALID_VAL);
 
     index = QueryIDByInfo(ptCtrl);

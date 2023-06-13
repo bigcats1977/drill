@@ -23,7 +23,6 @@ CDlgRemark::CDlgRemark(CWnd* pParent /*=NULL*/)
     //}}AFX_DATA_INIT
 }
 
-
 void CDlgRemark::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
@@ -161,13 +160,11 @@ void CDlgRemark::OnBnClickedRadionoquality()
     SetRejCause();
 }
 
-
 void CDlgRemark::OnBnClickedRadioquality()
 {
     m_iQuality = QUA_RESU_GOOD;
     SetRejCause();
 }
-
 
 void CDlgRemark::OnCbnSelchangeComboremark()
 {

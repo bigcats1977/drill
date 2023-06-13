@@ -14,7 +14,7 @@
 
 #include "MySheet.h"
 #include "HighResTimer.h"
-#include "afxwin.h"
+//#include "afxwin.h"
 
 #include "serialport.h"
 
@@ -166,6 +166,7 @@ protected:
     afx_msg void OnUpdateVerUnitLbft(CCmdUI* pCmdUI);
     afx_msg void OnModpw();
     afx_msg void OnValveset();
+    afx_msg void OnWITSCfg();
     afx_msg void OnBnClickedSettoolbuck();
     afx_msg void OnBnClickedBtnquality();
     //afx_msg void OnBnClickedBtnBreakoutFile();
@@ -181,6 +182,7 @@ protected:
     afx_msg LRESULT SaveDebugTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT ALarmPlayTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT WITSReportTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
@@ -212,6 +214,7 @@ private:
     static void HRTSaveDebug(CWnd* pUser); /* 定时保存CRC错误和调试信息定时器 */
     static void HRTPlayAlarm(CWnd* pUser); /* 告警音播放定时器 */
     static void HRTReadValve(CWnd* pUser); /* 读取阀门状态定时器 */
+    static void HRTWITSReport(CWnd* pUser);  /*TCP定时上报WITS数据定时器Timer8到时 */
     BOOL Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
     BOOL Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
     BOOL Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
@@ -264,6 +267,9 @@ private:
     void   CanModLastData(BOOL bCan);
     void   CheckBreakOut();
     bool   ZoomData(double* pData, UINT nOldCount, UINT nNewCount);
+    void   RecordReportData();
+    void   ReportWITSStart();
+    void   ReportWITSEnd();
 
     CLineChartCtrlEx m_wndTorque;       /*扭矩显示界面*/
     CLineChartCtrl   m_wndRpm;          /*转速显示界面*/
@@ -299,7 +305,9 @@ private:
     double      m_fMaxTorq;
     COLLECTTORQUE   m_tCollData;        /* 当前的扭矩结构数据，可以超过正常图形4倍 */
     PORTDATA* m_ptPortData;
-    TorqData::Torque   m_tSaveData;     /* 从collectData获取最后MAXPOINT保存到saveData */
+    TorqData::Torque m_tSaveData;       /* 从collectData获取最后MAXPOINT保存到saveData */
+    WITSCFG* m_ptWITS;
+    WITSRPTDATA m_tWITSRptData;         /* TCP 定时上报WITS数据 */
 
     /* 高精度定时器 */
     CHighResTimer   m_hrtReadPort;      /* 串口定时器 */
@@ -309,6 +317,7 @@ private:
     CHighResTimer   m_hrtSaveDebug;     /* 定时保存CRC错误和调试信息定时器 */
     CHighResTimer   m_hrtPlayAlarm;     /* 放告警音定时器 */
     CHighResTimer   m_hrtReadValve;     /* 读取阀门状态 */
+    CHighResTimer   m_hrtWITSReport;    /* TCP定时上报WITS数据 */
     double          m_fPreReadTime;     /* 上一次读取数据时间ms */
     /* 延迟1s结束，避免状态3后扭矩继续冲高 */
     UINT            m_nDelayCount;
