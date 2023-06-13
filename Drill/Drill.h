@@ -125,6 +125,7 @@ public:
     CString GetTorqShowValue(TorqData::Torque* ptTorq, int iIndex);
     // nType 1:MakeUP, 2: BreakOut, 3: All
     DRAWTORQDATA* GetDrawDataFromTorq(UINT nNO, UINT nMulti = 1, UINT nType = 3);
+    DRAWTORQDATA* GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nMulti = 1, UINT nType = 3);
     TorqData::Torque* GetOrgTorqFromTorq(UINT nNO);
     //string  GetListShowName(SHOWCFG* ptShow, UINT NO);
     string  GetMainShowName(SHOWCFG* ptShow, UINT NO);

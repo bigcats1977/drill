@@ -33,6 +33,8 @@
 #define IDD_DLGXLSSTATSET               142
 #define IDD_DLGSEGCALIB                 143
 #define IDD_DLGGLBCFG                   145
+#define IDD_DLGSERVCFG                  146
+#define IDD_DLGWITSCFG                  147
 #define IDI_ADJUST                      150
 #define IDI_ALARMB                      151
 #define IDI_ALARME                      152
@@ -73,7 +75,6 @@
 #define IDB_ANGLE                       192
 #define IDB_KONG                        193
 #define IDB_HUI                         194
-#define IDD_DLGSERVCFG                  196
 #define IDC_REGEDIT                     1000
 #define IDC_REGNAME                     1001
 #define IDC_MACHINE                     1002
@@ -596,7 +597,6 @@
 #define IDC_BTNCALIBIMP                 2161
 #define IDC_RADIOCABMAKEUP              2162
 #define IDC_RADIOCABBREAKOUT            2163
-#define IDC_DELTUBEKIND                 2231
 #define IDC_COMBOPORT                   2250
 #define IDC_COMBOIMGNUM                 2251
 #define IDC_EDITPLUS                    2252
@@ -613,6 +613,52 @@
 #define IDC_EDITFPASSWORD               2304
 #define IDC_EDITROOTPATH                2305
 #define IDC_EDITFTPADDR                 2306
+#define IDTCPSTART                      2351
+#define IDTCPSTOP                       2352
+#define IDTCPTEST                       2353
+#define IDC_HOSTIP                      2354
+#define IDC_EDITTCPPORT                 2355
+#define IDC_EDITWITSDATE                2356
+#define IDC_EDITWITSTIME                2357
+#define IDC_EDITWITSSEQNO               2358
+#define IDC_EDITWITSCTRLTORQ            2359
+#define IDC_EDITWITSIPTORQ              2360
+#define IDC_EDITWITSDELTATORQ           2361
+#define IDC_EDITWITSIPRATIO             2362
+#define IDC_EDITWITSIPDURATION          2363
+#define IDC_EDITWITSTORQ                2364
+#define IDC_EDITWITSTURN                2365
+#define IDC_EDITWITSDURATION            2366
+#define IDC_CHECKWITS01                 2371
+#define IDC_CHECKWITS02                 2372
+#define IDC_CHECKWITS03                 2373
+#define IDC_CHECKWITS04                 2374
+#define IDC_CHECKWITS05                 2375
+#define IDC_CHECKWITS06                 2376
+#define IDC_CHECKWITS07                 2377
+#define IDC_CHECKWITS08                 2378
+#define IDC_CHECKWITS09                 2379
+#define IDC_CHECKWITS10                 2380
+#define IDC_CHECKWITS11                 2381
+#define IDC_CHECKWITS12                 2382
+#define IDC_CHECKWITS13                 2383
+#define IDC_CHECKWITS14                 2384
+#define IDC_CHECKWITS15                 2385
+#define IDC_EDITWITSPARA01              2391
+#define IDC_EDITWITSPARA02              2392
+#define IDC_EDITWITSPARA03              2393
+#define IDC_EDITWITSPARA04              2394
+#define IDC_EDITWITSPARA05              2395
+#define IDC_EDITWITSPARA06              2396
+#define IDC_EDITWITSPARA07              2397
+#define IDC_EDITWITSPARA08              2398
+#define IDC_EDITWITSPARA09              2399
+#define IDC_EDITWITSPARA10              2400
+#define IDC_EDITWITSPARA11              2401
+#define IDC_EDITWITSPARA12              2402
+#define IDC_EDITWITSPARA13              2403
+#define IDC_EDITWITSPARA14              2404
+#define IDC_EDITWITSPARA15              2405
 #define ID_SETPARA                      32770
 #define ID_ABOUT                        32771
 #define ID_DEBUG                        32772
@@ -636,8 +682,9 @@
 #define ID_VER_UNIT_NM                  32794
 #define ID_VER_UNIT_LBFT                32795
 #define ID_SEGCALIB                     32796
-#define ID_TUBECFG                      32799
-#define ID_GLBCFG                       32800
+#define ID_TUBECFG                      32797
+#define ID_GLBCFG                       32798
+#define ID_WITSCFG                      32799
 #define IDS_STRTITLE                    50000
 #define IDS_STRTRYOUT                   50001
 #define IDS_STRBIGTITLE                 50002
@@ -909,6 +956,7 @@
 #define IDS_STRINFRUNNGLBCFG            52312
 #define IDS_STRINFRUNNCHGUNIT           52313
 #define IDS_STRINFRUNNVALVEPARA         52314
+#define IDS_STRINFRUNNWITSCFG           52315
 #define IDS_STRINFCOLOVERFLOW           52400
 #define IDS_STRINFREADDATAERR           52401
 #define IDS_STRINFQUALOPTM              52402
@@ -999,9 +1047,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        198
-#define _APS_NEXT_COMMAND_VALUE         32801
-#define _APS_NEXT_CONTROL_VALUE         2307
+#define _APS_NEXT_RESOURCE_VALUE        195
+#define _APS_NEXT_COMMAND_VALUE         32800
+#define _APS_NEXT_CONTROL_VALUE         2410
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

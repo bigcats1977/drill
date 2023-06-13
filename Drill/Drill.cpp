@@ -492,6 +492,7 @@ BOOL CDrillApp::InitInstance()
     InitLanguage();
     SetRegistryKey(_T("zsg Applications"));
 
+    InitTCPServer();
 
     CDrillDlg dlg;
     m_pMainWnd = &dlg;
@@ -2757,17 +2758,24 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
     return true;
 }
 
-/*  nNO 从0开始计数
-    iMulti在放大时使用 */
 DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, UINT nMulti, UINT nType)
 {
-    TorqData::Torque* ptOrg = NULL;
-    DRAWTORQDATA* ptDraw = NULL;
-
     COMP_BGE_R(nNO, g_tReadData.nTotal, NULL);
     COMP_BGE_R(nNO, MAXWELLNUM, NULL);
 
-    ptOrg = &g_tReadData.tData[nNO];
+    TorqData::Torque* ptOrg = &g_tReadData.tData[nNO];
+    ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
+
+    return GetDrawDataFromTorq(ptOrg, nMulti, nType);
+}
+
+/*  nNO 从0开始计数
+    iMulti在放大时使用 */
+DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nMulti, UINT nType)
+{
+    DRAWTORQDATA* ptDraw = NULL;
+
+    ASSERT_NULL_R(ptOrg, NULL);
     ASSERT_ZERO_R(ptOrg->ftorque_size(), NULL);
 
     ptDraw = &m_tCurDrawTorq;
