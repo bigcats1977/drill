@@ -52,6 +52,7 @@ CDataModApp theApp;
 
 void CDataModApp::InitVariant()
 {
+    // test user name
     g_tReadData.nCur = 0;
     m_nPBHead = htonl(PBHEAD);
     m_strTallyName = DEFTALLYNAME;
