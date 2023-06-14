@@ -64,9 +64,10 @@ public:
     void    SetDataPlace(UINT nCur);
 
 private:
-    VOID    ShowHisTorqList();
-    VOID    GetPrintDlg();
+    void    ShowHisTorqList();
+    void    GetPrintDlg();
     UINT    GetSelectItem();
+    void    UpdateTorqNum();
     void    WriteCoverSheet();
     void    WriteSummarySheet();
     void    WriteQualitySheet();
@@ -91,7 +92,7 @@ private:
     void    FillReportData(int& iRow, TorqData::Torque* ptHeadTorq);
     bool    GetDepthInfo(vector<int>& SeqNO, vector<string>& Depth);
 
-    UINT    m_nMaxShowNum;
+    //UINT    m_nMaxShowNum;
     int     m_iWidth;
     string  m_strFixHead;
     UINT    m_nSelItem[MAXWELLNUM];     /* 记录选定的记录的序号 */

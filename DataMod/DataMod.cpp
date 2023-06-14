@@ -50,6 +50,15 @@ CDataModApp theApp;
 /////////////////////////////////////////////////////////////////////////////
 // CDataModApp initialization
 
+void CDataModApp::InitVariant()
+{
+    g_tReadData.nCur = 0;
+    m_nPBHead = htonl(PBHEAD);
+    m_strTallyName = DEFTALLYNAME;
+
+    InitGlobalPara();
+}
+
 BOOL CDataModApp::InitInstance()
 {
     string  strFont;
@@ -65,14 +74,13 @@ BOOL CDataModApp::InitInstance()
     float dpiY = (float)GetDeviceCaps(hdcScreen, LOGPIXELSY) / 96;
 
     ScaleY = (ScaleY > dpiY) ? ScaleY : dpiY;
-    m_ucDPILevel = (BYTE)(ScaleY * 4 + 0.5);
+    m_ucDPILevel = (BYTE)ceil(ScaleY * 4);// + 0.5);
     m_nPBHead = htonl(PBHEAD);
 
     m_nScreenX = GetSystemMetrics(SM_CXFULLSCREEN);
     m_nScreenY = GetSystemMetrics(SM_CYFULLSCREEN);
 
     strFont = _T("Times New Roman");
-    //int fontx = 5 * m_ucDPILevel/4 ;
     int fonty = -12 * m_ucDPILevel / 4;
     m_tLineTextFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
         OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
@@ -88,19 +96,17 @@ BOOL CDataModApp::InitInstance()
     m_tRuleVFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
         OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
         VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
-    //strFont.Empty();
-    m_strTallyName = DEFTALLYNAME;
-    //m_strWellName.Empty();
 
-    //GetCtrlManager().InstallHook();//启用CCoolControlsManager
-    //CoInitialize(NULL);
-
-    g_tReadData.nCur = 0;
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     // Standard initialization
     // If you are not using these features and wish to reduce the size
     //  of your final executable, you should remove from the following
     //  the specific initialization routines you do not need.
+
+    /* 初始化数组、变量 */
+    InitVariant();
+
     CDataModDlg dlg;
     m_pMainWnd = &dlg;
     INT_PTR nResponse = dlg.DoModal();
@@ -130,6 +136,32 @@ int CDataModApp::ExitInstance()
     google::protobuf::ShutdownProtobufLibrary();
 
     return CWinApp::ExitInstance();
+}
+
+void CDataModApp::InitGlobalPara()
+{
+    g_tGlbCfg.nLangType = LANGUAGE_CHINESE;
+    g_tGlbCfg.nPortNO = 1;
+    g_tGlbCfg.nPlusPerTurn = 4500;
+    g_tGlbCfg.nTorqUnit = 0;
+    g_tGlbCfg.nCollectDur = 100;
+    g_tGlbCfg.nResetDur = 10000;
+    g_tGlbCfg.nSaveDur = 30000;
+    g_tGlbCfg.nZoomIn = 5;
+    g_tGlbCfg.nImgNum = 8;
+    g_tGlbCfg.nTest = 0;
+
+    g_tGlbCfg.fDiscount = 1;
+    g_tGlbCfg.fMulti = 1;
+    g_tGlbCfg.fRpmAdj = 3.5;
+
+    g_tGlbCfg.bBigTorq = false;
+    g_tGlbCfg.bDateBehind = false;
+
+    g_tGlbCfg.strPassWord = _T("Ktwh888");
+    g_tGlbCfg.strDataPath = NULLSTR;
+
+    g_tGlbCfg.strUnit = string_format("N%sm", BIGPOINT);
 }
 
 int CDataModApp::GetMainIndexfromData(TorqData::Torque* ptTorq)
@@ -162,7 +194,6 @@ string  CDataModApp::GetQualityInfo(TorqData::Torque* ptTorq)
     dwQuality = GetQuality(ptTorq);
     if (dwQuality & QUA_RESU_QUALITYBIT)
     {
-        //strQuality.Format(IDS_STRMARKQUALITY);
         strQuality = LoadstringFromRes(IDS_STRMARKQUALITY);
     }
     else
@@ -275,8 +306,8 @@ DWORD CDataModApp::JudgeQuality(TorqData::Torque* ptTorq, int iShackle)
     return dwQuality;
 }
 
-/* 超过控制扭矩的15%再平移周数超过0.2 */
-BOOL CDataModApp::JudgeTranslate(TorqData::Torque* ptTorq)
+/* 超过控制扭矩的15%再平移周数超过0.25 */
+bool CDataModApp::JudgeTranslate(TorqData::Torque* ptTorq)
 {
     int     i = 0;
     int     iTranCount = 1;
@@ -284,10 +315,10 @@ BOOL CDataModApp::JudgeTranslate(TorqData::Torque* ptTorq)
     double  fTemp;
     int     iCount = 0;
 
-    ASSERT_NULL_R(ptTorq, TRUE);
-    ASSERT_ZERO_R(ptTorq->dwmucount(), TRUE);
+    ASSERT_NULL_R(ptTorq, true);
+    ASSERT_ZERO_R(ptTorq->dwmucount(), true);
 
-    iTranCount = (int)ceil((0.2 / ptTorq->fmaxcir()) * 500);
+    iTranCount = (int)ceil((0.25 / ptTorq->fmaxcir()) * MAXLINEITEM);
     fCtrlTorq = ptTorq->fmumaxtorq();
 
     for (i = ptTorq->dwmucount() - 1; i > iTranCount; i--)
@@ -302,10 +333,10 @@ BOOL CDataModApp::JudgeTranslate(TorqData::Torque* ptTorq)
         else
             iCount = 0;
 
-        COMP_BGE_R(iCount, iTranCount, TRUE);
+        COMP_BGE_R(iCount, iTranCount, true);
     }
 
-    return FALSE;
+    return false;
 }
 
 CString CDataModApp::GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout)
@@ -459,7 +490,7 @@ BOOL CDataModApp::ReadHisTorqFromFile(string strDataName, TORQUEDATA* pAllData)
 }
 
 /* 读取新版本历史的扭矩数据文件
-   一次最多读取MAXWELLNUM 2000条 */
+   一次最多读取MAXWELLNUM 5000条 */
 BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
 {
     CFile   file;
@@ -484,7 +515,7 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
 
     COMP_BTRUE_R(strDataName.empty(), FALSE);
 
-    ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeRead | CFile::shareDenyNone), FALSE);
+    ASSERT_ZERO_R(file.Open(strDataName.c_str(), CFile::modeReadWrite | CFile::shareDenyNone), FALSE);
 
     if (NULL == pAllData)
         pAllData = &g_tReadData;
@@ -543,6 +574,13 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
             pAllData->nTotalPlus[nValid] += ptTorq->dwboplus();
         if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
         {
+            double maxcir = pAllData->nTotalPlus[nValid] / ptTorq->fplus();
+            // 20230503 最大周数比实际周数小(没有动态更新周数或者更新失败)时，重新设置最大周数，保证一屏能显示全部数据
+            if (maxcir > ptTorq->fmaxcir() * AUTOUPDTURNRATIO)
+            {
+                maxcir = (int)ceil(maxcir / AUTOUPDTURNRATIO);
+                ptTorq->set_fmaxcir(maxcir);
+            }
             iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
@@ -888,23 +926,19 @@ void CDataModApp::UpdateDelplus(TorqData::Torque* ptTorq, int index, UINT nDelpl
 
 BOOL CDataModApp::CheckPassWord()
 {
-    CString         strCompPW;
-    CString         strSupPW;
+    string          strSupPW;
     CDlgPassword    dlgPW;
-
-    return TRUE;
 
     if (IDOK != dlgPW.DoModal())
     {
         return FALSE;
     }
 
-    strCompPW.Format(IDS_STRDEFAULTPW);
-    strSupPW.Format(IDS_STRSUPPORPW);
-    if (0 != strCompPW.Compare(dlgPW.m_strPassword) &&
-        0 != strSupPW.Compare(dlgPW.m_strPassword))
+    strSupPW = LoadstringFromRes(IDS_STRSUPPORPW);
+    if (0 != dlgPW.m_strPassword.Compare(g_tGlbCfg.strPassWord.c_str()) &&
+        0 != dlgPW.m_strPassword.Compare(strSupPW.c_str()))
     {
-        AfxMessageBox(IDS_STRERRORPW);
+        AfxMessageBox(LoadstringFromRes(IDS_STRERRORPW).c_str());
         return FALSE;
     }
 
@@ -922,48 +956,48 @@ string CDataModApp::LoadstringFromRes(unsigned string_ID)
     return string(buffer, bytes_copied);
 }
 
-string CDataModApp::LoadstringFromRes(unsigned string_ID, int val)
-{
-    char buffer[MAX_LOADSTRING];
-    LoadString(NULL, string_ID, buffer, MAX_LOADSTRING);
-    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
-
-    return string(buffer);
-}
-
-string CDataModApp::LoadstringFromRes(unsigned string_ID, double val)
-{
-    char buffer[MAX_LOADSTRING];
-    LoadString(NULL, string_ID, buffer, MAX_LOADSTRING);
-    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
-
-    return string(buffer);
-}
-
-string CDataModApp::LoadstringFromRes(unsigned string_ID, string val)
-{
-    string buffer1;
-    char buffer2[MAX_LOADSTRING];
-    buffer1 = LoadstringFromRes(string_ID);
-    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-    snprintf(buffer2, MAX_LOADSTRING, buffer1.c_str(), val.c_str());
-
-    return string(buffer2);
-}
+//string CDataModApp::LoadstringFromRes(unsigned string_ID, int val)
+//{
+//    char buffer[MAX_LOADSTRING];
+//    LoadString(NULL, string_ID, buffer, MAX_LOADSTRING);
+//    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
+//
+//    return string(buffer);
+//}
+//
+//string CDataModApp::LoadstringFromRes(unsigned string_ID, double val)
+//{
+//    char buffer[MAX_LOADSTRING];
+//    LoadString(NULL, string_ID, buffer, MAX_LOADSTRING);
+//    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
+//
+//    return string(buffer);
+//}
+//
+//string CDataModApp::LoadstringFromRes(unsigned string_ID, string val)
+//{
+//    string buffer1;
+//    char buffer2[MAX_LOADSTRING];
+//    buffer1 = LoadstringFromRes(string_ID);
+//    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
+//    snprintf(buffer2, MAX_LOADSTRING, buffer1.c_str(), val.c_str());
+//
+//    return string(buffer2);
+//}
 
 /*
     nDataPlace: form 1 开始
     -1表示最后一个数据
 */
-void CDataModApp::UpdateHisData(CString filename, int iDataPlace, TorqData::Torque* ptTorq)
+void CDataModApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* ptTorq)
 {
     int     i = 0;
-    UINT    nCurPos = 0;    /* 当前数据位置 */
-    UINT    nNextPos = 0;    /* 下一个数据的位置 */
+    UINT    nCurPos = 0;        /* 当前数据位置 */
+    UINT    nNextPos = 0;       /* 下一个数据的位置 */
     UINT    nLastPos = 0;
-    int     iLeft = 0;    /* 当前数据后的数据大小 */
-    size_t  iCurLen = 0;    /* 当前数据的总长度 */
-    UINT    iDataLen = 0;    /* 数据的总长度 */
+    int     iLeft = 0;          /* 当前数据后的数据大小 */
+    size_t  iCurLen = 0;        /* 当前数据的总长度 */
+    UINT    iDataLen = 0;       /* 数据的总长度 */
     UINT    nTotal = 0;
     CFile   file;
     BYTE* pBuffer = NULL;
@@ -985,7 +1019,7 @@ void CDataModApp::UpdateHisData(CString filename, int iDataPlace, TorqData::Torq
     }
 
     /* write to file */
-    ASSERT_ZERO(file.Open(filename, CFile::modeReadWrite | CFile::shareDenyNone, NULL));
+    ASSERT_ZERO(file.Open(strName.c_str(), CFile::modeReadWrite | CFile::shareDenyNone, NULL));
 
     /* 跳过文件的数据总条数 */
     file.Read(&nTotal, sizeof(UINT));

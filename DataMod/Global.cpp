@@ -4,21 +4,16 @@
 const string  g_tTableName[MAXTABLENUM] = {
     "D_Language",
     "T_ShowName",
-    "T_TubeFactory",
-    "T_TubeOEM",
-    "T_TubeSize",
-    "T_TubeMater",
-    "T_TubeCoupl",
     "T_GlbCfg",
     "T_ShowCfg",
     "T_ShowOption",
-    "T_TubeCfg",
     "T_ValTorque",
     "T_ValTurn",
     "T_TorqueCfg",
     "T_XlsStatCfg",
     "T_ValveCfg",
     "T_ServerCfg",
+    "T_WITSCfg",
 };
 
 /* 默认显示参数名称，没有数据库时使用这些名称 */
@@ -622,6 +617,7 @@ const string  g_strPortOpr[PORTOPR_MAXNUM] = {
 /* 读取的历史保存的扭矩控制数据，包括文件名称，数据个数等信息 */
 TORQUEDATA      g_tReadData;
 TORQUEDATA      g_tReadData2;   // 其他文件的原始数据
+GLBCFG          g_tGlbCfg = { 0 };
 
 string GetCurTime()
 {
@@ -633,6 +629,17 @@ string GetCurTime()
     strftime(buff, 20, "%Y-%m-%d %H:%M:%S", &local);
 
     return string(buff);
+}
+
+string GetListFromVector(vector<int> array)
+{
+    string lsIDs;
+    string delimiter = ",";
+
+    for (size_t i = 0; i < array.size(); i++)
+        lsIDs += to_string(array[i]) + delimiter;
+
+    return lsIDs;
 }
 
 string GetListFromArray(BOOL* parray, int num)

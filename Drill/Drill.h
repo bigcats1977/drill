@@ -19,9 +19,6 @@ error include 'stdafx.h' before including this file for PCH
 
 #include "resource.h"       // main symbols
 
-//#include "odbcinst.h"
-//#include "Mylistctrl.h"
-
 #include "DBAccess.h"
 #include "RegProc.h"
 #include "Socket.h"
@@ -223,13 +220,7 @@ private:
     void CreateNewWellFile();
     BOOL GetTorqDataFromFile(string strDataName);
     BOOL ReCalTallyNO(string strDataName);
-    void ClearReadTorq();
-
-    /* 将列表内容导出到excle表格中 */
-    /*BOOL CheckExcelDriver(CString& strDriver);
-    void ExportListToExcel(CString strSheetName, CDatabase* ptDb, CListCtrl* ptlistData);
-    BOOL GetDefaultXlsFileName(CString sDefTitle, CString& sExcelFile);
-    BOOL MakeSurePathExists(CString& Path, bool FilenameIncluded);*/
+    void ClearReadTorq(TORQUEDATA* pAllData);
 
     void InitArray();
     void InitVariant();

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <numeric>
 #include <time.h> 
 #include <afxdb.h>
 #include <io.h>
@@ -34,6 +35,7 @@ using namespace std;
 #define WM_SAVEDEBUGTIMEROUT    WM_USER + 5007
 #define WM_ALARMPLAYTIMEROUT    WM_USER + 5008
 #define WM_READVALVETIMEROUT    WM_USER + 5009
+#define WM_WITSRPTTIMEROUT      WM_USER + 5010
 
 #define WM_RE_READDATA          WM_USER + 5021
 
@@ -57,6 +59,8 @@ using namespace std;
 #define PORTBUFF_TIMER          7       // 485串口保护定时器，上位机发送命令前，如果串口有数据，定时保护
                                     // 单片机发送完成后，再发送命令
 #define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
+#define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
+#define WITSRPT_TLEN            1000    // 1s上报一组数据
 #define COLLECT_TIMER           10      // 收集单片机数据定时器
 #define COLLECT_TLEN            1000    // 收集单片机数据定时时长 //2000
 #define WNDSHOW_TIMER           11      // 帮助旋转显示定时器
@@ -132,12 +136,13 @@ using namespace std;
 
 #define PORTBUFF                108
 
-/* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据*/
+/* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
 #define COLL_PORT               0
 #define COLL_RAND               1
 #define COLL_TORQUE             2
 #define COLL_MULTITORQ          3
-#define COLL_HISTORY            4
+#define COLL_RECOVERY           4
+#define COLL_HISTORY            5   // no used in glbcfg
 
 /* 全0的读取串口原始数据
     0x21,0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x22,0x00,0x00,0x08
@@ -232,8 +237,9 @@ using namespace std;
 /* 串口测试打开，值为 m_nTestFunc+1 */
 #define RS_COMM_RAND            2       /* COLL_RAND+1 */
 #define RS_COMM_TORQUE          3       /* COLL_TORQUE+1 */
-#define RS_COMM_HISTORY         4       /* COLL_HISTORY+1 */
-#define RS_COMM_MULTITORQ       5       /* COLL_MULTITORQ+1 */
+#define RS_COMM_MULTITORQ       4       /* COLL_MULTITORQ+1 */
+#define RS_COMM_RECOVERY        5       /* COLL_RECOVERY+1 */
+#define RS_COMM_HISTORY         6       /* COLL_HISTORY+1 */
 /* #define COLL_RAND           1
    #define COLL_TORQUE         2
    #define COLL_HISTORY        3
@@ -256,7 +262,7 @@ using namespace std;
 #define DIFF_CIRCUIT            0.1
 #define DIFF_TIME               1
 #define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
-#define AUTOUPDTURNRATIO        0.9     // 超过90%(450)点自动增加周数
+#define AUTOUPDTURNRATIO        0.8     // 超过80%(400)点自动增加周数
 
 #define IP_SLOPE_PER            1       /* 默认拐点百分比 */
 
@@ -395,15 +401,13 @@ using namespace std;
 #define DBG_MESSAGE                 3   /* MessageBox显示信息 */
 #define DBG_SNDCMD                  4   /* 发送串口请求 */
 #define DBG_RCVCOM                  5   /* 接收串口消息 */
-#define DBG_MAXNUM                  (DBG_RCVCOM+1)
+#define DBG_SNDTCP                  6   /* 发送TCP消息 */
+#define DBG_MAXNUM                  (DBG_SNDTCP+1)
 /* 调试信息头的长度固定为4 */
 #define DBG_HEADLEN                 5
 #pragma endregion
 
 #pragma region MAX RANGE
-#define     SHOWPARANAMELEN     25
-#define     MAXPARALEN          200
-#define     HALFPARALEN         50
 
 #define     MAXPWLEN            32
 #define     MAXSKIPLEN          64  /* 总共跳64个字节 */
@@ -452,25 +456,32 @@ using namespace std;
 /* 定义程序的状态 */
 #define D_LANGUAGE              0   /* 语言字典表 */
 #define T_SHOWNAME              1   /* 显示参数名称表 */
-#define T_TUBEFACTORY           2   /* 厂家名称表 */
-#define T_TUBEOEM               3   /* 管件名称表 */
-#define T_TUBESIZE              4   /* 管件规格表 */
-#define T_TUBEMATER             5   /* 材质钢级表 */
-#define T_TUBECOUPL             6   /* 接箍规格表 */
-#define T_GLBCFG                7   /* 全局配置表 */
-#define T_SHOWCFG               8   /* 显示参数配置表 */
-#define T_SHOWOPTION            9   /* 显示参数选项表 */
-#define T_TUBECFG               10  /* 系统管材配置表 */
-#define T_VALTORQUE             11  /* 扭矩控制值配置表 */
-#define T_VALTURN               12  /* 周数控制值配置表 */
-#define T_TORQUECFG             13  /* 程序参数值配置表 */
-#define T_XLSSTATCFG            14  /* 导出excel统计配置表 */
-#define T_VALVECFG              15  /* 比例阀配置表 */
-#define T_SERVERCFG             16  /* FTP服务器配置表 */
-#define MAXTABLENUM             (T_SERVERCFG +1)
+#define T_GLBCFG                2   /* 全局配置表 */
+#define T_SHOWCFG               3   /* 显示参数配置表 */
+#define T_SHOWOPTION            4   /* 显示参数选项表 */
+#define T_VALTORQUE             5   /* 扭矩控制值配置表 */
+#define T_VALTURN               6   /* 周数控制值配置表 */
+#define T_TORQUECFG             7   /* 程序参数值配置表 */
+#define T_XLSSTATCFG            8   /* 导出excel统计配置表 */
+#define T_VALVECFG              9   /* 比例阀配置表 */
+#define T_SERVERCFG             10  /* FTP服务器配置表 */
+#define T_WITSCFG               11  /* WITS(TCP)配置表 */
+#define MAXTABLENUM             (T_WITSCFG +1)
 
 #define DB_INVALID_VAL          -1
 #define DB_INVALID_UINT         2147483647
+
+#define DB_INIT_SUCCESS         0x0000
+#define DB_INIT_GLOBAL          0x0001
+#define DB_INIT_SHOW            0x0002
+#define DB_INIT_XLS_STAT        0x0004
+#define DB_INIT_TORQUE_CFG      0x0008
+#define DB_INIT_TUBING_INFO     0x0010
+#define DB_INIT_TUBING_CFG      0x0020
+#define DB_INIT_VALVE_CFG       0x0040
+#define DB_INIT_SERVER_CFG      0x0080
+#define DB_INIT_REJECT_CAUSE    0x0100
+#define DB_INIT_WITS_CFG        0x0200
 #pragma endregion
 
 #pragma region SHOW PARAMETER
@@ -519,8 +530,8 @@ using namespace std;
 #define         COUPPARA_HYDTONG        225 /* 液压钳 */
 #define         COUPPARA_OEM            226 /* 厂家 */
 #endif
-//#define       HALFPARALEN             25
-//#define       MAXPARALEN              50
+#define         HALFPARALEN             25
+#define         MAXPARALEN              50
 
 #define         MAXPARANUM              16  /* 0 Factory + 15  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
@@ -638,6 +649,23 @@ using namespace std;
 #ifndef BFT_BITMAP
 #define BFT_BITMAP              0x4d42   // 'BM'
 #endif
+
+#pragma endregion
+
+#pragma region Struct WITSREPORT
+/* TCP传输协议：
+1、帧头 && ，帧尾!!，每个数据之间回车换行分隔（十六进制为0D 0A）
+2、每行开头固定项目数字定为80
+3、具体传输数据，每行仅一个具体序号数据，一包数据可包含多行数据
+4、每根管需传输数据包数，为扭矩数组长度 + 1，具体规定为：
+(1)	每包数据固定包含01、02、03数据
+(2)	第一包数据传输01~03，11~28
+(3)	后续包数据传输01~03，51~53
+*/
+#define WITSRPT_FIXHEADNUM      3   // 每个报文固定参数: 日期，时间，套管号
+#define WITSRPT_REPEATNUM       3   // 重复上报数据: 扭矩，周数，时间
+#define WITSRPT_CALPARANUM      5   // 上扣完成后扭矩计算参数，比如上扣扭矩，拐点扭矩，增量扭矩，台阶比，台阶时间等
+#define WITSRPT_SHOWPARANUM     15  // 最多15个显示参数
 
 #pragma endregion
 
@@ -792,21 +820,20 @@ typedef struct tagGLBCFG
     UINT        nCollectDur;    /* 定时收集数据的时间，ms，默认250 */
     UINT        nResetDur;      /* 复位时间，默认10s */
     UINT        nSaveDur;       /* 大于显示扭矩后保存数据的时间，默认30s */
-    UINT        nIPShowMode;    /* 拐点显示方式：1: 只画数据中的拐点
+    /*UINT        nIPShowMode;    /* 拐点显示方式：1: 只画数据中的拐点
                                                 2: 只画计算拐点
                                                 3: 数据拐点和计算拐点都画 */
     UINT        nZoomIn;        /* 图形放大倍数 */
     UINT        nImgNum;        /* 批量导出图形时，一个图像文件中包含多少个图形 */
-    UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据; 4: 多组历史数据*/
+    UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
 
     double      fDiscount;      /* fCut 打折比例 0.8 */
     double      fMulti;         /* 校准参数范围0~2 */
     double      fRpmAdj;        /* 转速调整 */
-    double      fIPDeltaVal;    /* 默认0.7 */
+    //double      fIPDeltaVal;    /* 默认0.7 */
 
-    BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
+    //BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
     bool        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
-    bool        bBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
@@ -815,15 +842,24 @@ typedef struct tagGLBCFG
     string      strUnit;        /* 对应扭矩单位的字符串 */
 }GLBCFG;
 
-
 typedef struct tagSERVERCFG
 {
     UINT    nFTPPort;
-    string  strIPAddr;
+    string  strFTPAddr;
     string  strUserName;
     string  strPassword;
     string  strTargetPath;
 }SERVERCFG;
+
+typedef struct tagWITSCFG
+{
+    UINT    nTCPPort;
+    vector<int> ShowParas;
+    vector<int> FixItems;
+    vector<int> RepeatItems;
+    vector<int> CalItems;
+    vector<int> ShowItems;
+}WITSCFG;
 
 typedef struct tagSHOWOPTION
 {
@@ -1033,6 +1069,19 @@ typedef struct tagPORTDATA
     double      fRpm[COLLPORTNUM];
     int         iDelPlus[COLLPORTNUM];
 }PORTDATA;
+
+#define         WITSMAXRPTNUM       20
+#define         MAXRPTNUM           10000
+typedef struct tagWITSRPTDATA
+{
+    long        tStart;
+    UINT        nCount;
+    UINT        nRptIdx;
+    double      fTorque[MAXRPTNUM];
+    double      fTurn[MAXRPTNUM];
+    double      fDuration[MAXRPTNUM];
+}WITSRPTDATA;
+
 #pragma endregion
 
 #pragma region MACRO COMMAND
@@ -1292,7 +1341,7 @@ typedef struct tagPORTDATA
 
 /* 判断程序注册状态 */
 #define JUDGE_REG_STATUS()              {                       \
-        if(!theApp.m_tdbReg.bReged)                             \
+        if(!theApp.m_tdbReg.Reged())                            \
         {                                                       \
             AfxMessageBox(IDS_STRINFNOREG, MB_ICONINFORMATION); \
             return;                                             \
@@ -1418,15 +1467,18 @@ extern TUBECFG              g_tDefTubeCfg[];
 
 extern TORQUEDATA           g_tReadData;
 extern TORQUEDATA           g_tReadData2;
+extern GLBCFG               g_tGlbCfg;
 
 #pragma endregion
 
 #pragma region Global Function
 string  GetCurTime();
+string GetListFromVector(vector<int> array);
 string GetListFromArray(UINT* parray, int num);
 string GetListFromArray(BOOL* parray, int num);
 string GetListFromArray(BYTE* parray, int num);
 vector<int> GetIDFromList(string lsVals);
+void CheckLanguage(UINT& nLang);
 string GetCCBString(CComboBox* ptCCB);
 
 string UTF82ASCII(string& strUtf8Code);         //utf-8 转 ascii 

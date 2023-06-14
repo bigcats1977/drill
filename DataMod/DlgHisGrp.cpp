@@ -342,7 +342,7 @@ void CDlgHisGrp::OnBtnpri()
     if (m_ptTorData->nCur > 1)
     {
         m_ptTorData->nCur--;
-        ShowCurData(TRUE);
+        ShowCurData(true);
         /* 如果不需要保存，且游标变化，不再保存前一次数据，修改标记清除 */
         m_bModified = FALSE;
     }
@@ -357,7 +357,7 @@ void CDlgHisGrp::OnBtnnext()
     if (m_ptTorData->nCur < m_ptTorData->nTotal)
     {
         m_ptTorData->nCur++;
-        ShowCurData(TRUE);
+        ShowCurData(true);
         /* 如果不需要保存，且游标变化，不再保存前一次数据，修改标记清除 */
         m_bModified = FALSE;
     }
@@ -815,7 +815,6 @@ BOOL CDlgHisGrp::JudgeValidPosition(int iPos)
         }
     }
 #endif
-
     return TRUE;
 }
 

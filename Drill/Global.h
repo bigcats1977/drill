@@ -24,6 +24,8 @@ using namespace std;
 #pragma region MACRO DEFINE
 
 #pragma region MESSAGE ID
+#define WM_USER_SHOW_EDIT       WM_USER + 1002
+
 #define WM_COLLECTTIMEROUT      WM_USER + 5001
 #define WM_GUARDTIMEROUT        WM_USER + 5002
 #define WM_GUARDREADTIMEROUT    WM_USER + 5003
@@ -34,6 +36,8 @@ using namespace std;
 #define WM_ALARMPLAYTIMEROUT    WM_USER + 5008
 #define WM_READVALVETIMEROUT    WM_USER + 5009
 #define WM_WITSRPTTIMEROUT      WM_USER + 5010
+
+#define WM_RE_READDATA          WM_USER + 5021
 
 #define WM_INTERPT_CHANGE       WM_USER + 6001
 #define WM_UPDATE_SELPOS        WM_USER + 6002
@@ -132,12 +136,13 @@ using namespace std;
 
 #define PORTBUFF                108
 
-/* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据*/
+/* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
 #define COLL_PORT               0
 #define COLL_RAND               1
 #define COLL_TORQUE             2
 #define COLL_MULTITORQ          3
-#define COLL_HISTORY            4
+#define COLL_RECOVERY           4
+#define COLL_HISTORY            5   // no used in glbcfg
 
 /* 全0的读取串口原始数据
     0x21,0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x22,0x00,0x00,0x08
@@ -232,8 +237,9 @@ using namespace std;
 /* 串口测试打开，值为 m_nTestFunc+1 */
 #define RS_COMM_RAND            2       /* COLL_RAND+1 */
 #define RS_COMM_TORQUE          3       /* COLL_TORQUE+1 */
-#define RS_COMM_HISTORY         4       /* COLL_HISTORY+1 */
-#define RS_COMM_MULTITORQ       5       /* COLL_MULTITORQ+1 */
+#define RS_COMM_MULTITORQ       4       /* COLL_MULTITORQ+1 */
+#define RS_COMM_RECOVERY        5       /* COLL_RECOVERY+1 */
+#define RS_COMM_HISTORY         6       /* COLL_HISTORY+1 */
 /* #define COLL_RAND           1
    #define COLL_TORQUE         2
    #define COLL_HISTORY        3
@@ -256,7 +262,7 @@ using namespace std;
 #define DIFF_CIRCUIT            0.1
 #define DIFF_TIME               1
 #define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
-#define AUTOUPDTURNRATIO        0.9     // 超过90%(450)点自动增加周数
+#define AUTOUPDTURNRATIO        0.8     // 超过80%(400)点自动增加周数
 
 #define IP_SLOPE_PER            1       /* 默认拐点百分比 */
 
@@ -411,9 +417,6 @@ using namespace std;
 #pragma endregion
 
 #pragma region MAX RANGE
-//#define     SHOWPARANAMELEN     25
-//#define     MAXPARALEN          200
-//#define     HALFPARALEN         50
 
 #define     MAXPWLEN            32
 #define     MAXSKIPLEN          64  /* 总共跳64个字节 */
@@ -428,6 +431,10 @@ using namespace std;
 #define     MAXCMDNUM           24
 /* 最大通信中断时间5s */
 #define     MAXCOMMBREAKTIME    5000
+
+#define     DEFIPDELTAVAL               0.1
+
+#define     DEFTALLYNAME                _T("入井序号")
 #pragma endregion
 
 #pragma region STATUS
@@ -490,8 +497,8 @@ using namespace std;
 
 #pragma region SHOW PARAMETER
 
-//#define       HALFPARALEN             25
-//#define       MAXPARALEN              50
+#define         HALFPARALEN             25
+#define         MAXPARALEN              50
 
 #define         MAXPARANUM              16  /* 钻杆6+油田3+勘探公司6+其他3  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
@@ -789,7 +796,7 @@ typedef struct tagGLBCFG
                                                 3: 数据拐点和计算拐点都画 */
     UINT        nZoomIn;        /* 图形放大倍数 */
     UINT        nImgNum;        /* 批量导出图形时，一个图像文件中包含多少个图形 */
-    UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取dat 历史数据; 4: 多组历史数据*/
+    UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
     //int         iBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
 
     double      fDiscount;      /* fCut 打折比例 0.8 */

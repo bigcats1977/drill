@@ -32,6 +32,7 @@ CMylistctrl::CMylistctrl()
     m_iSortCol = -1;
     m_bSortAscending = TRUE;
     m_iHighlight = 0;
+    nShowNum = 0;
 }
 
 CMylistctrl::~CMylistctrl()

@@ -2506,15 +2506,16 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     UINT nNew = nOld;
     if (nOld > MAXLINEITEM * AUTOUPDTURNRATIO)
     {
-        nNew = (UINT)ceil(nOld * m_fCurMaxTurn / (m_fCurMaxTurn + 1));
+        // 最大周数按80%取整设置
+        double newTurn = (int)ceil(m_fCurMaxTurn / AUTOUPDTURNRATIO);
+        nNew = (UINT)ceil(nOld * m_fCurMaxTurn / newTurn);
         ZoomData(m_tCollData.fTorque, nOld, nNew);
         ZoomData(m_tCollData.fRpm, nOld, nNew);
         m_tCollData.nAllCount = nNew;
 
-        // 每次加1周
-        m_fCurMaxTurn += 1;
-        m_xAxis1.SetTickPara(20, m_fCurMaxTurn);
-        m_xAxis2.SetTickPara(20, m_fCurMaxTurn);
+        m_fCurMaxTurn = newTurn;
+        m_xAxis1.SetTickPara(10, m_fCurMaxTurn);
+        m_xAxis2.SetTickPara(10, m_fCurMaxTurn);
         m_wndTorque.ReDrawLine(m_tCollData.fTorque, nNew, (m_iBreakOut > 0));
         m_wndRpm.ReDrawLine(m_tCollData.fRpm, nNew);
     }

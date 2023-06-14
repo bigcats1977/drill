@@ -147,9 +147,9 @@ END_MESSAGE_MAP()
 
 BOOL CDataModDlg::OnInitDialog()
 {
-    int     i = 0;
+    WORD    i = 0;
     string  strHead;
-    CRect   rectView;
+    CRect   rcView;
 
     CDialog::OnInitDialog();
 
@@ -178,13 +178,9 @@ BOOL CDataModDlg::OnInitDialog()
 
     // TODO: Add extra initialization here
 
-    m_listData.GetWindowRect(&rectView);
-    m_iWidth = (int)(rectView.Width() / 12.17);
+    m_listData.GetWindowRect(&rcView);
+    m_iWidth = (int)(rcView.Width() / 12.17);
     m_listData.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
-    /*m_strFixHead.Format("序号,%d;施工时间,%d;最小扭矩,%d;最佳扭矩,%d;最大扭矩,%d;实际扭矩,%d;实际周数,%d;拐点扭矩,%d;斜坡因子,%d;备注,%d;", // 夹紧扭矩,%d;
-        int(0.8 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
-        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); // int(0.9 * m_iWidth),
-    strHead = m_strFixHead;*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(2 * m_iWidth), int(2 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
@@ -326,12 +322,11 @@ void CDataModDlg::OnBtnopendata()
     int     i = 0;
     int     iShowListNum = 0;
     UINT    nMaxShowPlace = 0;
-    CString strFilter;
-    //BOOL    bReadRes = FALSE;
+    CString strInfo;
     CString strHead, strTemp;
     string  strName;
     TorqData::Torque* ptTorq = NULL;
-
+    CString strFilter;
     strFilter.Format(IDS_STRDATFILTER);
 
     CFileDialog fileDlg(TRUE, "pbd", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter, NULL);
@@ -339,15 +334,18 @@ void CDataModDlg::OnBtnopendata()
     COMP_BNE(fileDlg.DoModal(), IDOK);
 
     m_strDataName = fileDlg.GetPathName();
-    theApp.ReadHisTorqFromFile(m_strDataName.GetBuffer(0));
-    UpdateTorqNum();
-    m_listData.DeleteAllItems();
-
-    if (g_tReadData.nTotal <= 0)
+    if (!theApp.ReadHisTorqFromFile(m_strDataName.GetBuffer(0)))
+    {
+        return;
+    }
+    if (g_tReadData.nTotal == 0)
     {
         UpdateData(FALSE);
         return;
     }
+
+    UpdateTorqNum();
+    m_listData.DeleteAllItems();
 
     /* update list head */
     strHead = m_strFixHead.c_str();
@@ -367,7 +365,7 @@ void CDataModDlg::OnBtnopendata()
 
     for (i = 0; i < iShowListNum; i++)
     {
-        strName = theApp.GetTorqShowName(ptTorq, i);
+        strName = theApp.GetTorqShowName(ptTorq, i).GetBuffer(0);
         if (strName.empty())
             strName = _T("NULL");
         strTemp.Format("%s, %d;", strName.c_str(), m_iWidth);
@@ -383,7 +381,6 @@ void CDataModDlg::OnBtnopendata()
 
 BOOL CDataModDlg::DestroyWindow()
 {
-    int i = 0;
     if (theApp.m_pdlgOpt != NULL)
     {
         delete theApp.m_pdlgOpt;
@@ -451,7 +448,6 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
     CStringList slShow;
     DWORD       dwQuality = 0;
     CString     strNM = _T("N.m");
-    //UINT        nCount;
     TORQUEDATA* ptAllData = NULL;
     TorqData::Torque* ptTorq = NULL;
     CMylistctrl* plsShow = NULL;
@@ -475,7 +471,7 @@ VOID CDataModDlg::ShowHisTorqList(bool bFirst)
     BeginWaitCursor();
     if (bFirst)
         m_ptStatTorq = &ptAllData->tData[ptAllData->nTotal - 1];
-    for (i = 0; i < ptAllData->nTotal; i++)
+    for (i = 0; i < (int)ptAllData->nTotal; i++)
     {
         ptTorq = &ptAllData->tData[i];
 
@@ -584,7 +580,6 @@ UINT CDataModDlg::GetSelectItem(CString* pstrItem)
     CString     strItemNo;
     POSITION    pos = m_listData.GetFirstSelectedItemPosition();
 
-    //memset(m_bSelItem, false, sizeof(UINT) * MAXWELLNUM);
     memset(m_nSelItem, 0, sizeof(UINT) * MAXWELLNUM);
 
     if (0)//m_bExpAllImg
@@ -596,7 +591,6 @@ UINT CDataModDlg::GetSelectItem(CString* pstrItem)
         }
         for (i = 0; i < nSelNum; i++)
         {
-            //m_bSelItem[i] = true;
             m_nSelItem[i] = i + 1;
             strItemNo = strItemNo + m_listData.GetItemText(i, 0) + " ";
         }
@@ -611,7 +605,6 @@ UINT CDataModDlg::GetSelectItem(CString* pstrItem)
     /* 收集需要处理的记录 */
     while (iItem != -1)
     {
-        //m_bSelItem[nSelNum] = true;
         m_nSelItem[nSelNum++] = iItem + 1;
         strItemNo = strItemNo + m_listData.GetItemText(iItem, 0) + " ";
 
@@ -827,7 +820,7 @@ void CDataModDlg::ReplaceTorque(UINT nDest, TorqData::Torque* ptSrc)
         tTempData.set_fmaxcir(ceil(fMaxCir + 0.5));
     }
 
-    theApp.UpdateHisData(m_strDataName, nDest, &tTempData);
+    theApp.UpdateHisData(m_strDataName.GetBuffer(0), nDest, &tTempData);
 
     return;
 }
@@ -1095,8 +1088,8 @@ void CDataModDlg::OnBnClickedCheckother()
 void CDataModDlg::OnBtnopendata2()
 {
     int     i = 0;
-    UINT    nMaxShowPlace = 0;
     int     iShowListNum = 0;
+    UINT    nMaxShowPlace = 0;
     CString strHead, strTemp;
     string  strName;
     TorqData::Torque* ptTorq = NULL;
@@ -1109,13 +1102,16 @@ void CDataModDlg::OnBtnopendata2()
     COMP_BNE(fileDlg.DoModal(), IDOK);
 
     m_strDataName2 = fileDlg.GetPathName();
-    theApp.ReadHisTorqFromFile(m_strDataName2.GetBuffer(0), &g_tReadData2);
+    if (!theApp.ReadHisTorqFromFile(m_strDataName2.GetBuffer(0), &g_tReadData2))
+    {
+        return;
+    }
     m_nTotal2 = g_tReadData2.nTotal;
     m_nSrc2 = g_tReadData2.nTotal == 0 ? 0 : 1;
     GetDlgItem(IDC_EDITSRC2)->EnableWindow(m_bHaveOtherSrc && g_tReadData2.nTotal > 0);
     m_listData2.DeleteAllItems();
 
-    if (g_tReadData2.nTotal <= 0)
+    if (g_tReadData2.nTotal == 0)
     {
         UpdateData(FALSE);
         return;
@@ -1138,11 +1134,10 @@ void CDataModDlg::OnBtnopendata2()
     m_listData2.nShowNum = iShowListNum;
     for (i = 0; i < iShowListNum; i++)
     {
-        strName = theApp.GetTorqShowName(ptTorq, i);
+        strName = theApp.GetTorqShowName(ptTorq, i).GetBuffer(0);
         if (strName.empty())
             strName = _T("NULL");
         strTemp.Format("%s, %d;", strName.c_str(), m_iWidth);
-        //strTemp.Format("%s, %d;", ptTorq->tshow(i).strname().c_str(), m_iWidth);
         strHead += strTemp;
     }
 

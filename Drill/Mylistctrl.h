@@ -31,6 +31,7 @@ public:
 
     // Attributes
 public:
+    UINT nShowNum;
 
     // Operations
 public:

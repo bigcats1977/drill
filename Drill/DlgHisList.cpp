@@ -35,7 +35,7 @@ CDlgHisList::CDlgHisList() : CPropertyPage(CDlgHisList::IDD)
     m_nHisTotalRec = 0;
     m_nHisQualyRec = 0;
     m_nHisUnQualyRec = 0;
-    m_nMaxShowNum = 0;
+    //m_nMaxShowNum = 0;
     m_ptStatTorq = NULL;
     //}}AFX_DATA_INIT
 }
@@ -83,7 +83,6 @@ BOOL CDlgHisList::OnInitDialog()
     string  strHead;
     //CString strTemp;
     CRect   rcView;
-    //char buffer[MAX_LOADSTRING];
 
     CPropertyPage::OnInitDialog();
 
@@ -100,24 +99,12 @@ BOOL CDlgHisList::OnInitDialog()
     /* 20221113 去掉斜坡因子 */
     /* 20221220  去掉拐点扭矩，同时显示上扣扭矩/周数和卸扣扭矩/周数 */
     /* 去掉夹紧扭矩 */
-    /*"序号,%d;上扣时间,%d;卸扣时间,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;取出序号,%d;备注,%d;"*/
-    /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
-        int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
-        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));*/
-    /*m_strFixHead.Format(IDS_STRHISLLISTHEAD,
-                   int(0.8*m_iWidth),int(1.7*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                   int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),int(0.9*m_iWidth),
-                   int(2*m_iWidth));*/
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
-        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth)); ;
-    //strHead = buffer;
+        int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));
     m_strFixHead = strHead;
     for (i = 0; i < MAXPARANUM; i++)
     {
-        //strTemp.Format("%s, %d;", theApp.m_ptCurShow->strList[i].c_str(), m_iWidth);
-        //snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.GetListShowName(theApp.m_ptCurShow, i).c_str(), m_iWidth);
-        //snprintf(buffer, MAX_LOADSTRING, "%s, %d;", theApp.m_ptCurShow->strShow[i].c_str(), m_iWidth);
         strHead += string_format("%s, %d;", theApp.m_ptCurShow->strShow[i].c_str(), m_iWidth);
     }
     m_listHis.SetHeadings(strHead.c_str());
@@ -131,7 +118,7 @@ BOOL CDlgHisList::OnInitDialog()
                   // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-VOID CDlgHisList::GetPrintDlg()
+void CDlgHisList::GetPrintDlg()
 {
     CPropertySheet* pSheet;
 
@@ -147,15 +134,25 @@ VOID CDlgHisList::GetPrintDlg()
     return;
 }
 
+void CDlgHisList::UpdateTorqNum()
+{
+    ASSERT_ZERO(g_tReadData.nTotal);
+
+    m_nHisTotalRec = g_tReadData.nTotal;
+    m_nHisQualyRec = g_tReadData.nQualy;
+    m_nHisUnQualyRec = g_tReadData.nUnQualy;
+}
+
 void CDlgHisList::OnBtnhis()
 {
-    UINT    i = 0;
+    int     i = 0;
+    int     iShowListNum = 0;
     UINT    nMaxShowPlace = 0;
-    CString strFilter;
     CString strInfo;
     CString strHead, strTemp;
     string  strName;
     TorqData::Torque* ptTorq = NULL;
+    CString strFilter;
 
     strFilter.Format(IDS_STRDATFILTER);
 
@@ -164,7 +161,6 @@ void CDlgHisList::OnBtnhis()
     COMP_BNE(fileDlg.DoModal(), IDOK);
 
     m_strHisName = fileDlg.GetPathName();
-
     if (!theApp.ReadHisTorqFromFile(m_strHisName.GetBuffer(0)))
     {
         strInfo.Format(IDS_STRINFFILEERR);
@@ -172,35 +168,29 @@ void CDlgHisList::OnBtnhis()
         return;
     }
 
-    m_nHisTotalRec = g_tReadData.nTotal;
-    m_nHisQualyRec = g_tReadData.nQualy;
-    m_nHisUnQualyRec = g_tReadData.nUnQualy;
-
+    UpdateTorqNum();
     SetDataPlace(1);
-
     m_listHis.DeleteAllItems();
 
     /* update list head */
     strHead = m_strFixHead.c_str();
     nMaxShowPlace = 0;
-    m_nMaxShowNum = 0;
-    for (i = 0; i < g_tReadData.nTotal; i++)
+    for (i = 0; i < (int)g_tReadData.nTotal; i++)
     {
         ptTorq = &g_tReadData.tData[i];
-        if (ptTorq->tshow_size() > (int)m_nMaxShowNum)
+        if (ptTorq->tshow_size() > (int)iShowListNum)
         {
             nMaxShowPlace = i;
-            m_nMaxShowNum = ptTorq->tshow_size();
+            iShowListNum = ptTorq->tshow_size();
         }
     }
     ptTorq = &g_tReadData.tData[nMaxShowPlace];
 
-    m_nMaxShowNum = MIN(m_nMaxShowNum, MAXPARANUM);
-    //m_nMaxShowNum = MIN(m_nMaxShowNum, theApp.m_ptCurShow->nListNum);
-    for (i = 0; i < m_nMaxShowNum; i++)
+    iShowListNum = MIN(iShowListNum, MAXPARANUM);
+    m_listHis.nShowNum = iShowListNum;
+    for (i = 0; i < iShowListNum; i++)
     {
-        //strName = theApp.GetTorqShowName(ptTorq, theApp.m_ptCurShow->nList[i]);
-        strName = theApp.GetTorqShowName(ptTorq, i);
+        strName = theApp.GetTorqShowName(ptTorq, i).GetBuffer(0);
         if (strName.empty())
             strName = _T("NULL");
         strTemp.Format("%s, %d;", strName.c_str(), m_iWidth);
@@ -212,8 +202,6 @@ void CDlgHisList::OnBtnhis()
     ShowHisTorqList();
 
     UpdateData(FALSE);
-
-    return;
 }
 
 BOOL CDlgHisList::OnSetActive()
@@ -268,7 +256,7 @@ void CDlgHisList::OnBnClickedBtnexport()
 }
 
 /*"序号,%d;上扣时间,%d;卸扣时间,%d;夹紧扭矩,%d;最佳扭矩,%d;上扣扭矩,%d;上扣周数,%d;卸扣扭矩,%d;卸扣周数,%d;备注,%d;"*/
-VOID CDlgHisList::ShowHisTorqList()
+void CDlgHisList::ShowHisTorqList()
 {
     UINT        i = 0;
     int         j = 0;
@@ -283,20 +271,23 @@ VOID CDlgHisList::ShowHisTorqList()
     CString     strShowPara[MAXPARANUM];
     CStringList slShow;
     DWORD       dwQuality = 0;
+    TORQUEDATA* ptAllData = NULL;
     TorqData::Torque* ptTorq = NULL;
-
-    m_ptStatTorq = NULL;
+    CMylistctrl* plsShow = NULL;
 
     ASSERT_ZERO(g_tReadData.nTotal);
 
-    m_listHis.SetRedraw(0);
+    m_ptStatTorq = NULL;
+    ptAllData = &g_tReadData;
+    plsShow = &m_listHis;
 
-    m_ptStatTorq = &g_tReadData.tData[g_tReadData.nTotal - 1];
-    for (i = 0; i < g_tReadData.nTotal; i++)
+    plsShow->SetRedraw(0);
+
+    BeginWaitCursor();
+    m_ptStatTorq = &ptAllData->tData[ptAllData->nTotal - 1];
+    for (i = 0; i < ptAllData->nTotal; i++)
     {
-        ptTorq = theApp.GetOrgTorqFromTorq(i);
-        if (NULL == ptTorq)
-            continue;
+        ptTorq = &ptAllData->tData[i];
 
         /* 20180102 序号删除后自动更新 */
         strNo.Format("%d", i + 1);
@@ -346,25 +337,25 @@ VOID CDlgHisList::ShowHisTorqList()
         slShow.AddTail(strMemo);
 
         // List[j] = 1~15
-        for (j = 0; j < ptTorq->tshow_size() && j < (int)m_nMaxShowNum; j++)
+        for (j = 0; j < ptTorq->tshow_size() && j < (int)plsShow->nShowNum; j++)
         {
             //string val = theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]);
             slShow.AddTail(theApp.GetTorqShowValue(ptTorq, j));
         }
         /* 补空 */
-        for (; j < (int)m_nMaxShowNum; j++)
+        for (; j < (int)plsShow->nShowNum; j++)
             slShow.AddTail(NULLSTR);
-        iItem = m_listHis.AddItemList(slShow);
+        iItem = plsShow->AddItemList(slShow);
         slShow.RemoveAll();
 
         dwQuality = theApp.GetQuality(ptTorq);
         if (!(dwQuality & QUA_RESU_QUALITYBIT))
         {
-            m_listHis.SetItemData(iItem, TORQ_BAD_QUALITY);
+            plsShow->SetItemData(iItem, TORQ_BAD_QUALITY);
         }
         if (ptTorq->btoolbuck())
         {
-            m_listHis.SetItemData(iItem, TORQ_TOOLBUCKLE);
+            plsShow->SetItemData(iItem, TORQ_TOOLBUCKLE);
         }
         else    // 非工具扣设置为统计序号
         {
@@ -373,6 +364,8 @@ VOID CDlgHisList::ShowHisTorqList()
         }
     }
 
+    EndWaitCursor();
+    plsShow->SetRedraw(1);
     GetDlgItem(IDC_BTNEXPORT)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNIMGEXP)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNGRAPHEXP)->EnableWindow(m_listHis.GetItemCount() > 0);
@@ -381,8 +374,6 @@ VOID CDlgHisList::ShowHisTorqList()
     //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNUPLOAD)->EnableWindow(m_listHis.GetItemCount() > 0);
-
-    m_listHis.SetRedraw(1);
 }
 
 void CDlgHisList::SetDataPlace(UINT nCur)
@@ -402,7 +393,6 @@ UINT CDlgHisList::GetSelectItem()
     int         iItem = 0;
     UINT        nSelNum = 0;
     UINT        i = 0;
-    CString     strItemNo;
     POSITION    pos = m_listHis.GetFirstSelectedItemPosition();
 
     memset(m_nSelItem, 0, sizeof(UINT) * MAXWELLNUM);

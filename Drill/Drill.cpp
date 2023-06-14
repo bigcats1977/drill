@@ -29,7 +29,6 @@ BEGIN_MESSAGE_MAP(CDrillApp, CWinApp)
 END_MESSAGE_MAP()
 
 
-
 /*********************代码宏************************************/
 
 
@@ -438,23 +437,14 @@ BOOL CDrillApp::InitInstance()
     m_tRuleHFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
         OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
         VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
-#if 0
-    fonty = -18 * m_ucDPILevel / 4;
-    m_tPntTextFont.CreateFont(fonty, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
-        OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
-        VARIABLE_PITCH | FF_ROMAN, strFont);
-#else
     fonty = -12 * m_ucDPILevel / 4;
     m_tPntTextFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
         OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
         VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
-#endif
-
     fonty = -10 * m_ucDPILevel / 4;
     m_tRuleVFont.CreateFont(fonty, 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,//GB2312_CHARSET,
         OUT_TT_PRECIS, CLIP_TT_ALWAYS, PROOF_QUALITY,
         VARIABLE_PITCH | FF_ROMAN, strFont.c_str());
-    //strFont.Empty();
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -498,7 +488,6 @@ BOOL CDrillApp::InitInstance()
     m_pMainWnd = &dlg;
     thepDlg = &dlg;
     INT_PTR nResponse = dlg.DoModal();
-
     if (nResponse == IDOK)
     {
         // TODO: Place code here to handle when the dialog is
@@ -2205,19 +2194,23 @@ bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName)
     return true;
 }
 
-void CDrillApp::ClearReadTorq()
+void CDrillApp::ClearReadTorq(TORQUEDATA* pAllData)
 {
     int i = 0;
 
-    g_tReadData.nCur = 0;
-    g_tReadData.nTotal = 0;
-    g_tReadData.nQualy = 0;
-    g_tReadData.nUnQualy = 0;
+    if (pAllData == NULL)
+        pAllData = &g_tReadData;
 
-    //memset(&g_tReadData.tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
+    pAllData->nCur = 0;
+    pAllData->nTotal = 0;
+    pAllData->nQualy = 0;
+    pAllData->nUnQualy = 0;
+
+    //memset(&pAllData->tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
 
     for (i = 0; i < MAXWELLNUM; i++)
-        g_tReadData.tData[i].Clear();
+        pAllData->tData[i].Clear();
+    pAllData->strFileName.clear();
 }
 
 /* 从文件当前读取位置获取数据的长度，文件位置为读取有效的文件长度之后 */
@@ -2349,7 +2342,7 @@ BOOL CDrillApp::ReadHisTorqFromFile(string strDataName)
 }
 
 /* 读取历史的扭矩数据文件
-   一次最多读取MAXWELLNUM条 */
+   一次最多读取MAXWELLNUM 5000条 */
 BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
 {
     CFile   file;
@@ -2370,6 +2363,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     char    cPBHead[PBHEADLEN + 1] = { 0 };
     DWORD   dwQuality = 0;
     double  fRatio = NM2LBFT;
+    TORQUEDATA* pAllData = NULL;
     //string strData;
 
     COMP_BTRUE_R(strDataName.empty(), FALSE);
@@ -2381,8 +2375,10 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     strTitle.Delete(strTitle.GetLength() - 4, 4);
     m_strFileTitle = strTitle;
 
-    ClearReadTorq();
-    g_tReadData.strFileName = strDataName;
+    if (NULL == pAllData)
+        pAllData = &g_tReadData;
+    ClearReadTorq(pAllData);
+    pAllData->strFileName = strDataName;
 
     file.SeekToBegin();
     file.Read(&nNum, sizeof(UINT));
@@ -2417,27 +2413,34 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
             continue;
         }
 
-        bRes = g_tReadData.tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
+        bRes = pAllData->tData[nValid].ParseFromArray(m_cProtoBuf, iDataLen);
         if (!bRes)
             continue;
 
         /* 数据大于1屏时设置分屏信息 */
         /* 20190609最后一屏按控制周数，其他按满屏计算 */
         /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */
-        ptTorq = &g_tReadData.tData[nValid];
-        //pSplit = &g_tReadData.tSplit[nValid];
+        ptTorq = &pAllData->tData[nValid];
+        //pSplit = &pAllData->tSplit[nValid];
 
         // 20230606 老版本单根立柱值在bsinglestd中，需要设置到columns中，以便后续程序通过columns显示和设置
         if (ptTorq->bsinglestd() && ptTorq->dwcolumns() == 0)
             ptTorq->set_dwcolumns(1);
-        g_tReadData.nTotalPlus[nValid] = 0;
+        pAllData->nTotalPlus[nValid] = 0;
         if (HaveMakeUP(ptTorq))
-            g_tReadData.nTotalPlus[nValid] += ptTorq->dwmuplus();
+            pAllData->nTotalPlus[nValid] += ptTorq->dwmuplus();
         if (HaveBreakout(ptTorq))
-            g_tReadData.nTotalPlus[nValid] += ptTorq->dwboplus();
+            pAllData->nTotalPlus[nValid] += ptTorq->dwboplus();
         if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
         {
-            iTotalPnt = (int)ceil(g_tReadData.nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
+            double maxcir = pAllData->nTotalPlus[nValid] / ptTorq->fplus();
+            // 20230503 最大周数比实际周数小(没有动态更新周数或者更新失败)时，重新设置最大周数，保证一屏能显示全部数据
+            if (maxcir > ptTorq->fmaxcir() * AUTOUPDTURNRATIO)
+            {
+                maxcir = (int)ceil(maxcir / AUTOUPDTURNRATIO);
+                ptTorq->set_fmaxcir(maxcir);
+            }
+            iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
         /* NM  < ---- > lbft (* ratio) */
@@ -2461,15 +2464,15 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
             }
         }
 
-        g_tReadData.nTotal++;
+        pAllData->nTotal++;
         dwQuality = GetQuality(ptTorq);
         if (dwQuality & QUA_RESU_QUALITYBIT)
         {
-            g_tReadData.nQualy++;
+            pAllData->nQualy++;
         }
         else
         {
-            g_tReadData.nUnQualy++;
+            pAllData->nUnQualy++;
         }
         nValid++;
     }
@@ -2873,12 +2876,12 @@ string CDrillApp::LoadstringFromRes(unsigned string_ID)
 void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* ptTorq)
 {
     int     i = 0;
-    UINT    nCurPos = 0;    /* 当前数据位置 */
-    UINT    nNextPos = 0;    /* 下一个数据的位置 */
+    UINT    nCurPos = 0;        /* 当前数据位置 */
+    UINT    nNextPos = 0;       /* 下一个数据的位置 */
     UINT    nLastPos = 0;
-    int     iLeft = 0;    /* 当前数据后的数据大小 */
-    size_t  iCurLen = 0;     /* 当前数据的总长度 */
-    UINT    iDataLen = 0;     /* 数据的总长度 */
+    int     iLeft = 0;          /* 当前数据后的数据大小 */
+    size_t  iCurLen = 0;        /* 当前数据的总长度 */
+    UINT    iDataLen = 0;       /* 数据的总长度 */
     UINT    nTotal = 0;
     CFile   file;
     BYTE* pBuffer = NULL;
@@ -3111,15 +3114,18 @@ BOOL CDrillApp::ReCalTallyNO(string strDataName)
     CString strOldNO;
     TorqData::Torque* ptTorq = NULL;
     TorqData::ShowInfo* ptRunningShow = NULL;
+    TORQUEDATA* pAllData = NULL;
 
-    iTallyIndex = GetMainIndexfromData(MAINSHOWTALLY, &g_tReadData.tData[0]);
+    if (NULL == pAllData)
+        pAllData = &g_tReadData;
+    iTallyIndex = GetMainIndexfromData(MAINSHOWTALLY, &pAllData->tData[0]);
     COMP_BL_R(iTallyIndex, 0, FALSE);
 
     BeginWaitCursor();
     /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
-    for (i = 1; i <= (int)g_tReadData.nTotal; i++)
+    for (i = 1; i <= (int)pAllData->nTotal; i++)
     {
-        ptTorq = &g_tReadData.tData[i - 1];
+        ptTorq = &pAllData->tData[i - 1];
 
         strOldNO = GetTorqShowValue(ptTorq, iTallyIndex);
         ptRunningShow = ptTorq->mutable_tshow(iTallyIndex);
@@ -3153,20 +3159,24 @@ void CDrillApp::SaveAllData(string strDataName)
     UINT    i = 0;
     size_t  nDataLen = 0;
     CFile   file;
+    TORQUEDATA* pAllData = NULL;
+
+    if (NULL == pAllData)
+        pAllData = &g_tReadData;
 
     /* write to file */
     if (file.Open(strDataName.c_str(), CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone, NULL))
     {
         /*更新记录数*/
-        file.Write(&g_tReadData.nTotal, sizeof(UINT));
+        file.Write(&pAllData->nTotal, sizeof(UINT));
 
-        for (i = 0; i < g_tReadData.nTotal; i++)
+        for (i = 0; i < pAllData->nTotal; i++)
         {
-            nDataLen = g_tReadData.tData[i].ByteSizeLong();
+            nDataLen = pAllData->tData[i].ByteSizeLong();
             if (nDataLen == 0 || nDataLen >= MAXPROBUFF)
                 continue;
             memset(m_cProtoBuf, 0, MAXPROBUFF);
-            if (!g_tReadData.tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
+            if (!pAllData->tData[i].SerializeToArray(m_cProtoBuf, nDataLen))
             {
                 continue;
             }

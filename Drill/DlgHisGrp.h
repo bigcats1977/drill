@@ -61,6 +61,7 @@ public:
     CLineChartCtrlEx    m_wndLineHis;
     CLineChartCtrl      m_wndRpmHis;
     CString m_strFileName;
+    TORQUEDATA* m_ptTorData;
 
     void    PrintOneImage(UINT* pnCur, UINT nIndex = 0, UINT nMax = 1, int iTmpNo = -1);
     void    PrintLineImg(UINT* pnSel, UINT nSelCount);

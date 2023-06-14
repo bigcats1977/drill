@@ -13,7 +13,6 @@ error include 'stdafx.h' before including this file for PCH
 #endif
 
 #include "resource.h"       // main symbols
-//#include "CoolControlsManager.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CDataModApp:
@@ -38,9 +37,6 @@ public:
     void    ClearReadTorq(TORQUEDATA* pAllData = NULL);
     BOOL    CheckPassWord();
     string  LoadstringFromRes(unsigned string_ID);
-    string  LoadstringFromRes(unsigned string_ID, int val);
-    string  LoadstringFromRes(unsigned string_ID, double val);
-    string  LoadstringFromRes(unsigned string_ID, string val);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */
     double  GetMaxCir(TorqData::Torque* ptTorq);
     double  GetCtrlCir(TorqData::Torque* ptTorq);
@@ -51,7 +47,7 @@ public:
     int     SeekTorque(CFile& file, int iDataNum);
     int     SeekPBDataPos(CFile& file, int iCurPos);
     int     SeekFileLen(CFile& file);
-    void    UpdateHisData(CString filename, int iDataPlace, TorqData::Torque* ptTorq);
+    void    UpdateHisData(string strName, int iDataPlace, TorqData::Torque* ptTorq);
 
     int     GetMainIndexfromData(TorqData::Torque* ptTorq);
 
@@ -73,7 +69,6 @@ public:
     CFont           m_tRuleVFont;
     CFont           m_tRuleHFont;
     CFont           m_tPntTextFont;
-    //string          m_strReadFile;
     char            m_cProtoBuf[MAXPROBUFF];
     DRAWTORQDATA    m_tCurDrawTorq;
     DRAWTORQDATA    m_tCurZoomTorq;
@@ -98,9 +93,11 @@ private:
     BOOL GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData);
     BOOL ReCalTallyNO(string strDataName, TORQUEDATA* pAllData);
     void SaveAllData(string strDataName, TORQUEDATA* pAllData);
-    BOOL JudgeTranslate(TorqData::Torque* ptTorq);
+    bool JudgeTranslate(TorqData::Torque* ptTorq);
     bool GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
     bool GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw, UINT nMulti);
+    void InitGlobalPara();
+    void InitVariant();
 };
 
 extern CDataModApp theApp;

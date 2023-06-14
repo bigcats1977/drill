@@ -147,6 +147,7 @@ BOOL CDlgHisGrp::OnInitDialog()
     theApp.AdaptDlgCtrlSize(this, 2);
     m_ptCurDraw = NULL;
     m_ptCurTorq = NULL;
+    m_ptTorData = &g_tReadData;
     ResetHisLineByCfg(&theApp.m_tParaCfg);
 
     UpdateData(FALSE);
@@ -196,7 +197,7 @@ void CDlgHisGrp::SetCurEdit()
 {
     ASSERT_NULL(m_ptCurTorq);
 
-    m_strNo.Format("%d", g_tReadData.nCur);
+    m_strNo.Format("%d", m_ptTorData->nCur);
     m_iSingleSTD = m_ptCurTorq->dwcolumns();
     m_bToolBuck = m_ptCurTorq->btoolbuck();
     m_strMemo = m_ptCurTorq->strmemo().c_str();
@@ -357,9 +358,9 @@ BOOL CDlgHisGrp::OnSetActive()
 /* 查看前一个数据 */
 void CDlgHisGrp::OnBtnpri()
 {
-    if (g_tReadData.nCur > 1)
+    if (m_ptTorData->nCur > 1)
     {
-        g_tReadData.nCur--;
+        m_ptTorData->nCur--;
         ShowCurData(true);
         return;
     }
@@ -372,9 +373,9 @@ void CDlgHisGrp::OnBtnpri()
 /* 查看后一个数据 */
 void CDlgHisGrp::OnBtnnext()
 {
-    if (g_tReadData.nCur < g_tReadData.nTotal)
+    if (m_ptTorData->nCur < m_ptTorData->nTotal)
     {
-        g_tReadData.nCur++;
+        m_ptTorData->nCur++;
         ShowCurData(true);
         return;
     }
@@ -402,7 +403,7 @@ BOOL CDlgHisGrp::CheckCurData(UINT* pnCur, UINT nMax)
     }
 
     /* 游标保护 */
-    if (g_tReadData.nCur > 1)
+    if (*pnCur > 1)
     {
         GetDlgItem(IDC_BTNPRI)->EnableWindow(TRUE);
     }
@@ -420,7 +421,7 @@ void CDlgHisGrp::CheckGrpType()
 {
     TorqData::Torque* ptTorq;
 
-    ptTorq = &g_tReadData.tData[g_tReadData.nCur - 1];
+    ptTorq = &m_ptTorData->tData[m_ptTorData->nCur - 1];
     GetDlgItem(IDC_RADIOGRPMU)->EnableWindow(FALSE);
     GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(FALSE);
     if (!theApp.HaveMakeUP(ptTorq) || !theApp.HaveBreakout(ptTorq))
@@ -572,7 +573,7 @@ void CDlgHisGrp::ShowCurData(bool bNew)
     UINT    nType = 3;  // 1:MakeUP, 2: BreakOut, 3: All
 
     /* 检查nCur并设置控件，如果nCur为0，直接返回 */
-    COMP_BFALSE(CheckCurData(&g_tReadData.nCur, g_tReadData.nTotal));
+    COMP_BFALSE(CheckCurData(&m_ptTorData->nCur, m_ptTorData->nTotal));
 
     // 设置显示图形按钮
     CheckGrpType();
@@ -581,26 +582,26 @@ void CDlgHisGrp::ShowCurData(bool bNew)
     if (m_iGrpType > 0)
         nType = m_iGrpType;
 
-    m_ptCurDraw = theApp.GetDrawDataFromTorq(g_tReadData.nCur - 1, 1, nType);
+    m_ptCurDraw = theApp.GetDrawDataFromTorq(m_ptTorData->nCur - 1, 1, nType);
     ASSERT_NULL(m_ptCurDraw);
     m_ptCurTorq = m_ptCurDraw->ptOrgTorq;
     ASSERT_NULL(m_ptCurTorq);
 
     if (bNew)
     {
-        //m_tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
+        //m_tCurSplit = m_ptTorData->tSplit[m_ptTorData->nCur - 1];
         m_wndLineHis.ClearSelPnt();
     }
 
     //CheckCurSplit();
 
-    /* 设置参数 */
+    /* 设置显示参数 */
     SetCurEdit();
 
     /* 画图 */
     DrawCurTorque();
 
-    GetFileTitle(g_tReadData.strFileName.c_str(), aucTemp, 250);
+    GetFileTitle(m_ptTorData->strFileName.c_str(), aucTemp, 250);
 
     m_strFileName = aucTemp;
 
@@ -678,7 +679,7 @@ void CDlgHisGrp::OnBtnsaveimg()
 
     hdc = dc.m_hDC;
     hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
-    strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
+    strNo.Format(IDS_STRPNGNAME, m_strFileName, m_ptTorData->nCur);
 
     strFileName = theApp.GetSaveDataPath() + strNo.GetBuffer(0);
 
@@ -755,7 +756,7 @@ void CDlgHisGrp::OnModRemark()
 
     if (bModified)
     {
-        theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+        theApp.UpdateHisData(m_ptTorData->strFileName.c_str(), m_ptTorData->nCur, m_ptCurTorq);
         ShowCurData(false);
 
         /* 判断入井序号有变动，没有变化直接返回，否则保存重新读取和计算入井序号 */
@@ -916,7 +917,7 @@ void CDlgHisGrp::PrintOneImage(UINT* pnCur, UINT nIndex, UINT nMax, int iTmpNo)
     {
         if (pnCur[i] == 0)
             break;
-        g_tReadData.nCur = pnCur[i];
+        m_ptTorData->nCur = pnCur[i];
         ShowCurData(true);
         RedrawWindow();
 
@@ -938,7 +939,7 @@ void CDlgHisGrp::PrintOneImage(UINT* pnCur, UINT nIndex, UINT nMax, int iTmpNo)
         StretchBlt(hMemDC, iDestX * (iWidth + iTabW), iDestY * (iHeight + iTabH), iWidth, iHeight,
             hSrcDC, 0, 0, iWidth, iHeight, SRCCOPY);
 
-        if (pnCur[i] >= g_tReadData.nTotal || pnCur[i + 1] == 0)
+        if (pnCur[i] >= m_ptTorData->nTotal || pnCur[i + 1] == 0)
             break;
     }
 
@@ -989,11 +990,11 @@ void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
 
     for (i = 0; i < nSelCount; i++)
     {
-        g_tReadData.nCur = pnSel[i];
+        m_ptTorData->nCur = pnSel[i];
         ShowCurData(true);
         RedrawWindow();
 
-        strNo.Format(IDS_STRPNGNAME, m_strFileName, g_tReadData.nCur);
+        strNo.Format(IDS_STRPNGNAME, m_strFileName, m_ptTorData->nCur);
         strTempName = theApp.GetSaveDataPath() + strNo.GetBuffer(0);
 
         theApp.CopyDCToPNGFile(hdc, pnSel[i], strTempName.c_str(), &rcClt, hMemDC, hBitmap);
@@ -1017,7 +1018,7 @@ void CDlgHisGrp::OnBnClickedChecktoolbuck()
     if (m_bToolBuck)
         m_ptCurTorq->set_btoolbuck(true);
 
-    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(m_ptTorData->strFileName.c_str(), m_ptTorData->nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnEnKillfocusHismemo()
@@ -1029,7 +1030,7 @@ void CDlgHisGrp::OnEnKillfocusHismemo()
     m_ptCurTorq->set_strmemo(m_strMemo);
 
     UpdateData(FALSE);
-    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(m_ptTorData->strFileName.c_str(), m_ptTorData->nCur, m_ptCurTorq);
 }
 #if 0
 void CDlgHisGrp::OnStnClickedPriorsplit()
@@ -1067,7 +1068,7 @@ void CDlgHisGrp::OnBnClickedRadioone()
     UpdateData(TRUE);
     m_ptCurTorq->set_dwcolumns(0);
 
-    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(m_ptTorData->strFileName.c_str(), m_ptTorData->nCur, m_ptCurTorq);
 }
 void CDlgHisGrp::OnBnClickedRadiotwo()
 {
@@ -1076,7 +1077,7 @@ void CDlgHisGrp::OnBnClickedRadiotwo()
     UpdateData(TRUE);
     m_ptCurTorq->set_dwcolumns(1);
 
-    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(m_ptTorData->strFileName.c_str(), m_ptTorData->nCur, m_ptCurTorq);
 }
 void CDlgHisGrp::OnBnClickedRadiothree()
 {
@@ -1085,7 +1086,7 @@ void CDlgHisGrp::OnBnClickedRadiothree()
     UpdateData(TRUE);
     m_ptCurTorq->set_dwcolumns(2);
 
-    theApp.UpdateHisData(g_tReadData.strFileName.c_str(), g_tReadData.nCur, m_ptCurTorq);
+    theApp.UpdateHisData(m_ptTorData->strFileName.c_str(), m_ptTorData->nCur, m_ptCurTorq);
 }
 
 void CDlgHisGrp::OnBnClickedRadiogrpboth()

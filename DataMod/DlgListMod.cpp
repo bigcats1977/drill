@@ -224,6 +224,8 @@ BOOL CDlgListMod::CircleOptim(TorqData::Torque* pSrcData, TorqData::Torque* pDes
     int     i = 0;
     double  fRate = 0;
     double  fScrCir = 0;
+    double  fOldTotal = 0;
+    int  dwNewTotal = 0, dwfCurPlus = 0;
 
     ASSERT_NULL_R(pSrcData, FALSE);
     ASSERT_NULL_R(pDestData, FALSE);
@@ -231,9 +233,13 @@ BOOL CDlgListMod::CircleOptim(TorqData::Torque* pSrcData, TorqData::Torque* pDes
     /* 源数据个数为0，直接返回失败 */
     fScrCir = theApp.GetCir(pSrcData, TYPE_TOTAL);
     ASSERT_ZERO_R(fScrCir, FALSE);
-
     /* 目的周数和现有周数相等，直接返回成功 */
-    COMP_BE_R(m_fCir, fScrCir, FALSE);
+    COMP_BE_R(m_fCir, fScrCir, TRUE);
+
+    if (m_fCir > pDestData->fmaxcir() * AUTOUPDTURNRATIO)
+    {
+        pDestData->set_fmaxcir((int)ceil(m_fCir / AUTOUPDTURNRATIO));
+    }
 
     fRate = m_fCir / fScrCir;
     pDestData->set_dwmuplus((UINT)(pDestData->dwmuplus() * fRate));
@@ -241,7 +247,11 @@ BOOL CDlgListMod::CircleOptim(TorqData::Torque* pSrcData, TorqData::Torque* pDes
 
     for (i = 0; i < pSrcData->dwdelplus_size(); i++)
     {
-        theApp.UpdateDelplus(pDestData, i, (UINT)(pSrcData->dwdelplus(i) * fRate));
+        fOldTotal += pSrcData->dwdelplus(i);
+        dwfCurPlus = (int)(fOldTotal * fRate - dwNewTotal);
+        dwNewTotal += dwfCurPlus;
+        // theApp.UpdateDelplus(pDestData, i, (UINT)(pSrcData->dwdelplus(i) * fRate));
+        theApp.UpdateDelplus(pDestData, i, dwfCurPlus);
         theApp.UpdateTorqRpm(pDestData, i, pSrcData->ftorque(i), pSrcData->frpm(i) * fRate);
     }
 
