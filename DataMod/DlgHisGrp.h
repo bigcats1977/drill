@@ -94,10 +94,8 @@ protected:
 private:
     void    DrawCurTorque();
     BOOL    CheckCurData(UINT* pnCur, UINT nMax);
-    //void    CheckCurSplit();
     void    UpdateDlgLabel(UINT nUnit);
     BOOL    JudgeValidPosition(int iPos);
-    //BOOL    GetCirRange(double* fMin, double* fMax);
     void    EnableCtrlforMod();
     void    UpdateTallyNO();
     void    CheckGrpType();
@@ -113,7 +111,6 @@ private:
     BOOL    m_bModified;
     UINT    m_nIPTorq;
     UINT    m_nBeginPos;
-    //SPLITPOINT  m_tCurSplit;
     DRAWTORQDATA* m_ptCurDraw;
     TorqData::Torque* m_ptCurTorq;
 };

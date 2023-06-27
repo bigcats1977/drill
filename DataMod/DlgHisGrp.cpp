@@ -251,34 +251,37 @@ void CDlgHisGrp::SetCurEdit()
 void CDlgHisGrp::ResetHisLineByCurData()
 {
     int    i = 0;
-    double fMinCir = 0;
+    //double fMinCir = 0;
     double fMaxCir = 0;
 
+    ASSERT_NULL(m_ptCurDraw);
     ASSERT_NULL(m_ptCurTorq);
+
+    fMaxCir = m_ptCurDraw->fMaxCir;
 
     m_wndLineHis.RemoveAt();
     m_wndRpmHis.RemoveAt();
-    m_wndLineHis.m_fOptTorq = theApp.GetOptTorq(m_ptCurTorq);   /* 最佳扭矩 */
-    //m_wndLineHis.m_fSpeedDown   = m_ptCurTorq->fspeeddown();        /* 减速扭矩 */
-    m_wndLineHis.m_fShow = m_ptCurTorq->fshow();             /* 显示扭矩 */
-    //m_wndLineHis.m_fBear        = m_ptCurTorq->fbear();             /* 肩负扭矩 */
-    m_wndLineHis.m_fControlCir = theApp.GetCtrlCir(m_ptCurTorq);   /* 控制时间 */
-    m_wndLineHis.m_fUpperCir = theApp.GetUpperCir(m_ptCurTorq);  /* 上限时间 */
-    m_wndLineHis.m_fLowerCir = theApp.GetLowerCir(m_ptCurTorq);  /* 下限时间 */
-    m_wndLineHis.m_fMaxCir = theApp.GetMaxCir(m_ptCurTorq);    /* 最大时间 */
-    m_wndLineHis.m_fWidthCir = theApp.GetMaxCir(m_ptCurTorq);
-    m_wndLineHis.m_fMaxLimit = m_ptCurTorq->fmaxlimit();         /* 最大上限 */
+    m_wndLineHis.m_fOptTorq = theApp.GetOptTorq(m_ptCurTorq);       /* 最佳扭矩 */
+    //m_wndLineHis.m_fSpeedDown   = m_ptCurTorq->fspeeddown();      /* 减速扭矩 */
+    m_wndLineHis.m_fShow = m_ptCurTorq->fshow();                    /* 显示扭矩 */
+    //m_wndLineHis.m_fBear        = m_ptCurTorq->fbear();           /* 肩负扭矩 */
+    m_wndLineHis.m_fControlCir = theApp.GetCtrlCir(m_ptCurTorq);    /* 控制周数 */
+    m_wndLineHis.m_fUpperCir = theApp.GetUpperCir(m_ptCurTorq);     /* 上限周数 */
+    m_wndLineHis.m_fLowerCir = theApp.GetLowerCir(m_ptCurTorq);     /* 下限周数 */
+    m_wndLineHis.m_fMaxCir = fMaxCir;                               /* 最大周数 */
+    m_wndLineHis.m_fWidthCir = fMaxCir;
+    m_wndLineHis.m_fMaxLimit = m_ptCurTorq->fmaxlimit();            /* 最大上限 */
 
     m_wndLineHis.SetBkColor(RGB(255, 255, 255));
     m_wndLineHis.m_bBKLine = FALSE;
     m_wndLineHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxlimit(), 0.0, LINETYPE_HISG);
 
-    fMinCir = 0;
-    fMaxCir = m_wndLineHis.m_fMaxCir;
+    /*fMinCir = 0;
+    fMaxCir = m_wndLineHis.m_fMaxCir;*/
     //GetCirRange(&fMinCir, &fMaxCir);
 
     /* 重新设置刻度 */
-    m_xHisAxis1.SetTickPara(10, fMaxCir, fMinCir);
+    m_xHisAxis1.SetTickPara(10, fMaxCir);
     m_yHisAxis1.SetTickPara(20, m_ptCurTorq->fmaxlimit());
     m_wndLineHis.DrawBkLine(theApp.HaveBreakout(m_ptCurTorq));
 
@@ -287,7 +290,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
     m_wndRpmHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxrpm(), 0.0);
 
     /* 重新设置刻度 */
-    m_xHisAxis2.SetTickPara(10, fMaxCir, fMinCir);
+    m_xHisAxis2.SetTickPara(10, fMaxCir);
     m_yHisAxis2.SetTickPara(3, m_ptCurTorq->fmaxrpm());
     m_wndRpmHis.DrawBkLine();
 
@@ -414,35 +417,7 @@ void CDlgHisGrp::CheckGrpType()
     GetDlgItem(IDC_RADIOGRPMU)->EnableWindow(TRUE);
     GetDlgItem(IDC_RADIOGRPBO)->EnableWindow(TRUE);
 }
-#if 0
-void CDlgHisGrp::CheckCurSplit()
-{
-    /* 按钮先置灰 */
-    GetDlgItem(IDC_PRIORSPLIT)->EnableWindow(FALSE);
-    GetDlgItem(IDC_NEXTSPLIT)->EnableWindow(FALSE);
-    GetDlgItem(IDC_PRIORSPLIT)->ShowWindow(FALSE);
-    GetDlgItem(IDC_NEXTSPLIT)->ShowWindow(FALSE);
 
-    if (m_tCurSplit.iSplitNum <= 0)
-        return;
-    GetDlgItem(IDC_PRIORSPLIT)->ShowWindow(TRUE);
-    GetDlgItem(IDC_NEXTSPLIT)->ShowWindow(TRUE);
-
-    /* 游标保护 */
-    if (m_tCurSplit.iCur > 1)
-    {
-        GetDlgItem(IDC_PRIORSPLIT)->EnableWindow(TRUE);
-    }
-    GetDlgItem(IDC_NEXTSPLIT)->EnableWindow(TRUE);
-    if (m_tCurSplit.iCur >= m_tCurSplit.iSplitNum)
-    {
-        m_tCurSplit.iCur = m_tCurSplit.iSplitNum;
-        GetDlgItem(IDC_NEXTSPLIT)->EnableWindow(FALSE);
-    }
-
-    return;
-}
-#endif
 void CDlgHisGrp::DrawCurTorque()
 {
     int     i = 0;
@@ -463,16 +438,6 @@ void CDlgHisGrp::DrawCurTorque()
     i = 0;
     iBegin = 0;
     iEnd = m_ptCurDraw->wCount;
-    //theApp.GetShowDataRange(m_ptCurDraw, iBegin, iEnd, &m_tCurSplit);
-    /* 多屏的第一屏时，贴右画图 */
-    //if (iBegin == 0 && m_tCurSplit.iSplitNum > 1)
-    //{
-    //    nBeginPos = MAXLINEITEM - iEnd;
-    //    // SetStartPoint 需要在m_fOffset初始化后再设置，一般在DrawZoomBkLine之后即可
-    //    m_wndLineHis.SetStartPoint(nBeginPos);
-    //    m_wndRpmHis.SetStartPoint(nBeginPos);
-    //}
-
     for (i = iBegin; i < iEnd - 1; i++)
     {
         m_wndLineHis.SetPos(m_ptCurDraw->fTorque[i]);
@@ -569,13 +534,10 @@ void CDlgHisGrp::ShowCurData(bool bNew)
 
     if (bNew)
     {
-        //m_tCurSplit = m_ptTorData->tSplit[m_ptTorData->nCur - 1];
         m_wndLineHis.ClearSelPnt();
     }
 
     //m_wndLineHis.ClearSelPnt();
-
-    //CheckCurSplit();
 
     /* 设置显示参数 */
     SetCurEdit();
@@ -784,37 +746,11 @@ lParam 1: 右键up */
 */
 BOOL CDlgHisGrp::JudgeValidPosition(int iPos)
 {
-    //int  iCur = m_tCurSplit.iCur;
-
     ASSERT_NULL_R(m_ptCurDraw, FALSE);
     COMP_BLE_R(iPos, 0, FALSE);
     COMP_BGE_R(iPos, MAXLINEITEM, FALSE);
-    //COMP_BG_R(m_tCurSplit.iSplitNum, MAXSPLIITNUM, FALSE);
     if (iPos >= m_ptCurDraw->wCount)
         return FALSE;
-#if 0
-    /* 单屏数据 */
-    if (m_tCurSplit.iSplitNum <= 1)
-    {
-        if (iPos >= m_ptCurDraw->wCount)
-            return FALSE;
-    }
-    else    /* 多屏数据 */
-    {
-        /* 第1屏 */
-        if (iCur == 1)
-        {
-            if (iPos < MAXLINEITEM - m_tCurSplit.iEnd[0])
-                return FALSE;
-        }
-        /* 最后1屏 */
-        if (iCur == m_tCurSplit.iSplitNum)
-        {
-            if (iPos >= m_tCurSplit.iEnd[iCur - 1] - m_tCurSplit.iEnd[iCur - 2])
-                return FALSE;
-        }
-    }
-#endif
     return TRUE;
 }
 
@@ -877,18 +813,6 @@ void CDlgHisGrp::OnBnClickedRadiogrpbo()
     m_wndLineHis.ClearSelPnt();
     ShowCurData(false);
 }
-
-//void CDlgHisGrp::OnBnClickedCheckhisshackle()
-//{
-//    ASSERT_NULL(m_ptCurTorq);
-//
-//    UpdateData(TRUE);
-//    m_ptCurTorq->set_bbreakout(0);
-//    if (m_bBreakOut)
-//        m_ptCurTorq->set_bbreakout(1);
-//
-//    m_bModified = TRUE;
-//}
 
 void CDlgHisGrp::EnableCtrlforMod()
 {

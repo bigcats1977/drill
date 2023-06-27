@@ -1174,21 +1174,6 @@ void CDrillApp::SaveTCPData(string strData)
 
     memcpy(&m_tSaveLog.aucLog[m_tSaveLog.iCur], (LPCTSTR)strData.c_str(), iLen);
     m_tSaveLog.iCur += iLen;
-
-    //pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
-
-
-    //m_tSaveLog.iCur += iLen;                                \
-    //    pData += iLen;                                          \
-    //    if (m_tSaveLog.iCur >= MAXSAVELEN) {
-    //        \
-    //            SaveLogInfo();                                      \
-    //            pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];        \
-    //    }
-
-    ///* Save Info */
-    //iLen = sprintf_s(pData, 1024, "%s\r\n", (LPCTSTR)strData.c_str());
-    //INC_DBG_INFO();
     return;
 }
 
@@ -1516,9 +1501,6 @@ void CDrillApp::AutoupdateLogFile()
 {
     CTime   time = CTime::GetCurrentTime();//得到当前时间
     string  newLog;
-    // NOT save when no run status 超过20秒则跳过
-    /*if (time.GetHour() > 0 ||time.GetMinute() > 0 || time.GetSecond() > 20)
-        return;*/
 
     newLog = m_strLogPath;
     newLog += time.Format(IDS_STRDATEFORM);
@@ -1809,7 +1791,7 @@ BOOL CDrillApp::JudgeTranslate(TorqData::Torque* ptTorq)
     ASSERT_NULL_R(ptTorq, TRUE);
     ASSERT_ZERO_R(ptTorq->dwmucount(), TRUE);
 
-    iTranCount = (int)ceil((0.2 / ptTorq->fmaxcir()) * 500);
+    iTranCount = (int)ceil((0.2 / ptTorq->fmaxcir()) * MAXLINEITEM);
     fCtrlTorq = ptTorq->fmumaxtorq();
 
     for (i = ptTorq->dwmucount() - 1; i > iTranCount; i--)
@@ -2206,8 +2188,6 @@ void CDrillApp::ClearReadTorq(TORQUEDATA* pAllData)
     pAllData->nQualy = 0;
     pAllData->nUnQualy = 0;
 
-    //memset(&pAllData->tSplit, 0, MAXWELLNUM * sizeof(SPLITPOINT));
-
     for (i = 0; i < MAXWELLNUM; i++)
         pAllData->tData[i].Clear();
     pAllData->strFileName.clear();
@@ -2353,7 +2333,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
     UINT    nValid = 0;
     int     iFilePos = 0;
     int     iDataLen = 0;
-    int     iTotalPnt = 0;
+    //int     iTotalPnt = 0;
     CString strInfo;
     CString strTitle;
     bool    bRes;
@@ -2421,7 +2401,6 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         /* 20190609最后一屏按控制周数，其他按满屏计算 */
         /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */
         ptTorq = &pAllData->tData[nValid];
-        //pSplit = &pAllData->tSplit[nValid];
 
         // 20230606 老版本单根立柱值在bsinglestd中，需要设置到columns中，以便后续程序通过columns显示和设置
         if (ptTorq->bsinglestd() && ptTorq->dwcolumns() == 0)
@@ -2440,7 +2419,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
                 maxcir = (int)ceil(maxcir / AUTOUPDTURNRATIO);
                 ptTorq->set_fmaxcir(maxcir);
             }
-            iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
+            //iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
         /* NM  < ---- > lbft (* ratio) */
@@ -2787,6 +2766,7 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nMult
 
     memset(ptDraw, 0, sizeof(DRAWTORQDATA));
     ptDraw->ptOrgTorq = ptOrg;
+    ptDraw->fMaxCir = ptOrg->fmaxcir();
 
     if (ptOrg->dwmucount() > 0 && (nType & 0x01))
     {

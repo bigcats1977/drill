@@ -606,6 +606,8 @@ const string g_strStatus[STATUS_MAXNUM] = {
             _T("CHGUNIT"),
             _T("CALIB"),
             _T("TUBECFG"),
+            _T("GLBCFG"),
+            _T("WITSCFG"),
 };
 
 /* 定义串口操作字符串 */
@@ -617,6 +619,7 @@ const string  g_strPortOpr[PORTOPR_MAXNUM] = {
 /* 读取的历史保存的扭矩控制数据，包括文件名称，数据个数等信息 */
 TORQUEDATA      g_tReadData;
 TORQUEDATA      g_tReadData2;   // 其他文件的原始数据
+
 GLBCFG          g_tGlbCfg = { 0 };
 
 string GetCurTime()

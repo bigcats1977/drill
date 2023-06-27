@@ -4059,7 +4059,7 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
     //ptPBData->set_bbreakout(m_iBreakOut > 0);
     ptPBData->set_dwtorqunit(g_tGlbCfg.nTorqUnit);
     duration = _difftime64(curTime, m_tStartTime);
-    ptPBData->set_fmuduration(_difftime64(curTime, m_tStartTime));
+    ptPBData->set_fmuduration(duration);
 
     nDataLen = ptPBData->ByteSizeLong();
     ASSERT_ZERO(nDataLen);
@@ -4150,7 +4150,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
         //ptBOData->set_bbreakout(true);
         ptBOData->set_bocoltime(curTime);
         duration = _difftime64(curTime, m_tStartTime);
-        ptBOData->set_fboduration(_difftime64(curTime, m_tStartTime));
+        ptBOData->set_fboduration(duration);
         ptBOData->set_dwbocount(ptPBData->dwmucount());
 
         ptBOData->set_dwoutwellno(m_nBOOutWellNO);
@@ -4182,7 +4182,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
         ptPBData->set_fbomaxtorq(m_fMaxTorq);
         ptPBData->set_bocoltime(curTime);
         duration = _difftime64(curTime, m_tStartTime);
-        ptPBData->set_fboduration(_difftime64(curTime, m_tStartTime));
+        ptPBData->set_fboduration(duration);
         ptPBData->set_dwoutwellno(m_nBOOutWellNO);
         // clear makeup data
         ptPBData->set_dwboplus(ptPBData->dwmuplus());

@@ -52,7 +52,6 @@ CDataModApp theApp;
 
 void CDataModApp::InitVariant()
 {
-    // test user name
     g_tReadData.nCur = 0;
     m_nPBHead = htonl(PBHEAD);
     m_strTallyName = DEFTALLYNAME;
@@ -76,7 +75,6 @@ BOOL CDataModApp::InitInstance()
 
     ScaleY = (ScaleY > dpiY) ? ScaleY : dpiY;
     m_ucDPILevel = (BYTE)ceil(ScaleY * 4);// + 0.5);
-    m_nPBHead = htonl(PBHEAD);
 
     m_nScreenX = GetSystemMetrics(SM_CXFULLSCREEN);
     m_nScreenY = GetSystemMetrics(SM_CYFULLSCREEN);
@@ -293,7 +291,7 @@ DWORD CDataModApp::JudgeQuality(TorqData::Torque* ptTorq, int iShackle)
     /* 实际的起始扭矩大于最佳扭矩的15% */
     SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
 
-    /* 超过台阶再平移周数超过0.2 */
+    /* 超过台阶再平移周数超过0.25 */
     SET_QUALITY_BIT(JudgeTranslate(ptTorq), QUA_TRANSLATE, dwQuality);
 
     /* 图形周数小于0.20或者贴边 */
@@ -502,7 +500,7 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
     UINT    nValid = 0;
     int     iFilePos = 0;
     int     iDataLen = 0;
-    int     iTotalPnt = 0;
+    //int     iTotalPnt = 0;
     CString strInfo;
     //CString strTitle;
     bool    bRes;
@@ -582,7 +580,7 @@ BOOL CDataModApp::GetTorqDataFromFile(string strDataName, TORQUEDATA* pAllData)
                 maxcir = (int)ceil(maxcir / AUTOUPDTURNRATIO);
                 ptTorq->set_fmaxcir(maxcir);
             }
-            iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
+            //iTotalPnt = (int)ceil(pAllData->nTotalPlus[nValid] / ptTorq->fplus() / ptTorq->fmaxcir() * MAXLINEITEM);
         }
 
         pAllData->nTotal++;
@@ -885,6 +883,7 @@ DRAWTORQDATA* CDataModApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nMu
 
     memset(ptDraw, 0, sizeof(DRAWTORQDATA));
     ptDraw->ptOrgTorq = ptOrg;
+    ptDraw->fMaxCir = ptOrg->fmaxcir();
 
     if (ptOrg->dwmucount() > 0 && (nType & 0x01))
     {
@@ -956,35 +955,6 @@ string CDataModApp::LoadstringFromRes(unsigned string_ID)
 
     return string(buffer, bytes_copied);
 }
-
-//string CDataModApp::LoadstringFromRes(unsigned string_ID, int val)
-//{
-//    char buffer[MAX_LOADSTRING];
-//    LoadString(NULL, string_ID, buffer, MAX_LOADSTRING);
-//    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
-//
-//    return string(buffer);
-//}
-//
-//string CDataModApp::LoadstringFromRes(unsigned string_ID, double val)
-//{
-//    char buffer[MAX_LOADSTRING];
-//    LoadString(NULL, string_ID, buffer, MAX_LOADSTRING);
-//    snprintf(buffer, MAX_LOADSTRING, LoadstringFromRes(string_ID).c_str(), val);
-//
-//    return string(buffer);
-//}
-//
-//string CDataModApp::LoadstringFromRes(unsigned string_ID, string val)
-//{
-//    string buffer1;
-//    char buffer2[MAX_LOADSTRING];
-//    buffer1 = LoadstringFromRes(string_ID);
-//    //LoadString(m_hLangDLL[g_tGlbCfg.nLangType], string_ID, buffer, MAX_LOADSTRING);
-//    snprintf(buffer2, MAX_LOADSTRING, buffer1.c_str(), val.c_str());
-//
-//    return string(buffer2);
-//}
 
 /*
     nDataPlace: form 1 开始

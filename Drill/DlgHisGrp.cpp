@@ -264,34 +264,37 @@ BOOL CDlgHisGrp::GetCirRange(double* fMin, double* fMax)
 void CDlgHisGrp::ResetHisLineByCurData()
 {
     int    i = 0;
-    double fMinCir = 0;
+    //double fMinCir = 0;
     double fMaxCir = 0;
 
+    ASSERT_NULL(m_ptCurDraw);
     ASSERT_NULL(m_ptCurTorq);
+
+    fMaxCir = m_ptCurDraw->fMaxCir;
 
     m_wndLineHis.RemoveAt();
     m_wndRpmHis.RemoveAt();
-    m_wndLineHis.m_fOptTorq = theApp.GetOptTorq(m_ptCurTorq);   /* 最佳扭矩 */
-    //m_wndLineHis.m_fSpeedDown   = m_ptCurTorq->fspeeddown();        /* 减速扭矩 */
-    m_wndLineHis.m_fShow = m_ptCurTorq->fshow();             /* 显示扭矩 */
-    //m_wndLineHis.m_fBear        = m_ptCurTorq->fbear();             /* 肩负扭矩 */
-    m_wndLineHis.m_fControlCir = theApp.GetCtrlCir(m_ptCurTorq);   /* 控制时间 */
-    m_wndLineHis.m_fUpperCir = theApp.GetUpperCir(m_ptCurTorq);  /* 上限时间 */
-    m_wndLineHis.m_fLowerCir = theApp.GetLowerCir(m_ptCurTorq);  /* 下限时间 */
-    m_wndLineHis.m_fMaxCir = theApp.GetMaxCir(m_ptCurTorq);    /* 最大时间 */
-    m_wndLineHis.m_fWidthCir = theApp.GetMaxCir(m_ptCurTorq);
-    m_wndLineHis.m_fMaxLimit = m_ptCurTorq->fmaxlimit();         /* 最大上限 */
+    m_wndLineHis.m_fOptTorq = theApp.GetOptTorq(m_ptCurTorq);       /* 最佳扭矩 */
+    //m_wndLineHis.m_fSpeedDown   = m_ptCurTorq->fspeeddown();      /* 减速扭矩 */
+    m_wndLineHis.m_fShow = m_ptCurTorq->fshow();                    /* 显示扭矩 */
+    //m_wndLineHis.m_fBear        = m_ptCurTorq->fbear();           /* 肩负扭矩 */
+    m_wndLineHis.m_fControlCir = theApp.GetCtrlCir(m_ptCurTorq);    /* 控制时间 */
+    m_wndLineHis.m_fUpperCir = theApp.GetUpperCir(m_ptCurTorq);     /* 上限周数 */
+    m_wndLineHis.m_fLowerCir = theApp.GetLowerCir(m_ptCurTorq);     /* 下限周数 */
+    m_wndLineHis.m_fMaxCir = fMaxCir;                               /* 最大周数 */
+    m_wndLineHis.m_fWidthCir = fMaxCir;
+    m_wndLineHis.m_fMaxLimit = m_ptCurTorq->fmaxlimit();            /* 最大上限 */
 
     m_wndLineHis.SetBkColor(RGB(255, 255, 255));
     m_wndLineHis.m_bBKLine = FALSE;
     m_wndLineHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxlimit(), 0.0, LINETYPE_HISG);
 
-    fMinCir = 0;
-    fMaxCir = m_wndLineHis.m_fMaxCir;
+    /*fMinCir = 0;
+    fMaxCir = m_wndLineHis.m_fMaxCir;*/
     //GetCirRange(&fMinCir, &fMaxCir);
 
     /* 重新设置刻度 */
-    m_xHisAxis1.SetTickPara(10, fMaxCir, fMinCir);
+    m_xHisAxis1.SetTickPara(10, fMaxCir);
     m_yHisAxis1.SetTickPara(20, m_ptCurTorq->fmaxlimit());
     m_wndLineHis.DrawBkLine(theApp.HaveBreakout(m_ptCurTorq));
 
@@ -300,7 +303,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
     m_wndRpmHis.Add(RGB(0, 0, 0), m_ptCurTorq->fmaxrpm(), 0.0);
 
     /* 重新设置刻度 */
-    m_xHisAxis2.SetTickPara(10, fMaxCir, fMinCir);
+    m_xHisAxis2.SetTickPara(10, fMaxCir);
     m_yHisAxis2.SetTickPara(3, m_ptCurTorq->fmaxrpm());
     m_wndRpmHis.DrawBkLine();
 

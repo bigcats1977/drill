@@ -263,6 +263,7 @@ using namespace std;
 #define DIFF_TIME               1
 #define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
 #define AUTOUPDTURNRATIO        0.8     // 超过80%(400)点自动增加周数
+#define AUTOSCALERATIO          0.9     // 老版本自动缩放比例
 
 #define IP_SLOPE_PER            1       /* 默认拐点百分比 */
 
@@ -449,7 +450,9 @@ using namespace std;
 #define STATUS_CHGUNIT          16  /* 修改扭矩单位 */
 #define STATUS_CALIB            17  /* 校准 */
 #define STATUS_TUBECFG          18  /* 油管参数设置 */
-#define STATUS_MAXNUM           (STATUS_TUBECFG +1)
+#define STATUS_GLBCFG           19  /* 全局参数设置 */
+#define STATUS_WITSCFG          20  /* WITS参数设置 */
+#define STATUS_MAXNUM           (STATUS_WITSCFG +1)
 #pragma endregion
 
 #pragma region DATABASE
@@ -530,8 +533,8 @@ using namespace std;
 #define         COUPPARA_HYDTONG        225 /* 液压钳 */
 #define         COUPPARA_OEM            226 /* 厂家 */
 #endif
-#define         HALFPARALEN             25
-#define         MAXPARALEN              50
+//#define         HALFPARALEN             25
+//#define         MAXPARALEN              50
 
 #define         MAXPARANUM              16  /* 0 Factory + 15  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
@@ -968,6 +971,8 @@ typedef struct tagDRAWTORQDATA
 {
     WORD        wCount;
     WORD        wMUEndPos;
+    double      fMaxCir;
+
     double      fTorque[25000];
     double      fRpm[25000];
 

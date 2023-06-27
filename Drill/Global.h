@@ -263,6 +263,7 @@ using namespace std;
 #define DIFF_TIME               1
 #define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
 #define AUTOUPDTURNRATIO        0.8     // 超过80%(400)点自动增加周数
+#define AUTOSCALERATIO          0.9     // 老版本自动缩放比例
 
 #define IP_SLOPE_PER            1       /* 默认拐点百分比 */
 
@@ -497,8 +498,8 @@ using namespace std;
 
 #pragma region SHOW PARAMETER
 
-#define         HALFPARALEN             25
-#define         MAXPARALEN              50
+//#define         HALFPARALEN             25
+//#define         MAXPARALEN              50
 
 #define         MAXPARANUM              16  /* 钻杆6+油田3+勘探公司6+其他3  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
@@ -952,6 +953,7 @@ typedef struct tagDRAWTORQDATA
 {
     WORD        wCount;
     WORD        wMUEndPos;
+    double      fMaxCir;
 
     double      fTorque[25000];
     double      fRpm[25000];

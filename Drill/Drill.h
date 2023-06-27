@@ -98,10 +98,6 @@ public:
     CString GetTorqCollTime(TorqData::Torque* ptTorq, bool bBreakout = false);
     BOOL    CheckPassWord();
     string  LoadstringFromRes(unsigned string_ID);
-    //string  LoadstringFromRes(unsigned string_ID, ...);
-    //string  LoadstringFromRes(unsigned string_ID, int val);
-    //string  LoadstringFromRes(unsigned string_ID, double val);
-    //string  LoadstringFromRes(unsigned string_ID, string val);
     string  GetSaveDataPath();
     int     SplitString(CString strSource, CStringList& slList);
     /* 为时间版本减少差异，获取横轴坐标的参数，包括下限/上限/控制/最大4个函数 */

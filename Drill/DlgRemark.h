@@ -1,4 +1,3 @@
-#include "afxwin.h"
 #if !defined(AFX_DLGREMARK_H__374A35AF_9988_4B18_A5CE_297BCFC26348__INCLUDED_)
 #define AFX_DLGREMARK_H__374A35AF_9988_4B18_A5CE_297BCFC26348__INCLUDED_
 
@@ -7,6 +6,7 @@
 #endif // _MSC_VER > 1000
 // DlgRemark.h : header file
 //
+//#include "afxwin.h"
 
 #define MAX_USE_CAUSE           14
 /////////////////////////////////////////////////////////////////////////////

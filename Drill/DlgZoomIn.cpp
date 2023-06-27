@@ -96,10 +96,8 @@ void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA* ptDraw)
     double  fMin = 500000;
     double  fMax = 0;
     double  fDiff = 0;
-    TorqData::Torque* ptTorq = NULL;
 
     ASSERT_NULL(ptDraw);
-    ptTorq = ptDraw->ptOrgTorq;
 
     for (i = m_iBegin; i <= m_iEnd && i < ptDraw->wCount; i++)
     {
@@ -124,7 +122,6 @@ void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA* ptDraw)
 
     m_fMinTorq = (int)fMin;
     m_fMaxTorq = (int)fMax;
-
 }
 
 void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
@@ -188,18 +185,13 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
     double  fSrcMaxCir = 0;
     int     iBegin, iEnd;       // 放大前的位置；m_iBegin/m_iEnd: 放大后的位置
     UINT    nStartPoint = 0;
-    TorqData::Torque* ptTorq = NULL;
-
-    //SPLITPOINT  tCurSplit;      /* 当前分屏信息 */
 
     ASSERT_NULL(ptDraw);
-    ptTorq = ptDraw->ptOrgTorq;
-    //tCurSplit = g_tReadData.tSplit[g_tReadData.nCur - 1];
 
     if (m_nCurZoom <= 0)
         m_nCurZoom = 1;
 
-    fSrcMaxCir = theApp.GetMaxCir(ptTorq);
+    fSrcMaxCir = ptDraw->fMaxCir;
 
     fZoomCir = fSrcMaxCir * m_nPos / MAXLINEITEM;
     m_fMinCir = fZoomCir - fSrcMaxCir / m_nCurZoom / 2;
@@ -217,18 +209,6 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
 
     /* 多屏的第一屏时，贴右画图 */
     m_iZoomPos = m_nPos + iBegin;
-    //if (m_tSplit.iSplitNum > 1)
-    //{
-    //    if (iBegin == 0)
-    //    {
-    //        nStartPoint = MAXLINEITEM - iEnd;
-    //        m_iZoomPos = m_nPos - nStartPoint;
-    //    }
-    //    else
-    //    {
-    //        //nStartPoint = 0;
-    //    }
-    //}
 
     m_iBegin = (UINT)(m_fMinCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin;
     /* 20200312 避免放大时，放大LineCtrlEx画的点超过500，m_nPos为0，放大图像无法点击鼠标 */
@@ -308,7 +288,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
     }
 
     //theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit);
-    fmaxcir = theApp.GetMaxCir(ptDraw->ptOrgTorq);
+    fmaxcir = ptDraw->fMaxCir;
     fDeltaCir = theApp.GetCir(ptDraw->ptOrgTorq, TYPE_TOTAL);
 
     m_nZoomTorq = (UINT)ptDraw->fTorque[m_iZoomPos];

@@ -178,7 +178,7 @@ void CDlgHisList::OnBtnhis()
     for (i = 0; i < (int)g_tReadData.nTotal; i++)
     {
         ptTorq = &g_tReadData.tData[i];
-        if (ptTorq->tshow_size() > (int)iShowListNum)
+        if (ptTorq->tshow_size() > iShowListNum)
         {
             nMaxShowPlace = i;
             iShowListNum = ptTorq->tshow_size();
