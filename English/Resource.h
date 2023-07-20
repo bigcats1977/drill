@@ -302,7 +302,7 @@
 #define IDC_BTNSCATTER                  1412
 #define IDC_BTNSTATSET                  1413
 #define IDC_BTNIMPORTDEPTH              1414
-#define IDC_BTNSRVCFG                   1415
+#define IDC_BTNTCPUPLOAD                1415
 #define IDC_BTNUPLOAD                   1416
 #define IDC_COMBOREMARK                 1480
 #define IDC_RADIONOQUALITY              1481
@@ -684,7 +684,8 @@
 #define ID_SEGCALIB                     32796
 #define ID_TUBECFG                      32797
 #define ID_GLBCFG                       32798
-#define ID_WITSCFG                      32799
+#define ID_SERVERCFG                    32799
+#define ID_SETWITS                      32800
 #define IDS_STRTITLE                    50000
 #define IDS_STRTRYOUT                   50001
 #define IDS_STRBIGTITLE                 50002
@@ -956,7 +957,8 @@
 #define IDS_STRINFRUNNGLBCFG            52312
 #define IDS_STRINFRUNNCHGUNIT           52313
 #define IDS_STRINFRUNNVALVEPARA         52314
-#define IDS_STRINFRUNNWITSCFG           52315
+#define IDS_STRINFRUNNSERVERCFG         52315
+#define IDS_STRINFRUNNWITSCFG           52316
 #define IDS_STRINFCOLOVERFLOW           52400
 #define IDS_STRINFREADDATAERR           52401
 #define IDS_STRINFQUALOPTM              52402
@@ -1048,7 +1050,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        195
-#define _APS_NEXT_COMMAND_VALUE         32800
+#define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         2410
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
