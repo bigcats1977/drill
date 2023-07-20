@@ -14,6 +14,7 @@ CDBServerCfg::~CDBServerCfg()
 void CDBServerCfg::Empty()
 {
     _FTPPort = 21;
+    _TCPPort = 9600;
     _FTPAddr.clear();
     _UserName.clear();
     _Password.clear();
@@ -43,6 +44,7 @@ void CDBServerCfg::GetTable()
     _Sqlite->GetValue(pResult[nIndex++], _UserName);
     _Sqlite->GetValue(pResult[nIndex++], _Password);
     _Sqlite->GetValue(pResult[nIndex++], _TargetPath);
+    _Sqlite->GetValue(pResult[nIndex++], _TCPPort);
 
     _Sqlite->FreeResult(&pResult);
 }
@@ -66,6 +68,8 @@ BOOL CDBServerCfg::UpdateServerCfg(SERVERCFG* ptfg)
     values.push_back(ptfg->strPassword);
     fields.push_back("TargetPath");
     values.push_back(ptfg->strTargetPath);
+    fields.push_back("TCPPort");
+    values.push_back(to_string(ptfg->nTCPPort));
 
     return _Sqlite->UpdateFields(g_tTableName[_TableIndex], NULLSTR, fields, values);
 }

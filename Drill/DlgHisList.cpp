@@ -4,12 +4,13 @@
 #include "stdafx.h"
 #include "Drill.h"
 #include "FtpFile.h"
+#include "WITSEnc.h"
 #include "DlgHisList.h"
 #include "DlgHisGrp.h"
 #include "DlgXlsStatSet.h"
 #include "DlgScatter.h"
 #include "DlgDataStat.h"
-#include "DlgServerCfg.h"
+//#include "DlgServerCfg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,8 +69,9 @@ BEGIN_MESSAGE_MAP(CDlgHisList, CPropertyPage)
     ON_BN_CLICKED(IDC_BTNSTATLIST, &CDlgHisList::OnBnClickedBtnstatlist)
     ON_BN_CLICKED(IDC_BTNSTATSET, &CDlgHisList::OnBnClickedBtnstatset)
     ON_BN_CLICKED(IDC_BTNIMPORTDEPTH, &CDlgHisList::OnBnClickedBtnimportdepth)
-    ON_BN_CLICKED(IDC_BTNSRVCFG, &CDlgHisList::OnBnClickedBtnsrvcfg)
+    //ON_BN_CLICKED(IDC_BTNSRVCFG, &CDlgHisList::OnBnClickedBtnsrvcfg)
     ON_BN_CLICKED(IDC_BTNUPLOAD, &CDlgHisList::OnBnClickedBtnupload)
+    ON_BN_CLICKED(IDC_BTNTCPUPLOAD, &CDlgHisList::OnBnClickedBtntcpupload)
     ON_WM_DESTROY()
     //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -110,6 +112,7 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.SetHeadings(strHead.c_str());
     m_listHis.LoadColumnInfo();
 
+    GetDlgItem(IDC_BTNTCPUPLOAD)->ShowWindow(TRUE);
     //GetDlgItem(IDC_BTNORGDATA)->ShowWindow(TRUE);
     /*GetDlgItem(IDC_BTNSTATSET)->ShowWindow(TRUE);
     GetDlgItem(IDC_BTNSTATSET)->EnableWindow(TRUE);*/
@@ -374,6 +377,7 @@ void CDlgHisList::ShowHisTorqList()
     //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(m_listHis.GetItemCount() > 0);
     GetDlgItem(IDC_BTNUPLOAD)->EnableWindow(m_listHis.GetItemCount() > 0);
+    GetDlgItem(IDC_BTNTCPUPLOAD)->EnableWindow(m_listHis.GetItemCount() > 0 && theApp.isTCPConnected());
 }
 
 void CDlgHisList::SetDataPlace(UINT nCur)
@@ -1838,12 +1842,6 @@ void CDlgHisList::OnBnClickedBtnimportdepth()
     return;
 }
 
-void CDlgHisList::OnBnClickedBtnsrvcfg()
-{
-    CDlgServerCfg DlgServCfg;
-    DlgServCfg.DoModal();
-}
-
 void CDlgHisList::OnBnClickedBtnupload()
 {
     int  iPos;
@@ -1882,4 +1880,51 @@ void CDlgHisList::OnBnClickedBtnupload()
         strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFUPLOADFAIL).c_str(), filename.c_str());
     }
     theApp.SaveShowMessage(strInfo.c_str(), MB_OK | MB_ICONINFORMATION);
+}
+
+void CDlgHisList::OnBnClickedBtntcpupload()
+{
+    TorqData::Torque* ptTorq = NULL;
+    string strSendData;
+    bool sending = true;
+    int start = 0;
+    UINT nSelCount = 0;
+    UINT nIndex = 0;
+
+    BeginWaitCursor();
+
+    nSelCount = GetSelectItem();
+    ASSERT_ZERO(nSelCount);
+
+    for (UINT i = 0; i < nSelCount; i++)
+    {
+        nIndex = m_nSelItem[i];
+        ptTorq = &g_tReadData.tData[nIndex-1];
+        sending = true;
+        start = 0;
+
+        strSendData = WITSEnc::EncHisTorqConfig(nIndex, &theApp.m_tWITSCfg, ptTorq);
+        theApp.ReportWITSByTCP(strSendData);
+
+        if (theApp.HaveMakeUP(ptTorq)
+        {
+            while (sending)
+            {
+                Sleep(100);
+
+                    strSendData = WITSEnc::EncHisTorqData(nIndex, start, &theApp.m_tWITSCfg, ptTorq);
+                    theApp.ReportWITSByTCP(strSendData);
+                    start += RPTHISDATANUM;
+                    if (start >= ptTorq->ftorque_size())
+                        sending = false;
+            }
+        }
+
+        strSendData = WITSEnc::EncWITSTorqQuality(nIndex, &theApp.m_tWITSCfg, NULL, ptTorq);
+        theApp.ReportWITSByTCP(strSendData);
+
+    }
+    EndWaitCursor();
+
+    UpdateData(FALSE);
 }

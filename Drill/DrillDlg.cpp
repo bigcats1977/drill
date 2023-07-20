@@ -19,6 +19,7 @@
 #include "DlgRemark.h"
 #include "DlgSegCabl.h"
 #include "DlgGlbCfg.h"
+#include "DlgServerCfg.h"
 #include "DlgWITSCfg.h"
 #include "WITSEnc.h"
 #include <Nb30.h>
@@ -524,9 +525,10 @@ BEGIN_MESSAGE_MAP(CDrillDlg, CDialog)
     //ON_BN_CLICKED(IDC_BTNBREAKOUTFILE, &CDrillDlg::OnBnClickedBtnBreakoutFile)
     ON_COMMAND(ID_SEGCALIB, &CDrillDlg::OnSegcalib)
     ON_COMMAND(ID_GLBCFG, &CDrillDlg::OnGlbCfg)
-    ON_COMMAND(ID_WITSCFG, &CDrillDlg::OnWITSCfg)
+    ON_COMMAND(ID_SERVERCFG, &CDrillDlg::OnServerCfg)
     ON_EN_KILLFOCUS(IDC_EDHISSEQNO, &CDrillDlg::OnEnKillfocusEdhisseqno)
     ON_EN_KILLFOCUS(IDC_EDBREAKOUTNO, &CDrillDlg::OnEnKillfocusEdbreakoutno)
+    ON_COMMAND(ID_SETWITS, OnSetWits)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3193,6 +3195,21 @@ void CDrillDlg::OnSetShow()
     theApp.ReOpenWindow();
 }
 
+void CDrillDlg::OnSetWits()
+{
+    CDlgWITSCfg  dlgWITSCfg;
+
+    COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNWITSCFG));
+
+    //COMP_BFALSE(theApp.CheckPassWord());
+
+    dlgWITSCfg.m_tempShow = *m_ptShow;
+    if (IDOK != dlgWITSCfg.DoModal())
+        return;
+
+    theApp.SaveAppStatus(STATUS_WITSCFG, __FUNCTION__);
+}
+
 void CDrillDlg::OnAbout()
 {
     CAboutDlg dlgAbout;
@@ -4828,19 +4845,15 @@ void CDrillDlg::OnEnKillfocusEdbreakoutno()
     GetDlgItem(IDC_BTRUN)->EnableWindow(true);
 }
 
-void CDrillDlg::OnWITSCfg()
+void CDrillDlg::OnServerCfg()
 {
-    CDlgWITSCfg  dlgWITSCfg;
+    CDlgServerCfg DlgServCfg;
 
-    COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNWITSCFG));
+    COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNSERVERCFG));
 
-    //COMP_BFALSE(theApp.CheckPassWord());
+    DlgServCfg.DoModal();
 
-    dlgWITSCfg.m_tempShow = *m_ptShow;
-    if (IDOK != dlgWITSCfg.DoModal())
-        return;
-
-    theApp.SaveAppStatus(STATUS_WITSCFG, __FUNCTION__);
+    theApp.SaveAppStatus(STATUS_SERVERCFG, __FUNCTION__);
 }
 
 void CDrillDlg::RecordReportData()

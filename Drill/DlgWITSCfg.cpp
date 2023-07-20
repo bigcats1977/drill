@@ -1,6 +1,5 @@
 // DlgWITSCfg.cpp : implementation file
 //
-
 #include "stdafx.h"
 #include "Drill.h"
 #include "WITSEnc.h"
@@ -13,7 +12,6 @@ IMPLEMENT_DYNAMIC(CDlgWITSCfg, CDialog)
 CDlgWITSCfg::CDlgWITSCfg(CWnd* pParent /*=nullptr*/)
 	: CDialog(IDD_DLGWITSCFG, pParent)
 {
-    m_nTCPPort = 9600;
 }
 
 CDlgWITSCfg::~CDlgWITSCfg()
@@ -23,8 +21,6 @@ CDlgWITSCfg::~CDlgWITSCfg()
 void CDlgWITSCfg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_HOSTIP, m_hostIP);
-    DDX_Text(pDX, IDC_EDITTCPPORT, m_nTCPPort);
     DDX_Check(pDX, IDC_CHECKWITS01, m_bChecked[0]);
     DDX_Check(pDX, IDC_CHECKWITS02, m_bChecked[1]);
     DDX_Check(pDX, IDC_CHECKWITS03, m_bChecked[2]);
@@ -101,9 +97,6 @@ void CDlgWITSCfg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgWITSCfg, CDialog)
     ON_WM_CTLCOLOR()
     ON_WM_DESTROY()
-    ON_BN_CLICKED(IDTCPSTART, &CDlgWITSCfg::OnBnClickedTcpstart)
-    ON_BN_CLICKED(IDTCPSTOP, &CDlgWITSCfg::OnBnClickedTcpstop)
-    ON_BN_CLICKED(IDTCPTEST, &CDlgWITSCfg::OnBnClickedTcptest)
     ON_BN_CLICKED(IDC_CHECKWITS01, &CDlgWITSCfg::OnBnClickedCheckwits01)
     ON_BN_CLICKED(IDC_CHECKWITS02, &CDlgWITSCfg::OnBnClickedCheckwits02)
     ON_BN_CLICKED(IDC_CHECKWITS03, &CDlgWITSCfg::OnBnClickedCheckwits03)
@@ -136,9 +129,6 @@ BOOL CDlgWITSCfg::OnInitDialog()
 
     SetParaValue(m_pCurCfg);
 
-    EnableTCPButton(theApp.mi_Socket.GetSocketCount());
-    GetDlgItem(IDTCPTEST)->ShowWindow(FALSE);
-
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -152,13 +142,6 @@ void CDlgWITSCfg::OnDestroy()
     WSACleanup();
 }
 
-void CDlgWITSCfg::EnableTCPButton(bool Started)
-{
-    GetDlgItem(IDTCPSTART)->EnableWindow(!Started);
-    GetDlgItem(IDTCPSTOP)->EnableWindow(Started);
-    GetDlgItem(IDTCPTEST)->EnableWindow(Started);
-}
-
 bool CDlgWITSCfg::GetParaValue(WITSCFG* ptCfg)
 {
     int i = 0;
@@ -166,12 +149,6 @@ bool CDlgWITSCfg::GetParaValue(WITSCFG* ptCfg)
     vector<int> items;
 
     ASSERT_NULL_R(ptCfg, false);
-
-    if (m_nTCPPort == 0)
-    {
-        return false;
-    }
-    ptCfg->nTCPPort = m_nTCPPort;
 
     // fix Items
     ptCfg->FixItems.clear();
@@ -234,10 +211,6 @@ void CDlgWITSCfg::SetParaValue(WITSCFG* ptCfg)
 
     ASSERT_NULL(ptCfg);
 
-    // Address & port
-    GetIPAddr();
-    m_nTCPPort = ptCfg->nTCPPort;
-
     // fix Items
     memset(m_nFixItems, 0, sizeof(UINT) * WITSRPT_FIXHEADNUM);
     for (i = 0; i < WITSRPT_FIXHEADNUM && i < ptCfg->FixItems.size(); i++) {
@@ -275,47 +248,10 @@ void CDlgWITSCfg::SetParaValue(WITSCFG* ptCfg)
     }
 }
 
-void CDlgWITSCfg::GetIPAddr()
-{
-    WSADATA WSAData;
-    char hostname[256] = { 0 };
-
-    struct addrinfo hints;
-    struct addrinfo* res;// , * cur;
-    struct sockaddr_in* addr;
-
-    if (WSAStartup(MAKEWORD(2, 2), &WSAData) != 0)
-    {
-        return;
-    }
-    if (gethostname(hostname, sizeof(hostname)) != 0)
-    {
-        WSACleanup();
-        return;
-    }
-
-    memset(&hints, 0, sizeof(struct addrinfo));
-    hints.ai_family = AF_INET;     /* Allow IPv4 */
-    hints.ai_flags = AI_PASSIVE;/* For wildcard IP address */
-    hints.ai_protocol = 0;         /* Any protocol */
-    hints.ai_socktype = SOCK_STREAM;
-
-    if (getaddrinfo(hostname, NULL, &hints, &res) == 0)
-    {
-        addr = (struct sockaddr_in*)res->ai_addr;
-        m_hostIP.SetAddress(addr->sin_addr.S_un.S_un_b.s_b1,
-            addr->sin_addr.S_un.S_un_b.s_b2,
-            addr->sin_addr.S_un.S_un_b.s_b3,
-            addr->sin_addr.S_un.S_un_b.s_b4);
-
-        freeaddrinfo(res);
-    }
-}
-
 void CDlgWITSCfg::OnOK()
 {
     string     strInfo;
-    WITSCFG    tempCfg = { 0 };
+    WITSCFG    tempCfg;
 
     UpdateData(TRUE);
 
@@ -349,9 +285,6 @@ HBRUSH CDlgWITSCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     // TODO:  在此更改 DC 的任何特性
     switch (CtrlID)//对某一个特定控件进行判断
     {
-    case IDC_EDITTCPPORT:
-        JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->nTCPPort);
-        break;
 
     // fix items
     case IDC_EDITWITSDATE:
@@ -420,30 +353,6 @@ HBRUSH CDlgWITSCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
     // TODO:  如果默认的不是所需画笔，则返回另一个画笔
     return hbr;
-}
-
-void CDlgWITSCfg::OnBnClickedTcpstart()
-{
-    UpdateData(TRUE);
-
-    if (m_nTCPPort == 0)
-    {
-        return;
-    }
-
-    m_pCurCfg->nTCPPort = m_nTCPPort;
-    theDB.UpdateWITSCfg(m_pCurCfg);
-
-    theApp.InitTCPServer();
-
-    EnableTCPButton(true);
-}
-
-void CDlgWITSCfg::OnBnClickedTcpstop()
-{
-    theApp.CloseSockets();
-
-    EnableTCPButton(false);
 }
 
 void CDlgWITSCfg::JudgeShowParaCheck(int iCtrlIdx)
@@ -547,55 +456,4 @@ void CDlgWITSCfg::OnBnClickedCheckwits15()
 {
     UpdateData(TRUE);
     JudgeShowParaCheck(15);
-}
-
-void CDlgWITSCfg::OnBnClickedTcptest()
-{
-    DRAWTORQDATA* ptDraw = NULL;
-    TorqData::Torque* ptTorq = NULL;
-    string strSendData;
-    bool sending = true;
-    int start = 0;
-
-    CString strFilter;
-    strFilter.Format(IDS_STRDATFILTER);
-
-    CFileDialog fileDlg(TRUE, "pbd", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter, NULL);
-
-    COMP_BNE(fileDlg.DoModal(), IDOK);
-
-
-    if (!theApp.ReadHisTorqFromFile(fileDlg.GetPathName().GetBuffer(0)))
-    {
-        return;
-    }
-    if (g_tReadData.nTotal < 1)
-        return;
-
-    ptTorq = &g_tReadData.tData[0];
-    ptDraw = theApp.GetDrawDataFromTorq(ptTorq);
-    if (!ptDraw)
-        return;
-    BeginWaitCursor();
-
-    strSendData = WITSEnc::EncWITSTorqConfig(1, &theApp.m_tWITSCfg, theApp.m_ptCurShow);
-    theApp.ReportWITSByTCP(strSendData);
-    while (sending)
-    {
-        Sleep(1000);
-
-        strSendData = WITSEnc::EncWITSHisTorq(1, start, &theApp.m_tWITSCfg, ptDraw);
-        theApp.ReportWITSByTCP(strSendData);
-        start += RPTHISDATANUM;
-        if (start >= ptDraw->wCount)
-            sending = false;
-    }
-
-    strSendData = WITSEnc::EncWITSTorqQuality(1, &theApp.m_tWITSCfg, NULL, ptTorq);
-    theApp.ReportWITSByTCP(strSendData);
-    EndWaitCursor();
-
-    UpdateData(FALSE);
-
-    return;
 }

@@ -200,6 +200,7 @@ bool CDBAccess::ReadServerCfg(SERVERCFG* ptServer)
     ptServer->strUserName = m_tDBServCfg._UserName;
     ptServer->strPassword = m_tDBServCfg._Password;
     ptServer->strTargetPath = m_tDBServCfg._TargetPath;
+    ptServer->nTCPPort = m_tDBServCfg._TCPPort;
 
     return true;
 }
@@ -225,7 +226,6 @@ bool CDBAccess::ReadWITSCfg(WITSCFG* ptWITSCfg)
     COMP_BNE_R(m_tDBWITSCfg._CalItems.size(), WITSRPT_CALPARANUM, false);
     COMP_BNE_R(m_tDBWITSCfg._ShowParas.size(), m_tDBWITSCfg._ShowItems.size(), false);
 
-    ptWITSCfg->nTCPPort = m_tDBWITSCfg._TCPPort;
     ptWITSCfg->ShowParas = m_tDBWITSCfg._ShowParas;
     ptWITSCfg->FixItems = m_tDBWITSCfg._FixItems;
     ptWITSCfg->RepeatItems = m_tDBWITSCfg._RepeatItems;

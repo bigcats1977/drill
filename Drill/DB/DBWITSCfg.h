@@ -3,7 +3,7 @@
 class CDBWITSCfg :  public CDBBase
 {
 public:
-    UINT  _TCPPort;
+    //UINT  _TCPPort;
     vector<int>  _ShowParas;
     vector<int>  _FixItems;
     vector<int>  _RepeatItems;

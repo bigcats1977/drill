@@ -55,8 +55,9 @@ protected:
     afx_msg void OnBnClickedBtngraphexp();
     afx_msg void OnBnClickedBtnstatset();
     afx_msg void OnBnClickedBtnimportdepth();
-    afx_msg void OnBnClickedBtnsrvcfg();
+    //afx_msg void OnBnClickedBtnsrvcfg();
     afx_msg void OnBnClickedBtnupload();
+    afx_msg void OnBnClickedBtntcpupload();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 

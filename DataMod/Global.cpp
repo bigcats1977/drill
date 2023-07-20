@@ -607,6 +607,7 @@ const string g_strStatus[STATUS_MAXNUM] = {
             _T("CALIB"),
             _T("TUBECFG"),
             _T("GLBCFG"),
+            _T("SERVERCFG"),
             _T("WITSCFG"),
 };
 

@@ -17,8 +17,6 @@ public:
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DLGTCPCFG };
 #endif
-	CIPAddressCtrl	m_hostIP;
-	UINT			m_nTCPPort;
 	UINT			m_nFixItems[WITSRPT_FIXHEADNUM];
 	UINT			m_nRepeatItems[WITSRPT_REPEATNUM];
 	UINT			m_nCalItems[WITSRPT_CALPARANUM];
@@ -33,9 +31,6 @@ protected:
 	virtual void OnOK();
 	void OnDestroy();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg void OnBnClickedTcpstart();
-	afx_msg void OnBnClickedTcpstop();
-	afx_msg void OnBnClickedTcptest();
 	afx_msg void OnBnClickedCheckwits01();
 	afx_msg void OnBnClickedCheckwits02();
 	afx_msg void OnBnClickedCheckwits03();
@@ -55,11 +50,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	void GetIPAddr();
 	bool GetParaValue(WITSCFG* ptCfg);
 	void SetParaValue(WITSCFG* ptCfg);
 	void JudgeShowParaCheck(int iCtrlIdx);
-	void EnableTCPButton(bool Started);
 	int  GetItemIndexByPara(WITSCFG* ptCfg, int para);
 	COLORREF    m_clrNormal;
 	COLORREF    m_clrChanged;

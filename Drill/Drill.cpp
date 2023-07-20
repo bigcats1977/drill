@@ -204,6 +204,7 @@ void CDrillApp::InitServerPara(SERVERCFG* ptCfg)
     ptCfg->strUserName = LoadstringFromRes(IDS_STRSERVUSERNAME); // "ftpupload";
     ptCfg->strPassword = LoadstringFromRes(IDS_STRSERVPASSWORD); // "FTP@upload2";
     ptCfg->strTargetPath = LoadstringFromRes(IDS_STRSERVTARGETPATH); // "/homes/ftpupload/";
+    ptCfg->nTCPPort = stoi(LoadstringFromRes(IDS_STRSERVTCPPORT)); // 9600;
 }
 
 void CDrillApp::InitWITSPara(WITSCFG* ptCfg)
@@ -215,7 +216,6 @@ void CDrillApp::InitWITSPara(WITSCFG* ptCfg)
     vector<int> repeatItems;
     vector<int> calItems;
 
-    ptCfg->nTCPPort = stoi(LoadstringFromRes(IDS_STRSERVTCPPORT)); // 9600;
     ptCfg->ShowParas = showParas;
     ptCfg->ShowItems = showItems;
 
@@ -270,14 +270,11 @@ void CDrillApp::InitArray()
 void CDrillApp::InitTCPServer()
 {
     string strInfo;
-    if (mi_Socket.GetSocketCount())
-    {
-        CloseSockets();
-    }
+    CloseSockets();
 
     //u32_BindIP = 0          -- > listen on all network adapters
     DWORD u32_EventTimeout = (PROCESS_EVENTS_IN_GUI_THREAD) ? 50 : INFINITE;
-    DWORD u32_Err = mi_Socket.Listen(0, m_tWITSCfg.nTCPPort, u32_EventTimeout, MAX_SERVER_IDLE_TIME);
+    DWORD u32_Err = mi_Socket.Listen(0, m_tServCfg.nTCPPort, u32_EventTimeout, MAX_SERVER_IDLE_TIME);
     if (u32_Err)
     {
         strInfo = string_format("Listen Error %s", mi_Socket.GetErrMsg(u32_Err));
@@ -333,8 +330,19 @@ void CDrillApp::ProcessEvents()
             
             strInfo = s_Events.GetBuffer(0);
             strInfo += s_Msg.GetBuffer(0);
+            if (u32_Event & FD_ACCEPT || u32_Event & FD_CLOSE)
+            {
+                mi_Socket.GetAllConnectedSockets(&mi_SocketList);
+                SOCKET h_Socket = mi_SocketList.GetKeyByIndex(0);
+                struct sockaddr_in s;
+                int len = sizeof(s);
+                getpeername(h_Socket, (struct sockaddr FAR*) & s, &len);
+                s_Msg.Format(_T(" Client IP: %d.%d.%d.%d, Port %d"), s.sin_addr.S_un.S_un_b.s_b1, s.sin_addr.S_un.S_un_b.s_b2,
+                    s.sin_addr.S_un.S_un_b.s_b3, s.sin_addr.S_un.S_un_b.s_b4,
+                    s.sin_port);
+                strInfo += s_Msg.GetBuffer(0);
+            }
             SaveTCPData(strInfo);
-            //Print(s_Events + s_Msg);
 
             if (u32_Event & FD_READ && pi_RecvMem) // pi_RecvMem may be NULL if an error occurred!!
             {
@@ -379,10 +387,19 @@ void CDrillApp::ProcessReceivedDataNormal(TCP::cSocket::cMemory* pi_RecvMem)
 {
     char* s8_Buf = pi_RecvMem->GetBuffer();
     DWORD u32_Len = pi_RecvMem->GetLength();
+    string s_String;
 
-    string s_String = string_format("Received: '%s'", s8_Buf);
+#if 0 // for hex TCP data
+    std::stringstream ss;
+    for (int i = 0; i < u32_Len; ++i)
+        ss << hex << (int)s8_Buf[i];
+    s_String = ss.str();
+#else
+    s_String.assign(s8_Buf, s8_Buf + u32_Len);
+#endif
+
+    s_String.insert(0, "Received: ");
     SaveTCPData(s_String);
-
     // Delete all received data from the receive memory
     pi_RecvMem->DeleteLeft(u32_Len);
 }
@@ -508,9 +525,9 @@ int CDrillApp::ExitInstance()
 {
     int i = 0;
 
-    m_SaveLogFile.Close();
-
     CloseSockets();
+
+    m_SaveLogFile.Close();
 
     DeleteObject(m_tLineTextFont);
     DeleteObject(m_tRuleHFont);
@@ -3244,7 +3261,8 @@ int CDrillApp::ReportWITSByTCP(string strData)
 {
     string strInfo;
 
-    ASSERT_ZERO_R(mi_Socket.GetSocketCount(), -1);
+    COMP_BFALSE_R(isTCPConnected(), -1);
+    //ASSERT_ZERO_R(mi_Socket.GetSocketCount(), -1);
     ASSERT_ZERO_R(strData.size(), -2);
 
     mi_Socket.GetAllConnectedSockets(&mi_SocketList);
@@ -3266,6 +3284,7 @@ int CDrillApp::ReportWITSByTCP(string strData)
 
     default:
         strInfo = string_format("-> Error %s", mi_Socket.GetErrMsg(u32_Err));
+        SaveTCPData(strInfo);
         // Severe error -> abort event loop
         CloseSockets();
         return u32_Err;
@@ -3281,8 +3300,15 @@ bool CDrillApp::isTCPConnected()
 
 void CDrillApp::CloseSockets()
 {
-    if (mi_Socket.GetSocketCount())
+    int count = mi_Socket.GetSocketCount() - 1;
+    if(count > 0)
     {
-        mi_Socket.Close();
+        mi_Socket.GetAllConnectedSockets(&mi_SocketList);
+        for (int i = 0; i < count; i++)
+        {
+            mi_Socket.DisconnectClient(mi_SocketList.GetKeyByIndex(i));
+        }
     }
+    
+    mi_Socket.Close();
 }

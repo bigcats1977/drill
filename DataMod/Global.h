@@ -451,7 +451,8 @@ using namespace std;
 #define STATUS_CALIB            17  /* 校准 */
 #define STATUS_TUBECFG          18  /* 油管参数设置 */
 #define STATUS_GLBCFG           19  /* 全局参数设置 */
-#define STATUS_WITSCFG          20  /* WITS参数设置 */
+#define STATUS_SERVERCFG        20  /* Server参数设置 */
+#define STATUS_WITSCFG          21  /* WITS参数设置 */
 #define STATUS_MAXNUM           (STATUS_WITSCFG +1)
 #pragma endregion
 

@@ -13,7 +13,7 @@ CDBWITSCfg::~CDBWITSCfg()
 
 void CDBWITSCfg::Empty()
 {
-    _TCPPort = 9600;
+    //_TCPPort = 9600;
     _ShowParas.clear();
     _FixItems.clear();
     _RepeatItems.clear();
@@ -40,7 +40,7 @@ void CDBWITSCfg::GetTable()
 
     nIndex = col;
 
-    _Sqlite->GetValue(pResult[nIndex++], _TCPPort);
+    //_Sqlite->GetValue(pResult[nIndex++], _TCPPort);
     _Sqlite->GetValue(pResult[nIndex++], lsItem);
     _ShowParas = GetIDFromList(lsItem);
     _Sqlite->GetValue(pResult[nIndex++], lsItem);
@@ -64,8 +64,8 @@ BOOL CDBWITSCfg::UpdateWITSCfg(WITSCFG* ptfg)
     COMP_BFALSE_R(Valid(), FALSE);
     ASSERT_NULL_R(ptfg, FALSE);
 
-    fields.push_back("TCPPort");
-    values.push_back(to_string(ptfg->nTCPPort));
+    /*fields.push_back("TCPPort");
+    values.push_back(to_string(ptfg->nTCPPort));*/
     fields.push_back("ShowParas");
     values.push_back(GetListFromVector(ptfg->ShowParas));
     fields.push_back("FixItems");

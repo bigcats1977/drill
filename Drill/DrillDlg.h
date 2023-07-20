@@ -166,7 +166,7 @@ protected:
     afx_msg void OnUpdateVerUnitLbft(CCmdUI* pCmdUI);
     afx_msg void OnModpw();
     afx_msg void OnValveset();
-    afx_msg void OnWITSCfg();
+    afx_msg void OnServerCfg();
     afx_msg void OnBnClickedSettoolbuck();
     afx_msg void OnBnClickedBtnquality();
     //afx_msg void OnBnClickedBtnBreakoutFile();
@@ -184,6 +184,7 @@ protected:
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT WITSReportTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
+    afx_msg void OnSetWits();
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 

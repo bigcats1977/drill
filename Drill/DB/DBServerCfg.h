@@ -8,6 +8,7 @@ public:
     string  _UserName;
     string  _Password;
     string  _TargetPath;
+    UINT    _TCPPort;
 
     CDBServerCfg();
     ~CDBServerCfg();
