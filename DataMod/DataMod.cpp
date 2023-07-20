@@ -170,6 +170,9 @@ int CDataModApp::GetMainIndexfromData(TorqData::Torque* ptTorq)
 
     ASSERT_NULL_R(ptTorq, -1);
 
+    if (m_strTallyName.IsEmpty())
+        return -1;
+
     for (i = 0; i < ptTorq->tshow_size() && i < MAXPARANUM; i++)
     {
         strName = GetTorqShowName(ptTorq, i);

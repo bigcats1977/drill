@@ -978,6 +978,11 @@ void CDataModDlg::OnBnClickedCheckupdwellno()
 {
     UpdateData(TRUE);
     GetDlgItem(IDC_EDITWELLNAME)->EnableWindow(m_bUpdWellNO);
+    if (!m_bUpdWellNO)
+        theApp.m_strTallyName.Empty();
+    else if (theApp.m_strTallyName.IsEmpty())
+        theApp.m_strTallyName = DEFTALLYNAME;
+    UpdateData(FALSE);
 }
 
 void CDataModDlg::OnEnKillfocusEditwellname()
