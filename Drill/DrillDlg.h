@@ -183,6 +183,7 @@ protected:
     afx_msg LRESULT ALarmPlayTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT ReadValveTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT WITSReportTimerOut(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT TCPStatusTimerOut(WPARAM wParam, LPARAM lParam);
     afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
     afx_msg void OnSetWits();
     //}}AFX_MSG
@@ -215,7 +216,8 @@ private:
     static void HRTSaveDebug(CWnd* pUser); /* 定时保存CRC错误和调试信息定时器 */
     static void HRTPlayAlarm(CWnd* pUser); /* 告警音播放定时器 */
     static void HRTReadValve(CWnd* pUser); /* 读取阀门状态定时器 */
-    static void HRTWITSReport(CWnd* pUser);  /*TCP定时上报WITS数据定时器Timer8到时 */
+    static void HRTWITSReport(CWnd* pUser);/* TCP定时上报WITS数据定时器Timer8到时 */
+    static void HRTTCPStatus(CWnd* pUser); /* TCP定时检查状态 */
     BOOL Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
     BOOL Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
     BOOL Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
@@ -249,7 +251,7 @@ private:
     void SaveMakeupData(TorqData::Torque* ptPBData);
     void SaveBreakoutData(TorqData::Torque* ptPBData);
     void SetQuality(DWORD dwQuality);
-    void KillAllTimer();
+    void KillAllTimer(bool bAll = false);
     void GetValidTorqData();
     void SetTorqDataCfg(TorqData::Torque* ptPBData);
     void SetShowPara(TorqData::Torque* ptPBData);
@@ -319,6 +321,7 @@ private:
     CHighResTimer   m_hrtPlayAlarm;     /* 放告警音定时器 */
     CHighResTimer   m_hrtReadValve;     /* 读取阀门状态 */
     CHighResTimer   m_hrtWITSReport;    /* TCP定时上报WITS数据 */
+    CHighResTimer   m_hrtTCPStatus;     /* TCP定时检查状态 */
     double          m_fPreReadTime;     /* 上一次读取数据时间ms */
     /* 延迟1s结束，避免状态3后扭矩继续冲高 */
     UINT            m_nDelayCount;

@@ -36,6 +36,7 @@ using namespace std;
 #define WM_ALARMPLAYTIMEROUT    WM_USER + 5008
 #define WM_READVALVETIMEROUT    WM_USER + 5009
 #define WM_WITSRPTTIMEROUT      WM_USER + 5010
+#define WM_TCPSTATUSTIMEROUT    WM_USER + 5011
 
 #define WM_RE_READDATA          WM_USER + 5021
 
@@ -61,6 +62,8 @@ using namespace std;
 #define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
 #define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
 #define WITSRPT_TLEN            1000    // 1s上报一组数据
+#define TCPSTATUS_TIMER         9       // 定时检查TCP状态定时器
+#define TCPSTATUS_TLEN          7000    // 定时检查TCP状态定时器时长
 #define COLLECT_TIMER           10      // 收集单片机数据定时器
 #define COLLECT_TLEN            1000    // 收集单片机数据定时时长 //2000
 #define WNDSHOW_TIMER           11      // 帮助旋转显示定时器
@@ -308,17 +311,21 @@ using namespace std;
 #define VALVESTATUS_MAKEUP      0x0010
 #define VALVESTATUS_BREAKOUT    0x0020
 
+#define RATIO_OPTSHOULD         0.3
+#define RATIO_LOWERLIMIT        0.9
+#define RATIO_UPPERLIMIT        1.1
+#define RATIO_MAXLIMIT          1.3
 #define INDEX_TORQ_MAXLIMIT         0       /* 最大上限 */
-#define INDEX_TORQ_UPPERLIMIT       1       /* 最大扭矩 */
-#define INDEX_TORQ_CONTROL          2       /* 控制扭矩 */
-#define INDEX_TORQ_OPTIMAL          3       /* 最佳扭矩 */
-#define INDEX_TORQ_LOWERLIMIT       4       /* 最小扭矩 */
-#define INDEX_TORQ_SPEEDDOWN        5       /* 减速扭矩 */
-#define INDEX_TORQ_SHOW             6       /* 显示扭矩 */
-#define INDEX_TORQ_BEAR             7       /* 肩负扭矩 */
-#define INDEX_TORQ_UPPERTAI         8       /* 最大台阶扭矩 */
-#define INDEX_TORQ_LOWERTAI         9       /* 最小台阶扭矩 */
-#define INDEX_TORQ_INITBO           10      /* 卸扣初始扭矩 */
+//#define INDEX_TORQ_UPPERLIMIT       1       /* 最大扭矩 */
+#define INDEX_TORQ_CONTROL          1       /* 控制扭矩 */
+#define INDEX_TORQ_OPTIMAL          2       /* 最佳扭矩 */
+//#define INDEX_TORQ_LOWERLIMIT       4       /* 最小扭矩 */
+//#define INDEX_TORQ_SPEEDDOWN        3       /* 减速扭矩 */
+#define INDEX_TORQ_SHOW             3       /* 显示扭矩 */
+//#define INDEX_TORQ_BEAR             7       /* 肩负扭矩 */
+//#define INDEX_TORQ_UPPERTAI         8       /* 最大台阶扭矩 */
+//#define INDEX_TORQ_LOWERTAI         9       /* 最小台阶扭矩 */
+#define INDEX_TORQ_INITBO             4       /* 卸扣初始扭矩 */
 #define MAXTORQCONFNUM              (INDEX_TORQ_INITBO+1)
 
 
@@ -326,9 +333,9 @@ using namespace std;
 #define INDEX_TURN_UPPERLIMIT       1       /* 上限周数 */
 #define INDEX_TURN_CONTROL          2       /* 控制周数 */
 #define INDEX_TURN_LOWERLIMIT       3       /* 下限周数 */
-#define INDEX_TURN_MAXDELTA         4       /* 最大Delta周数0.1 */
-#define INDEX_TURN_MINDELTA         5       /* 最大Delta周数0.1 */
-#define MAXTURNCONFNUM              (INDEX_TURN_MINDELTA+1)
+//#define INDEX_TURN_MAXDELTA         4       /* 最大Delta周数0.1 */
+//#define INDEX_TURN_MINDELTA         5       /* 最大Delta周数0.1 */
+#define MAXTURNCONFNUM              (INDEX_TURN_LOWERLIMIT+1)
 
 #pragma endregion
 
@@ -340,27 +347,32 @@ using namespace std;
 #define SHEET_SCATTER   _T("Page3")
 #define SHEET_REPORT    _T("Page4")
 
-//#define SHOWPARA_WELLNAME           1
+//#define SHOWPARA_WELLNAME           7
+//#define SHOWPARA_WELLDEPTH          16
+//#define SHOWPARA_DPMATERIAL         1
+//#define SHOWPARA_DPSIZE             2
+//#define SHOWPARA_DPLEVEL            3
+
 //#define SHOWPARA_COMPANY            3
 //#define SHOWPARA_TUBEOEM            4
-#define SHOWPARA_TUBETYPE           5
+//#define SHOWPARA_TUBETYPE           5
 
 /* 输出excel统计报告常量 */
-#define         STATPARA_GENNUM         4
+#define         STATPARA_GENNUM         5
 #define         STATPARA_JOBNUM         6       /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
 #define         STATPARA_INFONUM        2       /* 报表(Page4)最多 3个显示参数 */
 #define         MAX1VALUES              4
-#define         MAX2VALUES              8
-//#define         MAX3VALUES              4
+#define         MAX2VALUES              6
+#define         MAX3VALUES              4
 
 #define         STATPARA_GENWELLNO      0
-#define         STATPARA_GENCOMPANY     1
-#define         STATPARA_GENOPERATOR    2
-#define         STATPARA_GENTALLY       3
-//#define         STATPARA_GENWELLDEPTH   1
+#define         STATPARA_GENWELLDEPTH   1
+#define         STATPARA_GENCOMPANY     2
+#define         STATPARA_GENOPERATOR    3
+#define         STATPARA_GENTALLY       4
 
 #pragma endregion
-
+#if 0
 #pragma region TUBE CONFIG
 
 #define     INDEX_TUBE_FACTORY      0
@@ -393,7 +405,7 @@ using namespace std;
 
 #define     MAXDEFTUBECFGNUM        131
 #pragma endregion
-
+#endif
 #pragma region DEBUGINFO
 /* 保存调试信息约定消息头宏值和字符串 */
 #define DBG_HASH                    0   /* # */
@@ -402,8 +414,8 @@ using namespace std;
 #define DBG_MESSAGE                 3   /* MessageBox显示信息 */
 #define DBG_SNDCMD                  4   /* 发送串口请求 */
 #define DBG_RCVCOM                  5   /* 接收串口消息 */
-#define DBG_SNDTCP                  6   /* 发送TCP消息 */
-#define DBG_MAXNUM                  (DBG_SNDTCP+1)
+#define DBG_TCPMSG                  6   /* TCP消息 */
+#define DBG_MAXNUM                  (DBG_TCPMSG+1)
 /* 调试信息头的长度固定为4 */
 #define DBG_HEADLEN                 5
 #pragma endregion
@@ -489,65 +501,22 @@ using namespace std;
 #pragma endregion
 
 #pragma region SHOW PARAMETER
-//#define         MAXNAMENUM              15
-#if 0
-/* 通用 6 */
-#define         COMMPARA_WELL           1   /* 施工井号 */
-#define         COMMPARA_TEAM           2   /* 作 业 队 */
-#define         COMMPARA_CONTRACT       3   /* 合同号 */
-#define         COMMPARA_OPERATOR       4   /* 操作员 */
-#define         COMMPARA_BELTLINE       5   /* 生产线号 */
-#define         COMMPARA_STAND          6   /* 执行标准 */
-#define         COMMPARA_OPERATION      7   /* 作业方式 */
-#define         COMMPARA_PARTYA         8   /* 甲方 */
-#define         COMMPARA_CASINGTEAM     9   /* 油套管队 */
-#define         COMMPARA_SHIFTLEADER    10  /* 当班班长 */
-/* 管体参数  */
-/* 宝钢 7 */
-#define         TUBEPARA_DIAMETER       100 /* 管体外径 */
-#define         TUBEPARA_THICKEN        101 /* 管体壁厚 */
-#define         TUBEPARA_GRADE          102 /* 管体钢级 */
-#define         TUBEPARA_ENDTYPE        103 /* 管端类型 */
-#define         TUBEPARA_TUBENO         104 /* 管体号 */
-#define         TUBEPARA_STOVE          105 /* 管体炉号 */
-#define         TUBEPARA_BATCH          106 /* 管体批号 */
-/* 凯泰名称 3 */
-#define         TUBEPARA_NAME           120 /* 管件名称 */
-#define         TUBEPARA_MAKEUPTYPE     121 /* 上扣类型 */
-#define         TUBEPARA_BUCKLETYPE     122 /* 扣型材质 */
-#define         TUBEPARA_FACTORY        123 /* 管件厂家 */
-#define         TUBEPARA_RUNNINGNO      124 /* 入井序号 */
-/* 接箍参数  */
-/* 宝钢 6 */
-#define         COUPPARA_DIAMETER       201 /* 接箍外径 */
-#define         COUPPARA_LENGTH         202 /* 接箍长度 */
-#define         COUPPARA_MATER          203 /* 接箍材质 */
-#define         COUPPARA_STOVE          204 /* 接箍炉号 */
-#define         COUPPARA_BATCH          205 /* 接箍批号 */
-#define         COUPPARA_COUPNO         206 /* 接箍号 */
-/* 凯泰名称 3 */
-#define         COUPPARA_WEIGHT         220 /* 重量 */
-#define         COUPPARA_LUBRICANT      221 /* 润滑脂 */
-#define         COUPPARA_COUPLING       222 /* 接箍参数 */
-#define         COUPPARA_THREADDOPE     223 /* 丝扣油 */
-#define         COUPPARA_HANDDEVICE     224 /* 悬吊工具 */
-#define         COUPPARA_HYDTONG        225 /* 液压钳 */
-#define         COUPPARA_OEM            226 /* 厂家 */
-#endif
+
 //#define         HALFPARALEN             25
 //#define         MAXPARALEN              50
 
-#define         MAXPARANUM              16  /* 0 Factory + 15  */
+#define         MAXPARANUM              16  /* 钻杆6+油田3+勘探公司6+其他3  */
 #define         MAXMAINPARA             8   /* 0 Factory + 7个 */
 #define         MAXOPTIONNUM            50
-#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
-#define         MAINSHOWTALLY           6   /* 第6个主界面显示参数为入井序号(6) */
+//#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
+#define         MAINSHOWTALLY           7   /* 第6个主界面显示参数为入井序号(7) */
 
 /* 15个参数, 4~7固定 */
-#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
-#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
+//#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
+//#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
 //#define         TUBESN                  9   /* 管体序号 */
-//#define         TALLYNO                 10  /* 入井序号 */
+//#define         TALLYNO                 16  /* 入井序号 */
+
 
 /* 主界面7个参数, 1~6固定 */
 #define         MAINSHOWBEGIN           0   /* 第1个显示参数固定(1-1) 0 for Factory*/
@@ -703,13 +672,14 @@ typedef struct tagCONTROLPARA
     //double      fPlus;        /* 周脉冲数 */
     /* 满屏转速 */
     double      fFullRPM;       /* 画图上的最大转速 */
-    double      fMinShlSlope;   /* 最小肩负斜率5.0 */
+    //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
+    int         iSingleSTD;     /* 单根立柱 */
 
-    WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
-    BYTE        ucVer;        /* 0: 2017年数据结构
-                                 1: 显示参数名称长度固定25；最多30个显示参数；NLV格式: 显示参数的值长度根据L
-                                    0～14：正常显示名称，15 Factory
-                                 2: 2022 0Factory, 1~15正常数据 */
+    //WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
+    //BYTE        ucVer;        /* 0: 2017年数据结构
+    //                             1: 显示参数名称长度固定25；最多30个显示参数；NLV格式: 显示参数的值长度根据L
+    //                                0～14：正常显示名称，15 Factory
+    //                             2: 2022 0Factory, 1~15正常数据 */
     BYTE        ucRsv;
 }CONTROLPARA;
 
@@ -722,20 +692,22 @@ typedef struct tagPORTCFG
     UINT        nBand;          /* 波特率 */
 }PORTCFG;
 
-#define MAXTUBEPARALEN   51
-typedef struct tagFixTubePara
+#if 0
+//#define MAXTUBEPARALEN   51
+// just load row of valid state
+typedef struct tagMultiName
 {
     UINT        nNO;
     //char        aucName[LANGUAGE_NUM][MAXTUBEPARALEN];
     string      strName[LANGUAGE_NUM];
-}FIXTUBEPARA;
+}MULTINAME;
 
-typedef struct tagFixTubeInfo
+typedef struct tagMultiNameInfo
 {
     bool        bDbData;
     UINT        nNum;
-    FIXTUBEPARA* ptPara;
-}FIXTUBEINFO;
+    MULTINAME*  ptNames;
+}MULTINAMEINFO;
 
 //#define  TUBECFGTORQNUM         6
 #define  HALFTUBETORQNUM        3
@@ -771,7 +743,7 @@ typedef struct tagFixTubeCfg
     UINT        nNum;
     TUBECFG* ptCfg;
 }FIXTUBECFG;
-
+#endif
 //#define MAXMEMOLEN              128
 //typedef struct tagCOMMONCFG
 //{
@@ -790,7 +762,7 @@ typedef struct tagFixTubeCfg
 //
 //    /* 开关值设置，每个开关值使用一个BIT位 */
 //    /* BIT位定义 最多8*32个 */
-//    DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
+//    //DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
 //    DWORD       bToolBuck : 1;    /* 是否为工具扣,默认为否 */
 //    DWORD       bRsv : 30;
 //    DWORD       dwRsv2[7];
@@ -803,7 +775,7 @@ typedef struct tagPARACFG
 {
     CONTROLPARA tCtrl;
     //COMMONCFG   tComm;
-    TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
+    //TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
 
     string      strAlias;
     string      strValue[MAXPARANUM];   /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */
@@ -830,6 +802,7 @@ typedef struct tagGLBCFG
     UINT        nZoomIn;        /* 图形放大倍数 */
     UINT        nImgNum;        /* 批量导出图形时，一个图像文件中包含多少个图形 */
     UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
+    //int         iBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
 
     double      fDiscount;      /* fCut 打折比例 0.8 */
     double      fMulti;         /* 校准参数范围0~2 */
@@ -841,6 +814,7 @@ typedef struct tagGLBCFG
     bool        bDateBehind;    /* 日期在文件命名的后面 */
 
     string      strPassWord;
+    //string      strBreakOutFile; /* 上扣后开始卸扣的文件名称 */
     string      strDataPath;
 
     string      strUnit;        /* 对应扭矩单位的字符串 */
@@ -849,6 +823,7 @@ typedef struct tagGLBCFG
 typedef struct tagSERVERCFG
 {
     UINT    nFTPPort;
+    UINT    nTCPPort;
     string  strFTPAddr;
     string  strUserName;
     string  strPassword;
@@ -857,7 +832,7 @@ typedef struct tagSERVERCFG
 
 typedef struct tagWITSCFG
 {
-    UINT    nTCPPort;
+    //UINT    nTCPPort;
     vector<int> ShowParas;
     vector<int> FixItems;
     vector<int> RepeatItems;
@@ -878,6 +853,7 @@ typedef struct tagSHOWCFG
     UINT        nMainNum;               /* 当前主界面显示参数个数 */
     UINT        nFileName;              /* 命名数据文件的参数，是各个参数中的一个 */
     UINT        nStatType;              /* 统计参数，是各个参数中的一个 */
+    UINT        nJointOD;               /* 接头外径，入井/出井参数值可以不一样，需要取两次 */
     UINT        nShow[MAXPARANUM];      /* strShow字符串对应存储的index号 */
     //UINT        nList[MAXPARANUM];      /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
     UINT        nMain[MAXMAINPARA];     /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
@@ -894,16 +870,16 @@ typedef struct tagTorqCfgID
 {
     UINT        nTorqueID;
     UINT        nTurnID;
-    UINT        nTubeID;
+    //UINT        nTubeID;
     string      strOptionID;
 }TORQCFGID;
 
 /* XLS统计结果参数配置 */
 typedef struct tagXLSSTATCFG
 {
-    //string      strName[MAXPARANUM];    /* 显示参数名称 */
-    ///BOOL        bSummary[MAXPARANUM];   /* 摘要(Page1)显示参数序号 */
-    //BOOL        bReport[MAXPARANUM];    /* 报告(Page4)显示参数序号 */
+    //BYTE        ucWellNO;                   /* 井号 */
+    //BYTE        ucWellDepth;                /* 井深 */
+    //BYTE        ucCompany;                  /* 甲方名称 */
     //BYTE        ucOperator;             /* 当班班长(操作者)参数序号 */
     //BYTE        ucTally;                /* 入井序号参数序号 */
     int         GenPara[STATPARA_GENNUM];
@@ -950,14 +926,24 @@ typedef struct tagCOLLECTDATA
 typedef struct tagSTATCFG
 {
     double  fCtrlRange[STATRANGENUM];       /* 控件扭矩范围 */
-    double  fShouldRange[STATRANGENUM];     /* 拐点扭矩统计范围 */
-    double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
+    //double  fShouldRange[STATRANGENUM];     /* 拐点扭矩统计范围 */
+    //double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
 }STATCFG;
+
+//#define     MAXSPLIITNUM        10
+//typedef struct tagSplit
+//{
+//    int     iCur;           /* 范围1~iSplitNum */
+//    int     iCtrlPnt;       /* 控制周数对应点数，上扣有效，卸扣写死为500 */
+//    int     iSplitNum;
+//    int     iBegin[MAXSPLIITNUM];
+//    int     iEnd[MAXSPLIITNUM];
+//}SPLITPOINT;
 
 #define     MAXWELLNUM   5000
 typedef struct tagTORQUEDATA
 {
-    UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 */
+    UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 当前显示/卸扣的序号 */
     UINT    nTotal;
     UINT    nQualy;
     UINT    nUnQualy;
@@ -1047,7 +1033,6 @@ typedef struct tagCalibCtrl
 #define         MAXNAMELEN              32
 typedef struct tagSHOWPARANAME
 {
-    // WORD        nNameID;
     string      strName[LANGUAGE_NUM];
 }SHOWPARANAME;
 
@@ -1087,7 +1072,6 @@ typedef struct tagWITSRPTDATA
     double      fTurn[MAXRPTNUM];
     double      fDuration[MAXRPTNUM];
 }WITSRPTDATA;
-
 #pragma endregion
 
 #pragma region MACRO COMMAND
@@ -1103,8 +1087,7 @@ typedef struct tagWITSRPTDATA
 #define MAX(a, b)            ((a) > (b) ? (a) : (b))
 
 /* 3.22后所有串口数据都记录,数据包括脉冲信息，根据脉冲算周数 */
-// 20221231 有数据plussize51,torquesize540
-//#define VERSION_RECPLUS(ptTorq)  (ptTorq->dwdelplus_size() == ptTorq->ftorque_size())
+// #define VERSION_RECPLUS(ptTorq)  (ptTorq->dwdelplus_size() > 0)
 
 /* 自定义代码宏，降低代码圈复杂度 */
 /* 程序公共宏值 */
@@ -1325,19 +1308,7 @@ typedef struct tagWITSRPTDATA
             (bChange) |= TRUE;                              \
         }                                                   \
     }
-#if 0
-/* 从第一条记录开始，跳到指定的记录位置
-   说明:文件的第一个UINT记录总数已经读出
-   for循环的递增为int i
-   nLeng 为UNIT类型,表示该数据完整长度 */
-#define SEEK_TORQUE(index, nLeng)      {                                    \
-        for(i=0; i<(index); i++)                                            \
-        {                                                                   \
-            file.Read(&(nLeng), sizeof(UINT));                              \
-            file.Seek((nLeng), CFile::current);                             \
-        }                                                                   \
-    }
-#endif
+
    /* 获取图像的控制扭矩 */
 #define GET_CTRL_TORQ(fTorq, ptTorq)        {                       \
         fTorq = ptTorq->fmumaxtorq();                               \
@@ -1347,7 +1318,7 @@ typedef struct tagWITSRPTDATA
 
 /* 判断程序注册状态 */
 #define JUDGE_REG_STATUS()              {                       \
-        if(!theApp.m_tdbReg.Reged())                            \
+        if(!theApp.m_tReg.Reged())                              \
         {                                                       \
             AfxMessageBox(IDS_STRINFNOREG, MB_ICONINFORMATION); \
             return;                                             \
@@ -1464,12 +1435,12 @@ extern const string         g_strPortOpr[];
 extern const UINT           g_nMainNameNO[];
 
 extern const SHOWPARANAME   g_tNameInfo[];
-extern FIXTUBEPARA          g_tDefFactory[];
-extern FIXTUBEPARA          g_tDefOEM[];
-extern FIXTUBEPARA          g_tDefSize[];
-extern FIXTUBEPARA          g_tDefMater[];
-extern FIXTUBEPARA          g_tDefCoupl[];
-extern TUBECFG              g_tDefTubeCfg[];
+//extern MULTINAME          g_tDefFactory[];
+//extern MULTINAME          g_tDefOEM[];
+//extern MULTINAME          g_tDefSize[];
+//extern MULTINAME          g_tDefMater[];
+//extern MULTINAME          g_tDefCoupl[];
+//extern TUBECFG            g_tDefTubeCfg[];
 
 extern TORQUEDATA           g_tReadData;
 extern TORQUEDATA           g_tReadData2;

@@ -58,7 +58,7 @@ BOOL CDlgServerCfg::OnInitDialog()
 
     //GetDlgItem(IDTCPTEST)->ShowWindow(FALSE);
 
-    EnableTCPButton(theApp.isTCPConnected());
+    EnableTCPButton(theApp.isTCPServer());
 
     UpdateData(FALSE);
 
@@ -167,7 +167,7 @@ void CDlgServerCfg::OnOK()
 
     theDB.UpdateServerCfg(&theApp.m_tServCfg);
 
-    if (nOldPort != m_nTCPPort)
+    if (nOldPort != m_nTCPPort || !theApp.isTCPServer())
     {
         theApp.InitTCPServer();
     }

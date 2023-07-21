@@ -43,6 +43,15 @@ END_MESSAGE_MAP()
         }                                                       \
     }
 
+#define INC_TCP_INFO()                  {                       \
+        m_tSaveTCP.iCur += iLen;                                \
+        pData += iLen;                                          \
+        if(m_tSaveTCP.iCur >= MAXSAVELEN)   {                   \
+            SaveTCPInfo();                                      \
+            pData = &m_tSaveTCP.aucLog[m_tSaveTCP.iCur];        \
+        }                                                       \
+    }
+
    /////////////////////////////////////////////////////////////////////////////
    // CDrillApp construction
 
@@ -98,6 +107,10 @@ void CDrillApp::InitSysPath()
     m_strLogFile = m_strLogPath;
     m_strLogFile += time.Format(IDS_STRDATEFORM);
     m_strLogFile += _T(".dbg");
+    
+    m_strTCPFile = m_strLogPath;
+    m_strTCPFile += time.Format(IDS_STRDATEFORM);
+    m_strTCPFile += _T("_TCP.dbg");
 }
 
 void CDrillApp::InitVariant()
@@ -270,7 +283,8 @@ void CDrillApp::InitArray()
 void CDrillApp::InitTCPServer()
 {
     string strInfo;
-    CloseSockets();
+    if(isTCPServer())
+        CloseSockets();
 
     //u32_BindIP = 0          -- > listen on all network adapters
     DWORD u32_EventTimeout = (PROCESS_EVENTS_IN_GUI_THREAD) ? 50 : INFINITE;
@@ -290,6 +304,9 @@ void CDrillApp::InitTCPServer()
     DWORD u32_ID;
     mh_Thread = ::CreateThread(0, 0, ProcessEventThread, this, 0, &u32_ID);
 #endif
+
+    strInfo = string_format("%s Success.", __func__);
+    SaveTCPData(strInfo);
 }
 
 ULONG WINAPI CDrillApp::ProcessEventThread(void* p_Param)
@@ -339,7 +356,7 @@ void CDrillApp::ProcessEvents()
                 getpeername(h_Socket, (struct sockaddr FAR*) & s, &len);
                 s_Msg.Format(_T(" Client IP: %d.%d.%d.%d, Port %d"), s.sin_addr.S_un.S_un_b.s_b1, s.sin_addr.S_un.S_un_b.s_b2,
                     s.sin_addr.S_un.S_un_b.s_b3, s.sin_addr.S_un.S_un_b.s_b4,
-                    s.sin_port);
+                    htons(s.sin_port));
                 strInfo += s_Msg.GetBuffer(0);
             }
             SaveTCPData(strInfo);
@@ -399,7 +416,7 @@ void CDrillApp::ProcessReceivedDataNormal(TCP::cSocket::cMemory* pi_RecvMem)
 #endif
 
     s_String.insert(0, "Received: ");
-    SaveTCPData(s_String);
+    SaveTCPData(s_String, false);
     // Delete all received data from the receive memory
     pi_RecvMem->DeleteLeft(u32_Len);
 }
@@ -479,9 +496,13 @@ BOOL CDrillApp::InitInstance()
     //这里得到的是程序当前路径
     InitSysPath();
 
-    /* 打开OrgFile*/
+    /* 打开LogFile*/
     m_tSaveLog.iCur = 0;
     m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
+    
+    /* 打开TCPLogFile*/
+    m_tSaveTCP.iCur = 0;
+    m_SaveTCPFile.Open(m_strTCPFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
 
     InitArray();
     /* 获取数据库文件 */
@@ -499,7 +520,7 @@ BOOL CDrillApp::InitInstance()
     InitLanguage();
     SetRegistryKey(_T("zsg Applications"));
 
-    InitTCPServer();
+    //InitTCPServer();
 
     CDrillDlg dlg;
     m_pMainWnd = &dlg;
@@ -528,6 +549,7 @@ int CDrillApp::ExitInstance()
     CloseSockets();
 
     m_SaveLogFile.Close();
+    m_SaveTCPFile.Close();
 
     DeleteObject(m_tLineTextFont);
     DeleteObject(m_tRuleHFont);
@@ -1170,27 +1192,34 @@ void CDrillApp::SaveStreamData(string strStream)
     INC_DBG_INFO();
 }
 
-void CDrillApp::SaveTCPData(string strData)
+void CDrillApp::SaveTCPData(string strData, bool Status)
 {
     int     iLen = 0;
     char* pData = NULL;
+    SYSTEMTIME  ts;
 
     ASSERT_ZERO(strData.size());
-    COMP_BFALSE(m_bShowCRC);
+    if (!Status && !m_bShowCRC)
+        return;
 
-    /* Send Communication Time */
-    SaveCurTimeAndHead(DBG_SNDTCP);
+    pData = &m_tSaveTCP.aucLog[m_tSaveTCP.iCur];
+    /* Send Communication Time && Head */
+    GetLocalTime(&ts);
+
+    iLen = sprintf_s(pData, SPRINTFLEN, "%02d:%02d:%02d.%03d : %s",
+        ts.wHour, ts.wMinute, ts.wSecond, ts.wMilliseconds, m_strDbgHead[DBG_TCPMSG].GetBuffer(0));
+    INC_TCP_INFO();
 
     strData += "\r\n";
 
     iLen = (int)strData.size();
     if (m_tSaveLog.iCur + iLen >= MAXSAVELEN)
     {
-        SaveLogInfo();
+        SaveTCPInfo();
     }
 
-    memcpy(&m_tSaveLog.aucLog[m_tSaveLog.iCur], (LPCTSTR)strData.c_str(), iLen);
-    m_tSaveLog.iCur += iLen;
+    memcpy(&m_tSaveTCP.aucLog[m_tSaveTCP.iCur], (LPCTSTR)strData.c_str(), iLen);
+    m_tSaveTCP.iCur += iLen;
     return;
 }
 
@@ -1529,6 +1558,12 @@ void CDrillApp::AutoupdateLogFile()
     m_strLogFile = newLog;
 
     m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
+    
+    m_SaveTCPFile.Close();
+    newLog.insert(newLog.size()-4, "_TCP");
+    m_strTCPFile = newLog;
+
+    m_SaveTCPFile.Open(m_strTCPFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
 }
 
 void CDrillApp::SaveLogInfo()
@@ -1541,6 +1576,20 @@ void CDrillApp::SaveLogInfo()
     m_SaveLogFile.SeekToEnd();
     m_SaveLogFile.Write(m_tSaveLog.aucLog, m_tSaveLog.iCur);
     m_tSaveLog.iCur = 0;
+
+    return;
+}
+
+void CDrillApp::SaveTCPInfo()
+{
+    COMP_BL(m_tSaveTCP.iCur, 1);
+
+    // 20230524 到新的一天，自动更新log文件
+    AutoupdateLogFile();
+
+    m_SaveTCPFile.SeekToEnd();
+    m_SaveTCPFile.Write(m_tSaveTCP.aucLog, m_tSaveTCP.iCur);
+    m_tSaveTCP.iCur = 0;
 
     return;
 }
@@ -3269,7 +3318,7 @@ int CDrillApp::ReportWITSByTCP(string strData)
     SOCKET h_Socket = mi_SocketList.GetKeyByIndex(0);
     DWORD u32_Err = mi_Socket.SendTo(h_Socket, (char*)strData.c_str(), strData.size());
 
-    SaveTCPData(strData);
+    SaveTCPData(strData, false);
 
     ASSERT_ZERO_R(u32_Err, 0);
     switch (u32_Err)
@@ -3295,7 +3344,12 @@ int CDrillApp::ReportWITSByTCP(string strData)
 
 bool CDrillApp::isTCPConnected()
 {
-    return mi_Socket.GetSocketCount() > 0;
+    return mi_Socket.GetSocketCount() > 1;
+}
+
+bool CDrillApp::isTCPServer()
+{
+    return mi_Socket.GetState() & TCP::cSocket::E_Server;
 }
 
 void CDrillApp::CloseSockets()

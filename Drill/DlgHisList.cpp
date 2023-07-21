@@ -1891,11 +1891,12 @@ void CDlgHisList::OnBnClickedBtntcpupload()
     UINT nSelCount = 0;
     UINT nIndex = 0;
 
-    BeginWaitCursor();
+    UpdateData(TRUE);
 
     nSelCount = GetSelectItem();
     ASSERT_ZERO(nSelCount);
 
+    BeginWaitCursor();
     for (UINT i = 0; i < nSelCount; i++)
     {
         nIndex = m_nSelItem[i];

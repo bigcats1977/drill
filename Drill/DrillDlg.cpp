@@ -499,6 +499,7 @@ BEGIN_MESSAGE_MAP(CDrillDlg, CDialog)
     ON_MESSAGE(WM_SAVEDEBUGTIMEROUT, SaveDebugTimerOut)
     ON_MESSAGE(WM_ALARMPLAYTIMEROUT, ALarmPlayTimerOut)
     ON_MESSAGE(WM_READVALVETIMEROUT, ReadValveTimerOut)
+    ON_MESSAGE(WM_TCPSTATUSTIMEROUT, TCPStatusTimerOut)
     ON_MESSAGE(WM_COMM_RXCHAR, OnCommunication)
     ON_COMMAND(ID_LANG_CHN, OnLangChn)
     ON_UPDATE_COMMAND_UI(ID_LANG_CHN, OnUpdateLangChn)
@@ -558,6 +559,10 @@ void CDrillDlg::InitVariant()
     memset(m_ptPortData, 0, sizeof(PORTDATA));
 
     ResetData();
+    /* 定时保存CRC和调试信息 */
+    m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
+    /* 定时检查TCP状态 */
+    m_hrtTCPStatus.CreateTimer(this, TCPSTATUS_TLEN, HRTTCPStatus);
 }
 
 void CDrillDlg::InitMainShowPara()
@@ -1874,6 +1879,12 @@ void CDrillDlg::HRTReadValve(CWnd* pUser)
     pThis->SendMessage(WM_READVALVETIMEROUT, 0, 0);
 }
 
+void CDrillDlg::HRTTCPStatus(CWnd* pUser)
+{
+    CDrillDlg* pThis = (CDrillDlg*)pUser;
+    pThis->SendMessage(WM_TCPSTATUSTIMEROUT, 0, 0);
+}
+
 /* 正常版本偶数扭矩正常，奇数扭矩为0
    卸扣版本奇数扭矩正常，偶数扭矩为0
    20200303 : 奇偶不对时，返回-1，转换为UINT为一个非常大的值，先考虑返回为0
@@ -2112,9 +2123,6 @@ LRESULT CDrillDlg::CollectTimerOut(WPARAM wParam, LPARAM lParam)
 LRESULT CDrillDlg::WITSReportTimerOut(WPARAM wParam, LPARAM lParam)
 {
     string strData;
-
-    COMP_BFALSE_R(theApp.isTCPConnected(), 0);
-
     strData = WITSEnc::EncWITSTorqData(m_nCurNO, m_ptWITS, &m_tWITSRptData);
     theApp.ReportWITSByTCP(strData);
     return 0;
@@ -2650,6 +2658,17 @@ LRESULT CDrillDlg::SaveDataTimerOut(WPARAM wParam, LPARAM lParam)
 LRESULT CDrillDlg::SaveDebugTimerOut(WPARAM wParam, LPARAM lParam)
 {
     theApp.SaveLogInfo();
+    theApp.SaveTCPInfo();
+    return 0;
+}
+
+LRESULT CDrillDlg::TCPStatusTimerOut(WPARAM wParam, LPARAM lParam)
+{
+    //string strInfo;
+    //strInfo = string_format("%s: %d", __func__, theApp.mi_Socket.GetState());
+    //theApp.SaveTCPData(strInfo);
+    if (!theApp.isTCPServer())
+        theApp.InitTCPServer();
     return 0;
 }
 
@@ -2861,9 +2880,11 @@ void CDrillDlg::RunTorque()
     m_fPreReadTime = clock() * 1000.0 / CLOCKS_PER_SEC;
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
     /* 定时保存CRC和调试信息 */
-    m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
+    //m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
     // TCP 定时上报WITS是数据定时器
     m_hrtWITSReport.CreateTimer(this, WITSRPT_TLEN, HRTWITSReport);
+    /* 定时检查TCP状态 */
+    //m_hrtTCPStatus.CreateTimer(this, TCPSTATUS_TLEN, HRTTCPStatus);
     CanModLastData(FALSE);
 
     theApp.SaveAppStatus(STATUS_RUN, __FUNCTION__);
@@ -2939,6 +2960,7 @@ void CDrillDlg::StopTorque()
     theApp.SaveAppStatus(STATUS_STOP, __FUNCTION__);
 
     theApp.SaveLogInfo();
+    theApp.SaveTCPInfo();
 
     DrawLastPoint();
 
@@ -3252,7 +3274,7 @@ BOOL CDrillDlg::DestroyWindow()
     m_ptPortData = NULL;
     m_strRecvData.Empty();
 
-    KillAllTimer();
+    KillAllTimer(true);
 
     DELETE_DIALOG(m_pdlgCollect);
     DELETE_DIALOG(m_pdlgCalib);
@@ -3262,6 +3284,7 @@ BOOL CDrillDlg::DestroyWindow()
     theApp.SaveAppStatus(STATUS_EXIT, __FUNCTION__);
 
     theApp.SaveLogInfo();
+    theApp.SaveTCPInfo();
 
     if (m_bAutoFileOpen)
     {
@@ -3919,9 +3942,11 @@ void CDrillDlg::RestartComm()
     /* 复位定时器到时后，重新打开Timer1收集串口数据 */
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
     /* 定时保存CRC和调试信息 */
-    m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
+    //m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
     // TCP 定时上报WITS数据定时器
     m_hrtWITSReport.CreateTimer(this, WITSRPT_TLEN, HRTWITSReport);
+    /* 定时检查TCP状态 */
+    //m_hrtTCPStatus.CreateTimer(this, TCPSTATUS_TLEN, HRTTCPStatus);
 
     return;
 }
@@ -4283,15 +4308,19 @@ void CDrillDlg::SetQuality(DWORD dwQuality)
     m_tSaveData.set_dwquality(dwQuality);
 }
 
-void CDrillDlg::KillAllTimer()
+void CDrillDlg::KillAllTimer(bool bAll)
 {
     m_hrtReadPort.KillTimer();
     m_hrtGuard.KillTimer();
     m_hrtPortBuff.KillTimer();
     m_hrtSaveData.KillTimer();
-    m_hrtSaveDebug.KillTimer();
     m_hrtReadValve.KillTimer();
     m_hrtWITSReport.KillTimer();
+    if (bAll)
+    {
+        m_hrtSaveDebug.KillTimer();
+        m_hrtTCPStatus.KillTimer();
+    }
 }
 
 /* 填写WORD16到字节中 */
@@ -4885,7 +4914,6 @@ void CDrillDlg::RecordReportData()
 void CDrillDlg::ReportWITSStart()
 {
     string strData;
-    COMP_BFALSE(theApp.isTCPConnected());
     strData = WITSEnc::EncWITSTorqConfig(m_nCurNO, m_ptWITS, m_ptShow);
     theApp.ReportWITSByTCP(strData);
 }
@@ -4893,7 +4921,6 @@ void CDrillDlg::ReportWITSStart()
 void CDrillDlg::ReportWITSEnd()
 {
     string strData;
-    COMP_BFALSE(theApp.isTCPConnected());
     strData = WITSEnc::EncWITSTorqQuality(m_nCurNO, m_ptWITS, &m_tWITSRptData, &m_tSaveData);
     theApp.ReportWITSByTCP(strData);
 }

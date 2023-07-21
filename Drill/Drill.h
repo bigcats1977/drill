@@ -58,6 +58,7 @@ public:
     void    SaveMultiData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen);
     void    SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta);
     void    SaveLogInfo();
+    void    SaveTCPInfo();
     // 保存复位时的串口数据
     void    SaveResetData(BYTE* pucRcvByte, WORD wLen);
     // 保存上位机发送到串口数据
@@ -66,7 +67,7 @@ public:
     void    SavePortOper(UINT nPortOpr);
     // 保存字符串数据到log文件
     void    SaveStreamData(string strStream);
-    void    SaveTCPData(string strData);
+    void    SaveTCPData(string strData, bool Status = true);
 
     BOOL    IsDebugInfo(string strContent);
     void    AdjustParaValue(PARACFG* ptCfg); /* 检查参数是否发生变化 */
@@ -137,6 +138,7 @@ public:
     int  ReportWITSByTCP(string strData);
     void CloseSockets();
     bool isTCPConnected();
+    bool isTCPServer();
     bool GetTimeFromString(CString strTime, __time64_t& time);
 
     PARACFG         m_tParaCfg;
@@ -157,6 +159,7 @@ public:
                                            在data路径下，后缀名为.pbd */
     string          m_strLogFile;
     string          m_strLogPath;       /* log路径 */
+    string          m_strTCPFile;
 
     //string          m_strReadFile;      /* 读取历史文件路径 now in g_tReadData*/
     string          m_strFileTitle;     /* 读取历史文件纯名称 */
@@ -167,6 +170,8 @@ public:
     BOOL            m_bShowCRC;
     SAVELOGDATA     m_tSaveLog;
     CFile           m_SaveLogFile;
+    SAVELOGDATA     m_tSaveTCP;         /* 记录TCP相关信息 */
+    CFile           m_SaveTCPFile;
     CString         m_strDbgHead[DBG_MAXNUM];
 
     /* 多语言支持 */

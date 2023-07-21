@@ -36,6 +36,7 @@ using namespace std;
 #define WM_ALARMPLAYTIMEROUT    WM_USER + 5008
 #define WM_READVALVETIMEROUT    WM_USER + 5009
 #define WM_WITSRPTTIMEROUT      WM_USER + 5010
+#define WM_TCPSTATUSTIMEROUT    WM_USER + 5011
 
 #define WM_RE_READDATA          WM_USER + 5021
 
@@ -61,6 +62,8 @@ using namespace std;
 #define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
 #define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
 #define WITSRPT_TLEN            1000    // 1s上报一组数据
+#define TCPSTATUS_TIMER         9       // 定时检查TCP状态定时器
+#define TCPSTATUS_TLEN          7000    // 定时检查TCP状态定时器时长
 #define COLLECT_TIMER           10      // 收集单片机数据定时器
 #define COLLECT_TLEN            1000    // 收集单片机数据定时时长 //2000
 #define WNDSHOW_TIMER           11      // 帮助旋转显示定时器
@@ -411,8 +414,8 @@ using namespace std;
 #define DBG_MESSAGE                 3   /* MessageBox显示信息 */
 #define DBG_SNDCMD                  4   /* 发送串口请求 */
 #define DBG_RCVCOM                  5   /* 接收串口消息 */
-#define DBG_SNDTCP                  6   /* 发送TCP消息 */
-#define DBG_MAXNUM                  (DBG_SNDTCP+1)
+#define DBG_TCPMSG                  6   /* TCP消息 */
+#define DBG_MAXNUM                  (DBG_TCPMSG+1)
 /* 调试信息头的长度固定为4 */
 #define DBG_HEADLEN                 5
 #pragma endregion

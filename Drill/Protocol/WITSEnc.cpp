@@ -34,7 +34,7 @@ string WITSEnc::EncWITSFixHead(UINT SeqNO, WITSCFG* ptWITS)
     return strData;
 }
 
-string WITSEnc::EncHisFixHead(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* ptTorq, bool bBreakout, double diff)
+string WITSEnc::EncHisFixHead(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* ptTorq, bool bBreakout, int diff)
 {
     string  strData;
     string  strTemp;
@@ -51,7 +51,7 @@ string WITSEnc::EncHisFixHead(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* ptT
     colTime = ptTorq->mucoltime();
     if (bBreakout)
         colTime = ptTorq->bocoltime();
-    colTime -= (int)ceil(diff);
+    colTime -= diff;
     CTime histime(colTime);
 
     // 8001 Date
@@ -129,6 +129,7 @@ string WITSEnc::EncWITSTorqConfig(UINT SeqNO, WITSCFG* ptWITS, SHOWCFG* ptShow)
 {
     string  strData;
     string  strTemp;
+    CString strValue;
     vector<int> items;
     vector<int>::iterator it;
     UINT  ItemNO = 0;
@@ -142,13 +143,16 @@ string WITSEnc::EncWITSTorqConfig(UINT SeqNO, WITSCFG* ptWITS, SHOWCFG* ptShow)
     items = ptWITS->ShowParas;
     for (int i = 0; i < WITSRPT_SHOWPARANUM; i++)
     {
+        strValue = ptShow->strShow[i + 1].c_str();
+        if (strValue.IsEmpty())
+            continue;
         it = find(items.begin(), items.end(), i + 1);
         if (it != items.end())
         {
             index = it - items.begin();
             ItemNO = ptWITS->ShowItems[index];
 
-            strTemp = string_format("%s", ptShow->strShow[i + 1].c_str());
+            strTemp = string_format("%s", strValue);
             strData += to_string(ItemNO) + strTemp + WITSSPLIT;
         }
     }
@@ -229,6 +233,7 @@ string WITSEnc::EncHisTorqConfig(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* 
 {
     string  strData;
     string  strTemp;
+    CString strValue;
     vector<int> items;
     vector<int>::iterator it;
     UINT  ItemNO = 0;
@@ -245,11 +250,14 @@ string WITSEnc::EncHisTorqConfig(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* 
         it = find(items.begin(), items.end(), i + 1);
         if (it != items.end())
         {
+            strValue = theApp.GetTorqShowValue(ptTorq, i + 1);
+            if (strValue.IsEmpty())
+                continue;
             index = it - items.begin();
             ItemNO = ptWITS->ShowItems[index];
 
             //strTemp = string_format("%s", ptShow->strShow[i + 1].c_str());
-            strTemp = string_format("%s", theApp.GetTorqShowValue(ptTorq, i+1));
+            strTemp = string_format("%s", strValue);
             strData += to_string(ItemNO) + strTemp + WITSSPLIT;
         }
     }
@@ -268,6 +276,7 @@ string WITSEnc::EncHisTorqData(UINT SeqNO, int Start, WITSCFG* ptWITS, TorqData:
     string  strData;
     string  strTorq;
     int plus = 0;
+    double  duration = 0;
 
     ASSERT_NULL_R(ptWITS, strData);
     ASSERT_NULL_R(ptTorq, strData);
@@ -275,12 +284,12 @@ string WITSEnc::EncHisTorqData(UINT SeqNO, int Start, WITSCFG* ptWITS, TorqData:
     COMP_BGE_R(Start, ptTorq->ftorque_size(), strData);
 
     int begin = 0, end = ptTorq->dwmucount();
-    double diff = ptTorq->dwmucount() / 10.0;
+    duration = ptTorq->dwmucount() / 10.0;
     if (bBreakout)
     {
         begin = ptTorq->dwmucount();
         end = ptTorq->dwmucount() + ptTorq->dwbocount();
-        diff = ptTorq->dwbocount() / 10.0;
+        duration = ptTorq->dwbocount() / 10.0;
     }
 
     for (i = Start + begin; i < Start + RPTHISDATANUM && i < end; i += HISDATAINTER)
@@ -288,6 +297,7 @@ string WITSEnc::EncHisTorqData(UINT SeqNO, int Start, WITSCFG* ptWITS, TorqData:
         index = 0;
         // 8051 Torque
         fTemp = 0;
+        plus = 0;
         for (j = i; j < i + HISDATAINTER && j < end; j++)
         {
             fTemp = MAX(fTemp, ptTorq->ftorque(j));
@@ -317,7 +327,8 @@ string WITSEnc::EncHisTorqData(UINT SeqNO, int Start, WITSCFG* ptWITS, TorqData:
 
     ASSERT_ZERO_R(strTorq.size(), strData);
 
-    strData += EncHisFixHead(SeqNO, ptWITS, ptTorq, diff + fTemp);
+    int diff = (int)floor(duration - fTemp);
+    strData += EncHisFixHead(SeqNO, ptWITS, ptTorq, bBreakout, diff);
 
     strData += strTorq;
 

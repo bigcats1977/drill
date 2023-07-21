@@ -18,28 +18,31 @@ const string  g_tTableName[MAXTABLENUM] = {
 
 /* 默认显示参数名称，没有数据库时使用这些名称 */
 const SHOWPARANAME g_tNameInfo[MAXPARANUM] = {
-    /* 0  */    {"厂家",         "Factory",          "завод"},
-    /* 1  */    {"施工井号",     "WellNo.",          "Номер СКВ"},
-    /* 2  */    {"作业目的",     "OperType",         "операция"},
-    /* 3  */    {"甲方",         "Company",          "Сторона А"},
-    /* 4  */    {"管件名称",     "TubingOEM",        "OEM труб"},
-    /* 5  */    {"规格扣型",     "SizeThread",       "Размер&нить"},
-    /* 6  */    {"材质钢级",     "Material",         "материал"},
-    /* 7  */    {"接箍规格",     "CPLSpec",          "CPL Специфик."},
-    /* 8  */    {"合同号",       "Contract",         "контракт"},
-    /* 9  */    {"管体序号",     "TubingSN",         "Номер Трубка"},
-    /* 10 */    {"入井序号",     "TallyNO",          "Номер Спусти."},
-    /* 11 */    {"丝扣油",       "ThreadDope",       "Нить допинг"},
-    /* 12 */    {"悬吊工具",     "Elevator",         "Пове устр"},
-    /* 13 */    {"油套管队",     "TRSTeam",          "кожух ком"},
-    /* 14 */    {"当班班长",     "TRSSpv.",          "Начал смены"},
-    /* 15 */    {"液压钳",       "HYDTong",          "гидра ключ"},
+    /* 0  */    {"钻杆厂家",        "DPFactory" },
+    /* 1  */    {"钻杆材质",        "DPMaterial"},
+    /* 2  */    {"钻杆规格",        "DPSize"    },
+    /* 3  */    {"钻杆级别",        "DPLevel"   },
+    /* 4  */    {"接头外径",        "JointOD"   },
+    /* 5  */    {"油田名称",        "OilField"  },
+    /* 6  */    {"甲方名称",        "Company"   },
+    /* 7  */    {"井号",            "WellNO"   },
+    /* 8  */    {"勘探公司",        "ExplCorp"  },
+    /* 9  */    {"钻井队号",        "DrillTeam" },
+    /* 10 */    {"司钻",           "Driller"   },
+    /* 11 */    {"操作工",          "TRS OP."   },
+    /* 12 */    {"钻杆钳",          "DPTong"    },
+    /* 13 */    {"入井序号",        "TallyNO"   },
+    /* 14 */    {"当前井深",        "Depth"     },
+    /* 15 */    {"保留",            "Reserve"  },
+    ///* 13 */    {"丝扣油",          "ThreadDope"},
+    ///* 14 */    {"单根立柱",        "SGLStands" },
+    ///* 17 */    {"保留",            "Reserve"  },
 };
 
-const UINT g_nMainNameNO[MAXMAINPARA] = { 0, 4, 5, 6, 7, 9, 10, 14 };
-
+const UINT g_nMainNameNO[MAXMAINPARA] = { 0,1,2,3,6,7,10,15 };
+#if 0
 /* 默认厂家名称表 */
-FIXTUBEPARA     g_tDefFactory[MAXDEFFACTORYNUM] = {
+MULTINAME     g_tDefFactory[MAXDEFFACTORYNUM] = {
     {0x00,      "JFE",      "JFE",      "JFE"},         // JFE Steel Corporation, JFE
     {0x01,      "天钢",     "TianJin",  "TianJin"},     // Tianjin Steel Pipes, TJSP
     {0x02,      "衡钢",     "HengYang", "HengYang"},    // Hunan Hengyang Steel Pipe, HYSP
@@ -52,7 +55,7 @@ FIXTUBEPARA     g_tDefFactory[MAXDEFFACTORYNUM] = {
 };
 
 /* 默认管件名称表 */
-FIXTUBEPARA   g_tDefOEM[MAXDEFOEMNUM] = {
+MULTINAME   g_tDefOEM[MAXDEFOEMNUM] = {
     /*JFE*/
     {0x0000,    "2-7/8\"JFE",   "2-7/8\"JFE",   "2-7/8\"JFE"},
     {0x0001,    "3-1/2\"JFE",   "3-1/2\"JFE",   "3-1/2\"JFE"},
@@ -99,7 +102,7 @@ FIXTUBEPARA   g_tDefOEM[MAXDEFOEMNUM] = {
 };
 
 /* 默认管件规格表 */
-FIXTUBEPARA  g_tDefSize[MAXDEFSIZENUM] = {
+MULTINAME  g_tDefSize[MAXDEFSIZENUM] = {
     /*JFE*/
     {0x0000,    "73X5.51 EUE",          "73X5.51 EUE",          "73X5.51 EUE"},
     {0x0001,    "88.9X6.45 EUE",        "88.9X6.45 EUE",        "88.9X6.45 EUE"},
@@ -216,7 +219,7 @@ FIXTUBEPARA  g_tDefSize[MAXDEFSIZENUM] = {
 };
 
 /* 默认材质钢级表 */
-FIXTUBEPARA   g_tDefMater[MAXDEFMATERNUM] = {
+MULTINAME   g_tDefMater[MAXDEFMATERNUM] = {
     /*JFE*/
     {0x0000,    "N80",                  "N80",                  "N80"},
     {0x0001,    "P110",                 "P110",                 "P110"},
@@ -261,7 +264,7 @@ FIXTUBEPARA   g_tDefMater[MAXDEFMATERNUM] = {
 };
 
 /* 默认系统管材配置表 */
-FIXTUBEPARA    g_tDefCoupl[MAXDEFCOUPLNUM] = {
+MULTINAME    g_tDefCoupl[MAXDEFCOUPLNUM] = {
     /*JFE*/
     {0x0000,    "88.9X149.2",           "88.9X149.2",           "88.9X149.2"},
     {0x0001,    "88.9X174",             "88.9X174",             "88.9X174"},
@@ -496,6 +499,7 @@ TUBECFG   g_tDefTubeCfg[MAXDEFTUBECFGNUM] = {
         {0x07,  0x0700,  0x0700,  0x0700,  0x0700,  1900 ,   1800 ,   1700 ,   1401 ,   1327 ,   1254 },
         {0x07,  0x0701,  0x0701,  0x0700,  0x0701,  2900 ,   2800 ,   2700 ,   2139 ,   2065 ,   1991 },
 };
+#endif
 
 /* MODBUS CRC低位字节值表 */
 const int g_iModBusHi[] = {
