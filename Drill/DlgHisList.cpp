@@ -1900,27 +1900,43 @@ void CDlgHisList::OnBnClickedBtntcpupload()
     {
         nIndex = m_nSelItem[i];
         ptTorq = &g_tReadData.tData[nIndex-1];
-        sending = true;
-        start = 0;
 
         strSendData = WITSEnc::EncHisTorqConfig(nIndex, &theApp.m_tWITSCfg, ptTorq);
         theApp.ReportWITSByTCP(strSendData);
 
-        if (theApp.HaveMakeUP(ptTorq)
+        sending = true;
+        start = 0;
+        if (theApp.HaveMakeUP(ptTorq))
         {
             while (sending)
             {
                 Sleep(100);
 
-                    strSendData = WITSEnc::EncHisTorqData(nIndex, start, &theApp.m_tWITSCfg, ptTorq);
-                    theApp.ReportWITSByTCP(strSendData);
-                    start += RPTHISDATANUM;
-                    if (start >= ptTorq->ftorque_size())
-                        sending = false;
+                strSendData = WITSEnc::EncHisTorqData(nIndex, start, &theApp.m_tWITSCfg, ptTorq, false);
+                theApp.ReportWITSByTCP(strSendData);
+                start += RPTHISDATANUM;
+                if (start >= ptTorq->dwmucount())
+                    sending = false;
             }
         }
 
-        strSendData = WITSEnc::EncWITSTorqQuality(nIndex, &theApp.m_tWITSCfg, NULL, ptTorq);
+        sending = true;
+        start = 0;
+        if (theApp.HaveBreakout(ptTorq))
+        {
+            while (sending)
+            {
+                Sleep(100);
+
+                strSendData = WITSEnc::EncHisTorqData(nIndex, start, &theApp.m_tWITSCfg, ptTorq, true);
+                theApp.ReportWITSByTCP(strSendData);
+                start += RPTHISDATANUM;
+                if (start >= ptTorq->dwbocount())
+                    sending = false;
+            }
+        }
+
+        strSendData = WITSEnc::EncHisTorqQuality(nIndex, &theApp.m_tWITSCfg, ptTorq);
         theApp.ReportWITSByTCP(strSendData);
 
     }

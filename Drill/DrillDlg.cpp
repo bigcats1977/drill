@@ -3201,7 +3201,7 @@ void CDrillDlg::OnSetWits()
 
     COMP_BFALSE(JudgeRunStatus(IDS_STRINFRUNNWITSCFG));
 
-    //COMP_BFALSE(theApp.CheckPassWord());
+    COMP_BFALSE(theApp.CheckPassWord());
 
     dlgWITSCfg.m_tempShow = *m_ptShow;
     if (IDOK != dlgWITSCfg.DoModal())
