@@ -7,7 +7,7 @@
 
 #define RPTHISDATANUM			300
 #define HISDATAINTER			10
-#define RPTTORQMULTI			10
+#define RPTTORQMULTI			1
 
 class WITSEnc
 {
