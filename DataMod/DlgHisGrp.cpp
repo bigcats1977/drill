@@ -594,11 +594,11 @@ void CDlgHisGrp::OnBtnmodpara()
 
     m_ptCurTorq->set_strmemo(m_strMemo);
 
-    if (theApp.HaveBreakout(m_ptCurTorq)) 
+    if (!theApp.HaveBreakout(m_ptCurTorq)) 
     {
         m_ptCurTorq->set_mucoltime(GetTimeFromStr(m_strTime));
     }
-    if (theApp.HaveBreakout(m_ptCurTorq))
+    else
     {
         m_ptCurTorq->set_bocoltime(GetTimeFromStr(m_strBOTime));
         m_ptCurTorq->set_dwoutwellno(atoi(m_strOutWellNO));
@@ -611,7 +611,6 @@ void CDlgHisGrp::OnBtnmodpara()
         ptShow = (TorqData::ShowInfo*)&m_ptCurTorq->tshow(i);
         ptShow->set_strvalue(m_strHisShowValue[i].GetBuffer(0));
     }
-
 
     SetModified();
 
