@@ -228,10 +228,10 @@ void CDlgParaSet::SetParaValue(PARACFG* ptCfg, SHOWCFG* ptShow)
 
     ptCtrl = &ptCfg->tCtrl;
 
-    m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];
-    m_fControl = ptCtrl->fTorqConf[INDEX_TORQ_CONTROL];
-    m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];
-    m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];
+    m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] / SHOWTORQUEUNIT;
+    m_fControl = ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] / SHOWTORQUEUNIT;
+    m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] / SHOWTORQUEUNIT;
+    m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW] / SHOWTORQUEUNIT;
 
     m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
     m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];
@@ -348,13 +348,13 @@ BOOL CDlgParaSet::GetParaValue(PARACFG* ptCfg)
         ptCfg->strValue[i] = m_strSetShowOption[i];
     }
 
-    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] = m_fMaxLimit;
+    ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] = m_fMaxLimit * SHOWTORQUEUNIT;
     //ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT]  = HAND_CEIL(m_fOptTorq * RATIO_UPPERLIMIT);
-    ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] = m_fControl;
-    ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] = m_fOptTorq;
+    ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] = m_fControl * SHOWTORQUEUNIT;
+    ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] = m_fOptTorq * SHOWTORQUEUNIT;
     //ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT]  = HAND_FLOOR(m_fOptTorq * RATIO_LOWERLIMIT);
     //ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN]   = m_fSpeedDown;
-    ptCtrl->fTorqConf[INDEX_TORQ_SHOW] = m_fShow;
+    ptCtrl->fTorqConf[INDEX_TORQ_SHOW] = m_fShow * SHOWTORQUEUNIT;
     //ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI]    = m_fUpperTai;
     //ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI]    = m_fLowerTai;
 
@@ -551,7 +551,7 @@ void CDlgParaSet::OnKillfocusEditopttorq()
     COMP_BE(oldOptTorq, m_fOptTorq);
 
     m_fControl = m_fOptTorq;
-    m_fMaxLimit = HAND_CEIL(m_fOptTorq * RATIO_MAXLIMIT);
+    m_fMaxLimit = ceil(m_fOptTorq * RATIO_MAXLIMIT);
     UpdateData(FALSE);
 }
 

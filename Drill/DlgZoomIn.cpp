@@ -225,7 +225,7 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
     m_fMaxTorq += 500;
 
     m_xZoomAxis.SetTickPara(10, m_fMaxCir, m_fMinCir);
-    m_yZoomAxis.SetTickPara(20, m_fMaxTorq, m_fMinTorq);
+    m_yZoomAxis.SetTickPara(20, m_fMaxTorq / SHOWTORQUEUNIT, m_fMinTorq / SHOWTORQUEUNIT);
 
     m_wndLineZoom.m_fMaxCir = m_fMaxCir;
     m_wndLineZoom.m_fWidthCir = m_fMaxCir - m_fMinCir;

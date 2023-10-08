@@ -259,9 +259,10 @@ using namespace std;
 #define RMP_OPTTHRES            20      /* RMP需要优化的阈值 */
 /* 20220215 实际上扣时超扭矩处理 */
 #define SWITCHLOWLIMIT          5000    /* 控制扭矩小于该值时，按最小扭矩下发控制扭矩 */
+#define SHOWTORQUEUNIT          1000    // 显示扭矩单位
 
 /* 参数设置调整默认值 */
-#define DIFF_TORQUE             10
+#define DIFF_TORQUE             0.1
 #define DIFF_CIRCUIT            0.1
 #define DIFF_TIME               1
 #define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
@@ -1351,8 +1352,8 @@ typedef struct tagWITSRPTDATA
 
 #define HUNDREDTH(fNum)     (((UINT)((fNum) * 100)) / 100.0)
 #define THOUSANDTH(fNum)    (((UINT)((fNum) * 1000)) / 1000.0)
-#define HAND_CEIL(fNum)     (ceil((fNum)/100) * 100)
-#define HAND_FLOOR(fNum)    (floor((fNum)/100) * 100)
+//#define HAND_CEIL(fNum)     (ceil((fNum)/100) * 100)
+//#define HAND_FLOOR(fNum)    (floor((fNum)/100) * 100)
 #define GetRandom( min, max ) ((rand() % (int)(((max)+1) - (min))) + (min))
 
 /* 显示周数信息，如果nCur=nAll，显示周数；否则显示当前周数/总周数 */

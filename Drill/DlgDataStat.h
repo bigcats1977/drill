@@ -53,9 +53,9 @@ protected:
     CComboBox           m_cbBuckType;
     CComboBox           m_cbStatType;
     UINT                m_nBuckNum;
-    double              m_fOptTorq;
-    double              m_fMaxTorq;
-    double              m_fMinTorq;
+    CString             m_strOptTorq;
+    CString             m_strMaxTorq;
+    CString             m_strMinTorq;
     BOOL                m_bAlignShow;
 
     CTChart             m_tccCtrl;

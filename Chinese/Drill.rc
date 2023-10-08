@@ -190,9 +190,9 @@ BEGIN
     CONTROL         "CustomTorque",IDC_LINE_TORQUE,"LINE_TORQUE_CTRL",WS_TABSTOP | 0x100,42,33,401,326
     CONTROL         "CustomRpm",IDC_LINE_RPM,"LINE_RPM_CTRL",0x0,42,400,401,82
     EDITTEXT        IDC_EDITTORQUE,562,43,75,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
-    LTEXT           "扭矩-周数曲线图        （单位:纵轴=N.m, 横轴=周）",IDC_STATIC_M2,42,15,319,10
+    LTEXT           "扭矩-周数曲线图        （单位:纵轴=KN.m, 横轴=周）",IDC_STATIC_M2,42,15,319,10
     GROUPBOX        "过程数据",IDC_STATIC_M5,464,5,179,60
-    LTEXT           "扭矩(N.m)",IDC_STATIC_M9,477,43,72,15
+    LTEXT           "扭矩(KN.m)",IDC_STATIC_M9,477,43,72,15
     GROUPBOX        "状态指示",IDC_STATIC_M12,585,387,58,55
     GROUPBOX        "阀门",IDC_STATIC_M16,528,0,119,55,NOT WS_VISIBLE
     LTEXT           "",IDC_XAXIS1,42,361,401,12,NOT WS_GROUP
@@ -290,7 +290,7 @@ BEGIN
     LTEXT           "参数14",IDC_SHOWSET14,292,190,39,9
     LTEXT           "参数15",IDC_SHOWSET15,164,218,39,9
     LTEXT           "参数16",IDC_SHOWSET16,292,218,39,9
-    GROUPBOX        "扭矩参数(单位: N.m)",IDC_STATIC_M10,7,7,141,102
+    GROUPBOX        "扭矩参数(单位: KN.m)",IDC_STATIC_M10,7,7,141,102
     GROUPBOX        "扭拧周数(单位: 周)",IDC_STATIC,7,111,141,99
     LTEXT           "满屏扭矩",IDC_STATIC,17,22,33,8
     LTEXT           "夹紧扭矩",IDC_STATIC,17,70,33,8
@@ -392,8 +392,8 @@ BEGIN
     EDITTEXT        IDC_HISNO,439,14,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISTIME,439,36,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISBOTIME,439,58,75,14,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_HISCONTROL,439,80,75,14,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_HISBREAKOUT,439,102,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISCONTROL,439,80,60,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISBREAKOUT,439,102,60,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISCIR,439,124,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISBOCIR,439,146,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISQUALITY,439,168,75,14,ES_AUTOHSCROLL | ES_READONLY
@@ -424,7 +424,7 @@ BEGIN
     EDITTEXT        IDC_HISMEMO,586,287,94,14,ES_MULTILINE | ES_AUTOVSCROLL
     CONTROL         "工具扣",IDC_CHECKTOOLBUCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,553,305,45,10
     CONTROL         "CustomHisRpm",IDC_LINE_HISRPM,"LINE_RPM_CTRL",0x0,35,284,334,49
-    LTEXT           "扭矩-周数曲线图        （单位:纵轴=N.m, 横轴=周）",IDC_STATIC_G1,35,8,334,10
+    LTEXT           "扭矩-周数曲线图        （单位:纵轴=KN.m, 横轴=周）",IDC_STATIC_G1,35,8,334,10
     LTEXT           "",IDC_XHISAXIS1,35,245,334,10,NOT WS_GROUP
     LTEXT           "",IDC_YHISAXIS1,7,18,27,222,NOT WS_GROUP
     LTEXT           "",IDC_XHISAXIS2,35,340,334,10,NOT WS_GROUP
@@ -435,7 +435,7 @@ BEGIN
     LTEXT           "上扣周数",IDC_STATIC_G7,390,126,44,10
     LTEXT           "上扣扭矩",IDC_STATIC_G8,390,82,44,10
     LTEXT           "周",IDC_STATIC_G9,517,126,20,10
-    LTEXT           "N.m",IDC_STATIC_G10,517,82,20,10
+    LTEXT           "KN.m",IDC_STATIC_G10,507,82,30,10
     LTEXT           "备    注",IDC_STATIC_G12,553,289,30,10
     LTEXT           "上扣时间",IDC_STATIC_G13,390,38,44,10
     LTEXT           "质量说明",IDC_STATIC_G14,392,170,44,10
@@ -465,7 +465,7 @@ BEGIN
     GROUPBOX        "",IDC_STATIC_G27,545,184,135,68
     GROUPBOX        "",IDC_STATIC_G28,545,249,135,69
     LTEXT           "卸扣扭矩",IDC_STATIC_G11,390,104,44,10
-    LTEXT           "N.m",IDC_STATIC_G16,517,104,20,10
+    LTEXT           "KN.m",IDC_STATIC_G16,507,104,30,10
     LTEXT           "mm",IDC_STATIC_G17,517,280,20,10
     LTEXT           "mm",IDC_STATIC_G18,517,302,20,10
     LTEXT           "卸扣周数",IDC_STATIC_G20,392,148,44,10
@@ -564,7 +564,7 @@ BEGIN
     GROUPBOX        "数据总览",IDC_STATIC_STAT0,7,236,364,96
     GROUPBOX        "统计信息",IDC_STATIC_STAT1,380,7,179,356
     GROUPBOX        "上扣扭矩信息",IDC_STATIC_STAT2,383,48,174,42
-    LTEXT           "扭矩-周数曲线图        （单位:纵轴=N.m, 横轴=周）",IDC_STATIC_STAT3,35,11,334,8
+    LTEXT           "扭矩-周数曲线图        （单位:纵轴=KN.m, 横轴=周）",IDC_STATIC_STAT3,35,11,334,8
     LTEXT           "上扣总数",IDC_STATIC_STAT4,17,252,40,10
     LTEXT           "入井总数",IDC_STATIC_STAT5,139,252,40,10
     LTEXT           "不入井数",IDC_STATIC_STAT6,257,252,40,10
@@ -987,8 +987,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 6,24,7,60721
- PRODUCTVERSION 6,24,7,60721
+ FILEVERSION 6,24,8,61008
+ PRODUCTVERSION 6,24,8,61008
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -1005,13 +1005,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Drill Meter Application"
-            VALUE "FileVersion", "6,24,7,20230721"
+            VALUE "FileVersion", "6,24,8,20231008"
             VALUE "InternalName", "Drill Meter"
             VALUE "LegalCopyright", "Copyright (C) 2023"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Drill.EXE"
             VALUE "ProductName", "Drill Meter Application"
-            VALUE "ProductVersion", "6,24,7,20230721"
+            VALUE "ProductVersion", "6,24,8,20231008"
         END
     END
     BLOCK "VarFileInfo"
@@ -1271,7 +1271,7 @@ BEGIN
     BEGIN
         MENUITEM "大扭矩(&B)",                     ID_VER_BIGTORQ
         MENUITEM SEPARATOR
-        MENUITEM "N.m(&N)",                     ID_VER_UNIT_NM
+        MENUITEM "KN.m(&N)",                     ID_VER_UNIT_NM
         MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
     END
     POPUP "帮助(&H)"
@@ -1307,7 +1307,7 @@ BEGIN
     BEGIN
         MENUITEM "BigTorq(&B)",                 ID_VER_BIGTORQ
         MENUITEM SEPARATOR
-        MENUITEM "N.m(&N)",                     ID_VER_UNIT_NM
+        MENUITEM "KN.m(&N)",                     ID_VER_UNIT_NM
         MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
     END
     POPUP "Help(&H)"
@@ -1743,8 +1743,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRAPITORQTHIN      "推荐扭矩（不加厚） N.m"
-    IDS_STRAPITORQTHICK     "推荐扭矩（加厚） N.m"
+    IDS_STRAPITORQTHIN      "推荐扭矩（不加厚） KN.m"
+    IDS_STRAPITORQTHICK     "推荐扭矩（加厚） KN.m"
     IDS_STRAPITHIN          "不加厚"
     IDS_STRAPITHICK         "加厚"
     IDS_STRAPIBIGGEST       "最大"
@@ -2067,18 +2067,18 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRLCXCONTROL       "最佳扭矩 %d"
-    IDS_STRLCXUPLIMIT       "最大扭矩 %d"
-    IDS_STRLCXLOWLIMIT      "最小扭矩 %d"
-    IDS_STRLCXGOODTAI       "最佳台阶 %d"
-    IDS_STRLCXUPTAI         "最大台阶 %d"
-    IDS_STRLCXLOWTAI        "最小台阶 %d"
-    IDS_STRLCXSHOW          "显示扭矩 %d"
-    IDS_STRLCXBEAR          "肩负扭矩 %d"
-    IDS_STRLCIPTORQ         "拐点扭矩 %d"
-    IDS_STRLCZOOMTORQ       "放大扭矩 %d"
-    IDS_STRLCMAKETORQ       "上扣扭矩 %d"
-    IDS_STRLCBREAKTORQ      "卸扣扭矩 %d"
+    IDS_STRLCXCONTROL       "最佳扭矩 %.1f"
+    IDS_STRLCXUPLIMIT       "最大扭矩 %.1f"
+    IDS_STRLCXLOWLIMIT      "最小扭矩 %.1f"
+    IDS_STRLCXGOODTAI       "最佳台阶 %.1f"
+    IDS_STRLCXUPTAI         "最大台阶 %.1f"
+    IDS_STRLCXLOWTAI        "最小台阶 %.1f"
+    IDS_STRLCXSHOW          "显示扭矩 %.1f"
+    IDS_STRLCXBEAR          "肩负扭矩 %.1f"
+    IDS_STRLCIPTORQ         "拐点扭矩 %.1f"
+    IDS_STRLCZOOMTORQ       "放大扭矩 %.1f"
+    IDS_STRLCMAKETORQ       "上扣扭矩 %.1f"
+    IDS_STRLCBREAKTORQ      "卸扣扭矩 %.1f"
 END
 
 STRINGTABLE
@@ -2086,7 +2086,7 @@ BEGIN
     IDS_STRLINELABEL        "扭矩-周数曲线图        （单位:纵轴=%s, 横轴=周）"
     IDS_STRTORQPARA         "扭矩参数(单位: %s)"
     IDS_STRTORQUNIT         "扭矩(%s)"
-    IDS_STRTORQNMUNIT       "N%sm"
+    IDS_STRTORQNMUNIT       "KN%sm"
     IDS_STRTORQLBFTUNIT     "lb%sft"
 END
 

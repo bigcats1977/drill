@@ -190,9 +190,9 @@ BEGIN
     CONTROL         "CustomTorque",IDC_LINE_TORQUE,"LINE_TORQUE_CTRL",WS_TABSTOP | 0x100,42,33,401,326
     CONTROL         "CustomRpm",IDC_LINE_RPM,"LINE_RPM_CTRL",0x0,42,400,401,82
     EDITTEXT        IDC_EDITTORQUE,562,43,75,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
-    LTEXT           "Torque-Turn Graph:    (Vert=N.m, Hori=Turn)",IDC_STATIC_M2,42,15,319,10
+    LTEXT           "Torque-Turn Graph:    (Vert=KN.m, Hori=Turn)",IDC_STATIC_M2,42,15,319,10
     GROUPBOX        "Process Data",IDC_STATIC_M5,464,5,179,60
-    LTEXT           "MakeUp Torq",IDC_STATIC_M9,477,43,72,15
+    LTEXT           "Torque(KN.m)",IDC_STATIC_M9,477,43,72,15
     GROUPBOX        "Status",IDC_STATIC_M12,585,387,58,55
     GROUPBOX        "Valve",IDC_STATIC_M16,528,0,119,55,NOT WS_VISIBLE
     LTEXT           "",IDC_XAXIS1,42,361,401,12,NOT WS_GROUP
@@ -290,7 +290,7 @@ BEGIN
     LTEXT           "Para14",IDC_SHOWSET14,292,190,39,9
     LTEXT           "Para15",IDC_SHOWSET15,164,218,39,9
     LTEXT           "Para16",IDC_SHOWSET16,292,218,39,9
-    GROUPBOX        "Torque Parameter(N.m)",IDC_STATIC_M10,7,7,141,102
+    GROUPBOX        "Torque Parameter(KN.m)",IDC_STATIC_M10,7,7,141,102
     GROUPBOX        "Twisting Turn(Turn)",IDC_STATIC,7,111,141,99
     LTEXT           "FullTorq",IDC_STATIC,17,22,41,8
     LTEXT           "FastenTorq",IDC_STATIC,17,70,41,8
@@ -392,8 +392,8 @@ BEGIN
     EDITTEXT        IDC_HISNO,439,14,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISTIME,439,36,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISBOTIME,439,58,75,14,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_HISCONTROL,439,80,75,14,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_HISBREAKOUT,439,102,75,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISCONTROL,439,80,60,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_HISBREAKOUT,439,102,60,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISCIR,439,124,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISBOCIR,439,146,75,14,ES_AUTOHSCROLL | ES_READONLY
     EDITTEXT        IDC_HISQUALITY,439,168,75,14,ES_AUTOHSCROLL | ES_READONLY
@@ -424,7 +424,7 @@ BEGIN
     EDITTEXT        IDC_HISMEMO,586,287,94,14,ES_MULTILINE | ES_AUTOVSCROLL
     CONTROL         "BHA",IDC_CHECKTOOLBUCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,553,305,45,10
     CONTROL         "CustomHisRpm",IDC_LINE_HISRPM,"LINE_RPM_CTRL",0x0,35,284,334,49
-    LTEXT           "Torque-Turn Graph:    (Vert=N.m, Hori=Turn)",IDC_STATIC_G1,35,8,334,10
+    LTEXT           "Torque-Turn Graph:    (Vert=KN.m, Hori=Turn)",IDC_STATIC_G1,35,8,334,10
     LTEXT           "",IDC_XHISAXIS1,35,245,334,10,NOT WS_GROUP
     LTEXT           "",IDC_YHISAXIS1,7,18,27,222,NOT WS_GROUP
     LTEXT           "",IDC_XHISAXIS2,35,340,334,10,NOT WS_GROUP
@@ -435,7 +435,7 @@ BEGIN
     LTEXT           "MakeUp Turn",IDC_STATIC_G7,390,126,44,10
     LTEXT           "MakeUp Torq",IDC_STATIC_G8,390,82,44,10
     LTEXT           "Turn",IDC_STATIC_G9,517,126,20,10
-    LTEXT           "N.m",IDC_STATIC_G10,517,82,20,10
+    LTEXT           "KN.m",IDC_STATIC_G10,507,82,30,10
     LTEXT           "Comment",IDC_STATIC_G12,553,289,30,10
     LTEXT           "MakeUP Time",IDC_STATIC_G13,390,38,44,10
     LTEXT           "Quality",IDC_STATIC_G14,392,170,44,10
@@ -465,7 +465,7 @@ BEGIN
     GROUPBOX        "",IDC_STATIC_G27,545,184,135,68
     GROUPBOX        "",IDC_STATIC_G28,545,249,135,69
     LTEXT           "Break Torq",IDC_STATIC_G11,390,104,44,10
-    LTEXT           "N.m",IDC_STATIC_G16,517,104,20,10
+    LTEXT           "KN.m",IDC_STATIC_G16,507,104,30,10
     LTEXT           "mm",IDC_STATIC_G17,517,280,20,10
     LTEXT           "mm",IDC_STATIC_G18,517,302,20,10
     LTEXT           "Break Turn",IDC_STATIC_G20,392,148,44,10
@@ -564,7 +564,7 @@ BEGIN
     GROUPBOX        "Overview",IDC_STATIC_STAT0,7,236,364,96
     GROUPBOX        "Statistics",IDC_STATIC_STAT1,380,7,179,356
     GROUPBOX        "Fin Torq Info",IDC_STATIC_STAT2,383,48,174,42
-    LTEXT           "Torque-Turn Graph:    (Vert=N.m, Hori=Turn)",IDC_STATIC_STAT3,35,11,334,8
+    LTEXT           "Torque-Turn Graph:    (Vert=KN.m, Hori=Turn)",IDC_STATIC_STAT3,35,11,334,8
     LTEXT           "Total MakeUp",IDC_STATIC_STAT4,17,252,49,10
     LTEXT           "Num of QC",IDC_STATIC_STAT5,139,252,40,10
     LTEXT           "Num of NG",IDC_STATIC_STAT6,257,252,40,10
@@ -987,8 +987,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 6,24,7,60721
- PRODUCTVERSION 6,24,7,60721
+ FILEVERSION 6,24,8,61008
+ PRODUCTVERSION 6,24,8,61008
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -1005,13 +1005,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NanJing Championcnc Inc."
             VALUE "FileDescription", "Drill Meter Application"
-            VALUE "FileVersion", "6,24,7,20230721"
+            VALUE "FileVersion", "6,24,8,20231008"
             VALUE "InternalName", "Drill Meter"
             VALUE "LegalCopyright", "Copyright (C) 2023"
             VALUE "LegalTrademarks", "CPCNC"
             VALUE "OriginalFilename", "Drill.EXE"
             VALUE "ProductName", "Drill Meter Application"
-            VALUE "ProductVersion", "6,24,7,20230721"
+            VALUE "ProductVersion", "6,24,8,20231008"
         END
     END
     BLOCK "VarFileInfo"
@@ -1271,7 +1271,7 @@ BEGIN
     BEGIN
         MENUITEM "´óÅ¤¾Ø(&B)",                     ID_VER_BIGTORQ
         MENUITEM SEPARATOR
-        MENUITEM "N.m(&N)",                     ID_VER_UNIT_NM
+        MENUITEM "KN.m(&N)",                     ID_VER_UNIT_NM
         MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
     END
     POPUP "°ïÖú(&H)"
@@ -1307,7 +1307,7 @@ BEGIN
     BEGIN
         MENUITEM "BigTorq(&B)",                 ID_VER_BIGTORQ
         MENUITEM SEPARATOR
-        MENUITEM "N.m(&N)",                     ID_VER_UNIT_NM
+        MENUITEM "KN.m(&N)",                     ID_VER_UNIT_NM
         MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
     END
     POPUP "Help(&H)"
@@ -1396,7 +1396,7 @@ BEGIN
     IDC_TCHARTCTRL, 0x376, 1020, 0
 0x0000, 0x0000, 0x5054, 0x3046, 0x540b, 0x6843, 0x7261, 0x4374, 0x6168, 
 0x7472, 0x0400, 0x654c, 0x7466, 0xac03, 0x0302, 0x6f54, 0x0370, 0x00cb, 
-0x5705, 0x6469, 0x6874, 0x3103, 0x0601, 0x6548, 0x6769, 0x7468, 0x9a03, 
+0x5705, 0x6469, 0x6874, 0xb303, 0x0601, 0x6548, 0x6769, 0x7468, 0xf203, 
 0x0c00, 0x6c41, 0x6f6c, 0x5077, 0x6e61, 0x696e, 0x676e, 0x0607, 0x6d70, 
 0x6f4e, 0x656e, 0x4712, 0x6172, 0x6964, 0x6e65, 0x2e74, 0x6944, 0x6572, 
 0x7463, 0x6f69, 0x076e, 0x670b, 0x4264, 0x746f, 0x6f74, 0x546d, 0x706f, 
@@ -1743,8 +1743,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRAPITORQTHIN      "RCMD Torq(Not Thicken) N.m"
-    IDS_STRAPITORQTHICK     "RCMD Torq(Thicken) N.m"
+    IDS_STRAPITORQTHIN      "RCMD Torq(Not Thicken) KN.m"
+    IDS_STRAPITORQTHICK     "RCMD Torq(Thicken) KN.m"
     IDS_STRAPITHIN          "Not Thicken"
     IDS_STRAPITHICK         "Thicken"
     IDS_STRAPIBIGGEST       "MaxTorq"
@@ -2067,18 +2067,18 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRLCXCONTROL       "Opt  Torq %d"
-    IDS_STRLCXUPLIMIT       "Max  Torq %d"
-    IDS_STRLCXLOWLIMIT      "Min  Torq %d"
-    IDS_STRLCXGOODTAI       "Opt  Shoulder %d"
-    IDS_STRLCXUPTAI         "Max  Shoulder %d"
-    IDS_STRLCXLOWTAI        "Min  Shoulder %d"
-    IDS_STRLCXSHOW          "Show Torq %d"
-    IDS_STRLCXBEAR          "Bear Torq %d"
-    IDS_STRLCIPTORQ         "Shoulder %d"
-    IDS_STRLCZOOMTORQ       "ZoomIn %d"
-    IDS_STRLCMAKETORQ       "Make Torq %d"
-    IDS_STRLCBREAKTORQ      "Break Torq %d"
+    IDS_STRLCXCONTROL       "Opt  Torq %.1f"
+    IDS_STRLCXUPLIMIT       "Max  Torq %.1f"
+    IDS_STRLCXLOWLIMIT      "Min  Torq %.1f"
+    IDS_STRLCXGOODTAI       "Opt  Shoulder %.1f"
+    IDS_STRLCXUPTAI         "Max  Shoulder %.1f"
+    IDS_STRLCXLOWTAI        "Min  Shoulder %.1f"
+    IDS_STRLCXSHOW          "Show Torq %.1f"
+    IDS_STRLCXBEAR          "Bear Torq %.1f"
+    IDS_STRLCIPTORQ         "Shoulder %.1f"
+    IDS_STRLCZOOMTORQ       "ZoomIn %.1f"
+    IDS_STRLCMAKETORQ       "Make Torq %.1f"
+    IDS_STRLCBREAKTORQ      "Break Torq %.1f"
 END
 
 STRINGTABLE
@@ -2086,7 +2086,7 @@ BEGIN
     IDS_STRLINELABEL        "Torque-Turn Graph:    (Vert=%s, Hori=Turn)"
     IDS_STRTORQPARA         "Torque Parameter(%s)"
     IDS_STRTORQUNIT         "Torque(%s)"
-    IDS_STRTORQNMUNIT       "N%sm"
+    IDS_STRTORQNMUNIT       "KN%sm"
     IDS_STRTORQLBFTUNIT     "lb%sft"
 END
 

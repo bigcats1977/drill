@@ -298,8 +298,8 @@ void CDlgHisList::ShowHisTorqList()
         if (theApp.HaveMakeUP(ptTorq))
         {
             strTime = theApp.GetTorqCollTime(ptTorq, false);
-            strOptTorq.Format("%d", (int)theApp.GetOptTorq(ptTorq));
-            strMakeTorq.Format("%d", (int)ptTorq->fmumaxtorq());
+            strOptTorq.Format("%.1f", theApp.GetOptTorq(ptTorq) / SHOWTORQUEUNIT);
+            strMakeTorq.Format("%.1f", ptTorq->fmumaxtorq() / SHOWTORQUEUNIT);
             strMakeTurn.Format("%.3f", theApp.GetCir(ptTorq, TYPE_MAKEUP));
         }
         else
@@ -314,7 +314,7 @@ void CDlgHisList::ShowHisTorqList()
         if (theApp.HaveBreakout(ptTorq))
         {
             strBOTime = theApp.GetTorqCollTime(ptTorq, true);
-            strBreakTorq.Format("%d", (int)ptTorq->fbomaxtorq());
+            strBreakTorq.Format("%.1f", ptTorq->fbomaxtorq() / SHOWTORQUEUNIT);
             strBreakTurn.Format("%.3f", theApp.GetCir(ptTorq, TYPE_BREAKOUT));
             strOutWellNO.Format("%d", ptTorq->dwoutwellno());
         }
