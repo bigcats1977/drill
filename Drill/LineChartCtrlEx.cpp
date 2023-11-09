@@ -385,7 +385,7 @@ void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
     /* 显示上扣扭矩值 */
-    strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCMAKETORQ).c_str(), (int)fTorq);
+    strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCMAKETORQ).c_str(), (fTorq / SHOWTORQUEUNIT));
     ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
 
     m_MemDC.SelectObject(pOldPen);
@@ -411,7 +411,7 @@ void CLineChartCtrlEx::DrawBreakoutLine(double fTorq, int begin, int end)
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
     /* 显示卸扣扭矩值 */
-    strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCBREAKTORQ).c_str(), (int)fTorq);
+    strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCBREAKTORQ).c_str(), (fTorq / SHOWTORQUEUNIT));
     ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
 
     m_MemDC.SelectObject(pOldPen);
@@ -575,7 +575,7 @@ void CLineChartCtrlEx::DrawControlLine()
     /* 显示最佳扭矩值 */
     //strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
     ShowContent(clrCtrl, y - CONT_YOFFSET,
-        string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), (int)m_fOptTorq));
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), (m_fOptTorq / SHOWTORQUEUNIT)));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -652,7 +652,7 @@ void CLineChartCtrlEx::DrawShowLine()
     //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
     //ShowContent(clrShow, y-CONT_YOFFSET, strTemp);
     ShowContent(clrShow, y - CONT_YOFFSET,
-        string_format(theApp.LoadstringFromRes(IDS_STRLCXSHOW).c_str(), (int)m_fShow));
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXSHOW).c_str(), (m_fShow / SHOWTORQUEUNIT)));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -747,7 +747,7 @@ void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
         DrawHLine(y);
 
         /* 显示当前扭矩和周数信息 */
-        strTemp = string_format("(%.3f \xA1\xF1 %d)", fSelCir, (int)fSelTorq);
+        strTemp = string_format("(%.3f \xA1\xF1 %.1f)", fSelCir, (fSelTorq / SHOWTORQUEUNIT));
         ShowRightPntText(IP_SELCOLOR, x, y, strTemp.c_str());
     }
     m_MemDC.SelectObject(pOldPen);
@@ -880,7 +880,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
         /* ----- */
         DrawHLine(y);
 
-        strTemp = string_format("(%.4f \xA1\xF1 %d)", fSelCir, (int)fSelTorq);
+        strTemp = string_format("(%.4f \xA1\xF1 %.1f)", fSelCir, (fSelTorq / SHOWTORQUEUNIT));
         ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
     }
 
@@ -899,7 +899,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
     /* 放大点扭矩 */
     fSelCir = fMinCir + wZoomPos * m_fWidthCir / MAXLINEITEM; // 当前点在放大图像中的周数
     fSelCir = fDeltaCir - fSelCir;
-    strTemp = string_format("(%.4f \xA1\xF1 %d)", fSelCir, (int)fSetZoomTorq);
+    strTemp = string_format("(%.4f \xA1\xF1 %.1f)", fSelCir, (fSetZoomTorq / SHOWTORQUEUNIT));
     ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
 
     m_MemDC.SelectObject(pOldPen);

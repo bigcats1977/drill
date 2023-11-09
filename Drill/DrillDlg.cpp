@@ -1209,7 +1209,7 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
     }
 
     /* 调试显示随机数据 */
-    m_strRecvData.Format("%ld,%ld,%d", (int)ptCollData->fTorque, ptCollData->nOrgPlus, ptCollData->ucStatus);
+    m_strRecvData.Format("%.1f,%ld,%d", ptCollData->fTorque / SHOWTORQUEUNIT, ptCollData->nOrgPlus, ptCollData->ucStatus);
 
     /*300编码器，转速太快，除2降1倍*/
     ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
@@ -1317,7 +1317,7 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
         tOrgData.fRpm = ptCollData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
 
     /* 调试显示接收到的有效数据 */
-    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)", (int)ptCollData->fTorque, ptCollData->nOrgPlus, ptCollData->ucStatus, ptCollData->fRpm, strTime);
+    m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptCollData->fTorque / SHOWTORQUEUNIT, ptCollData->nOrgPlus, ptCollData->ucStatus, ptCollData->fRpm, strTime);
 
     return TRUE;
 }
@@ -1424,7 +1424,7 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
 
     /* 调试显示接收到的有效数据 */
     ptOrgData = &ptCollData[nDataNum - 1];
-    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)", (int)ptOrgData->fTorque, ptOrgData->nOrgPlus, ptOrgData->ucStatus, ptOrgData->fRpm, strTime);
+    m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptOrgData->fTorque / SHOWTORQUEUNIT, ptOrgData->nOrgPlus, ptOrgData->ucStatus, ptOrgData->fRpm, strTime);
     return TRUE;
 }
 
@@ -2023,7 +2023,7 @@ void CDrillDlg::SavePortNormalInfo(COLLECTDATA* ptCollData)
     /* 调试显示接收到的有效数据 */
     GetLocalTime(&ts);
     strTime.Format("%02d:%02d:%02d.%03d", ts.wHour, ts.wMinute, ts.wSecond, ts.wMilliseconds);
-    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)", (int)ptCollData->fTorque, ptCollData->nOrgPlus, ptCollData->ucStatus, fRpm, strTime);
+    m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptCollData->fTorque / SHOWTORQUEUNIT, ptCollData->nOrgPlus, ptCollData->ucStatus, fRpm, strTime);
 
     /* 根据Plus计算数据的点数 */
     CalcPointNum(ptCollData, &tOrgData);
@@ -2096,7 +2096,7 @@ void CDrillDlg::SavePortMultiDataInfo(COLLECTDATA* ptCollData)
     GetLocalTime(&ts);
     strTime.Format("%02d:%02d:%02d.%03d", ts.wHour, ts.wMinute, ts.wSecond, ts.wMilliseconds);
 
-    m_strRecvData.Format("%ld,%ld,%d,%.1f(%s)", (int)ptOrgColl->fTorque, ptOrgColl->nOrgPlus, ptOrgColl->ucStatus, fRpm, strTime);
+    m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptOrgColl->fTorque / SHOWTORQUEUNIT, ptOrgColl->nOrgPlus, ptOrgColl->ucStatus, fRpm, strTime);
     theApp.SaveMultiData(&tOrgData, m_ucRcvByte, m_wRcvLen);
 }
 
@@ -2455,11 +2455,11 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     {
         /* for 卸扣 */
         if (m_iBreakOut > 0)
-            m_strTorque.Format("%.0f / %.0f", tCollData[nDataNum - 1].fTorque, m_fMaxTorq);
+            m_strTorque.Format("%.1f / %.1f", tCollData[nDataNum - 1].fTorque / SHOWTORQUEUNIT, m_fMaxTorq / SHOWTORQUEUNIT);
         else if (bHaveS3)
-            m_strTorque.Format("%.0f", m_fMaxTorq);
+            m_strTorque.Format("%.1f", m_fMaxTorq / SHOWTORQUEUNIT);
         else    /* 显示最后一个有效数据 */
-            m_strTorque.Format("%.0f", tCollData[nDataNum - 1].fTorque);
+            m_strTorque.Format("%.1f", tCollData[nDataNum - 1].fTorque / SHOWTORQUEUNIT);
             // m_strTorque.Format("%.0f, %.2f", tCollData[nDataNum - 1].fTorque, fCurCir);
         m_fRpm = tCollData[nDataNum - 1].fRpm;
 
@@ -2505,8 +2505,8 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
     {
         if (m_fMaxTorq > m_fMaxBORange * 0.8)
         {
-            m_fMaxBORange = HAND_CEIL(m_fMaxTorq * 1.2);
-            m_yAxis1.SetTickPara(20, m_fMaxBORange);
+            m_fMaxBORange = ceil(m_fMaxTorq * 1.2);
+            m_yAxis1.SetTickPara(20, m_fMaxBORange / SHOWTORQUEUNIT);
             m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
         }
     }
@@ -3044,13 +3044,13 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
     {
         m_fMaxBORange = m_ptCtrl->fTorqConf[INDEX_TORQ_INITBO];
         m_wndTorque.UpdateMaxHeight(m_fMaxBORange);
-        m_yAxis1.SetTickPara(20, m_fMaxBORange);
+        m_yAxis1.SetTickPara(20, m_fMaxBORange / SHOWTORQUEUNIT);
         m_wndTorque.DrawBkLine(true);
     }
     else
     {
         m_fMaxBORange = 1000;
-        m_yAxis1.SetTickPara(20, m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
+        m_yAxis1.SetTickPara(20, m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] / SHOWTORQUEUNIT) ;
         m_wndTorque.DrawBkLine(false);
     }
 

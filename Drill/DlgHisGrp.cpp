@@ -214,7 +214,7 @@ void CDlgHisGrp::SetCurEdit()
     {
         m_strTime = theApp.GetTorqCollTime(m_ptCurTorq);
         m_strCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, TYPE_MAKEUP));
-        m_strControl.Format("%d", (int)m_ptCurTorq->fmumaxtorq());
+        m_strControl.Format("%.1f", m_ptCurTorq->fmumaxtorq() / SHOWTORQUEUNIT);
     }
     else
     {
@@ -225,7 +225,7 @@ void CDlgHisGrp::SetCurEdit()
     if (theApp.HaveBreakout(m_ptCurTorq))
     {
         m_strBOTime = theApp.GetTorqCollTime(m_ptCurTorq, true);
-        m_strBOTorq.Format("%d", (int)m_ptCurTorq->fbomaxtorq());
+        m_strBOTorq.Format("%.1f", m_ptCurTorq->fbomaxtorq() / SHOWTORQUEUNIT);
         m_strBOCir.Format("%.3f", theApp.GetCir(m_ptCurTorq, TYPE_BREAKOUT));
         m_strOutWellNO.Format("%d", m_ptCurTorq->dwoutwellno());
         m_strOutJoint = m_ptCurTorq->strbojoint().c_str();
@@ -295,7 +295,7 @@ void CDlgHisGrp::ResetHisLineByCurData()
 
     /* 重新设置刻度 */
     m_xHisAxis1.SetTickPara(10, fMaxCir);
-    m_yHisAxis1.SetTickPara(20, m_ptCurTorq->fmaxlimit());
+    m_yHisAxis1.SetTickPara(20, m_ptCurTorq->fmaxlimit() / SHOWTORQUEUNIT);
     m_wndLineHis.DrawBkLine(theApp.HaveBreakout(m_ptCurTorq));
 
     m_wndRpmHis.SetBkColor(RGB(255, 255, 255));
@@ -339,7 +339,7 @@ void CDlgHisGrp::ResetHisLineByCfg(PARACFG* ptCfg)
 
     m_wndLineHis.Add(RGB(255, 255, 255), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_HISG);
     m_xHisAxis1.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
-    m_yHisAxis1.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
+    m_yHisAxis1.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] / SHOWTORQUEUNIT);
     m_wndLineHis.DrawBkLine(false);
     m_wndRpmHis.Add(RGB(255, 255, 255), ptCtrl->fFullRPM, 0.0);
     m_xHisAxis2.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);

@@ -218,7 +218,7 @@ void CLineChartCtrlStat::DrawControlLine()
     //strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
     //ShowContent(LC_SAFECOLOR, y-CONT_YOFFSET, strTemp);
     ShowContent(LC_SAFECOLOR, y - CONT_YOFFSET,
-        string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), m_fOptTorq));
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), (m_fOptTorq / SHOWTORQUEUNIT)));
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -277,7 +277,7 @@ void CLineChartCtrlStat::DrawShowLine()
     //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
     //ShowContent(LC_SHOWCOLOR, y-CONT_YOFFSET, strTemp);
     ShowContent(LC_SHOWCOLOR, y - CONT_YOFFSET,
-        string_format(theApp.LoadstringFromRes(IDS_STRLCXSHOW).c_str(), m_fShow));
+        string_format(theApp.LoadstringFromRes(IDS_STRLCXSHOW).c_str(), (m_fShow / SHOWTORQUEUNIT)));
 
     m_MemDC.SelectObject(pOldPen);
 }

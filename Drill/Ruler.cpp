@@ -144,14 +144,14 @@ void CRuler::DrawVerRuler()
 
     for (i = 0; i <= m_iTickNum; i++)
     {
-        str = string_format("%d", (int)((m_fTickValue - m_fMinTickVal) * i / m_iTickNum + m_fMinTickVal));
+        str = string_format("%.1f", ((m_fTickValue - m_fMinTickVal) * i / m_iTickNum + m_fMinTickVal));
         y = rcRuler.Height() * (m_iTickNum - i) / m_iTickNum;
         if (i == 0)
         {
             /* »­´ó¿Ì¶È */
             m_MemDC.MoveTo(rcRuler.right, y - 1);
             m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y - 1);
-            str = string_format("%d", (int)m_fMinTickVal);
+            str = string_format("%.1f", m_fMinTickVal);
             m_MemDC.TextOut(rcRuler.right - 6, y - 9, str.c_str());
             DrawVerScale(y, rcRuler);
             continue;

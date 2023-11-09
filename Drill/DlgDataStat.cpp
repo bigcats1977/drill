@@ -24,9 +24,9 @@ CDlgDataStat::CDlgDataStat(CWnd* pParent /*=NULL*/)
     , m_nUnQuali(0)
     , m_strBadNO(_T(""))
     , m_strToolNO(_T(""))
-    , m_fOptTorq(0)
-    , m_fMaxTorq(0)
-    , m_fMinTorq(0)
+    , m_strOptTorq(_T("0"))
+    , m_strMaxTorq(_T("0"))
+    , m_strMinTorq(_T("0"))
     , m_nBuckNum(0)
     , m_bAlignShow(TRUE)
 {
@@ -49,9 +49,9 @@ void CDlgDataStat::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDSTATUNQUALIFY, m_nUnQuali);
     DDX_Text(pDX, IDC_EDBADQUANO, m_strBadNO);
     DDX_Text(pDX, IDC_EDTOOLBACKNO, m_strToolNO);
-    DDX_Text(pDX, IDC_EDBESTTORQ, m_fOptTorq);
-    DDX_Text(pDX, IDC_EDMAXTORQ, m_fMaxTorq);
-    DDX_Text(pDX, IDC_EDMINTORQ, m_fMinTorq);
+    DDX_Text(pDX, IDC_EDBESTTORQ, m_strOptTorq);
+    DDX_Text(pDX, IDC_EDMAXTORQ, m_strMaxTorq);
+    DDX_Text(pDX, IDC_EDMINTORQ, m_strMinTorq);
     DDX_Text(pDX, IDC_EDBUCKNUM, m_nBuckNum);
     DDX_Control(pDX, IDC_TCHARTCTRL, m_tccCtrl);
     //DDX_Control(pDX, IDC_TCHARTSHOULD, m_tccShould);
@@ -125,10 +125,10 @@ void CDlgDataStat::InitLabelInfo()
     m_clrLabel[2] = RGB(0, 255, 0);
     m_clrLabel[3] = RGB(255, 0, 0);
 
-    m_strCtrlLabel[0].Format("<%d", (int)m_tStatCfg.fCtrlRange[0]);
-    m_strCtrlLabel[1].Format("%d~%d", (int)m_tStatCfg.fCtrlRange[0], (int)m_tStatCfg.fCtrlRange[1] - 1);
-    m_strCtrlLabel[2].Format("%d~%d", (int)m_tStatCfg.fCtrlRange[1], (int)m_tStatCfg.fCtrlRange[2] - 1);
-    m_strCtrlLabel[3].Format(">=%d", (int)m_tStatCfg.fCtrlRange[2]);
+    m_strCtrlLabel[0].Format("<%.1f", m_tStatCfg.fCtrlRange[0]);
+    m_strCtrlLabel[1].Format("%.1f~%.1f", m_tStatCfg.fCtrlRange[0], m_tStatCfg.fCtrlRange[1]);
+    m_strCtrlLabel[2].Format("%.1f~%.1f", m_tStatCfg.fCtrlRange[1], m_tStatCfg.fCtrlRange[2]);
+    m_strCtrlLabel[3].Format(">=%.1f", m_tStatCfg.fCtrlRange[2]);
 
     //m_strShouldLabel[0].Format("<%d",  (int)m_tStatCfg.fShouldRange[0]);
     //m_strShouldLabel[1].Format("%d~%d", (int)m_tStatCfg.fShouldRange[0],(int)m_tStatCfg.fShouldRange[1]-1);
@@ -163,9 +163,9 @@ BOOL CDlgDataStat::OnInitDialog()
     theApp.AdaptDlgCtrlSize(this, 0);
 
     ptCtrl = &theApp.m_tParaCfg.tCtrl;
-    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT,
-        ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL],
-        ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT);
+    InitStatRange(ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT / SHOWTORQUEUNIT,
+        ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] / SHOWTORQUEUNIT,
+        ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT / SHOWTORQUEUNIT);
     InitLabelInfo();
 
     ResetStatLine(&theApp.m_tParaCfg);
@@ -256,7 +256,7 @@ void CDlgDataStat::ResetStatLineByData(TorqData::Torque* ptTorq)
 
     /* 重新设置刻度 */
     m_xStatAxis.SetTickPara(10, m_wndLineStat.m_fMaxCir);
-    m_yStatAxis.SetTickPara(20, ptTorq->fmaxlimit());
+    m_yStatAxis.SetTickPara(20, ptTorq->fmaxlimit() / SHOWTORQUEUNIT);
     m_wndLineStat.DrawBkLine();
 
     UpdateDlgLabel();
@@ -293,7 +293,7 @@ void CDlgDataStat::ResetStatLine(PARACFG* ptCfg)
 
     /* 重新设置刻度 */
     m_xStatAxis.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
-    m_yStatAxis.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
+    m_yStatAxis.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] / SHOWTORQUEUNIT);
     m_wndLineStat.DrawBkLine();
 
     UpdateDlgLabel();
@@ -360,9 +360,9 @@ void CDlgDataStat::ClearFileInfo()
     m_nBuckNum = 0;
     m_nQuali = 0;
     m_nUnQuali = 0;
-    m_fOptTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
-    m_fMaxTorq = (int)theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT;
-    m_fMinTorq = 0;
+    m_strOptTorq.Format("%.1f", theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] / SHOWTORQUEUNIT);
+    m_strMaxTorq.Format("%.1f", theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT / SHOWTORQUEUNIT);
+    m_strMinTorq = _T("0");
 
     m_ptDrawData = NULL;
 
@@ -454,6 +454,8 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     DWORD   dwQuality = 0;
     int     iShowIndex = g_tReadData.nTotal - 1;
     double  fFullTorq = 0;
+    double  fMaxTorq = 0;
+    double  fMinTorq = 0xFFFFFFFF;
     CString strNo;
     vector<int> listNo;
     TorqData::Torque* ptTorq = NULL;
@@ -465,8 +467,6 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     m_strBadNO.Empty();
     m_strToolNO.Empty();
 
-    m_fMaxTorq = 0;
-    m_fMinTorq = 0xFFFFFFFF;
     m_ptDrawData = NULL;
 
     for (i = g_tReadData.nTotal - 1; i >= 0; i--)
@@ -487,11 +487,11 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         if (!bSetRange)
         {
             double opttorq = theApp.GetOptTorq(m_ptDrawData);
-            InitStatRange(opttorq * RATIO_LOWERLIMIT, opttorq, opttorq * RATIO_UPPERLIMIT);
+            InitStatRange(opttorq * RATIO_LOWERLIMIT / SHOWTORQUEUNIT, opttorq / SHOWTORQUEUNIT, opttorq * RATIO_UPPERLIMIT / SHOWTORQUEUNIT);
             InitLabelInfo();
         }
         ResetStatLineByData(m_ptDrawData);
-        m_fOptTorq = (int)theApp.GetOptTorq(m_ptDrawData);
+        m_strOptTorq.Format("%.1f", theApp.GetOptTorq(m_ptDrawData) / SHOWTORQUEUNIT);
     }
 
     for (i = g_tReadData.nTotal - 1; i >= 0; i--)
@@ -522,10 +522,11 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         listNo.push_back(i);
 
         GET_CTRL_TORQ(fCtrlTorq, ptTorq);
-        if (fCtrlTorq > m_fMaxTorq)
-            m_fMaxTorq = (int)fCtrlTorq;
-        if (fCtrlTorq < m_fMinTorq)
-            m_fMinTorq = (int)fCtrlTorq;
+        fCtrlTorq /= SHOWTORQUEUNIT;
+        if (fCtrlTorq > fMaxTorq)
+            fMaxTorq = fCtrlTorq;
+        if (fCtrlTorq < fMinTorq)
+            fMinTorq = fCtrlTorq;
 
         ucLevel = GetValueRange(m_tStatCfg.fCtrlRange, fCtrlTorq);
         if (ucLevel > 0 && ucLevel <= MAXSTATLEVEL)
@@ -552,6 +553,8 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         }
 #endif
     }
+    m_strMaxTorq.Format("%.1f", fMaxTorq);
+    m_strMinTorq.Format("%.1f", fMinTorq);
     DrawStatFlow(&m_tccCtrl, m_strCtrlRatio, m_strCtrlLabel, &nCtrl[0]);
     /*DrawStatFlow(&m_tccShould, m_strInflRatio,  m_strShouldLabel, &nInfl[0]);
     DrawStatFlow(&m_tccDelta,  m_strDeltRatio,  m_strDeltaLabel,  &nDelt[0]);*/
@@ -599,8 +602,8 @@ void CDlgDataStat::DrawStatTorq(vector<int> listNo)
     }
 
     m_wndLineStat.DrawMultiData(&g_tReadData, listNo);
-    m_fMaxTorq = 0;
-    m_fMinTorq = 0;
+    m_strMaxTorq = _T("0");
+    m_strMinTorq = _T("0");
 }
 void CDlgDataStat::OnBnClickedBtnsetstat()
 {
@@ -611,13 +614,13 @@ void CDlgDataStat::OnBnClickedBtnsetstat()
     {
         if (ptTorq == NULL)
             ptTorq = &g_tReadData.tData[g_tReadData.nTotal - 1];
-        dlgStatSet.m_fCtrlMax = ptTorq->fmaxlimit();
+        dlgStatSet.m_fCtrlMax = ptTorq->fmaxlimit() / SHOWTORQUEUNIT;
         /*dlgStatSet.m_fShouldMax = theApp.GetOptTorq(ptTorq);
         dlgStatSet.m_fDeltaMax  = ptTorq->fmaxcir();*/
     }
     else
     {
-        dlgStatSet.m_fCtrlMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT];
+        dlgStatSet.m_fCtrlMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_MAXLIMIT] / SHOWTORQUEUNIT;
         /* dlgStatSet.m_fShouldMax = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL];
          dlgStatSet.m_fDeltaMax  = theApp.m_tParaCfg.tCtrl.fTurnConf[INDEX_TURN_MAXLIMIT];*/
     }

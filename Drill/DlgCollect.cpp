@@ -335,7 +335,7 @@ void CDlgCollect::ShowCollHisData()
     {
         strTime = m_tHisData.tOneData[i].tTime.Format(IDS_STRDATETIME);
         strCir.Format("%.3f", m_tHisData.tOneData[i].fCir);
-        strTorque.Format("%d", (int)m_tHisData.tOneData[i].fTorque);
+        strTorque.Format("%.1f", (int)m_tHisData.tOneData[i].fTorque / SHOWTORQUEUNIT);
 
         m_listData.AddItem(strTime, strCir, strTorque);
     }
