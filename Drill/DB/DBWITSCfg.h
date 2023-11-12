@@ -9,6 +9,7 @@ public:
     vector<int>  _RepeatItems;
     vector<int>  _CalItems;
     vector<int>  _ShowItems;
+    vector<int>  _ConfigItems;
 
     CDBWITSCfg();
     ~CDBWITSCfg();

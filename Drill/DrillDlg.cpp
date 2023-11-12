@@ -4885,6 +4885,7 @@ void CDrillDlg::OnServerCfg()
     theApp.SaveAppStatus(STATUS_SERVERCFG, __FUNCTION__);
 }
 
+// 100ms add one data
 void CDrillDlg::RecordReportData()
 {
     long  curTime = GetTickCount();
@@ -4914,7 +4915,7 @@ void CDrillDlg::RecordReportData()
 void CDrillDlg::ReportWITSStart()
 {
     string strData;
-    strData = WITSEnc::EncWITSTorqConfig(m_nCurNO, m_ptWITS, m_ptShow);
+    strData = WITSEnc::EncWITSTorqConfig(m_nCurNO, m_iBreakOut, m_ptCfg->tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL], m_ptWITS, m_ptShow);
     theApp.ReportWITSByTCP(strData);
 }
 

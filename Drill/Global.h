@@ -61,7 +61,7 @@ using namespace std;
                                     // 单片机发送完成后，再发送命令
 #define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
 #define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
-#define WITSRPT_TLEN            1000    // 1s上报一组数据
+#define WITSRPT_TLEN            500     // 0.5最多上报5组数据
 #define TCPSTATUS_TIMER         9       // 定时检查TCP状态定时器
 #define TCPSTATUS_TLEN          7000    // 定时检查TCP状态定时器时长
 #define COLLECT_TIMER           10      // 收集单片机数据定时器
@@ -639,8 +639,9 @@ using namespace std;
 #define WITSRPT_FIXHEADNUM      3   // 每个报文固定参数: 日期，时间，套管号
 #define WITSRPT_REPEATNUM       3   // 重复上报数据: 扭矩，周数，时间
 #define WITSRPT_CALPARANUM      5   // 上扣完成后扭矩计算参数，比如上扣扭矩，拐点扭矩，增量扭矩，台阶比，台阶时间等
+#define WITSRPT_CONFIGNUM       3   // 配置数据，目前为类型，最大扭矩，最小扭矩
 #define WITSRPT_SHOWPARANUM     15  // 最多15个显示参数
-
+#define WITSRPT_TORQUECOUNT     5   // 最多上报5组数据
 #pragma endregion
 
 #pragma region Struct DEFINE
@@ -794,7 +795,7 @@ typedef struct tagGLBCFG
     UINT        nBaudRate;      /* 波特率 */
     UINT        nPlusPerTurn;   /* 周脉冲数 */
     UINT        nTorqUnit;      /* 扭矩单位: 0:N.m; 1:lb.ft */
-    UINT        nCollectDur;    /* 定时收集数据的时间，ms，默认250 */
+    UINT        nCollectDur;    /* 定时收集数据的时间，ms，默认100 */
     UINT        nResetDur;      /* 复位时间，默认10s */
     UINT        nSaveDur;       /* 大于显示扭矩后保存数据的时间，默认30s */
     /*UINT        nIPShowMode;    /* 拐点显示方式：1: 只画数据中的拐点
@@ -839,6 +840,7 @@ typedef struct tagWITSCFG
     vector<int> RepeatItems;
     vector<int> CalItems;
     vector<int> ShowItems;
+    vector<int> ConfigItems;
 }WITSCFG;
 
 typedef struct tagSHOWOPTION
@@ -1352,8 +1354,8 @@ typedef struct tagWITSRPTDATA
 
 #define HUNDREDTH(fNum)     (((UINT)((fNum) * 100)) / 100.0)
 #define THOUSANDTH(fNum)    (((UINT)((fNum) * 1000)) / 1000.0)
-//#define HAND_CEIL(fNum)     (ceil((fNum)/100) * 100)
-//#define HAND_FLOOR(fNum)    (floor((fNum)/100) * 100)
+#define HAND_CEIL(fNum)     (ceil((fNum)/100) * 100)
+#define HAND_FLOOR(fNum)    (floor((fNum)/100) * 100)
 #define GetRandom( min, max ) ((rand() % (int)(((max)+1) - (min))) + (min))
 
 /* 显示周数信息，如果nCur=nAll，显示周数；否则显示当前周数/总周数 */

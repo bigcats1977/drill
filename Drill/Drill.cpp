@@ -228,6 +228,7 @@ void CDrillApp::InitWITSPara(WITSCFG* ptCfg)
     vector<int> fixItems;
     vector<int> repeatItems;
     vector<int> calItems;
+    vector<int> configItems;
 
     ptCfg->ShowParas = showParas;
     ptCfg->ShowItems = showItems;
@@ -243,6 +244,10 @@ void CDrillApp::InitWITSPara(WITSCFG* ptCfg)
     calItems.resize(WITSRPT_CALPARANUM);
     std::iota(calItems.begin(), calItems.end(), 8024);
     ptCfg->CalItems = calItems;
+
+    configItems.resize(WITSRPT_CONFIGNUM);
+    std::iota(configItems.begin(), configItems.end(), 8061);
+    ptCfg->ConfigItems = configItems;
 }
 
 BOOL CDrillApp::LoadLanguageDll(UINT nLang, BOOL bUpdate)

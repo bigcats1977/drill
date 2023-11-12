@@ -80,11 +80,14 @@ string WITSEnc::EncWITSFixTail()
 }
 
 // 只上报扭矩最大的数据（最新的数据）
-string WITSEnc::EncOnlyTorqData(WITSCFG* ptWITS, WITSRPTDATA* ptData)
+// 最多上报5个数据
+string WITSEnc::EncOnlyTorqData(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptData)
 {
+    string  strHead, strTail, strTorq;
     string  strData;
     string  strTemp;
     UINT    ItemNO = 0;
+    UINT    begin;
     int     index = 0;
     int     rptIndex = ptData->nCount - 1;
     double  fMaxTorq = INT_MIN;
@@ -94,15 +97,41 @@ string WITSEnc::EncOnlyTorqData(WITSCFG* ptWITS, WITSRPTDATA* ptData)
     ASSERT_ZERO_R(ptData->nCount, strData);
     COMP_BGE_R(ptData->nRptIdx, ptData->nCount, strData);
 
-    for (UINT i = ptData->nRptIdx; i < ptData->nCount; i++)
+    strHead = EncWITSFixHead(SeqNO, ptWITS);
+    strTail = EncWITSFixTail();
+
+    begin = ptData->nRptIdx;
+
+    begin = ptData->nRptIdx;
+    if (ptData->nCount - ptData->nRptIdx > WITSRPT_TORQUECOUNT)
+        begin = ptData->nCount - WITSRPT_TORQUECOUNT;
+    for (; begin < ptData->nCount; begin++)
     {
-        if (ptData->fTorque[i] > fMaxTorq)
+        /*if (ptData->fTorque[i] > fMaxTorq)
         {
             rptIndex = i;
             fMaxTorq = ptData->fTorque[i];
-        }
-    }
+        }*/
+        index = 0;
+        strTorq.clear();
+        // 8051 Torque
+        ItemNO = ptWITS->RepeatItems[index++];
+        strTemp = string_format("%d", (int)ptData->fTorque[begin] / RPTTORQMULTI);
+        strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
 
+        // 8052 圈数
+        ItemNO = ptWITS->RepeatItems[index++];
+        strTemp = string_format("%.2f", ptData->fTurn[begin]);
+        strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
+
+        // 8053 时间
+        ItemNO = ptWITS->RepeatItems[index++];
+        strTemp = string_format("%.2f", ptData->fDuration[begin]);
+        strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
+
+        strData += strHead + strTorq + strTail;
+    }
+#if 0
     index = 0;
 
     // 8051 Torque
@@ -119,13 +148,13 @@ string WITSEnc::EncOnlyTorqData(WITSCFG* ptWITS, WITSRPTDATA* ptData)
     ItemNO = ptWITS->RepeatItems[index++];
     strTemp = string_format("%.2f", ptData->fDuration[rptIndex]);
     strData += to_string(ItemNO) + strTemp + WITSSPLIT;
-
+#endif
     ptData->nRptIdx = ptData->nCount;
 
     return strData;
 }
 
-string WITSEnc::EncWITSTorqConfig(UINT SeqNO, WITSCFG* ptWITS, SHOWCFG* ptShow)
+string WITSEnc::EncWITSTorqConfig(UINT SeqNO, int iBreakout, double fCtrlTorq, WITSCFG* ptWITS, SHOWCFG* ptShow)
 {
     string  strData;
     string  strTemp;
@@ -157,6 +186,22 @@ string WITSEnc::EncWITSTorqConfig(UINT SeqNO, WITSCFG* ptWITS, SHOWCFG* ptShow)
         }
     }
 
+    index = 0;
+    // 8601 Torque Type
+    ItemNO = ptWITS->ConfigItems[index++];
+    strTemp = string_format("%d", iBreakout == 0 ? 0 : 1);
+    strData += to_string(ItemNO) + strTemp + WITSSPLIT;
+
+    // 8602 Max Torq
+    ItemNO = ptWITS->ConfigItems[index++];
+    strTemp = string_format("%.0f", HAND_CEIL(fCtrlTorq * RATIO_UPPERLIMIT));
+    strData += to_string(ItemNO) + strTemp + WITSSPLIT;
+
+    // 8603 Min Torq
+    ItemNO = ptWITS->ConfigItems[index++];
+    strTemp = string_format("%.0f", HAND_CEIL(fCtrlTorq * RATIO_LOWERLIMIT));
+    strData += to_string(ItemNO) + strTemp + WITSSPLIT;
+
     strData += EncWITSFixTail();
     return strData;
 }
@@ -164,19 +209,11 @@ string WITSEnc::EncWITSTorqConfig(UINT SeqNO, WITSCFG* ptWITS, SHOWCFG* ptShow)
 string WITSEnc::EncWITSTorqData(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptData)
 {
     string  strData;
-    string  strTorq;
 
     ASSERT_NULL_R(ptWITS, strData);
     ASSERT_NULL_R(ptData, strData);
 
-    strTorq = EncOnlyTorqData(ptWITS, ptData);
-    ASSERT_ZERO_R(strTorq.size(), strData);
-
-    strData += EncWITSFixHead(SeqNO, ptWITS);
-
-    strData += strTorq;
-
-    strData += EncWITSFixTail();
+    strData = EncOnlyTorqData(SeqNO, ptWITS, ptData);
 
     return strData;
 }
@@ -197,11 +234,11 @@ string WITSEnc::EncWITSTorqQuality(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptD
 
     // reserve report data
     if (ptData)
-        strData += EncOnlyTorqData(ptWITS, ptData);
+        strData += EncOnlyTorqData(SeqNO, ptWITS, ptData);
 
     // calculate items
-    int IPTorq = 0, DeltaTorq = 0;
-    double fSlopeFactor = 0, fIPTime = 0;
+    //int IPTorq = 0, DeltaTorq = 0;
+    //double fSlopeFactor = 0, fIPTime = 0;
     index = 0;
     // 8024 Control Torque
     ItemNO = ptWITS->CalItems[index++];
@@ -229,7 +266,7 @@ string WITSEnc::EncWITSTorqQuality(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptD
     return strData;
 }
 
-string WITSEnc::EncHisTorqConfig(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* ptTorq)
+string WITSEnc::EncHisTorqConfig(UINT SeqNO, bool bBO, double fCtrlTorq, WITSCFG* ptWITS, TorqData::Torque* ptTorq)
 {
     string  strData;
     string  strTemp;
@@ -242,7 +279,7 @@ string WITSEnc::EncHisTorqConfig(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* 
     ASSERT_NULL_R(ptWITS, strData);
     ASSERT_NULL_R(ptTorq, strData);
 
-    strData += EncHisFixHead(SeqNO, ptWITS, ptTorq, theApp.HaveBreakout(ptTorq), 0);
+    strData += EncHisFixHead(SeqNO, ptWITS, ptTorq, bBO, 0);
 
     items = ptWITS->ShowParas;
     for (int i = 0; i < WITSRPT_SHOWPARANUM; i++)
@@ -261,6 +298,22 @@ string WITSEnc::EncHisTorqConfig(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* 
             strData += to_string(ItemNO) + strTemp + WITSSPLIT;
         }
     }
+
+    index = 0;
+    // 8601 Torque Type
+    ItemNO = ptWITS->ConfigItems[index++];
+    strTemp = string_format("%d", bBO);
+    strData += to_string(ItemNO) + strTemp + WITSSPLIT;
+
+    // 8602 Max Torq
+    ItemNO = ptWITS->ConfigItems[index++];
+    strTemp = string_format("%.0f", HAND_CEIL(fCtrlTorq * RATIO_UPPERLIMIT));
+    strData += to_string(ItemNO) + strTemp + WITSSPLIT;
+
+    // 8603 Min Torq
+    ItemNO = ptWITS->ConfigItems[index++];
+    strTemp = string_format("%.0f", HAND_CEIL(fCtrlTorq * RATIO_LOWERLIMIT));
+    strData += to_string(ItemNO) + strTemp + WITSSPLIT;
 
     strData += EncWITSFixTail();
     return strData;

@@ -1902,13 +1902,13 @@ void CDlgHisList::OnBnClickedBtntcpupload()
         nIndex = m_nSelItem[i];
         ptTorq = &g_tReadData.tData[nIndex-1];
 
-        strSendData = WITSEnc::EncHisTorqConfig(nIndex, &theApp.m_tWITSCfg, ptTorq);
-        theApp.ReportWITSByTCP(strSendData);
-
         sending = true;
         start = 0;
         if (theApp.HaveMakeUP(ptTorq))
         {
+            strSendData = WITSEnc::EncHisTorqConfig(nIndex, false, ptTorq->fopttorq(), &theApp.m_tWITSCfg, ptTorq);
+            theApp.ReportWITSByTCP(strSendData);
+
             while (sending)
             {
                 Sleep(100);
@@ -1919,12 +1919,18 @@ void CDlgHisList::OnBnClickedBtntcpupload()
                 if (start >= ptTorq->dwmucount())
                     sending = false;
             }
+
+            strSendData = WITSEnc::EncHisTorqQuality(nIndex, &theApp.m_tWITSCfg, ptTorq);
+            theApp.ReportWITSByTCP(strSendData);
         }
 
         sending = true;
         start = 0;
         if (theApp.HaveBreakout(ptTorq))
         {
+            strSendData = WITSEnc::EncHisTorqConfig(nIndex, true, ptTorq->fopttorq(), &theApp.m_tWITSCfg, ptTorq);
+            theApp.ReportWITSByTCP(strSendData);
+
             while (sending)
             {
                 Sleep(100);
@@ -1935,11 +1941,10 @@ void CDlgHisList::OnBnClickedBtntcpupload()
                 if (start >= ptTorq->dwbocount())
                     sending = false;
             }
+
+            strSendData = WITSEnc::EncHisTorqQuality(nIndex, &theApp.m_tWITSCfg, ptTorq);
+            theApp.ReportWITSByTCP(strSendData);
         }
-
-        strSendData = WITSEnc::EncHisTorqQuality(nIndex, &theApp.m_tWITSCfg, ptTorq);
-        theApp.ReportWITSByTCP(strSendData);
-
     }
     EndWaitCursor();
 

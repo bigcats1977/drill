@@ -19,6 +19,7 @@ void CDBWITSCfg::Empty()
     _RepeatItems.clear();
     _CalItems.clear();
     _ShowItems.clear();
+    _ConfigItems.clear();
 }
 
 void CDBWITSCfg::GetTable()
@@ -51,6 +52,8 @@ void CDBWITSCfg::GetTable()
     _CalItems = GetIDFromList(lsItem);
     _Sqlite->GetValue(pResult[nIndex++], lsItem);
     _ShowItems = GetIDFromList(lsItem);
+    _Sqlite->GetValue(pResult[nIndex++], lsItem);
+    _ConfigItems = GetIDFromList(lsItem);
 
     _Sqlite->FreeResult(&pResult);
 }
@@ -76,6 +79,8 @@ BOOL CDBWITSCfg::UpdateWITSCfg(WITSCFG* ptfg)
     values.push_back(GetListFromVector(ptfg->CalItems));
     fields.push_back("ShowItems");
     values.push_back(GetListFromVector(ptfg->ShowItems));
+    fields.push_back("ConfigItems");
+    values.push_back(GetListFromVector(ptfg->ConfigItems));
 
     return _Sqlite->UpdateFields(g_tTableName[_TableIndex], NULLSTR, fields, values);
 }

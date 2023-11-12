@@ -20,6 +20,7 @@ public:
 	UINT			m_nFixItems[WITSRPT_FIXHEADNUM];
 	UINT			m_nRepeatItems[WITSRPT_REPEATNUM];
 	UINT			m_nCalItems[WITSRPT_CALPARANUM];
+	UINT			m_nConfigItems[WITSRPT_CONFIGNUM];
 	UINT			m_nShowItems[WITSRPT_SHOWPARANUM];
 	BOOL			m_bChecked[WITSRPT_SHOWPARANUM];
 	CColorRadio  	m_ckShowPara[WITSRPT_SHOWPARANUM];

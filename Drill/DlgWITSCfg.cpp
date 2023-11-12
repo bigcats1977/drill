@@ -92,6 +92,9 @@ void CDlgWITSCfg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDITWITSPARA13, m_nShowItems[12]);
     DDX_Text(pDX, IDC_EDITWITSPARA14, m_nShowItems[13]);
     DDX_Text(pDX, IDC_EDITWITSPARA15, m_nShowItems[14]);
+    DDX_Text(pDX, IDC_EDITWITSTORQTYPE, m_nConfigItems[0]);
+    DDX_Text(pDX, IDC_EDITWITSMAXTORQ, m_nConfigItems[1]);
+    DDX_Text(pDX, IDC_EDITWITSMINTORQ, m_nConfigItems[2]);
 }
 
 BEGIN_MESSAGE_MAP(CDlgWITSCfg, CDialog)
@@ -229,6 +232,12 @@ void CDlgWITSCfg::SetParaValue(WITSCFG* ptCfg)
         m_nCalItems[i] = ptCfg->CalItems[i];
     }
 
+    // config Items
+    memset(m_nConfigItems, 0, sizeof(UINT)* WITSRPT_CONFIGNUM);
+    for (i = 0; i < WITSRPT_CONFIGNUM && i < ptCfg->ConfigItems.size(); i++) {
+        m_nConfigItems[i] = ptCfg->ConfigItems[i];
+    }
+
     // show params
     vector<int> items = ptCfg->ShowParas;
     memset(m_bChecked, 0, sizeof(BOOL) * (WITSRPT_SHOWPARANUM));
@@ -323,6 +332,17 @@ HBRUSH CDlgWITSCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     case IDC_EDITWITSIPDURATION:
         JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->CalItems[4]);
+        break;
+
+        // cal items
+    case IDC_EDITWITSTORQTYPE:
+        JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->ConfigItems[0]);
+        break;
+    case IDC_EDITWITSMAXTORQ:
+        JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->ConfigItems[1]);
+        break;
+    case IDC_EDITWITSMINTORQ:
+        JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->ConfigItems[2]);
         break;
 
     case IDC_EDITWITSPARA01:

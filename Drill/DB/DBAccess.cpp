@@ -224,12 +224,14 @@ bool CDBAccess::ReadWITSCfg(WITSCFG* ptWITSCfg)
     COMP_BNE_R(m_tDBWITSCfg._FixItems.size(), WITSRPT_FIXHEADNUM, false);
     COMP_BNE_R(m_tDBWITSCfg._RepeatItems.size(), WITSRPT_REPEATNUM, false);
     COMP_BNE_R(m_tDBWITSCfg._CalItems.size(), WITSRPT_CALPARANUM, false);
+    COMP_BNE_R(m_tDBWITSCfg._ConfigItems.size(), WITSRPT_CONFIGNUM, false);
     COMP_BNE_R(m_tDBWITSCfg._ShowParas.size(), m_tDBWITSCfg._ShowItems.size(), false);
 
     ptWITSCfg->ShowParas = m_tDBWITSCfg._ShowParas;
     ptWITSCfg->FixItems = m_tDBWITSCfg._FixItems;
     ptWITSCfg->RepeatItems = m_tDBWITSCfg._RepeatItems;
     ptWITSCfg->CalItems = m_tDBWITSCfg._CalItems;
+    ptWITSCfg->ConfigItems = m_tDBWITSCfg._ConfigItems;
     ptWITSCfg->ShowItems = m_tDBWITSCfg._ShowItems;
 
     return true;
