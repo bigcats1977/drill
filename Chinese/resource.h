@@ -659,6 +659,9 @@
 #define IDC_EDITWITSPARA13              2403
 #define IDC_EDITWITSPARA14              2404
 #define IDC_EDITWITSPARA15              2405
+#define IDC_EDITWITSTORQTYPE            2410
+#define IDC_EDITWITSMAXTORQ             2411
+#define IDC_EDITWITSMINTORQ             2412
 #define ID_SETPARA                      32770
 #define ID_ABOUT                        32771
 #define ID_DEBUG                        32772
@@ -1051,7 +1054,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        195
 #define _APS_NEXT_COMMAND_VALUE         32801
-#define _APS_NEXT_CONTROL_VALUE         2410
+#define _APS_NEXT_CONTROL_VALUE         2413
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif
