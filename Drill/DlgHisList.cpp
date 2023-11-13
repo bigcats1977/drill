@@ -385,6 +385,14 @@ void CDlgHisList::EnableHisBtn(bool bEnable)
     //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(bEnable);
     GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(bEnable);    
     GetDlgItem(IDC_BTNTCPUPLOAD)->EnableWindow(bEnable && theApp.isTCPConnected());
+
+    if (!bEnable) {
+        m_nHisTotalRec = 0;
+        m_nHisQualyRec = 0;
+        m_nHisUnQualyRec = 0;
+    }
+
+    UpdateData(FALSE);
 }
 
 void CDlgHisList::SetDataPlace(UINT nCur)
