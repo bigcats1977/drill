@@ -1913,7 +1913,7 @@ void CDlgHisList::OnBnClickedBtntcpupload()
             {
                 Sleep(100);
 
-                strSendData = WITSEnc::EncHisTorqData(nIndex, start, &theApp.m_tWITSCfg, ptTorq, false);
+                strSendData = WITSEnc::EncHisTorqData(nIndex, false, start, &theApp.m_tWITSCfg, ptTorq);
                 theApp.ReportWITSByTCP(strSendData);
                 start += RPTHISDATANUM;
                 if (start >= ptTorq->dwmucount())
@@ -1935,7 +1935,7 @@ void CDlgHisList::OnBnClickedBtntcpupload()
             {
                 Sleep(100);
 
-                strSendData = WITSEnc::EncHisTorqData(nIndex, start, &theApp.m_tWITSCfg, ptTorq, true);
+                strSendData = WITSEnc::EncHisTorqData(nIndex, true, start, &theApp.m_tWITSCfg, ptTorq);
                 theApp.ReportWITSByTCP(strSendData);
                 start += RPTHISDATANUM;
                 if (start >= ptTorq->dwbocount())

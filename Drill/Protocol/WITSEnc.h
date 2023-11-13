@@ -12,16 +12,16 @@
 class WITSEnc
 {
 public:
-	static string EncWITSTorqConfig(UINT SeqNO, int iBreakout, double fCtrlTorq, WITSCFG* ptWITS, SHOWCFG *ptShow);
+	static string EncWITSTorqConfig(UINT SeqNO, bool bBreakout, double fCtrlTorq, WITSCFG* ptWITS, SHOWCFG *ptShow);
 	static string EncWITSTorqData(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA *ptData);
 	static string EncWITSTorqQuality(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptData, TorqData::Torque *ptTorq);
 
-	static string EncHisTorqConfig(UINT SeqNO, bool bBO, double fCtrlTorq, WITSCFG* ptWITS, TorqData::Torque* ptTorq);
-	static string EncHisTorqData(UINT SeqNO, int Start, WITSCFG* ptWITS, TorqData::Torque* ptTorq, bool bBreakout);
+	static string EncHisTorqConfig(UINT SeqNO, bool bBreakout, double fCtrlTorq, WITSCFG* ptWITS, TorqData::Torque* ptTorq);
+	static string EncHisTorqData(UINT SeqNO, bool bBreakout, int Start, WITSCFG* ptWITS, TorqData::Torque* ptTorq);
 	static string EncHisTorqQuality(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* ptTorq);
 private:
 	static string EncWITSFixHead(UINT SeqNO, WITSCFG* ptWITS, int diff = 0);
 	static string EncWITSFixTail();
 
-	static string EncHisFixHead(UINT SeqNO, WITSCFG* ptWITS, TorqData::Torque* ptTorq, bool bBreakout, int diff = 0);
+	static string EncHisFixHead(UINT SeqNO, bool bBreakout, WITSCFG* ptWITS, TorqData::Torque* ptTorq, int diff = 0);
 };

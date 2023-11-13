@@ -4915,7 +4915,7 @@ void CDrillDlg::RecordReportData()
 void CDrillDlg::ReportWITSStart()
 {
     string strData;
-    strData = WITSEnc::EncWITSTorqConfig(m_nCurNO, m_iBreakOut, m_ptCfg->tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL], m_ptWITS, m_ptShow);
+    strData = WITSEnc::EncWITSTorqConfig(m_nCurNO, m_iBreakOut > 0, m_ptCfg->tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL], m_ptWITS, m_ptShow);
     theApp.ReportWITSByTCP(strData);
 }
 
