@@ -163,6 +163,7 @@ void CDlgHisList::OnBtnhis()
 
     COMP_BNE(fileDlg.DoModal(), IDOK);
 
+    EnableHisBtn(false);
     m_strHisName = fileDlg.GetPathName();
     if (!theApp.ReadHisTorqFromFile(m_strHisName.GetBuffer(0)))
     {
@@ -212,6 +213,7 @@ BOOL CDlgHisList::OnSetActive()
     UINT    nCurSel = g_tReadData.nCur;
     CHECK_VALUE_LOW(nCurSel, 1);
     SendMessageToDescendants(WM_SETFONT, (WPARAM)theApp.m_tRuleHFont.GetSafeHandle(), TRUE);
+    EnableHisBtn(false);
     if (theApp.ReadHisTorqFromFile(m_strHisName.GetBuffer(0)))
     {
         m_nHisTotalRec = g_tReadData.nTotal;
@@ -369,15 +371,20 @@ void CDlgHisList::ShowHisTorqList()
 
     EndWaitCursor();
     plsShow->SetRedraw(1);
-    GetDlgItem(IDC_BTNEXPORT)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNIMGEXP)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNGRAPHEXP)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNORGDATA)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNSTATLIST)->EnableWindow(m_listHis.GetItemCount() > 0);
-    //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNUPLOAD)->EnableWindow(m_listHis.GetItemCount() > 0);
-    GetDlgItem(IDC_BTNTCPUPLOAD)->EnableWindow(m_listHis.GetItemCount() > 0 && theApp.isTCPConnected());
+    EnableHisBtn(m_listHis.GetItemCount() > 0);
+}
+
+void CDlgHisList::EnableHisBtn(bool bEnable)
+{
+    GetDlgItem(IDC_BTNEXPORT)->EnableWindow(bEnable);
+    GetDlgItem(IDC_BTNIMGEXP)->EnableWindow(bEnable);
+    GetDlgItem(IDC_BTNGRAPHEXP)->EnableWindow(bEnable);
+    GetDlgItem(IDC_BTNORGDATA)->EnableWindow(bEnable);
+    GetDlgItem(IDC_BTNSTATLIST)->EnableWindow(bEnable);
+    GetDlgItem(IDC_BTNUPLOAD)->EnableWindow(bEnable);
+    //GetDlgItem(IDC_BTNSTATSET)->EnableWindow(bEnable);
+    GetDlgItem(IDC_BTNIMPORTDEPTH)->EnableWindow(bEnable);    
+    GetDlgItem(IDC_BTNTCPUPLOAD)->EnableWindow(bEnable && theApp.isTCPConnected());
 }
 
 void CDlgHisList::SetDataPlace(UINT nCur)

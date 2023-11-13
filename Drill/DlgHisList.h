@@ -92,6 +92,7 @@ private:
     void    FillReportHead(int& iRow, TorqData::Torque* ptHeadTorq);
     void    FillReportData(int& iRow, TorqData::Torque* ptHeadTorq);
     bool    GetDepthInfo(vector<int>& SeqNO, vector<string>& Depth);
+    void    EnableHisBtn(bool bEnable);
 
     //UINT    m_nMaxShowNum;
     int     m_iWidth;
