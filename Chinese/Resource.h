@@ -883,6 +883,7 @@
 #define IDS_STRTORQUNIT                 51352
 #define IDS_STRTORQNMUNIT               51353
 #define IDS_STRTORQLBFTUNIT             51354
+#define IDS_STRMARKSHACKLE              51399
 #define IDS_STRMARKQUALITY              51400
 #define IDS_STRMARKDISQUAL              51401
 #define IDS_STRMARKLESSLIMIT            51402

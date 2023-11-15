@@ -2099,6 +2099,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_STRMARKSHACKLE      "ShackleGraph"
     IDS_STRMARKQUALITY      "Accepted"
     IDS_STRMARKDISQUAL      "Rejected"
     IDS_STRMARKLESSLIMIT    "LowTorq"
