@@ -675,8 +675,7 @@ void CDlgDataStat::OnBnClickedBtnsavestat()
     GetClientRect(&rcClt);
 
     hdc = dc.m_hDC;
-    hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
-
+    hbm = theApp.CopyDCToBitmap(hdc, rcClt.Width(), rcClt.Height());
 
     strFilePath = theApp.GetSaveDataPath().c_str();
     strFilePath += theApp.m_strFileTitle.c_str();

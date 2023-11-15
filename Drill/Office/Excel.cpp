@@ -414,6 +414,32 @@ CShape Excel::addCellPicture(CString strFileName, float fLeft, float fTop, float
     return shape;
 }
 
+CShape Excel::addCellPicture(CString strFileName, CString top, CString bottom)
+{
+    VARIANT v[4];
+    float fLoc[4];
+    CRange range;
+
+    range.AttachDispatch(workSheet.get_Range(COleVariant(top), COleVariant(bottom)));
+
+    v[0] = range.get_Left();
+    v[1] = range.get_Top();
+    v[2] = range.get_Width();
+    v[3] = range.get_Height();
+    for (int i = 0; i < 4; i++) {
+        if (V_VT(&v[i]) == VT_R4) {
+            // 如果 VARIANT 包含一个 float 值
+            fLoc[i] = V_R4(&v[i]);
+        }
+        else if (V_VT(&v[i]) == VT_R8) {
+            // 如果 VARIANT 包含一个 double 值
+            fLoc[i] = static_cast<float>(V_R8(&v[i]));
+        }
+    }
+
+    return addCellPicture(strFileName, fLoc[0], fLoc[1], fLoc[2], fLoc[3]);
+}
+
 void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nBeginCol, UINT nEndCol, UINT nNum)
 {
     CRange      rangeBegin, rangeEnd;

@@ -213,6 +213,7 @@ BOOL CDlgHisList::OnSetActive()
     UINT    nCurSel = g_tReadData.nCur;
     CHECK_VALUE_LOW(nCurSel, 1);
     SendMessageToDescendants(WM_SETFONT, (WPARAM)theApp.m_tRuleHFont.GetSafeHandle(), TRUE);
+
     EnableHisBtn(false);
     if (theApp.ReadHisTorqFromFile(m_strHisName.GetBuffer(0)))
     {
@@ -571,13 +572,12 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
 void CDlgHisList::Export1Img(UINT* pnSel, UINT nSelCount)
 {
     UINT    i = 0;
-    float   fHeight = (float)470.25;    //excel 2010
-    float   X = 0;
-    float   Y = 0;
+    UINT    MAXROW = 20;
     int     iRow = 0;
     int     iCol = 0;
     CString strNo;
     CString strTempName;
+    CString strLoc1, strLoc2;
     CFile   TempFile;
 
     ASSERT_NULL(pnSel);
@@ -588,13 +588,13 @@ void CDlgHisList::Export1Img(UINT* pnSel, UINT nSelCount)
         strNo.Format(IDS_STRPNGNAME, pdlgPrint->m_strFileName, pnSel[i]);
         strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
-        X = 55;
-        Y = 5 + i * fHeight;
-        iRow = i * 19 + 1;
+        iRow = i * MAXROW + 4;
         iCol = 5;
 
-        //m_oShapes.AddPicture(strTempName, false, true, X, Y, 710, 450);
-        m_tSaveExc.addCellPicture(strTempName, X, Y, 710, 450);
+        strLoc1.Format(_T("A%d"), iRow - 2);
+        strLoc2.Format(_T("I%d"), iRow + MAXROW - 5);
+        m_tSaveExc.addCellPicture(strTempName, strLoc1, strLoc2);
+
 #ifndef HAVINGPRNIMG
         TempFile.Remove(strTempName);
 #endif
@@ -604,13 +604,13 @@ void CDlgHisList::Export1Img(UINT* pnSel, UINT nSelCount)
 void CDlgHisList::Export2Img(UINT* pnSel, UINT nSelCount)
 {
     UINT    i = 0;
-    float   fHeight = 351;  //excel 2010£» Ò»Ò³ = 2*nHeight
-    float   X = 0;
-    float   Y = 0;
+    UINT    MAXROW = 37;
+    int     iPages = 0;
     int     iRow = 0;
     int     iCol = 0;
     CString strNo;
     CString strTempName;
+    CString strLoc1, strLoc2;
     CFile   TempFile;
 
     ASSERT_NULL(pnSel);
@@ -621,13 +621,15 @@ void CDlgHisList::Export2Img(UINT* pnSel, UINT nSelCount)
         strNo.Format(IDS_STRPNGNAME, pdlgPrint->m_strFileName, pnSel[i]);
         strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
-        X = 31;
-        Y = 5 + i * fHeight;
-        iRow = i * 18 + 2;
+        iPages = i / 2;
+        iRow = 3 + iPages * MAXROW;
+        if (i % 2)
+            iRow += 18;
         iCol = 4;
 
-        //m_oShapes.AddPicture(strTempName, false, true, (float)X, (float)Y, 538, 341);
-        m_tSaveExc.addCellPicture(strTempName, X, Y, 538, 341);
+        strLoc1.Format(_T("A%d"), iRow - 1);
+        strLoc2.Format(_T("H%d"), iRow + 15);
+        m_tSaveExc.addCellPicture(strTempName, strLoc1, strLoc2);
 
 #ifndef HAVINGPRNIMG
         TempFile.Remove(strTempName);
@@ -638,24 +640,17 @@ void CDlgHisList::Export2Img(UINT* pnSel, UINT nSelCount)
 void CDlgHisList::Export3Img(UINT* pnSel, UINT nSelCount)
 {
     UINT    i = 0;
+    UINT    MAXROW = 38;
     int     iPages = 0;
-    float   fWidth = 286;
-    float   fHeight = (float)471.75;    //excel 2010
-    float   X = 0;
-    float   Y = 0;
     int     iRow = 0;
     int     iCol = 0;
     CString strNo;
     CString strTempName;
+    CString strLoc1, strLoc2;
     CFile   TempFile;
-    CShape  tCurShape;
-    VARIANT var;
 
     ASSERT_NULL(pnSel);
     ASSERT_ZERO(nSelCount);
-
-    var.vt = VT_I2;
-    var.lVal = 1;
 
     for (i = 0; i < nSelCount; i++)
     {
@@ -663,41 +658,27 @@ void CDlgHisList::Export3Img(UINT* pnSel, UINT nSelCount)
         strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
         iPages = i / 3;
-        switch (i % 3)
-        {
+        iRow = 2 + iPages * MAXROW;
+        switch (i % 3) {
         case 0:
-            X = (float)(1.0 + 2 * fWidth);
-            Y = 1 + iPages * fHeight;
-            iRow = 23 + iPages * 37;
-            iCol = 1;
+            iCol = 13;
+            strLoc1.Format(_T("M%d"), iRow);
+            strLoc2.Format(_T("Q%d"), iRow + 35);
             break;
         case 1:
-            X = (float)(1.0 + fWidth);
-            Y = 1 + iPages * fHeight;
-            iRow = 23 + iPages * 37;
             iCol = 7;
+            strLoc1.Format(_T("G%d"), iRow);
+            strLoc2.Format(_T("K%d"), iRow + 35);
             break;
         case 2:
-            X = (float)1.0;
-            Y = 1 + iPages * fHeight;
-            iRow = 23 + iPages * 37;
-            iCol = 13;
+            iCol = 1;
+            strLoc1.Format(_T("A%d"), iRow);
+            strLoc2.Format(_T("E%d"), iRow + 35);
             break;
         }
 
-        //m_oShape.AttachDispatch(m_oShapes.AddPicture(strTempName, false, true, X, Y, 441, 280), TRUE);
-        tCurShape = m_tSaveExc.addCellPicture(strTempName, X, Y, 441, 280);
-        tCurShape.IncrementRotation(90);
-        tCurShape.IncrementLeft(-78);
-        if (i < 3)
-        {
-            tCurShape.ScaleWidth((float)0.62, -1, var); // msoTrue -1 ; msoScaleFromMiddle 1
-            tCurShape.ScaleHeight((float)0.62, -1, var); // msoTrue -1
-            tCurShape.IncrementTop(10);
-        }
-        else
-            tCurShape.IncrementTop(90);
-        tCurShape.ReleaseDispatch();
+        m_tSaveExc.addCellPicture(strTempName, strLoc1, strLoc2);
+
 #ifndef HAVINGPRNIMG
         TempFile.Remove(strTempName);
 #endif
@@ -707,17 +688,14 @@ void CDlgHisList::Export3Img(UINT* pnSel, UINT nSelCount)
 void CDlgHisList::Export8Img(UINT* pnSel, UINT nSelCount)
 {
     UINT    i = 0;
+    UINT    MAXROW = 68;
     int     iPages = 0;
-    float   fWidth = 303;
-    float   fHeight = 178;    //excel 2010
-    float   X = 0;
-    float   Y = 0;
     int     iRow = 0;
     int     iCol = 0;
-    int     iPageHeight = -19;
     CString strNo;
     CString strTempName;
     CFile   TempFile;
+    CString strLoc1, strLoc2;
 
     ASSERT_NULL(pnSel);
     ASSERT_ZERO(nSelCount);
@@ -728,23 +706,21 @@ void CDlgHisList::Export8Img(UINT* pnSel, UINT nSelCount)
         strTempName = theApp.GetSaveDataPath().c_str() + strNo;
 
         iPages = i / 8;
+        iRow = (i / 2) * 17 + 2;
         if (i % 2 == 0)
         {
-            X = 11;
-            Y = 1 + (i / 2) * fHeight + iPages * iPageHeight;
-            iRow = (i / 2) * 17 + 1 - iPages * 2;
             iCol = 4;
+            strLoc1.Format(_T("A%d"), iRow);
+            strLoc2.Format(_T("H%d"), iRow + 14);
         }
         else
         {
-            X = 21 + fWidth;
-            Y = 1 + (i / 2) * fHeight + iPages * iPageHeight;
-            iRow = (i / 2) * 17 + 1 - iPages * 2;
             iCol = 13;
+            strLoc1.Format(_T("J%d"), iRow);
+            strLoc2.Format(_T("Q%d"), iRow + 14);
         }
 
-        //m_oShapes.AddPicture(strTempName, false, true, (float)X, (float)Y, 270, 170);
-        m_tSaveExc.addCellPicture(strTempName, X, Y, 270, 170);
+        m_tSaveExc.addCellPicture(strTempName, strLoc1, strLoc2);
 
 #ifndef HAVINGPRNIMG
         TempFile.Remove(strTempName);
@@ -804,7 +780,7 @@ void CDlgHisList::OnBnClickedBtngraphexp()
     GetPrintDlg();
 #ifndef HAVINGPRNIMG
     pdlgPrint->ShowWindow(SW_SHOW);
-    pdlgPrint->PrintLineImg(&m_nSelItem[0], nSelCount);
+    pdlgPrint->PrintLineImg(&m_nSelItem[0], nSelCount, 3 == g_tGlbCfg.nImgNum);
     pdlgPrint->ShowWindow(SW_HIDE);
 #endif
     switch (g_tGlbCfg.nImgNum)
@@ -1469,10 +1445,12 @@ void CDlgHisList::WriteScatterSheet()
     /* B1¾®Ãû */
     SetCell(1, 2, GetWellNO(FALSE));
 
-    m_tSaveExc.addCellPicture(strScat.c_str(), 5, 63, 465, 288);
+    m_tSaveExc.addCellPicture(strScat.c_str(), _T("B4"), _T("H20"));
+    //m_tSaveExc.addCellPicture(strScat.c_str(), 5, 63, 465, 288);
     TempFile.Remove(strScat.c_str());
 
-    m_tSaveExc.addCellPicture(strStat.c_str(), 5, 440, 465, 288);
+    m_tSaveExc.addCellPicture(strStat.c_str(), _T("B27"), _T("H47"));
+    //m_tSaveExc.addCellPicture(strStat.c_str(), 5, 440, 465, 288);
     TempFile.Remove(strStat.c_str());
 }
 

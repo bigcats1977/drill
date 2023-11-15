@@ -659,7 +659,7 @@ void CDlgHisGrp::OnBtnprntgrp()
     SHOW_HISGRP_BUTTON(FALSE);
 
     GetClientRect(&rcClt);
-    hBitmap = theApp.CopyDCToBitmap(ImgDC.m_hDC, &rcClt);
+    hBitmap = theApp.CopyDCToBitmap(ImgDC.m_hDC, rcClt.Width(), rcClt.Height());
     theApp.SaveBmp(hBitmap, strFile.GetBuffer(0));
 
     ShellExecute(0, "print", strFile, NULL, NULL, SW_SHOWNORMAL);
@@ -681,7 +681,7 @@ void CDlgHisGrp::OnBtnsaveimg()
     GetClientRect(&rcClt);
 
     hdc = dc.m_hDC;
-    hbm = theApp.CopyDCToBitmap(hdc, &rcClt);
+    hbm = theApp.CopyDCToBitmap(hdc, rcClt.Width(), rcClt.Height());
     strNo.Format(IDS_STRPNGNAME, m_strFileName, m_ptTorData->nCur);
 
     strFileName = theApp.GetSaveDataPath() + strNo.GetBuffer(0);
@@ -966,16 +966,14 @@ void CDlgHisGrp::PrintOneImage(UINT* pnCur, UINT nIndex, UINT nMax, int iTmpNo)
     return;
 }
 
-void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
+void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount, bool bRotate)
 {
     UINT        i = 0;
     CPaintDC    dc(this);
-    HDC         hdc;
-    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
-    HBITMAP     hBitmap = NULL; // 位图句柄
     CRect       rcClt;
     CString     strNo;
     string      strTempName;
+    UINT        nWidth, nHeight;
 
     ASSERT_NULL(pnSel);
     ASSERT_ZERO(nSelCount);
@@ -985,11 +983,8 @@ void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
     GetClientRect(&rcClt);
     /* 20200423 显示图像直接显示全部截图，不需要只显示图像 */
     //rcClt.right = (LONG)(rcClt.right*0.55);
-
-
-    hdc = dc.m_hDC;
-    hMemDC = CreateCompatibleDC(hdc);
-    hBitmap = CreateCompatibleBitmap(hdc, rcClt.Width(), rcClt.Height());
+    nWidth = rcClt.Width();
+    nHeight = rcClt.Height();
 
     for (i = 0; i < nSelCount; i++)
     {
@@ -1000,12 +995,10 @@ void CDlgHisGrp::PrintLineImg(UINT* pnSel, UINT nSelCount)
         strNo.Format(IDS_STRPNGNAME, m_strFileName, m_ptTorData->nCur);
         strTempName = theApp.GetSaveDataPath() + strNo.GetBuffer(0);
 
-        theApp.CopyDCToPNGFile(hdc, pnSel[i], strTempName.c_str(), &rcClt, hMemDC, hBitmap);
+        theApp.CopyDCToPNGFile(dc.m_hDC, pnSel[i], strTempName.c_str(), nWidth, nHeight, bRotate);
 
         Sleep(400);
     }
-    DeleteDC(hMemDC);
-    DeleteObject(hBitmap);
 
     SHOW_HISGRP_BUTTON(TRUE);
 

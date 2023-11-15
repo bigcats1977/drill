@@ -66,6 +66,7 @@ public:
 
     //向cell中添加一个图片
     CShape addCellPicture(CString strFileName, float fLeft, float fTop, float fWidth, float fHeight);
+    CShape addCellPicture(CString strFileName, CString top, CString bottom);
 
     // 拷贝多行
     void   copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nBeginCol, UINT nEndCol, UINT nNum);

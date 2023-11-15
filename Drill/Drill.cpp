@@ -1969,30 +1969,21 @@ bool CDrillApp::GetTimeFromString(CString strTime, __time64_t& time)
 }
 
 /* 拷贝指定区域到DC的位图中 */
-HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr)
+HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, UINT width, UINT height)
 {
     HDC         hMemDC = NULL; // 屏幕和内存设备描述表
     HBITMAP     hBitmap = NULL; // 位图句柄
     HBITMAP     hOldBitmap = NULL;
-    int         iX = 0;    // 选定区域坐标
-    int         iY = 0;
-    int         iWidth = 0;    // 位图宽度和高度
-    int         iHeight = 0;
 
     // 确保选定区域不为空矩形
-    COMP_BTRUE_R(IsRectEmpty(lprcScr), NULL);
-
-    // 获得选定区域坐标
-    iX = lprcScr->left;
-    iY = lprcScr->top;
-    iWidth = lprcScr->right - lprcScr->left;
-    iHeight = lprcScr->bottom - lprcScr->top;
+    ASSERT_ZERO_R(width, NULL);
+    ASSERT_ZERO_R(height, NULL);
 
     // 为屏幕设备描述表创建兼容的内存设备描述表
     hMemDC = CreateCompatibleDC(hScrDC);
 
     // 创建一个与屏幕设备描述表兼容的位图
-    hBitmap = CreateCompatibleBitmap(hScrDC, iWidth, iHeight);
+    hBitmap = CreateCompatibleBitmap(hScrDC, width, height);
     /*while(!hBitmap)
     {
         fFactor  -= 0.05f;
@@ -2002,7 +1993,7 @@ HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr)
     // 把新位图选到内存设备描述表中
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
     // 把屏幕设备描述表拷贝到内存设备描述表中
-    StretchBlt(hMemDC, 0, 0, iWidth, iHeight, hScrDC, iX, iY, iWidth, iHeight, SRCCOPY);
+    StretchBlt(hMemDC, 0, 0, width, height, hScrDC, 0, 0, width, height, SRCCOPY);
 
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
@@ -2015,36 +2006,36 @@ HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr)
     return   hBitmap;
 }
 
-int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, LPRECT lprcScr, HDC hMemDC, HBITMAP hBitmap)
+int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, UINT width, UINT height, bool bRotate)
 {
+    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
+    HBITMAP     hBitmap = NULL; // 位图句柄
     HBITMAP     hOldBitmap = NULL;
-    int         iX = 0;    // 选定区域坐标
-    int         iY = 0;
-    int         iWidth = 0;    // 位图宽度和高度
-    int         iHeight = 0;
-    BOOL        bMemDC = FALSE;
-    BOOL        bBitmap = FALSE;
 
     // 确保选定区域不为空矩形
-    COMP_BTRUE_R(IsRectEmpty(lprcScr), -1);
-    ASSERT_NULL_R(hMemDC, -1);
-    ASSERT_NULL_R(hBitmap, -1);
+    ASSERT_ZERO_R(width, -1);
+    ASSERT_ZERO_R(height, -1);
 
-    // 获得选定区域坐标
-    iX = lprcScr->left;
-    iY = lprcScr->top;
-    iWidth = lprcScr->right - lprcScr->left;
-    iHeight = lprcScr->bottom - lprcScr->top;
+    // 为屏幕设备描述表创建兼容的内存设备描述表
+    hMemDC = CreateCompatibleDC(hScrDC);
+
+    // 创建一个与屏幕设备描述表兼容的位图
+    hBitmap = CreateCompatibleBitmap(hScrDC, width, height);
 
     // 把新位图选到内存设备描述表中
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
     // 把屏幕设备描述表拷贝到内存设备描述表中
-    StretchBlt(hMemDC, 0, 0, iWidth, iHeight, hScrDC, iX, iY, iWidth, iHeight, SRCCOPY);
+    StretchBlt(hMemDC, 0, 0, width, height, hScrDC, 0, 0, width, height, SRCCOPY);
 
     // 得到位图的句柄
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
-    SavePNG(hBitmap, strFile);
+    SavePNG(hBitmap, strFile, bRotate);
+    // 清除
+    DeleteDC(hMemDC);
+    DeleteObject(hOldBitmap);
+    DeleteObject(hBitmap);
 
+    // 返回位图句柄
     return   0;
 }
 
@@ -2110,6 +2101,68 @@ HANDLE CDrillApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& d
     return hDib;
 }
 
+HANDLE CDrillApp::RotateImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpOldbi, LPBITMAPINFOHEADER& lpNewbi, DWORD& dwBmBitsSize)
+{
+    WORD                wBitCount = 24;   //位图中每象素所占字节数
+    DWORD               dwLineSize = 0;
+    DWORD               dwOldLine = 0;
+    BITMAP              Bitmap = { 0 };  //位图属性结构
+    BITMAPINFOHEADER    bi = { 0 };  //位图信息头结构
+    HANDLE              hDib = NULL;
+    LONG                wNewW, wNewH;
+
+    GetObject(hBitmap, sizeof(Bitmap), (LPSTR)&Bitmap);
+    wNewW = Bitmap.bmHeight;
+    wNewH = Bitmap.bmWidth;
+    bi.biSize = sizeof(BITMAPINFOHEADER);
+    bi.biWidth = wNewW;
+    bi.biHeight = wNewH;
+    bi.biPlanes = 1;
+    bi.biBitCount = wBitCount;
+    bi.biCompression = BI_RGB;
+    bi.biSizeImage = 0;
+    bi.biXPelsPerMeter = 0;
+    bi.biYPelsPerMeter = 0;
+    bi.biClrImportant = 0;
+    bi.biClrUsed = 0;
+
+    dwLineSize = ((wNewW * wBitCount + 31) / 32) * 4;
+    dwOldLine = ((wNewH * wBitCount + 31) / 32) * 4;
+    dwBmBitsSize = dwLineSize * wNewH;
+
+    // 为位图内容分配内存,24位位图没有调色板
+    hDib = GlobalAlloc(GHND, dwBmBitsSize + sizeof(BITMAPINFOHEADER));
+    ASSERT_NULL_R(hDib, NULL);
+
+    lpNewbi = (LPBITMAPINFOHEADER)GlobalLock(hDib);
+    *lpNewbi = bi;
+    BYTE* pNewBits = ((BYTE*)lpNewbi) + sizeof(BITMAPINFOHEADER);
+    BYTE* pOldBits = ((BYTE*)lpOldbi) + sizeof(BITMAPINFOHEADER);
+
+    //旋转90度
+    double             cosa = 0, sina = 1; //cos(90),sin(90)
+    double			   num1, num2;
+    //num1 = -0.5 * Wnew * cosa - 0.5 * Hnew * sina + 0.5 * Wold;
+    //num2 = 0.5 * Wnew * sina - 0.5 * Hnew * cosa + 0.5 * Hold;
+    num1 = 0;
+    num2 = wNewW;
+
+    int x0, y0, x1, y1;
+    for (y1 = 0; y1 < wNewH; y1++)
+        for (x1 = 0; x1 < wNewW; x1++)
+        {
+            x0 = (DWORD)(x1 * cosa + y1 * sina + num1);
+            y0 = (DWORD)(-1.0f * x1 * sina + y1 * cosa + num2);
+            if ((x0 >= 0) && (x0 < wNewH) && (y0 >= 0) && (y0 < wNewW))
+            {
+                for (int i = 0; i < 3; i++)
+                    pNewBits[(wNewH - y1 - 1) * dwLineSize + x1 * 3 + i] =
+                    pOldBits[(wNewW - 1 - y0) * dwOldLine + x0 * 3 + i];
+            }
+        }
+
+    return hDib;
+}
 
 /* 保存Bmp图像 */
 bool CDrillApp::SaveBmp(HBITMAP hBitmap, string FileName)
@@ -2208,13 +2261,14 @@ unsigned CDrillApp::decodeBMP(std::vector<unsigned char>& image, unsigned& w, un
     return 0;
 }
 
-bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName)
+bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName, bool bRotate)
 {
     // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
     DWORD               dwBmBitsSize = 0;
     DWORD               dwDIBSize = 0;
     BITMAPFILEHEADER    bmfHdr;
     LPBITMAPINFOHEADER  lpbi = NULL; //指向位图信息头结构
+    LPBITMAPINFOHEADER  lpNewbi = NULL; //指向Rotate后的位图信息头结构
     HANDLE              hDib = NULL;
     BYTE* pBuf = NULL;
     BYTE* pTmp = NULL;
@@ -2225,6 +2279,17 @@ bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName)
     hDib = GetImgData(hBitmap, lpbi, dwBmBitsSize);
     ASSERT_NULL_R(hDib, false);
     ASSERT_NULL_R(lpbi, false);
+    if (bRotate)
+    {
+        HANDLE hNewDib = RotateImgData(hBitmap, lpbi, lpNewbi, dwBmBitsSize);
+        GlobalUnlock(hDib);
+        GlobalFree(hDib);
+
+        ASSERT_NULL_R(hNewDib, false);
+        ASSERT_NULL_R(lpNewbi, false);
+        hDib = hNewDib;
+        lpbi = lpNewbi;
+    }
 
     pBuf = new BYTE[sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize];
 

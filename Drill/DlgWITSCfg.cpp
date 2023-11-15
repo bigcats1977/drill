@@ -334,7 +334,7 @@ HBRUSH CDlgWITSCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->CalItems[4]);
         break;
 
-        // cal items
+        // config items
     case IDC_EDITWITSTORQTYPE:
         JUDGE_NUMBERPARA_CHANGE(atoi(strContent), m_pCurCfg->ConfigItems[0]);
         break;

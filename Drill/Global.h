@@ -61,7 +61,7 @@ using namespace std;
                                     // 单片机发送完成后，再发送命令
 #define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
 #define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
-#define WITSRPT_TLEN            500     // 0.5最多上报5组数据
+#define WITSRPT_TLEN            500     // 500ms最多上报5组数据
 #define TCPSTATUS_TIMER         9       // 定时检查TCP状态定时器
 #define TCPSTATUS_TLEN          7000    // 定时检查TCP状态定时器时长
 #define COLLECT_TIMER           10      // 收集单片机数据定时器

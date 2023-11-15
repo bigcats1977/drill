@@ -84,11 +84,12 @@ public:
     void    PlayAlarmSound();
     void    StopAlarmSound();
 
-    HBITMAP CopyDCToBitmap(HDC hScrDC, LPRECT lprcScr);
-    int     CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, LPRECT lprcScr, HDC hMemDC = NULL, HBITMAP hBitmap = NULL);
+    HBITMAP CopyDCToBitmap(HDC hScrDC, UINT width, UINT height);
+    int     CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, UINT width, UINT height, bool bRotate = false);
     HANDLE  GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize);
+    HANDLE  RotateImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpOldbi, LPBITMAPINFOHEADER& lpNewbi, DWORD& dwBmBitsSize);
     bool    SaveBmp(HBITMAP hBitmap, string FileName);
-    bool    SavePNG(HBITMAP hBitmap, string FileName);
+    bool    SavePNG(HBITMAP hBitmap, string FileName, bool bRotate = false);
     double  GetCir(TorqData::Torque* ptTorq, UINT nType = TYPE_TOTAL);
     DWORD   GetQuality(TorqData::Torque* ptTorq);
     DWORD   JudgeQuality(TorqData::Torque* ptTorq);
