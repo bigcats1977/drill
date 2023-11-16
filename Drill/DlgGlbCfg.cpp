@@ -55,6 +55,7 @@ void CDlgGlbCfg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgGlbCfg, CDialog)
     ON_WM_CTLCOLOR()
+    ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -227,4 +228,11 @@ HBRUSH CDlgGlbCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
     // TODO:  如果默认的不是所需画笔，则返回另一个画笔
     return hbr;
+}
+
+void CDlgGlbCfg::OnDestroy()
+{
+    CDialog::OnDestroy();
+
+    UnregisterHotKey(GetSafeHwnd(), 1);
 }

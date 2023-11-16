@@ -36,9 +36,9 @@ protected:
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedBtnOpendata();
     afx_msg void OnBnClickedBtnsetstat();
+    afx_msg void OnCbnSelchangeCombotorqtype();
     afx_msg void OnCbnSelchangeCombobucktype();
     afx_msg void OnCbnSelchangeCombostattype();
-    afx_msg void OnDestroy();
     afx_msg void OnBnClickedBtnsavestat();
     afx_msg void OnBnClickedCheckalign();
 
@@ -50,6 +50,7 @@ protected:
     UINT                m_nUnQuali;
     CString             m_strBadNO;
     CString             m_strToolNO;
+    CComboBox           m_cbTorqType;
     CComboBox           m_cbBuckType;
     CComboBox           m_cbStatType;
     UINT                m_nBuckNum;
@@ -89,7 +90,8 @@ private:
 
     CStringList         m_slStatType;
     WORD                m_nStatType;
-    TorqData::Torque* m_ptDrawData;
+    WORD                m_nTorqType;
+    TorqData::Torque   *m_ptDrawData;
 
     STATCFG             m_tStatCfg;         /* Õ≥º∆≈‰÷√ */
 };

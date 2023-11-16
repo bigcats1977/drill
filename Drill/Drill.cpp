@@ -960,7 +960,7 @@ string  CDrillApp::GetQualityInfo(TorqData::Torque* ptTorq)
 
     /* 卸扣不考虑质量问题，直接返回卸扣图形 */
     if (HaveBreakout(ptTorq) && !HaveMakeUP(ptTorq))
-        return LoadstringFromRes(IDS_STRMARKSHACKLE);
+        return LoadstringFromRes(IDS_STRMARKBREAKOUT);
 
     /* 测试版本，直接根据数据判断质量 */
     dwQuality = GetQuality(ptTorq);

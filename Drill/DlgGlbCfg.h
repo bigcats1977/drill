@@ -33,6 +33,7 @@ protected:
     virtual void OnOK();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    afx_msg void OnDestroy();
 
     DECLARE_MESSAGE_MAP()
 

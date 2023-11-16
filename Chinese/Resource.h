@@ -388,6 +388,7 @@
 #define IDC_BTNSETSTAT                  1619
 #define IDC_BTNSAVESTAT                 1620
 #define IDC_CHECKALIGN                  1621
+#define IDC_COMBOTORQTYPE               1622
 #define IDC_CTRLPLACE                   1650
 #define IDC_BMPCTRL1                    1651
 #define IDC_BMPCTRL2                    1652
@@ -883,7 +884,7 @@
 #define IDS_STRTORQUNIT                 51352
 #define IDS_STRTORQNMUNIT               51353
 #define IDS_STRTORQLBFTUNIT             51354
-#define IDS_STRMARKSHACKLE              51399
+#define IDS_STRMARKBREAKOUT             51399
 #define IDS_STRMARKQUALITY              51400
 #define IDS_STRMARKDISQUAL              51401
 #define IDS_STRMARKLESSLIMIT            51402

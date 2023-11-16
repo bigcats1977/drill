@@ -42,6 +42,7 @@ void CDlgDataStat::DoDataExchange(CDataExchange* pDX)
     CDialogEx::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_YSTATAXIS, m_yStatAxis);
     DDX_Control(pDX, IDC_XSTATAXIS, m_xStatAxis);
+    DDX_Control(pDX, IDC_COMBOTORQTYPE, m_cbTorqType);
     DDX_Control(pDX, IDC_COMBOBUCKTYPE, m_cbBuckType);
     DDX_Control(pDX, IDC_COMBOSTATTYPE, m_cbStatType);
     DDX_Text(pDX, IDC_STAT_DATAPATH, m_strStatFile);
@@ -64,17 +65,15 @@ void CDlgDataStat::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgDataStat, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_OPENDATA, &CDlgDataStat::OnBnClickedBtnOpendata)
     ON_BN_CLICKED(IDC_BTNSETSTAT, &CDlgDataStat::OnBnClickedBtnsetstat)
+    ON_CBN_SELCHANGE(IDC_COMBOTORQTYPE, &CDlgDataStat::OnCbnSelchangeCombotorqtype)
     ON_CBN_SELCHANGE(IDC_COMBOBUCKTYPE, &CDlgDataStat::OnCbnSelchangeCombobucktype)
     ON_CBN_SELCHANGE(IDC_COMBOSTATTYPE, &CDlgDataStat::OnCbnSelchangeCombostattype)
-    ON_WM_DESTROY()
     ON_BN_CLICKED(IDC_BTNSAVESTAT, &CDlgDataStat::OnBnClickedBtnsavestat)
     ON_BN_CLICKED(IDC_CHECKALIGN, &CDlgDataStat::OnBnClickedCheckalign)
 END_MESSAGE_MAP()
 
 
 // CDlgDataStat message handlers
-
-
 BOOL CDlgDataStat::DestroyWindow()
 {
     ClearFileInfo();
@@ -170,6 +169,8 @@ BOOL CDlgDataStat::OnInitDialog()
 
     ResetStatLine(&theApp.m_tParaCfg);
     ClearFileInfo();
+
+    m_cbTorqType.SetCurSel(0);
 
     UpdateData(FALSE);
 
@@ -406,6 +407,20 @@ BOOL CDlgDataStat::IsSelType(TorqData::Torque* ptTorq)
 
     ASSERT_NULL_R(ptTorq, FALSE);
 
+    switch (m_nTorqType) {
+    case 1: // Make Up
+        if (!theApp.HaveMakeUP(ptTorq))
+            return FALSE;
+        break;
+    case 2: // Break Out
+        if (!theApp.HaveBreakout(ptTorq))
+            return FALSE;
+        break;
+    case 0:
+    default:
+        break;
+    }
+
     m_cbBuckType.GetWindowText(strCurType);
     strType = theApp.LoadstringFromRes(IDS_STRALLSTAT);
     strBuckle = theApp.LoadstringFromRes(IDS_STRBUCKLE);
@@ -468,6 +483,7 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
     m_strToolNO.Empty();
 
     m_ptDrawData = NULL;
+    m_nTorqType = m_cbTorqType.GetCurSel();
 
     for (i = g_tReadData.nTotal - 1; i >= 0; i--)
     {
@@ -634,7 +650,7 @@ void CDlgDataStat::OnBnClickedBtnsetstat()
     }
 }
 
-void CDlgDataStat::OnCbnSelchangeCombobucktype()
+void CDlgDataStat::OnCbnSelchangeCombotorqtype()
 {
     BeginCalStat();
 }
@@ -645,17 +661,14 @@ void CDlgDataStat::OnCbnSelchangeCombostattype()
     m_cbBuckType.ResetContent();
     m_slStatType.RemoveAll();
 
-    m_strBadNO.Empty();
-    m_strToolNO.Empty();
-
     GetBasicStatInfo();
 
     BeginCalStat();
 }
 
-void CDlgDataStat::OnDestroy()
+void CDlgDataStat::OnCbnSelchangeCombobucktype()
 {
-    CDialogEx::OnDestroy();
+    BeginCalStat();
 }
 
 void CDlgDataStat::OnBnClickedBtnsavestat()
@@ -739,4 +752,3 @@ string CDlgDataStat::SaveStatImg(void)
 
     return strFileName;
 }
-
