@@ -314,7 +314,7 @@ void CLineChartCtrlStat::DrawBkLine()
     //DrawTaiLine();
 
     /*œ‘ æ≈§æÿ*/
-    DrawShowLine();
+    //DrawShowLine();
 
     m_MemDC.SetBkMode(iOldMode);
     m_MemDC.SelectObject(&pOldFont);

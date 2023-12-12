@@ -386,7 +386,8 @@ void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
     DrawHLine(begin, end, y);
     /* œ‘ æ…œø€≈§æÿ÷µ */
     strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCMAKETORQ).c_str(), (fTorq / SHOWTORQUEUNIT));
-    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
+    // ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
+    ShowContent(clrCtrl, y - CONT_YOFFSET, strVal);
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -412,7 +413,8 @@ void CLineChartCtrlEx::DrawBreakoutLine(double fTorq, int begin, int end)
     DrawHLine(begin, end, y);
     /* œ‘ æ–∂ø€≈§æÿ÷µ */
     strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCBREAKTORQ).c_str(), (fTorq / SHOWTORQUEUNIT));
-    ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
+    // ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
+    ShowContent(clrCtrl, y - CONT_YOFFSET, strVal);
 
     m_MemDC.SelectObject(pOldPen);
 }
@@ -639,6 +641,7 @@ void CLineChartCtrlEx::DrawShowLine()
     if (LINETYPE_HISG == m_uLineType)
     {
         clrShow = CTRLBKCOLOR;
+        return;
     }
 
     CPen    penShow(PS_DOT, 1, clrShow);

@@ -40,7 +40,7 @@ typedef struct tagLINECHARITEM
 
 
 #define     CONT_XOFFSET        5       /* 显示文字，相对于竖线的位置 */
-#define     CONT_YOFFSET        12      /* 显示文字，相对于底线的位置 */
+#define     CONT_YOFFSET        20      /* 显示文字，相对于底线的位置 */
 #define     CONT_XSCALE         0.75    /* 文字开始位置(相对于整体宽度) */
 #define     CONT_XANTIRANGE     425     /* 坐标超过该位置时，需要反方向显示文字 */
 #define     CONT_XANTIOFFSET    80      /* 文字贴右边时，反方向调整 */
