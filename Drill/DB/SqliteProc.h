@@ -32,6 +32,6 @@ public:
 
 
 private:
-    sqlite3* ptCfgDB;              /* SQLite3 数据库配置文件 */
+    sqlite3* ptCfgDB;              /* SQLite3 脢媒戮脻驴芒脜盲脰脙脦脛录镁 */
     string   DBFile;
 };

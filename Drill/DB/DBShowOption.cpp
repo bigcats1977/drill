@@ -59,7 +59,7 @@ void CDBShowOption::GetTable()
     _Sqlite->FreeResult(&pResult);
 }
 
-// ×î¶àÈ¡Ç°50¸öÑ¡Ïî
+// æœ€å¤šå–å‰50ä¸ªé€‰é¡¹
 vector<string> CDBShowOption::GetOptionsByNameIndex(int index)
 {
     int i = 0;
@@ -82,7 +82,7 @@ vector<string> CDBShowOption::GetOptionsByNameIndex(int index)
     }
 
     nIndex = col;
-    // ·µ»Ø×îĞÂ¸üĞÂµÄ50¸öÑ¡Ïî
+    // è¿”å›æœ€æ–°æ›´æ–°çš„50ä¸ªé€‰é¡¹
     for (i = 0; i < row && i < MAX_SHOWOPTNUM; i++)
     {
         // NO

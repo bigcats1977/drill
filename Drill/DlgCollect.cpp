@@ -81,7 +81,7 @@ BOOL CDlgCollect::OnInitDialog()
 
     iWidth = (int)(rcView.Width() / 4);
     m_listData.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
-    //strHead.Format("ÉÏ¿ÛÊ±¼ä,%d;Å¤Å¡ÖÜÊı,%d;Å¤Å¡Å¤¾Ø,%d;",nWidth*2,nWidth,nWidth);
+    //strHead.Format("ä¸Šæ‰£æ—¶é—´,%d;æ‰­æ‹§å‘¨æ•°,%d;æ‰­æ‹§æ‰­çŸ©,%d;",nWidth*2,nWidth,nWidth);
     //strHead.Format(IDS_STRCOLLISTHEAD,int(iWidth*1.8),(iWidth),(iWidth));
     /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCOLLISTHEAD).c_str(),
         int(iWidth * 1.8), (iWidth), (iWidth));*/
@@ -97,7 +97,7 @@ BOOL CDlgCollect::OnInitDialog()
     m_nCollectStatus = NODATA;
     m_nErrorNum = 0;
 
-    /* ÊÕ¼¯×´Ì¬¶ÔÓ¦µÄÃüÁî */
+    /* æ”¶é›†çŠ¶æ€å¯¹åº”çš„å‘½ä»¤ */
     m_nCollCmdType[NODATA] = SCMCOLLECT;
     m_nCollCmdType[VALIDDATA] = SCMCOLLECTOK;
     m_nCollCmdType[LASTDATA] = SCMCOLLECTOK;
@@ -189,7 +189,7 @@ void CDlgCollect::ReadCollData(int iCollNum)
     nCur = m_tHisData.nReadCount;
     for (i = 0; i < iCollNum; i++)
     {
-        /* ÄêºÍÔÂÔÚÍ¬Ò»¸ö×Ö½ÚÄÚ£¬½ÚÊ¡¿Õ¼ä */
+        /* å¹´å’Œæœˆåœ¨åŒä¸€ä¸ªå­—èŠ‚å†…ï¼ŒèŠ‚çœç©ºé—´ */
         ucYM = (*pucPos++);
         if (ucYM % 12 == 0)
         {
@@ -205,7 +205,7 @@ void CDlgCollect::ReadCollData(int iCollNum)
         iHour = (*pucPos++);
         iMinute = (*pucPos++);
 
-        /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+        /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
         fTorque = *(pucPos++);
         fTorque = fTorque * 256 + *(pucPos++);
         fTorque *= theApp.m_nTorqMulti;
@@ -245,7 +245,7 @@ LRESULT CDlgCollect::ProcessCollData(WPARAM wParam, LPARAM lParam)
         bLastData = TRUE;
     }
 
-    /* ¶ÁÈ¡ÓĞĞ§Êı¾İ */
+    /* è¯»å–æœ‰æ•ˆæ•°æ® */
     ReadCollData(iCollNum);
 
     if (bLastData)
@@ -293,7 +293,7 @@ void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
 
     m_nCollectStatus = INVALIDDATA;
 
-    /* ¶ÁÈ¡autosaveÎÄ¼şÖĞµÄ#COL ¿ªÍ·µÄCollectÊı¾İ */
+    /* è¯»å–autosaveæ–‡ä»¶ä¸­çš„#COL å¼€å¤´çš„Collectæ•°æ® */
     if (g_tGlbCfg.nTest == COLL_HISTORY)
     {
         bReadRes = thepDlg->CollectHisData();
@@ -313,7 +313,7 @@ void CDlgCollect::OnTimer(UINT_PTR nIDEvent)
         m_nErrorNum++;
     }
 
-    /* ¼ì²é´íÎó´ÎÊı£¬³¬¹ıÒ»¶¨´ÎÊıÍ£Ö¹ÊÕ¼¯£¬É±¶¨Ê±Æ÷ */
+    /* æ£€æŸ¥é”™è¯¯æ¬¡æ•°ï¼Œè¶…è¿‡ä¸€å®šæ¬¡æ•°åœæ­¢æ”¶é›†ï¼Œæ€å®šæ—¶å™¨ */
     CheckErrorTimes();
 
     ShowCollHisData();

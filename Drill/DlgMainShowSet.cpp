@@ -80,7 +80,7 @@ BOOL CDlgMainShowSet::OnInitDialog()
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 void CDlgMainShowSet::InitMainShowPara()
@@ -98,7 +98,7 @@ void CDlgMainShowSet::InitMainShowPara()
     for (i = 0; i < m_ptShow->nMainNum && i < MAXMAINPARA; i++)
     {
         m_strMainShow[i] = theApp.GetMainShowName(theApp.m_ptCurShow, i).c_str();
-        if (i == MAINSHOWTALLY)  //Èë¾®ĞòºÅÌø¹ı
+        if (i == MAINSHOWTALLY)  //å…¥äº•åºå·è·³è¿‡
             continue;
 
         m_cbMainOption[i].ResetContent();
@@ -126,7 +126,7 @@ BOOL CDlgMainShowSet::GetParaValue()
 
     for (i = 0; i <= m_ptShow->nMainNum && i < MAXMAINPARA; i++)
     {
-        if (i == MAINSHOWTALLY)  // µÚ6¸öÎªÈë¾®ĞòºÅ£¬²»ĞèÒªÊ¹ÓÃcombobox
+        if (i == MAINSHOWTALLY)  // ç¬¬6ä¸ªä¸ºå…¥äº•åºå·ï¼Œä¸éœ€è¦ä½¿ç”¨combobox
             continue;
         m_tempCfg.strValue[m_ptShow->nMain[i]] = m_strMainOption[i];
     }
@@ -156,8 +156,8 @@ HBRUSH CDlgMainShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     if (strContent.IsEmpty())
         return hbr;
 
-    // TODO:  ÔÚ´Ë¸ü¸Ä DC µÄÈÎºÎÌØĞÔ
-    //switch (pWnd->GetDlgCtrlID())//¶ÔÄ³Ò»¸öÌØ¶¨¿Ø¼ş½øĞĞÅĞ¶Ï  
+    // TODO:  åœ¨æ­¤æ›´æ”¹ DC çš„ä»»ä½•ç‰¹æ€§
+    //switch (pWnd->GetDlgCtrlID())//å¯¹æŸä¸€ä¸ªç‰¹å®šæ§ä»¶è¿›è¡Œåˆ¤æ–­  
     //{
     ///*case IDC_EDMAINPARA52:
     //    JUDGE_STRPARA_CHANGE(strContent, m_strTubeNO2);
@@ -167,7 +167,7 @@ HBRUSH CDlgMainShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     //    break;
     //}
     hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
-    // TODO:  Èç¹ûÄ¬ÈÏµÄ²»ÊÇËùĞè»­±Ê£¬Ôò·µ»ØÁíÒ»¸ö»­±Ê
+    // TODO:  å¦‚æœé»˜è®¤çš„ä¸æ˜¯æ‰€éœ€ç”»ç¬”ï¼Œåˆ™è¿”å›å¦ä¸€ä¸ªç”»ç¬”
     return hbr;
 }
 

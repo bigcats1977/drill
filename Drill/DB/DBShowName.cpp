@@ -266,7 +266,7 @@ int CDBShowName::UpdateShowName(int NO, string Name)
 
     if (Index == DB_INVALID_VAL)
     {
-        // why �ڴ�й©8ֱ�� 01 00 00 00 CD CD CD CD
+        // why ÄÚ´æÐ¹Â©8Ö±½Ó 01 00 00 00 CD CD CD CD
         //ss << "INSERT INTO " << g_tTableName[_TableIndex] << " VALUES(NULL," <<nLang <<","<<NO <<",'"<< _Sqlite->ASCII2UTF8(Name) << "');\n";
         xxx = "INSERT INTO " + g_tTableName[_TableIndex] + " VALUES(NULL," + to_string(*_CurLang) + "," + to_string(NO) + ",'" + ASCII2UTF8(Name) + "');\n";
         ss << xxx;

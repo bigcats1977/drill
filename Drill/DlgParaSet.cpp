@@ -197,7 +197,7 @@ BOOL CDlgParaSet::OnInitDialog()
     m_clrChanged = RGB(255, 0, 0);
     m_nCurLang = g_tGlbCfg.nLangType;
 
-    /* ¸ù¾İÈë²ÎÉèÖÃ²ÎÊı³õÊ¼Öµ */
+    /* æ ¹æ®å…¥å‚è®¾ç½®å‚æ•°åˆå§‹å€¼ */
     SetParaValue(&m_tempCfg, &m_tempShow);
 
     UpdateDlgLabel();
@@ -305,9 +305,9 @@ void CDlgParaSet::OnParasave()
     GetParaValue(&m_tempCfg);
 
     strInfo = string_format(theApp.LoadstringFromRes(IDS_STRINFSAVEALIASFAIL).c_str(), m_strParaAlias);
-    /* ±£´æÇ°ÏÈĞ£ÑéÏÂ²ÎÊıµÄÓĞĞ§·¶Î§ */
+    /* ä¿å­˜å‰å…ˆæ ¡éªŒä¸‹å‚æ•°çš„æœ‰æ•ˆèŒƒå›´ */
     theApp.AdjustParaValue(&m_tempCfg);
-    // ¸üĞÂÅ¤¾Ø²ÎÊıÅäÖÃ
+    // æ›´æ–°æ‰­çŸ©å‚æ•°é…ç½®
     AliasID = theDB.UpdateTorqCfgPara(&m_tempCfg, &m_tempShow);
     if (AliasID <= 0)
     {
@@ -391,10 +391,10 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     if (strContent.IsEmpty())
         return hbr;
 
-    // TODO:  ÔÚ´Ë¸ü¸Ä DC µÄÈÎºÎÌØĞÔ
-    switch (pWnd->GetDlgCtrlID())//¶ÔÄ³Ò»¸öÌØ¶¨¿Ø¼ş½øĞĞÅĞ¶Ï
+    // TODO:  åœ¨æ­¤æ›´æ”¹ DC çš„ä»»ä½•ç‰¹æ€§
+    switch (pWnd->GetDlgCtrlID())//å¯¹æŸä¸€ä¸ªç‰¹å®šæ§ä»¶è¿›è¡Œåˆ¤æ–­
     {
-        // Å¤¾Ø²ÎÊı
+        // æ‰­çŸ©å‚æ•°
     case IDC_EDITSHOWTORQ:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTorqConf[INDEX_TORQ_SHOW]);
         break;
@@ -432,7 +432,7 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_MINDELTA]);
         break;*/
 
-        // Å¤Å¡ÖÜÊı
+        // æ‰­æ‹§å‘¨æ•°
     case IDC_EDITUPPERCIR:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT]);
         break;
@@ -458,7 +458,7 @@ HBRUSH CDlgParaSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     }
 
-    // TODO:  Èç¹ûÄ¬ÈÏµÄ²»ÊÇËùĞè»­±Ê£¬Ôò·µ»ØÁíÒ»¸ö»­±Ê
+    // TODO:  å¦‚æœé»˜è®¤çš„ä¸æ˜¯æ‰€éœ€ç”»ç¬”ï¼Œåˆ™è¿”å›å¦ä¸€ä¸ªç”»ç¬”
     return hbr;
 }
 
@@ -541,13 +541,13 @@ void CDlgParaSet::OnCbnKillfocusCbpara16()
     JudgeShowParaChanged(15);
 }
 
-/* 20210419 ×î´ó£¬×îĞ¡ÊÇ×î¼ÑµÄ1.1    0.9±¶£¬ÂúÆÁÊÇ1.3±¶£¬ĞŞ¸Ä×î¼ÑÅ¤¾ØºóÄ¬ÈÏÖµ */
+/* 20210419 æœ€å¤§ï¼Œæœ€å°æ˜¯æœ€ä½³çš„1.1    0.9å€ï¼Œæ»¡å±æ˜¯1.3å€ï¼Œä¿®æ”¹æœ€ä½³æ‰­çŸ©åé»˜è®¤å€¼ */
 void CDlgParaSet::OnKillfocusEditopttorq()
 {
     double oldOptTorq = m_fOptTorq;
     UpdateData(TRUE);
 
-    /* ÖµÃ»ÓĞĞŞ¸ÄÔòÖ±½Ó·µ»Ø */
+    /* å€¼æ²¡æœ‰ä¿®æ”¹åˆ™ç›´æ¥è¿”å› */
     COMP_BE(oldOptTorq, m_fOptTorq);
 
     m_fControl = m_fOptTorq;
@@ -555,13 +555,13 @@ void CDlgParaSet::OnKillfocusEditopttorq()
     UpdateData(FALSE);
 }
 
-/* 20210317 ×î¼ÑÖÜÊı×Ô¶¯ÉèÖÃÎªÂúÆÁÖÜÊıµÄ3/4 */
+/* 20210317 æœ€ä½³å‘¨æ•°è‡ªåŠ¨è®¾ç½®ä¸ºæ»¡å±å‘¨æ•°çš„3/4 */
 void CDlgParaSet::OnEnKillfocusEditmaxcir()
 {
     double oldMaxCir = m_fMaxCir;
     UpdateData(TRUE);
 
-    /* ÖµÃ»ÓĞĞŞ¸ÄÔòÖ±½Ó·µ»Ø */
+    /* å€¼æ²¡æœ‰ä¿®æ”¹åˆ™ç›´æ¥è¿”å› */
     COMP_BE(oldMaxCir, m_fMaxCir);
 
     //m_fControlCir = m_fMaxCir * 3 / 4;

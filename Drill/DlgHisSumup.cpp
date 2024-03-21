@@ -54,7 +54,7 @@ END_MESSAGE_MAP()
 // CDlgHisSumup message handlers
 BOOL CDlgHisSumup::OnInitDialog()
 {
-    // TODO: µ÷ÓÃ AfxInitRichEdit2() ÒÔ³õÊ¼»¯ richedit2 ¿â¡£\n"   
+    // TODO: è°ƒç”¨ AfxInitRichEdit2() ä»¥åˆå§‹åŒ– richedit2 åº“ã€‚\n"   
     int     iWidth = 0;
     CString strHead;
     CRect   rcView;
@@ -107,12 +107,12 @@ void CDlgHisSumup::OnBnClickedBtnsavesum()
     UpdateData(TRUE);
 
     CFile cFile(m_strSumFile.c_str(), CFile::modeCreate | CFile::modeWrite);
-    // ¶¨ÒåRichEditµÄStream ½á¹¹Ìå
+    // å®šä¹‰RichEditçš„Stream ç»“æ„ä½“
     EDITSTREAM es;
-    // ÉèÖÃstream½á¹¹ÌåµÄÎÄ¼ş¾ä±ú¼°»Øµ÷º¯Êı
+    // è®¾ç½®streamç»“æ„ä½“çš„æ–‡ä»¶å¥æŸ„åŠå›è°ƒå‡½æ•°
     es.dwCookie = (DWORD)&cFile;
     es.pfnCallback = StreamOutCallback;
-    // ½«µ±Ç°edit¿Ø¼şÀïµÄ×Ö·û´®Êä³öµ½rtfÎÄ¼şÀï¡£
+    // å°†å½“å‰editæ§ä»¶é‡Œçš„å­—ç¬¦ä¸²è¾“å‡ºåˆ°rtfæ–‡ä»¶é‡Œã€‚
     m_richSum.StreamOut(SF_RTF, es);
 
     m_bReadOnly = TRUE;
@@ -127,7 +127,7 @@ void CDlgHisSumup::OnBnClickedBtnmodfont()
     memset(&lf, 0, sizeof(LOGFONT));
 
     COMP_BTRUE(m_bReadOnly);
-    //ÅĞ¶ÏÊÇ·ñÑ¡ÔñÁËÄÚÈİ
+    //åˆ¤æ–­æ˜¯å¦é€‰æ‹©äº†å†…å®¹
     BOOL bSelect = (m_richSum.GetSelectionType() != SEL_EMPTY) ? TRUE : FALSE;
     if (bSelect)
     {
@@ -138,13 +138,13 @@ void CDlgHisSumup::OnBnClickedBtnmodfont()
         m_richSum.GetDefaultCharFormat(cf);
     }
 
-    //µÃµ½Ïà¹Ø×ÖÌåÊôĞÔ
+    //å¾—åˆ°ç›¸å…³å­—ä½“å±æ€§
     BOOL bIsBold = cf.dwEffects & CFE_BOLD;
     BOOL bIsItalic = cf.dwEffects & CFE_ITALIC;
     BOOL bIsUnderline = cf.dwEffects & CFE_UNDERLINE;
     BOOL bIsStrickout = cf.dwEffects & CFE_STRIKEOUT;
 
-    //ÉèÖÃÊôĞÔ
+    //è®¾ç½®å±æ€§
     lf.lfCharSet = cf.bCharSet;
     lf.lfHeight = cf.yHeight / 15;
     lf.lfPitchAndFamily = cf.bPitchAndFamily;
@@ -158,10 +158,10 @@ void CDlgHisSumup::OnBnClickedBtnmodfont()
     dlg.m_cf.rgbColors = cf.crTextColor;
     if (dlg.DoModal() == IDOK)
     {
-        dlg.GetCharFormat(cf);//»ñµÃËùÑ¡×ÖÌåµÄÊôĞÔ
+        dlg.GetCharFormat(cf);//è·å¾—æ‰€é€‰å­—ä½“çš„å±æ€§
         if (bSelect)
-            m_richSum.SetSelectionCharFormat(cf);     //ÎªÑ¡¶¨µÄÄÚÈİÉè¶¨ËùÑ¡×ÖÌå
+            m_richSum.SetSelectionCharFormat(cf);     //ä¸ºé€‰å®šçš„å†…å®¹è®¾å®šæ‰€é€‰å­—ä½“
         else
-            m_richSum.SetWordCharFormat(cf);         //Îª½«ÒªÊäÈëµÄÄÚÈİÉè¶¨×ÖÌå
+            m_richSum.SetWordCharFormat(cf);         //ä¸ºå°†è¦è¾“å…¥çš„å†…å®¹è®¾å®šå­—ä½“
     }
 }

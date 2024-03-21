@@ -71,7 +71,7 @@ BOOL CDlgGlbCfg::OnInitDialog()
     m_clrChanged = RGB(255, 0, 0);
     m_nCurLang = g_tGlbCfg.nLangType;
 
-    /* ����������ò�����ʼֵ */
+    /* 根据入参设置参数初始值 */
     SetParaValue(&g_tGlbCfg);
 
     RegisterHotKey(GetSafeHwnd(), 1, (MOD_CONTROL | MOD_ALT), UINT('I'));
@@ -194,8 +194,8 @@ HBRUSH CDlgGlbCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     if (strContent.IsEmpty())
         return hbr;
 
-    // TODO:  �ڴ˸��� DC ���κ�����
-    switch (pWnd->GetDlgCtrlID())//��ĳһ���ض��ؼ������ж�
+    // TODO:  在此更改 DC 的任何特性
+    switch (pWnd->GetDlgCtrlID())//对某一个特定控件进行判断
     {
     case IDC_EDITPLUS:
         JUDGE_NUMBERPARA_CHANGE(atof(strContent), g_tGlbCfg.nPlusPerTurn);
@@ -210,7 +210,7 @@ HBRUSH CDlgGlbCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         JUDGE_NUMBERPARA_CHANGE(atoi(strContent), g_tGlbCfg.nSaveDur);
         break;
 
-        // ϵͳ����
+        // 系统配置
     case IDC_COMBOPORT:
         JUDGE_NUMBERPARA_CHANGE((m_cbPort.GetCurSel() + 1), g_tGlbCfg.nPortNO);
         break;
@@ -226,7 +226,7 @@ HBRUSH CDlgGlbCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     }
 
-    // TODO:  ���Ĭ�ϵĲ������軭�ʣ��򷵻���һ������
+    // TODO:  如果默认的不是所需画笔，则返回另一个画笔
     return hbr;
 }
 

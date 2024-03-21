@@ -1,23 +1,23 @@
-// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
+// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" no_namespace
-// CFont0 °ü×°Æ÷Àà
+// CFont0 åŒ…è£…å™¨ç±»
 
 class CFont0 : public COleDispatchDriver
 {
 public:
-    CFont0() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
+    CFont0() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
     CFont0(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CFont0(const CFont0& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ÌØĞÔ
+    // ç‰¹æ€§
 public:
 
-    // ²Ù×÷
+    // æ“ä½œ
 public:
 
 
-    // Font ·½·¨
+    // Font æ–¹æ³•
 public:
     LPDISPATCH get_Application()
     {
@@ -225,7 +225,7 @@ public:
         InvokeHelper(0x93f, DISPATCH_PROPERTYPUT, VT_EMPTY, nullptr, parms, newValue);
     }
 
-    // Font ÊôĞÔ
+    // Font å±æ€§
 public:
 
 };

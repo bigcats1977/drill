@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 // Mask for control's type
 //#define BS_TYPEMASK SS_TYPEMASK
 
-/* Ïú»ÙÓÐÐ§µÄICON */
+/* é”€æ¯æœ‰æ•ˆçš„ICON */
 #define DESTROY_ICON(hIcon)  {          \
         if(hIcon)                       \
             ::DestroyIcon(hIcon);       \
@@ -26,13 +26,13 @@ static char THIS_FILE[] = __FILE__;
         Invalidate();                   \
     }
 
-/* É¾³ýÓÐÐ§µÄobject */
+/* åˆ é™¤æœ‰æ•ˆçš„object */
 #define DELETE_OBJECT(hObject)  {       \
         if(hObject)                     \
             ::DeleteObject(hObject);    \
     }
 
-/* ±ÜÃâOffsetÔ½½ç */
+/* é¿å…Offsetè¶Šç•Œ */
 #define MIN_OFFSET(value, off, newOff){ \
         if ((value) + (off) > 255)      \
             (newOff) = 255 - (value);   \
@@ -476,7 +476,7 @@ BOOL CButtonST::OnClicked()
     return FALSE;
 } // End of OnClicked
 
-/* »ñÈ¡µ±Ç°°´Å¥µÄÊôÐÔ£¬ÉèÖÃ±äÁ¿£¬¹©ÏÂÃæ»­°´Å¥Ê¹ÓÃ */
+/* èŽ·å–å½“å‰æŒ‰é’®çš„å±žæ€§ï¼Œè®¾ç½®å˜é‡ï¼Œä¾›ä¸‹é¢ç”»æŒ‰é’®ä½¿ç”¨ */
 void CButtonST::GetBtnProperty(LPDRAWITEMSTRUCT lpDIS)
 {
     ASSERT_NULL(lpDIS);
@@ -685,7 +685,7 @@ void CButtonST::DrawItem(LPDRAWITEMSTRUCT lpDIS)
     pDC = CDC::FromHandle(lpDIS->hDC);
     ASSERT_NULL(pDC);
 
-    /* »ñÈ¡°´Å¥µÄÊôÐÔ */
+    /* èŽ·å–æŒ‰é’®çš„å±žæ€§ */
     GetBtnProperty(lpDIS);
 
     rcItem = lpDIS->rcItem;

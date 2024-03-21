@@ -1,23 +1,23 @@
-// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
+// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" no_namespace
-// Cnterior °ü×°Æ÷Àà
+// Cnterior åŒ…è£…å™¨ç±»
 
 class Cnterior : public COleDispatchDriver
 {
 public:
-    Cnterior() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
+    Cnterior() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
     Cnterior(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     Cnterior(const Cnterior& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ÌØĞÔ
+    // ç‰¹æ€§
 public:
 
-    // ²Ù×÷
+    // æ“ä½œ
 public:
 
 
-    // Interior ·½·¨
+    // Interior æ–¹æ³•
 public:
     LPDISPATCH get_Application()
     {
@@ -154,7 +154,7 @@ public:
         return result;
     }
 
-    // Interior ÊôĞÔ
+    // Interior å±æ€§
 public:
 
 };

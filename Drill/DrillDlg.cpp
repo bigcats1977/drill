@@ -39,49 +39,49 @@ CDlgSegCabl* m_pdlgCalib = NULL;
 
 //#define             TESTPORT
 
-/*********************È«¾Ö±äÁ¿************************************/
+/*********************å…¨å±€å˜é‡************************************/
 
-/* Ìî³äÃüÁîº¯ÊıÊı×é£¬ĞòºÅ¼õ15ÔÙ´¦Àí
-   ×î³¤Ìî8¸öBYTE */
+/* å¡«å……å‘½ä»¤å‡½æ•°æ•°ç»„ï¼Œåºå·å‡15å†å¤„ç†
+   æœ€é•¿å¡«8ä¸ªBYTE */
 void (CDrillDlg::* g_FillByteProc[MAXCMDNUM])(void) =
 {
-    /*  0 */    &CDrillDlg::FillRead,           /* ¶ÁÈ¡Êı¾İ */
-    /*  1 */    &CDrillDlg::FillMulti,          /* Ğ£×¼±¶Êı */
-    /*  2 */    &CDrillDlg::FillQipi,           /* È¥Æ¤ */
-    /*  3 */    &CDrillDlg::FillCollect,        /* ²É¼¯Êı¾İ */
-    /*  4 */    &CDrillDlg::FillShow,           /* ÏÔÊ¾Å¤¾Ø */
-    /*  5 */    &CDrillDlg::FillSpeed,          /* ¼õËÙÅ¤¾Ø */
-    /*  6 */    &CDrillDlg::FillControl,        /* ¿ØÖÆÅ¤¾Ø */
-    /*  7 */    &CDrillDlg::FillBSpeed,         /* ¿ªÊ¼¼õËÙ */
-    /*  8 */    &CDrillDlg::FillESpeed,         /* Í£Ö¹¼õËÙ */
-    /*  9 */    &CDrillDlg::FillBUnload,        /* ¿ªÊ¼Ğ¶ºÉ */
-    /* 10 */    &CDrillDlg::FillEUnload,        /* Í£Ö¹Ğ¶ºÉ */
-    /* 11 */    &CDrillDlg::FillUpper,          /* ÉÏÏŞÅ¤¾Ø */
-    /* 12 */    &CDrillDlg::FillLower,          /* ÏÂÏŞÅ¤¾Ø */
-    /* 13 */    &CDrillDlg::FillCut,            /* ´òÕÛÏµÊı */
-    /* 14 */    &CDrillDlg::FillCollectOK,      /* ÊÕµ½ÓĞĞ§Êı¾İÔÙ´Î²É¼¯Êı¾İ£º×îºóÒ»´ÎÈ·ÈÏºó²»ĞèÒªÔÙ´ÎÊÕµ½Êı¾İ */
-    /* 15 */    &CDrillDlg::FillCollectNOK,     /* ÊÕµ½ÎŞĞ§Êı¾İÔÙ´Î²É¼¯Êı¾İ */
-    /* 16 */    &CDrillDlg::FillTime,           /* ÉèÖÃµ¥Æ¬»úÊ±¼ä */
-    /* 17 */    &CDrillDlg::FillValvePress,     /* ÉèÖÃ¼õÑ¹·§²ÎÊı */
-    /* 18 */    &CDrillDlg::FillValveFlow,      /* ÉèÖÃÁ÷Á¿·§²ÎÊı */
-    /* 19 */    &CDrillDlg::FillReadValve,      /* ¶ÁÈ¡·§ÃÅ×´Ì¬²ÎÊı */
-    /* 20 */    &CDrillDlg::FillReadMulti,      /* ¶ÁÈ¡¶à×éÊı¾İ */
-    /* 21 */    &CDrillDlg::FillWriteCalib,     /* Ğ´ ·Ö¶ÎĞ£×¼ */
-    /* 22 */    &CDrillDlg::FillCtrlCalib,      /* ¿ØÖÆ·Ö¶ÎĞ£×¼ */
-    /* 23 */    &CDrillDlg::FillReadCalib,      /* ¶Á ·Ö¶ÎĞ£×¼ */
-    /* 19       &CDrillDlg::FillValveZoom         ÉèÖÃ·§·Å´ó±¶Êı²ÎÊı */
+    /*  0 */    &CDrillDlg::FillRead,           /* è¯»å–æ•°æ® */
+    /*  1 */    &CDrillDlg::FillMulti,          /* æ ¡å‡†å€æ•° */
+    /*  2 */    &CDrillDlg::FillQipi,           /* å»çš® */
+    /*  3 */    &CDrillDlg::FillCollect,        /* é‡‡é›†æ•°æ® */
+    /*  4 */    &CDrillDlg::FillShow,           /* æ˜¾ç¤ºæ‰­çŸ© */
+    /*  5 */    &CDrillDlg::FillSpeed,          /* å‡é€Ÿæ‰­çŸ© */
+    /*  6 */    &CDrillDlg::FillControl,        /* æ§åˆ¶æ‰­çŸ© */
+    /*  7 */    &CDrillDlg::FillBSpeed,         /* å¼€å§‹å‡é€Ÿ */
+    /*  8 */    &CDrillDlg::FillESpeed,         /* åœæ­¢å‡é€Ÿ */
+    /*  9 */    &CDrillDlg::FillBUnload,        /* å¼€å§‹å¸è· */
+    /* 10 */    &CDrillDlg::FillEUnload,        /* åœæ­¢å¸è· */
+    /* 11 */    &CDrillDlg::FillUpper,          /* ä¸Šé™æ‰­çŸ© */
+    /* 12 */    &CDrillDlg::FillLower,          /* ä¸‹é™æ‰­çŸ© */
+    /* 13 */    &CDrillDlg::FillCut,            /* æ‰“æŠ˜ç³»æ•° */
+    /* 14 */    &CDrillDlg::FillCollectOK,      /* æ”¶åˆ°æœ‰æ•ˆæ•°æ®å†æ¬¡é‡‡é›†æ•°æ®ï¼šæœ€åä¸€æ¬¡ç¡®è®¤åä¸éœ€è¦å†æ¬¡æ”¶åˆ°æ•°æ® */
+    /* 15 */    &CDrillDlg::FillCollectNOK,     /* æ”¶åˆ°æ— æ•ˆæ•°æ®å†æ¬¡é‡‡é›†æ•°æ® */
+    /* 16 */    &CDrillDlg::FillTime,           /* è®¾ç½®å•ç‰‡æœºæ—¶é—´ */
+    /* 17 */    &CDrillDlg::FillValvePress,     /* è®¾ç½®å‡å‹é˜€å‚æ•° */
+    /* 18 */    &CDrillDlg::FillValveFlow,      /* è®¾ç½®æµé‡é˜€å‚æ•° */
+    /* 19 */    &CDrillDlg::FillReadValve,      /* è¯»å–é˜€é—¨çŠ¶æ€å‚æ•° */
+    /* 20 */    &CDrillDlg::FillReadMulti,      /* è¯»å–å¤šç»„æ•°æ® */
+    /* 21 */    &CDrillDlg::FillWriteCalib,     /* å†™ åˆ†æ®µæ ¡å‡† */
+    /* 22 */    &CDrillDlg::FillCtrlCalib,      /* æ§åˆ¶åˆ†æ®µæ ¡å‡† */
+    /* 23 */    &CDrillDlg::FillReadCalib,      /* è¯» åˆ†æ®µæ ¡å‡† */
+    /* 19       &CDrillDlg::FillValveZoom         è®¾ç½®é˜€æ”¾å¤§å€æ•°å‚æ•° */
 };
 
-/* ÊÕ¼¯Êı¾İº¯ÊıÊı×é */
+/* æ”¶é›†æ•°æ®å‡½æ•°æ•°ç»„ */
 BOOL(CDrillDlg::* g_CollectProc[4])(COLLECTDATA* ptCollData) =
 {
-    /*  0 */    &CDrillDlg::CollectPort,             /* ÊÕ¼¯´®¿ÚÊı¾İ */
-    /*  1 */    &CDrillDlg::CollectRandData,         /* Ëæ»ú²âÊÔÊı¾İ */
-    /*  2 */    &CDrillDlg::CollectTorqData,         /* ÏÖ³¡×Ô¶¯¼ÇÂ¼Å¤¾ØÊı¾İ */
-    /*  3 */    &CDrillDlg::CollectMultiTorq         /* ÏÖ³¡×Ô¶¯¼ÇÂ¼¶à×éÅ¤¾ØÊı¾İ */
+    /*  0 */    &CDrillDlg::CollectPort,             /* æ”¶é›†ä¸²å£æ•°æ® */
+    /*  1 */    &CDrillDlg::CollectRandData,         /* éšæœºæµ‹è¯•æ•°æ® */
+    /*  2 */    &CDrillDlg::CollectTorqData,         /* ç°åœºè‡ªåŠ¨è®°å½•æ‰­çŸ©æ•°æ® */
+    /*  3 */    &CDrillDlg::CollectMultiTorq         /* ç°åœºè‡ªåŠ¨è®°å½•å¤šç»„æ‰­çŸ©æ•°æ® */
 };
 
-/*********************´úÂëºê************************************/
+/*********************ä»£ç å®************************************/
 #define INSERT_DATA(Torque,Rpm,bLast)   {               \
         InsertData(&m_tCollData, Torque, Rpm);          \
         m_wndTorque.SetPos(Torque,bLast);               \
@@ -98,7 +98,7 @@ BOOL(CDrillDlg::* g_CollectProc[4])(COLLECTDATA* ptCollData) =
 //        }                                               \
 //    }
 
-/* ÅúÁ¿ÏÔÊ¾»òÕßÒş²Ø°´Å¥ */
+/* æ‰¹é‡æ˜¾ç¤ºæˆ–è€…éšè—æŒ‰é’® */
 #define SHOW_MAINDLG_BUTTON(bShow)      {               \
         GetDlgItem(IDC_EDITCRC)->ShowWindow(bShow);     \
         GetDlgItem(IDC_STATICCRC)->ShowWindow(bShow);   \
@@ -125,7 +125,7 @@ BOOL(CDrillDlg::* g_CollectProc[4])(COLLECTDATA* ptCollData) =
     }
 #endif
 
-/* É¾³ı¶Ô»°¿òÖ¸Õë */
+/* åˆ é™¤å¯¹è¯æ¡†æŒ‡é’ˆ */
 #define DELETE_DIALOG(pdlg)         {           \
         if((pdlg) != NULL)                      \
         {                                       \
@@ -139,7 +139,7 @@ BOOL(CDrillDlg::* g_CollectProc[4])(COLLECTDATA* ptCollData) =
 static UINT BASED_CODE indicators[] =
 {
     /*ID_SEPARATOR,         // status line indicator*/
-    ID_PORTINFO,            //´®¿ÚĞÅÏ¢ÏÔÊ¾
+    ID_PORTINFO,            //ä¸²å£ä¿¡æ¯æ˜¾ç¤º
 };
 
 #pragma region ABOUTDIALOG
@@ -272,13 +272,13 @@ void CAboutDlg::OnRegedit()
     MergeRegString(strRegCode);
     if (!theApp.m_tReg.CheckRegCode(m_strMachine.GetBuffer(0), strRegCode))
     {
-        /* ×¢²áÊ§°Ü */
+        /* æ³¨å†Œå¤±è´¥ */
         theApp.ShowMainTitle();
         AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGFAIL).c_str());
         return;
     }
 
-    /* ×¢²á³É¹¦ */
+    /* æ³¨å†ŒæˆåŠŸ */
     theApp.ShowMainTitle();
     AfxMessageBox(theApp.LoadstringFromRes(IDS_STRINFREGSUCC).c_str());
     OnOK();
@@ -304,8 +304,8 @@ void CAboutDlg::MergeRegString(string& strRegCode)
     }
 }
 
-/* ÊäÈëÒ»´®ÓĞ'-' ·Ö¸îµÄ×¢²áºÅÂë£¬×Ô¶¯´Óµ±Ç°ÊäÈë¿ò½«ºóĞøÊäÈë¿òµÄ×Ö·û´®¼ì³ö£¬²¢ÉèÖÃµ½ÊäÈë¿òÖĞ
-   nEditNo´Ó0¿ªÊ¼±àºÅ£¬¶ÔÓ¦IDC_REG1... */
+/* è¾“å…¥ä¸€ä¸²æœ‰'-' åˆ†å‰²çš„æ³¨å†Œå·ç ï¼Œè‡ªåŠ¨ä»å½“å‰è¾“å…¥æ¡†å°†åç»­è¾“å…¥æ¡†çš„å­—ç¬¦ä¸²æ£€å‡ºï¼Œå¹¶è®¾ç½®åˆ°è¾“å…¥æ¡†ä¸­
+   nEditNoä»0å¼€å§‹ç¼–å·ï¼Œå¯¹åº”IDC_REG1... */
 void CAboutDlg::AutoFillRegCode(UINT nEditNo)
 {
     int     iPlace = 0;
@@ -402,7 +402,7 @@ CDrillDlg::CDrillDlg(CWnd* pParent /*=NULL*/)
     //m_dwTotalTorqNum = 0;
     m_nCRCERR = 0;
     m_nClashERR = 0;
-    m_nInterval = 20;   //Ê±¼äĞèÒªĞŞ¸Ä20191208
+    m_nInterval = 20;   //æ—¶é—´éœ€è¦ä¿®æ”¹20191208
     m_fMaxBORange = 1000;
     m_fCurMaxTurn = 2;
     m_nBOSeqNO = 0;
@@ -420,7 +420,7 @@ CDrillDlg::CDrillDlg(CWnd* pParent /*=NULL*/)
     m_pdlgCalib = NULL;
     m_ptPortData = NULL;
 
-    /* Î´´æ´¢ÈëDataµÄÖµ£¬³õÊ¼Îª0 */
+    /* æœªå­˜å‚¨å…¥Dataçš„å€¼ï¼Œåˆå§‹ä¸º0 */
     UpdateOutData(0, 0);
 }
 
@@ -537,14 +537,14 @@ END_MESSAGE_MAP()
 
 void CDrillDlg::InitVariant()
 {
-    /* ³õÊ¼»¯theAppÈ«¾Ö±äÁ¿µÄÖ¸Õë£¬·½±ãÒıÓÃ */
+    /* åˆå§‹åŒ–theAppå…¨å±€å˜é‡çš„æŒ‡é’ˆï¼Œæ–¹ä¾¿å¼•ç”¨ */
     m_ptShow = theApp.m_ptCurShow;
     m_ptCfg = &theApp.m_tParaCfg;
     m_ptCtrl = &m_ptCfg->tCtrl;
     m_ptWITS = &theApp.m_tWITSCfg;
     //m_ptComm = &theApp.m_tParaCfg.tComm;
 
-    /* ³õÊ¼»¯±äÁ¿ */
+    /* åˆå§‹åŒ–å˜é‡ */
     //m_strSeqNO.Format("%d", g_tReadData.nTotal + 1);
     //m_nTotal    = m_dwTotalTorqNum;
     m_iTest = 0;
@@ -559,9 +559,9 @@ void CDrillDlg::InitVariant()
     memset(m_ptPortData, 0, sizeof(PORTDATA));
 
     ResetData();
-    /* ¶¨Ê±±£´æCRCºÍµ÷ÊÔĞÅÏ¢ */
+    /* å®šæ—¶ä¿å­˜CRCå’Œè°ƒè¯•ä¿¡æ¯ */
     m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
-    /* ¶¨Ê±¼ì²éTCP×´Ì¬ */
+    /* å®šæ—¶æ£€æŸ¥TCPçŠ¶æ€ */
     m_hrtTCPStatus.CreateTimer(this, TCPSTATUS_TLEN, HRTTCPStatus);
 }
 
@@ -573,11 +573,11 @@ void CDrillDlg::InitMainShowPara()
     {
         m_strMainName[i] = theApp.GetMainShowName(m_ptShow, i).c_str();
 
-        //if (i < 4) /* ¹Ü²ÄÏÔÊ¾²ÎÊı£¬ÔÚºóÃæÃ»»ñÈ¡ */
+        //if (i < 4) /* ç®¡ææ˜¾ç¤ºå‚æ•°ï¼Œåœ¨åé¢æ²¡è·å– */
         //{
         //    continue;
         //}
-        if (i == MAINSHOWTALLY)  // µÚ5¸öÎªÈë¾®ĞòºÅ£¬²»ĞèÒªÊ¹ÓÃcombobox
+        if (i == MAINSHOWTALLY)  // ç¬¬5ä¸ªä¸ºå…¥äº•åºå·ï¼Œä¸éœ€è¦ä½¿ç”¨combobox
             continue;
 
         m_strMainValue[i] = m_ptCfg->strValue[m_ptShow->nMain[i]].c_str();
@@ -597,7 +597,7 @@ void CDrillDlg::UpdateDlgLabel()
 
 void CDrillDlg::InitDlgControl()
 {
-    CFont       myfont;   /*×ÖÌå·ç¸ñ*/
+    CFont       myfont;   /*å­—ä½“é£æ ¼*/
     CString     strFontName;
     int         i = 0;
 
@@ -619,7 +619,7 @@ void CDrillDlg::InitDlgControl()
     // button
     m_btnRun.SetIconAndText(IDI_RUN, IDS_STRMAINRUN);
 
-    /* ÉèÖÃRulerÀàĞÍºÍ±ê³ß */
+    /* è®¾ç½®Rulerç±»å‹å’Œæ ‡å°º */
     m_xAxis1.SetRulerType(RT_HORIZONTAL);
     m_yAxis1.SetRulerType(RT_VERTICAL);
     m_xAxis2.SetRulerType(RT_HORIZONTAL);
@@ -632,7 +632,7 @@ void CDrillDlg::InitDlgControl()
 
     InitMainShowPara();
 
-    /* ´ò¿ª´®¿Ú */
+    /* æ‰“å¼€ä¸²å£ */
     m_bComm = ChangeCommParam();
 
     return;
@@ -678,7 +678,7 @@ BOOL CDrillDlg::OnInitDialog()
     SetMenu(&m_tMenu[g_tGlbCfg.nLangType]);
 
     // TODO: Add extra initialization here
-    /* ×´Ì¬À¸´¦Àí */
+    /* çŠ¶æ€æ å¤„ç† */
     m_StatusBar.CreateEx(this, SBT_TOOLTIPS, WS_CHILD | WS_VISIBLE | CBRS_BOTTOM, AFX_IDW_STATUS_BAR);
     // Set the indicators namely caps and nums lock status
     m_StatusBar.SetIndicators(indicators, sizeof(indicators) / sizeof(UINT));
@@ -688,19 +688,19 @@ BOOL CDrillDlg::OnInitDialog()
 
     theApp.AdaptDlgCtrlSize(this, 0);
 
-    /* ³õÊ¼Êı¾İÇøºÍ±äÁ¿ */
+    /* åˆå§‹æ•°æ®åŒºå’Œå˜é‡ */
     InitVariant();
 
-    /* ³õÊ¼»¯¶Ô»°¿ò¿Ø¼ş */
+    /* åˆå§‹åŒ–å¯¹è¯æ¡†æ§ä»¶ */
     InitDlgControl();
 
-    /* »ñÈ¡µ±Ç°Êı¾İĞòºÅ */
+    /* è·å–å½“å‰æ•°æ®åºå· */
     GetCurNum();
 
-    /*¼ì²é×¢²áÇé¿ö*/
+    /*æ£€æŸ¥æ³¨å†Œæƒ…å†µ*/
     if (theApp.m_tReg.CheckAppReg())
     {
-        /* ¼ì²é²úÆ·ÓĞĞ§ÈÕÆÚ */
+        /* æ£€æŸ¥äº§å“æœ‰æ•ˆæ—¥æœŸ */
         theApp.m_tReg.CheckProductDate();
         //theApp.m_tdbReg.bReged = 1;
     }
@@ -712,7 +712,7 @@ BOOL CDrillDlg::OnInitDialog()
 
     CalcDelayCount();
 
-    //ÉèÖÃ´°¿ÚÊôĞÔ
+    //è®¾ç½®çª—å£å±æ€§
     SetProp(m_hWnd, g_strPropName.c_str(), g_hValue);
     theApp.ShowMainTitle();
 
@@ -800,11 +800,11 @@ BOOL CDrillDlg::TimeValidWell(CString strFileName)
     int         iYear = 0;
     int         iMonth = 0;
     int         iDay = 0;
-    CTime       time = CTime::GetCurrentTime();//µÃµ½µ±Ç°Ê±¼ä
+    CTime       time = CTime::GetCurrentTime();//å¾—åˆ°å½“å‰æ—¶é—´
     CTime       oldtime;
     CTimeSpan   tSpan;
 
-    if (!g_tGlbCfg.bDateBehind) //  ÈÕÆÚÔÚÇ°
+    if (!g_tGlbCfg.bDateBehind) //  æ—¥æœŸåœ¨å‰
     {
         strDate = strFileName;
     }
@@ -836,7 +836,7 @@ void  CDrillDlg::GetCurWellFile()
 
     SetCurrentDirectory(theApp.m_strDataPath.c_str());
 
-    /* ÒÔ¾®ºÅ±£´æÎÄ¼ş */
+    /* ä»¥äº•å·ä¿å­˜æ–‡ä»¶ */
     strWell = m_ptCfg->strValue[m_ptShow->nFileName].c_str();
     if (strWell.IsEmpty())
     {
@@ -854,7 +854,7 @@ void  CDrillDlg::GetCurWellFile()
     if ((hFindHandle != INVALID_HANDLE_VALUE))
     {
         GetLongPathName(findData.cFileName, tcsExename, MAX_PATH);
-        /* Ã»ÓĞ³¬¹ıÁ½¸öÔÂ */
+        /* æ²¡æœ‰è¶…è¿‡ä¸¤ä¸ªæœˆ */
         if (TimeValidWell(tcsExename))
         {
             theApp.m_strDataFile = theApp.m_strDataPath + tcsExename;
@@ -864,7 +864,7 @@ void  CDrillDlg::GetCurWellFile()
         /* else */
         while (FindNextFile(hFindHandle, &findData) != 0)
         {
-            /* Ã»ÓĞ³¬¹ıÁ½¸öÔÂ */
+            /* æ²¡æœ‰è¶…è¿‡ä¸¤ä¸ªæœˆ */
             GetLongPathName(findData.cFileName, tcsExename, MAX_PATH);
             if (TimeValidWell(tcsExename))
             {
@@ -874,7 +874,7 @@ void  CDrillDlg::GetCurWellFile()
         }
     }
 
-    /*³¬¹ıÁ½¸öÔÂ£¬»òÕßÃ»ÓĞÕÒµ½ÎÄ¼ş£¬Éú³ÉĞÂÎÄ¼ş*/
+    /*è¶…è¿‡ä¸¤ä¸ªæœˆï¼Œæˆ–è€…æ²¡æœ‰æ‰¾åˆ°æ–‡ä»¶ï¼Œç”Ÿæˆæ–°æ–‡ä»¶*/
     CreateNewWellFile();
 
     return;
@@ -883,10 +883,10 @@ void  CDrillDlg::GetCurWellFile()
 void CDrillDlg::CreateNewWellFile()
 {
     CString strTemp;
-    CTime   time = CTime::GetCurrentTime();//µÃµ½µ±Ç°Ê±¼ä
+    CTime   time = CTime::GetCurrentTime();//å¾—åˆ°å½“å‰æ—¶é—´
     string  strDataFile;
 
-    /* ÒÔ¾®ºÅ±£´æÎÄ¼ş */
+    /* ä»¥äº•å·ä¿å­˜æ–‡ä»¶ */
     strTemp = m_ptCfg->strValue[m_ptShow->nFileName].c_str();
     strDataFile = theApp.m_strDataPath;
     if (!g_tGlbCfg.bDateBehind)
@@ -906,7 +906,7 @@ void CDrillDlg::CreateNewWellFile()
     return;
 }
 
-/* »ñÈ¡µ±Ç°Å¤¾ØµÄĞòºÅ */
+/* è·å–å½“å‰æ‰­çŸ©çš„åºå· */
 void CDrillDlg::GetCurNum()
 {
     CFile   file;
@@ -920,7 +920,7 @@ void CDrillDlg::GetCurNum()
     m_nBOSeqNO = 0;
     m_nMaxOutWellNO = 0;
 
-    /* »ñÈ¡µ±Ç°µÄ¼ÇÂ¼ÎÄ¼ş£¬³¬¹ı60ÌìÉú³ÉĞÂµÄÎÄ¼ş£¬ĞòºÅ¹éÁã */
+    /* è·å–å½“å‰çš„è®°å½•æ–‡ä»¶ï¼Œè¶…è¿‡60å¤©ç”Ÿæˆæ–°çš„æ–‡ä»¶ï¼Œåºå·å½’é›¶ */
     GetCurWellFile();
     file.Open(theApp.m_strDataFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
     if (file.GetLength() != 0)
@@ -929,9 +929,9 @@ void CDrillDlg::GetCurNum()
     }
     file.Close();
 
-    /* ÎÄ¼ş¼ÇÂ¼³¬Á¿£¬Éú³ÉĞÂµÄÎÄ¼ş£¬ĞòºÅ¹éÁã */
+    /* æ–‡ä»¶è®°å½•è¶…é‡ï¼Œç”Ÿæˆæ–°çš„æ–‡ä»¶ï¼Œåºå·å½’é›¶ */
     if (m_nCurNO > MAXWELLNUM)
-        // || m_nCurNO == 0)  ÎªÊ²Ã´Ã¿ÌìÉú³ÉÒ»¸öÊı¾İÎÄ¼ş£¿£¿µÄÔ´Í· 20190927
+        // || m_nCurNO == 0)  ä¸ºä»€ä¹ˆæ¯å¤©ç”Ÿæˆä¸€ä¸ªæ•°æ®æ–‡ä»¶ï¼Ÿï¼Ÿçš„æºå¤´ 20190927
     {
         CreateNewWellFile();
         m_nCurNO = 0;
@@ -941,16 +941,16 @@ void CDrillDlg::GetCurNum()
     {
         iTallyIndex = theApp.GetMainIndex(MAINSHOWTALLY);
 
-        /* ´ÓºóÍùÇ°ÕÒ×îĞÂµÄÈë¾®ĞòºÅ */
+        /* ä»åå¾€å‰æ‰¾æœ€æ–°çš„å…¥äº•åºå· */
         for (i = g_tReadData.nTotal; i > 0; i--)
         {
             ptTorq = &g_tReadData.tData[i - 1];
-            // ²éÕÒ×îºóµÄÈë¾®ĞòºÅ
+            // æŸ¥æ‰¾æœ€åçš„å…¥äº•åºå·
             if (iTallyNO == 0 && iTallyIndex >= 0 && iTallyIndex < ptTorq->tshow_size())
             {
                 iTallyNO = atoi(theApp.GetTorqShowValue(ptTorq, iTallyIndex));
             }
-            // ²éÕÒ×îºóÒ»¸öÎ´Ğ¶¿ÛµÄµçÄÔĞòºÅ
+            // æŸ¥æ‰¾æœ€åä¸€ä¸ªæœªå¸æ‰£çš„ç”µè„‘åºå·
             if (m_nBOSeqNO == 0 && !theApp.HaveBreakout(ptTorq))
                 m_nBOSeqNO = MAX(i, 1);
             if (theApp.HaveBreakout(ptTorq))
@@ -960,29 +960,29 @@ void CDrillDlg::GetCurNum()
         }
     }
 
-    /* ¼ÇÂ¼µ±Ç°ÎÄ¼şÃû¼°ĞòºÅ */
+    /* è®°å½•å½“å‰æ–‡ä»¶ååŠåºå· */
     /*strNumInfo.Format("%s--%d", theApp.m_strDataFile.c_str(), m_nCurNO);
     theApp.SaveMessage(strNumInfo);*/
 
-    // »ñÈ¡µçÄÔĞòºÅºÍÈë¾®ĞòºÅ
+    // è·å–ç”µè„‘åºå·å’Œå…¥äº•åºå·
     m_nCurNO++;
     m_nCurTallyNO = m_nCurNO;
     if (iTallyNO >= 0)
         m_nCurTallyNO = iTallyNO + 1;
     m_strMainValue[MAINSHOWTALLY].Format("%d", m_nCurTallyNO);
 
-    // »ñÈ¡Ä¬ÈÏ³ö¾®µÄµçÄÔĞòºÅºÍÈ¡³öĞòºÅ
+    // è·å–é»˜è®¤å‡ºäº•çš„ç”µè„‘åºå·å’Œå–å‡ºåºå·
     m_nBOSeqNO = MAX(m_nBOSeqNO, 0);
     m_nBOOutWellNO = m_nMaxOutWellNO + 1;
 
     return;
 }
 
-/* ¸ù¾İÔ­Ê¼plusºÍÏÔÊ¾plus£¬¼ÆËãÊı¾İ»­Í¼µÄµãÊı */
-/* 20190126 Âö³å²îÖµÎª¸º£¬ËµÃ÷Ğ¶¿Û½áÊø */
-/* 20200313 20200223 Á½×éÊı¾İ¿ÉÄÜÖØ¸´£¬Âö³åÊı»á±ÈÉÏÒ»×é×îºóÒ»¸öĞ¡£¬Ìø¹ı£¬ËùÒÔm_iOutPoints²»ÄÜÇåÁã
-   Èç¹ûÒì³££¬ÔÚResetDataÖĞÇåÁã
-   20200706 ¹Ì¶¨SAVE_FULLCIR±£´æ£¬¼ÆËãÁ½¸öµãÊıÊı¾İ£¬Ò»¸öÊÇ±£´æµÄ£¬Ò»¸öÊÇÏÔÊ¾µÄ
+/* æ ¹æ®åŸå§‹pluså’Œæ˜¾ç¤ºplusï¼Œè®¡ç®—æ•°æ®ç”»å›¾çš„ç‚¹æ•° */
+/* 20190126 è„‰å†²å·®å€¼ä¸ºè´Ÿï¼Œè¯´æ˜å¸æ‰£ç»“æŸ */
+/* 20200313 20200223 ä¸¤ç»„æ•°æ®å¯èƒ½é‡å¤ï¼Œè„‰å†²æ•°ä¼šæ¯”ä¸Šä¸€ç»„æœ€åä¸€ä¸ªå°ï¼Œè·³è¿‡ï¼Œæ‰€ä»¥m_iOutPointsä¸èƒ½æ¸…é›¶
+   å¦‚æœå¼‚å¸¸ï¼Œåœ¨ResetDataä¸­æ¸…é›¶
+   20200706 å›ºå®šSAVE_FULLCIRä¿å­˜ï¼Œè®¡ç®—ä¸¤ä¸ªç‚¹æ•°æ•°æ®ï¼Œä¸€ä¸ªæ˜¯ä¿å­˜çš„ï¼Œä¸€ä¸ªæ˜¯æ˜¾ç¤ºçš„
    */
 void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
 {
@@ -992,7 +992,7 @@ void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
 
     ASSERT_NULL(ptCollData);
 
-    /* 20191207 µÚÒ»¸öÊı¾İÂö³åÊı±È½Ï´ó£¬ĞŞ¸ÄÏÔÊ¾Âö³åÊıÎªµ±Ç°Âö³å */
+    /* 20191207 ç¬¬ä¸€ä¸ªæ•°æ®è„‰å†²æ•°æ¯”è¾ƒå¤§ï¼Œä¿®æ”¹æ˜¾ç¤ºè„‰å†²æ•°ä¸ºå½“å‰è„‰å†² */
     if (m_iShowPlus == 0 && ptCollData->nOrgPlus > 0)
     {
         m_iShowPlus = ptCollData->nOrgPlus;
@@ -1002,7 +1002,7 @@ void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
     if (iPlus < 0)
     {
         //if(1 == m_iBreakout)
-        //    ptCollData->ucStatus = PLCSTATUS_BREAKOUT;  /* FE:Ğ¶¿Û½áÊø254 */
+        //    ptCollData->ucStatus = PLCSTATUS_BREAKOUT;  /* FE:å¸æ‰£ç»“æŸ254 */
         iPlus = 0;
         //m_iOutPoints = 0;
     }
@@ -1024,19 +1024,19 @@ void CDrillDlg::CalcPointNum(COLLECTDATA* ptCollData, ORGDATA* ptOrgData)
     return;
 }
 
-/* ¶¨Ê±¶ÁÈ¡´®¿ÚÊı¾İ£¬ÔÚ¸´Î»ºÍÔËĞĞ×´Ì¬Ê±µ÷ÓÃ
-   ·µ»ØÖµFALSE£¬×´Ì¬Òì³££¬·µ»ØÊ§°Ü
-         TRUE,ÇÒbDataValidÎªTRUE£¬ Êı¾İOK£¬¼ÌĞø´¦ÀíÊı¾İ
-         TRUE,µ«bDataValidÎªFALSE£¬×´Ì¬Õı³££¬Êı¾İ²»OK£¬²»´¦ÀíÊı¾İ */
+/* å®šæ—¶è¯»å–ä¸²å£æ•°æ®ï¼Œåœ¨å¤ä½å’Œè¿è¡ŒçŠ¶æ€æ—¶è°ƒç”¨
+   è¿”å›å€¼FALSEï¼ŒçŠ¶æ€å¼‚å¸¸ï¼Œè¿”å›å¤±è´¥
+         TRUE,ä¸”bDataValidä¸ºTRUEï¼Œ æ•°æ®OKï¼Œç»§ç»­å¤„ç†æ•°æ®
+         TRUE,ä½†bDataValidä¸ºFALSEï¼ŒçŠ¶æ€æ­£å¸¸ï¼Œæ•°æ®ä¸OKï¼Œä¸å¤„ç†æ•°æ® */
 BOOL CDrillDlg::TimeReadPort(UINT nCurStatus)
 {
     BOOL    bReadRes = FALSE;
     string  strInfo;
-    /* ×´Ì¬Òì³£ */
+    /* çŠ¶æ€å¼‚å¸¸ */
     COMP_BG_R(m_nClashSta, RS_MAX, FALSE);
 
-    /* CLASH ×´Ì¬£¬ÒÑ¾­Çå¿ÕÁË»º³å£¬Ö±½Ó·¢ËÍREADÇëÇó
-       »òÕßÕı³£×´Ì¬£¬»º³åÎª¿ÕµÄÇé¿ö£¬Ö±½Ó·¢ËÍREADÇëÇó */
+    /* CLASH çŠ¶æ€ï¼Œå·²ç»æ¸…ç©ºäº†ç¼“å†²ï¼Œç›´æ¥å‘é€READè¯·æ±‚
+       æˆ–è€…æ­£å¸¸çŠ¶æ€ï¼Œç¼“å†²ä¸ºç©ºçš„æƒ…å†µï¼Œç›´æ¥å‘é€READè¯·æ±‚ */
     m_nClashSta = RS_NORMAL;
 
     if (m_iTorqBreakCnt > 0)
@@ -1047,7 +1047,7 @@ BOOL CDrillDlg::TimeReadPort(UINT nCurStatus)
     bReadRes = SendData(SCMREADMULTI);
     m_iTorqBreakCnt--;
 
-    /* Á¬Ğø5´ÎÃ»ÓĞ¶ÁÈ¡µ½£¬ÉèÖÃ´®¿ÚÎª¹Ø±Õ×´Ì¬ */
+    /* è¿ç»­5æ¬¡æ²¡æœ‰è¯»å–åˆ°ï¼Œè®¾ç½®ä¸²å£ä¸ºå…³é—­çŠ¶æ€ */
     if (m_iTorqBreakCnt <= 0)
     {
         strInfo = string_format("BreakCnt STOP by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
@@ -1066,25 +1066,25 @@ BOOL CDrillDlg::TimeReadPort(UINT nCurStatus)
     if (bReadRes)
         return TRUE;
 
-    /* ·¢ËÍÊı¾İÊ§°Ü£¬ĞèÒª±£´æÒì³£¼ÇÂ¼ */
+    /* å‘é€æ•°æ®å¤±è´¥ï¼Œéœ€è¦ä¿å­˜å¼‚å¸¸è®°å½• */
     theApp.SaveSendFailure(SCMREADMULTI);
 
     return FALSE;
 }
 
-/* Ğ´´®¿ÚÖ®Ç°ÅĞ¶Ï´®¿ÚÈë¶ÓÁĞÊÇ·ñÎª¿Õ£¬Èç·Ç¿ÕĞèÒªClash´¦Àí£¬µÈ´ı¶ÓÁĞ¿ÕºóÔÙĞ´ */
+/* å†™ä¸²å£ä¹‹å‰åˆ¤æ–­ä¸²å£å…¥é˜Ÿåˆ—æ˜¯å¦ä¸ºç©ºï¼Œå¦‚éç©ºéœ€è¦Clashå¤„ç†ï¼Œç­‰å¾…é˜Ÿåˆ—ç©ºåå†å†™ */
 BOOL CDrillDlg::PortQueIsEmpty()
 {
     return TRUE;
 #if 0
-    /* Õı³£×´Ì¬£¬ÅĞ¶Ï»º³åÊÇ·ñÎª¿Õ */
+    /* æ­£å¸¸çŠ¶æ€ï¼Œåˆ¤æ–­ç¼“å†²æ˜¯å¦ä¸ºç©º */
     ASSERT_NULL_R(g_lpNewComThread, FALSE);
 
     return g_lpNewComThread->InQueIsEmpty();
 #endif
 }
 
-/* Èç¹ûÊ±¼äĞ¡ÓÚ¶ÁÈ¡Ê±¼ä¼ä¸ô£¬·µ»ØÊ§°Ü */
+/* å¦‚æœæ—¶é—´å°äºè¯»å–æ—¶é—´é—´éš”ï¼Œè¿”å›å¤±è´¥ */
 BOOL CDrillDlg::CheckReadInterval()
 {
     double  fCurTime = 0;
@@ -1102,8 +1102,8 @@ BOOL CDrillDlg::CheckReadInterval()
     return FALSE;
 }
 
-/* ÓĞĞ§Êı¾İµÄ³¤¶ÈÓ¦¸Ã´óÓÚ12£¬ÓĞ³¤¶ÈÎª24µÄÊı¾İ£¬Ò²¿ÉÒÔ¾¡¿ÉÄÜÈ¡³öÒ»ÌõÀ´£¬
-   µ«ÊÇÇ°12¸öÊı¾İÍ¨¹ıCRCĞ£Ñé£¬Ôòµ±×öÆÕÍ¨Êı¾İ´¦Àí£¬µ÷ÊÔ¿ª¹Ø´ò¿ªÊ±Ò²½«Ô­Ê¼Êı¾İ±£´æÏÂÀ´ */
+/* æœ‰æ•ˆæ•°æ®çš„é•¿åº¦åº”è¯¥å¤§äº12ï¼Œæœ‰é•¿åº¦ä¸º24çš„æ•°æ®ï¼Œä¹Ÿå¯ä»¥å°½å¯èƒ½å–å‡ºä¸€æ¡æ¥ï¼Œ
+   ä½†æ˜¯å‰12ä¸ªæ•°æ®é€šè¿‡CRCæ ¡éªŒï¼Œåˆ™å½“åšæ™®é€šæ•°æ®å¤„ç†ï¼Œè°ƒè¯•å¼€å…³æ‰“å¼€æ—¶ä¹Ÿå°†åŸå§‹æ•°æ®ä¿å­˜ä¸‹æ¥ */
 BOOL CDrillDlg::CheckDataValid()
 {
     int     i = 0;
@@ -1113,18 +1113,18 @@ BOOL CDrillDlg::CheckDataValid()
     if (m_wRcvLen == 0)
         return FALSE;
 
-    /* ¼ìÑé³¤¶È */
+    /* æ£€éªŒé•¿åº¦ */
     bValid &= (m_wRcvLen >= PORT_VALIDLEN);
-    /* ¼ìÑé´®¿ÚºÅ */
+    /* æ£€éªŒä¸²å£å· */
     bValid &= (m_ucRcvByte[0] == PORT485);
-    /* ¼ìÑéÊı¾İÓĞĞ§ĞÔ */
+    /* æ£€éªŒæ•°æ®æœ‰æ•ˆæ€§ */
     if (m_ucRcvByte[3] == COM_READ)
     {
         for (i = 0; i < PORT_SUMPLACE; i++)
             ucSCMRejust += m_ucRcvByte[i];
         bValid &= (ucSCMRejust == m_ucRcvByte[PORT_SUMPLACE]);
     }
-    /* Ôİ²»Ğ£ÑéCRC */
+    /* æš‚ä¸æ ¡éªŒCRC */
     else if (m_ucRcvByte[3] == COM_READMULTI)
     {
         /*for(i=0; i<m_wRcvLen-1; i++)
@@ -1141,7 +1141,7 @@ BOOL CDrillDlg::CheckDataValid()
 }
 
 /*  m_nTestFunc = 0(COLL_PORT)
-    Êµ¼Ê¶ÁÈ¡´®¿ÚµÄÊı¾İ£¬ĞèÒªÅĞ¶ÏµÚÒ»¸öÊı¾İÎªPORT485£¬·ñÔòÎªÎŞĞ§Êı¾İ
+    å®é™…è¯»å–ä¸²å£çš„æ•°æ®ï¼Œéœ€è¦åˆ¤æ–­ç¬¬ä¸€ä¸ªæ•°æ®ä¸ºPORT485ï¼Œå¦åˆ™ä¸ºæ— æ•ˆæ•°æ®
 */
 BOOL CDrillDlg::CollectPort(COLLECTDATA* ptCollData)
 {
@@ -1157,14 +1157,14 @@ BOOL CDrillDlg::CollectPort(COLLECTDATA* ptCollData)
 
     //m_iReadTimes++;
 
-    /* Èç¹ûÊ±¼äĞ¡Ğ´¶ÁÈ¡Ê±¼ä¼ä¸ô£¬·µ»ØÊ§°Ü */
+    /* å¦‚æœæ—¶é—´å°å†™è¯»å–æ—¶é—´é—´éš”ï¼Œè¿”å›å¤±è´¥ */
     COMP_BFALSE_R(CheckReadInterval(), FALSE);
 #ifndef TESTPORT
-    /* ¶ÁÈ¡Êı¾İÊ§°Ü£¬·µ»Ø */
+    /* è¯»å–æ•°æ®å¤±è´¥ï¼Œè¿”å› */
     COMP_BFALSE_R(TimeReadPort(RS_READ_NORMAL), FALSE);
-    /* bRead && bData, ÍùÏÂ´¦ÀíÊı¾İ */
-    /* ÓĞĞ§Êı¾İµÄ³¤¶ÈÓ¦¸Ã´óÓÚ12£¬ÓĞ³¤¶ÈÎª24µÄÊı¾İ£¬Ò²¿ÉÒÔ¾¡¿ÉÄÜÈ¡³öÒ»ÌõÀ´£¬
-       µ«ÊÇÇ°12¸öÊı¾İÍ¨¹ıCRCĞ£Ñé£¬Ôòµ±×öÆÕÍ¨Êı¾İ´¦Àí£¬µ÷ÊÔ¿ª¹Ø´ò¿ªÊ±Ò²½«Ô­Ê¼Êı¾İ±£´æÏÂÀ´ */
+    /* bRead && bData, å¾€ä¸‹å¤„ç†æ•°æ® */
+    /* æœ‰æ•ˆæ•°æ®çš„é•¿åº¦åº”è¯¥å¤§äº12ï¼Œæœ‰é•¿åº¦ä¸º24çš„æ•°æ®ï¼Œä¹Ÿå¯ä»¥å°½å¯èƒ½å–å‡ºä¸€æ¡æ¥ï¼Œ
+       ä½†æ˜¯å‰12ä¸ªæ•°æ®é€šè¿‡CRCæ ¡éªŒï¼Œåˆ™å½“åšæ™®é€šæ•°æ®å¤„ç†ï¼Œè°ƒè¯•å¼€å…³æ‰“å¼€æ—¶ä¹Ÿå°†åŸå§‹æ•°æ®ä¿å­˜ä¸‹æ¥ */
        //COMP_BFALSE_R(CheckDataValid(), FALSE);
 #else
     memcpy(m_ucRcvByte, ucTest, 30);
@@ -1175,8 +1175,8 @@ BOOL CDrillDlg::CollectPort(COLLECTDATA* ptCollData)
 }
 
 /*  m_nTestFunc = (COLL_RAND)1
-    RunÊ±Ëæ»úÉú³ÉµÄÊı¾İ£¬¼ÒÀï³ÌĞòÉÏÎ»»ú²âÊÔÊ¹ÓÃ
-    RunÒ»´ÎËùÓĞÊı¾İ¶¼Ò»Ñù£¬StopºóÔÙËæ»úÉú³ÉÒ»´Î
+    Runæ—¶éšæœºç”Ÿæˆçš„æ•°æ®ï¼Œå®¶é‡Œç¨‹åºä¸Šä½æœºæµ‹è¯•ä½¿ç”¨
+    Runä¸€æ¬¡æ‰€æœ‰æ•°æ®éƒ½ä¸€æ ·ï¼ŒStopåå†éšæœºç”Ÿæˆä¸€æ¬¡
 */
 BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
 {
@@ -1188,7 +1188,7 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
     ptCollData->fTorque = m_fTestTorq[m_iTest];
     ptCollData->nOrgPlus = m_iTestPlus[m_iTest++];
 
-    /* ¸ù¾İPlus¼ÆËãÊı¾İµÄµãÊı */
+    /* æ ¹æ®Plusè®¡ç®—æ•°æ®çš„ç‚¹æ•° */
     CalcPointNum(ptCollData, NULL);
     if (0 == m_iBreakOut)
     {
@@ -1197,7 +1197,7 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
         {
             ptCollData->ucStatus = PLCSTATUS_LOCKON;
 
-            /* ´®¿ÚÊı¾İÖØĞÂ³õÊ¼»¯ */
+            /* ä¸²å£æ•°æ®é‡æ–°åˆå§‹åŒ– */
             RunInitRand();
         }
     }
@@ -1208,18 +1208,18 @@ BOOL CDrillDlg::CollectRandData(COLLECTDATA* ptCollData)
         m_iTest = 0;
     }
 
-    /* µ÷ÊÔÏÔÊ¾Ëæ»úÊı¾İ */
+    /* è°ƒè¯•æ˜¾ç¤ºéšæœºæ•°æ® */
     m_strRecvData.Format("%.1f,%ld,%d", ptCollData->fTorque / SHOWTORQUEUNIT, ptCollData->nOrgPlus, ptCollData->ucStatus);
 
-    /*300±àÂëÆ÷£¬×ªËÙÌ«¿ì£¬³ı2½µ1±¶*/
+    /*300ç¼–ç å™¨ï¼Œè½¬é€Ÿå¤ªå¿«ï¼Œé™¤2é™1å€*/
     ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
 
     return TRUE;
 }
 
 /*  m_nTestFunc = (COLL_TORQUE)2
-    ¶ÁAutoSaveÅ¤¾ØÊı¾İ£¬²¢ÏÔÊ¾
-    ¹¦ÄÜÎª»ñÈ¡ÏÖ³¡²âÊÔ±£´æµÄÊı¾İ£¬¸´ÏÖÏÖ³¡µÄÍ¼ĞÎ
+    è¯»AutoSaveæ‰­çŸ©æ•°æ®ï¼Œå¹¶æ˜¾ç¤º
+    åŠŸèƒ½ä¸ºè·å–ç°åœºæµ‹è¯•ä¿å­˜çš„æ•°æ®ï¼Œå¤ç°ç°åœºçš„å›¾å½¢
 */
 BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
 {
@@ -1231,7 +1231,7 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
     char* endptr = NULL;
     char    acData[3 * PORT_MAXVLDDATA + 1] = { 0 };
     BYTE    ucByte[PORT_MAXVLDDATA] = { 0 };  //{0x12,0x34,0x56,0x78};
-    /* ´®¿Ú»ñÈ¡µÄÔ­Ê¼ÓĞĞ§Êı¾İºÍ¼ÆËãµÄÅ¤¾ØµÈĞÅÏ¢ */
+    /* ä¸²å£è·å–çš„åŸå§‹æœ‰æ•ˆæ•°æ®å’Œè®¡ç®—çš„æ‰­çŸ©ç­‰ä¿¡æ¯ */
     ORGDATA tOrgData = { 0 };
     double  fShowTorq = 0;
     int     iOrgTorq = 0;
@@ -1244,29 +1244,29 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
     ASSERT_NULL_R(ptCollData, FALSE);
     COMP_BFALSE_R(m_bAutoFileOpen, FALSE);
 
-    /* ¶ÁÈ¡ºÜ¶àÎŞĞ§ÖµÊ±£¬¿ÉÄÜ»á³¤Ê±¼äÑ­»·£¬ÉèÖÃÂ©¶·Êó±ê */
+    /* è¯»å–å¾ˆå¤šæ— æ•ˆå€¼æ—¶ï¼Œå¯èƒ½ä¼šé•¿æ—¶é—´å¾ªç¯ï¼Œè®¾ç½®æ¼æ–—é¼ æ ‡ */
     BeginWaitCursor();
 
     while (!bValidData)
     {
         bReadData = m_AutoSavefile.ReadString(strTest);
-        /*Êı¾İ¶ÁÍê£¬µ÷ÓÃOnBtrunÍ£Ö¹*/
+        /*æ•°æ®è¯»å®Œï¼Œè°ƒç”¨OnBtrunåœæ­¢*/
         if (!bReadData)
         {
             OnBtrun();
             return FALSE;
         }
 
-        /*µ÷ÊÔĞÅÏ¢£¬Ö±½ÓÌø¹ı*/
+        /*è°ƒè¯•ä¿¡æ¯ï¼Œç›´æ¥è·³è¿‡*/
         COMP_BTRUE_CONTINUE(theApp.IsDebugInfo(strTest.GetBuffer(0)));
 
-        /* Ğ¡ÓÚÓĞĞ§³¤¶ÈµÄÊı¾İ£¬Ìø¹ı */
+        /* å°äºæœ‰æ•ˆé•¿åº¦çš„æ•°æ®ï¼Œè·³è¿‡ */
         COMP_BTRUE_CONTINUE(strTest.GetLength() < (ORG_DATAPLACE + ORG_PRNDATALEN));
 
-        /*»ñÈ¡Êı¾İ£¬È¥µôÇ°ÃæµÄÊ±¼äĞÅÏ¢*/
+        /*è·å–æ•°æ®ï¼Œå»æ‰å‰é¢çš„æ—¶é—´ä¿¡æ¯*/
         strTime = strTest.Left(ORG_PRNTIMELEN);
 
-        /* ¸ù¾İ " T " ÕÒµ½Ç°ÃæµÄÓĞĞ§Êı¾İ */
+        /* æ ¹æ® " T " æ‰¾åˆ°å‰é¢çš„æœ‰æ•ˆæ•°æ® */
         iDataLen = strTest.Find("T ") - ORG_DATAPLACE;
         if (iDataLen < 3 * PORT_DATALEN || iDataLen % 3 != 0)
             continue;
@@ -1278,20 +1278,20 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
         for (i = 0; i < iDataLen; i++)
             ucByte[i] = (BYTE)strtol(&acData[i * 3], &endptr, 16);
 
-        /* ´¦ÀíÓĞĞ§Êı¾İ */
+        /* å¤„ç†æœ‰æ•ˆæ•°æ® */
         bValidData = TRUE;
         memcpy(tOrgData.ucRcvByte, &ucByte, PORT_DATALEN);
         iOrgTorq = ucByte[0] * 256 + ucByte[1];
         ptCollData->ucStatus = (ucByte[2] & 0xE0) / 32;
         ptCollData->nOrgPlus = ((ucByte[2] & 0x1F) * 256 + ucByte[3]) * 4;
-        fRpm = ucByte[5] * 256 + ucByte[6];  // 200ms Âö³åÊı
-        /* ÆæÅ¼´¦ÀíĞèÒªÊ¹ÓÃÔ´Å¤¾Ø£¬Òò´Ë10±¶·Åµ½ÏÂÃæÏà³Ë */
-        /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+        fRpm = ucByte[5] * 256 + ucByte[6];  // 200ms è„‰å†²æ•°
+        /* å¥‡å¶å¤„ç†éœ€è¦ä½¿ç”¨æºæ‰­çŸ©ï¼Œå› æ­¤10å€æ”¾åˆ°ä¸‹é¢ç›¸ä¹˜ */
+        /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
         if (!ClearExcepTorq(iOrgTorq, iTorque))
             ptCollData->ucStatus = PLCSTATUS_REVERSE;
         // ptCollData->fTorque  = iTorque * theApp.m_nTorqMulti;
         fShowTorq = iTorque * theApp.m_nTorqMulti;
-        /* 20220215 ´¦ÀíÎ´´òÕÛµÄÊı¾İ ==> ¶ÔÆëPLC´òÕÛ´¦Àí */
+        /* 20220215 å¤„ç†æœªæ‰“æŠ˜çš„æ•°æ® ==> å¯¹é½PLCæ‰“æŠ˜å¤„ç† */
         ptCollData->fTorque = (int)OverTorqOpt(fShowTorq, ptCollData->ucStatus);
 
         if (iDataLen >= PORT_DATALEN + 2)
@@ -1302,30 +1302,30 @@ BOOL CDrillDlg::CollectTorqData(COLLECTDATA* ptCollData)
 
     EndWaitCursor();
 
-    /* Õı³£Êı¾İ±£´æ */
+    /* æ­£å¸¸æ•°æ®ä¿å­˜ */
     tOrgData.ucStatus = ptCollData->ucStatus;
     tOrgData.nTorque = (UINT)ptCollData->fTorque;
     tOrgData.nPlus = ptCollData->nOrgPlus;
 
-    /* ¸ù¾İPlus¼ÆËãÊı¾İµÄµãÊı */
+    /* æ ¹æ®Plusè®¡ç®—æ•°æ®çš„ç‚¹æ•° */
     CalcPointNum(ptCollData, &tOrgData);
 
-    /* 300±àÂëÆ÷£¬×ªËÙÌ«¿ì£¬³ım_fRpmAdj½µËÙ¶È */
+    /* 300ç¼–ç å™¨ï¼Œè½¬é€Ÿå¤ªå¿«ï¼Œé™¤m_fRpmAdjé™é€Ÿåº¦ */
     if (fRpm == 0)
         tOrgData.fRpm = ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
     else
         tOrgData.fRpm = ptCollData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
 
-    /* µ÷ÊÔÏÔÊ¾½ÓÊÕµ½µÄÓĞĞ§Êı¾İ */
+    /* è°ƒè¯•æ˜¾ç¤ºæ¥æ”¶åˆ°çš„æœ‰æ•ˆæ•°æ® */
     m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptCollData->fTorque / SHOWTORQUEUNIT, ptCollData->nOrgPlus, ptCollData->ucStatus, ptCollData->fRpm, strTime);
 
     return TRUE;
 }
 
 /*  m_nTestFunc = (COLL_MULTITORQ)3
-    ¶ÁAutoSaveÅ¤¾ØÊı¾İ£¬²¢ÏÔÊ¾
-    ¹¦ÄÜÎª»ñÈ¡ÏÖ³¡²âÊÔ±£´æµÄÊı¾İ£¬¸´ÏÖÏÖ³¡µÄÍ¼ĞÎ
-    ¶ÁÈ¡¶à×éÊı¾İ
+    è¯»AutoSaveæ‰­çŸ©æ•°æ®ï¼Œå¹¶æ˜¾ç¤º
+    åŠŸèƒ½ä¸ºè·å–ç°åœºæµ‹è¯•ä¿å­˜çš„æ•°æ®ï¼Œå¤ç°ç°åœºçš„å›¾å½¢
+    è¯»å–å¤šç»„æ•°æ®
     20:40:26.627 : ff 15 00 62 00 ff 05 00 52 21 17 00 7e 21 26 00 8c 21 35 00 9c 21 47 00 a2 21 54 08
 */
 BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
@@ -1337,7 +1337,7 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
     BYTE* pucData = NULL;
     char    acData[150] = { 0 };
     BYTE    ucByte[50] = { 0 };  //{0x12,0x34,0x56,0x78};
-    /* ´®¿Ú»ñÈ¡µÄÔ­Ê¼ÓĞĞ§Êı¾İºÍ¼ÆËãµÄÅ¤¾ØµÈĞÅÏ¢ */
+    /* ä¸²å£è·å–çš„åŸå§‹æœ‰æ•ˆæ•°æ®å’Œè®¡ç®—çš„æ‰­çŸ©ç­‰ä¿¡æ¯ */
     int     iOrgTorq = 0;
     int     iTorque = 0;
     BYTE    nDataNum = 0;
@@ -1354,26 +1354,26 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
 
     ptOrgData = ptCollData;
 
-    /* ¶ÁÈ¡ºÜ¶àÎŞĞ§ÖµÊ±£¬¿ÉÄÜ»á³¤Ê±¼äÑ­»·£¬ÉèÖÃÂ©¶·Êó±ê */
+    /* è¯»å–å¾ˆå¤šæ— æ•ˆå€¼æ—¶ï¼Œå¯èƒ½ä¼šé•¿æ—¶é—´å¾ªç¯ï¼Œè®¾ç½®æ¼æ–—é¼ æ ‡ */
     BeginWaitCursor();
 
     while (!bValidData)
     {
         bReadData = m_AutoSavefile.ReadString(strTest);
-        /*Êı¾İ¶ÁÍê£¬µ÷ÓÃOnBtrunÍ£Ö¹*/
+        /*æ•°æ®è¯»å®Œï¼Œè°ƒç”¨OnBtrunåœæ­¢*/
         if (!bReadData)
         {
             OnBtrun();
             return FALSE;
         }
 
-        /*µ÷ÊÔĞÅÏ¢£¬Ö±½ÓÌø¹ı*/
+        /*è°ƒè¯•ä¿¡æ¯ï¼Œç›´æ¥è·³è¿‡*/
         COMP_BTRUE_CONTINUE(theApp.IsDebugInfo(strTest.GetBuffer(0)));
 
-        /* Ğ¡ÓÚÓĞĞ§³¤¶ÈµÄÊı¾İ£¬Ìø¹ı */
+        /* å°äºæœ‰æ•ˆé•¿åº¦çš„æ•°æ®ï¼Œè·³è¿‡ */
         COMP_BTRUE_CONTINUE(strTest.GetLength() < (ORG_DATAPLACE + 33));
 
-        /*»ñÈ¡Êı¾İ£¬È¥µôÇ°ÃæµÄÊ±¼äĞÅÏ¢*/
+        /*è·å–æ•°æ®ï¼Œå»æ‰å‰é¢çš„æ—¶é—´ä¿¡æ¯*/
         strTime = strTest.Left(ORG_PRNTIMELEN);
 
         iDataLen = strTest.GetLength() - ORG_DATAPLACE + 1;
@@ -1386,7 +1386,7 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
         if (ucByte[0] != 0xFF || ucByte[1] != COM_READMULTI)
             continue;
 
-        /* ´¦ÀíÓĞĞ§Êı¾İ */
+        /* å¤„ç†æœ‰æ•ˆæ•°æ® */
         bValidData = TRUE;
     }
 
@@ -1394,7 +1394,7 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
 
     LightValveStatus(&ucByte[4]);
 
-    fRpm = ucByte[2] * 256 + ucByte[3];  // 200ms Âö³åÊı
+    fRpm = ucByte[2] * 256 + ucByte[3];  // 200ms è„‰å†²æ•°
 
     nDataNum = ucByte[6];
     pucData = &ucByte[7];
@@ -1407,30 +1407,30 @@ BOOL CDrillDlg::CollectMultiTorq(COLLECTDATA* ptCollData)
         ptOrgData->ucStatus = (*(pucData + 2) & 0xE0) / 32;
         ptOrgData->nOrgPlus = ((*(pucData + 2) & 0x1F) * 256 + *(pucData + 3)) * 4;
         ptOrgData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
-        /* ÆæÅ¼´¦ÀíĞèÒªÊ¹ÓÃÔ´Å¤¾Ø£¬Òò´Ë10±¶·Åµ½ÏÂÃæÏà³Ë */
+        /* å¥‡å¶å¤„ç†éœ€è¦ä½¿ç”¨æºæ‰­çŸ©ï¼Œå› æ­¤10å€æ”¾åˆ°ä¸‹é¢ç›¸ä¹˜ */
         if (!ClearExcepTorq(iOrgTorq, iTorque))
             ptCollData->ucStatus = PLCSTATUS_REVERSE;
         //ptOrgData->fTorque  = iTorque * theApp.m_nTorqMulti;
         fShowTorq = iTorque * theApp.m_nTorqMulti;
-        /* 20220215 ´¦ÀíÎ´´òÕÛµÄÊı¾İ ==> ¶ÔÆëPLC´òÕÛ´¦Àí */
+        /* 20220215 å¤„ç†æœªæ‰“æŠ˜çš„æ•°æ® ==> å¯¹é½PLCæ‰“æŠ˜å¤„ç† */
         ptOrgData->fTorque = (int)OverTorqOpt(fShowTorq, ptCollData->ucStatus);
 
-        /* ¸ù¾İPlus¼ÆËãÊı¾İµÄµãÊı */
+        /* æ ¹æ®Plusè®¡ç®—æ•°æ®çš„ç‚¹æ•° */
         CalcPointNum(ptOrgData, NULL);
 
         ptOrgData++;
         pucData += 4;
     }
 
-    /* µ÷ÊÔÏÔÊ¾½ÓÊÕµ½µÄÓĞĞ§Êı¾İ */
+    /* è°ƒè¯•æ˜¾ç¤ºæ¥æ”¶åˆ°çš„æœ‰æ•ˆæ•°æ® */
     ptOrgData = &ptCollData[nDataNum - 1];
     m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptOrgData->fTorque / SHOWTORQUEUNIT, ptOrgData->nOrgPlus, ptOrgData->ucStatus, ptOrgData->fRpm, strTime);
     return TRUE;
 }
 
 /*  m_nTestFunc = 4
-    ¶ÁAutoSave CollectÊı¾İ£¬²¢ÏÔÊ¾
-    ÓÉDlgCollectµ÷ÓÃ
+    è¯»AutoSave Collectæ•°æ®ï¼Œå¹¶æ˜¾ç¤º
+    ç”±DlgCollectè°ƒç”¨
 */
 BOOL CDrillDlg::CollectHisData()
 {
@@ -1449,12 +1449,12 @@ BOOL CDrillDlg::CollectHisData()
     ucTemp[0] = '0';
     ucTemp[1] = 'X';
 
-    /* ¶ÁÈ¡ºÜ¶àÎŞĞ§ÖµÊ±£¬¿ÉÄÜ»á³¤Ê±¼äÑ­»·£¬ÉèÖÃÂ©¶·Êó±ê */
+    /* è¯»å–å¾ˆå¤šæ— æ•ˆå€¼æ—¶ï¼Œå¯èƒ½ä¼šé•¿æ—¶é—´å¾ªç¯ï¼Œè®¾ç½®æ¼æ–—é¼ æ ‡ */
     BeginWaitCursor();
     while (!bValidData)
     {
         bReadData = m_AutoSavefile.ReadString(strTest);
-        /* Êı¾İ¶ÁÍê·µ»Ø */
+        /* æ•°æ®è¯»å®Œè¿”å› */
         if (!bReadData)
         {
             m_AutoSavefile.Close();
@@ -1462,17 +1462,17 @@ BOOL CDrillDlg::CollectHisData()
             return FALSE;
         }
 
-        /* ·ÇCOLĞÅÏ¢£¬Ö±½ÓÌø¹ı */
+        /* éCOLä¿¡æ¯ï¼Œç›´æ¥è·³è¿‡ */
         iPlace = strTest.Find(theApp.m_strDbgHead[DBG_COLLECT]);
         COMP_BTRUE_CONTINUE(iPlace == -1);
 
-        /* ÕÒµ½ÓĞĞ§Êı¾İÎ»ÖÃ */
+        /* æ‰¾åˆ°æœ‰æ•ˆæ•°æ®ä½ç½® */
         iPlace = strTest.Find(") ");
         COMP_BTRUE_CONTINUE(iPlace == -1);
 
         for (i = iPlace + 2; i < strTest.GetLength(); i++)
         {
-            /* Ò»¸öÊı×ÖĞÎÈç"21 "£¬ºóÃæÓĞÒ»¸ö¿Õ¸ñ£¬¿Õ¸ñÓÉforÑ­»·µÄi×Ô¼ºÀÛ¼Ó */
+            /* ä¸€ä¸ªæ•°å­—å½¢å¦‚"21 "ï¼Œåé¢æœ‰ä¸€ä¸ªç©ºæ ¼ï¼Œç©ºæ ¼ç”±forå¾ªç¯çš„iè‡ªå·±ç´¯åŠ  */
             ucTemp[2] = strTest.GetAt(i++);
             ucTemp[3] = strTest.GetAt(i++);
             ucTemp[4] = 0;
@@ -1492,11 +1492,11 @@ BOOL CDrillDlg::ValidStatus3(COLLECTDATA* ptCollData)
 {
     ASSERT_NULL_R(ptCollData, FALSE);
 
-    /* Ç°ÃæÓĞÓĞĞ§µÄÊı¾İ£¬ ×´Ì¬3ÓĞĞ§ */
+    /* å‰é¢æœ‰æœ‰æ•ˆçš„æ•°æ®ï¼Œ çŠ¶æ€3æœ‰æ•ˆ */
     COMP_BG_R(m_tCollData.nAllCount, 1, TRUE);
 
-    /* Ç°Ò»´ÎµÄÊı¾İÈç¹ûÎŞĞ§£¨ÎŞĞ§»áÇå³ı£¬Ò»°ãÎª0£©£¬ÂíÉÏ³öÏÖ×´Ì¬3£¬ÎªÎŞĞ§µÄ×´Ì¬3
-       ĞèÒª¸üĞÂShowPlus£¬·ñÔò×ªËÙ»áºÜ´ó */
+    /* å‰ä¸€æ¬¡çš„æ•°æ®å¦‚æœæ— æ•ˆï¼ˆæ— æ•ˆä¼šæ¸…é™¤ï¼Œä¸€èˆ¬ä¸º0ï¼‰ï¼Œé©¬ä¸Šå‡ºç°çŠ¶æ€3ï¼Œä¸ºæ— æ•ˆçš„çŠ¶æ€3
+       éœ€è¦æ›´æ–°ShowPlusï¼Œå¦åˆ™è½¬é€Ÿä¼šå¾ˆå¤§ */
     COMP_BG_R(m_fOutTorque, m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW], TRUE);
 
     ReStart();
@@ -1504,7 +1504,7 @@ BOOL CDrillDlg::ValidStatus3(COLLECTDATA* ptCollData)
     return FALSE;
 }
 
-/* ÏÂÎ»»úÉÏ±¨×´Ì¬3µÄ´¦Àí */
+/* ä¸‹ä½æœºä¸ŠæŠ¥çŠ¶æ€3çš„å¤„ç† */
 BOOL CDrillDlg::Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
 {
     static int  iPreTorq = 0;
@@ -1512,7 +1512,7 @@ BOOL CDrillDlg::Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     ASSERT_NULL_R(pFinish, FALSE);
     ASSERT_NULL_R(ptCollData, FALSE);
 
-    /* 20140211 ±£´æÒ»¸öÊı¾İºó£¬Èç¹ûÂíÉÏ³öÏÖ×´Ì¬3£¬ÔòÊÇ»º´æÖĞµÄÀ¬»øÊı¾İ£¬Ö±½ÓÉ¾³ı */
+    /* 20140211 ä¿å­˜ä¸€ä¸ªæ•°æ®åï¼Œå¦‚æœé©¬ä¸Šå‡ºç°çŠ¶æ€3ï¼Œåˆ™æ˜¯ç¼“å­˜ä¸­çš„åƒåœ¾æ•°æ®ï¼Œç›´æ¥åˆ é™¤ */
     COMP_BFALSE_R(ValidStatus3(ptCollData), FALSE);
 
     m_nCurDelay++;
@@ -1532,14 +1532,14 @@ BOOL CDrillDlg::Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     }
     else
     {
-        // Å¤¾ØÃ»ÓĞ±ä»¯£¬Ö±½Ó·µ»Ø
-        // 20200315 Ç°Ò»¸öÅ¤¾Ø¿ÉÄÜ±Èµ±Ç°Å¤¾Ø´ó£¬ÉÏÒ»´ÎÊı¾İ×´Ì¬3ºó³å¸ß£¬Õâ´ÎÖØ¸´ÉÏ´ÎÊı¾İ
+        // æ‰­çŸ©æ²¡æœ‰å˜åŒ–ï¼Œç›´æ¥è¿”å›
+        // 20200315 å‰ä¸€ä¸ªæ‰­çŸ©å¯èƒ½æ¯”å½“å‰æ‰­çŸ©å¤§ï¼Œä¸Šä¸€æ¬¡æ•°æ®çŠ¶æ€3åå†²é«˜ï¼Œè¿™æ¬¡é‡å¤ä¸Šæ¬¡æ•°æ®
         if (iPreTorq >= ptCollData->fTorque)
         {
             ptCollData->ucStatus = PLCSTATUS_REPEAT;
             return TRUE;
         }
-        // ÖÁÉÙ²åÈëÒ»¸öµã
+        // è‡³å°‘æ’å…¥ä¸€ä¸ªç‚¹
         iPreTorq = (int)ptCollData->fTorque;
         if (ptCollData->iPointNum == 0)
             ptCollData->iPointNum = 1;
@@ -1548,7 +1548,7 @@ BOOL CDrillDlg::Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     return TRUE;
 }
 
-/* ÏÂÎ»»úÉÏ±¨×´Ì¬4µÄ´¦Àí */
+/* ä¸‹ä½æœºä¸ŠæŠ¥çŠ¶æ€4çš„å¤„ç† */
 BOOL CDrillDlg::Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
 {
     ASSERT_NULL_R(ptCollData, FALSE);
@@ -1558,7 +1558,7 @@ BOOL CDrillDlg::Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     {
         ZeroPointUpdateData(ptCollData, FALSE);
     }
-    /* ²åÈëÊı¾İ(°üÀ¨¹¹Ôì¶à¸öÊı¾İ) */
+    /* æ’å…¥æ•°æ®(åŒ…æ‹¬æ„é€ å¤šä¸ªæ•°æ®) */
     else
     {
         MorePointInsertData(ptCollData, FALSE);
@@ -1568,11 +1568,11 @@ BOOL CDrillDlg::Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     return TRUE;
 }
 
-/* Ğ¶¿Û°æ±¾£¬Âö³åÊı·´×ª£¬ÉèÖÃ×´Ì¬Îª254 */
+/* å¸æ‰£ç‰ˆæœ¬ï¼Œè„‰å†²æ•°åè½¬ï¼Œè®¾ç½®çŠ¶æ€ä¸º254 */
 BOOL CDrillDlg::Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
 {
-    double  fPreTorque = 0;    /* Ç°Ò»´ÎÅ¤¾Ø£¬PointNum > 1Ê±¼ÆËãÊı¾İ */
-    double  fPreRpm = 0;    /* Ç°Ò»´Î×ªËÙ */
+    double  fPreTorque = 0;    /* å‰ä¸€æ¬¡æ‰­çŸ©ï¼ŒPointNum > 1æ—¶è®¡ç®—æ•°æ® */
+    double  fPreRpm = 0;    /* å‰ä¸€æ¬¡è½¬é€Ÿ */
 
     ASSERT_NULL_R(ptCollData, FALSE);
     ASSERT_NULL_R(pFinish, FALSE);
@@ -1582,7 +1582,7 @@ BOOL CDrillDlg::Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     fPreTorque = m_tCollData.fTorque[m_tCollData.nAllCount - 1];
     fPreRpm = m_tCollData.fRpm[m_tCollData.nAllCount - 1];
 
-    /* ²åÈë×´Ì¬254µÄÊı¾İÔİÊ±Ö»¿¼ÂÇ²åÈëÒ»¸öÊı¾İ,ÔÚFinish¿ØÖÆÊ±²åÈëÇÒ½«bLastPointÖÃÎªTRUE */
+    /* æ’å…¥çŠ¶æ€254çš„æ•°æ®æš‚æ—¶åªè€ƒè™‘æ’å…¥ä¸€ä¸ªæ•°æ®,åœ¨Finishæ§åˆ¶æ—¶æ’å…¥ä¸”å°†bLastPointç½®ä¸ºTRUE */
     INSERT_DATA(fPreTorque, fPreRpm, FALSE);
 
     m_wndTorque.UpdatePos(fPreTorque);
@@ -1595,13 +1595,13 @@ BOOL CDrillDlg::Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish)
     return TRUE;
 }
 
-/* ÊÕ¼¯µ½µÄÊı¾İÂö³åÃ»ÓĞ±ä»¯£¬Ö»¸üĞÂÅ¤¾Ø */
+/* æ”¶é›†åˆ°çš„æ•°æ®è„‰å†²æ²¡æœ‰å˜åŒ–ï¼Œåªæ›´æ–°æ‰­çŸ© */
 void CDrillDlg::ZeroPointUpdateData(COLLECTDATA* ptCollData, BOOL bFinish)
 {
     ASSERT_NULL(ptCollData);
 
-    /* µÚÒ»¸öÊı¾İ»áÔÚZeroÖĞ´¦Àí£¬¼ÇÂ¼fOutTorque£¬OutPointNumÎª1
-       µÚ¶ş¸öÊı¾İÊ±£¬»áÔÚMoreÖĞ¸üĞÂµ½½á¹¹ÖĞ */
+    /* ç¬¬ä¸€ä¸ªæ•°æ®ä¼šåœ¨Zeroä¸­å¤„ç†ï¼Œè®°å½•fOutTorqueï¼ŒOutPointNumä¸º1
+       ç¬¬äºŒä¸ªæ•°æ®æ—¶ï¼Œä¼šåœ¨Moreä¸­æ›´æ–°åˆ°ç»“æ„ä¸­ */
     if (m_tCollData.nAllCount == 0)
     {
         //m_tCollData.nAllCount = 1;
@@ -1610,7 +1610,7 @@ void CDrillDlg::ZeroPointUpdateData(COLLECTDATA* ptCollData, BOOL bFinish)
         return;
     }
 
-    /* 20200418 zero¸üĞÂÖ»¸üĞÂÅ¤¾Ø¸ü´óµÄÖµ */
+    /* 20200418 zeroæ›´æ–°åªæ›´æ–°æ‰­çŸ©æ›´å¤§çš„å€¼ */
     if (m_fOutTorque > m_tCollData.fTorque[m_tCollData.nAllCount - 1])
     {
         m_wndTorque.UpdatePos(m_fOutTorque);
@@ -1623,19 +1623,19 @@ void CDrillDlg::ZeroPointUpdateData(COLLECTDATA* ptCollData, BOOL bFinish)
     return;
 }
 
-/* ÊÕ¼¯µ½µÄÊı¾İÂö³åÓĞ±ä»¯£¬¸üĞÂÅ¤¾ØºÍ×ªËÙ */
+/* æ”¶é›†åˆ°çš„æ•°æ®è„‰å†²æœ‰å˜åŒ–ï¼Œæ›´æ–°æ‰­çŸ©å’Œè½¬é€Ÿ */
 void CDrillDlg::MorePointInsertData(COLLECTDATA* ptCollData, BOOL bFinish)
 {
     int     i = 0;
-    double  fPreTorque = 0;    /* Ç°Ò»´ÎÅ¤¾Ø£¬PointNum > 1Ê±¼ÆËãÊı¾İ */
-    double  fPreRpm = 0;    /* Ç°Ò»´Î×ªËÙ */
+    double  fPreTorque = 0;    /* å‰ä¸€æ¬¡æ‰­çŸ©ï¼ŒPointNum > 1æ—¶è®¡ç®—æ•°æ® */
+    double  fPreRpm = 0;    /* å‰ä¸€æ¬¡è½¬é€Ÿ */
     double  fInsTorque = 0;
     //double  fInsRpm = 0;
     BOOL    bInsertOK = FALSE;
 
     ASSERT_NULL(ptCollData);
 
-    /* µÚÒ»¸öÊı¾İ£¬²åÈë±£´æµÄOutÊı¾İ£¬¼ÇÂ¼µ±Ç°µÄÅ¤¾ØºÍµãÊı */
+    /* ç¬¬ä¸€ä¸ªæ•°æ®ï¼Œæ’å…¥ä¿å­˜çš„Outæ•°æ®ï¼Œè®°å½•å½“å‰çš„æ‰­çŸ©å’Œç‚¹æ•° */
     if (m_tCollData.nAllCount == 0)
     {
         if (m_fOutTorque != 0)
@@ -1648,7 +1648,7 @@ void CDrillDlg::MorePointInsertData(COLLECTDATA* ptCollData, BOOL bFinish)
         return;
     }
 
-    /*²åÈëÊı¾İ*/
+    /*æ’å…¥æ•°æ®*/
     fPreTorque = m_tCollData.fTorque[m_tCollData.nAllCount - 1];
     fPreRpm = m_tCollData.fRpm[m_tCollData.nAllCount - 1];
 
@@ -1673,8 +1673,8 @@ void CDrillDlg::SetTorqDataCfg(TorqData::Torque* ptPBData)
     ptPBData->set_strremark(m_ptCfg->strRemark);
     //ptPBData->set_dwver(m_ptCtrl->ucVer);
 
-    // 20230421 ÔÚÉèÖÃ×î´óÅ¤¾ØÇ°½øĞĞÖÊÁ¿ÅĞ¶¨£¬ÎŞ·¨»ñµÃ×î´óÅ¤¾Ø£¬µ¼ÖÂÎóÅĞ£¬
-    // ĞŞ¸ÄÎªÏÈÉèÖÃ×î´óÅ¤¾Ø
+    // 20230421 åœ¨è®¾ç½®æœ€å¤§æ‰­çŸ©å‰è¿›è¡Œè´¨é‡åˆ¤å®šï¼Œæ— æ³•è·å¾—æœ€å¤§æ‰­çŸ©ï¼Œå¯¼è‡´è¯¯åˆ¤ï¼Œ
+    // ä¿®æ”¹ä¸ºå…ˆè®¾ç½®æœ€å¤§æ‰­çŸ©
     if (m_iBreakOut)
     {
         ptPBData->set_fbomaxtorq(m_fMaxTorq);
@@ -1704,7 +1704,7 @@ void CDrillDlg::SetTorqDataCfg(TorqData::Torque* ptPBData)
     ptPBData->set_dwcolumns(m_ptCtrl->iSingleSTD);
 }
 
-/*Å¤¾Ø¿ØÖÆÍê³É£¬LastPointÉèÖÃÎªTRUE£¬ÅĞ¶Ï¿ØÖÆÖÊÁ¿²¢´æÅÌ*/
+/*æ‰­çŸ©æ§åˆ¶å®Œæˆï¼ŒLastPointè®¾ç½®ä¸ºTRUEï¼Œåˆ¤æ–­æ§åˆ¶è´¨é‡å¹¶å­˜ç›˜*/
 void CDrillDlg::FinishSetStatus()
 {
     int     i = 0;
@@ -1735,7 +1735,7 @@ void CDrillDlg::FinishSetStatus()
         }
     }*/
 
-    /* ÖÊÁ¿ÅĞ¶¨ */
+    /* è´¨é‡åˆ¤å®š */
     dwQuality = QUA_RESU_GOOD;
     if (m_iBreakOut == 0)
         dwQuality = theApp.JudgeQuality(&m_tSaveData);
@@ -1757,9 +1757,9 @@ void CDrillDlg::FinishSetStatus()
     return;
 }
 
-/* ´ÓcollectData»ñÈ¡×îºóMAXPOINT±£´æµ½saveData */
-/* 3.20 ËùÓĞÊı¾İ¶¼±£´æ£¬ÏÔÊ¾Ê±ÔÙ·ÖÆÁ´¦Àí */
-/* 3.22 SaveDataËùÓĞ´®¿ÚÊÕ¼¯µÄÊı¾İ¶¼±£´æ£¬È¥µôÖØ¸´Ïî */
+/* ä»collectDataè·å–æœ€åMAXPOINTä¿å­˜åˆ°saveData */
+/* 3.20 æ‰€æœ‰æ•°æ®éƒ½ä¿å­˜ï¼Œæ˜¾ç¤ºæ—¶å†åˆ†å±å¤„ç† */
+/* 3.22 SaveDataæ‰€æœ‰ä¸²å£æ”¶é›†çš„æ•°æ®éƒ½ä¿å­˜ï¼Œå»æ‰é‡å¤é¡¹ */
 void CDrillDlg::GetValidTorqData()
 {
     int  i = 0;
@@ -1768,8 +1768,8 @@ void CDrillDlg::GetValidTorqData()
     ASSERT_NULL(m_ptPortData);
 
     m_tSaveData.Clear();
-    /* ¡Á¡Á¡Á¡Á20190916: Ö»±£´æ×îºó¿ØÖÆÖÜÊıµÄÊı¾İ£¬²»ÔÙ±£´æ¶àÆÁµÄÊı¾İ¡Á¡Á¡Á¡Á */
-    /* 20200706 ´ÓPortData»ñÈ¡±£´æµÄÊı¾İ */
+    /* Ã—Ã—Ã—Ã—20190916: åªä¿å­˜æœ€åæ§åˆ¶å‘¨æ•°çš„æ•°æ®ï¼Œä¸å†ä¿å­˜å¤šå±çš„æ•°æ®Ã—Ã—Ã—Ã— */
+    /* 20200706 ä»PortDataè·å–ä¿å­˜çš„æ•°æ® */
     for (i = 0; i < (int)m_ptPortData->nSaveCount; i++)
     {
         m_tSaveData.add_ftorque(m_ptPortData->fTorque[i]);
@@ -1782,33 +1782,33 @@ void CDrillDlg::GetValidTorqData()
     return;
 }
 
-/*Å¤¾Ø¿ØÖÆÍê³É£¬Íê³É»­Í¼¡¢ÓÅ»¯¡¢Êı¾İ±£´æ¡¢¸´Î»µÈ²Ù×÷*/
+/*æ‰­çŸ©æ§åˆ¶å®Œæˆï¼Œå®Œæˆç”»å›¾ã€ä¼˜åŒ–ã€æ•°æ®ä¿å­˜ã€å¤ä½ç­‰æ“ä½œ*/
 void CDrillDlg::FinishControl()
 {
-    /* 20191211 finishÊ±Ö»»­½áÊøÏß£¬ÆäËûÏßÔÚÍâÃæÒÑ¾­»­ºÃ */
+    /* 20191211 finishæ—¶åªç”»ç»“æŸçº¿ï¼Œå…¶ä»–çº¿åœ¨å¤–é¢å·²ç»ç”»å¥½ */
     m_wndTorque.DrawFinLine();
     m_wndRpm.DrawFinLine();
 
     //SHOWCIRINFO(m_tCollData.nCurCount, m_tCollData.nAllCount, m_ptCtrl->fMaxCir, m_strCircle);
 
-    /* ´ÓCollectDataÖĞ»ñÈ¡×îºóµÄÊı¾İµ½SaveData */
+    /* ä»CollectDataä¸­è·å–æœ€åçš„æ•°æ®åˆ°SaveData */
     GetValidTorqData();
 
-    /* Íê³É¿ØÖÆ´¦Àí */
+    /* å®Œæˆæ§åˆ¶å¤„ç† */
     FinishSetStatus();
 
-    /* »­¹Õµã  ·ÅÈë FinishSetStatus ÖĞ*/
+    /* ç”»æ‹ç‚¹  æ”¾å…¥ FinishSetStatus ä¸­*/
     // DrawInflectionPoint();
 
-    /* ´óÓÚ¼õËÙÅ¤¾Ø²Å´æÅÌ */
+    /* å¤§äºå‡é€Ÿæ‰­çŸ©æ‰å­˜ç›˜ */
     if (m_fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD)
     {
         SaveIntoData(&m_tSaveData);
     }
 
-    /* ÉèÖÃ±£»¤¸´Î»Ê±¼ä */
-    /* 20171031 ²»ÉèÖÃ±£»¤¸´Î»Ê±¼ä£¬´óÓÚÏÔÊ¾Å¤¾ØÊ±£¬¿ªÊ¼ÏÂÒ»¸öÊı¾İ */
-    /* 20171206 ±£»¤¸´Î»¶¨Ê±Æ÷¼ÌĞø±£Áô£¬µ¥Æ¬»úÉÏÉÏ±¨µÄÊı¾İ»áÔÚ¿ØÖÆÅ¤¾ØÉÏ±£ÁôÒ»¶ÎÊ±¼ä */
+    /* è®¾ç½®ä¿æŠ¤å¤ä½æ—¶é—´ */
+    /* 20171031 ä¸è®¾ç½®ä¿æŠ¤å¤ä½æ—¶é—´ï¼Œå¤§äºæ˜¾ç¤ºæ‰­çŸ©æ—¶ï¼Œå¼€å§‹ä¸‹ä¸€ä¸ªæ•°æ® */
+    /* 20171206 ä¿æŠ¤å¤ä½å®šæ—¶å™¨ç»§ç»­ä¿ç•™ï¼Œå•ç‰‡æœºä¸Šä¸ŠæŠ¥çš„æ•°æ®ä¼šåœ¨æ§åˆ¶æ‰­çŸ©ä¸Šä¿ç•™ä¸€æ®µæ—¶é—´ */
     m_hrtReadPort.KillTimer();
     m_hrtGuard.CreateTimer(this, g_tGlbCfg.nResetDur, HRTGuard);
 
@@ -1885,17 +1885,17 @@ void CDrillDlg::HRTTCPStatus(CWnd* pUser)
     pThis->SendMessage(WM_TCPSTATUSTIMEROUT, 0, 0);
 }
 
-/* Õı³£°æ±¾Å¼ÊıÅ¤¾ØÕı³££¬ÆæÊıÅ¤¾ØÎª0
-   Ğ¶¿Û°æ±¾ÆæÊıÅ¤¾ØÕı³££¬Å¼ÊıÅ¤¾ØÎª0
-   20200303 : ÆæÅ¼²»¶ÔÊ±£¬·µ»Ø-1£¬×ª»»ÎªUINTÎªÒ»¸ö·Ç³£´óµÄÖµ£¬ÏÈ¿¼ÂÇ·µ»ØÎª0
-   20200320 : ÆæÅ¼²»¶ÔÊ±£¬ËµÃ÷·´×ª£¬·µ»ØFALSE£¬ÔÚº¯ÊıÍâÃæÉèÖÃ×´Ì¬Îª0xCC£¬ËµÃ÷·´×ª£¬Êı¾İÇåÁã
+/* æ­£å¸¸ç‰ˆæœ¬å¶æ•°æ‰­çŸ©æ­£å¸¸ï¼Œå¥‡æ•°æ‰­çŸ©ä¸º0
+   å¸æ‰£ç‰ˆæœ¬å¥‡æ•°æ‰­çŸ©æ­£å¸¸ï¼Œå¶æ•°æ‰­çŸ©ä¸º0
+   20200303 : å¥‡å¶ä¸å¯¹æ—¶ï¼Œè¿”å›-1ï¼Œè½¬æ¢ä¸ºUINTä¸ºä¸€ä¸ªéå¸¸å¤§çš„å€¼ï¼Œå…ˆè€ƒè™‘è¿”å›ä¸º0
+   20200320 : å¥‡å¶ä¸å¯¹æ—¶ï¼Œè¯´æ˜åè½¬ï¼Œè¿”å›FALSEï¼Œåœ¨å‡½æ•°å¤–é¢è®¾ç½®çŠ¶æ€ä¸º0xCCï¼Œè¯´æ˜åè½¬ï¼Œæ•°æ®æ¸…é›¶
    */
 BOOL CDrillDlg::ClearExcepTorq(int iOrgTorq, int& iDestTorq)
 {
-    BOOL  bOdd = FALSE;     // ÆæÊı
+    BOOL  bOdd = FALSE;     // å¥‡æ•°
 
-    // ÎŞÂÛÆæÅ¼£¬µÈÓÚ0¶¼²»»­
-    /* 20191106 0Õı³£»­£¬Í¨¹ıÏÔÊ¾Å¤¾Ø¿ØÖÆ£¬±ãÓÚ²é¿´Ò»È¦Âö³åÊı */
+    // æ— è®ºå¥‡å¶ï¼Œç­‰äº0éƒ½ä¸ç”»
+    /* 20191106 0æ­£å¸¸ç”»ï¼Œé€šè¿‡æ˜¾ç¤ºæ‰­çŸ©æ§åˆ¶ï¼Œä¾¿äºæŸ¥çœ‹ä¸€åœˆè„‰å†²æ•° */
     //ASSERT_ZERO_R(nOrgTorq, -1);
 
     bOdd = (iOrgTorq % 2 == 1 ? TRUE : FALSE);
@@ -1922,59 +1922,59 @@ double CDrillDlg::OverTorqOpt(double fTorq, BYTE ucStatus)
     double fPostTorq = 0;
     double fRandTorq = 0;
 
-    /* 20220310 µ¥Æ¬»úÏÔÊ¾²»Ò»ÖÂ£¬Ö±½Ó·µ»ØÔ­Öµ */
+    /* 20220310 å•ç‰‡æœºæ˜¾ç¤ºä¸ä¸€è‡´ï¼Œç›´æ¥è¿”å›åŸå€¼ */
     return fTorq;
 
-    /* Ğ¡ÓÚ×îĞ¡Å¤¾Ø£¬Ö±½Ó·µ»Ø */
+    /* å°äºæœ€å°æ‰­çŸ©ï¼Œç›´æ¥è¿”å› */
     COMP_BLE_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT, fTorq);
 
-    /* Å¤¾Ø³¬¹ı25%£¬²»×÷ÓÅ»¯ */
+    /* æ‰­çŸ©è¶…è¿‡25%ï¼Œä¸ä½œä¼˜åŒ– */
     COMP_BG_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT * 1.25, fTorq);
 
-    /* ¿ØÖÆÅ¤¾Ø´óÓÚ5000 Ö±½Ó·µ»Ø */
+    /* æ§åˆ¶æ‰­çŸ©å¤§äº5000 ç›´æ¥è¿”å› */
     COMP_BG_R(theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_CONTROL], SWITCHLOWLIMIT, fTorq);
 
     srand((unsigned)time(NULL));
     fPostTorq = fTorq;
     fRandTorq = rand() * (theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT / 100) / RAND_MAX;
 
-    /* ÉÏ¿ÛÍê³É×´Ì¬ 3£¬4£¬Ö±½ÓĞŞ¸ÄÎª×î´óÅ¤¾ØÏÂµÄÖµ */
+    /* ä¸Šæ‰£å®ŒæˆçŠ¶æ€ 3ï¼Œ4ï¼Œç›´æ¥ä¿®æ”¹ä¸ºæœ€å¤§æ‰­çŸ©ä¸‹çš„å€¼ */
     if (ucStatus >= PLCSTATUS_UNLOAD)
     {
-        /* Ğ¡ÓÚ×î´óÅ¤¾Ø£¬²»´¦ÀíÖ±½Ó·µ»Ø£¬ºóĞøµÄÉÏ¿ÛÅ¤¾Ø¿Ï¶¨´óÓÚ×î´óÅ¤¾Ø
-           ¼´Ê¹µ±Ç°ÉÏ¿ÛÅ¤¾ØĞ¡ÓÚ×îĞ¡Å¤¾Ø£¬²»ÊÇ¹ı³ä£¬²»¿¼ÂÇ */
+        /* å°äºæœ€å¤§æ‰­çŸ©ï¼Œä¸å¤„ç†ç›´æ¥è¿”å›ï¼Œåç»­çš„ä¸Šæ‰£æ‰­çŸ©è‚¯å®šå¤§äºæœ€å¤§æ‰­çŸ©
+           å³ä½¿å½“å‰ä¸Šæ‰£æ‰­çŸ©å°äºæœ€å°æ‰­çŸ©ï¼Œä¸æ˜¯è¿‡å……ï¼Œä¸è€ƒè™‘ */
         COMP_BLE_R(fTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT, fTorq);
 
-        /* È¡¿ØÖÆÅ¤¾ØºÍÉÏ¿ÛÅ¤¾Ø¾ùÖµ£¬Èç¹ûĞ¡ÓÚ×î´óÅ¤¾Ø£¬ÔòOK */
+        /* å–æ§åˆ¶æ‰­çŸ©å’Œä¸Šæ‰£æ‰­çŸ©å‡å€¼ï¼Œå¦‚æœå°äºæœ€å¤§æ‰­çŸ©ï¼Œåˆ™OK */
         fPostTorq = (theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_CONTROL] + fTorq) / 2;
         COMP_BLE_R(fPostTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT, fPostTorq);
 
-        /* ³¬¹ıÉÏÃæµÄ¾ùÖµ£¬×î´óÅ¤¾Ø-1%µÄ¿ØÖÆÅ¤¾ØËæ»úÖµ×÷ÎªÉÏ¿ÛÅ¤¾Ø */
+        /* è¶…è¿‡ä¸Šé¢çš„å‡å€¼ï¼Œæœ€å¤§æ‰­çŸ©-1%çš„æ§åˆ¶æ‰­çŸ©éšæœºå€¼ä½œä¸ºä¸Šæ‰£æ‰­çŸ© */
         fPostTorq = theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT - fRandTorq;
         return fPostTorq;
     }
 
-    /* ×´Ì¬ÎªÔËĞĞÌ¬ 0£¬1£¬2£¬±£Ö¤ÔÚ×î¼ÑÅ¤¾ØÏÂ */
-    /* 20220221 Ñ¹ÔÚ×îĞ¡Å¤¾Ø==¡·×î¼ÑÅ¤¾ØÏÂ  */
-    /* ´óÓÚ×îĞ¡Å¤¾ØºÍ×î¼ÑÅ¤¾Ø¾ùÖµ²Å´¦Àí */
+    /* çŠ¶æ€ä¸ºè¿è¡Œæ€ 0ï¼Œ1ï¼Œ2ï¼Œä¿è¯åœ¨æœ€ä½³æ‰­çŸ©ä¸‹ */
+    /* 20220221 å‹åœ¨æœ€å°æ‰­çŸ©==ã€‹æœ€ä½³æ‰­çŸ©ä¸‹  */
+    /* å¤§äºæœ€å°æ‰­çŸ©å’Œæœ€ä½³æ‰­çŸ©å‡å€¼æ‰å¤„ç† */
     COMP_BL_R(fTorq, ((theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT + theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]) / 2), fTorq);
 
-    /* m_fOutTorque Ğ¡ÓÚ×î¼ÑÅ¤¾Ø£¬ºÍµ±Ç°Å¤¾ØÈ¡¾ùÖµ£¬Èç¹ûĞ¡ÓÚ¿ØÖÆÅ¤¾ØÔòOK */
+    /* m_fOutTorque å°äºæœ€ä½³æ‰­çŸ©ï¼Œå’Œå½“å‰æ‰­çŸ©å–å‡å€¼ï¼Œå¦‚æœå°äºæ§åˆ¶æ‰­çŸ©åˆ™OK */
     fPostTorq = (m_fOutTorque + fTorq) / 2;
     COMP_BL_R(fPostTorq, theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL], fPostTorq);
 
-    /* ³¬¹ıÉÏÃæµÄ¾ùÖµ£¬×î¼ÑÅ¤¾Ø-1%µÄ×î´óÅ¤¾ØËæ»úÖµ×÷Îªµ±Ç°Å¤¾Ø, Èç¹û´óÓÚÇ°Ò»¸öÅ¤¾ØÔòOK */
-    // 1%Ëæ»úÖµÈİÒ×ĞÎ³ÉºáÏß£¬ÔİÊ±²»ÓÃ
+    /* è¶…è¿‡ä¸Šé¢çš„å‡å€¼ï¼Œæœ€ä½³æ‰­çŸ©-1%çš„æœ€å¤§æ‰­çŸ©éšæœºå€¼ä½œä¸ºå½“å‰æ‰­çŸ©, å¦‚æœå¤§äºå‰ä¸€ä¸ªæ‰­çŸ©åˆ™OK */
+    // 1%éšæœºå€¼å®¹æ˜“å½¢æˆæ¨ªçº¿ï¼Œæš‚æ—¶ä¸ç”¨
     /*fPostTorq = theApp.m_tParaCfg.tCtrl.fControl - fRandTorq;
     COMP_BG_R(fPostTorq, m_fOutTorque, fPostTorq);*/
 
-    /* È¡Ç°Ò»¸öÅ¤¾ØºÍ×î¼ÑÅ¤¾ØµÄ¾ùÖµ×÷Îªµ±Ç°Å¤¾Ø */
+    /* å–å‰ä¸€ä¸ªæ‰­çŸ©å’Œæœ€ä½³æ‰­çŸ©çš„å‡å€¼ä½œä¸ºå½“å‰æ‰­çŸ© */
     fPostTorq = (m_fOutTorque + theApp.m_tParaCfg.tCtrl.fTorqConf[INDEX_TORQ_OPTIMAL]) / 2;
 
     return fPostTorq;
 }
 
-/* ±£´æÒ»Ìõ´®¿Ú¶ÁÈ¡µÄ¼ÇÂ¼() */
+/* ä¿å­˜ä¸€æ¡ä¸²å£è¯»å–çš„è®°å½•() */
 void CDrillDlg::SavePortNormalInfo(COLLECTDATA* ptCollData)
 {
     int     i = 0;
@@ -1984,7 +1984,7 @@ void CDrillDlg::SavePortNormalInfo(COLLECTDATA* ptCollData)
     int     iOrgTorq = 0;
     int     iTorque = 0;
     double  fRpm = 0;
-    /* ´®¿Ú»ñÈ¡µÄÔ­Ê¼ÓĞĞ§Êı¾İºÍ¼ÆËãµÄÅ¤¾ØµÈĞÅÏ¢ */
+    /* ä¸²å£è·å–çš„åŸå§‹æœ‰æ•ˆæ•°æ®å’Œè®¡ç®—çš„æ‰­çŸ©ç­‰ä¿¡æ¯ */
     ORGDATA tOrgData = { 0 };
     double  fShowTorq = 0;
     CString strTime;
@@ -1992,54 +1992,54 @@ void CDrillDlg::SavePortNormalInfo(COLLECTDATA* ptCollData)
 
     ASSERT_NULL(ptCollData);
 
-    /* 3.20¼°Ö®Ç°°æ±¾£¬ÓĞĞ§³¤¶È12 */
+    /* 3.20åŠä¹‹å‰ç‰ˆæœ¬ï¼Œæœ‰æ•ˆé•¿åº¦12 */
     memcpy(tOrgData.ucRcvByte, &m_ucRcvByte[PORT_DATAPLACE], PORT_DATALEN);
-    /* 3.21Ö®ºó°æ±¾£¬ËÙ¶ÈºóÔö¼Ó2×Ö½Ú±íÊ¾·§ÃÅ×´Ì¬ */
+    /* 3.21ä¹‹åç‰ˆæœ¬ï¼Œé€Ÿåº¦åå¢åŠ 2å­—èŠ‚è¡¨ç¤ºé˜€é—¨çŠ¶æ€ */
     if (m_wRcvLen >= PORT_VALIDLEN + 2)
     {
         LightValveStatus(&m_ucRcvByte[PORT_DATAPLACE + PORT_DATALEN]);
     }
 
-    /* ¼ÆËãÅ¤¾ØºÍRPM */
-    /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+    /* è®¡ç®—æ‰­çŸ©å’ŒRPM */
+    /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
     pucData = &m_ucRcvByte[PORT_DATAPLACE];
     iOrgTorq = (*(pucData) * 256 + *(pucData + 1));
     ptCollData->ucStatus = (*(pucData + 2) & 0xE0) / 32;
     ptCollData->nOrgPlus = ((*(pucData + 2) & 0x1F) * 256 + *(pucData + 3)) * 4;
-    fRpm = *(pucData + 5) * 256 + *(pucData + 6);  // 200ms Âö³åÊı
-    /* ÆæÅ¼´¦ÀíĞèÒªÊ¹ÓÃÔ´Å¤¾Ø£¬Òò´Ë10±¶·Åµ½ÏÂÃæÏà³Ë */
+    fRpm = *(pucData + 5) * 256 + *(pucData + 6);  // 200ms è„‰å†²æ•°
+    /* å¥‡å¶å¤„ç†éœ€è¦ä½¿ç”¨æºæ‰­çŸ©ï¼Œå› æ­¤10å€æ”¾åˆ°ä¸‹é¢ç›¸ä¹˜ */
     if (!ClearExcepTorq(iOrgTorq, iTorque))
         ptCollData->ucStatus = PLCSTATUS_REVERSE;
     // ptCollData->fTorque = iTorque * (int)theApp.m_nTorqMulti;
     fShowTorq = iTorque * (int)theApp.m_nTorqMulti;
-    /* 20220215 ´¦ÀíÎ´´òÕÛµÄÊı¾İ ==> ¶ÔÆëPLC´òÕÛ´¦Àí */
+    /* 20220215 å¤„ç†æœªæ‰“æŠ˜çš„æ•°æ® ==> å¯¹é½PLCæ‰“æŠ˜å¤„ç† */
     ptCollData->fTorque = (int)OverTorqOpt(fShowTorq, ptCollData->ucStatus);
 
-    /* Õı³£Êı¾İ±£´æ */
+    /* æ­£å¸¸æ•°æ®ä¿å­˜ */
     tOrgData.ucStatus = ptCollData->ucStatus;
     tOrgData.nTorque = (UINT)ptCollData->fTorque;
     tOrgData.nPlus = ptCollData->nOrgPlus;
 
-    /* µ÷ÊÔÏÔÊ¾½ÓÊÕµ½µÄÓĞĞ§Êı¾İ */
+    /* è°ƒè¯•æ˜¾ç¤ºæ¥æ”¶åˆ°çš„æœ‰æ•ˆæ•°æ® */
     GetLocalTime(&ts);
     strTime.Format("%02d:%02d:%02d.%03d", ts.wHour, ts.wMinute, ts.wSecond, ts.wMilliseconds);
     m_strRecvData.Format("%.1f,%ld,%d,%.1f(%s)", ptCollData->fTorque / SHOWTORQUEUNIT, ptCollData->nOrgPlus, ptCollData->ucStatus, fRpm, strTime);
 
-    /* ¸ù¾İPlus¼ÆËãÊı¾İµÄµãÊı */
+    /* æ ¹æ®Plusè®¡ç®—æ•°æ®çš„ç‚¹æ•° */
     CalcPointNum(ptCollData, &tOrgData);
 
-    /* 300±àÂëÆ÷£¬×ªËÙÌ«¿ì£¬³ım_fRpmAdj½µËÙ¶È */
+    /* 300ç¼–ç å™¨ï¼Œè½¬é€Ÿå¤ªå¿«ï¼Œé™¤m_fRpmAdjé™é€Ÿåº¦ */
     if (fRpm == 0)
         tOrgData.fRpm = ptCollData->fRpm = m_iOutPoints * m_fCurMaxTurn * 0.8 / g_tGlbCfg.fRpmAdj;
     else
         tOrgData.fRpm = ptCollData->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
 
-    /* ¸ù¾İÂö³å²îÖµ¼ÆËã×ªËÙ */
+    /* æ ¹æ®è„‰å†²å·®å€¼è®¡ç®—è½¬é€Ÿ */
     theApp.SaveOrdData(&tOrgData, m_ucRcvByte, m_wRcvLen);
 }
 
-/* ±£´æÒ»Ìõ´®¿Ú¶ÁÈ¡µÄ¼ÇÂ¼() */
-/* 0x21 03 00 0x15 ËÙ¶ÈÂö³åH ËÙ¶ÈÂö³åL ×´Ì¬Î»¸ß ×´Ì¬Î»µÍ ¸öÊı(<=5) Å¤¾Ø1 Âö³åÊı1  */
+/* ä¿å­˜ä¸€æ¡ä¸²å£è¯»å–çš„è®°å½•() */
+/* 0x21 03 00 0x15 é€Ÿåº¦è„‰å†²H é€Ÿåº¦è„‰å†²L çŠ¶æ€ä½é«˜ çŠ¶æ€ä½ä½ ä¸ªæ•°(<=5) æ‰­çŸ©1 è„‰å†²æ•°1  */
 void CDrillDlg::SavePortMultiDataInfo(COLLECTDATA* ptCollData)
 {
     int     i = 0;
@@ -2059,7 +2059,7 @@ void CDrillDlg::SavePortMultiDataInfo(COLLECTDATA* ptCollData)
 
     LightValveStatus(&m_ucRcvByte[6]);
 
-    fRpm = m_ucRcvByte[4] * 256 + m_ucRcvByte[5];  // 200ms Âö³åÊı
+    fRpm = m_ucRcvByte[4] * 256 + m_ucRcvByte[5];  // 200ms è„‰å†²æ•°
 
     nDataNum = m_ucRcvByte[8];
     pucData = &m_ucRcvByte[9];
@@ -2073,25 +2073,25 @@ void CDrillDlg::SavePortMultiDataInfo(COLLECTDATA* ptCollData)
         ptOrgColl->ucStatus = (*(pucData + 2) & 0xE0) / 32;
         ptOrgColl->nOrgPlus = ((*(pucData + 2) & 0x1F) * 256 + *(pucData + 3)) * 4;
         ptOrgColl->fRpm = fRpm * 5 * 60 / g_tGlbCfg.nPlusPerTurn / 2;
-        /* ÆæÅ¼´¦ÀíĞèÒªÊ¹ÓÃÔ´Å¤¾Ø£¬Òò´Ë10±¶·Åµ½ÏÂÃæÏà³Ë */
+        /* å¥‡å¶å¤„ç†éœ€è¦ä½¿ç”¨æºæ‰­çŸ©ï¼Œå› æ­¤10å€æ”¾åˆ°ä¸‹é¢ç›¸ä¹˜ */
         if (!ClearExcepTorq(iOrgTorq, iTorque))
             ptOrgColl->ucStatus = ptCollData->ucStatus = PLCSTATUS_REVERSE;
         ptOrgColl->fTorque = iTorque * theApp.m_nTorqMulti;
 
-        /* Õı³£Êı¾İ±£´æ */
+        /* æ­£å¸¸æ•°æ®ä¿å­˜ */
         tOrgData.ucStatus = ptOrgColl->ucStatus;
         tOrgData.nTorque = (UINT)ptOrgColl->fTorque;
         tOrgData.nPlus = ptOrgColl->nOrgPlus;
         tOrgData.fRpm = ptOrgColl->fRpm;
 
-        /* ¸ù¾İPlus¼ÆËãÊı¾İµÄµãÊı */
+        /* æ ¹æ®Plusè®¡ç®—æ•°æ®çš„ç‚¹æ•° */
         CalcPointNum(ptOrgColl, &tOrgData);
 
         ptOrgColl++;
         pucData += PORT_GRPDATA;
     }
 
-    /* µ÷ÊÔÏÔÊ¾½ÓÊÕµ½µÄÓĞĞ§Êı¾İ */
+    /* è°ƒè¯•æ˜¾ç¤ºæ¥æ”¶åˆ°çš„æœ‰æ•ˆæ•°æ® */
     ptOrgColl = &ptCollData[nDataNum - 1];
     GetLocalTime(&ts);
     strTime.Format("%02d:%02d:%02d.%03d", ts.wHour, ts.wMinute, ts.wSecond, ts.wMilliseconds);
@@ -2104,14 +2104,14 @@ LRESULT CDrillDlg::CollectTimerOut(WPARAM wParam, LPARAM lParam)
 {
     BOOL    bCollectOK = FALSE;
 
-    /* ¶¨Ê±»ñÈ¡µÄÊı¾İĞÅÏ¢£¬·â×°µ½¸÷¸öcollectº¯ÊıÖĞÉèÖÃÖµ */
+    /* å®šæ—¶è·å–çš„æ•°æ®ä¿¡æ¯ï¼Œå°è£…åˆ°å„ä¸ªcollectå‡½æ•°ä¸­è®¾ç½®å€¼ */
     COLLECTDATA tCollData[PORT_MAXDATANUM] = { 0 };
 
-    /* »ñÈ¡Ò»¸öÔ­Ê¼Êı¾İ */
+    /* è·å–ä¸€ä¸ªåŸå§‹æ•°æ® */
     bCollectOK = (this->*g_CollectProc[g_tGlbCfg.nTest])(&tCollData[0]);
     COMP_BFALSE_R(bCollectOK, 0);
 
-    /* ²âÊÔ´úÂëÊı¾İÔÚtCollDataÖĞ£¬·ñÔòÔÚm_ucRcvByteÖĞ */
+    /* æµ‹è¯•ä»£ç æ•°æ®åœ¨tCollDataä¸­ï¼Œå¦åˆ™åœ¨m_ucRcvByteä¸­ */
     if (g_tGlbCfg.nTest >= COLL_RAND)
     {
         RcvTorqDataProc(&tCollData[0]);
@@ -2134,7 +2134,7 @@ BOOL CDrillDlg::CheckPortData(BYTE* pData, int iLen, BOOL& bFini)
     ASSERT_NULL_R(pData, FALSE);
     ASSERT_ZERO_R(iLen, FALSE);
 
-    /* µÚÒ»¸ö×Ö½Ú²»ÊÇPORT485£¬Ìø¹ı£¬µÈÏÂÒ»ÌõÃüÁî */
+    /* ç¬¬ä¸€ä¸ªå­—èŠ‚ä¸æ˜¯PORT485ï¼Œè·³è¿‡ï¼Œç­‰ä¸‹ä¸€æ¡å‘½ä»¤ */
     if (PORT485 != pData[0])
     {
         return FALSE;
@@ -2202,7 +2202,7 @@ BOOL CDrillDlg::CheckPortData(BYTE* pData, int iLen, BOOL& bFini)
 LONG CDrillDlg::OnCommunication(WPARAM Char, LPARAM num)
 {
     static BYTE PortBuf[200] = { 0 };
-    static int  iDataLen = 0;  //Êı¾İ³¤¶È£¬Ò»´Î´¦ÀíÒ»¸öÊı¾İ
+    static int  iDataLen = 0;  //æ•°æ®é•¿åº¦ï¼Œä¸€æ¬¡å¤„ç†ä¸€ä¸ªæ•°æ®
     BOOL    bDataOK = FALSE;
     BOOL    bInvalid = FALSE;
     int     iLen = (int)num;
@@ -2215,19 +2215,19 @@ LONG CDrillDlg::OnCommunication(WPARAM Char, LPARAM num)
         return 0;
     }
 
-    /* ¶¨Ê±»ñÈ¡µÄÊı¾İĞÅÏ¢£¬·â×°µ½¸÷¸öcollectº¯ÊıÖĞÉèÖÃÖµ */
+    /* å®šæ—¶è·å–çš„æ•°æ®ä¿¡æ¯ï¼Œå°è£…åˆ°å„ä¸ªcollectå‡½æ•°ä¸­è®¾ç½®å€¼ */
     memcpy(&PortBuf[iDataLen], (BYTE*)Char, iLen);
     // theApp.SaveCommunication((BYTE*)Char, iLen, DBG_RCVCOM);
     iDataLen += iLen;
 
-    /* ·Ç·¨Êı¾İ£¬ÇåÁã·µ»Ø */
+    /* éæ³•æ•°æ®ï¼Œæ¸…é›¶è¿”å› */
     if (!CheckPortData(&PortBuf[0], iDataLen, bDataOK))
     {
         iDataLen = 0;
         return 0;
     }
 
-    /* Êı¾İÃ»ÓĞÊÕÈ«£¬Ö±½Ó·µ»Ø */
+    /* æ•°æ®æ²¡æœ‰æ”¶å…¨ï¼Œç›´æ¥è¿”å› */
     COMP_BFALSE_R(bDataOK, 0);
 
     m_wRcvLen = iDataLen;
@@ -2243,7 +2243,7 @@ LONG CDrillDlg::OnCommunication(WPARAM Char, LPARAM num)
         break;
 
     case 0x03:
-        if (m_ucRcvByte[3] == COM_READ || m_ucRcvByte[3] == COM_READMULTI)   // ¶ÁÈ¡Å¤¾ØÊı¾İ
+        if (m_ucRcvByte[3] == COM_READ || m_ucRcvByte[3] == COM_READMULTI)   // è¯»å–æ‰­çŸ©æ•°æ®
         {
             RcvTorqDataProc(NULL);
             m_iTorqBreakCnt = m_iMaxReadTimes;
@@ -2251,12 +2251,12 @@ LONG CDrillDlg::OnCommunication(WPARAM Char, LPARAM num)
         break;
 
     case 0x06:
-        if (PortBuf[3] == COM_READVALVE)     // ÉèÖÃ·§Öµ
+        if (PortBuf[3] == COM_READVALVE)     // è®¾ç½®é˜€å€¼
         {
             LightValveStatus(&m_ucRcvByte[4]);
             m_iValveBreakCnt = (int)ceil(MAXCOMMBREAKTIME / READVALVE_LEN);
         }
-        if (PortBuf[3] == COM_READCALIB)     // ¶ÁÈ¡µ¥Æ¬»úĞ£×¼ĞÅÏ¢
+        if (PortBuf[3] == COM_READCALIB)     // è¯»å–å•ç‰‡æœºæ ¡å‡†ä¿¡æ¯
         {
             ::SendMessage(m_pdlgCalib->m_hWnd, WM_CALIB_DATA, m_wRcvLen, 0);
         }
@@ -2289,22 +2289,22 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
 
     if (ptCollData == NULL)
     {
-        /* bRead && bData, ÍùÏÂ´¦ÀíÊı¾İ */
-        /* ÓĞĞ§Êı¾İµÄ³¤¶ÈÓ¦¸Ã´óÓÚ12£¬ÓĞ³¤¶ÈÎª24µÄÊı¾İ£¬Ò²¿ÉÒÔ¾¡¿ÉÄÜÈ¡³öÒ»ÌõÀ´£¬
-           µ«ÊÇÇ°12¸öÊı¾İÍ¨¹ıCRCĞ£Ñé£¬Ôòµ±×öÆÕÍ¨Êı¾İ´¦Àí£¬µ÷ÊÔ¿ª¹Ø´ò¿ªÊ±Ò²½«Ô­Ê¼Êı¾İ±£´æÏÂÀ´ */
+        /* bRead && bData, å¾€ä¸‹å¤„ç†æ•°æ® */
+        /* æœ‰æ•ˆæ•°æ®çš„é•¿åº¦åº”è¯¥å¤§äº12ï¼Œæœ‰é•¿åº¦ä¸º24çš„æ•°æ®ï¼Œä¹Ÿå¯ä»¥å°½å¯èƒ½å–å‡ºä¸€æ¡æ¥ï¼Œ
+           ä½†æ˜¯å‰12ä¸ªæ•°æ®é€šè¿‡CRCæ ¡éªŒï¼Œåˆ™å½“åšæ™®é€šæ•°æ®å¤„ç†ï¼Œè°ƒè¯•å¼€å…³æ‰“å¼€æ—¶ä¹Ÿå°†åŸå§‹æ•°æ®ä¿å­˜ä¸‹æ¥ */
         COMP_BFALSE_R(CheckDataValid(), 0);
 
         if (m_ucRcvByte[3] == COM_READMULTI)
-            SavePortMultiDataInfo(&tCollData[0]);  //±£´æÒ»´Î´®¿Ú¶ÁÈ¡µÄ¶àÌõ¼ÇÂ¼
+            SavePortMultiDataInfo(&tCollData[0]);  //ä¿å­˜ä¸€æ¬¡ä¸²å£è¯»å–çš„å¤šæ¡è®°å½•
         else    //COM_READ
-            SavePortNormalInfo(&tCollData[0]); //±£´æÒ»Ìõ´®¿Ú¶ÁÈ¡µÄ¼ÇÂ¼
+            SavePortNormalInfo(&tCollData[0]); //ä¿å­˜ä¸€æ¡ä¸²å£è¯»å–çš„è®°å½•
     }
     else
     {
         memcpy(&tCollData[0], ptCollData, PORT_MAXDATANUM * sizeof(COLLECTDATA));
     }
 
-    /* »ñÈ¡Êı¾İÍê³É£¬¿ªÊ¼´¦ÀíÊı¾İ£¬»­Í¼»òÕß±£´æ */
+    /* è·å–æ•°æ®å®Œæˆï¼Œå¼€å§‹å¤„ç†æ•°æ®ï¼Œç”»å›¾æˆ–è€…ä¿å­˜ */
     // fCurCir = m_tCollData.nAllCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM;
     fCurCir = m_tCollData.nAllCount * m_fCurMaxTurn / MAXLINEITEM;
 
@@ -2337,18 +2337,18 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
             break;
         }
 
-        /* ½«ÓĞĞ§Êı¾İ±£´æµ½´®¿Ú±£´æ½á¹¹ÖĞ */
+        /* å°†æœ‰æ•ˆæ•°æ®ä¿å­˜åˆ°ä¸²å£ä¿å­˜ç»“æ„ä¸­ */
         //if(NULL != m_ptPortData)
         {
-            /* Âö³å±ØĞëµİÔö£¬»òÕß·´×ª£¬·ñÔòÈÏÎªÊÇÖØ¸´ */
+            /* è„‰å†²å¿…é¡»é€’å¢ï¼Œæˆ–è€…åè½¬ï¼Œå¦åˆ™è®¤ä¸ºæ˜¯é‡å¤ */
             if (m_ptPortData->nLastPlus <= tCollData[i].nOrgPlus ||
-                m_ptPortData->nLastPlus - tCollData[i].nOrgPlus >= MAXREVERSEPLUS)  // ÖØ¸´
+                m_ptPortData->nLastPlus - tCollData[i].nOrgPlus >= MAXREVERSEPLUS)  // é‡å¤
             {
                 if (m_ptPortData->nLastPlus == 0)
                     iDelPlus = 0;
                 else
                     iDelPlus = tCollData[i].nOrgPlus - m_ptPortData->nLastPlus;
-                if (iDelPlus >= 0)       // Ğ¡ÓÚ0ÎªÖØ¸´£¬²»´æÊı¾İ
+                if (iDelPlus >= 0)       // å°äº0ä¸ºé‡å¤ï¼Œä¸å­˜æ•°æ®
                 {
                     nSaveNum = m_ptPortData->nSaveCount;
                     m_ptPortData->fTorque[nSaveNum] = tCollData[i].fTorque;
@@ -2365,8 +2365,8 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
             continue;
         }
 
-        /* Ğ¡ÓÚÏÔÊ¾Å¤¾Ø£¬²»¼ÇÂ¼£¬¸üĞÂÂö³åºÍÍ¼ÏñµÄµãÊı£¬²»Ó°ÏìÏÂ´ÎµÄ»­Í¼ */
-        /* Èç¹û´Ó´óÓÚ¼õËÙÅ¤¾Øµ½Ğ¡ÓÚÏÔÊ¾Å¤¾Ø£¬Ò²±£´æÊı¾İ */
+        /* å°äºæ˜¾ç¤ºæ‰­çŸ©ï¼Œä¸è®°å½•ï¼Œæ›´æ–°è„‰å†²å’Œå›¾åƒçš„ç‚¹æ•°ï¼Œä¸å½±å“ä¸‹æ¬¡çš„ç”»å›¾ */
+        /* å¦‚æœä»å¤§äºå‡é€Ÿæ‰­çŸ©åˆ°å°äºæ˜¾ç¤ºæ‰­çŸ©ï¼Œä¹Ÿä¿å­˜æ•°æ® */
         if (tCollData[i].fTorque < m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW])
         {
             if (m_iBreakOut > 0)
@@ -2389,25 +2389,25 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
             return 0;
         }
 
-        /* Âö³åÊı·­×ª£¬Ö±½ÓÇåÁã */
+        /* è„‰å†²æ•°ç¿»è½¬ï¼Œç›´æ¥æ¸…é›¶ */
         nPriorPlus = m_iPriorPlus;
-        /* 20230114 Âö³å²îÖµ¿ÉÄÜÎª0£¬Ò²¼ÇÂ¼Å¤¾ØÊı¾İ */
+        /* 20230114 è„‰å†²å·®å€¼å¯èƒ½ä¸º0ï¼Œä¹Ÿè®°å½•æ‰­çŸ©æ•°æ® */
         if (tCollData[i].nOrgPlus < nPriorPlus && tCollData[i].ucStatus != PLCSTATUS_UNLOAD)
         {
-            /* 20200223 Á½×éÊı¾İ¿ÉÄÜÖØ¸´£¬Âö³åÊı»á±ÈÉÏÒ»×é×îºóÒ»¸öĞ¡£¬Ìø¹ı */
-            /* 20200315 ±ÜÃâÌø¹ıÊı¾İ±»´æÅÌ£¬ÉèÖÃ×´Ì¬F0£¬ÔÚINSERTDATAÊ±Ò²Ìø¹ı */
-            /* 20200320 Âö³åÊıĞ¡ÓÚ300£¬²»ÊÇÍ£¶Ù£¬ÈÏÎªÊı¾İÖØ¸´ ;20200809 300->3000, Âö³åËø¶¨10s */
-            /* 20201219 3000->3000£»ÏÖ³¡Êı¾İÃ»ÓĞ»­³öÀ´£¬¸Ä»Ø300 MAXREVERSEPLUS */
+            /* 20200223 ä¸¤ç»„æ•°æ®å¯èƒ½é‡å¤ï¼Œè„‰å†²æ•°ä¼šæ¯”ä¸Šä¸€ç»„æœ€åä¸€ä¸ªå°ï¼Œè·³è¿‡ */
+            /* 20200315 é¿å…è·³è¿‡æ•°æ®è¢«å­˜ç›˜ï¼Œè®¾ç½®çŠ¶æ€F0ï¼Œåœ¨INSERTDATAæ—¶ä¹Ÿè·³è¿‡ */
+            /* 20200320 è„‰å†²æ•°å°äº300ï¼Œä¸æ˜¯åœé¡¿ï¼Œè®¤ä¸ºæ•°æ®é‡å¤ ;20200809 300->3000, è„‰å†²é”å®š10s */
+            /* 20201219 3000->3000ï¼›ç°åœºæ•°æ®æ²¡æœ‰ç”»å‡ºæ¥ï¼Œæ”¹å›300 MAXREVERSEPLUS */
             if (nPriorPlus - tCollData[i].nOrgPlus < MAXREVERSEPLUS)
             {
                 tCollData[i].ucStatus = PLCSTATUS_REPEAT;
                 continue;
             }
 
-            /* 20200320 Âö³åÊıÍ»È»½µµÍ£¬ÔòÈÏÎªÊÇÅ¤¾ØÒÇÍ£¶Ùºóµ¥Æ¬»úÂö³åÇåÁã */
+            /* 20200320 è„‰å†²æ•°çªç„¶é™ä½ï¼Œåˆ™è®¤ä¸ºæ˜¯æ‰­çŸ©ä»ªåœé¡¿åå•ç‰‡æœºè„‰å†²æ¸…é›¶ */
             m_iPriorPlus = 0;
             m_iShowPlus = tCollData[i].nOrgPlus;
-            /* 20201219 ·´×ªÊ±LastPlusµÃÇåÁã£¬·ñÔòÂö³å0ºóÃæµÄÊı¾İÏÔÊ¾²»³öÀ´ */
+            /* 20201219 åè½¬æ—¶LastPluså¾—æ¸…é›¶ï¼Œå¦åˆ™è„‰å†²0åé¢çš„æ•°æ®æ˜¾ç¤ºä¸å‡ºæ¥ */
             m_ptPortData->nLastPlus = tCollData[i].nOrgPlus;
         }
         if (tCollData[i].nOrgPlus > (UINT)m_iPriorPlus)
@@ -2426,13 +2426,13 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         }
         else
         {
-            /* ×´Ì¬3Ğ¶ºÉÊı¾İµÄÌØÊâ´¦Àí */
+            /* çŠ¶æ€3å¸è·æ•°æ®çš„ç‰¹æ®Šå¤„ç† */
             if (tCollData[i].ucStatus == PLCSTATUS_UNLOAD)
             {
                 COMP_BFALSE_R(Status3Proc(&tCollData[i], &bFinish), 0);
                 bHaveS3 = TRUE;
             }
-            /* ×´Ì¬4·Ç100ĞÍ±§ËÀ£¬Ö±½ÓÍê³É²¢ÏÔÊ¾Êı¾İ */
+            /* çŠ¶æ€4é100å‹æŠ±æ­»ï¼Œç›´æ¥å®Œæˆå¹¶æ˜¾ç¤ºæ•°æ® */
             else if (tCollData[i].ucStatus == PLCSTATUS_LOCKON)
             {
                 Status4Proc(&tCollData[i], &bFinish);
@@ -2442,7 +2442,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
                 m_nCurDelay = 0;
         }
 
-        /*Ö±½ÓÏÔÊ¾Å¤¾ØÊı¾İ20111030*/
+        /*ç›´æ¥æ˜¾ç¤ºæ‰­çŸ©æ•°æ®20111030*/
         if (tCollData[i].fTorque > m_fMaxTorq)
             m_fMaxTorq = tCollData[i].fTorque;
     }
@@ -2453,27 +2453,27 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
 
     if (nDataNum > 0)
     {
-        /* for Ğ¶¿Û */
+        /* for å¸æ‰£ */
         if (m_iBreakOut > 0)
             m_strTorque.Format("%.1f / %.1f", tCollData[nDataNum - 1].fTorque / SHOWTORQUEUNIT, m_fMaxTorq / SHOWTORQUEUNIT);
         else if (bHaveS3)
             m_strTorque.Format("%.1f", m_fMaxTorq / SHOWTORQUEUNIT);
-        else    /* ÏÔÊ¾×îºóÒ»¸öÓĞĞ§Êı¾İ */
+        else    /* æ˜¾ç¤ºæœ€åä¸€ä¸ªæœ‰æ•ˆæ•°æ® */
             m_strTorque.Format("%.1f", tCollData[nDataNum - 1].fTorque / SHOWTORQUEUNIT);
             // m_strTorque.Format("%.0f, %.2f", tCollData[nDataNum - 1].fTorque, fCurCir);
         m_fRpm = tCollData[nDataNum - 1].fRpm;
 
         for (i = 0; i < (int)nDataNum && i < PORT_MAXDATANUM; i++)
         {
-            /* 20200315 ±ÜÃâÌø¹ıÊı¾İ±»´æÅÌ£¬ÉèÖÃ×´Ì¬F0£¬ÔÚINSERTDATAÊ±Ò²Ìø¹ı */
+            /* 20200315 é¿å…è·³è¿‡æ•°æ®è¢«å­˜ç›˜ï¼Œè®¾ç½®çŠ¶æ€F0ï¼Œåœ¨INSERTDATAæ—¶ä¹Ÿè·³è¿‡ */
             if (PLCSTATUS_REPEAT == tCollData[i].ucStatus)
                 continue;
-            /* Ö»ÊÇÅ¤¾Ø¸üĞÂ£¬Âö³åÊıÃ»ÓĞÔö¼Ó£¬ÔÚÏÖÓĞÊı¾İ»ù´¡ÉÏ¸üĞÂÅ¤¾Ø£¬²»²åÈëĞÂÊı¾İ */
+            /* åªæ˜¯æ‰­çŸ©æ›´æ–°ï¼Œè„‰å†²æ•°æ²¡æœ‰å¢åŠ ï¼Œåœ¨ç°æœ‰æ•°æ®åŸºç¡€ä¸Šæ›´æ–°æ‰­çŸ©ï¼Œä¸æ’å…¥æ–°æ•°æ® */
             if (m_iOutPoints == 0)
             {
                 ZeroPointUpdateData(&tCollData[i], bFinish);
             }
-            /* ²åÈëÊı¾İ(°üÀ¨¹¹Ôì¶à¸öÊı¾İ) */
+            /* æ’å…¥æ•°æ®(åŒ…æ‹¬æ„é€ å¤šä¸ªæ•°æ®) */
             else
             {
                 MorePointInsertData(&tCollData[i], bFinish);
@@ -2482,11 +2482,11 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
 
         RecordReportData();
 
-        /* ¼ÆËãÈ¦Êı */
+        /* è®¡ç®—åœˆæ•° */
         //SHOWCIRINFO(m_tCollData.nCurCount, m_tCollData.nAllCount, m_ptCtrl->fMaxCir, m_strCircle);
 
-        /* Í¼ĞÎ³¬¹ı¿ØÖÆÖÜÊı£¬×Ô¶¯Ë¢ĞÂ
-           ÏÖ³¡ÓĞÊ±ÒòÎªÖÜÊıÉèÖÃĞ¡£¬Í¼ĞÎ³¬¹ı£¬ÂúÆÁÖÜÊı Ã»Í¼ĞÎ */
+        /* å›¾å½¢è¶…è¿‡æ§åˆ¶å‘¨æ•°ï¼Œè‡ªåŠ¨åˆ·æ–°
+           ç°åœºæœ‰æ—¶å› ä¸ºå‘¨æ•°è®¾ç½®å°ï¼Œå›¾å½¢è¶…è¿‡ï¼Œæ»¡å±å‘¨æ•° æ²¡å›¾å½¢ */
         /*fCurCir = (m_tCollData.nCurCount * m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT] / MAXLINEITEM);
         if (fCurCir > m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL] || fCurCir > m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT])
         {
@@ -2500,7 +2500,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         UpdateData(FALSE);
     }
 
-    // 20230210 Ğ¶¿ÛÊ±¼ì²éÊÇ·ñĞèÒª¸üĞÂ»­Å¤¾Ø·¶Î§
+    // 20230210 å¸æ‰£æ—¶æ£€æŸ¥æ˜¯å¦éœ€è¦æ›´æ–°ç”»æ‰­çŸ©èŒƒå›´
     if (m_iBreakOut > 0)
     {
         if (m_fMaxTorq > m_fMaxBORange * 0.8)
@@ -2511,12 +2511,12 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         }
     }
 
-    // 20230214 µ±Ç°ÖÜÊı³¬¹ı×î´óÖÜÊı£¬¸üĞÂ×î´óÖÜÊı
+    // 20230214 å½“å‰å‘¨æ•°è¶…è¿‡æœ€å¤§å‘¨æ•°ï¼Œæ›´æ–°æœ€å¤§å‘¨æ•°
     UINT nOld = m_wndTorque.GetCurPoint();
     UINT nNew = nOld;
     if (nOld > MAXLINEITEM * AUTOUPDTURNRATIO)
     {
-        // ×î´óÖÜÊı°´80%È¡ÕûÉèÖÃ
+        // æœ€å¤§å‘¨æ•°æŒ‰80%å–æ•´è®¾ç½®
         double newTurn = (int)ceil(m_fCurMaxTurn / AUTOUPDTURNRATIO);
         nNew = (UINT)ceil(nOld * m_fCurMaxTurn / newTurn);
         ZoomData(m_tCollData.fTorque, nOld, nNew);
@@ -2530,7 +2530,7 @@ int CDrillDlg::RcvTorqDataProc(COLLECTDATA* ptCollData)
         m_wndRpm.ReDrawLine(m_tCollData.fRpm, nNew);
     }
 
-    /* ¿ØÖÆÏÂ½µ */
+    /* æ§åˆ¶ä¸‹é™ */
     if (bFinish)
     {
         strInfo = string_format("bFinish TRUE FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
@@ -2555,7 +2555,7 @@ bool CDrillDlg::ZoomData(double* pData, UINT nOldCount, UINT nNewCount)
     memcpy(pOldData, pData, nOldCount * sizeof(double));
     memset(pData, 0, nOldCount * sizeof(double));
 
-    /* µÚÒ»¸öÊı¾İÖ±½Ó¿½±´ */
+    /* ç¬¬ä¸€ä¸ªæ•°æ®ç›´æ¥æ‹·è´ */
     pData[0] = pOldData[0];
     for (int i = 1; i < (int)(nNewCount - 1); i++)
     {
@@ -2566,7 +2566,7 @@ bool CDrillDlg::ZoomData(double* pData, UINT nOldCount, UINT nNewCount)
         }
         pData[i] = pOldData[nPrePos];
     }
-    /* ×îºóÒ»¸öÊı¾İÖ±½Ó¿½±´ */
+    /* æœ€åä¸€ä¸ªæ•°æ®ç›´æ¥æ‹·è´ */
     pData[nNewCount - 1] = pOldData[nOldCount - 1];
 
     free(pOldData);
@@ -2574,7 +2574,7 @@ bool CDrillDlg::ZoomData(double* pData, UINT nOldCount, UINT nNewCount)
     return true;
 }
 
-/* ¿ØÖÆÅ¤¾Ø»òÕßÍ£Ö¹ºó10s£¬ĞèÒªÇåÁãÊı¾İ¡¢Çå³ı¼õËÙ¡¢Ğ¶ºÉµÆ */
+/* æ§åˆ¶æ‰­çŸ©æˆ–è€…åœæ­¢å10sï¼Œéœ€è¦æ¸…é›¶æ•°æ®ã€æ¸…é™¤å‡é€Ÿã€å¸è·ç¯ */
 LRESULT CDrillDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
 {
     GetCurNum();
@@ -2589,18 +2589,18 @@ LRESULT CDrillDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     CanModLastData(FALSE);
     Invalidate(TRUE);
 
-    //É±¸´Î»¶¨Ê±Æ÷
+    //æ€å¤ä½å®šæ—¶å™¨
     m_hrtGuard.KillTimer();
-    //¸´Î»Ê±¼ä¶¨Ê±»ñÈ¡Êı¾İ
+    //å¤ä½æ—¶é—´å®šæ—¶è·å–æ•°æ®
     //m_hrtGuardRead.KillTimer();
 
-    if (m_bRunStatus) /* Èç¹û»¹ÔÚÔËĞĞ */
+    if (m_bRunStatus) /* å¦‚æœè¿˜åœ¨è¿è¡Œ */
     {
-        /* ¶¨Ê±Æ÷µ½ºó£¬ÖØĞÂ´ò¿ª´®¿Ú£¬Çå³ı´®¿ÚÊı¾İ£¬ÒÔÃâ´®¿ÚÀúÊ·Êı¾İĞÎ³ÉÎŞĞ§Å¤¾Ø¼ÇÂ¼ */
-        /* 20171028 : ´®¿Ú¶à´Î´ò¿ªµ¼ÖÂÖ¸Õë·Ç·¨£¬È¥µôÖØĞÂ´ò¿ª´®¿ÚÉèÖÃ */
+        /* å®šæ—¶å™¨åˆ°åï¼Œé‡æ–°æ‰“å¼€ä¸²å£ï¼Œæ¸…é™¤ä¸²å£æ•°æ®ï¼Œä»¥å…ä¸²å£å†å²æ•°æ®å½¢æˆæ— æ•ˆæ‰­çŸ©è®°å½• */
+        /* 20171028 : ä¸²å£å¤šæ¬¡æ‰“å¼€å¯¼è‡´æŒ‡é’ˆéæ³•ï¼Œå»æ‰é‡æ–°æ‰“å¼€ä¸²å£è®¾ç½® */
         //m_bComm = ChangeCommParam(FALSE);
 
-        /* ¸´Î»¶¨Ê±Æ÷µ½Ê±ºó£¬ÖØĞÂ´ò¿ªTimer1ÊÕ¼¯´®¿ÚÊı¾İ */
+        /* å¤ä½å®šæ—¶å™¨åˆ°æ—¶åï¼Œé‡æ–°æ‰“å¼€Timer1æ”¶é›†ä¸²å£æ•°æ® */
         m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
         UpdateOutData(0, 0);
     }
@@ -2608,14 +2608,14 @@ LRESULT CDrillDlg::GuardTimerOut(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-/* ¶Á´®¿ÚÇ°»º³åÇøÓĞÊı¾İµÈ´ıµ¥Æ¬»úĞ´¶¨Ê±Æ÷Timer7µ½Ê±£¬¶ÁµôInque»º³å£¬È»ºóÖØĞÂ·¢ËÍÏûÏ¢ */
+/* è¯»ä¸²å£å‰ç¼“å†²åŒºæœ‰æ•°æ®ç­‰å¾…å•ç‰‡æœºå†™å®šæ—¶å™¨Timer7åˆ°æ—¶ï¼Œè¯»æ‰Inqueç¼“å†²ï¼Œç„¶åé‡æ–°å‘é€æ¶ˆæ¯ */
 LRESULT CDrillDlg::PortBuffTimerOut(WPARAM wParam, LPARAM lParam)
 {
 #if 0
-    BYTE    ucTmpRecv[PORTBUFF];      /* modbus½ÓÊÕÏûÏ¢ÊıÖµ */
+    BYTE    ucTmpRecv[PORTBUFF];      /* modbusæ¥æ”¶æ¶ˆæ¯æ•°å€¼ */
     WORD    wRecvLen = 0;
 
-    /* É±µô»º³å±£»¤¶¨Ê±Æ÷£¬Çå¿Õ»º³å */
+    /* æ€æ‰ç¼“å†²ä¿æŠ¤å®šæ—¶å™¨ï¼Œæ¸…ç©ºç¼“å†² */
     m_hrtPortBuff.KillTimer();
 
     ASSERT_NULL_R(g_lpNewComThread, 0);
@@ -2624,7 +2624,7 @@ LRESULT CDrillDlg::PortBuffTimerOut(WPARAM wParam, LPARAM lParam)
     g_lpNewComThread->ReceiveData_Command(ucTmpRecv, &wRecvLen);
 
     theApp.SavePortBufData(ucTmpRecv, wRecvLen, m_nClashSta);
-    /* »º³å·Ç¿Õ£¬ÉèÖÃSERIALBUFF_TIMER¶¨Ê±Æ÷£¬¶¨Ê±ºóÔÙÇå»º³å */
+    /* ç¼“å†²éç©ºï¼Œè®¾ç½®SERIALBUFF_TIMERå®šæ—¶å™¨ï¼Œå®šæ—¶åå†æ¸…ç¼“å†² */
     if (m_nClashSta == RS_READCLASH)  /* Read */
     {
         m_nClashERR++;
@@ -2633,7 +2633,7 @@ LRESULT CDrillDlg::PortBuffTimerOut(WPARAM wParam, LPARAM lParam)
     }
     else if (m_nClashSta == RS_RESETCLASH)
     {
-        /* resetÊ±µÄ³åÍ»²»¼ÆËãClash£¬µ«ÊÇ´òÓ¡±£´æ */
+        /* resetæ—¶çš„å†²çªä¸è®¡ç®—Clashï¼Œä½†æ˜¯æ‰“å°ä¿å­˜ */
         //ResetTimerOut(0,0);
         //m_hrtGuardRead.CreateTimer(this,theApp.m_nColletTime, HRTGuardRead);
     }
@@ -2648,7 +2648,7 @@ LRESULT CDrillDlg::SaveDataTimerOut(WPARAM wParam, LPARAM lParam)
     strInfo = string_format("FinishControl by Func(%s) on Line(%d) ", __FUNCTION__, __LINE__);
     theApp.SaveMessage(strInfo);
 
-    /* É±µôÊı¾İ±£´æ¶¨Ê±Æ÷ */
+    /* æ€æ‰æ•°æ®ä¿å­˜å®šæ—¶å™¨ */
     m_hrtSaveData.KillTimer();
 
     FinishControl();
@@ -2697,7 +2697,7 @@ void CDrillDlg::LightValveStatus(BYTE* pucStatus)
         if (m_bValveStatus[i] == (pucStatus[1] & m_nValveMark[i]))
             continue;
 
-        /* Ç°Ãæ×´Ì¬OK£¬±äÎªNOK£¬µãºìµÈ */
+        /* å‰é¢çŠ¶æ€OKï¼Œå˜ä¸ºNOKï¼Œç‚¹çº¢ç­‰ */
         if (m_bValveStatus[i])
             m_cbValveStatus[i].SetSameIcon(IDI_LEDREDON);
         else
@@ -2720,7 +2720,7 @@ LRESULT CDrillDlg::ReadValveTimerOut(WPARAM wParam, LPARAM lParam)
     bReadRes = SendData(SCMREADVALVE);
     m_iValveBreakCnt--;
 
-    /* Á¬Ğø5´ÎÃ»ÓĞ¶ÁÈ¡µ½£¬ÉèÖÃ´®¿ÚÎª¹Ø±Õ×´Ì¬ */
+    /* è¿ç»­5æ¬¡æ²¡æœ‰è¯»å–åˆ°ï¼Œè®¾ç½®ä¸²å£ä¸ºå…³é—­çŠ¶æ€ */
     if (m_iValveBreakCnt <= 0)
     {
         SetCommShowInfo(RS_COMM_CLOSE);
@@ -2806,7 +2806,7 @@ BOOL CDrillDlg::RunIniAutoFile()
 
     strFullFile = theApp.m_strAppPath.c_str();
     strFullFile += theApp.m_strAutoSaveFile.c_str();
-    /* ´ò¿ªµÄautosavefileÃû³ÆÏµÍ³×Ô¶¯±£´æµÄÎÄ¼şÃû³ÆÒ»Ñù£¬ÎªÁË±ÜÃâ³åÍ»£¬´ò¿ªÊ§°Ü */
+    /* æ‰“å¼€çš„autosavefileåç§°ç³»ç»Ÿè‡ªåŠ¨ä¿å­˜çš„æ–‡ä»¶åç§°ä¸€æ ·ï¼Œä¸ºäº†é¿å…å†²çªï¼Œæ‰“å¼€å¤±è´¥ */
     COMP_BE_R(strFullFile.CompareNoCase(theApp.m_strLogFile.c_str()), 0, FALSE);
 
     ASSERT_ZERO_R(m_AutoSavefile.Open(strFullFile, CFile::modeRead | CFile::shareDenyNone), FALSE);
@@ -2848,7 +2848,7 @@ void CDrillDlg::RunTorque()
         break;
     }
 
-    /* ³õÊ¼»¯Ê§°Ü£¬²»ÔËĞĞ£¬×´Ì¬²»Ç¨ÒÆ */
+    /* åˆå§‹åŒ–å¤±è´¥ï¼Œä¸è¿è¡Œï¼ŒçŠ¶æ€ä¸è¿ç§» */
     if (!bInit)
     {
         m_bRunStatus = FALSE;
@@ -2857,18 +2857,18 @@ void CDrillDlg::RunTorque()
         return;
     }
 
-    /* ½çÃæÉèÖÃ */
+    /* ç•Œé¢è®¾ç½® */
     StopPlayAlam();
 
     m_btnRun.SetIconAndText(IDI_STOP, IDS_STRMAINSTOP);
     m_btnRun.SetWindowText(theApp.LoadstringFromRes(IDS_STRMAINSTOP).c_str());
 
-    /* ³õÊ¼»¯Êı¾İ */
+    /* åˆå§‹åŒ–æ•°æ® */
     m_strQuality.Empty();
     ResetData();
     ResetLineChart();
 
-    /* ¹Ø¼ü±äÁ¿³õÊ¼»¯ */
+    /* å…³é”®å˜é‡åˆå§‹åŒ– */
     m_strTorque = _T("0");
     m_fRpm = 0;
     m_iRecPNum = 0;
@@ -2876,14 +2876,14 @@ void CDrillDlg::RunTorque()
     m_iPriorPlus = 0;
     m_strRecvData.Empty();
 
-    /* ÉèÖÃ¶¨Ê±Æ÷¶¨Ê±¶ÁÈ¡´®¿Ú */
+    /* è®¾ç½®å®šæ—¶å™¨å®šæ—¶è¯»å–ä¸²å£ */
     m_fPreReadTime = clock() * 1000.0 / CLOCKS_PER_SEC;
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
-    /* ¶¨Ê±±£´æCRCºÍµ÷ÊÔĞÅÏ¢ */
+    /* å®šæ—¶ä¿å­˜CRCå’Œè°ƒè¯•ä¿¡æ¯ */
     //m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
-    // TCP ¶¨Ê±ÉÏ±¨WITSÊÇÊı¾İ¶¨Ê±Æ÷
+    // TCP å®šæ—¶ä¸ŠæŠ¥WITSæ˜¯æ•°æ®å®šæ—¶å™¨
     m_hrtWITSReport.CreateTimer(this, WITSRPT_TLEN, HRTWITSReport);
-    /* ¶¨Ê±¼ì²éTCP×´Ì¬ */
+    /* å®šæ—¶æ£€æŸ¥TCPçŠ¶æ€ */
     //m_hrtTCPStatus.CreateTimer(this, TCPSTATUS_TLEN, HRTTCPStatus);
     CanModLastData(FALSE);
 
@@ -2892,15 +2892,15 @@ void CDrillDlg::RunTorque()
     return;
 }
 
-/* Ä³Ğ©Òì³£Ö÷¶¯´¥·¢»­×îºóÒ»¸öµã£¬ĞèÒª¸üĞÂĞòºÅFinishSetStatus(±ÈÈçÍ£Ö¹£¬ÖØÆô)
-   ·ñÔòÔÚGuard¶¨Ê±Æ÷³¬Ê±ºó¸üĞÂĞòºÅ */
+/* æŸäº›å¼‚å¸¸ä¸»åŠ¨è§¦å‘ç”»æœ€åä¸€ä¸ªç‚¹ï¼Œéœ€è¦æ›´æ–°åºå·FinishSetStatus(æ¯”å¦‚åœæ­¢ï¼Œé‡å¯)
+   å¦åˆ™åœ¨Guardå®šæ—¶å™¨è¶…æ—¶åæ›´æ–°åºå· */
 void CDrillDlg::DrawLastPoint()
 {
     COLLECTDATA tNullData = { 0 };
 
     if (m_tCollData.nAllCount != 0)
     {
-        /* 20200806 fOutTorqueÃ»ÓĞ»­Ê±³¢ÊÔÔÙ»­Ò»´Î */
+        /* 20200806 fOutTorqueæ²¡æœ‰ç”»æ—¶å°è¯•å†ç”»ä¸€æ¬¡ */
         if (m_fOutTorque > m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW])
         {
             tNullData.fRpm = m_tCollData.fRpm[m_tCollData.nAllCount - 1];
@@ -2908,26 +2908,26 @@ void CDrillDlg::DrawLastPoint()
                 MorePointInsertData(&tNullData, TRUE);
             else
                 ZeroPointUpdateData(&tNullData, TRUE);
-            // outÇåÁã
+            // outæ¸…é›¶
             m_fOutTorque = 0;
             m_iOutPoints = 0;
         }
         m_wndTorque.FinishDraw();
         m_wndRpm.FinishDraw();
 
-        /* ´ÓCollectDataÖĞ»ñÈ¡×îºóµÄÊı¾İµ½SaveData */
+        /* ä»CollectDataä¸­è·å–æœ€åçš„æ•°æ®åˆ°SaveData */
         GetValidTorqData();
-        /* Íê³É¿ØÖÆ´¦Àí */
+        /* å®Œæˆæ§åˆ¶å¤„ç† */
         FinishSetStatus();
 
-        /* ´óÓÚ¼õËÙÅ¤¾Ø²Å´æÅÌ */
+        /* å¤§äºå‡é€Ÿæ‰­çŸ©æ‰å­˜ç›˜ */
         if (m_fMaxTorq >= m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW])
         {
             SaveIntoData(&m_tSaveData);
         }
     }
 
-    /* Êı¾İ¸´Î» */
+    /* æ•°æ®å¤ä½ */
     ResetData();
 
     if (m_bAlarm)
@@ -3024,18 +3024,18 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
     m_wndTorque.RemoveAt();
     m_wndRpm.RemoveAt();
 
-    //m_wndTorque.m_fUpperLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* ×î´óÅ¤¾Ø */
-    //m_wndTorque.m_fLowerLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* ×îĞ¡Å¤¾Ø */
-    m_wndTorque.m_fOptTorq = m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* ×î¼ÑÅ¤¾Ø */
-    //m_wndTorque.m_fSpeedDown = m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* ¼õËÙÅ¤¾Ø */
-    m_wndTorque.m_fShow = m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* ÏÔÊ¾Å¤¾Ø */
-    //m_wndTorque.m_fBear = m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* ¼ç¸ºÅ¤¾Ø */
-    m_wndTorque.m_fControlCir = m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* ¿ØÖÆÖÜÊı */
-    m_wndTorque.m_fUpperCir = m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* ÉÏÏŞÖÜÊı */
-    m_wndTorque.m_fLowerCir = m_ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* ÏÂÏŞÖÜÊı */
-    m_wndTorque.m_fMaxCir = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* ×î´óÖÜÊı */
+    //m_wndTorque.m_fUpperLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* æœ€å¤§æ‰­çŸ© */
+    //m_wndTorque.m_fLowerLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* æœ€å°æ‰­çŸ© */
+    m_wndTorque.m_fOptTorq = m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* æœ€ä½³æ‰­çŸ© */
+    //m_wndTorque.m_fSpeedDown = m_ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* å‡é€Ÿæ‰­çŸ© */
+    m_wndTorque.m_fShow = m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* æ˜¾ç¤ºæ‰­çŸ© */
+    //m_wndTorque.m_fBear = m_ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* è‚©è´Ÿæ‰­çŸ© */
+    m_wndTorque.m_fControlCir = m_ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* æ§åˆ¶å‘¨æ•° */
+    m_wndTorque.m_fUpperCir = m_ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* ä¸Šé™å‘¨æ•° */
+    m_wndTorque.m_fLowerCir = m_ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* ä¸‹é™å‘¨æ•° */
+    m_wndTorque.m_fMaxCir = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* æœ€å¤§å‘¨æ•° */
     m_wndTorque.m_fWidthCir = m_ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];
-    m_wndTorque.m_fMaxLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* ×î´óÉÏÏŞ */
+    m_wndTorque.m_fMaxLimit = m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* æœ€å¤§ä¸Šé™ */
     //m_wndTorque.m_bBear = m_ptComm->bBear;
 
     m_wndTorque.Add(RGB(255, 255, 255), m_ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0, LINETYPE_MAIN);
@@ -3061,12 +3061,12 @@ void CDrillDlg::ResetLineChart()//BOOL bRedraw)
 
     UpdateDlgLabel();
 
-    /* 20200320 : ²Á³ıÖ®Ç°µÄÇúÏß */
+    /* 20200320 : æ“¦é™¤ä¹‹å‰çš„æ›²çº¿ */
     m_wndTorque.Erase();
     m_wndRpm.Erase();
 }
 
-/* Ò»´Î¸øÏÂÎ»»ú·¢ËÍËùÓĞµÄÃüÁî */
+/* ä¸€æ¬¡ç»™ä¸‹ä½æœºå‘é€æ‰€æœ‰çš„å‘½ä»¤ */
 void CDrillDlg::SendAllCommand()
 {
     COMP_BG(g_tGlbCfg.nTest, 0);
@@ -3135,7 +3135,7 @@ void CDrillDlg::OnSetpara()
 
     theApp.m_tParaCfg = dlgParaSet.m_tempCfg;
     *m_ptShow = dlgParaSet.m_tempShow;
-    /* ¾®Ãû·¢Éú±ä»¯£¬Êı¾İ¼ÇÂ¼ÎÄ¼şÃû³ÆºÍÊı¾İĞòºÅĞèÒª±ä»¯ */
+    /* äº•åå‘ç”Ÿå˜åŒ–ï¼Œæ•°æ®è®°å½•æ–‡ä»¶åç§°å’Œæ•°æ®åºå·éœ€è¦å˜åŒ– */
     GetCurNum();
 
     /*if (!bCtrl || !bComm)*/
@@ -3145,7 +3145,7 @@ void CDrillDlg::OnSetpara()
         SendAllCommand();
     }
 
-    /*ÏÔÊ¾²ÎÊı*/
+    /*æ˜¾ç¤ºå‚æ•°*/
     InitMainShowPara();
     theApp.SaveAppStatus(STATUS_SETPARA, __FUNCTION__);
 
@@ -3176,7 +3176,7 @@ void CDrillDlg::OnBnClickedBtnshowset()
         return;
     theDB.UpdateShowPara(m_ptShow);
 
-    /*ÏÔÊ¾²ÎÊı*/
+    /*æ˜¾ç¤ºå‚æ•°*/
     InitMainShowPara();
 
     theApp.SaveAppStatus(STATUS_SETPARA, __FUNCTION__);
@@ -3202,18 +3202,18 @@ void CDrillDlg::OnSetShow()
     if (!dlgShow.m_bModified)
         return;
 
-    /* ¾®Ãû·¢Éú±ä»¯£¬Êı¾İ¼ÇÂ¼ÎÄ¼şÃû³ÆºÍÊı¾İĞòºÅĞèÒª±ä»¯ */
+    /* äº•åå‘ç”Ÿå˜åŒ–ï¼Œæ•°æ®è®°å½•æ–‡ä»¶åç§°å’Œæ•°æ®åºå·éœ€è¦å˜åŒ– */
     GetCurNum();
 
-    /*ÏÔÊ¾²ÎÊı*/
-    // dlgShowÒÑ¾­¸üĞÂÊı¾İ¿â
+    /*æ˜¾ç¤ºå‚æ•°*/
+    // dlgShowå·²ç»æ›´æ–°æ•°æ®åº“
     theApp.SaveAppStatus(STATUS_SETSHOW, __FUNCTION__);
 
-    //Ïú»Ùµ±Ç°´°¿Ú
+    //é”€æ¯å½“å‰çª—å£
     theApp.m_pMainWnd = NULL;
     this->DestroyWindow();
 
-    //ÖØĞÂ´ò¿ª´°¿Ú
+    //é‡æ–°æ‰“å¼€çª—å£
     theApp.ReOpenWindow();
 }
 
@@ -3248,7 +3248,7 @@ void CDrillDlg::OnDebug()
 
     theApp.SaveAppStatus(STATUS_FUNTEST, __FUNCTION__);
 
-    /* ¼ÇÂ¼µ±Ç°×´Ì¬µÆ */
+    /* è®°å½•å½“å‰çŠ¶æ€ç¯ */
     iOldIcon[0] = m_cbValveStatus[0].m_iIconSame;
     iOldIcon[1] = m_cbValveStatus[1].m_iIconSame;
     iOldIcon[2] = m_cbAlarm.m_iIconSame;
@@ -3257,7 +3257,7 @@ void CDrillDlg::OnDebug()
     StopGetValveStatus();
     dlgTest.DoModal();
 
-    /* »Ö¸´²âÊÔÇ°×´Ì¬ */
+    /* æ¢å¤æµ‹è¯•å‰çŠ¶æ€ */
     TestSpeedLed(iOldIcon[0]);
     TestUnloadLed(iOldIcon[1]);
     TestAlarmLed(iOldIcon[2]);
@@ -3373,34 +3373,34 @@ BOOL CDrillDlg::CompSysPara(const BYTE* pPara1, const BYTE* pPara2, WORD wSize)
     return TRUE;
 }
 
-/* ¶ÁÈ¡Êı¾İ */
+/* è¯»å–æ•°æ® */
 void CDrillDlg::FillRead(void)
 {
     FillReadCommand(COM_READ);
 }
 
-/* ¶ÁÈ¡¶à×éÊı¾İ */
+/* è¯»å–å¤šç»„æ•°æ® */
 void CDrillDlg::FillReadMulti(void)
 {
     FillReadCommand(COM_READMULTI);
 }
 
-/* Ğ£×¼±¶Êı */
+/* æ ¡å‡†å€æ•° */
 void CDrillDlg::FillMulti()
 {
     FillWriteCommand(COM_ADJUST);
 
-    /*Ğ£×¼±¶ÊıÖµ*/
+    /*æ ¡å‡†å€æ•°å€¼*/
     FillWordValue(&MODBUS_CONTENT, (int)(g_tGlbCfg.fMulti * 100));
 }
 
-/* È¥Æ¤ */
+/* å»çš® */
 void CDrillDlg::FillQipi()
 {
     FillWriteCommand(COM_QIPI);
 }
 
-/*ÊÕ¼¯Êı¾İ*/
+/*æ”¶é›†æ•°æ®*/
 void CDrillDlg::FillCollect()
 {
     FillWriteCommand(COM_COLLECT);
@@ -3408,7 +3408,7 @@ void CDrillDlg::FillCollect()
     MODBUS_CONTENT = 0x00;
 }
 
-/*ÊÕµ½ÓĞĞ§Êı¾İÔÙ´Î²É¼¯Êı¾İ£º×îºóÒ»´ÎÈ·ÈÏºó²»ĞèÒªÔÙ´ÎÊÕµ½Êı¾İ*/
+/*æ”¶åˆ°æœ‰æ•ˆæ•°æ®å†æ¬¡é‡‡é›†æ•°æ®ï¼šæœ€åä¸€æ¬¡ç¡®è®¤åä¸éœ€è¦å†æ¬¡æ”¶åˆ°æ•°æ®*/
 void CDrillDlg::FillCollectOK()
 {
     FillWriteCommand(COM_COLLECT);
@@ -3416,7 +3416,7 @@ void CDrillDlg::FillCollectOK()
     MODBUS_CONTENT = 0x01;
 }
 
-/*ÊÕµ½ÎŞĞ§Êı¾İÔÙ´Î²É¼¯Êı¾İ*/
+/*æ”¶åˆ°æ— æ•ˆæ•°æ®å†æ¬¡é‡‡é›†æ•°æ®*/
 void CDrillDlg::FillCollectNOK()
 {
     FillWriteCommand(COM_COLLECT);
@@ -3424,91 +3424,91 @@ void CDrillDlg::FillCollectNOK()
     MODBUS_CONTENT = 0x02;
 }
 
-/* ÏÔÊ¾Å¤¾Ø */
+/* æ˜¾ç¤ºæ‰­çŸ© */
 void CDrillDlg::FillShow()
 {
     FillWriteCommand(COM_SHOW);
 
-    /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+    /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
     FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_SHOW] / theApp.m_nTorqMulti));
 }
 
-/* ¼õËÙÅ¤¾Ø */
+/* å‡é€Ÿæ‰­çŸ© */
 void CDrillDlg::FillSpeed()
 {
     FillWriteCommand(COM_SPEED);
 
-    /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+    /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
     FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_OPTSHOULD / theApp.m_nTorqMulti));
 }
 
-/* ¿ØÖÆÅ¤¾Ø */
+/* æ§åˆ¶æ‰­çŸ© */
 void CDrillDlg::FillControl()
 {
     FillWriteCommand(COM_CONTROL);
 
-    /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+    /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
     FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_CONTROL] / theApp.m_nTorqMulti));
 }
 
-/* ¿ªÊ¼¼õËÙ */
+/* å¼€å§‹å‡é€Ÿ */
 void CDrillDlg::FillBSpeed()
 {
     FillWriteCommand(COM_BSPEED);
 }
 
-/* Í£Ö¹¼õËÙ */
+/* åœæ­¢å‡é€Ÿ */
 void CDrillDlg::FillESpeed()
 {
     FillWriteCommand(COM_ESPEED);
 }
 
-/* ¿ªÊ¼Ğ¶ºÉ */
+/* å¼€å§‹å¸è· */
 void CDrillDlg::FillBUnload()
 {
     FillWriteCommand(COM_BUNLOAD);
 }
 
-/* Í£Ö¹Ğ¶ºÉ */
+/* åœæ­¢å¸è· */
 void CDrillDlg::FillEUnload()
 {
     FillWriteCommand(COM_EUNLOAD);
 }
 
-/* ×î´óÅ¤¾Ø */
+/* æœ€å¤§æ‰­çŸ© */
 void CDrillDlg::FillUpper()
 {
     FillWriteCommand(COM_UPPER);
 
-    /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+    /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
     FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_UPPERLIMIT / theApp.m_nTorqMulti));
 }
 
-/* ×îĞ¡Å¤¾Ø */
+/* æœ€å°æ‰­çŸ© */
 void CDrillDlg::FillLower()
 {
     FillWriteCommand(COM_LOWER);
 
-    /* 3.17ºÍ4.17ºÏÒ»£¬Å¤¾ØĞèÒª³Ë±¶ÂÊ */
+    /* 3.17å’Œ4.17åˆä¸€ï¼Œæ‰­çŸ©éœ€è¦ä¹˜å€ç‡ */
     FillWordValue(&MODBUS_CONTENT, (int)(m_ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL] * RATIO_LOWERLIMIT / theApp.m_nTorqMulti));
 }
 
-/* ´òÕÛÏµÊı */
+/* æ‰“æŠ˜ç³»æ•° */
 void CDrillDlg::FillCut()
 {
     FillWriteCommand(COM_CUT);
 
-    FillWordValue(&MODBUS_CONTENT, (int)(g_tGlbCfg.fDiscount * 100));   /*´òÕÛÖµ*/
+    FillWordValue(&MODBUS_CONTENT, (int)(g_tGlbCfg.fDiscount * 100));   /*æ‰“æŠ˜å€¼*/
 }
 
-/*ÉèÖÃÊ±¼ä*/
+/*è®¾ç½®æ—¶é—´*/
 void CDrillDlg::FillTime()
 {
     BYTE* pPlace = NULL;
 
     FillWriteCommand(COM_TIME);
 
-    /* Äê*12+ÔÂ */
+    /* å¹´*12+æœˆ */
     pPlace = &MODBUS_CONTENT;
     *pPlace++ = (m_tSetTime.GetYear() - 2000) * 12 + m_tSetTime.GetMonth();
     *pPlace++ = m_tSetTime.GetDay();
@@ -3516,7 +3516,7 @@ void CDrillDlg::FillTime()
     *pPlace++ = m_tSetTime.GetMinute();
 }
 
-/* ÉèÖÃ¼õÑ¹·§²ÎÊı */
+/* è®¾ç½®å‡å‹é˜€å‚æ•° */
 void CDrillDlg::FillValvePress()
 {
     BYTE* pPlace = NULL;
@@ -3525,10 +3525,10 @@ void CDrillDlg::FillValvePress()
 
     COMP_BGE(g_ucCurValve, VALVERATIONUM);
 
-    /*  ×éÊı1~3
-        Å¤¾ØµÄ°Ù·Ö±È
-        Ñ¹Á¦·§Öµ
-        Ñ¹Á¦·§Öµ
+    /*  ç»„æ•°1~3
+        æ‰­çŸ©çš„ç™¾åˆ†æ¯”
+        å‹åŠ›é˜€å€¼
+        å‹åŠ›é˜€å€¼
     */
     pPlace = &MODBUS_CONTENT;
     *pPlace++ = (g_ucCurValve + 1);
@@ -3537,7 +3537,7 @@ void CDrillDlg::FillValvePress()
     *pPlace++ = theApp.m_tValveCfg.ucRatio[0][g_ucCurValve];
 }
 
-/* ÉèÖÃÁ÷Á¿·§²ÎÊı */
+/* è®¾ç½®æµé‡é˜€å‚æ•° */
 void CDrillDlg::FillValveFlow()
 {
     BYTE* pPlace = NULL;
@@ -3546,10 +3546,10 @@ void CDrillDlg::FillValveFlow()
 
     COMP_BGE(g_ucCurValve, VALVERATIONUM);
 
-    /*  ×éÊı1~3
-        Å¤¾ØµÄ°Ù·Ö±È
-        Á÷Á¿·§Öµ
-        Á÷Á¿·§Öµ
+    /*  ç»„æ•°1~3
+        æ‰­çŸ©çš„ç™¾åˆ†æ¯”
+        æµé‡é˜€å€¼
+        æµé‡é˜€å€¼
     */
     pPlace = &MODBUS_CONTENT;
     *pPlace++ = (g_ucCurValve + 1);
@@ -3558,7 +3558,7 @@ void CDrillDlg::FillValveFlow()
     *pPlace++ = theApp.m_tValveCfg.ucRatio[1][g_ucCurValve];
 }
 
-/* ¶ÁÈ¡·§ÃÅ×´Ì¬²ÎÊı */
+/* è¯»å–é˜€é—¨çŠ¶æ€å‚æ•° */
 void CDrillDlg::FillReadValve()
 {
     BYTE* pPlace = NULL;
@@ -3567,7 +3567,7 @@ void CDrillDlg::FillReadValve()
 }
 
 
-/* ·¢ËÍĞ´·Ö¶ÎĞ£×¼Ö¸Áî */
+/* å‘é€å†™åˆ†æ®µæ ¡å‡†æŒ‡ä»¤ */
 void CDrillDlg::FillWriteCalib()
 {
     BYTE* pPlace = NULL;
@@ -3584,7 +3584,7 @@ void CDrillDlg::FillWriteCalib()
     FillWordValue(pPlace, theApp.m_tCalibCtrl.tInfo.iSCMTorq / theApp.m_nTorqMulti);
 }
 
-/* ·¢ËÍ¿ØÖÆ·Ö¶ÎĞ£×¼Ö¸Áî */
+/* å‘é€æ§åˆ¶åˆ†æ®µæ ¡å‡†æŒ‡ä»¤ */
 void CDrillDlg::FillCtrlCalib()
 {
     BYTE* pPlace = NULL;
@@ -3596,7 +3596,7 @@ void CDrillDlg::FillCtrlCalib()
     *pPlace++ = theApp.m_tCalibCtrl.ucType;
 }
 
-/* ·¢ËÍ¶Á·Ö¶ÎĞ£×¼Ö¸Áî */
+/* å‘é€è¯»åˆ†æ®µæ ¡å‡†æŒ‡ä»¤ */
 void CDrillDlg::FillReadCalib()
 {
     BYTE* pPlace = NULL;
@@ -3608,48 +3608,48 @@ void CDrillDlg::FillReadCalib()
     *pPlace++ = theApp.m_tCalibCtrl.tInfo.ucSegNO;
 }
 
-/*           µ¥Æ¬»ú¿ØÖÆÊı¾İ
-    #define SCMREAD         15  *¶ÁÈ¡Êı¾İ*
-    #define SCMADJUST       16  *Ğ£×¼*
-    #define SCMZERO         17  *È¥Æ¤*
-    #define SCMCOLLECT      18  *²É¼¯Êı¾İ*
-    #define SCMSHOW         19  *ÏÔÊ¾Å¤¾Ø*
-    #define SCMSPEED        20  *¼õËÙÅ¤¾Ø*
-    #define SCMCONTROL      21  *¿ØÖÆÅ¤¾Ø*
-    #define SCMBSPEED       22  *¿ªÊ¼¼õËÙ*
-    #define SCMESPEED       23  *Í£Ö¹¼õËÙ*
-    #define SCMBUNLOAD      24  *¿ªÊ¼Ğ¶ºÉ*
-    #define SCMEUNLOAD      25  *Í£Ö¹Ğ¶ºÉ*
-    #define SCMUPPER        26  *ÉÏÏŞÅ¤¾Ø*
-    #define SCMLOWER        27  *ÏÂÏŞÅ¤¾Ø*
-    #define SCMCUT          28  *´òÕÛÏµÊı*
-    #define SCMCOLLECTOK    29  *ÊÕµ½ÓĞĞ§Êı¾İÔÙ´Î²É¼¯Êı¾İ£º×îºóÒ»´ÎÈ·ÈÏºó²»ĞèÒªÔÙ´ÎÊÕµ½Êı¾İ*
-    #define SCMCOLLECTNOK   30  *ÊÕµ½ÎŞĞ§Êı¾İÔÙ´Î²É¼¯Êı¾İ*
-    #define SCMTIME         31  *ÉèÖÃµ¥Æ¬»úÊ±¼ä*
-    #define SCMVPRESS       32  * ¼õÑ¹·§ *
-    #define SCMVFLOW        33  * Á÷Á¿·§ *
-    #define SCMREADVALVE    34  * ¶ÁÈ¡·§ÃÅ×´Ì¬ *
-    #define SCMREADMULTI    35  * ¶ÁÈ¡¶à×éÊı¾İ *
-    #define SCMWRITECALIB   36  * Ğ´·Ö¶ÎĞ£×¼ *
-    #define SCMCALIBCTRL    37  * ·Ö¶ÎĞ£×¼¿ØÖÆ
-    #define SCMREADCALIB    38  * ¶Á·Ö¶ÎĞ£×¼ **/
-    // #define SCMVZOOM        34  * ·Å´ó±¶Êı *
+/*           å•ç‰‡æœºæ§åˆ¶æ•°æ®
+    #define SCMREAD         15  *è¯»å–æ•°æ®*
+    #define SCMADJUST       16  *æ ¡å‡†*
+    #define SCMZERO         17  *å»çš®*
+    #define SCMCOLLECT      18  *é‡‡é›†æ•°æ®*
+    #define SCMSHOW         19  *æ˜¾ç¤ºæ‰­çŸ©*
+    #define SCMSPEED        20  *å‡é€Ÿæ‰­çŸ©*
+    #define SCMCONTROL      21  *æ§åˆ¶æ‰­çŸ©*
+    #define SCMBSPEED       22  *å¼€å§‹å‡é€Ÿ*
+    #define SCMESPEED       23  *åœæ­¢å‡é€Ÿ*
+    #define SCMBUNLOAD      24  *å¼€å§‹å¸è·*
+    #define SCMEUNLOAD      25  *åœæ­¢å¸è·*
+    #define SCMUPPER        26  *ä¸Šé™æ‰­çŸ©*
+    #define SCMLOWER        27  *ä¸‹é™æ‰­çŸ©*
+    #define SCMCUT          28  *æ‰“æŠ˜ç³»æ•°*
+    #define SCMCOLLECTOK    29  *æ”¶åˆ°æœ‰æ•ˆæ•°æ®å†æ¬¡é‡‡é›†æ•°æ®ï¼šæœ€åä¸€æ¬¡ç¡®è®¤åä¸éœ€è¦å†æ¬¡æ”¶åˆ°æ•°æ®*
+    #define SCMCOLLECTNOK   30  *æ”¶åˆ°æ— æ•ˆæ•°æ®å†æ¬¡é‡‡é›†æ•°æ®*
+    #define SCMTIME         31  *è®¾ç½®å•ç‰‡æœºæ—¶é—´*
+    #define SCMVPRESS       32  * å‡å‹é˜€ *
+    #define SCMVFLOW        33  * æµé‡é˜€ *
+    #define SCMREADVALVE    34  * è¯»å–é˜€é—¨çŠ¶æ€ *
+    #define SCMREADMULTI    35  * è¯»å–å¤šç»„æ•°æ® *
+    #define SCMWRITECALIB   36  * å†™åˆ†æ®µæ ¡å‡† *
+    #define SCMCALIBCTRL    37  * åˆ†æ®µæ ¡å‡†æ§åˆ¶
+    #define SCMREADCALIB    38  * è¯»åˆ†æ®µæ ¡å‡† **/
+    // #define SCMVZOOM        34  * æ”¾å¤§å€æ•° *
 WORD CDrillDlg::FillSendByte(UINT nParaType)
 {
     int     i = 0;
     int     iSCMRejust = 0;
     WORD    wCrcvalue = 0;
-    WORD    wLen = 8;    /* ³õÊ¼ÃüÁî³¤¶È */
+    WORD    wLen = 8;    /* åˆå§‹å‘½ä»¤é•¿åº¦ */
 
-    /* ÉèÖÃ¸÷¸öÃüÁîµÄ²ÎÊıÄÚÈİ */
+    /* è®¾ç½®å„ä¸ªå‘½ä»¤çš„å‚æ•°å†…å®¹ */
     (this->*g_FillByteProc[nParaType - SCMREAD])();
 
-    /*Ğ£ÑéÎ»*/
+    /*æ ¡éªŒä½*/
     for (i = 0; i < wLen; i++)
         iSCMRejust += m_ucSndByte[i];
     m_ucSndByte[wLen++] = (BYTE)iSCMRejust;
 
-    /* SCMWRITECALIB 8/9×Ö½ÚÎª A/DÅ¤¾Ø */
+    /* SCMWRITECALIB 8/9å­—èŠ‚ä¸º A/Dæ‰­çŸ© */
     if (nParaType == SCMWRITECALIB)
         wLen += 2;
     else
@@ -3659,26 +3659,26 @@ WORD CDrillDlg::FillSendByte(UINT nParaType)
         m_ucSndByte[wLen++] = (BYTE)(wCrcvalue % 256);
     }
 
-    /*           µ¥Æ¬»ú¿ØÖÆÊı¾İ                   */
-    /*½áÊøÎ»*/
+    /*           å•ç‰‡æœºæ§åˆ¶æ•°æ®                   */
+    /*ç»“æŸä½*/
     m_ucSndByte[wLen++] = 0x08;
 
     return wLen;
 }
 
 /*
-Å¤¾ØËÍÈë                40001
-Âö³åËÍÈë£¨µÍ16Î»£©ËÍÈë  40002
-Âö³åËÍÈë£¨¸ß16Î»£©ËÍÈë  40003
-Å¤¾ØµÄÁ¿³Ì              40004
-Å¤¾ØµÄÉè¶¨Öµ            40005
+æ‰­çŸ©é€å…¥                40001
+è„‰å†²é€å…¥ï¼ˆä½16ä½ï¼‰é€å…¥  40002
+è„‰å†²é€å…¥ï¼ˆé«˜16ä½ï¼‰é€å…¥  40003
+æ‰­çŸ©çš„é‡ç¨‹              40004
+æ‰­çŸ©çš„è®¾å®šå€¼            40005
 
-ÉÏÎ»»úĞŞ¸ÄÊı¾İ
-Ğ´×´Ì¬Ö¸Ê¾Î»            40007        Ğ´²Ù×÷µÄÊ±ºò£¬ÇëÖÃ1£¬
-Ğ´Å¤¾ØÁ¿³Ì              40008
-Ğ´Éè¶¨Å¤¾Ø              40009
-Ğ´Å¤¾ØĞ£×¼              40010        ¼õËÙÅ¤¾Ø
-¿ª»úĞÅºÅ                40011
+ä¸Šä½æœºä¿®æ”¹æ•°æ®
+å†™çŠ¶æ€æŒ‡ç¤ºä½            40007        å†™æ“ä½œçš„æ—¶å€™ï¼Œè¯·ç½®1ï¼Œ
+å†™æ‰­çŸ©é‡ç¨‹              40008
+å†™è®¾å®šæ‰­çŸ©              40009
+å†™æ‰­çŸ©æ ¡å‡†              40010        å‡é€Ÿæ‰­çŸ©
+å¼€æœºä¿¡å·                40011
 100/26*1200
 */
 BOOL CDrillDlg::SendData(UINT nParaType)
@@ -3688,7 +3688,7 @@ BOOL CDrillDlg::SendData(UINT nParaType)
 
     COMP_BG_R(g_tGlbCfg.nTest, 0, FALSE);
 
-    /* ´®¿ÚÃ»ÓĞ´ò¿ª */
+    /* ä¸²å£æ²¡æœ‰æ‰“å¼€ */
     if (!m_bComm)
     {
         m_bComm = ChangeCommParam();
@@ -3706,12 +3706,12 @@ BOOL CDrillDlg::SendData(UINT nParaType)
 
     if (g_lpNewComThread->SendData_Command(m_ucSndByte, wLen))
     {
-        /* READÃüÁîÌ«¶à£¬²»ÏÔÊ¾£¬Ö»ÏÔÊ¾ÆäËûÃüÁî */
+        /* READå‘½ä»¤å¤ªå¤šï¼Œä¸æ˜¾ç¤ºï¼Œåªæ˜¾ç¤ºå…¶ä»–å‘½ä»¤ */
         if (nParaType != SCMREAD &&
             nParaType != SCMREADVALVE &&
             nParaType != SCMREADMULTI)
             theApp.SaveSendData(strCmd, m_ucSndByte, wLen);
-        /*Sleep(len*20);*/  /*·¢ËÍº¯ÊıÀïÃæÒÑ¾­ÓĞlen*5+20msµÄÑÓÊ±*/
+        /*Sleep(len*20);*/  /*å‘é€å‡½æ•°é‡Œé¢å·²ç»æœ‰len*5+20msçš„å»¶æ—¶*/
         return g_lpNewComThread->ReceiveData_Command(m_ucRcvByte, &m_wRcvLen);
     }
 #else
@@ -3723,19 +3723,19 @@ BOOL CDrillDlg::SendData(UINT nParaType)
 }
 
 //---------------------------------------------------------------
-//HH 05-04-22 ±¾½Ú[CRC16]Ğ£Ñé·½·¨ÕªÂ¼×Ô [ModBus Í¨Ñ¶Ğ­Òé]
+//HH 05-04-22 æœ¬èŠ‚[CRC16]æ ¡éªŒæ–¹æ³•æ‘˜å½•è‡ª [ModBus é€šè®¯åè®®]
 //---------------------------------------------------------------
 WORD CDrillDlg::GetCRCValue(BYTE* pucCrc, WORD iLen)
 {
-    BYTE ucHigh = 0xFF;         /* ¸ßCRC×Ö½Ú³õÊ¼»¯  */
-    BYTE ucLow = 0xFF;         /* µÍCRC ×Ö½Ú³õÊ¼»¯ */
-    int  iIndex = 0;            /* CRCÑ­»·ÖĞµÄË÷Òı  */
+    BYTE ucHigh = 0xFF;         /* é«˜CRCå­—èŠ‚åˆå§‹åŒ–  */
+    BYTE ucLow = 0xFF;         /* ä½CRC å­—èŠ‚åˆå§‹åŒ– */
+    int  iIndex = 0;            /* CRCå¾ªç¯ä¸­çš„ç´¢å¼•  */
 
     ASSERT_NULL_R(pucCrc, 0xFFFF);
 
-    while (iLen--)                    /* ´«ÊäÏûÏ¢»º³åÇø   */
+    while (iLen--)                    /* ä¼ è¾“æ¶ˆæ¯ç¼“å†²åŒº   */
     {
-        iIndex = ucHigh ^ *pucCrc++;  /* ¼ÆËãCRC */
+        iIndex = ucHigh ^ *pucCrc++;  /* è®¡ç®—CRC */
         ucHigh = ucLow ^ g_iModBusHi[iIndex];
         ucLow = g_iModBusLow[iIndex];
     }
@@ -3835,7 +3835,7 @@ void CDrillDlg::OnHistorylist()
     sheet.AddPage(&dlgSum);
     sheet.DoModal();
 
-    /* 20200302: ÖØĞÂÈ¡ÏÂÈë¾®ĞòºÅĞÅÏ¢£¬±ÜÃâĞŞ¸ÄÖÊÁ¿ÊôĞÔºó£¬Èë¾®ĞòºÅ²»ÕıÈ· */
+    /* 20200302: é‡æ–°å–ä¸‹å…¥äº•åºå·ä¿¡æ¯ï¼Œé¿å…ä¿®æ”¹è´¨é‡å±æ€§åï¼Œå…¥äº•åºå·ä¸æ­£ç¡® */
     GetCurNum();
     UpdateData(FALSE);
 }
@@ -3877,11 +3877,11 @@ void CDrillDlg::OnCollectdata()
 }
 
 /*
-²åÈëµãÊıÄ¿£¬ÒÔ¼°°Ù·Ö±È´¦Àí
-×î¶à²åÈë4¸öµã£¬´óÓÚ20%Ğ¡ÓÚ40²åÈë1¸öµã£¬²åÈëÎ»ÖÃÎª1/3Î»ÖÃ¡£ÒÔ´ËÀàÍÆ¡£
-×îºóÒ»¸öÎ»ÖÃÒª´óÒ»µã£¬ÒòÎª¿ØÖÆÊ±×îºó³å¸ß£¬Å¤¾Ø´óÒ»Ğ©¸ü¼ÓºÏÀí
-²åÈëµãµÄ°Ù·Ö±ÈÎª 1/(n+2),2/(n+2),...,n/(n+2),
-1£º1/3              CTRL:2/3
+æ’å…¥ç‚¹æ•°ç›®ï¼Œä»¥åŠç™¾åˆ†æ¯”å¤„ç†
+æœ€å¤šæ’å…¥4ä¸ªç‚¹ï¼Œå¤§äº20%å°äº40æ’å…¥1ä¸ªç‚¹ï¼Œæ’å…¥ä½ç½®ä¸º1/3ä½ç½®ã€‚ä»¥æ­¤ç±»æ¨ã€‚
+æœ€åä¸€ä¸ªä½ç½®è¦å¤§ä¸€ç‚¹ï¼Œå› ä¸ºæ§åˆ¶æ—¶æœ€åå†²é«˜ï¼Œæ‰­çŸ©å¤§ä¸€äº›æ›´åŠ åˆç†
+æ’å…¥ç‚¹çš„ç™¾åˆ†æ¯”ä¸º 1/(n+2),2/(n+2),...,n/(n+2),
+1ï¼š1/3              CTRL:2/3
 2: 1/4 1/4          CTRL:1/2
 3: 1/5 1/5 1/5      CTRL:2/5
 4: 1/6 1/6 1/6 1/6  CTRL:1/3
@@ -3919,7 +3919,7 @@ void CDrillDlg::UpdateOutData(COLLECTDATA* ptColl)
     return;
 }
 
-/* ´®¿Ú¶ÁÈ¡CRC´íÎóÊ±£¬Í£Ö¹³¢ÊÔ±£´æÊı¾İ£¬ÖØÆô´®¿Ú */
+/* ä¸²å£è¯»å–CRCé”™è¯¯æ—¶ï¼Œåœæ­¢å°è¯•ä¿å­˜æ•°æ®ï¼Œé‡å¯ä¸²å£ */
 void CDrillDlg::RestartComm()
 {
     double  fLastTorque = 0.0;
@@ -3935,28 +3935,28 @@ void CDrillDlg::RestartComm()
 
     COMP_BFALSE(m_bRunStatus);
 
-    /* if(m_bRunStatus) *//* Èç¹û»¹ÔÚÔËĞĞ */
-    /* ¶¨Ê±Æ÷µ½ºó£¬ÖØĞÂ´ò¿ª´®¿Ú£¬Çå³ı´®¿ÚÊı¾İ£¬ÒÔÃâ´®¿ÚÀúÊ·Êı¾İĞÎ³ÉÎŞĞ§Å¤¾Ø¼ÇÂ¼ */
+    /* if(m_bRunStatus) *//* å¦‚æœè¿˜åœ¨è¿è¡Œ */
+    /* å®šæ—¶å™¨åˆ°åï¼Œé‡æ–°æ‰“å¼€ä¸²å£ï¼Œæ¸…é™¤ä¸²å£æ•°æ®ï¼Œä»¥å…ä¸²å£å†å²æ•°æ®å½¢æˆæ— æ•ˆæ‰­çŸ©è®°å½• */
     m_bComm = ChangeCommParam();
 
-    /* ¸´Î»¶¨Ê±Æ÷µ½Ê±ºó£¬ÖØĞÂ´ò¿ªTimer1ÊÕ¼¯´®¿ÚÊı¾İ */
+    /* å¤ä½å®šæ—¶å™¨åˆ°æ—¶åï¼Œé‡æ–°æ‰“å¼€Timer1æ”¶é›†ä¸²å£æ•°æ® */
     m_hrtReadPort.CreateTimer(this, g_tGlbCfg.nCollectDur, HRTReadPort);
-    /* ¶¨Ê±±£´æCRCºÍµ÷ÊÔĞÅÏ¢ */
+    /* å®šæ—¶ä¿å­˜CRCå’Œè°ƒè¯•ä¿¡æ¯ */
     //m_hrtSaveDebug.CreateTimer(this, AUTOSAVE_TLEN, HRTSaveDebug);
-    // TCP ¶¨Ê±ÉÏ±¨WITSÊı¾İ¶¨Ê±Æ÷
+    // TCP å®šæ—¶ä¸ŠæŠ¥WITSæ•°æ®å®šæ—¶å™¨
     m_hrtWITSReport.CreateTimer(this, WITSRPT_TLEN, HRTWITSReport);
-    /* ¶¨Ê±¼ì²éTCP×´Ì¬ */
+    /* å®šæ—¶æ£€æŸ¥TCPçŠ¶æ€ */
     //m_hrtTCPStatus.CreateTimer(this, TCPSTATUS_TLEN, HRTTCPStatus);
 
     return;
 }
 
-/* ÉèÖÃ´®¿ÚÏà¹ØÍ¼±êºÍĞÅÏ¢ÏÔÊ¾×´Ì¬
-    RS_COMM_CLOSE   0    ´®¿Ú¹Ø±Õ
-    RS_COMM_OPEN    1    ´®¿Ú´ò¿ª
-    RS_COMM_RAND    2    ´®¿ÚÄ£Äâ´ò¿ª£¬Ëæ»úÊı
-    RS_COMM_TORQUE  3    ´®¿ÚÄ£Äâ´ò¿ª£¬¶ÁÅ¤¾ØÀúÊ·Êı¾İ
-    RS_COMM_HISTORY 4    ´®¿ÚÄ£Äâ´ò¿ª£¬¶ÁÊÕ¼¯µ¥Æ¬»úÀúÊ·Êı¾İ
+/* è®¾ç½®ä¸²å£ç›¸å…³å›¾æ ‡å’Œä¿¡æ¯æ˜¾ç¤ºçŠ¶æ€
+    RS_COMM_CLOSE   0    ä¸²å£å…³é—­
+    RS_COMM_OPEN    1    ä¸²å£æ‰“å¼€
+    RS_COMM_RAND    2    ä¸²å£æ¨¡æ‹Ÿæ‰“å¼€ï¼Œéšæœºæ•°
+    RS_COMM_TORQUE  3    ä¸²å£æ¨¡æ‹Ÿæ‰“å¼€ï¼Œè¯»æ‰­çŸ©å†å²æ•°æ®
+    RS_COMM_HISTORY 4    ä¸²å£æ¨¡æ‹Ÿæ‰“å¼€ï¼Œè¯»æ”¶é›†å•ç‰‡æœºå†å²æ•°æ®
 */
 void CDrillDlg::SetCommShowInfo(UINT nStatus)
 {
@@ -4025,7 +4025,7 @@ BOOL CDrillDlg::InsertData(COLLECTTORQUE* ptColl, double torque, double rpm)
 
     ASSERT_NULL_R(ptColl, FALSE);
 
-    /* Êı¾İ´óÓÚ2500Ê±£¬È¥µôÇ°Ãæ500¸öÊı¾İ */
+    /* æ•°æ®å¤§äº2500æ—¶ï¼Œå»æ‰å‰é¢500ä¸ªæ•°æ® */
     if (ptColl->nAllCount >= COLLECTPOINTS)
     {
         for (i = 0; i < ptColl->nAllCount - MAXLINEITEM; i++)
@@ -4077,14 +4077,14 @@ void CDrillDlg::SaveIntoData(TorqData::Torque* ptPBData)
     theApp.m_tReg.SaveTorqNum();
 }
 
-/* ½«µ±Ç°Å¤¾ØÊı¾İÌí¼Óµ½Å¤¾Ø½á¹¹ÎÄ¼şÖĞ */
+/* å°†å½“å‰æ‰­çŸ©æ•°æ®æ·»åŠ åˆ°æ‰­çŸ©ç»“æ„æ–‡ä»¶ä¸­ */
 void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
 {
-    /* ¿ÕÎÄ¼ş£¬Å¤¾ØĞòºÅÎª1 */
+    /* ç©ºæ–‡ä»¶ï¼Œæ‰­çŸ©åºå·ä¸º1 */
     UINT    nTorqNum = 1;
     size_t  nDataLen = 0;
     int     i = 0;
-    UINT    nLeng = 0;    /* Êı¾İµÄ³¤¶È */
+    UINT    nLeng = 0;    /* æ•°æ®çš„é•¿åº¦ */
     CString strFileName;
     CString strTemp;
     CFile   file;
@@ -4126,15 +4126,15 @@ void CDrillDlg::SaveMakeupData(TorqData::Torque* ptPBData)
     theApp.m_tReg.m_dwTotalTorqNum++;
     //m_nTotal = m_dwTotalTorqNum;
 
-    /* ¸üĞÂÎÄ¼şÊı¾İÊıÄ¿ */
+    /* æ›´æ–°æ–‡ä»¶æ•°æ®æ•°ç›® */
     file.SeekToBegin();
     file.Write(&nTorqNum, sizeof(UINT));
 
-    /* Ìø¹ıÖ®Ç°¼ÇÂ¼ */
+    /* è·³è¿‡ä¹‹å‰è®°å½• */
     //SEEK_TORQUE(((int)nTorqNum-1), nLeng);
     file.SeekToEnd();
 
-    // ×îĞÂ°æ±¾¶¼Ìí¼ÓÍ·ÎÄ¼ş
+    // æœ€æ–°ç‰ˆæœ¬éƒ½æ·»åŠ å¤´æ–‡ä»¶
     file.Write(&theApp.m_nPBHead, PBHEADLEN);
     file.Write(&nDataLen, sizeof(UINT));
     file.Write(pcBuff, nDataLen);
@@ -4210,7 +4210,7 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
 
         theApp.UpdateHisData(theApp.m_strDataFile.c_str(), m_nBOSeqNO, ptBOData);
     }
-    else // µ¥¶ÀĞ¶¿ÛÊı¾İ
+    else // å•ç‹¬å¸æ‰£æ•°æ®
     {
         CFile file;
         UINT  nTorqNum = 1;
@@ -4256,15 +4256,15 @@ void CDrillDlg::SaveBreakoutData(TorqData::Torque* ptPBData)
         theApp.m_tReg.m_dwTotalTorqNum++;
         //m_nTotal = m_dwTotalTorqNum;
 
-        /* ¸üĞÂÎÄ¼şÊı¾İÊıÄ¿ */
+        /* æ›´æ–°æ–‡ä»¶æ•°æ®æ•°ç›® */
         file.SeekToBegin();
         file.Write(&nTorqNum, sizeof(UINT));
 
-        /* Ìø¹ıÖ®Ç°¼ÇÂ¼ */
+        /* è·³è¿‡ä¹‹å‰è®°å½• */
         //SEEK_TORQUE(((int)nTorqNum-1), nLeng);
         file.SeekToEnd();
 
-        // ×îĞÂ°æ±¾¶¼Ìí¼ÓÍ·ÎÄ¼ş
+        // æœ€æ–°ç‰ˆæœ¬éƒ½æ·»åŠ å¤´æ–‡ä»¶
         file.Write(&theApp.m_nPBHead, PBHEADLEN);
         file.Write(&nDataLen, sizeof(UINT));
         file.Write(pcBuff, nDataLen);
@@ -4323,7 +4323,7 @@ void CDrillDlg::KillAllTimer(bool bAll)
     }
 }
 
-/* ÌîĞ´WORD16µ½×Ö½ÚÖĞ */
+/* å¡«å†™WORD16åˆ°å­—èŠ‚ä¸­ */
 void CDrillDlg::FillWordValue(BYTE* pAddr, int iValue)
 {
     ASSERT_NULL(pAddr);
@@ -4332,18 +4332,18 @@ void CDrillDlg::FillWordValue(BYTE* pAddr, int iValue)
     *(pAddr + 1) = (BYTE)((iValue) & 0x00FF);
 }
 
-/* ÌîĞ´MODBUS¶ÁÃüÁî */
+/* å¡«å†™MODBUSè¯»å‘½ä»¤ */
 void CDrillDlg::FillReadCommand(int iCommand)
 {
-    m_ucSndByte[0] = PORT485;   /* Éè±¸ºÅ */
-    m_ucSndByte[1] = BUS_READ;  /* ¹¦ÄÜÂë ¶ÁÃüÁî */
+    m_ucSndByte[0] = PORT485;   /* è®¾å¤‡å· */
+    m_ucSndByte[1] = BUS_READ;  /* åŠŸèƒ½ç  è¯»å‘½ä»¤ */
     FillWordValue(&m_ucSndByte[2], iCommand);
 }
 
 void CDrillDlg::FillWriteCommand(int iCommand)
 {
-    m_ucSndByte[0] = PORT485;   /* Éè±¸ºÅ */
-    m_ucSndByte[1] = BUS_WRITE; /* ¹¦ÄÜÂë Ğ´ÃüÁî */
+    m_ucSndByte[0] = PORT485;   /* è®¾å¤‡å· */
+    m_ucSndByte[1] = BUS_WRITE; /* åŠŸèƒ½ç  å†™å‘½ä»¤ */
     FillWordValue(&m_ucSndByte[2], iCommand);
 }
 
@@ -4442,16 +4442,16 @@ void CDrillDlg::UpdCfgLangChg(UINT nLang)
 
     theApp.ReloadTorqCfg();
 
-    /* ¾®Ãû·¢Éú±ä»¯£¬Êı¾İ¼ÇÂ¼ÎÄ¼şÃû³ÆºÍÊı¾İĞòºÅĞèÒª±ä»¯ */
+    /* äº•åå‘ç”Ÿå˜åŒ–ï¼Œæ•°æ®è®°å½•æ–‡ä»¶åç§°å’Œæ•°æ®åºå·éœ€è¦å˜åŒ– */
     GetCurNum();
 
     theApp.SaveAppStatus(STATUS_CHGLAN, __FUNCTION__);
 
-    //Ïú»Ùµ±Ç°´°¿Ú
+    //é”€æ¯å½“å‰çª—å£
     theApp.m_pMainWnd = NULL;
     this->DestroyWindow();
 
-    //ÖØĞÂ´ò¿ª´°¿Ú
+    //é‡æ–°æ‰“å¼€çª—å£
     theApp.ReOpenWindow();
 }
 
@@ -4507,7 +4507,7 @@ void CDrillDlg::UnitChangeTorq()
 
     tCurCfg = theApp.m_tParaCfg;
 
-    /* ×îºóµ¥Î» & µ¥Î»¸Ä±ä */
+    /* æœ€åå•ä½ & å•ä½æ”¹å˜ */
     if (g_tGlbCfg.nTorqUnit == 1) // 0-->1 : N.m --> lb.ft
         fRatio = NM2LBFT;
 
@@ -4612,13 +4612,13 @@ void CDrillDlg::OnBnClickedBtnquality()
     int         iCause = 0;
     TorqData::ShowInfo* ptRunningShow = NULL;
 
-    /* ¼ì²éµ±Ç°µÄĞòºÅÊÇ·ñÓĞĞ§ */
+    /* æ£€æŸ¥å½“å‰çš„åºå·æ˜¯å¦æœ‰æ•ˆ */
     COMP_BL(m_tSaveData.ftorque_size(), 1);
 
     iQuality = dlgRemark.m_iQuality = m_tSaveData.dwquality() & QUA_RESU_QUALITYBIT;
     iCause = dlgRemark.m_iCause = theApp.GetQualityIndex(&m_tSaveData);
 
-    //É±¸´Î»¶¨Ê±Æ÷
+    //æ€å¤ä½å®šæ—¶å™¨
     m_hrtGuard.KillTimer();
 
     if (IDOK != dlgRemark.DoModal())
@@ -4627,7 +4627,7 @@ void CDrillDlg::OnBnClickedBtnquality()
         return;
     }
 
-    /* ĞŞ¸ÄÁËÖÊÁ¿ÊôĞÔ */
+    /* ä¿®æ”¹äº†è´¨é‡å±æ€§ */
     if (iQuality != dlgRemark.m_iQuality || iCause != dlgRemark.m_iCause)
     {
         bModified = TRUE;
@@ -4641,7 +4641,7 @@ void CDrillDlg::OnBnClickedBtnquality()
             m_tSaveData.set_dwquality(2 << (dlgRemark.m_iCause - 1));
         }
 
-        /* Å¤¾ØÖÊÁ¿ÊôĞÔ·¢Éú±ä»¯£¬ĞèÒªĞŞ¸ÄÈë¾®ĞòºÅ */
+        /* æ‰­çŸ©è´¨é‡å±æ€§å‘ç”Ÿå˜åŒ–ï¼Œéœ€è¦ä¿®æ”¹å…¥äº•åºå· */
         if (iQuality != dlgRemark.m_iQuality)
         {
             ptRunningShow = m_tSaveData.mutable_tshow(theApp.GetMainIndex(MAINSHOWTALLY));
@@ -4677,7 +4677,7 @@ void CDrillDlg::CheckBreakOut()
     GetDlgItem(IDC_EDBREAKOUTNO)->ShowWindow(bBreakOut);
     GetDlgItem(IDC_EDBREAKOUTNO)->EnableWindow(bBreakOut);
 
-    // 20230213 ¿ÉÒÔµ¥¶À½øĞĞĞ¶¿Û
+    // 20230213 å¯ä»¥å•ç‹¬è¿›è¡Œå¸æ‰£
     /*if (!bBreakOut)
     {
         GetDlgItem(IDC_BTRUN)->EnableWindow(!bBreakOut);
@@ -4749,7 +4749,7 @@ void CDrillDlg::OnBnClickedRadiobreakout()
     UpdateData(FALSE);
 }
 
-/* ÑÓ³Ù1s½áÊø£¬±ÜÃâ×´Ì¬3ºóÅ¤¾Ø¼ÌĞø³å¸ß */
+/* å»¶è¿Ÿ1sç»“æŸï¼Œé¿å…çŠ¶æ€3åæ‰­çŸ©ç»§ç»­å†²é«˜ */
 void CDrillDlg::CalcDelayCount()
 {
     m_nDelayCount = 1;
@@ -4833,7 +4833,7 @@ void CDrillDlg::OnEnKillfocusEdhisseqno()
     TorqData::Torque* ptTorq;
     UpdateData(TRUE);
 
-    // 20230213 m_nBOSeqNOÎª0Ê±µ¥¶ÀĞ¶¿Û
+    // 20230213 m_nBOSeqNOä¸º0æ—¶å•ç‹¬å¸æ‰£
     if (m_nBOSeqNO == 0)
     {
         GetDlgItem(IDC_BTRUN)->EnableWindow(true);

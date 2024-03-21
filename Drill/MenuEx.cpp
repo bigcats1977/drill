@@ -23,7 +23,7 @@ CMenuEx::CMenuEx() :m_szImage(16, 15)
     m_crTextSelected = ::GetSysColor(COLOR_HIGHLIGHTTEXT);
 
     m_bHasImageLeft = FALSE;
-    m_iSeparator = 10;  //sparatorµÄÄ¬ÈÏ¸ß¶È
+    m_iSeparator = 10;  //sparatorçš„é»˜è®¤é«˜åº¦
 }
 
 CMenuEx::~CMenuEx()
@@ -37,26 +37,26 @@ CMenuEx::~CMenuEx()
     if (m_bHasImageLeft)
         m_bmpImageLeft.DeleteObject();
 
-    //ÊÍ·ÅËùÓĞµÄ×Ó²Ëµ¥
+    //é‡Šæ”¾æ‰€æœ‰çš„å­èœå•
     for (i = 0; i < m_SubMenuArr.GetSize(); i++)
     {
         pSubMenu = m_SubMenuArr.GetAt(i);
         delete pSubMenu;
     }
 
-    //ÊÍ·ÅËùÓĞµÄ²Ëµ¥Ïî
+    //é‡Šæ”¾æ‰€æœ‰çš„èœå•é¡¹
     for (i = 0; i < m_MenuItemArr.GetSize(); i++)
     {
         pMenuItem = m_MenuItemArr.GetAt(i);
         delete pMenuItem;
     }
 
-    //Ïú»Ù²Ëµ¥
+    //é”€æ¯èœå•
     DestroyMenu();
 }
 
 /////////////////////////////////////////////////
-//µ±²Ëµ¥ÏîÎª²»¿ÉÓÃÊ±»æÖÆ»ÒÉ«µÄÎÄ±¾
+//å½“èœå•é¡¹ä¸ºä¸å¯ç”¨æ—¶ç»˜åˆ¶ç°è‰²çš„æ–‡æœ¬
 void CMenuEx::GrayString(CDC* pDC, const CString& strGray, const CRect rcItem)
 {
     CRect   rcTmp(rcItem);
@@ -88,24 +88,24 @@ BOOL CMenuEx::DrawCheckedMenuItem(CDC* pDC, CRect& rcItem, BOOL bSelected,
 
     if (bGrayed)
     {
-        //²Ëµ¥²»¿ÉÓÃ
-        GrayString(pDC, "¡Ì", rcTmp);
+        //èœå•ä¸å¯ç”¨
+        GrayString(pDC, "âˆš", rcTmp);
     }
     else
     {
         if (bSelected)
         {
-            //²Ëµ¥Ñ¡ÖĞ
-            //µ±¸ÃÏî±»Ñ¡ÖĞ½ö¶à»æÖÆÒ»¸öÁ¢Ìå¾ØĞÎ
+            //èœå•é€‰ä¸­
+            //å½“è¯¥é¡¹è¢«é€‰ä¸­ä»…å¤šç»˜åˆ¶ä¸€ä¸ªç«‹ä½“çŸ©å½¢
             //pDC->Draw3dRect(&rcTmp,RGB(255,255,255),RGB(127,127,127));
         }
 
         rcTmp.InflateRect(-2, -2);
 
-        //»­³ö"¡Ì"
+        //ç”»å‡º"âˆš"
         pDC->SetBkMode(TRANSPARENT);
         pDC->SetTextColor(m_crText);
-        pDC->DrawText("¡Ì", &rcTmp, DT_EXPANDTABS | DT_VCENTER | DT_SINGLELINE);
+        pDC->DrawText("âˆš", &rcTmp, DT_EXPANDTABS | DT_VCENTER | DT_SINGLELINE);
     }
 
     rcItem.left += m_szImage.cx + 4 + 2;
@@ -121,7 +121,7 @@ void CMenuEx::DrawMenuImage(CDC* pDC, CRect& rcItem, BOOL bSelected,
         rcItem.left + m_szImage.cx + 4,
         rcItem.top + m_szImage.cy + 4);
     CPoint  ptImage(rcImage.left + 2, rcImage.top + 2);
-    UINT    nStyle = ILD_TRANSPARENT;    //CImageList::Draw()»æÖÆÎ»Í¼µÄ·ç¸ñ
+    UINT    nStyle = ILD_TRANSPARENT;    //CImageList::Draw()ç»˜åˆ¶ä½å›¾çš„é£æ ¼
 
     ASSERT_NULL(pDC);
     ASSERT_NULL(lpItem);
@@ -134,31 +134,31 @@ void CMenuEx::DrawMenuImage(CDC* pDC, CRect& rcItem, BOOL bSelected,
 
     if (bGrayed)
     {
-        nStyle |= ILD_BLEND50;   //²Ëµ¥²»¿ÉÓÃËùÒÔÎ»Í¼½Ï°µ
+        nStyle |= ILD_BLEND50;   //èœå•ä¸å¯ç”¨æ‰€ä»¥ä½å›¾è¾ƒæš—
     }
     /*
         else
         {
             if(bSelected)
             {
-                //µ±¸ÃÏî±»Ñ¡ÖĞ½ö¶à»æÖÆÒ»¸öÁ¢Ìå¾ØĞÎ
+                //å½“è¯¥é¡¹è¢«é€‰ä¸­ä»…å¤šç»˜åˆ¶ä¸€ä¸ªç«‹ä½“çŸ©å½¢
                 //pDC->Draw3dRect(&rcTmp,RGB(255,255,255),RGB(127,127,127));
             }
         }
     */
     //      pDC->FillSolidRect(rect.left + 2,rect.top + 2,m_szImage.cx,m_szImage.cy,0);
-    lpItem->pImageList->Draw(pDC, lpItem->iIndex, ptImage, nStyle); //ÔÚ²Ëµ¥ÏîÖĞ»æÖÆÎ»Í¼
+    lpItem->pImageList->Draw(pDC, lpItem->iIndex, ptImage, nStyle); //åœ¨èœå•é¡¹ä¸­ç»˜åˆ¶ä½å›¾
 
-    //µ÷Õû¿É»æÖÆ¾ØĞÎµÄ´óĞ¡
-    //4£ºÎ»Í¼Íâ½Ó¾ØĞÎ±ÈÎ»Í¼´ó4
-    //2£º²Ëµ¥ÎÄ±¾ÓëÎ»Í¼Íâ½Ó¾ØĞÎµÄ¼ä¸ôÎª2
+    //è°ƒæ•´å¯ç»˜åˆ¶çŸ©å½¢çš„å¤§å°
+    //4ï¼šä½å›¾å¤–æ¥çŸ©å½¢æ¯”ä½å›¾å¤§4
+    //2ï¼šèœå•æ–‡æœ¬ä¸ä½å›¾å¤–æ¥çŸ©å½¢çš„é—´éš”ä¸º2
     //rect.left  +=m_szImage.cx + 4 + 2;
 
     return;
 }
 
 /////////////////////////////////////////////////
-//»æÖÆ²Ëµ¥ÏîÎ»Í¼
+//ç»˜åˆ¶èœå•é¡¹ä½å›¾
 void CMenuEx::DrawMenuItemImage(CDC* pDC, CRect& rcItem, BOOL bSelected, BOOL bChecked,
     BOOL bGrayed, BOOL bHasImage, LPMENUITEM lpItem)
 {
@@ -171,9 +171,9 @@ void CMenuEx::DrawMenuItemImage(CDC* pDC, CRect& rcItem, BOOL bSelected, BOOL bC
 }
 
 /////////////////////////////////////////////////
-//»æÖÆ²Ëµ¥ÏîÎÄ±¾
-//²ÎÊı£ºrect:Á¢Ìå¾ØĞÎµÄRECT
-//      rtText:²Ëµ¥ÎÄ±¾µÄRECT
+//ç»˜åˆ¶èœå•é¡¹æ–‡æœ¬
+//å‚æ•°ï¼šrect:ç«‹ä½“çŸ©å½¢çš„RECT
+//      rtText:èœå•æ–‡æœ¬çš„RECT
 void CMenuEx::TextMenu(CDC* pDC, CRect rcItem, CRect rcText, BOOL bSelected, BOOL bGrayed,
     LPMENUITEM lpItem)
 {
@@ -188,7 +188,7 @@ void CMenuEx::TextMenu(CDC* pDC, CRect rcItem, CRect rcText, BOOL bSelected, BOO
     ASSERT_NULL(pDC);
     ASSERT_NULL(lpItem);
 
-    //Ñ¡ÖĞ×´Ì¬µÄ²Ëµ¥ÏîÒªÏÈ»­³öÁ¢Ìå¾ØĞÎ
+    //é€‰ä¸­çŠ¶æ€çš„èœå•é¡¹è¦å…ˆç”»å‡ºç«‹ä½“çŸ©å½¢
 
     if (bSelected)
     {
@@ -219,7 +219,7 @@ void CMenuEx::DrawImageLeft(CDC* pDC, CRect& rcItem, LPMENUITEM lpItem)
 {
     CDC     memDC;
     CBitmap* pOldBmp = NULL;
-    int     cy = 0; //Éè¶¨¸Ã²Ëµ¥ÏîÓ¦´ÓÄÄ»­Æğ
+    int     cy = 0; //è®¾å®šè¯¥èœå•é¡¹åº”ä»å“ªç”»èµ·
 
     ASSERT_NULL(pDC);
 
@@ -266,13 +266,13 @@ void CMenuEx::DrawItem(LPDRAWITEMSTRUCT lpDIS)
     bGrayed = lpDIS->itemState & ODS_GRAYED;
     bHasImage = (lpItem->iIndex != -1);
 
-    //±»Ñ¡ÖĞµÄ»°,Ê¹ÓÃ±»Ñ¡ÖĞµÄÎÄ±¾ÑÕÉ«
+    //è¢«é€‰ä¸­çš„è¯,ä½¿ç”¨è¢«é€‰ä¸­çš„æ–‡æœ¬é¢œè‰²
     if (bSelected)
         dc.SetTextColor(m_crTextSelected);
     else
         dc.SetTextColor(m_crText);
 
-    //Éè¶¨±³¾°É«
+    //è®¾å®šèƒŒæ™¯è‰²
     dc.FillRect(&rcTmp, &brBk);
 
     rcLeft = rcTmp;
@@ -283,13 +283,13 @@ void CMenuEx::DrawItem(LPDRAWITEMSTRUCT lpDIS)
 
     dc.FillSolidRect(&rcLeft,/*RGB(49,105,222)*/RGB(210, 210, 210));
 
-    //Éè¶¨ÏÔÊ¾Ä£Ê½
+    //è®¾å®šæ˜¾ç¤ºæ¨¡å¼
     dc.SetBkMode(TRANSPARENT);
 
-    //»æÖÆ²à±ßÎ»Í¼
+    //ç»˜åˆ¶ä¾§è¾¹ä½å›¾
     //DrawImageLeft(&dc,rcTmp,lpItem);
 
-    if (lpItem->nID == 0)//·Ö¸ôÌõ
+    if (lpItem->nID == 0)//åˆ†éš”æ¡
     {
         rcText.top = rcText.Height() / 2 + rcText.top;
         rcText.bottom = rcText.top + 2;
@@ -298,10 +298,10 @@ void CMenuEx::DrawItem(LPDRAWITEMSTRUCT lpDIS)
     }
     else
     {
-        //»æÖÆ²Ëµ¥ÎÄ±¾
+        //ç»˜åˆ¶èœå•æ–‡æœ¬
         TextMenu(&dc, rcTmp, rcText, bSelected, bGrayed, lpItem);
 
-        //»æÖÆ²Ëµ¥Î»Í¼
+        //ç»˜åˆ¶èœå•ä½å›¾
         DrawMenuItemImage(&dc, rcTmp, bSelected, bChecked, bGrayed, bHasImage, lpItem);
     }
     dc.SetBkMode(OPAQUE);
@@ -309,8 +309,8 @@ void CMenuEx::DrawItem(LPDRAWITEMSTRUCT lpDIS)
 }
 
 //////////////////////////////////////////////////////////
-//ÓÉ¹¤¾ßÀ¸µÄÎ»Í¼À´²úÉú²Ëµ¥ËùÓÃµÄÎ»Í¼ÁĞ±ím_ImageList
-//crMask: ¹¤¾ßÀ¸Î»Í¼µÄÑÚÂë
+//ç”±å·¥å…·æ çš„ä½å›¾æ¥äº§ç”Ÿèœå•æ‰€ç”¨çš„ä½å›¾åˆ—è¡¨m_ImageList
+//crMask: å·¥å…·æ ä½å›¾çš„æ©ç 
 int CMenuEx::GetImageFromToolBar(UINT nToolBar, CToolBar* pToolBar, COLORREF crMask, UINT nBitmap)
 {
     int     i = 0;
@@ -329,12 +329,12 @@ int CMenuEx::GetImageFromToolBar(UINT nToolBar, CToolBar* pToolBar, COLORREF crM
     bmp.LoadBitmap(nToolBar);
     bmp.GetBitmap(&bmpInfo);
 
-    //µÃµ½Î»Í¼µÄ¸ß¶È
+    //å¾—åˆ°ä½å›¾çš„é«˜åº¦
     iHeight = bmpInfo.bmHeight;
 
     iBtnCount = pToolBar->GetToolBarCtrl().GetButtonCount();
 
-    //µÃµ½¹¤¾ßÀ¸ÖĞÎ»Í¼µÄ¸öÊınCount
+    //å¾—åˆ°å·¥å…·æ ä¸­ä½å›¾çš„ä¸ªæ•°nCount
     for (i = 0; i < iBtnCount; i++)
     {
         nItemID = pToolBar->GetItemID(i);
@@ -361,7 +361,7 @@ int CMenuEx::GetImageFromToolBar(UINT nToolBar, CToolBar* pToolBar, COLORREF crM
         }
     */
 
-    //¼ÆËã³öÎ»Í¼µÄ¿í¶È
+    //è®¡ç®—å‡ºä½å›¾çš„å®½åº¦
     iWidth = bmpInfo.bmWidth;
     if (iImgCount != 0)
         iWidth = bmpInfo.bmWidth / iImgCount;
@@ -370,7 +370,7 @@ int CMenuEx::GetImageFromToolBar(UINT nToolBar, CToolBar* pToolBar, COLORREF crM
 
     TRACE("Menu Bitmap--width:%d\theight:%d\n", iWidth, iHeight);
 
-    //´´½¨Î»Í¼ÁĞ±í
+    //åˆ›å»ºä½å›¾åˆ—è¡¨
     if (nBitmap)
     {
         m_ImageList.Create(nBitmap, iWidth, iHeight, crMask);
@@ -396,7 +396,7 @@ void CMenuEx::MeasureItem(LPMEASUREITEMSTRUCT  lpMIS)
     lpItem = (LPMENUITEM)lpMIS->itemData;
     ASSERT_NULL(lpItem);
 
-    if (lpItem->nID == 0)//·Ö¸ôÌõ
+    if (lpItem->nID == 0)//åˆ†éš”æ¡
     {
         lpMIS->itemHeight = m_iSeparator;
         return;
@@ -447,7 +447,7 @@ void CMenuEx::SetImageLeft(UINT nBmpLeftID, BOOL bIsPopupMenu)
             pMenuItem->iLeftImagePos = 1;
     }
 
-    //ÖØĞÂ¼ÆËã²Ëµ¥Ïî×ó±ßÎ»Í¼µÄÎ»ÖÃ
+    //é‡æ–°è®¡ç®—èœå•é¡¹å·¦è¾¹ä½å›¾çš„ä½ç½®
 /*
     int MenuItemCount = this->GetMenuItemCount();
     if(bIsPopupMenu)
@@ -538,7 +538,7 @@ BOOL CMenuEx::RemoveMenuEx(UINT nPosition, UINT nFlags)
         nItemID = GetMenuItemID((int)nPosition);
     }
 
-    if ((int)nItemID >= 0)          //ÆÕÍ¨²Ëµ¥Ïî»ò·Ö¸îÌõ
+    if ((int)nItemID >= 0)          //æ™®é€šèœå•é¡¹æˆ–åˆ†å‰²æ¡
     {
         for (i = 0; i < m_MenuItemArr.GetSize(); i++)
         {
@@ -553,7 +553,7 @@ BOOL CMenuEx::RemoveMenuEx(UINT nPosition, UINT nFlags)
         }
     }
     /*
-        else                            //×Ó²Ëµ¥
+        else                            //å­èœå•
         {
         }
     */
@@ -592,14 +592,14 @@ BOOL CMenuEx::LoadMenu(UINT nMenu)
 {
     int     i = 0;
     UINT    nID = 0;
-    CMenu   Menu;     //ÁÙÊ±²Ëµ¥
+    CMenu   Menu;     //ä¸´æ—¶èœå•
     CMenu* pSubMenu = NULL;
     HMENU   hMenu;
     HMENU   hSubMenu;
     CString strPopup;
     CString strText;
 
-    //ÖØĞÂ¶ÁÈë²Ëµ¥,´´½¨Îªpopup²Ëµ¥,²ÅÄÜ×Ô»­(ÓÉ¿ò¼Üµ÷ÓÃMesureItem() ºÍ DrawItem()
+    //é‡æ–°è¯»å…¥èœå•,åˆ›å»ºä¸ºpopupèœå•,æ‰èƒ½è‡ªç”»(ç”±æ¡†æ¶è°ƒç”¨MesureItem() å’Œ DrawItem()
     hMenu = ::CreateMenu();
     this->Attach(hMenu);
 
@@ -607,31 +607,31 @@ BOOL CMenuEx::LoadMenu(UINT nMenu)
     for (i = 0; i < (int)Menu.GetMenuItemCount(); i++)
     {
         nID = Menu.GetMenuItemID(i);
-        if (nID == 0)            //·Ö¸ô·û
+        if (nID == 0)            //åˆ†éš”ç¬¦
         {
             ::AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
         }
-        else if ((int)nID == -1)     //µ¯³ö²Ëµ¥(¼´×Ó²Ëµ¥)
+        else if ((int)nID == -1)     //å¼¹å‡ºèœå•(å³å­èœå•)
         {
             pSubMenu = Menu.GetSubMenu(i);
             ASSERT_NULL_R(pSubMenu, FALSE);
 
-            //´´½¨×Ó²Ëµ¥
+            //åˆ›å»ºå­èœå•
             hSubMenu = ::CreatePopupMenu();
             Menu.GetMenuString(i, strPopup, MF_BYPOSITION);
             ::InsertMenu(hMenu, i, MF_BYPOSITION | MF_POPUP | MF_STRING, (UINT)hSubMenu, strPopup);
 
-            //¶Ô×Ó²Ëµ¥µİ¹éµ÷ÓÃChangeMenuStyle(),°Ñ×Ó²Ëµ¥¸ÄÎªMF_OWNERDRAW·ç¸ñ
+            //å¯¹å­èœå•é€’å½’è°ƒç”¨ChangeMenuStyle(),æŠŠå­èœå•æ”¹ä¸ºMF_OWNERDRAWé£æ ¼
             ChangeMenuStyle(pSubMenu, hSubMenu);
         }
-        else                    //Õı³£µÄ²Ëµ¥Ïî
+        else                    //æ­£å¸¸çš„èœå•é¡¹
         {
             Menu.GetMenuString(nID, strText, MF_BYCOMMAND);
             AppendMenu(MF_STRING, nID, strText);
         }
     }
 
-    Menu.DestroyMenu();         //Ïú»ÙÁÙÊ±²Ëµ¥
+    Menu.DestroyMenu();         //é”€æ¯ä¸´æ—¶èœå•
     return TRUE;
 }
 
@@ -720,8 +720,8 @@ void CMenuEx::ChangeMenuStyle(CMenu* pMenu, HMENU hNewMenu)
     int     i = 0;
     int     iItemCount = 0;
     UINT    nID = 0;
-    //¹ØÁªÎªCMenuEx(¹ØÁªÎªCMenuExºó²ÅÄÜ×Ô¶¯ÖØ»­
-    //Ô­Òò²»Ã÷(CMenu·â×°µÄ½á¹û?)
+    //å…³è”ä¸ºCMenuEx(å…³è”ä¸ºCMenuExåæ‰èƒ½è‡ªåŠ¨é‡ç”»
+    //åŸå› ä¸æ˜(CMenuå°è£…çš„ç»“æœ?)
     CMenuEx* pNewMenu = NULL;
 
     ASSERT_NULL(pMenu);
@@ -735,15 +735,15 @@ void CMenuEx::ChangeMenuStyle(CMenu* pMenu, HMENU hNewMenu)
     for (i = 0; i < iItemCount; i++)
     {
         nID = pMenu->GetMenuItemID(i);
-        if (nID == 0)            //·Ö¸ô·û
+        if (nID == 0)            //åˆ†éš”ç¬¦
         {
             ChangeSeparatorMenuStyle(hNewMenu, i);
         }
-        else if (nID == -1)      //µ¯³ö²Ëµ¥(¼´×Ó²Ëµ¥)
+        else if (nID == -1)      //å¼¹å‡ºèœå•(å³å­èœå•)
         {
             ChangeSubMenuStyle(pMenu, hNewMenu, i);
         }
-        else                    //Õı³£µÄ²Ëµ¥Ïî
+        else                    //æ­£å¸¸çš„èœå•é¡¹
         {
             ChangeNormalMenuStyle(pMenu, hNewMenu, nID, i);
         }
@@ -764,7 +764,7 @@ BOOL CMenuEx::ModifyMenuEx(UINT nPosition, UINT nFlags, UINT nIDNewItem, LPCTSTR
     }
 
     iMenuSize = m_MenuItemArr.GetSize();
-    //ÆÕÍ¨²Ëµ¥ÏîºÍµ¯³öÊ½²Ëµ¥
+    //æ™®é€šèœå•é¡¹å’Œå¼¹å‡ºå¼èœå•
     for (i = 0; i < iMenuSize; i++)
     {
         pMenuItem = m_MenuItemArr.GetAt(i);
@@ -779,7 +779,7 @@ BOOL CMenuEx::ModifyMenuEx(UINT nPosition, UINT nFlags, UINT nIDNewItem, LPCTSTR
         }
     }
 
-    //Ã»ÕÒµ½¶ÔÓ¦µÄ²Ëµ¥Ïî
+    //æ²¡æ‰¾åˆ°å¯¹åº”çš„èœå•é¡¹
     if (i >= iMenuSize)
     {
         pMenuItem = new MENUITEM;

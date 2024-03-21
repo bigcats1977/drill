@@ -300,7 +300,7 @@ BOOL CDlgShowSet::OnInitDialog()
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 void CDlgShowSet::OnBnClickedUpdateshow()
@@ -415,8 +415,8 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     if (strContent.IsEmpty())
         return hbr;
 
-    // TODO:  ÔÚ´Ë¸ü¸Ä DC µÄÈÎºÎÌØĞÔ
-    switch (iCtrlID)//¶ÔÄ³Ò»¸öÌØ¶¨¿Ø¼ş½øĞĞÅĞ¶Ï  
+    // TODO:  åœ¨æ­¤æ›´æ”¹ DC çš„ä»»ä½•ç‰¹æ€§
+    switch (iCtrlID)//å¯¹æŸä¸€ä¸ªç‰¹å®šæ§ä»¶è¿›è¡Œåˆ¤æ–­  
     {
     case IDC_EDSHOWNAME1:
     case IDC_EDSHOWNAME2:
@@ -446,7 +446,7 @@ HBRUSH CDlgShowSet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     }
 
-    // TODO:  Èç¹ûÄ¬ÈÏµÄ²»ÊÇËùĞè»­±Ê£¬Ôò·µ»ØÁíÒ»¸ö»­±Ê
+    // TODO:  å¦‚æœé»˜è®¤çš„ä¸æ˜¯æ‰€éœ€ç”»ç¬”ï¼Œåˆ™è¿”å›å¦ä¸€ä¸ªç”»ç¬”
     return hbr;
 }
 

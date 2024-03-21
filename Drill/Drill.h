@@ -37,41 +37,41 @@ class CDrillApp : public CWinApp
 {
 public:
     CDrillApp();
-    /* ±£´æµ÷ÊÔĞÅÏ¢º¯Êı */
-    /* ±£´æ³ÌĞòÆô¶¯ÍË³ö¿ªÊ¼¹Ø±ÕÉèÖÃµÈ×´Ì¬ */
+    /* ä¿å­˜è°ƒè¯•ä¿¡æ¯å‡½æ•° */
+    /* ä¿å­˜ç¨‹åºå¯åŠ¨é€€å‡ºå¼€å§‹å…³é—­è®¾ç½®ç­‰çŠ¶æ€ */
     void    SaveAppStatus(UINT nStatus, string strInfo);
-    /* ±£´æ²É¼¯Êı¾İ´íÎóĞÅÏ¢ */
+    /* ä¿å­˜é‡‡é›†æ•°æ®é”™è¯¯ä¿¡æ¯ */
     void    SaveCollectErrorData(string strError, BYTE* pucRcvByte, WORD wLen);
-    /* ±£´æ²É¼¯Êı¾İÆÕÍ¨ĞÅÏ¢ */
+    /* ä¿å­˜é‡‡é›†æ•°æ®æ™®é€šä¿¡æ¯ */
     void    SaveCollectOrgData(BYTE* pucRcvByte, WORD wLen);
-    /* ±£´æMessageBoxÏÔÊ¾µÄĞÅÏ¢µ½ÎÄ¼ş */
+    /* ä¿å­˜MessageBoxæ˜¾ç¤ºçš„ä¿¡æ¯åˆ°æ–‡ä»¶ */
     void    SaveMessage(string strMessage);
     void    SaveShowMessage(string strMessage, UINT nType = MB_OK);
-    // ±£´æ´®¿Ú·¢ËÍ´íÎóÊı¾İ
-    void    SaveSendFailure(UINT nCmdType = 15); /* Ä¬ÈÏSCMREAD15 */
-    // ±£´æCRC»òÕß´®¿Ú´íÎó¡¢³¤¶È²»¶ÔÊı¾İ
+    // ä¿å­˜ä¸²å£å‘é€é”™è¯¯æ•°æ®
+    void    SaveSendFailure(UINT nCmdType = 15); /* é»˜è®¤SCMREAD15 */
+    // ä¿å­˜CRCæˆ–è€…ä¸²å£é”™è¯¯ã€é•¿åº¦ä¸å¯¹æ•°æ®
     void    SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr);
-    /* ±£´æ·şÎñÆ÷¿Í»§¶ËÍ¨ĞÅµÄĞÅÏ¢µ½ÎÄ¼ş */
+    /* ä¿å­˜æœåŠ¡å™¨å®¢æˆ·ç«¯é€šä¿¡çš„ä¿¡æ¯åˆ°æ–‡ä»¶ */
     void    SaveCommunication(BYTE* msg, WORD wLen, UINT nType);
-    // ±£´æÕı³£Êı¾İĞÅÏ¢
+    // ä¿å­˜æ­£å¸¸æ•°æ®ä¿¡æ¯
     void    SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen);
     void    SaveMultiData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen);
     void    SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta);
     void    SaveLogInfo();
     void    SaveTCPInfo();
-    // ±£´æ¸´Î»Ê±µÄ´®¿ÚÊı¾İ
+    // ä¿å­˜å¤ä½æ—¶çš„ä¸²å£æ•°æ®
     void    SaveResetData(BYTE* pucRcvByte, WORD wLen);
-    // ±£´æÉÏÎ»»ú·¢ËÍµ½´®¿ÚÊı¾İ
+    // ä¿å­˜ä¸Šä½æœºå‘é€åˆ°ä¸²å£æ•°æ®
     void    SaveSendData(string strCmd, BYTE* pucRcvByte, WORD wLen);
-    // ±£´æ´®¿Ú²Ù×÷¼ÇÂ¼
+    // ä¿å­˜ä¸²å£æ“ä½œè®°å½•
     void    SavePortOper(UINT nPortOpr);
-    // ±£´æ×Ö·û´®Êı¾İµ½logÎÄ¼ş
+    // ä¿å­˜å­—ç¬¦ä¸²æ•°æ®åˆ°logæ–‡ä»¶
     void    SaveStreamData(string strStream);
     void    SaveTCPData(string strData, bool Status = true);
 
     BOOL    IsDebugInfo(string strContent);
-    void    AdjustParaValue(PARACFG* ptCfg); /* ¼ì²é²ÎÊıÊÇ·ñ·¢Éú±ä»¯ */
-    /* ½«ÁĞ±íÄÚÈİµ¼³öµ½excle±í¸ñÖĞ */
+    void    AdjustParaValue(PARACFG* ptCfg); /* æ£€æŸ¥å‚æ•°æ˜¯å¦å‘ç”Ÿå˜åŒ– */
+    /* å°†åˆ—è¡¨å†…å®¹å¯¼å‡ºåˆ°excleè¡¨æ ¼ä¸­ */
     //BOOL    SaveList2XlsFile(CString strFileName, CString strSheetName, CListCtrl* ptlistData);
     bool    SaveList2XlsFile(string filename, CListCtrl* ptList);
     void    AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType = 0);
@@ -102,7 +102,7 @@ public:
     string  LoadstringFromRes(unsigned string_ID);
     string  GetSaveDataPath();
     int     SplitString(CString strSource, CStringList& slList);
-    /* ÎªÊ±¼ä°æ±¾¼õÉÙ²îÒì£¬»ñÈ¡ºáÖá×ø±êµÄ²ÎÊı£¬°üÀ¨ÏÂÏŞ/ÉÏÏŞ/¿ØÖÆ/×î´ó4¸öº¯Êı */
+    /* ä¸ºæ—¶é—´ç‰ˆæœ¬å‡å°‘å·®å¼‚ï¼Œè·å–æ¨ªè½´åæ ‡çš„å‚æ•°ï¼ŒåŒ…æ‹¬ä¸‹é™/ä¸Šé™/æ§åˆ¶/æœ€å¤§4ä¸ªå‡½æ•° */
     double  GetMaxCir(TorqData::Torque* ptTorq);
     double  GetCtrlCir(TorqData::Torque* ptTorq);
     double  GetUpperCir(TorqData::Torque* ptTorq);
@@ -143,39 +143,39 @@ public:
     bool GetTimeFromString(CString strTime, __time64_t& time);
 
     PARACFG         m_tParaCfg;
-    SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* ÏÔÊ¾²ÎÊıµÄËùÓĞ²ÎÊıÉèÖÃ */
+    SHOWCFG         m_tShowCfg[LANGUAGE_NUM];         /* æ˜¾ç¤ºå‚æ•°çš„æ‰€æœ‰å‚æ•°è®¾ç½® */
     SHOWCFG*        m_ptCurShow;
     //DBREG           m_tdbReg;
     CRegProc        m_tReg;
     XLSSTATCFG      m_tXlsStatCfg[LANGUAGE_NUM];
-    VALVECFG        m_tValveCfg;        /* ·§ÖµÅäÖÃ */
+    VALVECFG        m_tValveCfg;        /* é˜€å€¼é…ç½® */
     SERVERCFG       m_tServCfg;
     WITSCFG         m_tWITSCfg;
-    string          m_strDllFile;       /* ¶¯Ì¬Á´½Ó¿âÎÄ¼şÃû³Æ */
+    string          m_strDllFile;       /* åŠ¨æ€é“¾æ¥åº“æ–‡ä»¶åç§° */
     string          m_strAppPath;
-    string          m_strRegFile;       /* ±£´æ×¢²áĞÅÏ¢µÄÎÄ¼ş£¬Òş²Ø
-                                           ºÍ.exeÍ¬Â·¾¶£¬ºó×ºÃûÎª.dat */
+    string          m_strRegFile;       /* ä¿å­˜æ³¨å†Œä¿¡æ¯çš„æ–‡ä»¶ï¼Œéšè—
+                                           å’Œ.exeåŒè·¯å¾„ï¼Œåç¼€åä¸º.dat */
     string          m_strDataPath;
-    string          m_strDataFile;      /* ×Ô¶¯±£´æµÄÅ¤¾Ø½á¹¹ÎÄ¼ş
-                                           ÔÚdataÂ·¾¶ÏÂ£¬ºó×ºÃûÎª.pbd */
+    string          m_strDataFile;      /* è‡ªåŠ¨ä¿å­˜çš„æ‰­çŸ©ç»“æ„æ–‡ä»¶
+                                           åœ¨dataè·¯å¾„ä¸‹ï¼Œåç¼€åä¸º.pbd */
     string          m_strLogFile;
-    string          m_strLogPath;       /* logÂ·¾¶ */
+    string          m_strLogPath;       /* logè·¯å¾„ */
     string          m_strTCPFile;
 
-    //string          m_strReadFile;      /* ¶ÁÈ¡ÀúÊ·ÎÄ¼şÂ·¾¶ now in g_tReadData*/
-    string          m_strFileTitle;     /* ¶ÁÈ¡ÀúÊ·ÎÄ¼ş´¿Ãû³Æ */
-    string          m_strAutoSaveFile;  /* CTRL+SHIFT+T ±£´æµÄÊı¾İÎÄ¼şÃû³Æ?
-                                           ÔÚdata¸öÂ·¾¶ÏÂ£¬ºó×ºÃûĞŞ¸ÄÎª.dbg */
+    //string          m_strReadFile;      /* è¯»å–å†å²æ–‡ä»¶è·¯å¾„ now in g_tReadData*/
+    string          m_strFileTitle;     /* è¯»å–å†å²æ–‡ä»¶çº¯åç§° */
+    string          m_strAutoSaveFile;  /* CTRL+SHIFT+T ä¿å­˜çš„æ•°æ®æ–‡ä»¶åç§°?
+                                           åœ¨dataä¸ªè·¯å¾„ä¸‹ï¼Œåç¼€åä¿®æ”¹ä¸º.dbg */
     UINT            m_nTorqMulti;       /* BigTorq: True:10; False:1*/
     UINT            m_nPBHead;
     BOOL            m_bShowCRC;
     SAVELOGDATA     m_tSaveLog;
     CFile           m_SaveLogFile;
-    SAVELOGDATA     m_tSaveTCP;         /* ¼ÇÂ¼TCPÏà¹ØĞÅÏ¢ */
+    SAVELOGDATA     m_tSaveTCP;         /* è®°å½•TCPç›¸å…³ä¿¡æ¯ */
     CFile           m_SaveTCPFile;
     CString         m_strDbgHead[DBG_MAXNUM];
 
-    /* ¶àÓïÑÔÖ§³Ö */
+    /* å¤šè¯­è¨€æ”¯æŒ */
     HINSTANCE       m_hLangDLL[LANGUAGE_NUM];
 
     BYTE            m_ucDPILevel;
@@ -191,7 +191,7 @@ public:
     DRAWTORQDATA    m_tCurDrawTorq;
     DRAWTORQDATA    m_tCurZoomTorq;
 
-    CALIBCTRL       m_tCalibCtrl;           /* ·Ö¶ÎĞ£×¼ĞÅÏ¢ */
+    CALIBCTRL       m_tCalibCtrl;           /* åˆ†æ®µæ ¡å‡†ä¿¡æ¯ */
 
     TCP::cSocket      mi_Socket;
     HANDLE            mh_Thread;
@@ -253,7 +253,7 @@ private:
     unsigned decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsigned& h, unsigned char* bmp);
     void ProcessReceivedDataNormal(TCP::cSocket::cMemory* pi_RecvMem);
 
-    /* ÕÒ²»µ½MACÊ±µÄÄ¬ÈÏMAC */
+    /* æ‰¾ä¸åˆ°MACæ—¶çš„é»˜è®¤MAC */
     BYTE     m_ucDefaultMac[5];
 };
 

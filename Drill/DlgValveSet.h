@@ -18,7 +18,7 @@ public:
     enum { IDD = IDD_DLGVALVESET };
 #endif
     BYTE m_ucValve1TorqInit;
-    BYTE m_ucValve1TorqDece1;   /* ±ÈÀı1~100 1:³õÊ¼Öµ; 2:¼õËÙ½×¶Î1; 3:¼õËÙ½×¶Î2; */
+    BYTE m_ucValve1TorqDece1;   /* æ¯”ä¾‹1~100 1:åˆå§‹å€¼; 2:å‡é€Ÿé˜¶æ®µ1; 3:å‡é€Ÿé˜¶æ®µ2; */
     BYTE m_ucValve1TorqDece2;
     BYTE m_ucValve1PressInit;
     BYTE m_ucValve1PressDece1;

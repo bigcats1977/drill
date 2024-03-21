@@ -72,7 +72,7 @@ public:
     //CNumEdit    m_neMinShlSlope;
     //CNumEdit    m_neMaxDeltaCir;
     //CNumEdit    m_neMinDeltaCir;
-    int           m_iSingleSTD;       //单根/两根/三根 0/1/2
+    int           m_iSingleSTD;       //鍗曟牴/涓ゆ牴/涓夋牴 0/1/2
     CColorRadio   m_rdSingle[MAXCOLUMNS];
     //}}AFX_DATA
 

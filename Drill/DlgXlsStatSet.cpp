@@ -1,4 +1,4 @@
-// CDlgXlsStatSet.cpp: ÊµÏÖÎÄ¼ş
+// CDlgXlsStatSet.cpp: å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// CDlgXlsStatSet ¶Ô»°¿ò
+// CDlgXlsStatSet å¯¹è¯æ¡†
 
 
 TorqData::Torque* g_ptLast = NULL;
@@ -73,7 +73,7 @@ BEGIN_MESSAGE_MAP(CDlgXlsStatSet, CDialogEx)
     ON_CBN_KILLFOCUS(IDC_SCBINFONAME2, &CDlgXlsStatSet::OnCbnKillfocusScbinfoname2)
 END_MESSAGE_MAP()
 
-// CDlgXlsStatSet ÏûÏ¢´¦Àí³ÌĞò
+// CDlgXlsStatSet æ¶ˆæ¯å¤„ç†ç¨‹åº
 BOOL CDlgXlsStatSet::OnInitDialog()
 {
     int     i = 0;
@@ -102,7 +102,7 @@ BOOL CDlgXlsStatSet::OnInitDialog()
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 void CDlgXlsStatSet::InitCBContent(CComboBox* ptCB, UINT index)

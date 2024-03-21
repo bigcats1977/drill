@@ -19,81 +19,81 @@ public:
     ~Excel();
 
     void show(bool bShow);
-    //¼ì²éÒ»¸öcellÊÇ·ñÎª×Ö·û´®
+    //æ£€æŸ¥ä¸€ä¸ªcellæ˜¯å¦ä¸ºå­—ç¬¦ä¸²
     bool isCellString(long iRow, long iColumn);
-    //¼ì²éÒ»¸öcellÊÇ·ñÎªÊıÖµ
+    //æ£€æŸ¥ä¸€ä¸ªcellæ˜¯å¦ä¸ºæ•°å€¼
     bool isCellInt(long iRow, long iColumn);
-    //µÃµ½Ò»¸öcellµÄstring
+    //å¾—åˆ°ä¸€ä¸ªcellçš„string
     CString getCellString(long iRow, long iColumn);
-    //µÃµ½Ò»¸öcellµÄ×ÜÊı
+    //å¾—åˆ°ä¸€ä¸ªcellçš„æ€»æ•°
     int getCellInt(long iRow, long iColumn);
-    //µÃµ½Ò»¸öcellµÄdoubleÊı¾İ
+    //å¾—åˆ°ä¸€ä¸ªcellçš„doubleæ•°æ®
     double getCellDouble(long iRow, long iColumn);
-    //È¡µÃĞĞµÄ×ÜÊı
+    //å–å¾—è¡Œçš„æ€»æ•°
     int getRowCount();
-    //È¡µÃÁĞµÄ×ÜÊı
+    //å–å¾—åˆ—çš„æ€»æ•°
     int getColumnCount();
-    //Ê¹ÓÃÄ³¸öshell
+    //ä½¿ç”¨æŸä¸ªshell
     bool loadSheet(long tableId, bool preLoaded = false);
     bool loadSheet(CString sheet, bool preLoaded = false);
 
-    //Í¨¹ıĞòºÅÈ¡µÃÄ³¸ösheetµÄÃû³Æ
+    //é€šè¿‡åºå·å–å¾—æŸä¸ªsheetçš„åç§°
     CString getSheetName(long tableID);
 
-    //µÃµ½sheetµÄ×ÜÊı
+    //å¾—åˆ°sheetçš„æ€»æ•°
     int getSheetCount();
 
-    //´ò¿ªexcelÎÄ¼ş
+    //æ‰“å¼€excelæ–‡ä»¶
     bool open(CString fileName);
 
-    //¹Ø±Õ´ò¿ªµÄexcelÎÄ¼ş
+    //å…³é—­æ‰“å¼€çš„excelæ–‡ä»¶
     void close(bool ifSave = false);
 
-    //Áí´æÎªÒ»¸öexcelÎÄ¼ş
+    //å¦å­˜ä¸ºä¸€ä¸ªexcelæ–‡ä»¶
     void saveAsXLSFile(const string& xlsFile);
 
-    //È¡µÃ´ò¿ªÎÄ¼şµÄÃû³Æ
+    //å–å¾—æ‰“å¼€æ–‡ä»¶çš„åç§°
     CString getOpenFileName();
 
-    //È¡µÃ´ò¿ªsheelµÄÃû³Æ
+    //å–å¾—æ‰“å¼€sheelçš„åç§°
     CString getOpenSheelName();
 
-    //ÏòcellÖĞĞ´ÈëÒ»¸öintÖµ
+    //å‘cellä¸­å†™å…¥ä¸€ä¸ªintå€¼
     void setCellInt(long iRow, long iColumn, int newInt);
 
-    //ÏòcellÖĞĞ´ÈëÒ»¸ö×Ö·û´®
+    //å‘cellä¸­å†™å…¥ä¸€ä¸ªå­—ç¬¦ä¸²
     void setCellString(long iRow, long iColumn, CString newString);
 
-    //ÏòcellÖĞÌí¼ÓÒ»¸öÍ¼Æ¬
+    //å‘cellä¸­æ·»åŠ ä¸€ä¸ªå›¾ç‰‡
     CShape addCellPicture(CString strFileName, float fLeft, float fTop, float fWidth, float fHeight);
     CShape addCellPicture(CString strFileName, CString top, CString bottom);
 
-    // ¿½±´¶àĞĞ
+    // æ‹·è´å¤šè¡Œ
     void   copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nBeginCol, UINT nEndCol, UINT nNum);
 
-    // ÉèÖÃĞĞ¸ßÎªµ±Ç°µÄ¶àÉÙ±¶
+    // è®¾ç½®è¡Œé«˜ä¸ºå½“å‰çš„å¤šå°‘å€
     void   setMultiRowHeight(UINT nRow, UINT nBeginCol, UINT nEndCol, float fMulti);
 
-    // ÉèÖÃÒ»ĞĞ¶à¸öµ¥Ôª¸ñµÄ×ÖÌåºÍÑÕÉ«
+    // è®¾ç½®ä¸€è¡Œå¤šä¸ªå•å…ƒæ ¼çš„å­—ä½“å’Œé¢œè‰²
     void   setMultiColFont(UINT nRow, UINT nCol, UINT nNUm, CString strFontName, long nSize, long nColor = 0);
 
-    //É¾³ı·ÇÖ¸¶¨Ãû³ÆµÄsheet
+    //åˆ é™¤éæŒ‡å®šåç§°çš„sheet
     void delNOTNameSheet(CString strSheetName);
 
-    //É¾³ıÖ¸¶¨Ãû³ÆµÄsheet
+    //åˆ é™¤æŒ‡å®šåç§°çš„sheet
     void delNameSheet(CString strSheetName);
 
-    // Ğ´ÈëÁ¬ĞøµÄ¶à¸öµ¥Ôª¸ñÄÚÈİ
+    // å†™å…¥è¿ç»­çš„å¤šä¸ªå•å…ƒæ ¼å†…å®¹
     bool SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UINT nEndCol, CStringList& slContent);
 
 public:
-    //³õÊ¼»¯ Excel_OLE
+    //åˆå§‹åŒ– Excel_OLE
     static bool initExcel();
 
-    //ÊÍ·ÅExcel_OLE
+    //é‡Šæ”¾Excel_OLE
     static void release();
 
-    //È¡µÃÁĞµÄÃû³Æ
+    //å–å¾—åˆ—çš„åç§°
     static char* getColumnName(long iColumn);
 
 protected:
@@ -101,19 +101,19 @@ protected:
 
 private:
     CString openFileName;
-    CWorkbook workBook;           //µ±Ç°´¦ÀíµÄÎÄ¼ş
-    CWorkbooks books;             //ExcelBook¼¯ºÏ£¬¶àÎÄ¼şÊ±Ê¹ÓÃ
-    CWorksheet workSheet;         //µ±Ç°Ê¹ÓÃsheet
-    CWorksheets sheets;           //ExcelµÄsheet¼¯ºÏ
-    CRange wholeRange;            //È«²¿²Ù×÷ÇøÓò
+    CWorkbook workBook;           //å½“å‰å¤„ç†çš„æ–‡ä»¶
+    CWorkbooks books;             //ExcelBooké›†åˆï¼Œå¤šæ–‡ä»¶æ—¶ä½¿ç”¨
+    CWorksheet workSheet;         //å½“å‰ä½¿ç”¨sheet
+    CWorksheets sheets;           //Excelçš„sheeté›†åˆ
+    CRange wholeRange;            //å…¨éƒ¨æ“ä½œåŒºåŸŸ
     LPDISPATCH lpDisp;
 
-    bool isLoad;                   //ÊÇ·ñÒÑ¾­¼ÓÔØÁËÄ³¸ösheetÊı¾İ
+    bool isLoad;                   //æ˜¯å¦å·²ç»åŠ è½½äº†æŸä¸ªsheetæ•°æ®
     COleSafeArray safeArray;
 
     int titleToColumn(CString title);
     CString columnToTitle(int column);
 
 protected:
-    static CApplication application;   //Excel½ø³ÌÊµÀı
+    static CApplication application;   //Excelè¿›ç¨‹å®ä¾‹
 };

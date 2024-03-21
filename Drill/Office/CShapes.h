@@ -1,23 +1,23 @@
-// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
+// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CShapes °ü×°Æ÷Àà
+// CShapes åŒ…è£…å™¨ç±»
 
 class CShapes : public COleDispatchDriver
 {
 public:
-    CShapes() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
+    CShapes() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
     CShapes(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CShapes(const CShapes& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ÌØĞÔ
+    // ç‰¹æ€§
 public:
 
-    // ²Ù×÷
+    // æ“ä½œ
 public:
 
 
-    // Shapes ·½·¨
+    // Shapes æ–¹æ³•
 public:
     LPDISPATCH get_Application()
     {
@@ -187,7 +187,7 @@ public:
         return result;
     }
 
-    // Shapes ÊôĞÔ
+    // Shapes å±æ€§
 public:
 
 };

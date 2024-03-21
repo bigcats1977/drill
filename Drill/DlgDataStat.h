@@ -82,7 +82,7 @@ private:
     void DrawStatFlow(CTChart* ptChart, CString strRatio[], CString strLabel[], UINT pnNum[]);
     void DrawStatTorq(vector<int> listNo);
     void UpdateDlgLabel();
-    BOOL IsSelType(TorqData::Torque* ptTorq);   /*  «∑Ò «—°÷–µƒ¿‡–Õ */
+    BOOL IsSelType(TorqData::Torque* ptTorq);   /* ÊòØÂê¶ÊòØÈÄâ‰∏≠ÁöÑÁ±ªÂûã */
 
     CString             m_strCtrlRatio[MAXSTATLEVEL];
     //CString             m_strInflRatio[MAXSTATLEVEL];
@@ -93,5 +93,5 @@ private:
     WORD                m_nTorqType;
     TorqData::Torque   *m_ptDrawData;
 
-    STATCFG             m_tStatCfg;         /* Õ≥º∆≈‰÷√ */
+    STATCFG             m_tStatCfg;         /* ÁªüËÆ°ÈÖçÁΩÆ */
 };

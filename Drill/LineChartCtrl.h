@@ -39,12 +39,12 @@ typedef struct tagLINECHARITEM
 
 
 
-#define     CONT_XOFFSET        5       /* отй╬ндвжё╛оЮ╤тсзйЗоъ╣дн╩жц */
-#define     CONT_YOFFSET        20      /* отй╬ндвжё╛оЮ╤тсз╣воъ╣дн╩жц */
-#define     CONT_XSCALE         0.75    /* ндвж©╙й╪н╩жц(оЮ╤тсзуШлЕ©М╤х) */
-#define     CONT_XANTIRANGE     425     /* вЬ╠ЙЁ╛╧Щ╦цн╩жцй╠ё╛пХр╙╥╢╥╫оРотй╬ндвж */
-#define     CONT_XANTIOFFSET    80      /* ндвжлЫср╠ъй╠ё╛╥╢╥╫оР╣ВуШ */
-#define     CONT_XRIGHTRANGE    380     /* ╧у╣Ц/я║жп╣дпео╒хГ╧Шл╚╢Сё╛тР╥╢╥╫оРотй╬ндвж */
+#define     CONT_XOFFSET        5       /* Ф≤╬Г╓╨Ф√┤Е╜≈О╪▄Г⌡╦Е╞╧Д╨▌Г╚√Г╨©Г └Д╫█Г╫╝ */
+#define     CONT_YOFFSET        20      /* Ф≤╬Г╓╨Ф√┤Е╜≈О╪▄Г⌡╦Е╞╧Д╨▌Е╨∙Г╨©Г └Д╫█Г╫╝ */
+#define     CONT_XSCALE         0.75    /* Ф√┤Е╜≈Е╪─Е╖▀Д╫█Г╫╝(Г⌡╦Е╞╧Д╨▌Ф∙╢Д╫⌠Е╝╫Е╨╕) */
+#define     CONT_XANTIRANGE     425     /* Е²░Ф═┤Х╤┘Х©┤Х╞╔Д╫█Г╫╝Ф≈╤О╪▄И°─Х╕│Е▐█Ф√╧Е░▒Ф≤╬Г╓╨Ф√┤Е╜≈ */
+#define     CONT_XANTIOFFSET    80      /* Ф√┤Е╜≈Х╢╢Е▐ЁХ╬╧Ф≈╤О╪▄Е▐█Ф√╧Е░▒Х╟┐Ф∙╢ */
+#define     CONT_XRIGHTRANGE    380     /* Ф▀░Г┌╧/И─┴Д╦╜Г └Д©║Ф│╞Е╕┌Ф·°Е╓╙Е╓╖О╪▄Е┬≥Е▐█Ф√╧Е░▒Ф≤╬Г╓╨Ф√┤Е╜≈ */
 
 class CLineChartCtrl : public CWnd
 {

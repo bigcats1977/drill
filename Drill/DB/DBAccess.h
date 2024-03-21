@@ -58,7 +58,7 @@ public:
     bool    ReadXlsStatPara(XLSSTATCFG* ptStat, UINT nLang = LANGUAGE_CURRENT);
     bool    UpdateXlsStatPara(XLSSTATCFG* ptStat);
 
-    SqliteProc      m_tSqlite;              /* SQLite3 数据库配置文件 */
+    SqliteProc      m_tSqlite;              /* SQLite3 脢媒戮脻驴芒脜盲脰脙脦脛录镁 */
     //bool            m_bValidDBFile;
 
 private:

@@ -56,11 +56,11 @@ BOOL CMySheet::OnInitDialog()
     GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
     GetDlgItem(ID_APPLY_NOW)->ShowWindow(SW_HIDE);
 
-    //获取窗体尺寸
+    //鑾峰彇绐椾綋灏哄
     GetDlgItem(IDCANCEL)->GetWindowRect(&btnRect);
     GetWindowRect(&wdnRect);
 
-    //调整窗体大小
+    //璋冩暣绐椾綋澶у皬
     ::SetWindowPos(this->m_hWnd, HWND_TOP, 0, 0, wdnRect.Width(), wdnRect.Height() - btnRect.Height(), SWP_NOMOVE | SWP_NOZORDER);
 
     theApp.AdaptDlgCtrlSize((CDialog*)this, 1);

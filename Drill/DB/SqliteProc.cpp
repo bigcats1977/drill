@@ -23,10 +23,10 @@ bool SqliteProc::OpenDB(string filename, string pw)
         return false;
     }
 
-    // ÉèÖÃÃÜÂë
+    // è®¾ç½®å¯†ç 
     //sqlite3_key(ptCfgDB, pw.c_str(), pw.size());
 
-    // ÊäÈëÃÜÂë
+    // è¾“å…¥å¯†ç 
     inputkey = "PRAGMA key='" + pw + "';";
     ExecuteSQL(inputkey);
 
@@ -308,7 +308,7 @@ bool SqliteProc::UpdateFields(string tablename, string condition, vector<string>
     return true;
 }
 
-/* ¸üĞÂ¶àĞĞÊı¾İµÄÍ¬Ò»¸öfieldµÄÖµ */
+/* æ›´æ–°å¤šè¡Œæ•°æ®çš„åŒä¸€ä¸ªfieldçš„å€¼ */
 bool SqliteProc::UpdateRows(string tablename, vector<string> conditions, string field, vector<string> values)
 {
     string content;
@@ -339,7 +339,7 @@ bool SqliteProc::UpdateRows(string tablename, vector<string> conditions, string 
     return true;
 }
 
-/* É¾³ıÂú×ãÌõ¼şµÄÊı¾İ */
+/* åˆ é™¤æ»¡è¶³æ¡ä»¶çš„æ•°æ® */
 bool SqliteProc::DeleteRow(string tablename, string condition)
 {
     string sql;

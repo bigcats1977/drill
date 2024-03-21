@@ -62,42 +62,42 @@ BOOL CDlgRemark::OnInitDialog()
     CDialog::OnInitDialog();
     // TODO:  Add extra initialization here
 /*
-    bit1    - TORQ_LESS_LIMIT   ʵ��Ť�ع�С
-    bit2    - TORQ_MORE_LIMIT   �����Ť��
-    bit3    - TORQ_MORE_START   ��ʼŤ�ش��ڿ���Ť��15%
-    bit4    - TORQ_MORE_CTRL    ���ڿ���Ť��10%
-    bit5    - CIRC_LESS_LIMIT   ����0.20Ȧ��
-    bit6    - CIRC_MORE_LIMIT   ����Ȧ������
-    bit7    - TRANSLATE         ͼ�γ���̨��Ť��(����Ť��15%)��ƽ��
+    bit1    - TORQ_LESS_LIMIT   实际扭矩过小
+    bit2    - TORQ_MORE_LIMIT   超最大扭矩
+    bit3    - TORQ_MORE_START   起始扭矩大于控制扭矩15%
+    bit4    - TORQ_MORE_CTRL    高于控制扭矩10%
+    bit5    - CIRC_LESS_LIMIT   低于0.20圈数
+    bit6    - CIRC_MORE_LIMIT   高于圈数上限
+    bit7    - TRANSLATE         图形超过台阶扭矩(控制扭矩15%)后平移
 
-    bit8    - NOIPPOINT         �޹յ�Ť�� // ����汾������
-    bit9    - LOW_SHOULD        �յ�Ť��<Min shoulder(15%)
-    bit10   - HIGHT_SHOULD      �յ�Ť��>Max shoulder(70%)
+    bit8    - NOIPPOINT         无拐点扭矩 // 大庆版本不存在
+    bit9    - LOW_SHOULD        拐点扭矩<Min shoulder(15%)
+    bit10   - HIGHT_SHOULD      拐点扭矩>Max shoulder(70%)
     bit11   - LOW_DELTATURN     < Min D. Tns
     bit12   - HIGHT_DELTATURN   > Max D. Tns
-    bit13   - LOW_SLOPE         б�� < Min Slope
-    bit14   - OTHER_CAUSE       ����,���ݲ�ͬ��׼���������ڷ�Χ�ڵĹ��õ�������
-    bit15   - SHACK_INSPECT     ж�ۼ��    �˹��趨
-    bit16   - GALLING           ճ��        �˹��趨
-    //bit17   - HYDTONGSLIP       Һѹǯ��      �˹��趨
-    bit17   - THREADNOTCLEAN    ˿����ϴ���ɾ�  �˹��趨
-    bit18   - GASSEALINSPECT    ���첻�ϸ�  �˹��趨
+    bit13   - LOW_SLOPE         斜率 < Min Slope
+    bit14   - OTHER_CAUSE       其他,根据不同标准，将不属于范围内的归置到其他中
+    bit15   - SHACK_INSPECT     卸扣检查    人工设定
+    bit16   - GALLING           粘扣        人工设定
+    //bit17   - HYDTONGSLIP       液压钳打滑      人工设定
+    bit17   - THREADNOTCLEAN    丝扣清洗不干净  人工设定
+    bit18   - GASSEALINSPECT    气检不合格  人工设定
 */
 /*
-    1.ʵ��Ť�ع�С
-    2.�����Ť��
-    3.�гִ�
-    4.��������С
-    5.��ʼŤ�ع���
-    6.�յ�б��С
-    7.���յ�Ť��
-    8.�յ�Ť��С
-    9.��������ֵ
-    10.ж�ۼ��
-    11.ճ��
-    12.˿����ϴ���ɾ�
-    13.���񲻺ϸ�
-    14.����
+    1.实际扭矩过小
+    2.超最大扭矩
+    3.夹持打滑
+    4.总周数过小
+    5.起始扭矩过大
+    6.拐点斜率小
+    7.超拐点扭矩
+    8.拐点扭矩小
+    9.超周数差值
+    10.卸扣检查
+    11.粘扣
+    12.丝扣清洗不干净
+    13.气捡不合格
+    14.其他
 */
     i = 0;
     m_lsCause[i++] = 1;     // bit1 
@@ -150,7 +150,7 @@ void CDlgRemark::SetRejCause()
             return;
         }
     }
-    //����ԭ��
+    //其他原因
     m_cbRemark.SetCurSel(MAX_USE_CAUSE - 1);
 }
 

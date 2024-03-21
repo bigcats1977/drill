@@ -612,7 +612,7 @@ void CSerialPort::ReceiveChar(CSerialPort* port, COMSTAT comstat)
 
         LeaveCriticalSection(&port->m_csCommunicationSync);
         // notify parent that a byte was received
-        ::SendMessage((port->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM)RXBuff, (LPARAM)port->m_nPortNr);//·¢ËÍÏûÏ¢£¬¶ÔÓ¦µÄÏûÏ¢º¯Êý½ÓÊÕÊý¾Ý
+        ::SendMessage((port->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM)RXBuff, (LPARAM)port->m_nPortNr);//å‘é€æ¶ˆæ¯ï¼Œå¯¹åº”çš„æ¶ˆæ¯å‡½æ•°æŽ¥æ”¶æ•°æ®
     } // end forever loop
 }
 

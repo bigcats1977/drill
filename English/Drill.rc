@@ -157,11 +157,11 @@ BEGIN
     LTEXT           "Copyright (C) 2023",IDC_STATIC,40,25,119,8
     LTEXT           "Mac. Code",IDC_STATIC,9,50,33,8
     LTEXT           "Reg. Code",IDC_STATIC,9,71,33,8
-    LTEXT           "£≠",IDC_STATIC,83,72,8,8
-    LTEXT           "£≠",IDC_STATIC,129,72,8,8
-    LTEXT           "£≠",IDC_STATIC,176,72,8,8
-    LTEXT           "£≠",IDC_STATIC,222,72,8,8
-    LTEXT           "£≠",IDC_STATIC,269,72,8,8
+    LTEXT           "Ôºç",IDC_STATIC,83,72,8,8
+    LTEXT           "Ôºç",IDC_STATIC,129,72,8,8
+    LTEXT           "Ôºç",IDC_STATIC,176,72,8,8
+    LTEXT           "Ôºç",IDC_STATIC,222,72,8,8
+    LTEXT           "Ôºç",IDC_STATIC,269,72,8,8
 END
 
 IDD_DRILL_DIALOG DIALOGEX 0, 0, 648, 519
@@ -1254,37 +1254,37 @@ END
 
 IDR_MAINMENU MENU
 BEGIN
-    POPUP "Œƒº˛(&F)"
+    POPUP "Êñá‰ª∂(&F)"
     BEGIN
-        MENUITEM " ˝æ›∂¡»°(&R)...",                 ID_COLLECTDATA
+        MENUITEM "Êï∞ÊçÆËØªÂèñ(&R)...",                 ID_COLLECTDATA
         MENUITEM SEPARATOR
-        MENUITEM "¿˙ ∑º«¬º(&H)...",                 ID_HISTORYLIST
+        MENUITEM "ÂéÜÂè≤ËÆ∞ÂΩï(&H)...",                 ID_HISTORYLIST
         MENUITEM SEPARATOR
-        MENUITEM "ÕÀ≥ˆ(&X)",                      ID_APP_EXIT
+        MENUITEM "ÈÄÄÂá∫(&X)",                      ID_APP_EXIT
     END
-    POPUP "…Ë÷√(&S)"
+    POPUP "ËÆæÁΩÆ(&S)"
     BEGIN
-        MENUITEM "»´æ÷≈‰÷√(&G)...",                 ID_GLBCFG
-        MENUITEM "≤Œ ˝…Ë÷√(&P)...",                 ID_SETPARA
-        MENUITEM "π¶ƒ‹µ˜ ‘(&D)...",                 ID_DEBUG
-        MENUITEM "–ﬁ∏ƒ√‹¬Î(&M)...",                 ID_MODPW
-        MENUITEM "∑˛ŒÒ∆˜–≈œ¢≈‰÷√(&S)...",              ID_SERVERCFG
+        MENUITEM "ÂÖ®Â±ÄÈÖçÁΩÆ(&G)...",                 ID_GLBCFG
+        MENUITEM "ÂèÇÊï∞ËÆæÁΩÆ(&P)...",                 ID_SETPARA
+        MENUITEM "ÂäüËÉΩË∞ÉËØï(&D)...",                 ID_DEBUG
+        MENUITEM "‰øÆÊîπÂØÜÁ†Å(&M)...",                 ID_MODPW
+        MENUITEM "ÊúçÂä°Âô®‰ø°ÊÅØÈÖçÁΩÆ(&S)...",              ID_SERVERCFG
     END
-    POPUP "”Ô—‘(&L)"
+    POPUP "ËØ≠Ë®Ä(&L)"
     BEGIN
-        MENUITEM "∫∫”Ô(&C)",                      ID_LANG_CHN
-        MENUITEM "”¢”Ô(&E)",                      ID_LANG_ENG
+        MENUITEM "Ê±âËØ≠(&C)",                      ID_LANG_CHN
+        MENUITEM "Ëã±ËØ≠(&E)",                      ID_LANG_ENG
     END
-    POPUP "∞Ê±æ(&V)"
+    POPUP "ÁâàÊú¨(&V)"
     BEGIN
-        MENUITEM "¥Û≈§æÿ(&B)",                     ID_VER_BIGTORQ
+        MENUITEM "Â§ßÊâ≠Áü©(&B)",                     ID_VER_BIGTORQ
         MENUITEM SEPARATOR
         MENUITEM "KN.m(&N)",                    ID_VER_UNIT_NM
         MENUITEM "lb.ft(&L)",                   ID_VER_UNIT_LBFT
     END
-    POPUP "∞Ô÷˙(&H)"
+    POPUP "Â∏ÆÂä©(&H)"
     BEGIN
-        MENUITEM "πÿ”⁄(&A)...",                   ID_ABOUT
+        MENUITEM "ÂÖ≥‰∫é(&A)...",                   ID_ABOUT
     END
 END
 
@@ -1706,7 +1706,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STRFONTDEAAULT      "ÀŒÃÂ"
+    IDS_STRFONTDEAAULT      "ÂÆã‰Ωì"
     IDS_STRFONTTIMESNR      "Times New Roman"
     IDS_STRFONTMSSERIF      "MS Sans Serif"
 END
@@ -2214,7 +2214,7 @@ BEGIN
     IDS_STRINFREADDATAERR   "The error num of read data is <%u>, error reasonis <%s>. Please try again!"
     IDS_STRINFQUALOPTM      "Qualitied record, Optimize it ?"
     IDS_STRINFFILEERR       "Error file format!"
-    IDS_STRINFREADOVERFLOW  "Because the record num (%d) exceed to %d in file£¨the redundant record can't read!"
+    IDS_STRINFREADOVERFLOW  "Because the record num (%d) exceed to %d in fileÔºåthe redundant record can't read!"
     IDS_STRINFTORQDATAERR   "The data file <%s> is ERROR. The number of record is %d, and %d record is valid, current place 0x%x!"
     IDS_STRINFTORQDATAOVER  "Data length(%d) is too long, skip this (%d) data!"
     IDS_STRINFTORQDATASHORT "The data file <%s> is ERROR. Data length(%d) is too short, current place 0x%x, skip this (%d) data!"

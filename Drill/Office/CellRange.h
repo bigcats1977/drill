@@ -15,7 +15,7 @@
 //      mailto:chinajoe@aol.com
 //      http://users.aol.com/chinajoe
 
-class CCellID//仅仅提供一个最基本的单元格
+class CCellID//浠呬粎鎻愪緵涓�涓渶鍩烘湰鐨勫崟鍏冩牸
 {    
 // Attributes
 public:
@@ -31,8 +31,8 @@ public:
     int  operator!=(const CCellID& rhs)    { return !operator==(rhs); }
 };
 
-class CCellRange//可以判断二个range是否相等并且可以求他们的相交区间
-//判断一个单元格是否在此区间
+class CCellRange//鍙互鍒ゆ柇浜屼釜range鏄惁鐩哥瓑骞朵笖鍙互姹備粬浠殑鐩镐氦鍖洪棿
+//鍒ゆ柇涓�涓崟鍏冩牸鏄惁鍦ㄦ鍖洪棿
 { 
 public:
     CCellRange(int iMinRow = -1, int iMinCol = -1, int iMaxRow = -1, int iMaxCol = -1)

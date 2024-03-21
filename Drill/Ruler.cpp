@@ -114,7 +114,7 @@ void CRuler::InvalidateCtrl()
 }
 
 /*lint -e414*/
-/* »­Êú³ß×Ó */
+/* ç”»ç«–å°ºå­ */
 void CRuler::DrawVerRuler()
 {
     int     x = 0, y = 0;
@@ -148,7 +148,7 @@ void CRuler::DrawVerRuler()
         y = rcRuler.Height() * (m_iTickNum - i) / m_iTickNum;
         if (i == 0)
         {
-            /* »­´ó¿Ì¶È */
+            /* ç”»å¤§åˆ»åº¦ */
             m_MemDC.MoveTo(rcRuler.right, y - 1);
             m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y - 1);
             str = string_format("%.1f", m_fMinTickVal);
@@ -158,7 +158,7 @@ void CRuler::DrawVerRuler()
         }
         if (i == m_iTickNum)
         {
-            /* »­´ó¿Ì¶È */
+            /* ç”»å¤§åˆ»åº¦ */
             m_MemDC.MoveTo(rcRuler.right, y);
             m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y);
             m_MemDC.TextOut(rcRuler.right - 6, y, str.c_str());
@@ -166,7 +166,7 @@ void CRuler::DrawVerRuler()
         }
 
         /* else */
-        /* »­´ó¿Ì¶È */
+        /* ç”»å¤§åˆ»åº¦ */
         m_MemDC.MoveTo(rcRuler.right, y);
         m_MemDC.LineTo(rcRuler.right - MAX_SCALE_LEN, y);
         m_MemDC.TextOut(rcRuler.right - 6, y - 5, str.c_str());
@@ -180,7 +180,7 @@ void CRuler::DrawVerRuler()
     m_MemDC.SetBkMode(iOldBkMode);
 }
 
-/* »­³ß×ÓµÄĞ¡Êú¿Ì¶È */
+/* ç”»å°ºå­çš„å°ç«–åˆ»åº¦ */
 void CRuler::DrawVerScale(int iBeginY, CRect rcRuler)
 {
     int     i = 0;
@@ -193,13 +193,13 @@ void CRuler::DrawVerScale(int iBeginY, CRect rcRuler)
     {
         iScaleY = int(iBeginY - i * fScaleHeight);
 
-        /* »­Ğ¡¿Ì¶È */
+        /* ç”»å°åˆ»åº¦ */
         m_MemDC.MoveTo(rcRuler.right, iScaleY);
         m_MemDC.LineTo(rcRuler.right - Min_SCALE_LEN, iScaleY);
     }
 }
 
-/* »­ºá³ß×Ó */
+/* ç”»æ¨ªå°ºå­ */
 void CRuler::DrawHorRuler()
 {
     int     x = 0, y = 0;
@@ -266,7 +266,7 @@ void CRuler::DrawHorRuler()
         if (i == m_iTickNum)
             iStrPlace = x;
 
-        /* ÆğÊ¼µãÎª¸ºÖµÊ±£¬iZeroIndex´óÓÚ0£¬ÖØĞÂ±ê¶¨0µã */
+        /* èµ·å§‹ç‚¹ä¸ºè´Ÿå€¼æ—¶ï¼ŒiZeroIndexå¤§äº0ï¼Œé‡æ–°æ ‡å®š0ç‚¹ */
         if (i == iZeroIndex)
         {
             str = _T("0");
@@ -275,7 +275,7 @@ void CRuler::DrawHorRuler()
         m_MemDC.TextOut(iStrPlace, rcRuler.top + 2, "      ");
         m_MemDC.TextOut(iStrPlace, rcRuler.top + 2, str.c_str());
 
-        /* ×îºóÒ»¸ö¿Ì¶È²»ĞèÒª»­Ğ¡¿Ì¶È */
+        /* æœ€åä¸€ä¸ªåˆ»åº¦ä¸éœ€è¦ç”»å°åˆ»åº¦ */
         if (i == m_iTickNum)
         {
             m_MemDC.MoveTo(x - 1, rcRuler.top);
@@ -283,10 +283,10 @@ void CRuler::DrawHorRuler()
             continue;
         }
 
-        /* »­´ó¿Ì¶È */
+        /* ç”»å¤§åˆ»åº¦ */
         m_MemDC.MoveTo(x, rcRuler.top);
         m_MemDC.LineTo(x, rcRuler.top + MAX_SCALE_LEN);
-        /* »­´øĞ¡¿Ì¶ÈµÄ×ø±êÏß */
+        /* ç”»å¸¦å°åˆ»åº¦çš„åæ ‡çº¿ */
         DrawHorScale(x, rcRuler);
     }
 
@@ -297,7 +297,7 @@ void CRuler::DrawHorRuler()
     m_MemDC.SetBkMode(iOldBkMode);
 }/*lint +e414*/
 
-/* »­³ß×ÓµÄĞ¡ºá¿Ì¶È */
+/* ç”»å°ºå­çš„å°æ¨ªåˆ»åº¦ */
 void CRuler::DrawHorScale(int iBeginX, CRect rcRuler)
 {
     int     i = 0;
@@ -306,7 +306,7 @@ void CRuler::DrawHorScale(int iBeginX, CRect rcRuler)
 
     fScaleWidth = rcRuler.Width() / (m_iTickNum * SCALE_NUM * 1.0);
 
-    /* »­´ó¿Ì¶È */
+    /* ç”»å¤§åˆ»åº¦ */
     m_MemDC.MoveTo(iBeginX, rcRuler.top);
     m_MemDC.LineTo(iBeginX, rcRuler.top + MAX_SCALE_LEN);
 
@@ -314,7 +314,7 @@ void CRuler::DrawHorScale(int iBeginX, CRect rcRuler)
     {
         iScaleX = int(iBeginX + i * fScaleWidth);
 
-        /* »­Ğ¡¿Ì¶È */
+        /* ç”»å°åˆ»åº¦ */
         m_MemDC.MoveTo(iScaleX, rcRuler.top);
         m_MemDC.LineTo(iScaleX, rcRuler.top + Min_SCALE_LEN);
     }

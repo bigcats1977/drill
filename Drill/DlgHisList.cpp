@@ -18,11 +18,11 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//#define HAVINGPRNIMG        // ´òÓ¡Í¼ÏñÊ±±ãÓÚ²âÊÔ£¬²»ÓÃÃ¿´Î¶¼´òÓ¡
+//#define HAVINGPRNIMG        // æ‰“å°å›¾åƒæ—¶ä¾¿äºæµ‹è¯•ï¼Œä¸ç”¨æ¯æ¬¡éƒ½æ‰“å°
 
 /////////////////////////////////////////////////////////////////////////////
 // CDlgHisList property page
-SAVELOGDATA g_tOrgData;         /* ´æ´¢Å¤¾ØÔ­Ê¼Êı¾İÔİÊ±ÄÚ´æ */
+SAVELOGDATA g_tOrgData;         /* å­˜å‚¨æ‰­çŸ©åŸå§‹æ•°æ®æš‚æ—¶å†…å­˜ */
 //CWorksheet  *g_ptCurSheet = NULL;
 
 CDlgHisGrp* pdlgPrint = NULL;
@@ -97,10 +97,10 @@ BOOL CDlgHisList::OnInitDialog()
     m_listHis.GetWindowRect(&rcView);
     m_iWidth = (int)(rcView.Width() / 12.17);
     m_listHis.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
-    /* 20220922 ×ê¸Ë°æ±¾ÎŞ×î´ó/×îĞ¡Å¤¾Ø */
-    /* 20221113 È¥µôĞ±ÆÂÒò×Ó */
-    /* 20221220  È¥µô¹ÕµãÅ¤¾Ø£¬Í¬Ê±ÏÔÊ¾ÉÏ¿ÛÅ¤¾Ø/ÖÜÊıºÍĞ¶¿ÛÅ¤¾Ø/ÖÜÊı */
-    /* È¥µô¼Ğ½ôÅ¤¾Ø */
+    /* 20220922 é’»æ†ç‰ˆæœ¬æ— æœ€å¤§/æœ€å°æ‰­çŸ© */
+    /* 20221113 å»æ‰æ–œå¡å› å­ */
+    /* 20221220  å»æ‰æ‹ç‚¹æ‰­çŸ©ï¼ŒåŒæ—¶æ˜¾ç¤ºä¸Šæ‰£æ‰­çŸ©/å‘¨æ•°å’Œå¸æ‰£æ‰­çŸ©/å‘¨æ•° */
+    /* å»æ‰å¤¹ç´§æ‰­çŸ© */
     strHead = string_format(theApp.LoadstringFromRes(IDS_STRHISLLISTHEAD).c_str(), int(0.8 * m_iWidth),
         int(1.7 * m_iWidth), int(1.7 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth),
         int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(0.9 * m_iWidth), int(2 * m_iWidth));
@@ -220,13 +220,13 @@ BOOL CDlgHisList::OnSetActive()
         m_nHisTotalRec = g_tReadData.nTotal;
         m_nHisQualyRec = g_tReadData.nQualy;
         m_nHisUnQualyRec = g_tReadData.nUnQualy;
-        /* 20210317 ´ÓÍ¼ĞÎÇĞ»ØÁĞ±íÊ±£¬±£³Öµ±Ç°µÄÑ¡Ôñ¼ÇÂ¼ */
+        /* 20210317 ä»å›¾å½¢åˆ‡å›åˆ—è¡¨æ—¶ï¼Œä¿æŒå½“å‰çš„é€‰æ‹©è®°å½• */
         SetDataPlace(nCurSel);
 
         m_listHis.DeleteAllItems();
         ShowHisTorqList();
 
-        //Ñ¡ÖĞÊ±µÚ¶ş¸ö²ÎÊıÖµÎª1£¬È¡ÏûÑ¡ÖĞÊ±µÚ¶ş¸ö²ÎÊıÎª0
+        //é€‰ä¸­æ—¶ç¬¬äºŒä¸ªå‚æ•°å€¼ä¸º1ï¼Œå–æ¶ˆé€‰ä¸­æ—¶ç¬¬äºŒä¸ªå‚æ•°ä¸º0
         m_listHis.SetItemState(nCurSel - 1, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
         m_listHis.EnsureVisible(nCurSel - 1, TRUE);
     }
@@ -261,7 +261,7 @@ void CDlgHisList::OnBnClickedBtnexport()
     theApp.SaveShowMessage(strInfo);
 }
 
-/*"ĞòºÅ,%d;ÉÏ¿ÛÊ±¼ä,%d;Ğ¶¿ÛÊ±¼ä,%d;¼Ğ½ôÅ¤¾Ø,%d;×î¼ÑÅ¤¾Ø,%d;ÉÏ¿ÛÅ¤¾Ø,%d;ÉÏ¿ÛÖÜÊı,%d;Ğ¶¿ÛÅ¤¾Ø,%d;Ğ¶¿ÛÖÜÊı,%d;±¸×¢,%d;"*/
+/*"åºå·,%d;ä¸Šæ‰£æ—¶é—´,%d;å¸æ‰£æ—¶é—´,%d;å¤¹ç´§æ‰­çŸ©,%d;æœ€ä½³æ‰­çŸ©,%d;ä¸Šæ‰£æ‰­çŸ©,%d;ä¸Šæ‰£å‘¨æ•°,%d;å¸æ‰£æ‰­çŸ©,%d;å¸æ‰£å‘¨æ•°,%d;å¤‡æ³¨,%d;"*/
 void CDlgHisList::ShowHisTorqList()
 {
     UINT        i = 0;
@@ -295,7 +295,7 @@ void CDlgHisList::ShowHisTorqList()
     {
         ptTorq = &ptAllData->tData[i];
 
-        /* 20180102 ĞòºÅÉ¾³ıºó×Ô¶¯¸üĞÂ */
+        /* 20180102 åºå·åˆ é™¤åè‡ªåŠ¨æ›´æ–° */
         strNo.Format("%d", i + 1);
         strMemo = ptTorq->strmemo().c_str();
         if (theApp.HaveMakeUP(ptTorq))
@@ -329,7 +329,7 @@ void CDlgHisList::ShowHisTorqList()
             strOutWellNO = _T("-");
         }
 
-        /*"ĞòºÅ,%d;ÉÏ¿ÛÊ±¼ä,%d;Ğ¶¿ÛÊ±¼ä,%d;×î¼ÑÅ¤¾Ø,%d;ÉÏ¿ÛÅ¤¾Ø,%d;ÉÏ¿ÛÖÜÊı,%d;Ğ¶¿ÛÅ¤¾Ø,%d;Ğ¶¿ÛÖÜÊı,%d;È¡³öĞòºÅ,%d;±¸×¢,%d;"*/
+        /*"åºå·,%d;ä¸Šæ‰£æ—¶é—´,%d;å¸æ‰£æ—¶é—´,%d;æœ€ä½³æ‰­çŸ©,%d;ä¸Šæ‰£æ‰­çŸ©,%d;ä¸Šæ‰£å‘¨æ•°,%d;å¸æ‰£æ‰­çŸ©,%d;å¸æ‰£å‘¨æ•°,%d;å–å‡ºåºå·,%d;å¤‡æ³¨,%d;"*/
         slShow.AddTail(strNo);
         slShow.AddTail(strTime);
         slShow.AddTail(strBOTime);
@@ -348,7 +348,7 @@ void CDlgHisList::ShowHisTorqList()
             //string val = theApp.GetTorqShowValue(ptTorq, theApp.m_ptCurShow->nList[j]);
             slShow.AddTail(theApp.GetTorqShowValue(ptTorq, j));
         }
-        /* ²¹¿Õ */
+        /* è¡¥ç©º */
         for (; j < (int)plsShow->nShowNum; j++)
             slShow.AddTail(NULLSTR);
         iItem = plsShow->AddItemList(slShow);
@@ -363,7 +363,7 @@ void CDlgHisList::ShowHisTorqList()
         {
             plsShow->SetItemData(iItem, TORQ_TOOLBUCKLE);
         }
-        else    // ·Ç¹¤¾ß¿ÛÉèÖÃÎªÍ³¼ÆĞòºÅ
+        else    // éå·¥å…·æ‰£è®¾ç½®ä¸ºç»Ÿè®¡åºå·
         {
             if (strMemo.IsEmpty())
                 m_ptStatTorq = ptTorq;
@@ -404,9 +404,9 @@ void CDlgHisList::SetDataPlace(UINT nCur)
     g_tReadData.nCur = nCur;
 }
 
-/* »ñÈ¡LISTÑ¡ÔñµÄ¼ÇÂ¼ĞÅÏ¢£¬ÓĞÏÂÃæÈıÖÖĞÎÊ½¹©Ñ¡Ôñ
-   //m_bSelItem: ¶ÔÓ¦Î»ÖÃÎªTRUE£¬ËµÃ÷¼ÇÂ¼±»Ñ¡Ôñ£¬Ä¬ÈÏÎªFALSE
-   m_nSelItem: ¼ÇÂ¼Ñ¡ÔñµÄĞòºÅ£¬×î´óMAXDELRECORD
+/* è·å–LISTé€‰æ‹©çš„è®°å½•ä¿¡æ¯ï¼Œæœ‰ä¸‹é¢ä¸‰ç§å½¢å¼ä¾›é€‰æ‹©
+   //m_bSelItem: å¯¹åº”ä½ç½®ä¸ºTRUEï¼Œè¯´æ˜è®°å½•è¢«é€‰æ‹©ï¼Œé»˜è®¤ä¸ºFALSE
+   m_nSelItem: è®°å½•é€‰æ‹©çš„åºå·ï¼Œæœ€å¤§MAXDELRECORD
    */
 UINT CDlgHisList::GetSelectItem()
 {
@@ -432,13 +432,13 @@ UINT CDlgHisList::GetSelectItem()
     iItem = m_listHis.GetNextSelectedItem(pos);
     COMP_BE_R(iItem, -1, 0);
 
-    /* ÊÕ¼¯ĞèÒª´¦ÀíµÄ¼ÇÂ¼ */
+    /* æ”¶é›†éœ€è¦å¤„ç†çš„è®°å½• */
     nSelNum = 0;
     while (iItem != -1)
     {
         m_nSelItem[nSelNum++] = iItem + 1;
 
-        /* ×î´ó´¦ÀíMAXWELLNUM¸ö¼ÇÂ¼ */
+        /* æœ€å¤§å¤„ç†MAXWELLNUMä¸ªè®°å½• */
         if (nSelNum >= MAXWELLNUM)
         {
             nSelNum = MAXWELLNUM;
@@ -545,7 +545,7 @@ void CDlgHisList::OnBnClickedBtnOrgdata()
         g_tOrgData.iCur += iLen;
         pPrnData += iLen;
 
-        /* 3.22 °æ±¾´òÓ¡delplus */
+        /* 3.22 ç‰ˆæœ¬æ‰“å°delplus */
         sprintf_s(pPrnData, SPRINTFLEN, "%s", aucHead);
         g_tOrgData.iCur += iHeadLen;
         pPrnData += iHeadLen;
@@ -814,8 +814,8 @@ void CDlgHisList::OnBnClickedBtngraphexp()
 #if 0
 void CDlgHisList::AddExcelChart(double top, CString strRange)
 {
-    double left = 100, width = 350, height = 220;   // Í¼±íÎ»ÖÃ£¬topÓÉÈë²Î´«Èë
-    // Í¼±í(chart)    
+    double left = 100, width = 350, height = 220;   // å›¾è¡¨ä½ç½®ï¼Œtopç”±å…¥å‚ä¼ å…¥
+    // å›¾è¡¨(chart)    
     CChart chart;
     CChartObjects chartobjects;
     CChartObject chartobject;
@@ -830,8 +830,8 @@ void CDlgHisList::AddExcelChart(double top, CString strRange)
     chartobjects.AttachDispatch(lpDisp);
     chartobject = chartobjects.Add(left, top, width, height);
     chart.AttachDispatch(chartobject.get_Chart());
-    chart.put_ChartType(5); // ±ıÍ¼ xlPie
-    //chart.put_ChartType(-4102); // ±ıÍ¼ xl3DPie
+    chart.put_ChartType(5); // é¥¼å›¾ xlPie
+    //chart.put_ChartType(-4102); // é¥¼å›¾ xl3DPie
 
     lpDisp = g_ptCurSheet->get_Range(COleVariant("A1"), COleVariant(strRange));
     ASSERT(lpDisp);
@@ -915,10 +915,10 @@ void CDlgHisList::SetCellFont(int iRow, int iCol, int iNum, UINT dwQuality)
 }
 
 /*
-    iIndex  : ×Ü½áÖĞÌîĞ´ÏÔÊ¾²ÎÊıµÄĞòºÅ£¬·¶Î§1~6(MAXSUMMARYPARA)
-    iSeq    : ²ÎÊıÔÚ½á¹¹ÖĞµÄË³ĞòºÅ£¬·¶Î§1~15
-    iBegin  : excel±í¸ñµÄ¿ªÊ¼ĞĞºÅ£¬´óÓÚ0
-    iMaxVal : Õâ¸ö²ÎÊıÁĞ¾ÙµÄ×î´óÖµ¸öÊı£¬³¬¹ıËü½«¸²¸ÇÆäËûÏÔÊ¾²ÎÊıµÄÖµ
+    iIndex  : æ€»ç»“ä¸­å¡«å†™æ˜¾ç¤ºå‚æ•°çš„åºå·ï¼ŒèŒƒå›´1~6(MAXSUMMARYPARA)
+    iSeq    : å‚æ•°åœ¨ç»“æ„ä¸­çš„é¡ºåºå·ï¼ŒèŒƒå›´1~15
+    iBegin  : excelè¡¨æ ¼çš„å¼€å§‹è¡Œå·ï¼Œå¤§äº0
+    iMaxVal : è¿™ä¸ªå‚æ•°åˆ—ä¸¾çš„æœ€å¤§å€¼ä¸ªæ•°ï¼Œè¶…è¿‡å®ƒå°†è¦†ç›–å…¶ä»–æ˜¾ç¤ºå‚æ•°çš„å€¼
 */
 BOOL CDlgHisList::SetMultiValue(int iSeq, int iIndex, int iBegin, int iMaxNum)
 {
@@ -942,7 +942,7 @@ BOOL CDlgHisList::SetMultiValue(int iSeq, int iIndex, int iBegin, int iMaxNum)
     {
         ptTorq = &g_tReadData.tData[i];
 
-        /* Ìø¹ı¹¤¾ß¿ÛºÍ±¸×¢·Ç¿ÕµÄ¼ÇÂ¼ */
+        /* è·³è¿‡å·¥å…·æ‰£å’Œå¤‡æ³¨éç©ºçš„è®°å½• */
         if (ptTorq->btoolbuck())
             continue;
         if (!ptTorq->strmemo().empty())
@@ -966,7 +966,7 @@ BOOL CDlgHisList::SetMultiValue(int iSeq, int iIndex, int iBegin, int iMaxNum)
 }
 
 /*
-    iSeq    : ²ÎÊıÔÚ½á¹¹ÖĞµÄË³ĞòºÅ£¬·¶Î§0~14
+    iSeq    : å‚æ•°åœ¨ç»“æ„ä¸­çš„é¡ºåºå·ï¼ŒèŒƒå›´0~14
 */
 int CDlgHisList::GetParaValueInfo(int iIndex, vector<int>& listNo)
 {
@@ -984,7 +984,7 @@ int CDlgHisList::GetParaValueInfo(int iIndex, vector<int>& listNo)
     {
         ptTorq = &g_tReadData.tData[i];
 
-        /* µ÷¹ı¹¤¾ß¿ÛºÍ±¸×¢·Ç¿ÕµÄ¼ÇÂ¼ */
+        /* è°ƒè¿‡å·¥å…·æ‰£å’Œå¤‡æ³¨éç©ºçš„è®°å½• */
         if (ptTorq->btoolbuck())
             continue;
 
@@ -1019,7 +1019,7 @@ CString CDlgHisList::GetOperInfo(CStringList& slOper)
 
         slCurOper.RemoveAll();
 
-        /* µ±°à°à³¤ */
+        /* å½“ç­ç­é•¿ */
         strOper = theApp.GetTorqShowValue(ptTorq, m_ptStat->GenPara[STATPARA_GENOPERATOR]);
 
         theApp.SplitString(strOper, slCurOper);
@@ -1051,7 +1051,7 @@ CString CDlgHisList::GetWellNO(BOOL bSuffix)
     COMP_BFALSE_R(bSuffix, strWellNO);
 
     if (LANGUAGE_CHINESE == m_nCurLang)
-        strWellNO += _T("¾®");
+        strWellNO += _T("äº•");
     else
         strWellNO += _T(" Well");
 
@@ -1068,29 +1068,29 @@ CString CDlgHisList::GetWellDepth()
     return strDepth;
 }
 
-/* (¸Ã¾®ÓÚ2019Äê 12 ÔÂ16ÈÕ¿ªÊ¼×÷Òµ£¬ÆÚ¼ä¹²Èë¾®
-    2-7/8¡å*6.45EUE(¹Ü¼ş¹æ¸ñ,²ÎÊı5)  ÓÍ¹Ü20¸ù£¬
-    2-7/8¡å*7.34BGT2ÓÍ¹Ü270¸ù
-    3-1/2¡å*6.45BGT3ÓÍ¹Ü160¸ù£¬
-    4-1/2¡å*6.45BGT2ÓÍ¹Ü120¸ù
-    ¹¤¾ß¿Û20¸ù¡£
-    ºÏ¼ÆÈë¾®Êı370¸ù¡£
-    ÓÚ2019Äê12ÔÂ25ºÅÊÔÑ¹ºÏ¸ñ¡£)
+/* (è¯¥äº•äº2019å¹´ 12 æœˆ16æ—¥å¼€å§‹ä½œä¸šï¼ŒæœŸé—´å…±å…¥äº•
+    2-7/8â€³*6.45EUE(ç®¡ä»¶è§„æ ¼,å‚æ•°5)  æ²¹ç®¡20æ ¹ï¼Œ
+    2-7/8â€³*7.34BGT2æ²¹ç®¡270æ ¹
+    3-1/2â€³*6.45BGT3æ²¹ç®¡160æ ¹ï¼Œ
+    4-1/2â€³*6.45BGT2æ²¹ç®¡120æ ¹
+    å·¥å…·æ‰£20æ ¹ã€‚
+    åˆè®¡å…¥äº•æ•°370æ ¹ã€‚
+    äº2019å¹´12æœˆ25å·è¯•å‹åˆæ ¼ã€‚)
 
-    ¸Ã¾®ÓÚ2020Äê2ÔÂ17ÈÕ¿ªÊ¼×÷Òµ£¬ÆÚ¼ä¹²Èë¾®
-    88.9¡Á6.45mm 361¸ù£¬
-    73.02X5.51mm 1¸ù£¬
-    88.9¡Á7.34mm 211¸ù£¬
-    ¹¤¾ß¿Û10¸ù¡£
-    ºÏ¼ÆÏÂÓÍ¹Ü583¸ù£¬ÆäÖĞºÏ¸ñÈë¾®551¸ù£¬²»ºÏ¸ñ32¸ù¡£
-    ÓÚ2020Äê2ÔÂ19ºÅÊÔÑ¹ºÏ¸ñ¡£
+    è¯¥äº•äº2020å¹´2æœˆ17æ—¥å¼€å§‹ä½œä¸šï¼ŒæœŸé—´å…±å…¥äº•
+    88.9Ã—6.45mm 361æ ¹ï¼Œ
+    73.02X5.51mm 1æ ¹ï¼Œ
+    88.9Ã—7.34mm 211æ ¹ï¼Œ
+    å·¥å…·æ‰£10æ ¹ã€‚
+    åˆè®¡ä¸‹æ²¹ç®¡583æ ¹ï¼Œå…¶ä¸­åˆæ ¼å…¥äº•551æ ¹ï¼Œä¸åˆæ ¼32æ ¹ã€‚
+    äº2020å¹´2æœˆ19å·è¯•å‹åˆæ ¼ã€‚
 
-IDS_STRINFCONSBEGIN    "¸Ã¾®ÓÚ%s¿ªÊ¼×÷Òµ£¬ÆÚ¼ä¹²ÉÏ¿Û"
-IDS_STRINFCONSTUBING    "%s %d¸ù£¬"
-IDS_STRINFCONSBHA       "¹¤¾ß¿Û%d¸ù¡£"
-//IDS_STRINFCONSTOTAL     "ºÏ¼ÆÈë¾®Êı%d¸ù¡£"
-IDS_STRINFCONSTOTAL     "ºÏ¼ÆÏÂÓÍ¹Ü%d¸ù£¬ÆäÖĞºÏ¸ñÈë¾®%d¸ù£¬²»ºÏ¸ñ%d¸ù¡£"
-IDS_STRINFCONSEND       "ÓÚ%sÊÔÑ¹ºÏ¸ñ¡£"
+IDS_STRINFCONSBEGIN    "è¯¥äº•äº%så¼€å§‹ä½œä¸šï¼ŒæœŸé—´å…±ä¸Šæ‰£"
+IDS_STRINFCONSTUBING    "%s %dæ ¹ï¼Œ"
+IDS_STRINFCONSBHA       "å·¥å…·æ‰£%dæ ¹ã€‚"
+//IDS_STRINFCONSTOTAL     "åˆè®¡å…¥äº•æ•°%dæ ¹ã€‚"
+IDS_STRINFCONSTOTAL     "åˆè®¡ä¸‹æ²¹ç®¡%dæ ¹ï¼Œå…¶ä¸­åˆæ ¼å…¥äº•%dæ ¹ï¼Œä¸åˆæ ¼%dæ ¹ã€‚"
+IDS_STRINFCONSEND       "äº%sè¯•å‹åˆæ ¼ã€‚"
 */
 CString CDlgHisList::GetConsSummaryInfo()
 {
@@ -1122,7 +1122,7 @@ CString CDlgHisList::GetConsSummaryInfo()
             continue;
         }
 
-        /* ¹Ü¼ş¹æ¸ñ */
+        /* ç®¡ä»¶è§„æ ¼ */
         strTubing = theApp.GetTorqShowValue(ptTorq, m_ptStat->JobPara[1]);
         for (j = 0; j < slTubing.GetCount(); j++)
         {
@@ -1136,7 +1136,7 @@ CString CDlgHisList::GetConsSummaryInfo()
                 break;
             }
         }
-        /* Ã»ÓĞÕÒµ½ */
+        /* æ²¡æœ‰æ‰¾åˆ° */
         if (j == slTubing.GetCount())
         {
             slTubing.AddTail(strTubing);
@@ -1144,7 +1144,7 @@ CString CDlgHisList::GetConsSummaryInfo()
         }
     }
 
-    /* 2-7/8¡å*7.34BGT2ÓÍ¹Ü270¸ù */
+    /* 2-7/8â€³*7.34BGT2æ²¹ç®¡270æ ¹ */
     strTmp.Empty();
     for (j = 0; j < slTubing.GetCount(); j++)
     {
@@ -1156,11 +1156,11 @@ CString CDlgHisList::GetConsSummaryInfo()
     }
     strSumm += strTmp;
 
-    /* ¹¤¾ß¿Û */
+    /* å·¥å…·æ‰£ */
     strTmp.Format(IDS_STRINFCONSBHA, iBHA);
     strSumm += strTmp;
 
-    /* ×ÜÊı */
+    /* æ€»æ•° */
     strTmp.Format(IDS_STRINFCONSTOTAL, g_tReadData.nTotal, g_tReadData.nQualy, g_tReadData.nUnQualy);
     strSumm += strTmp;
 
@@ -1177,17 +1177,17 @@ void CDlgHisList::WriteCoverSheet()
 
     COMP_BFALSE(m_tSaveExc.loadSheet(SHEET_COVER));
 
-    /* A4 / E11 ¾®ºÅ */
+    /* A4 / E11 äº•å· */
     SetCell(4, 1, GetWellNO(FALSE));
     SetCell(11, 5, GetWellNO(FALSE));
-    /* E12 ¾®Éî */
+    /* E12 äº•æ·± */
     SetCell(12, 5, GetWellDepth());
 
-    /* 27 ĞĞ D ÁĞ D27 : ¿ªÊ¼ÈÕÆÚ */
+    /* 27 è¡Œ D åˆ— D27 : å¼€å§‹æ—¥æœŸ */
     strTime.Format("'%s", theApp.GetTorqFullDate(&g_tReadData.tData[0]));
     SetCell(27, 4, strTime);
 
-    /* 27 ĞĞ G ÁĞ G27 : ½áÊøÈÕÆÚ */
+    /* 27 è¡Œ G åˆ— G27 : ç»“æŸæ—¥æœŸ */
     strTime.Format("'%s", theApp.GetTorqFullDate(&g_tReadData.tData[g_tReadData.nTotal - 1]));
     SetCell(27, 7, strTime);
 }
@@ -1205,48 +1205,48 @@ void CDlgHisList::WriteSummarySheet()
 
     COMP_BFALSE(m_tSaveExc.loadSheet(SHEET_SUMMARY));
 
-    /* B2 ¾®Ãû */
+    /* B2 äº•å */
     SetCell(2, 2, GetWellNO(FALSE));
-    /* 4 ĞĞ D ÁĞ D4 : Ê©¹¤¾®ºÅ*/
+    /* 4 è¡Œ D åˆ— D4 : æ–½å·¥äº•å·*/
     SetCell(4, 4, GetWellNO(FALSE));
-    /* H4:  ¿ªÊ¼ÈÕÆÚ         */
+    /* H4:  å¼€å§‹æ—¥æœŸ         */
     SetCell(4, 8, theApp.GetTorqSimpDate(&g_tReadData.tData[0]));
 
-    /* B7: 6¸öÏÔÊ¾²ÎÊı£¬¿ÉÑ¡, 3/4Îª¶à¸öÖµ */
+    /* B7: 6ä¸ªæ˜¾ç¤ºå‚æ•°ï¼Œå¯é€‰, 3/4ä¸ºå¤šä¸ªå€¼ */
     iRow = 7;
     for (i = 0; i < STATPARA_JOBNUM; i++)
     {
         index = m_ptStat->JobPara[i];
         switch (i)
         {
-        case 0: // ×î¶àÏÔÊ¾4¸öÖµ
-            /* B11:         ÏÔÊ¾²ÎÊıÃû³Æ1  */
+        case 0: // æœ€å¤šæ˜¾ç¤º4ä¸ªå€¼
+            /* B11:         æ˜¾ç¤ºå‚æ•°åç§°1  */
             SetMultiValue(i, index, 7, MAX1VALUES);
             iRow = 11;
             break;
-        case 1: // ×î¶àÏÔÊ¾6¸öÖµ
-            /* B15:         ÏÔÊ¾²ÎÊıÃû³Æ2  */
+        case 1: // æœ€å¤šæ˜¾ç¤º6ä¸ªå€¼
+            /* B15:         æ˜¾ç¤ºå‚æ•°åç§°2  */
             SetMultiValue(i, index, 11, MAX2VALUES);
             iRow = 17;
             break;
-        case 2: // ×î¶àÏÔÊ¾4¸öÖµ
-            /* B15:         ÏÔÊ¾²ÎÊıÃû³Æ3  */
+        case 2: // æœ€å¤šæ˜¾ç¤º4ä¸ªå€¼
+            /* B15:         æ˜¾ç¤ºå‚æ•°åç§°3  */
             SetMultiValue(i, index, 17, MAX3VALUES);
             iRow = 21;
             break;
 
         default:
-            /* B7:         ÏÔÊ¾²ÎÊıÃû³Æ1  */
+            /* B7:         æ˜¾ç¤ºå‚æ•°åç§°1  */
             strItem.Format("%d.%s", i + 1, theApp.GetTorqShowName(m_ptStatTorq, index));
             SetCell(iRow, 2, strItem);
-            /* D7:         ÏÔÊ¾²ÎÊıÖµ1  */
+            /* D7:         æ˜¾ç¤ºå‚æ•°å€¼1  */
             SetCell(iRow, 4, theApp.GetTorqShowValue(m_ptStatTorq, index));
             iRow += 2;
             break;
         }
     }
 
-    /* µ±°à°à³¤ºÍ²Ù×÷Ô±: µÚÒ»¸öÊÇµ±°à°à³¤1¸ö£¬ºóÃæµÄÎª²Ù×÷Ô±4¸ö */
+    /* å½“ç­ç­é•¿å’Œæ“ä½œå‘˜: ç¬¬ä¸€ä¸ªæ˜¯å½“ç­ç­é•¿1ä¸ªï¼Œåé¢çš„ä¸ºæ“ä½œå‘˜4ä¸ª */
     GetOperInfo(slOper);
     iRow = 29;
     SetCell(iRow, 2, GetOperInfo(slOper));
@@ -1260,7 +1260,7 @@ void CDlgHisList::WriteSummarySheet()
             break;
     }
 
-    /* Ê©¹¤Ğ¡½á B47 */
+    /* æ–½å·¥å°ç»“ B47 */
     SetCell(47, 2, GetConsSummaryInfo());
 }
 
@@ -1353,45 +1353,45 @@ void CDlgHisList::WriteQualitySheet()
         fAveTurn[2] /= nShlNum;
     }
 #endif
-    /* A2 ¾®Ãû */
+    /* A2 äº•å */
     SetCell(2, 1, GetWellNO(FALSE));
 
-    /* 5 ĞĞ C ÁĞ C5 : ×ÜÊı */
+    /* 5 è¡Œ C åˆ— C5 : æ€»æ•° */
     iRow = 5;
     SetCell(iRow++, 3, iQual[0]);
-    /* :  ºÏ¸ñ×ÜÊı  */
+    /* :  åˆæ ¼æ€»æ•°  */
     SetCell(iRow++, 3, iQual[1]);
-    /* :  ²»ºÏ¸ñ×ÜÊı  */
+    /* :  ä¸åˆæ ¼æ€»æ•°  */
     SetCell(iRow++, 3, iQual[2]);
 
     iRow = 21;
-    /* C :  ÉÏ¿ÛÅ¤¾Ø¹ıĞ¡   QUA_TORQ_LESS_LIMIT */
+    /* C :  ä¸Šæ‰£æ‰­çŸ©è¿‡å°   QUA_TORQ_LESS_LIMIT */
     SetCell(iRow++, 3, iUnQuaDetai[1]);
-    /* :  ³¬×î´óÅ¤¾Ø     QUA_TORQ_MORE_LIMIT */
+    /* :  è¶…æœ€å¤§æ‰­çŸ©     QUA_TORQ_MORE_LIMIT */
     SetCell(iRow++, 3, iUnQuaDetai[2]);
-    /* :  ¼Ğ³Ö´ò»¬       QUA_TRANSLATE */
+    /* :  å¤¹æŒæ‰“æ»‘       QUA_TRANSLATE */
     SetCell(iRow++, 3, iUnQuaDetai[7]);
-    /* :  ×ÜÖÜÊı¹ıĞ¡     QUA_CIRC_LESS_LIMIT */
+    /* :  æ€»å‘¨æ•°è¿‡å°     QUA_CIRC_LESS_LIMIT */
     SetCell(iRow++, 3, iUnQuaDetai[5]);
-    /* :  ÆğÊ¼Å¤¾Ø¹ı´ó   QUA_TORQ_MORE_START */
+    /* :  èµ·å§‹æ‰­çŸ©è¿‡å¤§   QUA_TORQ_MORE_START */
     SetCell(iRow++, 3, iUnQuaDetai[3]);
-    /* :  ¹ÕµãĞ±ÂÊĞ¡     QUA_LOW_SLOPE */
+    /* :  æ‹ç‚¹æ–œç‡å°     QUA_LOW_SLOPE */
     SetCell(iRow++, 3, iUnQuaDetai[13]);
-    /* :  ³¬¹ÕµãÅ¤¾Ø     QUA_HIGHT_DELTATURN */
+    /* :  è¶…æ‹ç‚¹æ‰­çŸ©     QUA_HIGHT_DELTATURN */
     SetCell(iRow++, 3, iUnQuaDetai[10]);
-    /* :  ¹ÕµãÅ¤¾ØĞ¡     QUA_LOW_SHOULD */
+    /* :  æ‹ç‚¹æ‰­çŸ©å°     QUA_LOW_SHOULD */
     SetCell(iRow++, 3, iUnQuaDetai[9]);
-    /* :  ³¬ÖÜÊı²îÖµ     QUA_HIGHT_DELTATURN */
+    /* :  è¶…å‘¨æ•°å·®å€¼     QUA_HIGHT_DELTATURN */
     SetCell(iRow++, 3, iUnQuaDetai[12]);
-    /* :  Ğ¶¿Û¼ì²é       QUA_SHACK_INSPECT */
+    /* :  å¸æ‰£æ£€æŸ¥       QUA_SHACK_INSPECT */
     SetCell(iRow++, 3, iUnQuaDetai[15]);
-    /* :  Õ³¿Û           QUA_GALLING */
+    /* :  ç²˜æ‰£           QUA_GALLING */
     SetCell(iRow++, 3, iUnQuaDetai[16]);
-    /* :  ÒºÑ¹Ç¯´ò»¬           QUA_HYDTONGSLIP */
+    /* :  æ¶²å‹é’³æ‰“æ»‘           QUA_HYDTONGSLIP */
     //SetCell(iRow++,  3, iUnQuaDetai[17]);
-    /* :  Ë¿¿ÛÇåÏ´²»¸É¾»           QUA_THREADNOTCLEAN */
+    /* :  ä¸æ‰£æ¸…æ´—ä¸å¹²å‡€           QUA_THREADNOTCLEAN */
     SetCell(iRow++, 3, iUnQuaDetai[17]);
-    /* :  Æø¼ì²»ºÏ¸ñ           QUA_GASSEALINSPECT */
+    /* :  æ°”æ£€ä¸åˆæ ¼           QUA_GASSEALINSPECT */
     SetCell(iRow++, 3, iUnQuaDetai[18]);
     /* :  Low Shoulder Slope  QUA_OTHER_CAUSE */
     SetCell(iRow++, 3, (iUnQuaDetai[4] +  // QUA_TORQ_MORE_CTRL
@@ -1399,21 +1399,21 @@ void CDlgHisList::WriteQualitySheet()
         iUnQuaDetai[8] +  // QUA_NOIPPOINT
         iUnQuaDetai[11] +  // QUA_LOW_DELTATURN
         iUnQuaDetai[14] +  // QUA_OTHER_CAUSE
-        iNoDetai));        // Ã»ÓĞÏêÏ¸´íÎóĞÅÏ¢
+        iNoDetai));        // æ²¡æœ‰è¯¦ç»†é”™è¯¯ä¿¡æ¯
 
     iRow = 53;
-    /* B :  Æ½¾ùÅ¤¾Ø  */
+    /* B :  å¹³å‡æ‰­çŸ©  */
     SetCell(iRow, 2, fAveTorq[0]);
-    /* C :  Æ½¾ùÖÜÊı  */
+    /* C :  å¹³å‡å‘¨æ•°  */
     SetCell(iRow++, 3, fAveTurn[0]);
 #if 0
-    /* B:  Æ½¾ù¹ÕµãÅ¤¾Ø  */
+    /* B:  å¹³å‡æ‹ç‚¹æ‰­çŸ©  */
     SetCell(iRow, 2, fAveTorq[1]);
-    /* C++:  Æ½¾ù¹ÕµãÖÜÊı  */
+    /* C++:  å¹³å‡æ‹ç‚¹å‘¨æ•°  */
     SetCell(iRow++, 3, fAveTurn[1]);
-    /* B:  DELTA¹ÕµãÅ¤¾Ø  */
+    /* B:  DELTAæ‹ç‚¹æ‰­çŸ©  */
     SetCell(iRow, 2, fAveTorq[2]);
-    /* C++:  DELTA¹ÕµãÖÜÊı  */
+    /* C++:  DELTAæ‹ç‚¹å‘¨æ•°  */
     SetCell(iRow++, 3, fAveTurn[2]);
 #endif
 }
@@ -1442,7 +1442,7 @@ void CDlgHisList::WriteScatterSheet()
     strStat = pDlgStat->SaveStatImg();
     delete pDlgStat;
 
-    /* B1¾®Ãû */
+    /* B1äº•å */
     SetCell(1, 2, GetWellNO(FALSE));
 
     m_tSaveExc.addCellPicture(strScat.c_str(), _T("B4"), _T("H20"));
@@ -1461,48 +1461,48 @@ void  CDlgHisList::FillReportHead(int& iRow, TorqData::Torque* ptHeadTorq)
     COMP_BL(iRow, 4);
     ASSERT_NULL(ptHeadTorq);
 
-    /* B4 / E4 3 ¼×·½ */
+    /* B4 / E4 3 ç”²æ–¹ */
     SetCell(iRow, 2, theApp.GetTorqShowName(ptHeadTorq, m_ptStat->GenPara[STATPARA_GENCOMPANY]));
     SetCell(iRow, 5, theApp.GetTorqShowValue(ptHeadTorq, m_ptStat->GenPara[STATPARA_GENCOMPANY]));
-    /* H4 / K4 1 ¾®ºÅ */
+    /* H4 / K4 1 äº•å· */
     SetCell(iRow, 8, theApp.GetTorqShowName(ptHeadTorq, m_ptStat->GenPara[STATPARA_GENWELLNO]));
     SetCell(iRow, 11, theApp.GetTorqShowValue(ptHeadTorq, m_ptStat->GenPara[STATPARA_GENWELLNO]));
     iRow++;
 
-    /* B5 / E5 4 ¹Ü¼şÃû³Æ */
+    /* B5 / E5 4 ç®¡ä»¶åç§° */
     SetCell(iRow, 2, theApp.GetTorqShowName(ptHeadTorq, m_ptStat->InfoPara[0]));
     SetCell(iRow, 5, theApp.GetTorqShowValue(ptHeadTorq, m_ptStat->InfoPara[0]));
-    /* H5 / K5 5 ¹æ¸ñ¿ÛĞÍ */
+    /* H5 / K5 5 è§„æ ¼æ‰£å‹ */
     SetCell(iRow, 8, theApp.GetTorqShowName(ptHeadTorq, m_ptStat->InfoPara[1]));
     SetCell(iRow, 11, theApp.GetTorqShowValue(ptHeadTorq, m_ptStat->InfoPara[1]));
     iRow++;
 
-    // Ìø¹ıÏÔÊ¾Å¤¾ØµÄÃû³ÆĞĞ
+    // è·³è¿‡æ˜¾ç¤ºæ‰­çŸ©çš„åç§°è¡Œ
     iRow++;
     iCol = 3;
-    /* 7 ĞĞ C ÁĞ C7 : ÏÔÊ¾Å¤¾Ø */
+    /* 7 è¡Œ C åˆ— C7 : æ˜¾ç¤ºæ‰­çŸ© */
     SetCell(iRow, iCol++, ptHeadTorq->fshow());
-    /* :  ×îĞ¡Å¤¾Ø  */
+    /* :  æœ€å°æ‰­çŸ©  */
     //SetCell(iRow, iCol++, ptHeadTorq->flowerlimit());
-    /* :  ×î¼ÑÅ¤¾Ø  */
+    /* :  æœ€ä½³æ‰­çŸ©  */
     SetCell(iRow, iCol++, theApp.GetOptTorq(ptHeadTorq));
-    /* :  ×î´óÅ¤¾Ø  */
+    /* :  æœ€å¤§æ‰­çŸ©  */
     //SetCell(iRow, iCol++, ptHeadTorq->fupperlimit());
-    /* :  ×îĞ¡¹Õµã  */
+    /* :  æœ€å°æ‹ç‚¹  */
     SetCell(iRow, iCol++, 0);
     iCol++;
-    /* :  ×î´ó¹Õµã  */
+    /* :  æœ€å¤§æ‹ç‚¹  */
     SetCell(iRow, iCol++, 0);
     iCol++;
-    /* :  ×îĞ¡ÖÜÊı  */
+    /* :  æœ€å°å‘¨æ•°  */
     SetCell(iRow, iCol++, ptHeadTorq->flowercir());
-    /* :  ×î´óÖÜÊı  */
+    /* :  æœ€å¤§å‘¨æ•°  */
     SetCell(iRow, iCol++, ptHeadTorq->fuppercir());
-    /* :  ×îĞ¡ÖÜÊı²î*/
+    /* :  æœ€å°å‘¨æ•°å·®*/
     SetCell(iRow, iCol++, 0);
-    /* :  ×î´óÖÜÊı²î*/
+    /* :  æœ€å¤§å‘¨æ•°å·®*/
     SetCell(iRow, iCol++, 0);
-    /* :  ×îĞ¡Ğ±¶È  */
+    /* :  æœ€å°æ–œåº¦  */
     SetCell(iRow, iCol++, 0);
     iRow++;
 }
@@ -1528,9 +1528,9 @@ void CDlgHisList::FillReportData(int& iRow, TorqData::Torque* ptHeadTorq)
 
     //strType = theApp.GetTorqShowValue(ptHeadTorq, SHOWPARA_TUBETYPE);
 
-    // Ìø¹ıĞòºÅ/ÈÕÆÚĞĞ
+    // è·³è¿‡åºå·/æ—¥æœŸè¡Œ
     iRow++;
-    /* 9 ĞĞ¿ªÊ¼ */
+    /* 9 è¡Œå¼€å§‹ */
     for (i = 0; i < (int)g_tReadData.nTotal; i++)
     {
         ptTorq = theApp.GetOrgTorqFromTorq(i);
@@ -1542,9 +1542,9 @@ void CDlgHisList::FillReportData(int& iRow, TorqData::Torque* ptHeadTorq)
 
         iCol = 2;
         strRow.Format("%d", iRow);
-        /* B ĞòºÅ */
+        /* B åºå· */
         SetCell(iRow, iCol++, (i + 1));
-        /* C ÈÕÆÚ/Ê±¼ä */
+        /* C æ—¥æœŸ/æ—¶é—´ */
         theApp.SplitString(theApp.GetTorqCollTime(ptTorq), slDateTime);
         SetCell(iRow, iCol++, slDateTime.GetHead());
         SetCell(iRow, iCol++, slDateTime.GetTail());
@@ -1558,10 +1558,10 @@ void CDlgHisList::FillReportData(int& iRow, TorqData::Torque* ptHeadTorq)
 
         iCol += 2;
 
-        /* I Èë¾®ĞòºÅ ÏÔÊ¾²ÎÊı10 */
+        /* I å…¥äº•åºå· æ˜¾ç¤ºå‚æ•°10 */
         SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, m_ptStat->GenPara[STATPARA_GENTALLY]));
 
-        /* J ÖÊÁ¿ÊôĞÔ */
+        /* J è´¨é‡å±æ€§ */
         dwQuality = theApp.GetQuality(ptTorq);
         if (dwQuality & QUA_RESU_QUALITYBIT)
         {
@@ -1578,21 +1578,21 @@ void CDlgHisList::FillReportData(int& iRow, TorqData::Torque* ptHeadTorq)
             SetCell(iRow, iCol++, strCause.c_str());
         }
 
-        /* ²Ù×÷ÈË, ÏÔÊ¾²ÎÊı14 Õ¼1¸ñ ²»ºÏ²¢ */
-        /* ºÏ²¢µ¥Ôª¸ñ */
+        /* æ“ä½œäºº, æ˜¾ç¤ºå‚æ•°14 å 1æ ¼ ä¸åˆå¹¶ */
+        /* åˆå¹¶å•å…ƒæ ¼ */
         //range.AttachDispatch(sheet.get_Range(COleVariant(_T("K")+strRow),COleVariant(_T("L")+strRow)),TRUE);
         //range.Merge(COleVariant((long)0));
         SetCell(iRow, iCol++, theApp.GetTorqShowValue(ptTorq, m_ptStat->GenPara[STATPARA_GENOPERATOR]));
         //range.ReleaseDispatch();
         //iCol++;
 
-        /* M ±¸×¢  Õ¼1¸ñ ²»ºÏ²¢ */
+        /* M å¤‡æ³¨  å 1æ ¼ ä¸åˆå¹¶ */
         //range.AttachDispatch(sheet.get_Range(COleVariant(_T("M")+strRow),COleVariant(_T("N")+strRow)),TRUE);   
         //range.Merge(COleVariant((long)0));
         SetCell(iRow, iCol++, ptTorq->strmemo().c_str());
         //range.ReleaseDispatch();
 
-        /* ÉèÖÃµ¥Ôª¸ñ¸ñÊ½ B~M */
+        /* è®¾ç½®å•å…ƒæ ¼æ ¼å¼ B~M */
         SetCellFont(iRow, 2, 12, dwQuality);
         iRow++;
     }
@@ -1608,11 +1608,11 @@ void CDlgHisList::WriteReportSheet()
     ASSERT_NULL(m_ptStatTorq);
     COMP_BFALSE(m_tSaveExc.loadSheet(SHEET_REPORT));
 
-    /* B2 ¾®Ãû TITLE */
+    /* B2 äº•å TITLE */
     SetCell(2, 2, GetWellNO(FALSE));
     iCurRow = 4;
 
-    /* »ñÈ¡ 5 ¹æ¸ñ¿ÛĞÍ µÄÖµµÄÃû³Æ µÄ×îĞÂĞòºÅ */
+    /* è·å– 5 è§„æ ¼æ‰£å‹ çš„å€¼çš„åç§° çš„æœ€æ–°åºå· */
     //GetParaValueInfo(SHOWPARA_TUBETYPE, listNo);
     //list<int>::iterator it = listNo.begin();
 
@@ -1630,7 +1630,7 @@ void CDlgHisList::WriteReportSheet()
         {
             ptHead = &g_tReadData.tData[listNo[it]];
 
-            /* ¿½±´Ä¿µÄÎ»ÖÃ */
+            /* æ‹·è´ç›®çš„ä½ç½® */
             m_tSaveExc.copyMultiRow(iBeginRow, iCurRow, 1, 13, 4);
             m_tSaveExc.setMultiRowHeight(iCurRow + 1, 1, 13, 2);
         }
@@ -1641,26 +1641,26 @@ void CDlgHisList::WriteReportSheet()
 
         if (0 != listNo.size())
         {
-            /* Ìø¿Õ3ĞĞ */
+            /* è·³ç©º3è¡Œ */
             iCurRow += 3;
             it++;
         }
-        else  // listNoÎª¿Õ£¬Ñ­»·Ö»Ö´ĞĞÒ»´Î,itÎªÎŞĞ§Öµ
+        else  // listNoä¸ºç©ºï¼Œå¾ªç¯åªæ‰§è¡Œä¸€æ¬¡,itä¸ºæ— æ•ˆå€¼
         {
             break;
         }
     } while (it < (int)listNo.size());
 }
 
-/*  ÏÈ´´½¨Ò»¸ö_ApplicationÀà£¬ÓÃ_ApplicationÀ´´´½¨Ò»¸öExcelÓ¦ÓÃ³ÌĞò½Ó¿Ú¡£
-    Excel½Ó¿ÚÀàÖĞ²ã´ÎÈçÏÂËùÊ¾£º
+/*  å…ˆåˆ›å»ºä¸€ä¸ª_Applicationç±»ï¼Œç”¨_Applicationæ¥åˆ›å»ºä¸€ä¸ªExcelåº”ç”¨ç¨‹åºæ¥å£ã€‚
+    Excelæ¥å£ç±»ä¸­å±‚æ¬¡å¦‚ä¸‹æ‰€ç¤ºï¼š
         -_Application
-            -Workbooks ¹¤×÷±¡¼¯ºÏ
-                -_Workbook ¹¤×÷±¡
-                    -Worksheets ¹¤×÷±í¼¯ºÏ
-                        -_Worksheet ¹¤×÷±í
-                            -Rangeµ¥Ôª¸ñÇøÓò
-    ¹ÊÒª²Ù×÷±í£¬±ØĞëÏÈÖğ²½»ñÈ¡Workbooks¡ª>Workbook ¡ª>Worksheets ¡ª>Worksheet ¡ª>Range */
+            -Workbooks å·¥ä½œè–„é›†åˆ
+                -_Workbook å·¥ä½œè–„
+                    -Worksheets å·¥ä½œè¡¨é›†åˆ
+                        -_Worksheet å·¥ä½œè¡¨
+                            -Rangeå•å…ƒæ ¼åŒºåŸŸ
+    æ•…è¦æ“ä½œè¡¨ï¼Œå¿…é¡»å…ˆé€æ­¥è·å–Workbooksâ€”>Workbook â€”>Worksheets â€”>Worksheet â€”>Range */
 void CDlgHisList::OnBnClickedBtnstatlist()
 {
     string  strTemplate;
@@ -1686,7 +1686,7 @@ void CDlgHisList::OnBnClickedBtnstatlist()
         strTemplate = TEMPLATE_RPTENG;
     strTmpFile += strTemplate;
 
-    /* ´ò¿ªÄ£°åÎÄ¼ş */
+    /* æ‰“å¼€æ¨¡æ¿æ–‡ä»¶ */
     if (!m_tSaveExc.open(strTmpFile.c_str()))
     {
         m_tSaveExc.close();
@@ -1782,8 +1782,8 @@ bool CDlgHisList::GetDepthInfo(vector<int>& SeqNO, vector<string>& Depth)
         return false;
     }
 
-    iRow = m_tSaveExc.getRowCount();//»ñÈ¡sheetÖĞĞĞÊı
-    iCol = m_tSaveExc.getColumnCount();//»ñÈ¡sheetÖĞÁĞÊı
+    iRow = m_tSaveExc.getRowCount();//è·å–sheetä¸­è¡Œæ•°
+    iCol = m_tSaveExc.getColumnCount();//è·å–sheetä¸­åˆ—æ•°
     if (iCol < 2 || iRow < 2)
     {
         m_tSaveExc.close();

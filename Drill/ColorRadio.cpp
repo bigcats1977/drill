@@ -4,9 +4,9 @@
 
 CColorRadio::CColorRadio()
 {
-    m_ForeColor = GetSysColor(COLOR_BTNTEXT);        //ÎÄ×ÖÑÕÉ«
-    m_BackColor = GetSysColor(COLOR_BTNFACE);        //±³¾°É«
-    m_BkBrush.CreateSolidBrush(m_BackColor);        //±³¾°Ë¢
+    m_ForeColor = GetSysColor(COLOR_BTNTEXT);        //æ–‡å­—é¢œè‰²
+    m_BackColor = GetSysColor(COLOR_BTNFACE);        //èƒŒæ™¯è‰²
+    m_BkBrush.CreateSolidBrush(m_BackColor);        //èƒŒæ™¯åˆ·
 }
 
 
@@ -23,8 +23,8 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CMyRadio message handlers
 
-//ÖØÔØµÄÏûÏ¢º¯Êý£¨=WM_CTLCOLOR£¬×¢£º²»ÊÇWM_CTLCOLOR£©
-//ÓÃÓÚÐÞ¸Ä¿Ø¼þÇ°¾°É«ºÍ±³¾°É«
+//é‡è½½çš„æ¶ˆæ¯å‡½æ•°ï¼ˆ=WM_CTLCOLORï¼Œæ³¨ï¼šä¸æ˜¯WM_CTLCOLORï¼‰
+//ç”¨äºŽä¿®æ”¹æŽ§ä»¶å‰æ™¯è‰²å’ŒèƒŒæ™¯è‰²
 HBRUSH CColorRadio::CtlColor(CDC* pDC, UINT nCtlColor)
 {
     pDC->SetTextColor(m_ForeColor);
@@ -32,12 +32,12 @@ HBRUSH CColorRadio::CtlColor(CDC* pDC, UINT nCtlColor)
     return (HBRUSH)m_BkBrush.GetSafeHandle();
 }
 
-void CColorRadio::SetForeColor(COLORREF color)    //ÉèÖÃÎÄ±¾ÑÕÉ«
+void CColorRadio::SetForeColor(COLORREF color)    //è®¾ç½®æ–‡æœ¬é¢œè‰²
 {
     m_ForeColor = color;
 }
 
-void CColorRadio::SetBkColor(COLORREF color)        //ÉèÖÃ±³¾°ÑÕÉ«
+void CColorRadio::SetBkColor(COLORREF color)        //è®¾ç½®èƒŒæ™¯é¢œè‰²
 {
     m_BackColor = color;
     m_BkBrush.Detach();

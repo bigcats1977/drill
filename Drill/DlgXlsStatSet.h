@@ -4,7 +4,7 @@
 //#include "ColorRadio.h"
 #include "ColorComboBox.h"
 
-// CDlgXlsStatSet ¶Ô»°¿ò
+// CDlgXlsStatSet å¯¹è¯æ¡†
 
 class CDlgXlsStatSet : public CDialogEx
 {
@@ -13,10 +13,10 @@ class CDlgXlsStatSet : public CDialogEx
     XLSSTATCFG* m_ptStat;
 
 public:
-    CDlgXlsStatSet(CWnd* pParent = nullptr);   // ±ê×¼¹¹Ôìº¯Êı
+    CDlgXlsStatSet(CWnd* pParent = nullptr);   // æ ‡å‡†æ„é€ å‡½æ•°
     virtual ~CDlgXlsStatSet();
 
-    // ¶Ô»°¿òÊı¾İ
+    // å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGXLSSTATSET };
 #endif
@@ -28,7 +28,7 @@ public:
     int m_iInfoParaIndex[STATPARA_INFONUM];
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedOk();
     afx_msg void OnCbnKillfocusScbgenname1();

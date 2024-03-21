@@ -15,16 +15,16 @@ string WITSEnc::EncWITSFixHead(UINT SeqNO, WITSCFG* ptWITS, int diff)
     ASSERT_NULL_R(ptWITS, strData);
 
     strData += WITSHEAD;
-    // »ñÈ¡µ±Ç°Ê±¼äµã
+    // è·å–å½“å‰æ—¶é—´ç‚¹
     system_clock::time_point currentTime = system_clock::now();
     currentTime += milliseconds(diff);
-    // ½«Ê±¼äµã×ª»»ÎªÊ±¼ä½á¹¹
+    // å°†æ—¶é—´ç‚¹è½¬æ¢ä¸ºæ—¶é—´ç»“æ„
     time_t currentTime_t = system_clock::to_time_t(currentTime);
     tm* timeInfo = localtime(&currentTime_t);
-    // »ñÈ¡ºÁÃëµÄÖµ
+    // è·å–æ¯«ç§’çš„å€¼
     auto ms = duration_cast<std::chrono::milliseconds>(currentTime.time_since_epoch()).count() % 1000;
 
-    // ´òÓ¡Äê¡¢ÔÂ¡¢ÈÕ¡¢Ê±¡¢·Ö¡¢Ãë
+    // æ‰“å°å¹´ã€æœˆã€æ—¥ã€æ—¶ã€åˆ†ã€ç§’
     /*TRACE("%d-%d-%d %d:%d:%d.%d\n", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday,
         timeInfo->tm_hour, timeInfo->tm_min, timeInfo->tm_sec, ms);*/
 
@@ -103,8 +103,8 @@ string WITSEnc::EncWITSTorqConfig(UINT SeqNO, bool bBreakout, double fCtrlTorq, 
     return strData;
 }
 
-// Ö»ÉÏ±¨Å¤¾Ø×î´óµÄÊı¾İ£¨×îĞÂµÄÊı¾İ£©
-// ×î¶àÉÏ±¨5¸öÊı¾İ
+// åªä¸ŠæŠ¥æ‰­çŸ©æœ€å¤§çš„æ•°æ®ï¼ˆæœ€æ–°çš„æ•°æ®ï¼‰
+// æœ€å¤šä¸ŠæŠ¥5ä¸ªæ•°æ®
 string WITSEnc::EncWITSTorqData(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptData)
 {
     string  strHead, strTail, strTorq;
@@ -139,12 +139,12 @@ string WITSEnc::EncWITSTorqData(UINT SeqNO, WITSCFG* ptWITS, WITSRPTDATA* ptData
         strTemp = string_format("%d", (int)ptData->fTorque[begin] / RPTTORQMULTI);
         strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
 
-        // 8052 È¦Êı
+        // 8052 åœˆæ•°
         ItemNO = ptWITS->RepeatItems[index++];
         strTemp = string_format("%.2f", ptData->fTurn[begin]);
         strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
 
-        // 8053 Ê±¼ä
+        // 8053 æ—¶é—´
         ItemNO = ptWITS->RepeatItems[index++];
         strTemp = string_format("%.2f", ptData->fDuration[begin]);
         strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
@@ -326,7 +326,7 @@ string WITSEnc::EncHisTorqData(UINT SeqNO, bool bBreakout, int Start, WITSCFG* p
         strTemp = string_format("%d", (int)fTemp / RPTTORQMULTI);
         strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
 
-        // 8052 È¦Êı
+        // 8052 åœˆæ•°
         for (int j = begin; j < i + HISDATAINTER && j < end; j++)
         {
             plus += ptTorq->dwdelplus(j);
@@ -337,7 +337,7 @@ string WITSEnc::EncHisTorqData(UINT SeqNO, bool bBreakout, int Start, WITSCFG* p
         strTemp = string_format("%.2f", fTemp);
         strTorq += to_string(ItemNO) + strTemp + WITSSPLIT;
 
-        // 8053 Ê±¼ä
+        // 8053 æ—¶é—´
         ItemNO = ptWITS->RepeatItems[index++];
         fTemp = (i - begin) * 0.1;
         strTemp = string_format("%.2f", fTemp);

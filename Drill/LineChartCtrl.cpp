@@ -101,7 +101,7 @@ UINT CLineChartCtrl::SetPos(double fPos, BOOL bLast)
     CHECK_VALUE_UP(fPos, m_tItem.m_fUpper);
     CHECK_VALUE_LOW(fPos, m_tItem.m_fLower);
 
-    /* ³¬¹ı500¸öÊı¾İ£¬ËµÃ÷Í¼Ïñ¹ıÁËÒ»ÆÁ£¬ÇåÆÁÖØĞÂ¿ªÊ¼ */
+    /* è¶…è¿‡500ä¸ªæ•°æ®ï¼Œè¯´æ˜å›¾åƒè¿‡äº†ä¸€å±ï¼Œæ¸…å±é‡æ–°å¼€å§‹ */
     if (m_tItem.m_nPos >= MAXLINEITEM)
     {
         m_tItem.m_nPos = 0;
@@ -164,7 +164,7 @@ void CLineChartCtrl::DrawSpike()
     }
     ptNew.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos - 1])) / fRange) * m_iChartHeight);
 
-    //Èç¹ûÇúÏßÃ»ÓĞ³¬³öÆÁÄ»Í¼Æ¬¿òÓÒ±ß½çÏß£¬Ö±½ÓÔÚÆÁÄ»Í¼Æ¬¿òÇøÓòÄÚ»æÖÆÇúÏß£¬²»ÓÃÆ½ÒÆ
+    //å¦‚æœæ›²çº¿æ²¡æœ‰è¶…å‡ºå±å¹•å›¾ç‰‡æ¡†å³è¾¹ç•Œçº¿ï¼Œç›´æ¥åœ¨å±å¹•å›¾ç‰‡æ¡†åŒºåŸŸå†…ç»˜åˆ¶æ›²çº¿ï¼Œä¸ç”¨å¹³ç§»
     m_MemDC.MoveTo(ptOld);
     m_MemDC.LineTo(ptNew);
     if (m_bLastPoint)
@@ -180,7 +180,7 @@ BOOL CLineChartCtrl::Add(COLORREF clrLine, double fUpper, double fLower)
 {
     GetClientRect(&m_rcClient);
 
-    /* »ñÈ¡»­Í¼ÇøÓòµÄ¿íºÍ¸ß */
+    /* è·å–ç”»å›¾åŒºåŸŸçš„å®½å’Œé«˜ */
     m_iChartWidth = m_rcClient.Width() - 1;
     m_iChartHeight = m_rcClient.Height() - 1;
 
@@ -250,7 +250,7 @@ BOOL CLineChartCtrl::RemoveAt()
     return TRUE;
 }
 
-/*»­±³¾°¸ñ×ÓÏß*/
+/*ç”»èƒŒæ™¯æ ¼å­çº¿*/
 void CLineChartCtrl::DrawGridLine()
 {
     int     i = 0;
@@ -263,7 +263,7 @@ void CLineChartCtrl::DrawGridLine()
 
     COMP_BFALSE(m_bBKLine);
 
-    /* ±³¾°Ïß */
+    /* èƒŒæ™¯çº¿ */
     pOldPen = m_MemDC.SelectObject(&penBk);
     for (i = 0; i <= 10; i++)
     {
@@ -284,7 +284,7 @@ void CLineChartCtrl::DrawBkLine()
 {
     GetMemDC();
 
-    /* »­±³¾°¸ñ×ÓÏß */
+    /* ç”»èƒŒæ™¯æ ¼å­çº¿ */
     DrawGridLine();
 }
 
@@ -294,7 +294,7 @@ void CLineChartCtrl::SetBkColor(COLORREF clrBk)
 }
 
 
-/* ´òÓ¡ËµÃ÷ÎÄ×Ö */
+/* æ‰“å°è¯´æ˜æ–‡å­— */
 void  CLineChartCtrl::ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset)
 {
     CPoint  ptBegin;
@@ -339,7 +339,7 @@ bool CLineChartCtrl::ReDrawLine(double* pData, UINT nCount)
     CPen  pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
     CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
 
-    /* µÚÒ»¸öÊı¾İÖ±½Ó¿½±´ */
+    /* ç¬¬ä¸€ä¸ªæ•°æ®ç›´æ¥æ‹·è´ */
     m_tItem.m_fData[0] = pData[0];
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     ptOld.y = m_iChartHeight;
@@ -355,7 +355,7 @@ bool CLineChartCtrl::ReDrawLine(double* pData, UINT nCount)
         m_MemDC.LineTo(ptNew);
         ptOld = ptNew;
     }
-    /* ×îºóÒ»¸öÊı¾İÖ±½Ó¿½±´ */
+    /* æœ€åä¸€ä¸ªæ•°æ®ç›´æ¥æ‹·è´ */
     m_tItem.m_fData[nCount - 1] = pData[nCount - 1];
     ptNew.x = int(nCount * m_fOffset);
     ptNew.y = (int)((((fRange - m_tItem.m_fData[nCount - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);

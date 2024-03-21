@@ -291,8 +291,8 @@ HBRUSH CDlgWITSCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     if (strContent.IsEmpty())
         return hbr;
 
-    // TODO:  �ڴ˸��� DC ���κ�����
-    switch (CtrlID)//��ĳһ���ض��ؼ������ж�
+    // TODO:  在此更改 DC 的任何特性
+    switch (CtrlID)//对某一个特定控件进行判断
     {
 
     // fix items
@@ -371,7 +371,7 @@ HBRUSH CDlgWITSCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     }
 
-    // TODO:  ���Ĭ�ϵĲ������軭�ʣ��򷵻���һ������
+    // TODO:  如果默认的不是所需画笔，则返回另一个画笔
     return hbr;
 }
 

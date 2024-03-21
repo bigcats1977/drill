@@ -102,7 +102,7 @@ string CRegProc::GenMachineCode()
     iMonth = tNowDate.GetMonth();
     iDay = tNowDate.GetDay();
 
-    /* »ñÈ¡»úÆ÷ÉÏµÄ¾íºÍMACĞÅÏ¢ */
+    /* è·å–æœºå™¨ä¸Šçš„å·å’ŒMACä¿¡æ¯ */
     GenVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
 
     adwPCMac[0] ^= MAC0XOR;
@@ -136,11 +136,11 @@ bool CRegProc::CheckRegCode(string strMach, string strReg)
 
     COMP_BFALSE_R(GetVolMacFromMachine(strMach, adwPCVol, adwPCMac, machYear, machMonth, machDay), false);
 
-    /* »ñÈ¡×¢²áÂëÖĞµÄ¾íºÍMACĞÅÏ¢ */
+    /* è·å–æ³¨å†Œç ä¸­çš„å·å’ŒMACä¿¡æ¯ */
     COMP_BFALSE_R(GetVolMacFromRegStr(strReg, adwRegVol, adwRegMac, regYear, regMonth, regDay), false);
 
-    // »úÆ÷ÂëÖĞµÄÈÕÆÚÎŞĞ§
-    // ×¢²áÂëÖĞµÄÈÕÆÚÓ¦¸ÃºÍ»úÆ÷ÂëµÄÈÕÆÚÏàµÈ£¬Äê·İ²îÕûÊı±¶
+    // æœºå™¨ç ä¸­çš„æ—¥æœŸæ— æ•ˆ
+    // æ³¨å†Œç ä¸­çš„æ—¥æœŸåº”è¯¥å’Œæœºå™¨ç çš„æ—¥æœŸç›¸ç­‰ï¼Œå¹´ä»½å·®æ•´æ•°å€
     if (machYear > regYear || machMonth != regMonth || machDay != regDay)
     {
         return false;
@@ -184,7 +184,7 @@ void CRegProc::SaveRegFile()
         GENERIC_READ | GENERIC_WRITE,//readwrite
         0,//share
         NULL,//security attribute
-        CREATE_ALWAYS,//´´½¨
+        CREATE_ALWAYS,//åˆ›å»º
         FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN,//dwFlagsAndAttributes,
         NULL);//temphandle
     if (hDir == INVALID_HANDLE_VALUE)
@@ -241,7 +241,7 @@ bool CRegProc::GenRegArrayFromStr(BYTE* pData, int len, string str)
 
     return true;
 }
-// ´Ó×¢²áÎÄ¼ş»ñÈ¡Êµ¼ÊĞÅÏ¢
+// ä»æ³¨å†Œæ–‡ä»¶è·å–å®é™…ä¿¡æ¯
 bool CRegProc::GetRegInfoFromDBREG()
 {
     string strTorqNum;
@@ -299,29 +299,29 @@ bool CRegProc::CheckRegDate()
     if (!GetDateFromString(m_strUseDate, UseTime))
         return false;
 
-    // Éú³ÉÈÕÆÚºÍ×¢²áÂëÈÕÆÚÏà²îÕûÄê
+    // ç”Ÿæˆæ—¥æœŸå’Œæ³¨å†Œç æ—¥æœŸç›¸å·®æ•´å¹´
     if ((genTime.GetYear() + m_tdbReg.ucYear != regTime.GetYear()) ||
         (genTime.GetMonth() != regTime.GetMonth()) ||
         (genTime.GetMonth() != regTime.GetMonth()))
         return false;
 
-    // ĞŞ¸ÄÁËÏµÍ³ÈÕÆÚ£¬·µ»ØÊ§°Ü
+    // ä¿®æ”¹äº†ç³»ç»Ÿæ—¥æœŸï¼Œè¿”å›å¤±è´¥
     if (curTime < genTime)
         return false;
 
-    // ÏµÍ³µ±Ç°ÈÕÆÚĞ¡ÓÚ×îºóÊ¹ÓÃÊ±¼ä
+    // ç³»ç»Ÿå½“å‰æ—¥æœŸå°äºæœ€åä½¿ç”¨æ—¶é—´
     if (curTime < UseTime)
         return false;
 
-    // ³¬¹ıÊ¹ÓÃÆÚÏŞ
-    // ¼ÓÉÏÊ¹ÓÃµ±Ìì
+    // è¶…è¿‡ä½¿ç”¨æœŸé™
+    // åŠ ä¸Šä½¿ç”¨å½“å¤©
     curTime -= CTimeSpan(1, 0, 0, 0);
     if (curTime > regTime)
         return false;
     return true;
 }
 
-/* ÑéÖ¤×¢²áÂëÊÇ·ñÓĞĞ§ */
+/* éªŒè¯æ³¨å†Œç æ˜¯å¦æœ‰æ•ˆ */
 bool CRegProc::CheckRegCode()
 {
     DWORD adwRegVol[2];
@@ -336,10 +336,10 @@ bool CRegProc::CheckRegCode()
     if (m_strRegCode.size() != MAXREGCODE)
         return false;
 
-    /* »ñÈ¡×¢²áÂëÖĞµÄ¾íºÍMACĞÅÏ¢ */
+    /* è·å–æ³¨å†Œç ä¸­çš„å·å’ŒMACä¿¡æ¯ */
     GetVolMacFromRegStr(m_strRegCode, adwRegVol, adwRegMac, iYear, iMonth, iDay);
 
-    /* »ñÈ¡»úÆ÷ÉÏµÄ¾íºÍMACĞÅÏ¢ */
+    /* è·å–æœºå™¨ä¸Šçš„å·å’ŒMACä¿¡æ¯ */
     GenVolMacInfo(adwPCVol, adwPCMac, iYear, iMonth, iDay);
 
     if (memcmp(adwRegVol, adwPCVol, 2 * sizeof(DWORD)) != 0 ||
@@ -348,7 +348,7 @@ bool CRegProc::CheckRegCode()
         return false;
     }
 
-    // ¼ì²éÈÕÆÚÊÇ·ñ³¬¹ı5Äê
+    // æ£€æŸ¥æ—¥æœŸæ˜¯å¦è¶…è¿‡5å¹´
     tNowDate = CTime::GetCurrentTime();
     tNowDate = CTime(tNowDate.GetYear() - VALID_YEAR,
         tNowDate.GetMonth(),
@@ -410,7 +410,7 @@ bool CRegProc::GetVolMacFromMachine(string strMachine, DWORD pdwVol[], DWORD pdw
     return true;
 }
 
-/* ´ÓÔ­Ê¼×¢²áÂë½âÃÜÔËËã */
+/* ä»åŸå§‹æ³¨å†Œç è§£å¯†è¿ç®— */
 bool CRegProc::GetVolMacFromRegStr(string strRegCode, DWORD pdwVol[], DWORD pdwMac[], int& iYear, int& iMonth, int& iDay)
 {
     string  strMachine;
@@ -503,7 +503,7 @@ bool CRegProc::CheckProductDate()
     bRet = theApp.GetProductVersion(strProductDate);
     COMP_BE_R(bRet, false, false);
 
-    /* ÓĞĞ§ÆÚ5Äê+(31ÒÔÄÚ)Ëæ»úÌìÊı */
+    /* æœ‰æ•ˆæœŸ5å¹´+(31ä»¥å†…)éšæœºå¤©æ•° */
     tNowDate = CTime::GetCurrentTime();
 
     iRandDay = rand() % 31;
@@ -525,7 +525,7 @@ bool CRegProc::CheckProductDate()
     return true;
 }
 
-/* »ñÈ¡×¢²áĞÅÏ¢ºÍĞ£Ñé */
+/* è·å–æ³¨å†Œä¿¡æ¯å’Œæ ¡éªŒ */
 bool CRegProc::CheckAppReg()
 {
     CFile           file;
@@ -534,7 +534,7 @@ bool CRegProc::CheckAppReg()
     m_tdbReg.bReged = 0;
     m_tdbReg.bMach = 0;
 
-    // »úÆ÷ÂëÎŞĞ§
+    // æœºå™¨ç æ— æ•ˆ
     if (!CheckMachineCode())
         return false;
     m_tdbReg.bMach = 1;
@@ -542,8 +542,8 @@ bool CRegProc::CheckAppReg()
     if (!CheckRegDate())
         return false;
 
-    /* Ğ£Ñé×¢²áÂë */
-    /* Ãâ×¢²á°æ£¬Ö±½Ó×¢ÊÍµôCheck */
+    /* æ ¡éªŒæ³¨å†Œç  */
+    /* å…æ³¨å†Œç‰ˆï¼Œç›´æ¥æ³¨é‡Šæ‰Check */
     if (!CheckRegCode())
         return false;
 
