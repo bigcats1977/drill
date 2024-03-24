@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" no_namespace
-// CShape åŒ…è£…å™¨ç±»
+// CShape °ü×°Æ÷Àà
 
 class CShape : public COleDispatchDriver
 {
 public:
-    CShape() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CShape() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CShape(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CShape(const CShape& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // Shape æ–¹æ³•
+    // Shape ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -594,7 +594,7 @@ public:
         InvokeHelper(0xc7, DISPATCH_PROPERTYPUT, VT_EMPTY, nullptr, parms, newValue);
     }
 
-    // Shape å±æ€§
+    // Shape ÊôĞÔ
 public:
 
 };

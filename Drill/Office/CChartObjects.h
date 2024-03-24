@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CChartObjects åŒ…è£…å™¨ç±»
+// CChartObjects °ü×°Æ÷Àà
 
 class CChartObjects : public COleDispatchDriver
 {
 public:
-    CChartObjects() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CChartObjects() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CChartObjects(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CChartObjects(const CChartObjects& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // ChartObjects æ–¹æ³•
+    // ChartObjects ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -322,7 +322,7 @@ public:
         return result;
     }
 
-    // ChartObjects å±æ€§
+    // ChartObjects ÊôĞÔ
 public:
 
 };

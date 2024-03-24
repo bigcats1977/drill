@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CApplication åŒ…è£…å™¨ç±»
+// CApplication °ü×°Æ÷Àà
 
 class CApplication : public COleDispatchDriver
 {
 public:
-    CApplication() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CApplication() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CApplication(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CApplication(const CApplication& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // _Application æ–¹æ³•
+    // _Application ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -2337,7 +2337,7 @@ public:
         InvokeHelper(0x95b, DISPATCH_PROPERTYPUT, VT_EMPTY, nullptr, parms, newValue);
     }
 
-    // _Application å±æ€§
+    // _Application ÊôĞÔ
 public:
 
 };

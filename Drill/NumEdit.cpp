@@ -13,38 +13,38 @@ BOOL CNumEdit::PreTranslateMessage(MSG* pMsg)
 {
     if (pMsg->message == WM_CHAR)
     {
-        //åªå…è®¸è¾“å…¥ä¸€ä¸ªå°æ•°ç‚¹
+        //Ö»ÔÊĞíÊäÈëÒ»¸öĞ¡Êıµã
         if ((pMsg->wParam == '.') && CheckUnique('.'))
         {
             return TRUE;
         }
 
-        //å½“å‰å­—ç¬¦æ˜¯â€™-â€™ && å½“å‰å…‰æ ‡åœ¨ç¬¬ä¸€ä½ && å½“å‰è¿˜æ²¡æœ‰â€™-â€™
+        //µ±Ç°×Ö·ûÊÇ¡¯-¡¯ && µ±Ç°¹â±êÔÚµÚÒ»Î» && µ±Ç°»¹Ã»ÓĞ¡¯-¡¯
         if ((pMsg->wParam == '-') && (LOWORD(GetSel()) == 0) && !CheckUnique('-'))
         {
-            return CEdit::PreTranslateMessage(pMsg); //åˆ™æ¥å—è¿™ä¸ªæ¶ˆæ¯ï¼Œå®ç°è¾“å…¥â€™-â€™
+            return CEdit::PreTranslateMessage(pMsg); //Ôò½ÓÊÜÕâ¸öÏûÏ¢£¬ÊµÏÖÊäÈë¡¯-¡¯
         }
 
-        //å½“å‰å…‰æ ‡åœ¨ç¬¬ä¸€ä½ && å½“å‰å·²ç»æœ‰â€™-â€™
+        //µ±Ç°¹â±êÔÚµÚÒ»Î» && µ±Ç°ÒÑ¾­ÓĞ¡¯-¡¯
         if ((LOWORD(GetSel()) == 0) && CheckUnique('-'))
         {
-            return TRUE; //ä¸å…è®¸åœ¨â€™-'å‰é¢å†æ’å…¥ä»»ä½•å­—ç¬¦ï¼Œå¦åˆ™ä¼šå‡ºç°â€œ12-23.467â€è¿™æ ·çš„æƒ…å†µ
+            return TRUE; //²»ÔÊĞíÔÚ¡¯-'Ç°ÃæÔÙ²åÈëÈÎºÎ×Ö·û£¬·ñÔò»á³öÏÖ¡°12-23.467¡±ÕâÑùµÄÇé¿ö
         }
 
-        //åªå…è®¸è¾“å…¥â€™.â€™ && æ•°å­— â€™0â€² åˆ° â€™9â€²  && é€€æ ¼
+        //Ö»ÔÊĞíÊäÈë¡¯.¡¯ && Êı×Ö ¡¯0¡ä µ½ ¡¯9¡ä  && ÍË¸ñ
         if (pMsg->wParam != '.' && (pMsg->wParam > '9' || pMsg->wParam < '0') && pMsg->wParam != '\b')
         {
-            return TRUE; //å‰©ä¸‹çš„æ¶ˆæ¯å…¨éƒ¨ä¸å¤„ç†
+            return TRUE; //Ê£ÏÂµÄÏûÏ¢È«²¿²»´¦Àí
         }
     }
 
-    return CEdit::PreTranslateMessage(pMsg); //èƒ½æ´»ç€åˆ°è¿™é‡Œçš„æ¶ˆæ¯æ²¡å‡ ä¸ªäº†
+    return CEdit::PreTranslateMessage(pMsg); //ÄÜ»î×Åµ½ÕâÀïµÄÏûÏ¢Ã»¼¸¸öÁË
 }
 
 /*
-* Fuction: ç”¨äºåˆ¤æ–­å½“å‰Editæ–‡æœ¬ä¸­æ˜¯å¦åŒ…å«æŸä¸ªå­—ç¬¦
-* Param: char nChar è¦æ£€æŸ¥çš„å­—ç¬¦
-* return: TRUE-å·²å­˜åœ¨è¦æ£€æŸ¥çš„å­—ç¬¦ FALSE-ä¸å­˜åœ¨
+* Fuction: ÓÃÓÚÅĞ¶Ïµ±Ç°EditÎÄ±¾ÖĞÊÇ·ñ°üº¬Ä³¸ö×Ö·û
+* Param: char nChar Òª¼ì²éµÄ×Ö·û
+* return: TRUE-ÒÑ´æÔÚÒª¼ì²éµÄ×Ö·û FALSE-²»´æÔÚ
 */
 BOOL CNumEdit::CheckUnique(char nChar)
 {

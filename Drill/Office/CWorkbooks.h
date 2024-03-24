@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CWorkbooks åŒ…è£…å™¨ç±»
+// CWorkbooks °ü×°Æ÷Àà
 
 class CWorkbooks : public COleDispatchDriver
 {
 public:
-    CWorkbooks() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CWorkbooks() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CWorkbooks(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CWorkbooks(const CWorkbooks& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // Workbooks æ–¹æ³•
+    // Workbooks ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -137,7 +137,7 @@ public:
         return result;
     }
 
-    // Workbooks å±æ€§
+    // Workbooks ÊôĞÔ
 public:
 
 };

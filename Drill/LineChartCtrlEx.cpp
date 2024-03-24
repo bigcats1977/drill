@@ -37,18 +37,18 @@ CLineChartCtrlEx::CLineChartCtrlEx()
     m_uLineType = LINETYPE_MAIN;
     m_iChartHeight = 400;
 
-    //m_fUpperLimit = 2500;   /* æœ€å¤§æ‰­çŸ© */
-    //m_fLowerLimit = 1800;   /* æœ€å°æ‰­çŸ© */
-    m_fOptTorq = 2000;   /* æœ€ä½³æ‰­çŸ© */
-    //m_fSpeedDown  = 300;    /* å‡é€Ÿæ‰­çŸ© */
-    m_fShow = 100;    /* æ˜¾ç¤ºæ‰­çŸ© */
-    //m_fBear       = 1500;   /* è‚©è´Ÿæ‰­çŸ© */
-    m_fControlCir = 2;      /* æ§åˆ¶å‘¨æ•° */
-    m_fUpperCir = 4.5;    /* ä¸Šé™å‘¨æ•° */
-    m_fLowerCir = 0.1;    /* ä¸‹é™å‘¨æ•° */
-    m_fMaxCir = 5;      /* æœ€å¤§å‘¨æ•° */
+    //m_fUpperLimit = 2500;   /* ×î´óÅ¤¾Ø */
+    //m_fLowerLimit = 1800;   /* ×îĞ¡Å¤¾Ø */
+    m_fOptTorq = 2000;   /* ×î¼ÑÅ¤¾Ø */
+    //m_fSpeedDown  = 300;    /* ¼õËÙÅ¤¾Ø */
+    m_fShow = 100;    /* ÏÔÊ¾Å¤¾Ø */
+    //m_fBear       = 1500;   /* ¼ç¸ºÅ¤¾Ø */
+    m_fControlCir = 2;      /* ¿ØÖÆÖÜÊı */
+    m_fUpperCir = 4.5;    /* ÉÏÏŞÖÜÊı */
+    m_fLowerCir = 0.1;    /* ÏÂÏŞÖÜÊı */
+    m_fMaxCir = 5;      /* ×î´óÖÜÊı */
     m_fWidthCir = 5;
-    m_fMaxLimit = 5000;   /* æœ€å¤§ä¸Šé™ */
+    m_fMaxLimit = 5000;   /* ×î´óÉÏÏŞ */
     //m_bBear       = FALSE;
     //m_nTorqNo     = 1;
     m_nSelPntNum = 0;
@@ -179,7 +179,7 @@ void CLineChartCtrlEx::DrawSpike(BOOL bStop)
     }
     ptNew.y = (int)((((fRange - m_tItem.m_fData[m_tItem.m_nPos - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
 
-    //å¦‚æœæ›²çº¿æ²¡æœ‰è¶…å‡ºå±å¹•å›¾ç‰‡æ¡†å³è¾¹ç•Œçº¿ï¼Œç›´æ¥åœ¨å±å¹•å›¾ç‰‡æ¡†åŒºåŸŸå†…ç»˜åˆ¶æ›²çº¿ï¼Œä¸ç”¨å¹³ç§»
+    //Èç¹ûÇúÏßÃ»ÓĞ³¬³öÆÁÄ»Í¼Æ¬¿òÓÒ±ß½çÏß£¬Ö±½ÓÔÚÆÁÄ»Í¼Æ¬¿òÇøÓòÄÚ»æÖÆÇúÏß£¬²»ÓÃÆ½ÒÆ
 /*
     if(ptOld.y == m_iChartHeight)
         m_MemDC.MoveTo(ptNew);
@@ -241,7 +241,7 @@ void CLineChartCtrlEx::EraseLine()
     return;
 }
 
-// å¸æ‰£æ—¶åŠ¨æ€æ›´æ–°å›¾å½¢é«˜åº¦
+// Ğ¶¿ÛÊ±¶¯Ì¬¸üĞÂÍ¼ĞÎ¸ß¶È
 bool CLineChartCtrlEx::UpdateMaxHeight(double fUpper)
 {
     CPoint  ptOld;
@@ -295,7 +295,7 @@ bool CLineChartCtrlEx::ReDrawLine(double* pData, UINT nCount, bool bBreakOut)
     CPen  pnLine(PS_SOLID, 1, m_tItem.m_clrLine);
     CPen* pOldPen = m_MemDC.SelectObject(&pnLine);
 
-    /* ç¬¬ä¸€ä¸ªæ•°æ®ç›´æ¥æ‹·è´ */
+    /* µÚÒ»¸öÊı¾İÖ±½Ó¿½±´ */
     m_tItem.m_fData[0] = pData[0];
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     ptOld.y = m_iChartHeight;
@@ -311,7 +311,7 @@ bool CLineChartCtrlEx::ReDrawLine(double* pData, UINT nCount, bool bBreakOut)
         m_MemDC.LineTo(ptNew);
         ptOld = ptNew;
     }
-    /* æœ€åä¸€ä¸ªæ•°æ®ç›´æ¥æ‹·è´ */
+    /* ×îºóÒ»¸öÊı¾İÖ±½Ó¿½±´ */
     m_tItem.m_fData[nCount - 1] = pData[nCount - 1];
     ptNew.x = int(nCount * m_fOffset);
     ptNew.y = (int)((((fRange - m_tItem.m_fData[nCount - 1] + m_tItem.m_fLower)) / fRange) * m_iChartHeight);
@@ -381,10 +381,10 @@ void CLineChartCtrlEx::DrawMakeupLine(double fTorq, int begin, int end)
     end = int(end * m_fOffset);
     x = MAX(0, end - 100);
     //x = begin;
-    // ä¸Šæ‰£æ‰­çŸ©ä½ç½®
+    // ÉÏ¿ÛÅ¤¾ØÎ»ÖÃ
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
-    /* æ˜¾ç¤ºä¸Šæ‰£æ‰­çŸ©å€¼ */
+    /* ÏÔÊ¾ÉÏ¿ÛÅ¤¾ØÖµ */
     strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCMAKETORQ).c_str(), (fTorq / SHOWTORQUEUNIT));
     // ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
     ShowContent(clrCtrl, y - CONT_YOFFSET, strVal);
@@ -408,10 +408,10 @@ void CLineChartCtrlEx::DrawBreakoutLine(double fTorq, int begin, int end)
     begin = int(begin * m_fOffset);
     end = int(end * m_fOffset);
     x = begin;
-    // å¸æ‰£æ‰­çŸ©ä½ç½®
+    // Ğ¶¿ÛÅ¤¾ØÎ»ÖÃ
     y = int((m_iChartHeight) * (m_fMaxLimit - fTorq) / m_fMaxLimit);
     DrawHLine(begin, end, y);
-    /* æ˜¾ç¤ºå¸æ‰£æ‰­çŸ©å€¼ */
+    /* ÏÔÊ¾Ğ¶¿ÛÅ¤¾ØÖµ */
     strVal = string_format(theApp.LoadstringFromRes(IDS_STRLCBREAKTORQ).c_str(), (fTorq / SHOWTORQUEUNIT));
     // ShowContent(clrCtrl, x, y - CONT_YOFFSET - 10, strVal);
     ShowContent(clrCtrl, y - CONT_YOFFSET, strVal);
@@ -428,7 +428,7 @@ BOOL CLineChartCtrlEx::RemoveAt()
     return TRUE;
 }
 
-/* æ‰“å°æ—¶æ˜¾ç¤ºåºå· */
+/* ´òÓ¡Ê±ÏÔÊ¾ĞòºÅ */
 void CLineChartCtrlEx::ShowTorqNo()
 {
 #if 0
@@ -444,7 +444,7 @@ void CLineChartCtrlEx::ShowTorqNo()
 #endif
 }
 
-/*ç”»èƒŒæ™¯æ ¼å­çº¿*/
+/*»­±³¾°¸ñ×ÓÏß*/
 void CLineChartCtrlEx::DrawGridLine(COLORREF clrBk)
 {
     int     i = 0;
@@ -457,7 +457,7 @@ void CLineChartCtrlEx::DrawGridLine(COLORREF clrBk)
 
     COMP_BFALSE(m_bBKLine);
 
-    /* èƒŒæ™¯çº¿ */
+    /* ±³¾°Ïß */
     pOldPen = m_MemDC.SelectObject(&penBk);
     for (i = 0; i <= 10; i++)
     {
@@ -474,7 +474,7 @@ void CLineChartCtrlEx::DrawGridLine(COLORREF clrBk)
     return;
 }
 
-/*æ ¹æ®å‚æ•°ç”»æ¨ªçº¿*/
+/*¸ù¾İ²ÎÊı»­ºáÏß*/
 /* ----- */
 void CLineChartCtrlEx::DrawHLine(int y)
 {
@@ -503,7 +503,7 @@ void  CLineChartCtrlEx::DrawHLine(int begin, int end, int height)
     m_MemDC.LineTo(ptEnd);
 }
 
-/* æ ¹æ®å‚æ•°ç”»ç«–çº¿ */
+/* ¸ù¾İ²ÎÊı»­ÊúÏß */
 /* | */
 void CLineChartCtrlEx::DrawVLine(int x)
 {
@@ -518,7 +518,7 @@ void CLineChartCtrlEx::DrawVLine(int x)
     m_MemDC.LineTo(ptEnd);
 }
 
-/* æ‰“å°é€‰å®šç‚¹ / æ”¾å¤§ç‚¹çš„åŠ¨æ€ä½ç½®çš„ä¿¡æ¯ */
+/* ´òÓ¡Ñ¡¶¨µã / ·Å´óµãµÄ¶¯Ì¬Î»ÖÃµÄĞÅÏ¢ */
 void CLineChartCtrlEx::ShowVarPntText(COLORREF clrText, int x, int y, string strContent)
 {
     int nPos = int(x / m_fOffset);
@@ -533,7 +533,7 @@ void CLineChartCtrlEx::ShowVarPntText(COLORREF clrText, int x, int y, string str
     m_MemDC.TextOut(x + 2, y - CONT_YOFFSET - 5, strContent.c_str());
 }
 
-/* æ‰“å°é€‰å®šç‚¹ / æ‰­çŸ©åˆ°ç«–çº¿å³ä½ç½® */
+/* ´òÓ¡Ñ¡¶¨µã / Å¤¾Øµ½ÊúÏßÓÒÎ»ÖÃ */
 void CLineChartCtrlEx::ShowRightPntText(COLORREF clrText, int x, int y, string strContent)
 {
     int xx = 0;
@@ -574,7 +574,7 @@ void CLineChartCtrlEx::DrawControlLine()
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fOptTorq) / m_fMaxLimit);
     DrawHLine(y);
-    /* æ˜¾ç¤ºæœ€ä½³æ‰­çŸ©å€¼ */
+    /* ÏÔÊ¾×î¼ÑÅ¤¾ØÖµ */
     //strTemp.Format(IDS_STRLCXCONTROL, m_fOptTorq);
     ShowContent(clrCtrl, y - CONT_YOFFSET,
         string_format(theApp.LoadstringFromRes(IDS_STRLCXCONTROL).c_str(), (m_fOptTorq / SHOWTORQUEUNIT)));
@@ -601,18 +601,18 @@ void CLineChartCtrlEx::DrawAlarmLine()
     /* | */
     x = int((m_iChartWidth)*m_fLowerCir / m_fWidthCir);
     DrawVLine(x);
-    /* | å†å²æ•°æ®ï¼Œä¸ç”»æœ€å¤§å‘¨æ•°çº¿ */
+    /* | ÀúÊ·Êı¾İ£¬²»»­×î´óÖÜÊıÏß */
     if (LINETYPE_HISG != m_uLineType)
     {
         x = int((m_iChartWidth)*m_fUpperCir / m_fWidthCir);
         DrawVLine(x);
     }
-    /* 20220922 é’»æ†æ•°æ®æ— æœ€å¤§/æœ€å°æ‰­çŸ© */
+    /* 20220922 ×ê¸ËÊı¾İÎŞ×î´ó/×îĞ¡Å¤¾Ø */
 #if 0
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fLowerLimit) / m_fMaxLimit);
     DrawHLine(y);
-    /* æ˜¾ç¤ºæœ€å°æ‰­çŸ©å€¼ */
+    /* ÏÔÊ¾×îĞ¡Å¤¾ØÖµ */
     //strTemp.Format(IDS_STRLCXLOWLIMIT, m_fLowerLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
     ShowContent(clrAlarm, y - CONT_YOFFSET,
@@ -620,7 +620,7 @@ void CLineChartCtrlEx::DrawAlarmLine()
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fUpperLimit) / m_fMaxLimit);
     DrawHLine(y);
-    /* æ˜¾ç¤ºæœ€å¤§æ‰­çŸ©å€¼ */
+    /* ÏÔÊ¾×î´óÅ¤¾ØÖµ */
     //strTemp.Format(IDS_STRLCXUPLIMIT, m_fUpperLimit);
     //ShowContent(clrAlarm, y-CONT_YOFFSET, strTemp);
     ShowContent(clrAlarm, y - CONT_YOFFSET,
@@ -651,7 +651,7 @@ void CLineChartCtrlEx::DrawShowLine()
     /* ----- */
     y = int((m_iChartHeight) * (m_fMaxLimit - m_fShow) / m_fMaxLimit);
     DrawHLine(y);
-    /* æ˜¾ç¤ºæ˜¾ç¤ºæ‰­çŸ©å€¼ */
+    /* ÏÔÊ¾ÏÔÊ¾Å¤¾ØÖµ */
     //strTemp.Format(IDS_STRLCXSHOW, m_fShow);
     //ShowContent(clrShow, y-CONT_YOFFSET, strTemp);
     ShowContent(clrShow, y - CONT_YOFFSET,
@@ -669,7 +669,7 @@ void CLineChartCtrlEx::DrawBkLine(bool bBreakOut)
 
     GetMemDC();
 
-    /* ç”»èƒŒæ™¯æ ¼å­çº¿ */
+    /* »­±³¾°¸ñ×ÓÏß */
     DrawGridLine();
     iOldMode = m_MemDC.SetBkMode(TRANSPARENT);
     if (LINETYPE_HISG == m_uLineType)
@@ -677,20 +677,20 @@ void CLineChartCtrlEx::DrawBkLine(bool bBreakOut)
     else
         pOldFont = m_MemDC.SelectObject(&theApp.m_tLineTextFont);
 
-    /* æ‰­çŸ©åºå· */
+    /* Å¤¾ØĞòºÅ */
     //ShowTorqNo();
 
-    // å¸æ‰£æ—¶åªä¿ç•™æœ€å¤§æ‰­çŸ©ï¼Œä¸ç”»å…¶ä»–æ§åˆ¶çº¿
+    // Ğ¶¿ÛÊ±Ö»±£Áô×î´óÅ¤¾Ø£¬²»»­ÆäËû¿ØÖÆÏß
     if (!bBreakOut)
     {
-        /* æ§åˆ¶çº¿ */
+        /* ¿ØÖÆÏß */
         DrawControlLine();
 
-        /* å‘Šè­¦çº¿ */
+        /* ¸æ¾¯Ïß */
         DrawAlarmLine();
     }
 
-    /*æ˜¾ç¤ºæ‰­çŸ©*/
+    /*ÏÔÊ¾Å¤¾Ø*/
     DrawShowLine();
 
     m_MemDC.SetBkMode(iOldMode);
@@ -706,7 +706,7 @@ void CLineChartCtrlEx::DrawZoomBkLine()
 
     GetMemDC();
 
-    /* ç”»èƒŒæ™¯æ ¼å­çº¿ */
+    /* »­±³¾°¸ñ×ÓÏß */
     DrawGridLine(LC_ZOOMCOLOR);
     pOldFont = m_MemDC.SelectObject(&theApp.m_tLineTextFont);
 
@@ -714,7 +714,7 @@ void CLineChartCtrlEx::DrawZoomBkLine()
     m_MemDC.SelectObject(&pOldFont);
 }
 
-/* å·¦é”®å•å‡»æ˜¾ç¤ºå½“å‰æ‰­çŸ©å’Œå‘¨æ•° */
+/* ×ó¼üµ¥»÷ÏÔÊ¾µ±Ç°Å¤¾ØºÍÖÜÊı */
 void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
 {
     double      fRange = 0;
@@ -741,7 +741,7 @@ void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
         y = (int)(((fRange - fSelTorq) / fRange) * m_iChartHeight);
 
 
-        /*ç”»é€‰æ‹©å½“å‰ä½ç½®çš„æ‰­çŸ©çš„çº¿*/
+        /*»­Ñ¡Ôñµ±Ç°Î»ÖÃµÄÅ¤¾ØµÄÏß*/
         pOldPen = m_MemDC.SelectObject(&pnLine);
         /* | */
         DrawVLine(x);
@@ -749,7 +749,7 @@ void CLineChartCtrlEx::DrawSelInfo(UINT nBeginPos, UINT nTotal)
         /* ----- */
         DrawHLine(y);
 
-        /* æ˜¾ç¤ºå½“å‰æ‰­çŸ©å’Œå‘¨æ•°ä¿¡æ¯ */
+        /* ÏÔÊ¾µ±Ç°Å¤¾ØºÍÖÜÊıĞÅÏ¢ */
         strTemp = string_format("(%.3f \xA1\xF1 %.1f)", fSelCir, (fSelTorq / SHOWTORQUEUNIT));
         ShowRightPntText(IP_SELCOLOR, x, y, strTemp.c_str());
     }
@@ -761,7 +761,7 @@ void CLineChartCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
     UINT    nCurPos = 0;
     HWND hParent = ::GetParent(m_hWnd);
 
-    /* åªæ˜¯åœ¨hisgraphé‡Œé¢æ‰è§¦å‘ç§»åŠ¨æ‹ç‚¹äº‹ä»¶ */
+    /* Ö»ÊÇÔÚhisgraphÀïÃæ²Å´¥·¢ÒÆ¶¯¹ÕµãÊÂ¼ş */
     if (m_uLineType == LINETYPE_ZOOM)
     {
         ::PostMessage(hParent, WM_RBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
@@ -775,7 +775,7 @@ BOOL CLineChartCtrlEx::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
     UINT    nCurPos = 0;
     HWND hParent = ::GetParent(m_hWnd);
 
-    /* åªæ˜¯åœ¨hisgraphé‡Œé¢æ‰è§¦å‘æ”¾å¤§äº‹ä»¶ */
+    /* Ö»ÊÇÔÚhisgraphÀïÃæ²Å´¥·¢·Å´óÊÂ¼ş */
     COMP_BFALSE_R(m_uLineType == LINETYPE_HISG, FALSE);
 
     ScreenToClient(&point);
@@ -791,11 +791,11 @@ void CLineChartCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
     UINT    nCurPos = 0;
     HWND hParent = ::GetParent(m_hWnd);
 
-    /* åªæ˜¯åœ¨hisgraphé‡Œé¢æ‰è§¦å‘å·¦é”®å•å‡»æ˜¾ç¤ºå½“å‰æ‰­çŸ©å’Œå‘¨æ•° */
+    /* Ö»ÊÇÔÚhisgraphÀïÃæ²Å´¥·¢×ó¼üµ¥»÷ÏÔÊ¾µ±Ç°Å¤¾ØºÍÖÜÊı */
     if (m_uLineType == LINETYPE_HISG || m_uLineType == LINETYPE_ZOOM)
     {
-        /* è¾¾åˆ°æŒ‡å®šé€‰å®šæ•°ç›®çš„ç‚¹æ•°ï¼Œå…¨éƒ¨æ¸…é™¤ */
-        /* å»æ‰å½“å‰æ‰­çŸ©å’Œå‘¨æ•°çš„æ˜¾ç¤º */
+        /* ´ïµ½Ö¸¶¨Ñ¡¶¨ÊıÄ¿µÄµãÊı£¬È«²¿Çå³ı */
+        /* È¥µôµ±Ç°Å¤¾ØºÍÖÜÊıµÄÏÔÊ¾ */
         if (m_nSelPntNum >= MAX_SHOWSELPOINTNUM)
         {
             m_nSelPntNum = 0;
@@ -834,8 +834,8 @@ UINT CLineChartCtrlEx::GetCurPoints()
 }
 
 /*
-    fDeltaCir: > 0 å¤šå±çš„å‰é¢å±çš„æ•°æ®çš„DelCirè®¡ç®—ï¼Œç­‰äºåé¢å±çš„Cirï¼ŒåŠ ä¸Šæ»¡å± - CurCir
-               < 0 å•å±æˆ–è€…æœ€åä¸€å±ï¼Œèµ‹å€¼ä¸ºè´ŸControlCirï¼ŒDelCir = ControlCir-CurCir
+    fDeltaCir: > 0 ¶àÆÁµÄÇ°ÃæÆÁµÄÊı¾İµÄDelCir¼ÆËã£¬µÈÓÚºóÃæÆÁµÄCir£¬¼ÓÉÏÂúÆÁ - CurCir
+               < 0 µ¥ÆÁ»òÕß×îºóÒ»ÆÁ£¬¸³ÖµÎª¸ºControlCir£¬DelCir = ControlCir-CurCir
 */
 void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMaxCir, double fDeltaCir, double fSetZoomTorq)
 {
@@ -863,14 +863,14 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
     fRange = m_tItem.m_fUpper - m_tItem.m_fLower;
     pOldPen = m_MemDC.SelectObject(&pnLine);
 
-    /* ç”»é€‰å®šçš„ç‚¹ */
+    /* »­Ñ¡¶¨µÄµã */
     for (i = 0; i < m_nSelPntNum && i < MAX_SHOWSELPOINTNUM; i++)
     {
         if (m_nSelPos[i] >= MAXLINEITEM)
             continue;
 
         fSelTorq = (UINT)(m_tItem.m_fData[m_nSelPos[i]]);
-        fSelCir = fMinCir + m_nSelPos[i] * m_fWidthCir / MAXLINEITEM; // å½“å‰ç‚¹åœ¨æ”¾å¤§å›¾åƒä¸­çš„å‘¨æ•°
+        fSelCir = fMinCir + m_nSelPos[i] * m_fWidthCir / MAXLINEITEM; // µ±Ç°µãÔÚ·Å´óÍ¼ÏñÖĞµÄÖÜÊı
 
         fSelCir = fDeltaCir - fSelCir;
 
@@ -887,20 +887,20 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
         ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
     }
 
-    /*ç”»æ”¾å¤§ç‚¹æ‰­çŸ©çš„çº¿*/
-    /* ç”»æ”¾å¤§ç‚¹åæ ‡ */
+    /*»­·Å´óµãÅ¤¾ØµÄÏß*/
+    /* »­·Å´óµã×ø±ê */
     x = int(wZoomPos * m_fOffset);
     y = (int)(((fRange - fSetZoomTorq + m_tItem.m_fLower) / fRange) * m_iChartHeight);
 
-    /*æ”¾å¤§ç‚¹æ‰­çŸ©*/
+    /*·Å´óµãÅ¤¾Ø*/
     /* | */
     DrawVLine(x);
 
     /* ----- */
     DrawHLine(y);
 
-    /* æ”¾å¤§ç‚¹æ‰­çŸ© */
-    fSelCir = fMinCir + wZoomPos * m_fWidthCir / MAXLINEITEM; // å½“å‰ç‚¹åœ¨æ”¾å¤§å›¾åƒä¸­çš„å‘¨æ•°
+    /* ·Å´óµãÅ¤¾Ø */
+    fSelCir = fMinCir + wZoomPos * m_fWidthCir / MAXLINEITEM; // µ±Ç°µãÔÚ·Å´óÍ¼ÏñÖĞµÄÖÜÊı
     fSelCir = fDeltaCir - fSelCir;
     strTemp = string_format("(%.4f \xA1\xF1 %.1f)", fSelCir, (fSetZoomTorq / SHOWTORQUEUNIT));
     ShowVarPntText(ZOOM_SELCOLOR, x, y, strTemp);
@@ -919,7 +919,7 @@ void CLineChartCtrlEx::DrawZoomInfo(WORD wZoomPos, double fMinCir, double fSrcMa
 }
 
 
-/* æ‰“å°è¯´æ˜æ–‡å­— */
+/* ´òÓ¡ËµÃ÷ÎÄ×Ö */
 void  CLineChartCtrlEx::ShowContent(COLORREF clrText, int y, string strContent, UINT nLeftOffset)
 {
     CRect   rectCont;

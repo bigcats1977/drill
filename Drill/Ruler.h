@@ -19,7 +19,7 @@
 #define MAX_SCALE_LEN               7
 #define Med_SCALE_LEN               5
 #define Min_SCALE_LEN               3
-/* ä¸€ä¸ªå¤§åˆ»åº¦é‡Œé¢åŒ…å«å°åˆ»åº¦æ•°ç›® */
+/* Ò»¸ö´ó¿Ì¶ÈÀïÃæ°üº¬Ğ¡¿Ì¶ÈÊıÄ¿ */
 #define SCALE_NUM                   5
 
 // hint information
@@ -75,7 +75,7 @@ protected:
     void        DrawHorScale(int iBeginX, CRect rcRuler);
 
 private:
-    UINT        m_nXDecNum;         /* Xåæ ‡è½´çš„å°æ•°ä½æ•° */
+    UINT        m_nXDecNum;         /* X×ø±êÖáµÄĞ¡ÊıÎ»Êı */
 };
 
 /////////////////////////////////////////////////////////////////////////////

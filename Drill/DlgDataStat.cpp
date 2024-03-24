@@ -175,7 +175,7 @@ BOOL CDlgDataStat::OnInitDialog()
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
+                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
 }
 
 void CDlgDataStat::UpdateDlgLabel()
@@ -183,13 +183,13 @@ void CDlgDataStat::UpdateDlgLabel()
     switch (g_tGlbCfg.nLangType)
     {
     case LANGUAGE_CHINESE:
-        m_strLBS3.Format("æ‰­çŸ©-å‘¨æ•°æ›²çº¿å›¾        ï¼ˆå•ä½:çºµè½´=%s, æ¨ªè½´=å‘¨ï¼‰", g_tGlbCfg.strUnit.c_str());
+        m_strLBS3.Format("Å¤¾Ø-ÖÜÊıÇúÏßÍ¼        £¨µ¥Î»:×İÖá=%s, ºáÖá=ÖÜ£©", g_tGlbCfg.strUnit.c_str());
         break;
     case LANGUAGE_ENGLISH:
         m_strLBS3.Format("Torque-Turn Graph:    (Vert=%s, Hori=Turn)", g_tGlbCfg.strUnit.c_str());
         break;
         /*case LANGUAGE_RUSSIAN:
-            m_strLBS3.Format("Ğ³Ñ€Ğ°Ñ„. ĞšĞœĞ§Ğ(Ğ•Ğ´.:  Ğ’. Ğ¾ÑÑŒ=%s, Ğ. Ğ¾ÑÑŒ=Ğ¾Ğ±.)", g_tGlbCfg.strUnit.c_str());
+            m_strLBS3.Format("§Ô§â§Ñ§æ. §¬§®§¹§°(§¦§Õ.:  §£. §à§ã§î=%s, §°. §à§ã§î=§à§Ò.)", g_tGlbCfg.strUnit.c_str());
             break;*/
     }
 }
@@ -239,23 +239,23 @@ void CDlgDataStat::ResetStatLineByData(TorqData::Torque* ptTorq)
     ASSERT_NULL(ptTorq);
 
     m_wndLineStat.RemoveAt();
-    //m_wndLineStat.m_fUpperLimit = ptTorq->fupperlimit();     /* æœ€å¤§æ‰­çŸ© */
-    //m_wndLineStat.m_fLowerLimit = ptTorq->flowerlimit();     /* æœ€å°æ‰­çŸ© */
-    m_wndLineStat.m_fOptTorq = theApp.GetOptTorq(ptTorq); /* æœ€ä½³æ‰­çŸ© */
-    //m_wndLineStat.m_fSpeedDown  = ptTorq->fspeeddown();      /* å‡é€Ÿæ‰­çŸ© */
-    m_wndLineStat.m_fShow = ptTorq->fshow();           /* æ˜¾ç¤ºæ‰­çŸ© */
-    //m_wndLineStat.m_fBear       = ptTorq->fbear();           /* è‚©è´Ÿæ‰­çŸ© */
-    m_wndLineStat.m_fControlCir = theApp.GetCtrlCir(ptTorq); /* æ§åˆ¶å‘¨æ•° */
-    m_wndLineStat.m_fUpperCir = theApp.GetUpperCir(ptTorq);/* ä¸Šé™å‘¨æ•° */
-    m_wndLineStat.m_fLowerCir = theApp.GetLowerCir(ptTorq);/* ä¸‹é™å‘¨æ•° */
-    m_wndLineStat.m_fMaxCir = theApp.GetMaxCir(ptTorq);  /* æœ€å¤§å‘¨æ•° */
-    m_wndLineStat.m_fMaxLimit = ptTorq->fmaxlimit();       /* æœ€å¤§ä¸Šé™ */
+    //m_wndLineStat.m_fUpperLimit = ptTorq->fupperlimit();     /* ×î´óÅ¤¾Ø */
+    //m_wndLineStat.m_fLowerLimit = ptTorq->flowerlimit();     /* ×îĞ¡Å¤¾Ø */
+    m_wndLineStat.m_fOptTorq = theApp.GetOptTorq(ptTorq); /* ×î¼ÑÅ¤¾Ø */
+    //m_wndLineStat.m_fSpeedDown  = ptTorq->fspeeddown();      /* ¼õËÙÅ¤¾Ø */
+    m_wndLineStat.m_fShow = ptTorq->fshow();           /* ÏÔÊ¾Å¤¾Ø */
+    //m_wndLineStat.m_fBear       = ptTorq->fbear();           /* ¼ç¸ºÅ¤¾Ø */
+    m_wndLineStat.m_fControlCir = theApp.GetCtrlCir(ptTorq); /* ¿ØÖÆÖÜÊı */
+    m_wndLineStat.m_fUpperCir = theApp.GetUpperCir(ptTorq);/* ÉÏÏŞÖÜÊı */
+    m_wndLineStat.m_fLowerCir = theApp.GetLowerCir(ptTorq);/* ÏÂÏŞÖÜÊı */
+    m_wndLineStat.m_fMaxCir = theApp.GetMaxCir(ptTorq);  /* ×î´óÖÜÊı */
+    m_wndLineStat.m_fMaxLimit = ptTorq->fmaxlimit();       /* ×î´óÉÏÏŞ */
 
     m_wndLineStat.SetBkColor(RGB(255, 255, 255));
     m_wndLineStat.m_bBKLine = FALSE;
     m_wndLineStat.Add(RGB(0, 0, 0), ptTorq->fmaxlimit(), 0.0);
 
-    /* é‡æ–°è®¾ç½®åˆ»åº¦ */
+    /* ÖØĞÂÉèÖÃ¿Ì¶È */
     m_xStatAxis.SetTickPara(10, m_wndLineStat.m_fMaxCir);
     m_yStatAxis.SetTickPara(20, ptTorq->fmaxlimit() / SHOWTORQUEUNIT);
     m_wndLineStat.DrawBkLine();
@@ -274,25 +274,25 @@ void CDlgDataStat::ResetStatLine(PARACFG* ptCfg)
     //ptComm = &ptCfg->tComm;
 
     m_wndLineStat.RemoveAt();
-    //m_wndLineStat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* æœ€å¤§æ‰­çŸ© */
-    //m_wndLineStat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* æœ€å°æ‰­çŸ© */
-    m_wndLineStat.m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* æœ€ä½³æ‰­çŸ© */
-    //m_wndLineStat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* å‡é€Ÿæ‰­çŸ© */
-    m_wndLineStat.m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* æ˜¾ç¤ºæ‰­çŸ© */
-    //m_wndLineStat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* è‚©è´Ÿæ‰­çŸ© */
-    m_wndLineStat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];        /* æ§åˆ¶å‘¨æ•° */
-    m_wndLineStat.m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];     /* ä¸Šé™å‘¨æ•° */
-    m_wndLineStat.m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];     /* ä¸‹é™å‘¨æ•° */
-    m_wndLineStat.m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];       /* æœ€å¤§å‘¨æ•° */
-    m_wndLineStat.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* æœ€å¤§ä¸Šé™ */
-    //m_wndLineStat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* æœ€å¤§å°é˜¶ */
-    //m_wndLineStat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* æœ€å°å°é˜¶ */
+    //m_wndLineStat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* ×î´óÅ¤¾Ø */
+    //m_wndLineStat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* ×îĞ¡Å¤¾Ø */
+    m_wndLineStat.m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* ×î¼ÑÅ¤¾Ø */
+    //m_wndLineStat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* ¼õËÙÅ¤¾Ø */
+    m_wndLineStat.m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* ÏÔÊ¾Å¤¾Ø */
+    //m_wndLineStat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* ¼ç¸ºÅ¤¾Ø */
+    m_wndLineStat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];        /* ¿ØÖÆÖÜÊı */
+    m_wndLineStat.m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];     /* ÉÏÏŞÖÜÊı */
+    m_wndLineStat.m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];     /* ÏÂÏŞÖÜÊı */
+    m_wndLineStat.m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];       /* ×î´óÖÜÊı */
+    m_wndLineStat.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* ×î´óÉÏÏŞ */
+    //m_wndLineStat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* ×î´óÌ¨½× */
+    //m_wndLineStat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* ×îĞ¡Ì¨½× */
 
     m_wndLineStat.SetBkColor(RGB(255, 255, 255));
     m_wndLineStat.m_bBKLine = FALSE;
     m_wndLineStat.Add(RGB(0, 0, 0), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0);
 
-    /* é‡æ–°è®¾ç½®åˆ»åº¦ */
+    /* ÖØĞÂÉèÖÃ¿Ì¶È */
     m_xStatAxis.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     m_yStatAxis.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT] / SHOWTORQUEUNIT);
     m_wndLineStat.DrawBkLine();
@@ -398,7 +398,7 @@ BYTE CDlgDataStat::GetValueRange(double* fRange, double fValue)
     return 4;
 }
 
-/* æ˜¯å¦æ˜¯é€‰ä¸­çš„ç±»å‹ */
+/* ÊÇ·ñÊÇÑ¡ÖĞµÄÀàĞÍ */
 BOOL CDlgDataStat::IsSelType(TorqData::Torque* ptTorq)
 {
     CString strCurType;
@@ -425,16 +425,16 @@ BOOL CDlgDataStat::IsSelType(TorqData::Torque* ptTorq)
     strType = theApp.LoadstringFromRes(IDS_STRALLSTAT);
     strBuckle = theApp.LoadstringFromRes(IDS_STRBUCKLE);
 
-    /* æ‰€æœ‰æ•°æ®æ—¶ï¼Œä¸æ¯”è¾ƒç±»å‹ */
+    /* ËùÓĞÊı¾İÊ±£¬²»±È½ÏÀàĞÍ */
     if (strCurType.CompareNoCase(strType.c_str()) == 0)
         return TRUE;
 
     strType = theApp.GetStatType(ptTorq, m_nStatType).GetBuffer(0);
 
-    /* å·¥å…·æ‰£ */
+    /* ¹¤¾ß¿Û */
     if (strCurType.CompareNoCase(strBuckle.c_str()) == 0)
     {
-        /* é€‰ä¸­å·¥å…·æ‰£ï¼Œå½“å‰æ•°æ®ä¸æ˜¯å·¥å…·æ‰£ */
+        /* Ñ¡ÖĞ¹¤¾ß¿Û£¬µ±Ç°Êı¾İ²»ÊÇ¹¤¾ß¿Û */
         if (!ptTorq->btoolbuck())
         {
             return FALSE;
@@ -445,7 +445,7 @@ BOOL CDlgDataStat::IsSelType(TorqData::Torque* ptTorq)
     {
         return FALSE;
     }
-    /* ä½†æ˜¯æ²¡æœ‰é€‰ä¸­å·¥å…·æ‰£ï¼Œå½“å‰æ•°æ®æ˜¯å·¥å…·æ‰£ */
+    /* µ«ÊÇÃ»ÓĞÑ¡ÖĞ¹¤¾ß¿Û£¬µ±Ç°Êı¾İÊÇ¹¤¾ß¿Û */
     else if (ptTorq->btoolbuck())
     {
         return FALSE;
@@ -497,7 +497,7 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
             fFullTorq = ptTorq->fmaxlimit();
         }
     }
-    /* é€‰æ‹©æ»¡å±æ‰­çŸ©æœ€å¤§çš„æ•°æ®,æˆ–è€…æ²¡æœ‰é€‰ä¸­ï¼Œå–æœ€åçš„å€¼ */
+    /* Ñ¡ÔñÂúÆÁÅ¤¾Ø×î´óµÄÊı¾İ,»òÕßÃ»ÓĞÑ¡ÖĞ£¬È¡×îºóµÄÖµ */
     {
         m_ptDrawData = &g_tReadData.tData[iShowIndex];
         if (!bSetRange)
@@ -551,7 +551,7 @@ void CDlgDataStat::BeginCalStat(BOOL bSetRange)
         }
 #if 0
         fInflTorq = theApp.GetIPTorq(ptTorq, wIPPos, wSchPos);
-        /* æœ‰æ‹ç‚¹æ‰­çŸ©æ‰æ±‚æ‹ç‚¹ç™¾åˆ†æ¯”å’Œdelta */
+        /* ÓĞ¹ÕµãÅ¤¾Ø²ÅÇó¹Õµã°Ù·Ö±ÈºÍdelta */
         if (fInflTorq > 0)
         {
             ucLevel = GetValueRange(m_tStatCfg.fShouldRange, fInflTorq);
@@ -717,8 +717,8 @@ string CDlgDataStat::SaveStatImg(void)
 {
     CPaintDC    dc(this);
     HDC         hdc;
-    HDC         hMemDC = NULL; // å±å¹•å’Œå†…å­˜è®¾å¤‡æè¿°è¡¨
-    HBITMAP     hBitmap = NULL; // ä½å›¾å¥æŸ„
+    HDC         hMemDC = NULL; // ÆÁÄ»ºÍÄÚ´æÉè±¸ÃèÊö±í
+    HBITMAP     hBitmap = NULL; // Î»Í¼¾ä±ú
     HBITMAP     hOldBitmap = NULL;
     CRect       rcClt;
     string      strFileName;
@@ -732,20 +732,20 @@ string CDlgDataStat::SaveStatImg(void)
     iHeight = rcClt.Height();
     hdc = dc.m_hDC;
 
-    // ä¸ºå±å¹•è®¾å¤‡æè¿°è¡¨åˆ›å»ºå…¼å®¹çš„å†…å­˜è®¾å¤‡æè¿°è¡¨
+    // ÎªÆÁÄ»Éè±¸ÃèÊö±í´´½¨¼æÈİµÄÄÚ´æÉè±¸ÃèÊö±í
     hMemDC = CreateCompatibleDC(hdc);
-    // åˆ›å»ºä¸€ä¸ªä¸å±å¹•è®¾å¤‡æè¿°è¡¨å…¼å®¹çš„ä½å›¾
+    // ´´½¨Ò»¸öÓëÆÁÄ»Éè±¸ÃèÊö±í¼æÈİµÄÎ»Í¼
     hBitmap = CreateCompatibleBitmap(hdc, iWidth, iHeight);
 
     hOldBitmap = (HBITMAP) ::SelectObject(hMemDC, hBitmap);
     RedrawWindow();
 
-    // æŠŠæ–°ä½å›¾é€‰åˆ°å†…å­˜è®¾å¤‡æè¿°è¡¨ä¸­
+    // °ÑĞÂÎ»Í¼Ñ¡µ½ÄÚ´æÉè±¸ÃèÊö±íÖĞ
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
     StretchBlt(hMemDC, 0, 0, iWidth, iHeight,
         hdc, 0, 0, iWidth, iHeight, SRCCOPY);
 
-    // å¾—åˆ°ä½å›¾çš„å¥æŸ„
+    // µÃµ½Î»Í¼µÄ¾ä±ú
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
 
     theApp.SavePNG(hBitmap, strFileName);

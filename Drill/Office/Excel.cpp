@@ -24,10 +24,10 @@ Excel::~Excel()
 
 bool Excel::initExcel()
 {
-    //åˆ›å»ºExcel 2000æœåŠ¡å™¨(å¯åŠ¨Excel)
+    //´´½¨Excel 2000·şÎñÆ÷(Æô¶¯Excel)
     if (!application.CreateDispatch(_T("Excel.Application"), nullptr))
     {
-        //MessageBox(nullptr, _T("åˆ›å»ºExcelæœåŠ¡å¤±è´¥,ä½ å¯èƒ½æ²¡æœ‰å®‰è£…EXCELï¼Œè¯·æ£€æŸ¥!"), _T("é”™è¯¯"), MB_OK);
+        //MessageBox(nullptr, _T("´´½¨Excel·şÎñÊ§°Ü,Äã¿ÉÄÜÃ»ÓĞ°²×°EXCEL£¬Çë¼ì²é!"), _T("´íÎó"), MB_OK);
         return false;
     }
 
@@ -45,15 +45,15 @@ void Excel::release()
 
 bool Excel::open(CString fileName)
 {
-    //å…ˆå…³é—­æ–‡ä»¶
+    //ÏÈ¹Ø±ÕÎÄ¼ş
     close();
 
-    //åˆ©ç”¨æ¨¡æ¿å»ºç«‹æ–°æ–‡æ¡£
+    //ÀûÓÃÄ£°å½¨Á¢ĞÂÎÄµµ
     books.AttachDispatch(application.get_Workbooks());
 
     try {
         //lpDisp = books.Add(COleVariant(fileName));
-        /*æ‰“å¼€ä¸€ä¸ªå·¥ä½œç°¿*/
+        /*´ò¿ªÒ»¸ö¹¤×÷²¾*/
         lpDisp = books.Open(fileName,
             vtMissing, vtMissing, vtMissing, vtMissing, vtMissing,
             vtMissing, vtMissing, vtMissing, vtMissing, vtMissing,
@@ -61,7 +61,7 @@ bool Excel::open(CString fileName)
     }
     catch (...)
     {
-        // æ‰¾ä¸åˆ°åˆ™æ–°åˆ›å»ºä¸€ä¸ª
+        // ÕÒ²»µ½ÔòĞÂ´´½¨Ò»¸ö
         lpDisp = books.Add(vtMissing);
     }
 
@@ -76,10 +76,10 @@ bool Excel::open(CString fileName)
 
 void Excel::close(bool ifSave)
 {
-    //å¦‚æœæ–‡ä»¶å·²ç»æ‰“å¼€ï¼Œå…³é—­æ–‡ä»¶
+    //Èç¹ûÎÄ¼şÒÑ¾­´ò¿ª£¬¹Ø±ÕÎÄ¼ş
     if (!openFileName.IsEmpty())
     {
-        //å¦‚æœä¿å­˜,äº¤ç»™ç”¨æˆ·æ§åˆ¶,è®©ç”¨æˆ·è‡ªå·±å­˜ï¼Œå¦‚æœè‡ªå·±SAVEï¼Œä¼šå‡ºç°è«åçš„ç­‰å¾…
+        //Èç¹û±£´æ,½»¸øÓÃ»§¿ØÖÆ,ÈÃÓÃ»§×Ô¼º´æ£¬Èç¹û×Ô¼ºSAVE£¬»á³öÏÖÄªÃûµÄµÈ´ı
         if (ifSave)
         {
             //show(true);
@@ -90,7 +90,7 @@ void Excel::close(bool ifSave)
             books.Close();
         }
 
-        //æ¸…ç©ºæ‰“å¼€æ–‡ä»¶åç§°
+        //Çå¿Õ´ò¿ªÎÄ¼şÃû³Æ
         openFileName.Empty();
     }
 
@@ -151,7 +151,7 @@ void Excel::preLoadSheet()
     safeArray.Attach(ret_ary);
 }
 
-//æŒ‰ç…§åç§°åŠ è½½sheetè¡¨æ ¼ï¼Œä¹Ÿå¯æå‰åŠ è½½æ‰€æœ‰è¡¨æ ¼
+//°´ÕÕÃû³Æ¼ÓÔØsheet±í¸ñ£¬Ò²¿ÉÌáÇ°¼ÓÔØËùÓĞ±í¸ñ
 bool Excel::loadSheet(long tableId, bool preLoaded)
 {
     wholeRange.ReleaseDispatch();
@@ -172,7 +172,7 @@ bool Excel::loadSheet(long tableId, bool preLoaded)
     wholeRange.AttachDispatch(workSheet.get_Cells());
 
     isLoad = false;
-    //å¦‚æœè¿›è¡Œé¢„å…ˆåŠ è½½
+    //Èç¹û½øĞĞÔ¤ÏÈ¼ÓÔØ
     if (preLoaded)
     {
         preLoadSheet();
@@ -204,7 +204,7 @@ bool Excel::loadSheet(CString sheet, bool preLoaded)
     wholeRange.AttachDispatch(workSheet.get_Cells());
 
     isLoad = false;
-    //å¦‚æœè¿›è¡Œé¢„å…ˆåŠ è½½
+    //Èç¹û½øĞĞÔ¤ÏÈ¼ÓÔØ
     if (preLoaded)
     {
         preLoadSheet();
@@ -250,7 +250,7 @@ bool Excel::isCellString(long iRow, long iColumn)
     CRange range;
     range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
     COleVariant vResult = range.get_Value2();
-    //VT_BSTRæ ‡ç¤ºå­—ç¬¦ä¸²
+    //VT_BSTR±êÊ¾×Ö·û´®
     if (vResult.vt == VT_BSTR)
     {
         return true;
@@ -264,7 +264,7 @@ bool Excel::isCellInt(long iRow, long iColumn)
     CRange range;
     range.AttachDispatch(wholeRange.get_Item(COleVariant((long)iRow), COleVariant((long)iColumn)).pdispVal, true);
     COleVariant vResult = range.get_Value2();
-    //VT_BSTRæ ‡ç¤ºå­—ç¬¦ä¸²
+    //VT_BSTR±êÊ¾×Ö·û´®
     if (vResult.vt == VT_INT || vResult.vt == VT_R8)
     {
         return true;
@@ -276,7 +276,7 @@ CString Excel::getCellString(long iRow, long iColumn)
 {
     COleVariant vResult;
     CString str;
-    //å­—ç¬¦ä¸²
+    //×Ö·û´®
     if (isLoad == false)
     {
         CRange range;
@@ -284,7 +284,7 @@ CString Excel::getCellString(long iRow, long iColumn)
         vResult = range.get_Value2();
         range.ReleaseDispatch();
     }
-    //å¦‚æœæ•°æ®ä¾æ®é¢„å…ˆåŠ è½½äº†
+    //Èç¹ûÊı¾İÒÀ¾İÔ¤ÏÈ¼ÓÔØÁË
     else
     {
         long read_address[2];
@@ -299,17 +299,17 @@ CString Excel::getCellString(long iRow, long iColumn)
     {
         str = vResult.bstrVal;
     }
-    //æ•´æ•°
+    //ÕûÊı
     else if (vResult.vt == VT_INT)
     {
         str.Format(_T("%d"), vResult.pintVal);
     }
-    //8å­—èŠ‚çš„æ•°å­—
+    //8×Ö½ÚµÄÊı×Ö
     else if (vResult.vt == VT_R8)
     {
         str.Format(_T("%0.0f"), vResult.dblVal);
     }
-    //æ—¶é—´æ ¼å¼
+    //Ê±¼ä¸ñÊ½
     else if (vResult.vt == VT_DATE)
     {
         SYSTEMTIME st;
@@ -318,7 +318,7 @@ CString Excel::getCellString(long iRow, long iColumn)
         str = tm.Format(_T("%Y-%m-%d"));
 
     }
-    //å•å…ƒæ ¼ç©ºçš„
+    //µ¥Ôª¸ñ¿ÕµÄ
     else if (vResult.vt == VT_EMPTY)
     {
         str = "";
@@ -331,7 +331,7 @@ double Excel::getCellDouble(long iRow, long iColumn)
 {
     double rtn_value = 0;
     COleVariant vresult;
-    //å­—ç¬¦ä¸²
+    //×Ö·û´®
     if (isLoad == false)
     {
         CRange range;
@@ -339,7 +339,7 @@ double Excel::getCellDouble(long iRow, long iColumn)
         vresult = range.get_Value2();
         range.ReleaseDispatch();
     }
-    //å¦‚æœæ•°æ®ä¾æ®é¢„å…ˆåŠ è½½äº†
+    //Èç¹ûÊı¾İÒÀ¾İÔ¤ÏÈ¼ÓÔØÁË
     else
     {
         long read_address[2];
@@ -428,11 +428,11 @@ CShape Excel::addCellPicture(CString strFileName, CString top, CString bottom)
     v[3] = range.get_Height();
     for (int i = 0; i < 4; i++) {
         if (V_VT(&v[i]) == VT_R4) {
-            // å¦‚æœ VARIANT åŒ…å«ä¸€ä¸ª float å€¼
+            // Èç¹û VARIANT °üº¬Ò»¸ö float Öµ
             fLoc[i] = V_R4(&v[i]);
         }
         else if (V_VT(&v[i]) == VT_R8) {
-            // å¦‚æœ VARIANT åŒ…å«ä¸€ä¸ª double å€¼
+            // Èç¹û VARIANT °üº¬Ò»¸ö double Öµ
             fLoc[i] = static_cast<float>(V_R8(&v[i]));
         }
     }
@@ -456,7 +456,7 @@ void Excel::copyMultiRow(UINT nSrcRow, UINT nDestRow, UINT nBeginCol, UINT nEndC
     rangeBegin.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
 
 
-    /* æ‹·è´ç›®çš„ä½ç½® */
+    /* ¿½±´Ä¿µÄÎ»ÖÃ */
     StartCell.Format("%s%d", columnToTitle(nBeginCol), nDestRow);// 1-->A
     EndCell.Format("%s%d", columnToTitle(nEndCol), nDestRow + nNum);// 13-->M
     rangeEnd.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
@@ -478,7 +478,7 @@ void Excel::setMultiRowHeight(UINT nRow, UINT nBeginCol, UINT nEndCol, float fMu
     StartCell.Format("%s%d", columnToTitle(nBeginCol), nRow);// 1-->A
     EndCell.Format("%s%d", columnToTitle(nEndCol), nRow);// 13-->M
     range.AttachDispatch(workSheet.get_Range(COleVariant(StartCell), COleVariant(EndCell)));
-    /* è®¾ç½®æ²¹ç®¡è¯¦æƒ…è¡Œé«˜ä¸º2å€ */
+    /* ÉèÖÃÓÍ¹ÜÏêÇéĞĞ¸ßÎª2±¶ */
     VARIANT rowHeight = range.get_RowHeight();
     range.put_RowHeight((_variant_t)(fMulti * rowHeight.dblVal));
     range.ReleaseDispatch();
@@ -488,21 +488,21 @@ void Excel::setMultiColFont(UINT nRow, UINT nCol, UINT nNUm, CString strFontName
 {
     UINT        i = 0;
     CRange      range;
-    CFont0      ftColor;    // è®¾ç½®å­—ä½“é¢œè‰²
+    CFont0      ftColor;    // ÉèÖÃ×ÖÌåÑÕÉ«
     CString     strCell;
-    _variant_t  vRange1;    // è®¾ç½®å•å…ƒæ ¼çš„è¾¹æ¡†
+    _variant_t  vRange1;    // ÉèÖÃµ¥Ôª¸ñµÄ±ß¿ò
     _variant_t  vRange2;
     _variant_t  vRange3;
     _variant_t  vRange4;
 
     vRange1.vt = VT_I2;
-    vRange1.lVal = 1;       // çº¿çš„æ ·å¼ï¼š0- no line; 1-solid; 2-big dot;3-small dot;4-dash dot; 5-dash dot dot; xlContinuous 1
+    vRange1.lVal = 1;       // ÏßµÄÑùÊ½£º0- no line; 1-solid; 2-big dot;3-small dot;4-dash dot; 5-dash dot dot; xlContinuous 1
     vRange2.vt = VT_I2;
-    vRange2.lVal = 1;       // çº¿çš„ç²—ç»†ç¨‹åº¦ï¼›
+    vRange2.lVal = 1;       // ÏßµÄ´ÖÏ¸³Ì¶È£»
     vRange3.vt = VT_I2;
     vRange3.lVal = 1;       // 1-black;2-white;3-red;4-green;5-blue; 6-yellow; 7-pink;8-dark blue;
     vRange4.vt = VT_UI4;
-    vRange4.uintVal = RGB(0, 0, 0);     // æˆ‘æµ‹è¯•åè®¤ä¸ºï¼Œæ²¡æœ‰å®é™…æ„ä¹‰ï¼Œåªæœ‰vRange3èµ·ä½œç”¨
+    vRange4.uintVal = RGB(0, 0, 0);     // ÎÒ²âÊÔºóÈÏÎª£¬Ã»ÓĞÊµ¼ÊÒâÒå£¬Ö»ÓĞvRange3Æğ×÷ÓÃ
 
     for (i = 0; i < nNUm; i++)
     {
@@ -510,10 +510,10 @@ void Excel::setMultiColFont(UINT nRow, UINT nCol, UINT nNUm, CString strFontName
 
         range.AttachDispatch(workSheet.get_Range(COleVariant(strCell), COleVariant(strCell)), TRUE);
         ftColor.AttachDispatch(range.get_Font());
-        ftColor.put_Name(_variant_t(strFontName));      // å­—ä½“ 
-        ftColor.put_Size(_variant_t(nSize));           // å­—å·
-        ftColor.put_ColorIndex(_variant_t(nColor));     //  å­—çš„é¢œè‰² red
-        // è®¾ç½®å•å…ƒæ ¼çš„çº¿ï¼›
+        ftColor.put_Name(_variant_t(strFontName));      // ×ÖÌå 
+        ftColor.put_Size(_variant_t(nSize));           // ×ÖºÅ
+        ftColor.put_ColorIndex(_variant_t(nColor));     //  ×ÖµÄÑÕÉ« red
+        // ÉèÖÃµ¥Ôª¸ñµÄÏß£»
         range.BorderAround(vRange1, vRange2, vRange3, vRange4);
         range.ReleaseDispatch();
     }
@@ -534,7 +534,7 @@ void Excel::delNOTNameSheet(CString strSheetName)
     }
 }
 
-//åˆ é™¤æŒ‡å®šåç§°çš„sheet
+//É¾³ıÖ¸¶¨Ãû³ÆµÄsheet
 void Excel::delNameSheet(CString strSheetName)
 {
     int         i = 0;
@@ -585,7 +585,7 @@ char* Excel::getColumnName(long iColumn)
         str_len++;
     }
     column_name[str_len] = '\0';
-    //åè½¬
+    //·´×ª
     _strrev(column_name);
 
     return column_name;
@@ -638,7 +638,7 @@ bool Excel::SetMultiCellContent(UINT nBeginRow, UINT nEndRow, UINT nBeginCol, UI
     if (slContent.GetSize() < rows * cols)
         return false;
 
-    /*å‘Sheetä¸­å†™å…¥å¤šä¸ªå•å…ƒæ ¼,è§„æ¨¡ä¸º10*10 */
+    /*ÏòSheetÖĞĞ´Èë¶à¸öµ¥Ôª¸ñ,¹æÄ£Îª10*10 */
     StartCell.Format("%s%d", columnToTitle(nBeginCol), nBeginRow);
     EndCell.Format("%s%d", columnToTitle(nEndCol), nEndRow);
     lpDisp = workSheet.get_Range(_variant_t(StartCell), _variant_t(EndCell));

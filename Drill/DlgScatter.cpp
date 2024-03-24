@@ -1,4 +1,4 @@
-// DlgScatter.cpp: å®ç°æ–‡ä»¶
+// DlgScatter.cpp: ÊµÏÖÎÄ¼ş
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// CDlgScatter å¯¹è¯æ¡†
+// CDlgScatter ¶Ô»°¿ò
 
 IMPLEMENT_DYNAMIC(CDlgScatter, CDialogEx)
 
@@ -33,7 +33,7 @@ BEGIN_MESSAGE_MAP(CDlgScatter, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CDlgScatter æ¶ˆæ¯å¤„ç†ç¨‹åº
+// CDlgScatter ÏûÏ¢´¦Àí³ÌĞò
 
 BOOL CDlgScatter::OnInitDialog()
 {
@@ -51,7 +51,7 @@ BOOL CDlgScatter::OnInitDialog()
     DrawScatterPlot();
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
+                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
 }
 
 void CDlgScatter::ResetScatLineByData(TorqData::Torque* ptTorq)
@@ -62,21 +62,21 @@ void CDlgScatter::ResetScatLineByData(TorqData::Torque* ptTorq)
     CHECK_VALUE_LOW(m_fFullCir, ptTorq->fmaxcir());
 
     m_wndLineScat.RemoveAt();
-    m_wndLineScat.m_fOptTorq = theApp.GetOptTorq(ptTorq);/* æœ€ä½³æ‰­çŸ© */
-    //m_wndLineScat.m_fSpeedDown  = ptTorq->fspeeddown();     /* å‡é€Ÿæ‰­çŸ© */
-    m_wndLineScat.m_fShow = ptTorq->fshow();                /* æ˜¾ç¤ºæ‰­çŸ© */
-    //m_wndLineScat.m_fBear = ptTorq->fbear();                /* è‚©è´Ÿæ‰­çŸ© */
-    m_wndLineScat.m_fControlCir = ptTorq->fcontrolcir();    /* æ§åˆ¶å‘¨æ•° */
-    m_wndLineScat.m_fUpperCir = ptTorq->fuppercir();      /* ä¸Šé™å‘¨æ•° */
-    m_wndLineScat.m_fLowerCir = ptTorq->flowercir();      /* ä¸‹é™å‘¨æ•° */
-    m_wndLineScat.m_fMaxCir = m_fFullCir;               /* æœ€å¤§å‘¨æ•° */
-    m_wndLineScat.m_fMaxLimit = m_fFullTorq;              /* æœ€å¤§ä¸Šé™ */
+    m_wndLineScat.m_fOptTorq = theApp.GetOptTorq(ptTorq);/* ×î¼ÑÅ¤¾Ø */
+    //m_wndLineScat.m_fSpeedDown  = ptTorq->fspeeddown();     /* ¼õËÙÅ¤¾Ø */
+    m_wndLineScat.m_fShow = ptTorq->fshow();                /* ÏÔÊ¾Å¤¾Ø */
+    //m_wndLineScat.m_fBear = ptTorq->fbear();                /* ¼ç¸ºÅ¤¾Ø */
+    m_wndLineScat.m_fControlCir = ptTorq->fcontrolcir();    /* ¿ØÖÆÖÜÊı */
+    m_wndLineScat.m_fUpperCir = ptTorq->fuppercir();      /* ÉÏÏŞÖÜÊı */
+    m_wndLineScat.m_fLowerCir = ptTorq->flowercir();      /* ÏÂÏŞÖÜÊı */
+    m_wndLineScat.m_fMaxCir = m_fFullCir;               /* ×î´óÖÜÊı */
+    m_wndLineScat.m_fMaxLimit = m_fFullTorq;              /* ×î´óÉÏÏŞ */
 
     m_wndLineScat.SetBkColor(RGB(255, 255, 255));
     m_wndLineScat.m_bBKLine = FALSE;
     m_wndLineScat.Add(RGB(0, 0, 0), m_fFullTorq, 0.0);
 
-    /* é‡æ–°è®¾ç½®åˆ»åº¦ */
+    /* ÖØĞÂÉèÖÃ¿Ì¶È */
     m_xScatAxis.SetTickPara(10, m_fFullCir);
     m_yScatAxis.SetTickPara(20, m_fFullTorq);
     m_wndLineScat.DrawBkLine();
@@ -93,25 +93,25 @@ void CDlgScatter::ResetScatLine(PARACFG* ptCfg)
     //ptComm = &ptCfg->tComm;
 
     m_wndLineScat.RemoveAt();
-    //m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* æœ€å¤§æ‰­çŸ© */
-    //m_wndLineScat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* æœ€å°æ‰­çŸ© */
-    m_wndLineScat.m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* æœ€ä½³æ‰­çŸ© */
-    //m_wndLineScat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* å‡é€Ÿæ‰­çŸ© */
-    m_wndLineScat.m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* æ˜¾ç¤ºæ‰­çŸ© */
-    //m_wndLineScat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* è‚©è´Ÿæ‰­çŸ© */
-    m_wndLineScat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* æ§åˆ¶å‘¨æ•° */
-    m_wndLineScat.m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* ä¸Šé™å‘¨æ•° */
-    m_wndLineScat.m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* ä¸‹é™å‘¨æ•° */
-    m_wndLineScat.m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* æœ€å¤§å‘¨æ•° */
-    m_wndLineScat.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* æœ€å¤§ä¸Šé™ */
-    //m_wndLineScat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* æœ€å¤§å°é˜¶ */
-    //m_wndLineScat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* æœ€å°å°é˜¶ */
+    //m_wndLineScat.m_fUpperLimit = ptCtrl->fTorqConf[INDEX_TORQ_UPPERLIMIT];     /* ×î´óÅ¤¾Ø */
+    //m_wndLineScat.m_fLowerLimit = ptCtrl->fTorqConf[INDEX_TORQ_LOWERLIMIT];     /* ×îĞ¡Å¤¾Ø */
+    m_wndLineScat.m_fOptTorq = ptCtrl->fTorqConf[INDEX_TORQ_OPTIMAL];        /* ×î¼ÑÅ¤¾Ø */
+    //m_wndLineScat.m_fSpeedDown  = ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN];      /* ¼õËÙÅ¤¾Ø */
+    m_wndLineScat.m_fShow = ptCtrl->fTorqConf[INDEX_TORQ_SHOW];           /* ÏÔÊ¾Å¤¾Ø */
+    //m_wndLineScat.m_fBear       = ptCtrl->fTorqConf[INDEX_TORQ_BEAR];           /* ¼ç¸ºÅ¤¾Ø */
+    m_wndLineScat.m_fControlCir = ptCtrl->fTurnConf[INDEX_TURN_CONTROL];     /* ¿ØÖÆÖÜÊı */
+    m_wndLineScat.m_fUpperCir = ptCtrl->fTurnConf[INDEX_TURN_UPPERLIMIT];       /* ÉÏÏŞÖÜÊı */
+    m_wndLineScat.m_fLowerCir = ptCtrl->fTurnConf[INDEX_TURN_LOWERLIMIT];       /* ÏÂÏŞÖÜÊı */
+    m_wndLineScat.m_fMaxCir = ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT];         /* ×î´óÖÜÊı */
+    m_wndLineScat.m_fMaxLimit = ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT];       /* ×î´óÉÏÏŞ */
+    //m_wndLineScat.m_fUpperTai   = ptCtrl->fTorqConf[INDEX_TORQ_UPPERTAI];       /* ×î´óÌ¨½× */
+    //m_wndLineScat.m_fLowerTai   = ptCtrl->fTorqConf[INDEX_TORQ_LOWERTAI];       /* ×îĞ¡Ì¨½× */
 
     m_wndLineScat.SetBkColor(RGB(255, 255, 255));
     m_wndLineScat.m_bBKLine = FALSE;
     m_wndLineScat.Add(RGB(0, 0, 0), ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT], 0.0);
 
-    /* é‡æ–°è®¾ç½®åˆ»åº¦ */
+    /* ÖØĞÂÉèÖÃ¿Ì¶È */
     m_xScatAxis.SetTickPara(10, ptCtrl->fTurnConf[INDEX_TURN_MAXLIMIT]);
     m_yScatAxis.SetTickPara(20, ptCtrl->fTorqConf[INDEX_TORQ_MAXLIMIT]);
     m_wndLineScat.DrawBkLine();
@@ -149,8 +149,8 @@ string CDlgScatter::SaveScatterImg(void)
 {
     CPaintDC    dc(this);
     HDC         hdc;
-    HDC         hMemDC = NULL; // å±å¹•å’Œå†…å­˜è®¾å¤‡æè¿°è¡¨
-    HBITMAP     hBitmap = NULL; // ä½å›¾å¥æŸ„
+    HDC         hMemDC = NULL; // ÆÁÄ»ºÍÄÚ´æÉè±¸ÃèÊö±í
+    HBITMAP     hBitmap = NULL; // Î»Í¼¾ä±ú
     HBITMAP     hOldBitmap = NULL;
     CRect       rcClt;
     string      strFileName;
@@ -164,20 +164,20 @@ string CDlgScatter::SaveScatterImg(void)
     iHeight = rcClt.Height();
     hdc = dc.m_hDC;
 
-    // ä¸ºå±å¹•è®¾å¤‡æè¿°è¡¨åˆ›å»ºå…¼å®¹çš„å†…å­˜è®¾å¤‡æè¿°è¡¨
+    // ÎªÆÁÄ»Éè±¸ÃèÊö±í´´½¨¼æÈİµÄÄÚ´æÉè±¸ÃèÊö±í
     hMemDC = CreateCompatibleDC(hdc);
-    // åˆ›å»ºä¸€ä¸ªä¸å±å¹•è®¾å¤‡æè¿°è¡¨å…¼å®¹çš„ä½å›¾
+    // ´´½¨Ò»¸öÓëÆÁÄ»Éè±¸ÃèÊö±í¼æÈİµÄÎ»Í¼
     hBitmap = CreateCompatibleBitmap(hdc, iWidth, iHeight);
 
     hOldBitmap = (HBITMAP) ::SelectObject(hMemDC, hBitmap);
     RedrawWindow();
 
-    // æŠŠæ–°ä½å›¾é€‰åˆ°å†…å­˜è®¾å¤‡æè¿°è¡¨ä¸­
+    // °ÑĞÂÎ»Í¼Ñ¡µ½ÄÚ´æÉè±¸ÃèÊö±íÖĞ
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
     StretchBlt(hMemDC, 0, 0, iWidth, iHeight,
         hdc, 0, 0, iWidth, iHeight, SRCCOPY);
 
-    // å¾—åˆ°ä½å›¾çš„å¥æŸ„
+    // µÃµ½Î»Í¼µÄ¾ä±ú
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
 
     theApp.SavePNG(hBitmap, strFileName);

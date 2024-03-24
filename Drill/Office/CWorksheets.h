@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CWorksheets åŒ…è£…å™¨ç±»
+// CWorksheets °ü×°Æ÷Àà
 
 class CWorksheets : public COleDispatchDriver
 {
 public:
-    CWorksheets() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CWorksheets() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CWorksheets(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CWorksheets(const CWorksheets& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // Worksheets æ–¹æ³•
+    // Worksheets ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -138,7 +138,7 @@ public:
         InvokeHelper(0x939, DISPATCH_METHOD, VT_EMPTY, nullptr, parms, &From, &To, &Copies, &Preview, &ActivePrinter, &PrintToFile, &Collate, &PrToFileName, &IgnorePrintAreas);
     }
 
-    // Worksheets å±æ€§
+    // Worksheets ÊôĞÔ
 public:
 
 };

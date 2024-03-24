@@ -18,7 +18,7 @@
 
 #include "serialport.h"
 
-//#define  TESTRUN   /* æµ‹è¯•å®šä¹‰å®å€¼ */
+//#define  TESTRUN   /* ²âÊÔ¶¨ÒåºêÖµ */
 
 /////////////////////////////////////////////////////////////////////////////
 // CDrillDlg dialog
@@ -28,7 +28,7 @@ class CDrillDlg : public CDialog
 public:
     CDrillDlg(CWnd* pParent = NULL);   // standard constructor
 
-    /* ä¸²å£è¯»å–CRCé”™è¯¯æ—¶ï¼Œåœæ­¢å°è¯•ä¿å­˜æ•°æ®ï¼Œé‡å¯ä¸²å£ */
+    /* ´®¿Ú¶ÁÈ¡CRC´íÎóÊ±£¬Í£Ö¹³¢ÊÔ±£´æÊı¾İ£¬ÖØÆô´®¿Ú */
     void        RestartComm();
 
     BOOL        SendData(UINT nParaType);
@@ -43,7 +43,7 @@ public:
     void        StartGetValveStatus();
     void        StopGetValveStatus();
 
-    /* å¡«å†™ModBuså‘½ä»¤ï¼Œå‡½æ•°æ•°ç»„ç»Ÿä¸€è°ƒç”¨ */
+    /* ÌîĞ´ModBusÃüÁî£¬º¯ÊıÊı×éÍ³Ò»µ÷ÓÃ */
     void        FillRead(void);
     void        FillMulti();
     void        FillQipi();
@@ -69,7 +69,7 @@ public:
     void        FillCtrlCalib();
     void        FillReadCalib();
 
-    /* æ”¶é›†æ•°æ®(åŒ…æ‹¬æµ‹è¯•å‡½æ•°) */
+    /* ÊÕ¼¯Êı¾İ(°üÀ¨²âÊÔº¯Êı) */
     BOOL        CollectPort(COLLECTDATA* ptCollData);
     BOOL        CollectRandData(COLLECTDATA* ptCollData);
     BOOL        CollectTorqData(COLLECTDATA* ptCollData);
@@ -78,7 +78,7 @@ public:
     BOOL        RunIniAutoFile();
     BOOL        PortQueIsEmpty();
 
-    BYTE        m_ucRcvByte[PORTBUFF];      /*modbusæ¥æ”¶æ¶ˆæ¯æ•°å€¼*/
+    BYTE        m_ucRcvByte[PORTBUFF];      /*modbus½ÓÊÕÏûÏ¢ÊıÖµ*/
     WORD        m_wRcvLen;
     CTime       m_tSetTime;
 
@@ -96,17 +96,17 @@ public:
     CRuler      m_yAxis1;
     CRuler      m_xAxis2;
     CRuler      m_yAxis2;
-    //CString     m_strCircle;  /* m_fCircle å¤§äº1å‘¨æ—¶ï¼Œæ˜¾ç¤ºå½“å‰å‘¨æ•°/æœ€å¤§å‘¨æ•° */
-    CString     m_strTorque;  /* m_fTorque ç•Œé¢æ˜¾ç¤ºçš„æ‰­çŸ©ï¼›å¸æ‰£æ—¶æ˜¾ç¤ºã€€å½“å‰æ‰­çŸ©/æœ€å¤§æ‰­çŸ© */
-    double      m_fRpm;     /* å•ç‰‡æœºä¸Šè¯»å–åˆ°çš„é€Ÿåº¦ï¼Œä¸º0æ—¶æ ¹æ®åœˆæ•°è®¡ç®— */
+    //CString     m_strCircle;  /* m_fCircle ´óÓÚ1ÖÜÊ±£¬ÏÔÊ¾µ±Ç°ÖÜÊı/×î´óÖÜÊı */
+    CString     m_strTorque;  /* m_fTorque ½çÃæÏÔÊ¾µÄÅ¤¾Ø£»Ğ¶¿ÛÊ±ÏÔÊ¾¡¡µ±Ç°Å¤¾Ø/×î´óÅ¤¾Ø */
+    double      m_fRpm;     /* µ¥Æ¬»úÉÏ¶ÁÈ¡µ½µÄËÙ¶È£¬Îª0Ê±¸ù¾İÈ¦Êı¼ÆËã */
     BOOL        m_bComm;
     UINT        m_nCurNO;
     UINT        m_nCRCERR;
     UINT        m_nClashERR;
     CString     m_strRecvData;
-    //DWORD       m_dwTotalTorqNum;           /* æ‰­çŸ©ä¸Šæ‰£æœ€å¤§æ•°ç›® */
-    BOOL        m_bToolBuck;        /* æ˜¯å¦ä¸ºå·¥å…·æ‰£ */
-    int         m_iBreakOut;        /* æ˜¯å¦è¿›è¡Œå¸æ‰£æ“ä½œ 0:ä¸Šæ‰£ï¼›1ï¼šå¸æ‰£*/
+    //DWORD       m_dwTotalTorqNum;           /* Å¤¾ØÉÏ¿Û×î´óÊıÄ¿ */
+    BOOL        m_bToolBuck;        /* ÊÇ·ñÎª¹¤¾ß¿Û */
+    int         m_iBreakOut;        /* ÊÇ·ñ½øĞĞĞ¶¿Û²Ù×÷ 0:ÉÏ¿Û£»1£ºĞ¶¿Û*/
     CString     m_strQuality;
     CString     m_strLBM2;
     CString     m_strTorqType;
@@ -199,7 +199,7 @@ private:
     WORD GetCRCValue(BYTE* pucCrc, WORD iLen);
     BOOL CompSysPara(const BYTE* pPara1, const BYTE* pPara2, WORD wSize);
     int  GetInsertNum(double fT1, double fT2);
-    /* å¡«å……å‘é€ä¸²å£å‘½ä»¤çš„å‚æ•° */
+    /* Ìî³ä·¢ËÍ´®¿ÚÃüÁîµÄ²ÎÊı */
     WORD FillSendByte(UINT nParaType);
     BOOL RunInitRand();
     BOOL RunInitPort();
@@ -209,15 +209,15 @@ private:
     BOOL TimeReadPort(UINT nCurStatus);
     BOOL CheckReadInterval();
     BOOL CheckDataValid();
-    static void HRTReadPort(CWnd* pUser);  /* è¯»å–ä¸²å£å®šæ—¶å™¨Timer1åˆ°æ—¶ */
-    static void HRTGuard(CWnd* pUser);     /* ä¿æŠ¤å¤ä½å®šæ—¶å™¨Timer2åˆ°æ—¶ */
-    static void HRTPortBuff(CWnd* pUser);  /* è¯»ä¸²å£å‰ç¼“å†²åŒºæœ‰æ•°æ®ç­‰å¾…å•ç‰‡æœºå†™å®šæ—¶å™¨Timer7åˆ°æ—¶ */
-    static void HRTSaveData(CWnd* pUser);  /* ä¿å­˜æ•°æ®å®šæ—¶å™¨Timer8?åˆ°æ—¶ */
-    static void HRTSaveDebug(CWnd* pUser); /* å®šæ—¶ä¿å­˜CRCé”™è¯¯å’Œè°ƒè¯•ä¿¡æ¯å®šæ—¶å™¨ */
-    static void HRTPlayAlarm(CWnd* pUser); /* å‘Šè­¦éŸ³æ’­æ”¾å®šæ—¶å™¨ */
-    static void HRTReadValve(CWnd* pUser); /* è¯»å–é˜€é—¨çŠ¶æ€å®šæ—¶å™¨ */
-    static void HRTWITSReport(CWnd* pUser);/* TCPå®šæ—¶ä¸ŠæŠ¥WITSæ•°æ®å®šæ—¶å™¨Timer8åˆ°æ—¶ */
-    static void HRTTCPStatus(CWnd* pUser); /* TCPå®šæ—¶æ£€æŸ¥çŠ¶æ€ */
+    static void HRTReadPort(CWnd* pUser);  /* ¶ÁÈ¡´®¿Ú¶¨Ê±Æ÷Timer1µ½Ê± */
+    static void HRTGuard(CWnd* pUser);     /* ±£»¤¸´Î»¶¨Ê±Æ÷Timer2µ½Ê± */
+    static void HRTPortBuff(CWnd* pUser);  /* ¶Á´®¿ÚÇ°»º³åÇøÓĞÊı¾İµÈ´ıµ¥Æ¬»úĞ´¶¨Ê±Æ÷Timer7µ½Ê± */
+    static void HRTSaveData(CWnd* pUser);  /* ±£´æÊı¾İ¶¨Ê±Æ÷Timer8?µ½Ê± */
+    static void HRTSaveDebug(CWnd* pUser); /* ¶¨Ê±±£´æCRC´íÎóºÍµ÷ÊÔĞÅÏ¢¶¨Ê±Æ÷ */
+    static void HRTPlayAlarm(CWnd* pUser); /* ¸æ¾¯Òô²¥·Å¶¨Ê±Æ÷ */
+    static void HRTReadValve(CWnd* pUser); /* ¶ÁÈ¡·§ÃÅ×´Ì¬¶¨Ê±Æ÷ */
+    static void HRTWITSReport(CWnd* pUser);/* TCP¶¨Ê±ÉÏ±¨WITSÊı¾İ¶¨Ê±Æ÷Timer8µ½Ê± */
+    static void HRTTCPStatus(CWnd* pUser); /* TCP¶¨Ê±¼ì²é×´Ì¬ */
     BOOL Status3Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
     BOOL Status4Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
     BOOL Status254Proc(COLLECTDATA* ptCollData, BOOL* pFinish);
@@ -229,12 +229,12 @@ private:
     void UpdateOutData(double fTorque, int iPoints);
     void UpdateOutData(COLLECTDATA* ptColl);
     BOOL ValidStatus3(COLLECTDATA* ptCollData);
-    void SetCommShowInfo(UINT nStatus);   /* è®¾ç½®ä¸²å£ç›¸å…³å›¾æ ‡å’Œä¿¡æ¯æ˜¾ç¤ºçŠ¶æ€ */
+    void SetCommShowInfo(UINT nStatus);   /* ÉèÖÃ´®¿ÚÏà¹ØÍ¼±êºÍĞÅÏ¢ÏÔÊ¾×´Ì¬ */
     void FillWordValue(BYTE* pAddr, int iValue);
     void FillReadCommand(int iCommand);
     void FillWriteCommand(int iCommand);
-    void SavePortNormalInfo(COLLECTDATA* ptCollData); //ä¿å­˜ä¸€æ¡ä¸²å£è¯»å–çš„è®°å½•
-    void SavePortMultiDataInfo(COLLECTDATA* ptCollData); //ä¿å­˜ä¸€æ¬¡ä¸²å£è¯»å–çš„å¤šæ¡è®°å½•
+    void SavePortNormalInfo(COLLECTDATA* ptCollData); //±£´æÒ»Ìõ´®¿Ú¶ÁÈ¡µÄ¼ÇÂ¼
+    void SavePortMultiDataInfo(COLLECTDATA* ptCollData); //±£´æÒ»´Î´®¿Ú¶ÁÈ¡µÄ¶àÌõ¼ÇÂ¼
 
     // APP function move into MainDlg
     //void UpdateSeqNO();
@@ -243,7 +243,7 @@ private:
     void CreateNewWellFile();
     BOOL TimeValidWell(CString strFileName);
 
-    /* æ‰­çŸ©æ•°æ®ç›¸å…³å‡½æ•° */
+    /* Å¤¾ØÊı¾İÏà¹Øº¯Êı */
     void ResetData();
     BOOL InsertData(COLLECTTORQUE* ptColl, double torque, double rpm);
     void UpdateTorqueData(double torque, double rpm);
@@ -274,72 +274,72 @@ private:
     void   ReportWITSStart();
     void   ReportWITSEnd();
 
-    CLineChartCtrlEx m_wndTorque;       /*æ‰­çŸ©æ˜¾ç¤ºç•Œé¢*/
-    CLineChartCtrl   m_wndRpm;          /*è½¬é€Ÿæ˜¾ç¤ºç•Œé¢*/
-    BOOL            m_bRunStatus;       /* è¿è¡ŒçŠ¶æ€ï¼šTRUEè¿è¡Œ, FALSEåœæ­¢ */
-    int             m_iRecPNum;         /* ä¸Šä¸€æ¬¡è®°å½•çš„æ€»çš„ç‚¹çš„æ•°ç›® */
-    int             m_iOutPoints;       /* ä¸Šä¸€æ¬¡è®°å½•çš„å•æ¬¡ç‚¹çš„æ•°ç›® */
-    double          m_fOutTorque;       /* ä¸Šä¸€æ¬¡è®°å½•çš„æ‰­çŸ© */
-    UINT            m_nInterval;        /* modbuså‘é€æ¶ˆæ¯åä¼‘çœ çš„æ—¶é—´, ç°åœ¨ä¸º200ms */
-    BYTE            m_ucSndByte[PORTBUFF]; /* modbuså‘é€æ¶ˆæ¯æ•°å€¼ */
-    HACCEL          m_hAccel;           /* å¿«æ·é”® */
+    CLineChartCtrlEx m_wndTorque;       /*Å¤¾ØÏÔÊ¾½çÃæ*/
+    CLineChartCtrl   m_wndRpm;          /*×ªËÙÏÔÊ¾½çÃæ*/
+    BOOL            m_bRunStatus;       /* ÔËĞĞ×´Ì¬£ºTRUEÔËĞĞ, FALSEÍ£Ö¹ */
+    int             m_iRecPNum;         /* ÉÏÒ»´Î¼ÇÂ¼µÄ×ÜµÄµãµÄÊıÄ¿ */
+    int             m_iOutPoints;       /* ÉÏÒ»´Î¼ÇÂ¼µÄµ¥´ÎµãµÄÊıÄ¿ */
+    double          m_fOutTorque;       /* ÉÏÒ»´Î¼ÇÂ¼µÄÅ¤¾Ø */
+    UINT            m_nInterval;        /* modbus·¢ËÍÏûÏ¢ºóĞİÃßµÄÊ±¼ä, ÏÖÔÚÎª200ms */
+    BYTE            m_ucSndByte[PORTBUFF]; /* modbus·¢ËÍÏûÏ¢ÊıÖµ */
+    HACCEL          m_hAccel;           /* ¿ì½İ¼ü */
     CStdioFile      m_AutoSavefile;
-    bool            m_bAutoFileOpen;    /* è°ƒè¯•å‡½æ•°æ–‡ä»¶æ˜¯å¦æ‰“å¼€ */
+    bool            m_bAutoFileOpen;    /* µ÷ÊÔº¯ÊıÎÄ¼şÊÇ·ñ´ò¿ª */
 
-    int             m_iShowPlus;        /* æ˜¾ç¤ºå‰çš„è„‰å†²æ•°ï¼Œå®é™…è„‰å†²éœ€è¦å‡æ‰æ˜¾ç¤ºè„‰å†²ï¼Œæ‰èƒ½è®¡ç®—åœˆæ•° */
-    //int             m_iPriorCnt;        /* ä¹‹å‰å±çš„ç‚¹æ•° */
-    int             m_iPriorPlus;       /* ä¸Šä¸€æ¬¡è„‰å†²æ•° */
-    __time64_t      m_tStartTime;       /* å¼€å§‹ä¸Šæ‰£çš„æ—¶é—´ */
+    int             m_iShowPlus;        /* ÏÔÊ¾Ç°µÄÂö³åÊı£¬Êµ¼ÊÂö³åĞèÒª¼õµôÏÔÊ¾Âö³å£¬²ÅÄÜ¼ÆËãÈ¦Êı */
+    //int             m_iPriorCnt;        /* Ö®Ç°ÆÁµÄµãÊı */
+    int             m_iPriorPlus;       /* ÉÏÒ»´ÎÂö³åÊı */
+    __time64_t      m_tStartTime;       /* ¿ªÊ¼ÉÏ¿ÛµÄÊ±¼ä */
 
-    /* è®¾ç½®å®šæ—¶è¯»å–ä¸²å£æ—¶çš„çŠ¶æ€ */
+    /* ÉèÖÃ¶¨Ê±¶ÁÈ¡´®¿ÚÊ±µÄ×´Ì¬ */
     UINT            m_nClashSta;
 
-    /* éšæœºç”Ÿæˆæ•°æ®å˜é‡ */
+    /* Ëæ»úÉú³ÉÊı¾İ±äÁ¿ */
     double          m_fTestTorq[TESTNUM];
     int             m_iTestPlus[TESTNUM];
     int             m_iTest;
-    BOOL            m_bAlarm;           /* æ˜¯å¦éœ€è¦å‘Šè­¦ */
+    BOOL            m_bAlarm;           /* ÊÇ·ñĞèÒª¸æ¾¯ */
 
-    /* theAppå…¨å±€å˜é‡æŒ‡é’ˆï¼Œæ–¹ä¾¿å¼•ç”¨ */
+    /* theAppÈ«¾Ö±äÁ¿Ö¸Õë£¬·½±ãÒıÓÃ */
     SHOWCFG* m_ptShow;
     PARACFG* m_ptCfg;
     CONTROLPARA* m_ptCtrl;
     //COMMONCFG* m_ptComm;
     double      m_fMaxTorq;
-    COLLECTTORQUE   m_tCollData;        /* å½“å‰çš„æ‰­çŸ©ç»“æ„æ•°æ®ï¼Œå¯ä»¥è¶…è¿‡æ­£å¸¸å›¾å½¢4å€ */
+    COLLECTTORQUE   m_tCollData;        /* µ±Ç°µÄÅ¤¾Ø½á¹¹Êı¾İ£¬¿ÉÒÔ³¬¹ıÕı³£Í¼ĞÎ4±¶ */
     PORTDATA* m_ptPortData;
-    TorqData::Torque m_tSaveData;       /* ä»collectDataè·å–æœ€åMAXPOINTä¿å­˜åˆ°saveData */
+    TorqData::Torque m_tSaveData;       /* ´ÓcollectData»ñÈ¡×îºóMAXPOINT±£´æµ½saveData */
     WITSCFG* m_ptWITS;
-    WITSRPTDATA m_tWITSRptData;         /* TCP å®šæ—¶ä¸ŠæŠ¥WITSæ•°æ® */
+    WITSRPTDATA m_tWITSRptData;         /* TCP ¶¨Ê±ÉÏ±¨WITSÊı¾İ */
 
-    /* é«˜ç²¾åº¦å®šæ—¶å™¨ */
-    CHighResTimer   m_hrtReadPort;      /* ä¸²å£å®šæ—¶å™¨ */
-    CHighResTimer   m_hrtGuard;         /* ä¿æŠ¤å¤ä½å®šæ—¶å™¨ */
-    CHighResTimer   m_hrtPortBuff;      /* ä¸²å£ç¼“å†²æ»¡ */
-    CHighResTimer   m_hrtSaveData;      /* ä¿å­˜æ•°æ®å®šæ—¶å™¨ */
-    CHighResTimer   m_hrtSaveDebug;     /* å®šæ—¶ä¿å­˜CRCé”™è¯¯å’Œè°ƒè¯•ä¿¡æ¯å®šæ—¶å™¨ */
-    CHighResTimer   m_hrtPlayAlarm;     /* æ”¾å‘Šè­¦éŸ³å®šæ—¶å™¨ */
-    CHighResTimer   m_hrtReadValve;     /* è¯»å–é˜€é—¨çŠ¶æ€ */
-    CHighResTimer   m_hrtWITSReport;    /* TCPå®šæ—¶ä¸ŠæŠ¥WITSæ•°æ® */
-    CHighResTimer   m_hrtTCPStatus;     /* TCPå®šæ—¶æ£€æŸ¥çŠ¶æ€ */
-    double          m_fPreReadTime;     /* ä¸Šä¸€æ¬¡è¯»å–æ•°æ®æ—¶é—´ms */
-    /* å»¶è¿Ÿ1sç»“æŸï¼Œé¿å…çŠ¶æ€3åæ‰­çŸ©ç»§ç»­å†²é«˜ */
+    /* ¸ß¾«¶È¶¨Ê±Æ÷ */
+    CHighResTimer   m_hrtReadPort;      /* ´®¿Ú¶¨Ê±Æ÷ */
+    CHighResTimer   m_hrtGuard;         /* ±£»¤¸´Î»¶¨Ê±Æ÷ */
+    CHighResTimer   m_hrtPortBuff;      /* ´®¿Ú»º³åÂú */
+    CHighResTimer   m_hrtSaveData;      /* ±£´æÊı¾İ¶¨Ê±Æ÷ */
+    CHighResTimer   m_hrtSaveDebug;     /* ¶¨Ê±±£´æCRC´íÎóºÍµ÷ÊÔĞÅÏ¢¶¨Ê±Æ÷ */
+    CHighResTimer   m_hrtPlayAlarm;     /* ·Å¸æ¾¯Òô¶¨Ê±Æ÷ */
+    CHighResTimer   m_hrtReadValve;     /* ¶ÁÈ¡·§ÃÅ×´Ì¬ */
+    CHighResTimer   m_hrtWITSReport;    /* TCP¶¨Ê±ÉÏ±¨WITSÊı¾İ */
+    CHighResTimer   m_hrtTCPStatus;     /* TCP¶¨Ê±¼ì²é×´Ì¬ */
+    double          m_fPreReadTime;     /* ÉÏÒ»´Î¶ÁÈ¡Êı¾İÊ±¼äms */
+    /* ÑÓ³Ù1s½áÊø£¬±ÜÃâ×´Ì¬3ºóÅ¤¾Ø¼ÌĞø³å¸ß */
     UINT            m_nDelayCount;
     UINT            m_nCurDelay;
-    int             m_iValveBreakCnt;       /* è¯»å–é˜€é—¨çŠ¶æ€å¤±è´¥æ¬¡æ•°ï¼Œè®¾ç½®ä¸ºåˆå§‹5æ¬¡ï¼Œå°äºç­‰äº0è¯´æ˜é€šä¿¡ä¸­æ–­ï¼Œå¦‚æœä¸€ç›´è¯»å–ä¸åˆ°ï¼Œè¯´æ˜ä¸²å£çŠ¶æ€ä¸å¯¹ */
+    int             m_iValveBreakCnt;       /* ¶ÁÈ¡·§ÃÅ×´Ì¬Ê§°Ü´ÎÊı£¬ÉèÖÃÎª³õÊ¼5´Î£¬Ğ¡ÓÚµÈÓÚ0ËµÃ÷Í¨ĞÅÖĞ¶Ï£¬Èç¹ûÒ»Ö±¶ÁÈ¡²»µ½£¬ËµÃ÷´®¿Ú×´Ì¬²»¶Ô */
     int             m_iTorqBreakCnt;
-    int             m_iMaxReadTimes;    /* ä¸²å£æœ€å¤§è¯»å–æ¬¡æ•° */
+    int             m_iMaxReadTimes;    /* ´®¿Ú×î´ó¶ÁÈ¡´ÎÊı */
 
-    BOOL            m_bCanModLastData;  /* å¤ä½æ—¶é—´å‰ï¼Œå¯ä»¥ä¿®æ”¹æœ€åä¸€æ¡æ•°æ® */
+    BOOL            m_bCanModLastData;  /* ¸´Î»Ê±¼äÇ°£¬¿ÉÒÔĞŞ¸Ä×îºóÒ»ÌõÊı¾İ */
     //CString         m_strBreakoutPath;
 
     BOOL            m_bValveStatus[VALVEMAXNUM];
     UINT            m_nValveMark[VALVEMAXNUM];
 
-    UINT            m_nCurTallyNO;      /* å…¥äº•åºå· */
-    UINT            m_nMaxOutWellNO;    /* æœ€å¤§å–å‡ºåºå· */
-    double          m_fMaxBORange;      /* å¸æ‰£æ—¶æœ€å¤§å¸æ‰£æ‰­çŸ©é™åˆ¶å€¼ */
-    double          m_fCurMaxTurn;      /* é‡‡é›†æ•°æ®æ—¶æœ€å¤§å‘¨æ•° */
+    UINT            m_nCurTallyNO;      /* Èë¾®ĞòºÅ */
+    UINT            m_nMaxOutWellNO;    /* ×î´óÈ¡³öĞòºÅ */
+    double          m_fMaxBORange;      /* Ğ¶¿ÛÊ±×î´óĞ¶¿ÛÅ¤¾ØÏŞÖÆÖµ */
+    double          m_fCurMaxTurn;      /* ²É¼¯Êı¾İÊ±×î´óÖÜÊı */
 };
 
 extern CDrillDlg* thepDlg;

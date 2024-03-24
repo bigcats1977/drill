@@ -82,7 +82,7 @@ bool CFtpFile::FTP_Download(string UrlPath, string SavePath)
     return true;
 }
 
-// 逐级创建文件夹目录
+// �𼶴����ļ���Ŀ¼
 bool CFtpFile::FTP_CreateDirectory(string path)
 {
     int pos = 1;
@@ -96,7 +96,7 @@ bool CFtpFile::FTP_CreateDirectory(string path)
 
     while (pos > 0)
     {
-        // 从第二个“/”开始依次找到目的路径中的“/”位置
+        // �ӵڶ�����/����ʼ�����ҵ�Ŀ��·���еġ�/��λ��
         pos = path.find_first_of('/', pos + 1);
         if (pos == -1)
             break;

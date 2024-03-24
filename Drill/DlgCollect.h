@@ -66,7 +66,7 @@ private:
 #define     VALIDDATA   1
 #define     LASTDATA    2
 #define     INVALIDDATA 3
-    UINT    m_nCollectStatus;   /* æ”¶é›†æ•°æ®çš„çŠ¶æ€ */
+    UINT    m_nCollectStatus;   /* ÊÕ¼¯Êı¾İµÄ×´Ì¬ */
     UINT    m_nCollCmdType[4];
     CString m_strLastError;
 };

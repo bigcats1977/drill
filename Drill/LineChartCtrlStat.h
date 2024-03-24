@@ -63,25 +63,25 @@ public:
     void    DrawMultiScatter(TORQUEDATA* ptTorqData);
 
 public:
-    /* æ‰­çŸ©æ˜¾ç¤ºç›¸å…³å‚æ•° */
-    //double       m_fUpperLimit; /* æœ€å¤§æ‰­çŸ© */
-    //double       m_fLowerLimit; /* æœ€å°æ‰­çŸ© */
-    double       m_fOptTorq;    /* æœ€ä½³æ‰­çŸ© */
-    //double       m_fSpeedDown;  /* å‡é€Ÿæ‰­çŸ© */
-    double       m_fShow;       /* æ˜¾ç¤ºæ‰­çŸ© */
-    double       m_fControlCir; /* æ§åˆ¶å‘¨æ•° */
-    double       m_fUpperCir;   /* ä¸Šé™å‘¨æ•° */
-    double       m_fLowerCir;   /* ä¸‹é™å‘¨æ•° */
-    double       m_fMaxCir;     /* æœ€å¤§å‘¨æ•° */
-    double       m_fMaxLimit;   /* æœ€å¤§ä¸Šé™ */
-    //double       m_fBear;       /* è‚©è´Ÿæ‰­çŸ© */
+    /* Å¤¾ØÏÔÊ¾Ïà¹Ø²ÎÊı */
+    //double       m_fUpperLimit; /* ×î´óÅ¤¾Ø */
+    //double       m_fLowerLimit; /* ×îĞ¡Å¤¾Ø */
+    double       m_fOptTorq;    /* ×î¼ÑÅ¤¾Ø */
+    //double       m_fSpeedDown;  /* ¼õËÙÅ¤¾Ø */
+    double       m_fShow;       /* ÏÔÊ¾Å¤¾Ø */
+    double       m_fControlCir; /* ¿ØÖÆÖÜÊı */
+    double       m_fUpperCir;   /* ÉÏÏŞÖÜÊı */
+    double       m_fLowerCir;   /* ÏÂÏŞÖÜÊı */
+    double       m_fMaxCir;     /* ×î´óÖÜÊı */
+    double       m_fMaxLimit;   /* ×î´óÉÏÏŞ */
+    //double       m_fBear;       /* ¼ç¸ºÅ¤¾Ø */
 
-    //double       m_fUpperTai;   /* æœ€å¤§å°çŸ© */
-    //double       m_fCtrlTai;  /* æœ€ä½³å°çŸ© å³ä¸ºå‡é€Ÿæ‰­çŸ©ï¼Œç›´æ¥ä½¿ç”¨å‡é€Ÿæ‰­çŸ© */
-    //double       m_fLowerTai;   /* æœ€å°å°çŸ© */
+    //double       m_fUpperTai;   /* ×î´óÌ¨¾Ø */
+    //double       m_fCtrlTai;  /* ×î¼ÑÌ¨¾Ø ¼´Îª¼õËÙÅ¤¾Ø£¬Ö±½ÓÊ¹ÓÃ¼õËÙÅ¤¾Ø */
+    //double       m_fLowerTai;   /* ×îĞ¡Ì¨¾Ø */
 
     //BOOL         m_bBear;
-    BOOL         m_bAlign;      /* æŒ‰æ‰­çŸ©å¯¹é½ */
+    BOOL         m_bAlign;      /* °´Å¤¾Ø¶ÔÆë */
     BOOL         m_bScatter;
 
     // Generated message map functions

@@ -29,11 +29,11 @@ BEGIN_MESSAGE_MAP(CDrillApp, CWinApp)
 END_MESSAGE_MAP()
 
 
-/*********************代码宏************************************/
+/*********************�����************************************/
 
 
-/* 打印DEBUG信息时，指针自动往后移动
-   变量pData和iLen都约定好，减少入参 */
+/* ��ӡDEBUG��Ϣʱ��ָ���Զ������ƶ�
+   ����pData��iLen��Լ���ã�������� */
 #define INC_DBG_INFO()                  {                       \
         m_tSaveLog.iCur += iLen;                                \
         pData += iLen;                                          \
@@ -82,28 +82,28 @@ BOOL CALLBACK EnumWndProc(HWND hwnd, LPARAM lParam)
 
 void CDrillApp::InitSysPath()
 {
-    CTime   time = CTime::GetCurrentTime();//得到当前时间
+    CTime   time = CTime::GetCurrentTime();//�õ���ǰʱ��
     char buffer[MAX_PATH + 1] = { 0 };
 
     GetModuleFileName(NULL, buffer, MAX_PATH);
-    (_tcsrchr(buffer, _T('\\')))[1] = 0; // 删除文件名，只获得路径字串
+    (_tcsrchr(buffer, _T('\\')))[1] = 0; // ɾ���ļ�����ֻ���·���ִ�
     m_strAppPath = buffer;
 
-    /* 创建数据路径 */
+    /* ��������·�� */
     m_strDataPath = m_strAppPath + "Data\\";
     CreateDirectory(m_strDataPath.c_str(), NULL);
 
-    /* 创建操作记录路径 */
+    /* ����������¼·�� */
     m_strLogPath = m_strAppPath + "Log\\";
     CreateDirectory(m_strLogPath.c_str(), NULL);
 
-    /*注册文件路径*/
+    /*ע���ļ�·��*/
     m_strRegFile = m_strAppPath + REGNAME;
 
-    /* 动态链接库路径 */
+    /* ��̬���ӿ�·�� */
     m_strDllFile = m_strAppPath + CHNDLLNAME;
 
-    /*构造保存正常Log数据的文件路径*/
+    /*���챣������Log���ݵ��ļ�·��*/
     m_strLogFile = m_strLogPath;
     m_strLogFile += time.Format(IDS_STRDATEFORM);
     m_strLogFile += _T(".dbg");
@@ -441,9 +441,9 @@ BOOL CDrillApp::InitInstance()
 
     AfxInitRichEdit2();
 
-    // 添加了OLE/COM的初始化代码
+    // ������OLE/COM�ĳ�ʼ������
     AfxOleInit();
-    /* 避免弹出“由于另一个程序正在运行... */
+    /* ���ⵯ����������һ��������������... */
     COleMessageFilter* ptFilter = AfxOleGetMessageFilter();
     ptFilter->EnableBusyDialog(FALSE);
     /* AfxOleGetMessageFilter()->EnableBusyDialog(FALSE);
@@ -451,10 +451,10 @@ BOOL CDrillApp::InitInstance()
      AfxOleGetMessageFilter()->EnableNotRespondingDialog(TRUE);
      AfxOleGetMessageFilter()->SetMessagePendingDelay(-1);*/
 
-     /* 让程序退出时自动调用内存泄漏检测函数 */
+     /* �ó����˳�ʱ�Զ������ڴ�й©��⺯�� */
      //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-    hdcScreen = GetDC(NULL);   //获取屏幕的HDC  
+    hdcScreen = GetDC(NULL);   //��ȡ��Ļ��HDC  
     float ScaleX = (float)GetDeviceCaps(hdcScreen, DESKTOPHORZRES) / (float)GetDeviceCaps(hdcScreen, HORZRES);
     float ScaleY = (float)GetDeviceCaps(hdcScreen, DESKTOPVERTRES) / (float)GetDeviceCaps(hdcScreen, VERTRES);
 
@@ -492,25 +492,25 @@ BOOL CDrillApp::InitInstance()
     //  of your final executable, you should remove from the following
     //  the specific initialization routines you do not need.
 
-    /*  测试生成dump文件 */
-    /* symbols路径设置
+    /*  ��������dump�ļ� */
+    /* symbols·������
        SRV*http://msdl.microsoft.com/download/symbols;C:\Windows\symbols;D:\Project\Torque\3.18\Release */
-       /*  符号分析命令
+       /*  ���ŷ�������
            !analyze -v */
 
-    //这里得到的是程序当前路径
+    //����õ����ǳ���ǰ·��
     InitSysPath();
 
-    /* 打开LogFile*/
+    /* ��LogFile*/
     m_tSaveLog.iCur = 0;
     m_SaveLogFile.Open(m_strLogFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
     
-    /* 打开TCPLogFile*/
+    /* ��TCPLogFile*/
     m_tSaveTCP.iCur = 0;
     m_SaveTCPFile.Open(m_strTCPFile.c_str(), CFile::modeCreate | CFile::modeNoTruncate | CFile::modeReadWrite | CFile::shareDenyNone, NULL);
 
     InitArray();
-    /* 获取数据库文件 */
+    /* ��ȡ���ݿ��ļ� */
     UINT initStep = 0xFFFFFFFF;
     if (!theDB.InitConfigFromDB(initStep))
     {
@@ -520,7 +520,7 @@ BOOL CDrillApp::InitInstance()
 
     // for debug
     // g_tGlbCfg.nTest = 4;
-    /* 初始化数组、变量 */
+    /* ��ʼ�����顢���� */
     InitVariant();
     InitLanguage();
     SetRegistryKey(_T("zsg Applications"));
@@ -739,13 +739,13 @@ BOOL CDrillApp::SetShowNOFromID(int iType, string lsID, SHOWCFG* ptShow)
         return FALSE;
 
     //iParaNum = ptShow->nListNum;
-    //if (0 == iType)     //当前list
+    //if (0 == iType)     //��ǰlist
     //{
     //    iParaNum = ptShow->nListNum;
     //    plsNO = &ptShow->nList[0];
     //    lsNO = GetIDFromList(lsID);
     //}
-    //else                //当前main
+    //else                //��ǰmain
     {
         iParaNum = ptShow->nMainNum;
         plsNO = &ptShow->nMain[0];
@@ -784,26 +784,26 @@ void CDrillApp::InitXlsStatPara(XLSSTATCFG* ptStat)
     memset(ptStat, 0, sizeof(XLSSTATCFG));
 
     // 7,16,6,11,15,
-    ptStat->GenPara[0] = 7;        /* 7  井号 */
-    ptStat->GenPara[1] = 16;       /* 16 井深 */
-    ptStat->GenPara[2] = 6;        /* 6  甲方名称 */
-    ptStat->GenPara[3] = 11;       /* 11 操作工 */
-    ptStat->GenPara[4] = 15;       /* 15 入井序号 */
+    ptStat->GenPara[0] = 7;        /* 7  ���� */
+    ptStat->GenPara[1] = 16;       /* 16 ���� */
+    ptStat->GenPara[2] = 6;        /* 6  �׷����� */
+    ptStat->GenPara[3] = 11;       /* 11 ������ */
+    ptStat->GenPara[4] = 15;       /* 15 �뾮��� */
 
     // 1,2,3,5,8,12,
-    ptStat->JobPara[0] = 1;         /* 1  钻杆材质 */
-    ptStat->JobPara[1] = 2;         /* 2 钻杆规格 */
-    ptStat->JobPara[2] = 3;         /* 3  钻杆级别 */
-    ptStat->JobPara[3] = 5;         /* 5 油田名称 */
-    ptStat->JobPara[4] = 8;         /* 8 勘探公司 */
-    ptStat->JobPara[5] = 12;        /* 12 钻杆钳 */
+    ptStat->JobPara[0] = 1;         /* 1  ��˲��� */
+    ptStat->JobPara[1] = 2;         /* 2 ��˹�� */
+    ptStat->JobPara[2] = 3;         /* 3  ��˼��� */
+    ptStat->JobPara[3] = 5;         /* 5 �������� */
+    ptStat->JobPara[4] = 8;         /* 8 ��̽��˾ */
+    ptStat->JobPara[5] = 12;        /* 12 ���ǯ */
 
     // 1,2,
-    ptStat->InfoPara[0] = 1;        /* 1  钻杆材质 */
-    ptStat->InfoPara[1] = 2;        /* 2 钻杆规格 */
+    ptStat->InfoPara[0] = 1;        /* 1  ��˲��� */
+    ptStat->InfoPara[1] = 2;        /* 2 ��˹�� */
 }
 
-/* 扭矩参数 相差 DIFF_TORQUE 10 */
+/* Ť�ز��� ��� DIFF_TORQUE 10 */
 void CDrillApp::AdjustTorquePara(CONTROLPARA* ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
@@ -815,7 +815,7 @@ void CDrillApp::AdjustTorquePara(CONTROLPARA* ptCtrl)
     //CHECK_PARA_LOW(ptCtrl->fTorqConf[INDEX_TORQ_BEAR],      ptCtrl->fTorqConf[INDEX_TORQ_SPEEDDOWN],  DIFF_TORQUE);
 }
 
-/* 周参数 相差 DIFF_CIRCUIT 0.1 */
+/* �ܲ��� ��� DIFF_CIRCUIT 0.1 */
 void CDrillApp::AdjustCircuitPara(CONTROLPARA* ptCtrl)
 {
     ASSERT_NULL(ptCtrl);
@@ -833,10 +833,10 @@ void CDrillApp::AdjustParaValue(PARACFG* ptCfg)
     ASSERT_NULL(ptCfg);
     ptCtrl = &ptCfg->tCtrl;
 
-    /* 扭矩参数 相差10 */
+    /* Ť�ز��� ���10 */
     AdjustTorquePara(ptCtrl);
 
-    /* 扭拧周数 相差0.1 */
+    /* Ťš���� ���0.1 */
     AdjustCircuitPara(ptCtrl);
 }
 
@@ -870,7 +870,7 @@ bool CDrillApp::GetProductVersion(CString& strVersion)
     return true;
 }
 
-/* 获取MAC地址 */
+/* ��ȡMAC��ַ */
 void CDrillApp::GetMACAddr(UCHAR* pcMac)
 {
     NCB     ncb;
@@ -882,20 +882,20 @@ void CDrillApp::GetMACAddr(UCHAR* pcMac)
 
     memset(&ncb, 0, sizeof(ncb));
     ncb.ncb_command = NCBRESET;
-    ncb.ncb_lana_num = 0; // 指定网卡号
-    // 首先对选定的网卡发送一个NCBRESET命令,以便进行初始化
+    ncb.ncb_lana_num = 0; // ָ��������
+    // ���ȶ�ѡ������������һ��NCBRESET����,�Ա���г�ʼ��
     Netbios(&ncb);
 
     memset(&ncb, 0, sizeof(ncb));
     ncb.ncb_command = NCBASTAT;
-    ncb.ncb_lana_num = 0; // 指定网卡号
+    ncb.ncb_lana_num = 0; // ָ��������
     ncb.ncb_callname[0] = '*';
     ncb.ncb_callname[1] = '\0';
-    ncb.ncb_buffer = (unsigned char*)&Adapter; // 指定返回的信息存放的变量
+    ncb.ncb_buffer = (unsigned char*)&Adapter; // ָ�����ص���Ϣ��ŵı���
     ncb.ncb_length = sizeof(Adapter);
-    // 接着,可以发送NCBASTAT命令以获取网卡的信息
+    // ����,���Է���NCBASTAT�����Ի�ȡ��������Ϣ
     uRetCode = Netbios(&ncb);
-    // 强制设定为获取网卡失败，使用默认Mac
+    // ǿ���趨Ϊ��ȡ����ʧ�ܣ�ʹ��Ĭ��Mac
     uRetCode = 1;
     if (uRetCode == 0)
     {
@@ -958,11 +958,11 @@ string  CDrillApp::GetQualityInfo(TorqData::Torque* ptTorq)
 
     ASSERT_NULL_R(ptTorq, strQuality);
 
-    /* 卸扣不考虑质量问题，直接返回卸扣图形 */
+    /* ж�۲������������⣬ֱ�ӷ���ж��ͼ�� */
     if (HaveBreakout(ptTorq) && !HaveMakeUP(ptTorq))
         return LoadstringFromRes(IDS_STRMARKBREAKOUT);
 
-    /* 测试版本，直接根据数据判断质量 */
+    /* ���԰汾��ֱ�Ӹ��������ж����� */
     dwQuality = GetQuality(ptTorq);
     if (dwQuality & QUA_RESU_QUALITYBIT)
     {
@@ -994,7 +994,7 @@ int CDrillApp::GetQualityIndex(TorqData::Torque* ptTorq)
 
     ASSERT_NULL_R(ptTorq, -1);
 
-    /* 测试版本，直接根据数据判断质量 */
+    /* ���԰汾��ֱ�Ӹ��������ж����� */
     dwQuality = GetQuality(ptTorq);
 
     if (dwQuality & QUA_RESU_QUALITYBIT)
@@ -1033,12 +1033,12 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
     if (filename.empty())
     {
         strTime.Format("%04d%02d%02d%02d%02d%02d",
-            tDay.GetYear(),      //yyyy年
-            tDay.GetMonth(),     //mm月份
-            tDay.GetDay(),       //dd日
-            tDay.GetHour(),      //hh小时
-            tDay.GetMinute(),    //mm分钟
-            tDay.GetSecond());   //ss秒
+            tDay.GetYear(),      //yyyy��
+            tDay.GetMonth(),     //mm�·�
+            tDay.GetDay(),       //dd��
+            tDay.GetHour(),      //hhСʱ
+            tDay.GetMinute(),    //mm����
+            tDay.GetSecond());   //ss��
         filename = strTime + ".xlsx";
     }
 
@@ -1074,7 +1074,7 @@ bool CDrillApp::SaveList2XlsFile(string filename, CListCtrl* ptList)
         slContent.AddTail(hdi.pszText);
     }
 
-    // 导入list里面的数据
+    // ����list���������
     iRowNum = ptList->GetItemCount();
     for (i = 0; i < iRowNum; i++)
     {
@@ -1129,9 +1129,9 @@ void CDrillApp::ShowMainTitle()
     return;
 }
 
-/* 无效数据直接跳过，节省读取时间
-   无效数据现在都以"####"开头
-   CRC数据也不计数了 */
+/* ��Ч����ֱ����������ʡ��ȡʱ��
+   ��Ч�������ڶ���"####"��ͷ
+   CRC����Ҳ�������� */
 BOOL CDrillApp::IsDebugInfo(string strContent)
 {
     int     i = 0;
@@ -1271,9 +1271,9 @@ void CDrillApp::SaveCommunication(BYTE* msg, WORD wLen, UINT nType)
     SaveHexData(msg, wLen);
 }
 
-/* 保存正常的原始数据，测试和定位使用
-   正常有效数据，不需要DEBUG HEAD
-   在CTRL+SHIFT+T 显示CRC 框后生效 */
+/* ����������ԭʼ���ݣ����ԺͶ�λʹ��
+   ������Ч���ݣ�����ҪDEBUG HEAD
+   ��CTRL+SHIFT+T ��ʾCRC �����Ч */
 void CDrillApp::SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
@@ -1288,8 +1288,8 @@ void CDrillApp::SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
 
     pData = &m_tSaveLog.aucLog[m_tSaveLog.iCur];
 
-    /* 原始串口的扭矩和脉冲数据 */
-    if (wLen == PORT_VLDVLVLEN)  // 打印阀门的2个状态字节
+    /* ԭʼ���ڵ�Ť�غ��������� */
+    if (wLen == PORT_VLDVLVLEN)  // ��ӡ���ŵ�2��״̬�ֽ�
     {
         iLen = sprintf_s(pData, SPRINTFLEN, "%02x %02x %02x %02x %02x %02x %02x %02x %02x ",
             ptOrgData->ucRcvByte[0],
@@ -1315,7 +1315,7 @@ void CDrillApp::SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
     }
     INC_DBG_INFO();
 
-    /* 计算的扭矩等信息 */
+    /* �����Ť�ص���Ϣ */
     iLen = sprintf_s(pData, 60, "T%10ld, P%10ld, S%4d, N%4d, R%6.2f\r\n",
         ptOrgData->nTorque,
         ptOrgData->nPlus,
@@ -1324,8 +1324,8 @@ void CDrillApp::SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
         ptOrgData->fRpm);
     INC_DBG_INFO();
 
-    /* 有效数据的长度应该大于12，有长度为24的数据，也可以尽可能取出一条来，
-       但是前12个数据通过CRC校验，则当做普通数据处理，调试开关打开时也将原始数据保存下来 */
+    /* ��Ч���ݵĳ���Ӧ�ô���12���г���Ϊ24�����ݣ�Ҳ���Ծ�����ȡ��һ������
+       ����ǰ12������ͨ��CRCУ�飬������ͨ���ݴ��������Կ��ش�ʱҲ��ԭʼ���ݱ������� */
     if (wLen != PORT_VALIDLEN && wLen != PORT_VLDVLVLEN)
     {
         /* Time */
@@ -1343,9 +1343,9 @@ void CDrillApp::SaveOrdData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
     return;
 }
 
-/* 保存正常的原始数据，测试和定位使用
-   正常有效数据，不需要DEBUG HEAD
-   在CTRL+SHIFT+T 显示CRC 框后生效 */
+/* ����������ԭʼ���ݣ����ԺͶ�λʹ��
+   ������Ч���ݣ�����ҪDEBUG HEAD
+   ��CTRL+SHIFT+T ��ʾCRC �����Ч */
 void CDrillApp::SaveMultiData(ORGDATA* ptOrgData, BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
@@ -1385,7 +1385,7 @@ BOOL CDrillApp::MsgLenIsZero(WORD wLen, UINT nType)
 
     COMP_BNE_R(wLen, 0, FALSE);
 
-    /* 只有m_bShowCRC打开，才记录长度为0的数据 */
+    /* ֻ��m_bShowCRC�򿪣��ż�¼����Ϊ0������ */
     COMP_BFALSE_R(m_bShowCRC, TRUE);
 
     SaveCurTimeAndHead(nType);
@@ -1399,9 +1399,9 @@ BOOL CDrillApp::MsgLenIsZero(WORD wLen, UINT nType)
     return TRUE;
 }
 
-/* 保存CRC错误的原始数据，测试和定位使用
-   有CRC错误都会自动保存
-   CRC或者串口错误、长度不对数据 */
+/* ����CRC�����ԭʼ���ݣ����ԺͶ�λʹ��
+   ��CRC���󶼻��Զ�����
+   CRC���ߴ��ڴ��󡢳��Ȳ������� */
 void CDrillApp::SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr)
 {
     char* pData = NULL;
@@ -1412,10 +1412,10 @@ void CDrillApp::SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr)
 
     COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
 
-    /* 消息长度为0，处理后直接返回 */
+    /* ��Ϣ����Ϊ0��������ֱ�ӷ��� */
     COMP_BTRUE(MsgLenIsZero(wLen, DBG_HASH));
 
-    /* 对话框中的CRC错误数目+1 */
+    /* �Ի����е�CRC������Ŀ+1 */
     nCRCErr++;
 
     SaveCurTimeAndHead(DBG_HASH);
@@ -1431,7 +1431,7 @@ void CDrillApp::SaveCrcErrorData(BYTE* pucRcvByte, WORD wLen, UINT& nCRCErr)
     return;
 }
 
-/* 采集数据时出错信息保存 */
+/* �ɼ�����ʱ������Ϣ���� */
 void CDrillApp::SaveCollectErrorData(string strError, BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
@@ -1442,7 +1442,7 @@ void CDrillApp::SaveCollectErrorData(string strError, BYTE* pucRcvByte, WORD wLe
 
     COMP_BNE(g_tGlbCfg.nTest, COLL_PORT);
 
-    /* 消息长度为0，处理后直接返回 */
+    /* ��Ϣ����Ϊ0��������ֱ�ӷ��� */
     COMP_BTRUE(MsgLenIsZero(wLen, DBG_COLLECT));
 
     SaveCurTimeAndHead(DBG_COLLECT);
@@ -1458,7 +1458,7 @@ void CDrillApp::SaveCollectErrorData(string strError, BYTE* pucRcvByte, WORD wLe
     return;
 }
 
-/* 保存采集数据普通信息 */
+/* ����ɼ�������ͨ��Ϣ */
 void CDrillApp::SaveCollectOrgData(BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
@@ -1481,7 +1481,7 @@ void CDrillApp::SaveCollectOrgData(BYTE* pucRcvByte, WORD wLen)
     return;
 }
 
-//保存复位时的串口数据
+//���渴λʱ�Ĵ�������
 void CDrillApp::SaveResetData(BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
@@ -1506,7 +1506,7 @@ void CDrillApp::SaveResetData(BYTE* pucRcvByte, WORD wLen)
     return;
 }
 
-//保存上位机发送到串口数据
+//������λ�����͵���������
 void CDrillApp::SaveSendData(string strCmd, BYTE* pucRcvByte, WORD wLen)
 {
     char* pData = NULL;
@@ -1525,14 +1525,14 @@ void CDrillApp::SaveSendData(string strCmd, BYTE* pucRcvByte, WORD wLen)
     iLen = sprintf_s(pData, SPRINTFLEN, "%s(len%2d)\r\n", strCmd.c_str(), wLen);
     INC_DBG_INFO();
 
-    /* 对外不展现modbus编码 */
+    /* ���ⲻչ��modbus���� */
     return;
 
     /* source serial data */
     SaveHexData(pucRcvByte, wLen);
 }
 
-//保存串口发送错误数据
+//���洮�ڷ��ʹ�������
 void CDrillApp::SaveSendFailure(UINT nCmdType)
 {
     char* pData = NULL;
@@ -1554,7 +1554,7 @@ void CDrillApp::SaveSendFailure(UINT nCmdType)
 
 void CDrillApp::AutoupdateLogFile()
 {
-    CTime   time = CTime::GetCurrentTime();//得到当前时间
+    CTime   time = CTime::GetCurrentTime();//�õ���ǰʱ��
     string  newLog;
 
     newLog = m_strLogPath;
@@ -1579,7 +1579,7 @@ void CDrillApp::SaveLogInfo()
 {
     COMP_BL(m_tSaveLog.iCur, 1);
 
-    // 20230524 到新的一天，自动更新log文件
+    // 20230524 ���µ�һ�죬�Զ�����log�ļ�
     AutoupdateLogFile();
 
     m_SaveLogFile.SeekToEnd();
@@ -1593,7 +1593,7 @@ void CDrillApp::SaveTCPInfo()
 {
     COMP_BL(m_tSaveTCP.iCur, 1);
 
-    // 20230524 到新的一天，自动更新log文件
+    // 20230524 ���µ�һ�죬�Զ�����log�ļ�
     AutoupdateLogFile();
 
     m_SaveTCPFile.SeekToEnd();
@@ -1603,7 +1603,7 @@ void CDrillApp::SaveTCPInfo()
     return;
 }
 
-//保存程序运行状态
+//�����������״̬
 void CDrillApp::SaveAppStatus(UINT nStatus, string strInfo)
 {
     char* pData = NULL;
@@ -1623,7 +1623,7 @@ void CDrillApp::SaveAppStatus(UINT nStatus, string strInfo)
     return;
 }
 
-//保存端口操作记录 打开/关闭
+//����˿ڲ�����¼ ��/�ر�
 void CDrillApp::SavePortOper(UINT nPortOpr)
 {
     return;
@@ -1644,7 +1644,7 @@ void CDrillApp::SavePortOper(UINT nPortOpr)
     return;
 }
 
-//保存发送消息时的异常的串口缓冲数据
+//���淢����Ϣʱ���쳣�Ĵ��ڻ�������
 void CDrillApp::SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta)
 {
     char* pData = NULL;
@@ -1672,7 +1672,7 @@ void CDrillApp::SavePortBufData(BYTE* pucRcvByte, WORD wLen, UINT nClashSta)
     return;
 }
 
-/* 保存MessageBox显示的信息到文件 */
+/* ����MessageBox��ʾ����Ϣ���ļ� */
 void CDrillApp::SaveMessage(string strMessage)
 {
     char* pData = NULL;
@@ -1703,7 +1703,7 @@ void CDrillApp::AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType)
     CRect       oldRect;
     CRect       newRect;
     CRect       Rect;
-    //左右上角的数据  
+    //�����Ͻǵ�����  
     CPoint      OldTLPoint, NewTLPint;
     CPoint      OldBRPoint, NewBRPint;
     CFont* pFont = NULL;
@@ -1717,7 +1717,7 @@ void CDrillApp::AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType)
         nPageHeight = 120 * m_ucDPILevel / 4;
     }
 
-    pdlgAdapt->GetClientRect(&oldRect);                        /* 对话框大小 */
+    pdlgAdapt->GetClientRect(&oldRect);                        /* �Ի����С */
 
     COMP_BGE(m_nScreenY, (oldRect.Height() + nPageHeight));
 
@@ -1743,17 +1743,17 @@ void CDrillApp::AdaptDlgCtrlSize(CDialog* pdlgAdapt, UINT nSheetType)
     Newp.x = int(oldRect.Width() * fRatio);
     Newp.y = int(oldRect.Height() * fRatio);
 
-    /* 对话框先缩小 */
+    /* �Ի�������С */
     pdlgAdapt->MoveWindow(0, 0, Newp.x, Newp.y);
     pdlgAdapt->CenterWindow();
 
-    //获取现在对话框的大小 
-    pdlgAdapt->GetClientRect(&newRect);     //取客户区大小  
+    //��ȡ���ڶԻ���Ĵ�С 
+    pdlgAdapt->GetClientRect(&newRect);     //ȡ�ͻ�����С  
     HWND  hwndChild = ::GetWindow(pdlgAdapt->m_hWnd, GW_CHILD);
 
     while (hwndChild)
     {
-        //取得ID  
+        //ȡ��ID  
         woc = ::GetDlgCtrlID(hwndChild);
         pdlgAdapt->GetDlgItem(woc)->GetWindowRect(Rect);
         pdlgAdapt->ScreenToClient(Rect);
@@ -1777,7 +1777,7 @@ void CDrillApp::ReOpenWindow()
     dlgMain.DoModal();
 }
 
-/* 播放3s告警，放一次，停300ms，播放10次 */
+/* ����3s�澯����һ�Σ�ͣ300ms������10�� */
 void CDrillApp::PlayAlarmSound()
 {
     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMEXCLAMATION, NULL, SND_ALIAS_ID | SND_ASYNC | SND_LOOP);
@@ -1802,21 +1802,21 @@ DWORD CDrillApp::GetQuality(TorqData::Torque* ptTorq)
 #endif
 }
 
-/* 质量判定 */
-/* 20180804 喻 API普通扣不需要拐点，合格判定以控制扭矩为准，超过最大扭矩和低于最小扭矩为不合格 == 卸扣版本*/
+/* �����ж� */
+/* 20180804 �� API��ͨ�۲���Ҫ�յ㣬�ϸ��ж��Կ���Ť��Ϊ׼���������Ť�غ͵�����СŤ��Ϊ���ϸ� == ж�۰汾*/
 /*
-  不合格-超最大扭矩 不合格-扭矩过小 不合格-图形不标准 不合格-无拐点 不合格-打滑 不合格-起始扭矩大 不合格-图形平移
-不合格-斜率＜5
-不合格-卸扣检查
-不合格-试压不密封
-不合格-工厂端泄漏
-不合格-工厂端位移
-***-*****位置不够"-"可以不要
+  ���ϸ�-�����Ť�� ���ϸ�-Ť�ع�С ���ϸ�-ͼ�β���׼ ���ϸ�-�޹յ� ���ϸ�-�� ���ϸ�-��ʼŤ�ش� ���ϸ�-ͼ��ƽ��
+���ϸ�-б�ʣ�5
+���ϸ�-ж�ۼ��
+���ϸ�-��ѹ���ܷ�
+���ϸ�-������й©
+���ϸ�-������λ��
+***-*****λ�ò���"-"���Բ�Ҫ
 */
-// 卸扣数据不在此处判断
+// ж�����ݲ��ڴ˴��ж�
 DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq)
 {
-    DWORD       dwQuality = QUA_RESU_BAD; /* 默认质量NOK */
+    DWORD       dwQuality = QUA_RESU_BAD; /* Ĭ������NOK */
     WORD        wIPPos = 0;
     WORD        wSchPos = 0;
     double      fMaxTorq = 0;
@@ -1837,13 +1837,13 @@ DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq)
 
     //SET_QUALITY_BIT(fMaxTorq < ptTorq->flowerlimit(), QUA_TORQ_LESS_LIMIT, dwQuality);
     //SET_QUALITY_BIT(fMaxTorq > ptTorq->fupperlimit(), QUA_TORQ_MORE_LIMIT, dwQuality);
-    /* 实际的起始扭矩大于最佳扭矩的15% */
+    /* ʵ�ʵ���ʼŤ�ش������Ť�ص�15% */
     SET_QUALITY_BIT(ptTorq->ftorque(0) > (GetOptTorq(ptTorq) * 0.15), QUA_TORQ_MORE_START, dwQuality);
 
-    /* 超过台阶再平移周数超过0.2 */
+    /* ����̨����ƽ����������0.2 */
     SET_QUALITY_BIT(JudgeTranslate(ptTorq), QUA_TRANSLATE, dwQuality);
 
-    /* 图形周数小于0.20或者贴边 */
+    /* ͼ������С��0.20�������� */
     SET_QUALITY_BIT(fCircle < ptTorq->flowercir(), QUA_CIRC_LESS_LIMIT, dwQuality);
 
     if (dwQuality == 0)
@@ -1854,7 +1854,7 @@ DWORD CDrillApp::JudgeQuality(TorqData::Torque* ptTorq)
     return dwQuality;
 }
 
-/* 超过控制扭矩的15%再平移周数超过0.2 */
+/* ��������Ť�ص�15%��ƽ����������0.2 */
 BOOL CDrillApp::JudgeTranslate(TorqData::Torque* ptTorq)
 {
     int     i = 0;
@@ -1871,8 +1871,8 @@ BOOL CDrillApp::JudgeTranslate(TorqData::Torque* ptTorq)
 
     for (i = ptTorq->dwmucount() - 1; i > iTranCount; i--)
     {
-        //if (ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // 小于控制扭矩的15%
-        //if (ptTorq->ftorque(i) < ptTorq->flowertai()) // 小于最小台阶扭矩
+        //if (ptTorq->ftorque(i) < ptTorq->fcontrol()*0.15) // С�ڿ���Ť�ص�15%
+        //if (ptTorq->ftorque(i) < ptTorq->flowertai()) // С����С̨��Ť��
         //    break;
 
         fTemp = (ptTorq->ftorque(i) - ptTorq->ftorque(i - iTranCount)) / fCtrlTorq;
@@ -1919,7 +1919,7 @@ CString CDrillApp::GetTorqFullDate(TorqData::Torque* ptTorq, bool bBreakout)
 
     if (LANGUAGE_CHINESE == g_tGlbCfg.nLangType)
     {
-        return olett.Format(_T("%Y年%m月%d日"));
+        return olett.Format(_T("%Y��%m��%d��"));
     }
 
     /* February 17, 2020 */
@@ -1968,21 +1968,21 @@ bool CDrillApp::GetTimeFromString(CString strTime, __time64_t& time)
     return true;
 }
 
-/* 拷贝指定区域到DC的位图中 */
+/* ����ָ������DC��λͼ�� */
 HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, UINT width, UINT height)
 {
-    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
-    HBITMAP     hBitmap = NULL; // 位图句柄
+    HDC         hMemDC = NULL; // ��Ļ���ڴ��豸������
+    HBITMAP     hBitmap = NULL; // λͼ���
     HBITMAP     hOldBitmap = NULL;
 
-    // 确保选定区域不为空矩形
+    // ȷ��ѡ������Ϊ�վ���
     ASSERT_ZERO_R(width, NULL);
     ASSERT_ZERO_R(height, NULL);
 
-    // 为屏幕设备描述表创建兼容的内存设备描述表
+    // Ϊ��Ļ�豸�������������ݵ��ڴ��豸������
     hMemDC = CreateCompatibleDC(hScrDC);
 
-    // 创建一个与屏幕设备描述表兼容的位图
+    // ����һ������Ļ�豸���������ݵ�λͼ
     hBitmap = CreateCompatibleBitmap(hScrDC, width, height);
     /*while(!hBitmap)
     {
@@ -1990,62 +1990,62 @@ HBITMAP CDrillApp::CopyDCToBitmap(HDC hScrDC, UINT width, UINT height)
         hBitmap  = CreateCompatibleBitmap(hScrDC, (int)(iWidth*fFactor), (int)(iHeight*fFactor));
     }*/
 
-    // 把新位图选到内存设备描述表中
+    // ����λͼѡ���ڴ��豸��������
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
-    // 把屏幕设备描述表拷贝到内存设备描述表中
+    // ����Ļ�豸�������������ڴ��豸��������
     StretchBlt(hMemDC, 0, 0, width, height, hScrDC, 0, 0, width, height, SRCCOPY);
 
-    // 得到位图的句柄
+    // �õ�λͼ�ľ��
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
 
-    // 清除
+    // ���
     DeleteDC(hMemDC);
     DeleteObject(hOldBitmap);
 
-    // 返回位图句柄
+    // ����λͼ���
     return   hBitmap;
 }
 
 int CDrillApp::CopyDCToPNGFile(HDC hScrDC, UINT nNO, string strFile, UINT width, UINT height, bool bRotate)
 {
-    HDC         hMemDC = NULL; // 屏幕和内存设备描述表
-    HBITMAP     hBitmap = NULL; // 位图句柄
+    HDC         hMemDC = NULL; // ��Ļ���ڴ��豸������
+    HBITMAP     hBitmap = NULL; // λͼ���
     HBITMAP     hOldBitmap = NULL;
 
-    // 确保选定区域不为空矩形
+    // ȷ��ѡ������Ϊ�վ���
     ASSERT_ZERO_R(width, -1);
     ASSERT_ZERO_R(height, -1);
 
-    // 为屏幕设备描述表创建兼容的内存设备描述表
+    // Ϊ��Ļ�豸�������������ݵ��ڴ��豸������
     hMemDC = CreateCompatibleDC(hScrDC);
 
-    // 创建一个与屏幕设备描述表兼容的位图
+    // ����һ������Ļ�豸���������ݵ�λͼ
     hBitmap = CreateCompatibleBitmap(hScrDC, width, height);
 
-    // 把新位图选到内存设备描述表中
+    // ����λͼѡ���ڴ��豸��������
     hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
-    // 把屏幕设备描述表拷贝到内存设备描述表中
+    // ����Ļ�豸�������������ڴ��豸��������
     StretchBlt(hMemDC, 0, 0, width, height, hScrDC, 0, 0, width, height, SRCCOPY);
 
-    // 得到位图的句柄
+    // �õ�λͼ�ľ��
     hBitmap = (HBITMAP)SelectObject(hMemDC, hOldBitmap);
     SavePNG(hBitmap, strFile, bRotate);
-    // 清除
+    // ���
     DeleteDC(hMemDC);
     DeleteObject(hOldBitmap);
     DeleteObject(hBitmap);
 
-    // 返回位图句柄
+    // ����λͼ���
     return   0;
 }
 
-/* 根据HBITMAP获取图像数据，供后面保存文件使用，保存后需要释放HANDLE */
+/* ����HBITMAP��ȡͼ�����ݣ������汣���ļ�ʹ�ã��������Ҫ�ͷ�HANDLE */
 HANDLE CDrillApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& dwBmBitsSize)
 {
-    WORD                wBitCount = 24;   //位图中每象素所占字节数
+    WORD                wBitCount = 24;   //λͼ��ÿ������ռ�ֽ���
     DWORD               dwLineSize = 0;
-    BITMAP              Bitmap = { 0 };  //位图属性结构
-    BITMAPINFOHEADER    bi = { 0 };  //位图信息头结构
+    BITMAP              Bitmap = { 0 };  //λͼ���Խṹ
+    BITMAPINFOHEADER    bi = { 0 };  //λͼ��Ϣͷ�ṹ
     HDC                 hDC = NULL;
     HANDLE              hDib = NULL;
     HANDLE              hPal = NULL;
@@ -2069,14 +2069,14 @@ HANDLE CDrillApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& d
     dwLineSize = ((Bitmap.bmWidth * wBitCount + 31) / 32) * 4;
     dwBmBitsSize = dwLineSize * Bitmap.bmHeight;
 
-    // 为位图内容分配内存,24位位图没有调色板
+    // Ϊλͼ���ݷ����ڴ�,24λλͼû�е�ɫ��
     hDib = GlobalAlloc(GHND, dwBmBitsSize + sizeof(BITMAPINFOHEADER));
     ASSERT_NULL_R(hDib, NULL);
 
     lpbi = (LPBITMAPINFOHEADER)GlobalLock(hDib);
     *lpbi = bi;
 
-    // 处理调色板
+    // ������ɫ��
     hPal = GetStockObject(DEFAULT_PALETTE);
     if (hPal)
     {
@@ -2085,12 +2085,12 @@ HANDLE CDrillApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& d
         RealizePalette(hDC);
     }
 
-    // 获取该调色板下新的像素值
+    // ��ȡ�õ�ɫ�����µ�����ֵ
     GetDIBits(hDC, hBitmap, 0, Bitmap.bmHeight,
         (LPSTR)lpbi + sizeof(BITMAPINFOHEADER),
         (BITMAPINFO*)lpbi, DIB_RGB_COLORS);
 
-    // 恢复调色板
+    // �ָ���ɫ��
     if (hOldPal)
     {
         ::SelectPalette(hDC, (HPALETTE)hOldPal, TRUE);
@@ -2103,11 +2103,11 @@ HANDLE CDrillApp::GetImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpbi, DWORD& d
 
 HANDLE CDrillApp::RotateImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpOldbi, LPBITMAPINFOHEADER& lpNewbi, DWORD& dwBmBitsSize)
 {
-    WORD                wBitCount = 24;   //位图中每象素所占字节数
+    WORD                wBitCount = 24;   //λͼ��ÿ������ռ�ֽ���
     DWORD               dwLineSize = 0;
     DWORD               dwOldLine = 0;
-    BITMAP              Bitmap = { 0 };  //位图属性结构
-    BITMAPINFOHEADER    bi = { 0 };  //位图信息头结构
+    BITMAP              Bitmap = { 0 };  //λͼ���Խṹ
+    BITMAPINFOHEADER    bi = { 0 };  //λͼ��Ϣͷ�ṹ
     HANDLE              hDib = NULL;
     LONG                wNewW, wNewH;
 
@@ -2130,7 +2130,7 @@ HANDLE CDrillApp::RotateImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpOldbi, LP
     dwOldLine = ((wNewH * wBitCount + 31) / 32) * 4;
     dwBmBitsSize = dwLineSize * wNewH;
 
-    // 为位图内容分配内存,24位位图没有调色板
+    // Ϊλͼ���ݷ����ڴ�,24λλͼû�е�ɫ��
     hDib = GlobalAlloc(GHND, dwBmBitsSize + sizeof(BITMAPINFOHEADER));
     ASSERT_NULL_R(hDib, NULL);
 
@@ -2139,7 +2139,7 @@ HANDLE CDrillApp::RotateImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpOldbi, LP
     BYTE* pNewBits = ((BYTE*)lpNewbi) + sizeof(BITMAPINFOHEADER);
     BYTE* pOldBits = ((BYTE*)lpOldbi) + sizeof(BITMAPINFOHEADER);
 
-    //旋转90度
+    //��ת90��
     double             cosa = 0, sina = 1; //cos(90),sin(90)
     double			   num1, num2;
     //num1 = -0.5 * Wnew * cosa - 0.5 * Hnew * sina + 0.5 * Wold;
@@ -2164,29 +2164,29 @@ HANDLE CDrillApp::RotateImgData(HBITMAP hBitmap, LPBITMAPINFOHEADER& lpOldbi, LP
     return hDib;
 }
 
-/* 保存Bmp图像 */
+/* ����Bmpͼ�� */
 bool CDrillApp::SaveBmp(HBITMAP hBitmap, string FileName)
 {
-    // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
+    // ���� λͼ�������ֽڴ�С��λͼ�ļ���С��д���ļ��ֽ���
     DWORD               dwBmBitsSize = 0;
     DWORD               dwDIBSize = 0;
     DWORD               dwWritten = 0;
-    // 定义文件，分配内存句柄，调色板句柄
+    // �����ļ��������ڴ�������ɫ����
     HANDLE              fh = 0;
     BITMAPFILEHEADER    bmfHdr;
-    LPBITMAPINFOHEADER  lpbi = NULL; //指向位图信息头结构
+    LPBITMAPINFOHEADER  lpbi = NULL; //ָ��λͼ��Ϣͷ�ṹ
     HANDLE              hDib = NULL;
 
     hDib = GetImgData(hBitmap, lpbi, dwBmBitsSize);
     ASSERT_NULL_R(hDib, FALSE);
     ASSERT_NULL_R(lpbi, FALSE);
 
-    //创建位图文件
+    //����λͼ�ļ�
     fh = CreateFile(FileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
         FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
     COMP_BE_R(fh, INVALID_HANDLE_VALUE, FALSE);
 
-    //设置位图文件头
+    //����λͼ�ļ�ͷ
     bmfHdr.bfType = BFT_BITMAP;   //   "BM "
     dwDIBSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize;
     bmfHdr.bfSize = dwDIBSize;
@@ -2194,11 +2194,11 @@ bool CDrillApp::SaveBmp(HBITMAP hBitmap, string FileName)
     bmfHdr.bfReserved2 = 0;
     bmfHdr.bfOffBits = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER);
 
-    // 写入位图文件头
+    // д��λͼ�ļ�ͷ
     WriteFile(fh, (LPSTR)&bmfHdr, sizeof(BITMAPFILEHEADER), &dwWritten, NULL);
-    // 写入位图文件其余内容
+    // д��λͼ�ļ���������
     WriteFile(fh, (LPSTR)lpbi, dwDIBSize, &dwWritten, NULL);
-    // 清除
+    // ���
     CloseHandle(fh);
     GlobalUnlock(hDib);
     GlobalFree(hDib);
@@ -2263,12 +2263,12 @@ unsigned CDrillApp::decodeBMP(std::vector<unsigned char>& image, unsigned& w, un
 
 bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName, bool bRotate)
 {
-    // 定义 位图中像素字节大小，位图文件大小，写入文件字节数
+    // ���� λͼ�������ֽڴ�С��λͼ�ļ���С��д���ļ��ֽ���
     DWORD               dwBmBitsSize = 0;
     DWORD               dwDIBSize = 0;
     BITMAPFILEHEADER    bmfHdr;
-    LPBITMAPINFOHEADER  lpbi = NULL; //指向位图信息头结构
-    LPBITMAPINFOHEADER  lpNewbi = NULL; //指向Rotate后的位图信息头结构
+    LPBITMAPINFOHEADER  lpbi = NULL; //ָ��λͼ��Ϣͷ�ṹ
+    LPBITMAPINFOHEADER  lpNewbi = NULL; //ָ��Rotate���λͼ��Ϣͷ�ṹ
     HANDLE              hDib = NULL;
     BYTE* pBuf = NULL;
     BYTE* pTmp = NULL;
@@ -2293,7 +2293,7 @@ bool CDrillApp::SavePNG(HBITMAP hBitmap, string FileName, bool bRotate)
 
     pBuf = new BYTE[sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize];
 
-    //设置位图文件头
+    //����λͼ�ļ�ͷ
     bmfHdr.bfType = BFT_BITMAP;   //   "BM "
     dwDIBSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwBmBitsSize;
     bmfHdr.bfSize = dwDIBSize;
@@ -2333,7 +2333,7 @@ void CDrillApp::ClearReadTorq(TORQUEDATA* pAllData)
     pAllData->strFileName.clear();
 }
 
-/* 从文件当前读取位置获取数据的长度，文件位置为读取有效的文件长度之后 */
+/* ���ļ���ǰ��ȡλ�û�ȡ���ݵĳ��ȣ��ļ�λ��Ϊ��ȡ��Ч���ļ�����֮�� */
 int CDrillApp::SeekFileLen(CFile& file)
 {
     int     i = 0;
@@ -2352,18 +2352,18 @@ int CDrillApp::SeekFileLen(CFile& file)
         return -1;
     }
 
-    /* 20221114 文件在中间出现PBHEADLEN，尽量跳过 */
+    /* 20221114 �ļ����м����PBHEADLEN���������� */
     /*file.Read(cTmpRead, 4);
     if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) != 0)
         file.Seek(iFilePos, CFile::begin);*/
 
-    /* 跳过实际的长度，包括可能的尾巴 */
+    /* ����ʵ�ʵĳ��ȣ��������ܵ�β�� */
     file.Read(&nLeng, sizeof(UINT));
     iFirstPos = (int)file.GetPosition();
     if ((iFirstPos + (int)nLeng > iFileLen) || (nLeng > MAXPROBUFF))
     {
-        /* 20190616 往后再读MAXSKIPLEN次，尝试跳过数据异常
-           1个字节一跳 */
+        /* 20190616 �����ٶ�MAXSKIPLEN�Σ��������������쳣
+           1���ֽ�һ�� */
         for (i = -3; i < MAXSKIPLEN; i++)
         {
             file.Seek((iFirstPos + i), CFile::begin);
@@ -2389,10 +2389,10 @@ int CDrillApp::SeekFileLen(CFile& file)
     return nLeng;
 }
 
-/* 从第一条记录开始，跳到指定的记录位置
-   说明:文件的第一个UINT记录总数已经读出
-   for循环的递增为int i
-   nLeng 为UNIT类型,表示该数据完整长度 */
+/* �ӵ�һ����¼��ʼ������ָ���ļ�¼λ��
+   ˵��:�ļ��ĵ�һ��UINT��¼�����Ѿ�����
+   forѭ���ĵ���Ϊint i
+   nLeng ΪUNIT����,��ʾ�������������� */
 int CDrillApp::SeekTorque(CFile& file, int iDataNum)
 {
     int     i = 0;
@@ -2418,7 +2418,7 @@ int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
     int     iFileLen = 0;
     char    cTmpRead[MAXSKIPLEN + 1] = { 0 };
 
-    // 无论有无head都找
+    // ��������head����
     //COMP_BFALSE_R(g_tReadData.bHaveHead, 0);
 
     iFileLen = (int)file.GetLength();
@@ -2427,7 +2427,7 @@ int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
 
     file.Read(cTmpRead, MAXSKIPLEN);
 
-    /* 查找数据文件头 */
+    /* ���������ļ�ͷ */
     for (i = 0; i < MAXSKIPLEN - PBHEADLEN; i++)
     {
         if (memcmp(&cTmpRead[i], &m_nPBHead, PBHEADLEN) == 0)
@@ -2447,7 +2447,7 @@ int  CDrillApp::SeekPBDataPos(CFile& file, int iCurPos)
         }
     }
 
-    // 没有找到数据文件头，返回失败
+    // û���ҵ������ļ�ͷ������ʧ��
     return -1;
 }
 
@@ -2455,14 +2455,14 @@ BOOL CDrillApp::ReadHisTorqFromFile(string strDataName)
 {
     COMP_BFALSE_R(GetTorqDataFromFile(strDataName), FALSE);
 
-    /* 没有更新入井序号，直接返回正确，否则重新读一次 */
+    /* û�и����뾮��ţ�ֱ�ӷ�����ȷ���������¶�һ�� */
     COMP_BFALSE_R(ReCalTallyNO(strDataName), TRUE);
 
     return GetTorqDataFromFile(strDataName);
 }
 
-/* 读取历史的扭矩数据文件
-   一次最多读取MAXWELLNUM 5000条 */
+/* ��ȡ��ʷ��Ť�������ļ�
+   һ������ȡMAXWELLNUM 5000�� */
 BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
 {
     CFile   file;
@@ -2537,12 +2537,12 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         if (!bRes)
             continue;
 
-        /* 数据大于1屏时设置分屏信息 */
-        /* 20190609最后一屏按控制周数，其他按满屏计算 */
-        /* 20190916 如果数据大于控制周数，则需要分屏，最后一周在控制周数上 */
+        /* ���ݴ���1��ʱ���÷�����Ϣ */
+        /* 20190609���һ���������������������������� */
+        /* 20190916 ������ݴ��ڿ�������������Ҫ���������һ���ڿ��������� */
         ptTorq = &pAllData->tData[nValid];
 
-        // 20230606 老版本单根立柱值在bsinglestd中，需要设置到columns中，以便后续程序通过columns显示和设置
+        // 20230606 �ϰ汾��������ֵ��bsinglestd�У���Ҫ���õ�columns�У��Ա��������ͨ��columns��ʾ������
         if (ptTorq->bsinglestd() && ptTorq->dwcolumns() == 0)
             ptTorq->set_dwcolumns(1);
         pAllData->nTotalPlus[nValid] = 0;
@@ -2553,7 +2553,7 @@ BOOL CDrillApp::GetTorqDataFromFile(string strDataName)
         if (ptTorq->fplus() > 0 && ptTorq->fmaxcir() > 0)
         {
             double maxcir = pAllData->nTotalPlus[nValid] / ptTorq->fplus();
-            // 20230503 最大周数比实际周数小(没有动态更新周数或者更新失败)时，重新设置最大周数，保证一屏能显示全部数据
+            // 20230503 ���������ʵ������С(û�ж�̬�����������߸���ʧ��)ʱ���������������������֤һ������ʾȫ������
             if (maxcir > ptTorq->fmaxcir() * AUTOUPDTURNRATIO)
             {
                 maxcir = (int)ceil(maxcir / AUTOUPDTURNRATIO);
@@ -2656,14 +2656,14 @@ bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw
     for (; iDataIndex < ptOrg->dwmucount() - 1; iDataIndex++)
     {
         fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
-        /* 跳过delta脉冲为0的情况 */
+        /* ����delta����Ϊ0����� */
         if (ptOrg->dwdelplus(iDataIndex) == 0)
             continue;
         fCurRpm = ptOrg->frpm(iDataIndex);
 
         iDataPlus += ptOrg->dwdelplus(iDataIndex);
 
-        /* data分辨率大于draw分辨率时, 只更新当前扭矩 */
+        /* data�ֱ��ʴ���draw�ֱ���ʱ, ֻ���µ�ǰŤ�� */
         if (iDataPlus <= iDrawPlus)
         {
             iInsCnt = 0;
@@ -2673,7 +2673,7 @@ bool  CDrillApp::GetMakeupDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDraw
             for (; iDrawIndex < iDrawPnt; iDrawIndex++)
             {
                 iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
-                // 当前的iDrawIndex不设置，取iDrawIndex-1
+                // ��ǰ��iDrawIndex�����ã�ȡiDrawIndex-1
                 if (iDrawPlus > iDataPlus)
                     break;
             }
@@ -2770,7 +2770,7 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
         ptDraw->fRpm[ptDraw->wCount] = ptDraw->fRpm[ptDraw->wCount - 1];
         ptDraw->wCount++;
 
-        // 上扣卸扣之间增加20个空数据
+        // �Ͽ�ж��֮������20��������
         for (i = 0; i < SPLITPOSNUM; i++)
         {
             ptDraw->fTorque[ptDraw->wCount] = 0;
@@ -2799,14 +2799,14 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
     for (; iDataIndex < totalCount - 1; iDataIndex++)
     {
         fCurTorq = MAX(fCurTorq, ptOrg->ftorque(iDataIndex));
-        /* 跳过delta脉冲为0的情况 */
+        /* ����delta����Ϊ0����� */
         if (ptOrg->dwdelplus(iDataIndex) == 0)
             continue;
         fCurRpm = ptOrg->frpm(iDataIndex);
 
         iDataPlus += ptOrg->dwdelplus(iDataIndex);
 
-        /* data分辨率大于draw分辨率时, 只更新当前扭矩 */
+        /* data�ֱ��ʴ���draw�ֱ���ʱ, ֻ���µ�ǰŤ�� */
         if (iDataPlus <= iDrawPlus)
         {
             iInsCnt = 0;
@@ -2816,7 +2816,7 @@ bool CDrillApp::GetBreakoutDrawData(TorqData::Torque* ptOrg, DRAWTORQDATA* ptDra
             for (; iDrawIndex < iDrawPnt; iDrawIndex++)
             {
                 iDrawPlus = int(ceil(iDrawIndex * fPlusPerPnt));
-                // 当前的iDrawIndex不设置，取iDrawIndex-1
+                // ��ǰ��iDrawIndex�����ã�ȡiDrawIndex-1
                 if (iDrawPlus > iDataPlus)
                     break;
             }
@@ -2891,8 +2891,8 @@ DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(UINT nNO, UINT nMulti, UINT nType)
     return GetDrawDataFromTorq(ptOrg, nMulti, nType);
 }
 
-/*  nNO 从0开始计数
-    iMulti在放大时使用 */
+/*  nNO ��0��ʼ����
+    iMulti�ڷŴ�ʱʹ�� */
 DRAWTORQDATA* CDrillApp::GetDrawDataFromTorq(TorqData::Torque* ptOrg, UINT nMulti, UINT nType)
 {
     DRAWTORQDATA* ptDraw = NULL;
@@ -2990,18 +2990,18 @@ string CDrillApp::LoadstringFromRes(unsigned string_ID)
 //}
 
 /*
-    nDataPlace: form 1 开始
-    -1表示最后一个数据
+    nDataPlace: form 1 ��ʼ
+    -1��ʾ���һ������
 */
 void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* ptTorq)
 {
     int     i = 0;
-    UINT    nCurPos = 0;        /* 当前数据位置 */
-    UINT    nNextPos = 0;       /* 下一个数据的位置 */
+    UINT    nCurPos = 0;        /* ��ǰ����λ�� */
+    UINT    nNextPos = 0;       /* ��һ�����ݵ�λ�� */
     UINT    nLastPos = 0;
-    int     iLeft = 0;          /* 当前数据后的数据大小 */
-    size_t  iCurLen = 0;        /* 当前数据的总长度 */
-    UINT    iDataLen = 0;       /* 数据的总长度 */
+    int     iLeft = 0;          /* ��ǰ���ݺ�����ݴ�С */
+    size_t  iCurLen = 0;        /* ��ǰ���ݵ��ܳ��� */
+    UINT    iDataLen = 0;       /* ���ݵ��ܳ��� */
     UINT    nTotal = 0;
     CFile   file;
     BYTE* pBuffer = NULL;
@@ -3025,12 +3025,12 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
     /* write to file */
     ASSERT_ZERO(file.Open(strName.c_str(), CFile::modeReadWrite | CFile::shareDenyNone, NULL));
 
-    /* 跳过文件的数据总条数 */
+    /* �����ļ������������� */
     file.Read(&nTotal, sizeof(UINT));
     if (iDataPlace == -1)
         iDataPlace = nTotal;
 
-    /* 跳过之前记录 */
+    /* ����֮ǰ��¼ */
     if (0 != SeekTorque(file, iDataPlace - 1))
     {
         file.Close();
@@ -3038,7 +3038,7 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
     }
     //SEEK_TORQUE(((int)g_tReadData.nCur-1), nLeng);
 
-    /* 获得当前数据的位置 */
+    /* ��õ�ǰ���ݵ�λ�� */
     iDataLen = SeekFileLen(file);
     if (iDataLen < 0)
     {
@@ -3046,11 +3046,11 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
         return;
     }
 
-    /* 获得当前数据长度的位置，跳过PBHEADLEN,往回跳4个字节 */
+    /* ��õ�ǰ���ݳ��ȵ�λ�ã�����PBHEADLEN,������4���ֽ� */
     nCurPos = (UINT)file.GetPosition() - sizeof(UINT);
     file.Seek(iDataLen, CFile::current);
 
-    /* 保留当前数据后面的数据 */
+    /* ������ǰ���ݺ�������� */
     nNextPos = (UINT)file.GetPosition();
     iLeft = (int)(file.GetLength() - nNextPos);
     if (iLeft > 0)
@@ -3061,21 +3061,21 @@ void CDrillApp::UpdateHisData(string strName, int iDataPlace, TorqData::Torque* 
         file.Read(pBuffer, iLeft);
     }
 
-    /* 跳到当前数据开始位置，写入更新的数据信息 */
+    /* ������ǰ���ݿ�ʼλ�ã�д����µ�������Ϣ */
     file.Seek(nCurPos, CFile::begin);
 
     file.Write(&theApp.m_nPBHead, PBHEADLEN);
     file.Write(&iCurLen, sizeof(UINT));
     file.Write(pcBuff, iCurLen);
 
-    /* 还原当前数据后面的数据 */
+    /* ��ԭ��ǰ���ݺ�������� */
     if (pBuffer != NULL)
     {
         file.Write(pBuffer, iLeft);
         delete pBuffer;
         pBuffer = NULL;
     }
-    /* 截掉文件尾多余部分内容 */
+    /* �ص��ļ�β���ಿ������ */
     nLastPos = (UINT)file.GetPosition();
     if (nLastPos < file.GetLength())
         file.SetLength(nLastPos);
@@ -3184,7 +3184,7 @@ int CDrillApp::SplitString(CString strSource, CStringList& slList)
             slList.AddTail(strSource);
             return 0;
         }
-        if (index == 0) /* 第一个是空格，直接去掉 */
+        if (index == 0) /* ��һ���ǿո�ֱ��ȥ�� */
         {
             strSource = strSource.Right(strSource.GetLength() - 1);
             continue;
@@ -3222,8 +3222,8 @@ bool CDrillApp::HaveTallyNO(TorqData::Torque* ptTorq)
     return false;
 }
 
-/* 返回是否有修改
-   20200302 每次都从最开始重新计算 */
+/* �����Ƿ����޸�
+   20200302 ÿ�ζ����ʼ���¼��� */
 BOOL CDrillApp::ReCalTallyNO(string strDataName)
 {
     int     i = 0;
@@ -3242,7 +3242,7 @@ BOOL CDrillApp::ReCalTallyNO(string strDataName)
     COMP_BL_R(iTallyIndex, 0, FALSE);
 
     BeginWaitCursor();
-    /* 会从当前序号开始(开始数值为1), 顺序更新后续数据的入井序号 */
+    /* ��ӵ�ǰ��ſ�ʼ(��ʼ��ֵΪ1), ˳����º������ݵ��뾮��� */
     for (i = 1; i <= (int)pAllData->nTotal; i++)
     {
         ptTorq = &pAllData->tData[i - 1];
@@ -3287,7 +3287,7 @@ void CDrillApp::SaveAllData(string strDataName)
     /* write to file */
     if (file.Open(strDataName.c_str(), CFile::modeCreate | CFile::modeReadWrite | CFile::shareDenyNone, NULL))
     {
-        /*更新记录数*/
+        /*���¼�¼��*/
         file.Write(&pAllData->nTotal, sizeof(UINT));
 
         for (i = 0; i < pAllData->nTotal; i++)
@@ -3319,8 +3319,8 @@ CString CDrillApp::GetTorqShowName(TorqData::Torque* ptTorq, int iIndex)
     if (iIndex >= ptTorq->tshow_size())
         return NULLSTR;
 
-    // cur version iIndex 从1开始, 0为Factory
-    // 20220928 按listNO存储，NO从1~15，和show序号对应，不需要--
+    // cur version iIndex ��1��ʼ, 0ΪFactory
+    // 20220928 ��listNO�洢��NO��1~15����show��Ŷ�Ӧ������Ҫ--
     /*if (ptTorq->dwver() < 2 && iIndex > 0)
         iIndex--;*/
     return ptTorq->tshow(iIndex).strname().c_str();
@@ -3354,7 +3354,7 @@ string CDrillApp::GetMainShowName(SHOWCFG* ptShow, UINT NO)
     return ptShow->strShow[ptShow->nMain[NO]];
 }
 
-/* \/:*?"<>| 加 . */
+/* \/:*?"<>| �� . */
 BOOL CDrillApp::FindNotFileChar(CString strFileName)
 {
     char    cNCFileName[10] = { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.' };

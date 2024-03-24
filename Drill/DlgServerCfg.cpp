@@ -53,7 +53,7 @@ BOOL CDlgServerCfg::OnInitDialog()
     m_clrNormal = RGB(0, 0, 0);
     m_clrChanged = RGB(255, 0, 0);
 
-    /* 根据入参设置参数初始值 */
+    /* ����������ò�����ʼֵ */
     SetParaValue(&theApp.m_tServCfg);
 
     //GetDlgItem(IDTCPTEST)->ShowWindow(FALSE);
@@ -187,8 +187,8 @@ HBRUSH CDlgServerCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     if (strContent.IsEmpty())
         return hbr;
 
-    // TODO:  在此更改 DC 的任何特性
-    switch (pWnd->GetDlgCtrlID())//对某一个特定控件进行判断
+    // TODO:  �ڴ˸��� DC ���κ�����
+    switch (pWnd->GetDlgCtrlID())//��ĳһ���ض��ؼ������ж�
     {
     case IDC_EDITPORT:
         JUDGE_NUMBERPARA_CHANGE(atoi(strContent), theApp.m_tServCfg.nFTPPort);
@@ -215,7 +215,7 @@ HBRUSH CDlgServerCfg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         break;
     }
 
-    // TODO:  如果默认的不是所需画笔，则返回另一个画笔
+    // TODO:  ���Ĭ�ϵĲ������軭�ʣ��򷵻���һ������
     return hbr;
 }
 

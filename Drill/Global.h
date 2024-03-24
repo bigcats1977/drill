@@ -20,7 +20,7 @@ using namespace std;
 
 #include "DrillData.pb.h"
 
-/* 程序的常用全局宏定义 */
+/* ����ĳ���ȫ�ֺ궨�� */
 #pragma region MACRO DEFINE
 
 #pragma region MESSAGE ID
@@ -48,32 +48,32 @@ using namespace std;
 #pragma endregion
 
 #pragma region TIMERID DUR
-/*定时器ID定义*/
-#define COOLCONTROL_TIMER       0       // COOL控件使用定时器
-#define PORTREAD_TIMER          1       // 读取串口数据定时器
-#define GUARD_TIMER             2       // 上扣后保护定时器
-#define GUARDREAD_TIMER         4       // 上扣保护时读取串口数据的定时器
-#define BEARSHOW_TIMER          5       // 显示肩负选择对话框定时器
-#define BEARSHOW_LEN            5000    // 程序启动前选择肩负和大扭矩对话框等待时间
-#define AUTOSAVE_TIMER          6       // 定时保存CRC错误和调试信息定时器
-#define AUTOSAVE_TLEN           5000    // 定时保存CRC错误和调试信息定时时长
-#define PORTBUFF_TIMER          7       // 485串口保护定时器，上位机发送命令前，如果串口有数据，定时保护
-                                    // 单片机发送完成后，再发送命令
-#define PORTBUFF_TLEN           15      // 串口发送12个BYTE需要13ms,定时器设置为15ms
-#define WITSRPT_TIMER           8       // 定时通过TCP上报WITS数据给采集终端
-#define WITSRPT_TLEN            500     // 500ms最多上报5组数据
-#define TCPSTATUS_TIMER         9       // 定时检查TCP状态定时器
-#define TCPSTATUS_TLEN          7000    // 定时检查TCP状态定时器时长
-#define COLLECT_TIMER           10      // 收集单片机数据定时器
-#define COLLECT_TLEN            1000    // 收集单片机数据定时时长 //2000
-#define WNDSHOW_TIMER           11      // 帮助旋转显示定时器
-#define WNDSHOW_TLEN            100     // 帮助旋转显示定时时长
+/*��ʱ��ID����*/
+#define COOLCONTROL_TIMER       0       // COOL�ؼ�ʹ�ö�ʱ��
+#define PORTREAD_TIMER          1       // ��ȡ�������ݶ�ʱ��
+#define GUARD_TIMER             2       // �Ͽۺ󱣻���ʱ��
+#define GUARDREAD_TIMER         4       // �Ͽ۱���ʱ��ȡ�������ݵĶ�ʱ��
+#define BEARSHOW_TIMER          5       // ��ʾ�縺ѡ��Ի���ʱ��
+#define BEARSHOW_LEN            5000    // ��������ǰѡ��縺�ʹ�Ť�ضԻ���ȴ�ʱ��
+#define AUTOSAVE_TIMER          6       // ��ʱ����CRC����͵�����Ϣ��ʱ��
+#define AUTOSAVE_TLEN           5000    // ��ʱ����CRC����͵�����Ϣ��ʱʱ��
+#define PORTBUFF_TIMER          7       // 485���ڱ�����ʱ������λ����������ǰ��������������ݣ���ʱ����
+                                    // ��Ƭ��������ɺ��ٷ�������
+#define PORTBUFF_TLEN           15      // ���ڷ���12��BYTE��Ҫ13ms,��ʱ������Ϊ15ms
+#define WITSRPT_TIMER           8       // ��ʱͨ��TCP�ϱ�WITS���ݸ��ɼ��ն�
+#define WITSRPT_TLEN            500     // 500ms����ϱ�5������
+#define TCPSTATUS_TIMER         9       // ��ʱ���TCP״̬��ʱ��
+#define TCPSTATUS_TLEN          7000    // ��ʱ���TCP״̬��ʱ��ʱ��
+#define COLLECT_TIMER           10      // �ռ���Ƭ�����ݶ�ʱ��
+#define COLLECT_TLEN            1000    // �ռ���Ƭ�����ݶ�ʱʱ�� //2000
+#define WNDSHOW_TIMER           11      // ������ת��ʾ��ʱ��
+#define WNDSHOW_TLEN            100     // ������ת��ʾ��ʱʱ��
 #define RESET_TIMER             12
 #define ALARM_TIMER             13
-#define ALRAM_DELAY             5000    /* 告警音播放时长5s */
-#define READVALVE_TIMER         14      /* 定时读取阀门状态定时器，时长1s */
+#define ALRAM_DELAY             5000    /* �澯������ʱ��5s */
+#define READVALVE_TIMER         14      /* ��ʱ��ȡ����״̬��ʱ����ʱ��1s */
 #define READVALVE_LEN           1000
-#define SETCALIB_TIMER          15      /* 设置校准信息定时器 */
+#define SETCALIB_TIMER          15      /* ����У׼��Ϣ��ʱ�� */
 #define SETCALIB_LEN            400
 #pragma endregion
 
@@ -100,9 +100,9 @@ using namespace std;
 #pragma endregion
 
 #pragma region COLOR
-#define CLR_ABNORMDATA          RGB(255,0,0)        // 异常数据颜色
-#define CLR_TOOLBUCKLE          RGB(0,0,255)        // 工具扣数据颜色
-#define CLR_ALTERBACKG          RGB(215,247,241)    // 隔行背景颜色
+#define CLR_ABNORMDATA          RGB(255,0,0)        // �쳣������ɫ
+#define CLR_TOOLBUCKLE          RGB(0,0,255)        // ���߿�������ɫ
+#define CLR_ALTERBACKG          RGB(215,247,241)    // ���б�����ɫ
 
 #pragma region LINECTRL COLOR
 #define CTRLBKCOLOR             RGB(0,0,0)
@@ -133,13 +133,13 @@ using namespace std;
 
 #pragma region SERIAL PORT
 
-#define PORTOPR_OPEN    0   /* 打开串口 */
-#define PORTOPR_CLOSE   1   /* 关闭串口 */
+#define PORTOPR_OPEN    0   /* �򿪴��� */
+#define PORTOPR_CLOSE   1   /* �رմ��� */
 #define PORTOPR_MAXNUM  (PORTOPR_CLOSE +1)
 
 #define PORTBUFF                108
 
-/* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
+/* 0: ��ʵ���ڣ�1��ģ����ԣ�2����ȡdatŤ�����ݣ�3: ��ȡ����Ť�����ݣ�4������־�лָ����ݣ����ڵ�ǰ���ݿ�Ͷ��д�����5: ��ȡdat ��ʷ���ݣ� */
 #define COLL_PORT               0
 #define COLL_RAND               1
 #define COLL_TORQUE             2
@@ -147,97 +147,97 @@ using namespace std;
 #define COLL_RECOVERY           4
 #define COLL_HISTORY            5   // no used in glbcfg
 
-/* 全0的读取串口原始数据
+/* ȫ0�Ķ�ȡ����ԭʼ����
     0x21,0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x22,0x00,0x00,0x08
-    PORT  读   命令码     Torque     PLUS   8B和    CRC    结束
+    PORT  ��   ������     Torque     PLUS   8B��    CRC    ����
 */
-#define PORT485                 0x21    /* 485串口的有效起始值 */
-#define BUS_READ                0x03    /* MODBUS读操作 */
-#define BUS_WRITE               0x06    /* MODBUS写操作 */
-/* MODBUS命令内容起始地址 */
+#define PORT485                 0x21    /* 485���ڵ���Ч��ʼֵ */
+#define BUS_READ                0x03    /* MODBUS������ */
+#define BUS_WRITE               0x06    /* MODBUSд���� */
+/* MODBUS����������ʼ��ַ */
 #define MODBUS_CONTENT          m_ucSndByte[4]
 
-#define PORTSENDTIME            200     /* 串口发送命令后的保护时间 sleep 200ms */
+#define PORTSENDTIME            200     /* ���ڷ��������ı���ʱ�� sleep 200ms */
 
-/* 设置定时读取串口时的状态 */
-/* 奇数为正常状态，需要先读缓冲；偶数为缓冲已经清空，正常发送命令 */
-#define RS_NORMAL               0       /* 正常状态，缓冲区为空，直接发送，换成区非空转CLASH状态 */
-#define RS_READCLASH            1       /* READ时单片机缓冲非空 */
-#define RS_RESETCLASH           2       /* RESET时单片机缓冲非空 */
+/* ���ö�ʱ��ȡ����ʱ��״̬ */
+/* ����Ϊ����״̬����Ҫ�ȶ����壻ż��Ϊ�����Ѿ���գ������������� */
+#define RS_NORMAL               0       /* ����״̬��������Ϊ�գ�ֱ�ӷ��ͣ��������ǿ�תCLASH״̬ */
+#define RS_READCLASH            1       /* READʱ��Ƭ������ǿ� */
+#define RS_RESETCLASH           2       /* RESETʱ��Ƭ������ǿ� */
 #define RS_MAX                  RS_RESETCLASH
 
-#define RS_READ_NORMAL          0       /* 正常状态时读串口 */
-#define RS_READ_RESET           1       /* 复位状态时读串口 */
+#define RS_READ_NORMAL          0       /* ����״̬ʱ������ */
+#define RS_READ_RESET           1       /* ��λ״̬ʱ������ */
 
-#define PORT_MAXDATANUM         10      /* 串口一次最大读取数据个数 */
-#define PORT_VALIDLEN           12      /* 有效数据长度为12 */
-#define PORT_DATAPLACE          4       /* 实际数据起始位置4 */
-#define PORT_DATALEN            7       /* 实际数据长度 7;+1CHECK+2SPEED  */
-#define PORT_SUMPLACE           8       /* 前面数据校验和位置 8 */
-#define PORT_VLDVLVLEN          14      /* 加2个字节阀门状态的有效数据长度为14 */
-#define PORT_MAXVLDDATA         9       /* +阀门数据长度 9; 4+1CHECK+2SPEED+2VALVE */
-#define PORT_GRPDATA            4       /* 读取多组数据时，每组有效数据的长度为4 */
+#define PORT_MAXDATANUM         10      /* ����һ������ȡ���ݸ��� */
+#define PORT_VALIDLEN           12      /* ��Ч���ݳ���Ϊ12 */
+#define PORT_DATAPLACE          4       /* ʵ��������ʼλ��4 */
+#define PORT_DATALEN            7       /* ʵ�����ݳ��� 7;+1CHECK+2SPEED  */
+#define PORT_SUMPLACE           8       /* ǰ������У���λ�� 8 */
+#define PORT_VLDVLVLEN          14      /* ��2���ֽڷ���״̬����Ч���ݳ���Ϊ14 */
+#define PORT_MAXVLDDATA         9       /* +�������ݳ��� 9; 4+1CHECK+2SPEED+2VALVE */
+#define PORT_GRPDATA            4       /* ��ȡ��������ʱ��ÿ����Ч���ݵĳ���Ϊ4 */
 
-#define ORG_DATAPLACE           15      /* 实际数据起始位置15 */
-#define ORG_PRNTIMELEN          12      /* 自动保存打印的时间长度 04:05:45.984 : */
-#define ORG_PRNDATALEN          12      /* 自动保存打印的数据长度 36 cc 43 56 */
+#define ORG_DATAPLACE           15      /* ʵ��������ʼλ��15 */
+#define ORG_PRNTIMELEN          12      /* �Զ������ӡ��ʱ�䳤�� 04:05:45.984 : */
+#define ORG_PRNDATALEN          12      /* �Զ������ӡ�����ݳ��� 36 cc 43 56 */
 
-/* MODBUS自定义命令 */
-#define COM_READ                0x0001  /* 读取数据 */
-#define COM_ADJUST              0x0002  /* 校准倍数 */
-#define COM_QIPI                0x0003  /* 去皮 */
-#define COM_COLLECT             0x0004  /* 采集单片机数据 */
-#define COM_SHOW                0x0005  /* 显示扭矩 */
-#define COM_SPEED               0x0006  /* 减速扭矩 */
-#define COM_CONTROL             0x0007  /* 控制扭矩 */
-#define COM_BSPEED              0x0008  /* 开始减速控制 */
-#define COM_ESPEED              0x0009  /* 停止减速控制 */
-#define COM_BUNLOAD             0x000A  /* 开始卸荷控制 */
-#define COM_EUNLOAD             0x000B  /* 停止卸荷控制 */
-#define COM_UPPER               0x000C  /* 上限扭矩 */
-#define COM_LOWER               0x000D  /* 下限扭矩 */
-#define COM_CUT                 0x000E  /* 打折系数 */
-#define COM_TIME                0x000F  /* 设置时间 */
-#define COM_VPRESS              0x0010  /* 减压阀 */
-#define COM_VFLOW               0x0011  /* 流量阀 */
-#define COM_VZOOM               0x0012  /* 放大倍数 */
-#define COM_READVALVE           0x0014  /* 读取阀门状态 */
-#define COM_READMULTI           0x0015  /* 读取多组数据 */
-#define COM_WRITECALIB          0x0017  /* 分段校准 写 */
-#define COM_CTRLCALIB           0x0018  /* 分段校准控制 */
-#define COM_READCALIB           0x0019  /* 分段校准 读 */
-/* 单片机命令定义 */
-#define SCMREAD                 15      /* 读取数据 */
-#define SCMADJUST               16      /* 校准 */
-#define SCMQIPI                 17      /* 去皮 */
-#define SCMCOLLECT              18      /* 采集数据 */
-#define SCMSHOW                 19      /* 显示扭矩 */
-#define SCMSPEED                20      /* 减速扭矩 */
-#define SCMCONTROL              21      /* 控制扭矩 */
-#define SCMBSPEED               22      /* 开始减速 */
-#define SCMESPEED               23      /* 停止减速 */
-#define SCMBUNLOAD              24      /* 开始卸荷 */
-#define SCMEUNLOAD              25      /* 停止卸荷 */
-#define SCMUPPER                26      /* 上限扭矩 */
-#define SCMLOWER                27      /* 下限扭矩 */
-#define SCMCUT                  28      /* 打折系数 */
-#define SCMCOLLECTOK            29      /* 收到有效数据再次采集数据：最后一次确认后不需要再次收到数据 */
-#define SCMCOLLECTNOK           30      /* 收到无效数据再次采集数据 */
-#define SCMTIME                 31      /* 设置单片机时间 */
-#define SCMVPRESS               32      /* 减压阀 */
-#define SCMVFLOW                33      /* 流量阀 */
-#define SCMREADVALVE            34      /* 读取阀门状态 */
-#define SCMREADMULTI            35      /* 读取多组数据 */
-#define SCMWRITECALIB           36      /* 写分段校准 */
-#define SCMCTRLCALIB            37      /* 分段校准控制 */
-#define SCMREADCALIB            38      /* 读分段校准 */
-// #define SCMVZOOM             34      /* 放大倍数 */
-/*#define CIRNUMS               4615.4*/    /* 1200脉冲为一小周,100小周为26大周,1200/0.26= */
+/* MODBUS�Զ������� */
+#define COM_READ                0x0001  /* ��ȡ���� */
+#define COM_ADJUST              0x0002  /* У׼���� */
+#define COM_QIPI                0x0003  /* ȥƤ */
+#define COM_COLLECT             0x0004  /* �ɼ���Ƭ������ */
+#define COM_SHOW                0x0005  /* ��ʾŤ�� */
+#define COM_SPEED               0x0006  /* ����Ť�� */
+#define COM_CONTROL             0x0007  /* ����Ť�� */
+#define COM_BSPEED              0x0008  /* ��ʼ���ٿ��� */
+#define COM_ESPEED              0x0009  /* ֹͣ���ٿ��� */
+#define COM_BUNLOAD             0x000A  /* ��ʼж�ɿ��� */
+#define COM_EUNLOAD             0x000B  /* ֹͣж�ɿ��� */
+#define COM_UPPER               0x000C  /* ����Ť�� */
+#define COM_LOWER               0x000D  /* ����Ť�� */
+#define COM_CUT                 0x000E  /* ����ϵ�� */
+#define COM_TIME                0x000F  /* ����ʱ�� */
+#define COM_VPRESS              0x0010  /* ��ѹ�� */
+#define COM_VFLOW               0x0011  /* ������ */
+#define COM_VZOOM               0x0012  /* �Ŵ��� */
+#define COM_READVALVE           0x0014  /* ��ȡ����״̬ */
+#define COM_READMULTI           0x0015  /* ��ȡ�������� */
+#define COM_WRITECALIB          0x0017  /* �ֶ�У׼ д */
+#define COM_CTRLCALIB           0x0018  /* �ֶ�У׼���� */
+#define COM_READCALIB           0x0019  /* �ֶ�У׼ �� */
+/* ��Ƭ������� */
+#define SCMREAD                 15      /* ��ȡ���� */
+#define SCMADJUST               16      /* У׼ */
+#define SCMQIPI                 17      /* ȥƤ */
+#define SCMCOLLECT              18      /* �ɼ����� */
+#define SCMSHOW                 19      /* ��ʾŤ�� */
+#define SCMSPEED                20      /* ����Ť�� */
+#define SCMCONTROL              21      /* ����Ť�� */
+#define SCMBSPEED               22      /* ��ʼ���� */
+#define SCMESPEED               23      /* ֹͣ���� */
+#define SCMBUNLOAD              24      /* ��ʼж�� */
+#define SCMEUNLOAD              25      /* ֹͣж�� */
+#define SCMUPPER                26      /* ����Ť�� */
+#define SCMLOWER                27      /* ����Ť�� */
+#define SCMCUT                  28      /* ����ϵ�� */
+#define SCMCOLLECTOK            29      /* �յ���Ч�����ٴβɼ����ݣ����һ��ȷ�Ϻ���Ҫ�ٴ��յ����� */
+#define SCMCOLLECTNOK           30      /* �յ���Ч�����ٴβɼ����� */
+#define SCMTIME                 31      /* ���õ�Ƭ��ʱ�� */
+#define SCMVPRESS               32      /* ��ѹ�� */
+#define SCMVFLOW                33      /* ������ */
+#define SCMREADVALVE            34      /* ��ȡ����״̬ */
+#define SCMREADMULTI            35      /* ��ȡ�������� */
+#define SCMWRITECALIB           36      /* д�ֶ�У׼ */
+#define SCMCTRLCALIB            37      /* �ֶ�У׼���� */
+#define SCMREADCALIB            38      /* ���ֶ�У׼ */
+// #define SCMVZOOM             34      /* �Ŵ��� */
+/*#define CIRNUMS               4615.4*/    /* 1200����ΪһС��,100С��Ϊ26����,1200/0.26= */
 
-#define RS_COMM_CLOSE           0       /* 串口关闭 */
-#define RS_COMM_OPEN            1       /* 串口打开 */
+#define RS_COMM_CLOSE           0       /* ���ڹر� */
+#define RS_COMM_OPEN            1       /* ���ڴ� */
 
-/* 串口测试打开，值为 m_nTestFunc+1 */
+/* ���ڲ��Դ򿪣�ֵΪ m_nTestFunc+1 */
 #define RS_COMM_RAND            2       /* COLL_RAND+1 */
 #define RS_COMM_TORQUE          3       /* COLL_TORQUE+1 */
 #define RS_COMM_MULTITORQ       4       /* COLL_MULTITORQ+1 */
@@ -255,42 +255,42 @@ using namespace std;
 #define RforCur                 2
 #define MIN_TORQDATALEN         0xFF
 
-#define RPM_OPTNUM              5       /* RMP优化的数目 */
-#define RMP_OPTTHRES            20      /* RMP需要优化的阈值 */
-/* 20220215 实际上扣时超扭矩处理 */
-#define SWITCHLOWLIMIT          5000    /* 控制扭矩小于该值时，按最小扭矩下发控制扭矩 */
-#define SHOWTORQUEUNIT          1000    // 显示扭矩单位
+#define RPM_OPTNUM              5       /* RMP�Ż�����Ŀ */
+#define RMP_OPTTHRES            20      /* RMP��Ҫ�Ż�����ֵ */
+/* 20220215 ʵ���Ͽ�ʱ��Ť�ش��� */
+#define SWITCHLOWLIMIT          5000    /* ����Ť��С�ڸ�ֵʱ������СŤ���·�����Ť�� */
+#define SHOWTORQUEUNIT          1000    // ��ʾŤ�ص�λ
 
-/* 参数设置调整默认值 */
+/* �������õ���Ĭ��ֵ */
 #define DIFF_TORQUE             0.1
 #define DIFF_CIRCUIT            0.1
 #define DIFF_TIME               1
-#define FULLCIR4SAVE            0.20    // 采集频率 1/2500  1周/(500/0.2)
-#define AUTOUPDTURNRATIO        0.8     // 超过80%(400)点自动增加周数
-#define AUTOSCALERATIO          0.9     // 老版本自动缩放比例
+#define FULLCIR4SAVE            0.20    // �ɼ�Ƶ�� 1/2500  1��/(500/0.2)
+#define AUTOUPDTURNRATIO        0.8     // ����80%(400)���Զ���������
+#define AUTOSCALERATIO          0.9     // �ϰ汾�Զ����ű���
 
-#define IP_SLOPE_PER            1       /* 默认拐点百分比 */
+#define IP_SLOPE_PER            1       /* Ĭ�Ϲյ�ٷֱ� */
 
 
-#define MAXREVERSEPLUS          300     /* 20201219 最大反转脉冲暂定300 */
+#define MAXREVERSEPLUS          300     /* 20201219 ���ת�����ݶ�300 */
 
-#define STEPTORQUE              20      /* 削平突起时，后一个数据比前一个数据累增的步长 */
-#define PRIKETORQ               500     /* 小于这个扭矩且小于台阶扭矩，不削平 */
+#define STEPTORQUE              20      /* ��ƽͻ��ʱ����һ�����ݱ�ǰһ�����������Ĳ��� */
+#define PRIKETORQ               500     /* С�����Ť����С��̨��Ť�أ�����ƽ */
 
-// 上扣/卸扣数据类型定义
+// �Ͽ�/ж���������Ͷ���
 #define TYPE_MAKEUP             0x01    // 0001
 #define TYPE_BREAKOUT           0x02    // 0010
 #define TYPE_TOTAL              0x03    // 0011
 
 /*
-    0：待机/反转、数据丢弃
-    1：正常显示；
-    2：减速
-    3：卸荷
-    4: 抱死
-    CC: 上扣/卸扣反转，扭矩奇数/偶数互换
-    F0: 多个数据时，数据重复，该条数据需要跳过continue
-    FE:卸扣结束254
+    0������/��ת�����ݶ���
+    1��������ʾ��
+    2������
+    3��ж��
+    4: ����
+    CC: �Ͽ�/ж�۷�ת��Ť������/ż������
+    F0: �������ʱ�������ظ�������������Ҫ����continue
+    FE:ж�۽���254
     FF:CRC ERROR
 */
 #define PLCSTATUS_WAIT          0
@@ -303,7 +303,7 @@ using namespace std;
 #define PLCSTATUS_BREAKOUT      0xFE
 #define PLCSTATUS_CRCERR        0xFF
 
-/* 目前低4位有效，由高到低分别代表：卸扣、上扣、流量阀、压力阀、卸荷阀、减速阀。=1 表示错误 */
+/* Ŀǰ��4λ��Ч���ɸߵ��ͷֱ������ж�ۡ��Ͽۡ���������ѹ������ж�ɷ������ٷ���=1 ��ʾ���� */
 #define VALVEMAXNUM             6
 #define VALVESTATUS_SPEED       0x0001
 #define VALVESTATUS_UNLOAD      0x0002
@@ -316,26 +316,26 @@ using namespace std;
 #define RATIO_LOWERLIMIT        0.9
 #define RATIO_UPPERLIMIT        1.1
 #define RATIO_MAXLIMIT          1.3
-#define INDEX_TORQ_MAXLIMIT         0       /* 最大上限 */
-//#define INDEX_TORQ_UPPERLIMIT       1       /* 最大扭矩 */
-#define INDEX_TORQ_CONTROL          1       /* 控制扭矩 */
-#define INDEX_TORQ_OPTIMAL          2       /* 最佳扭矩 */
-//#define INDEX_TORQ_LOWERLIMIT       4       /* 最小扭矩 */
-//#define INDEX_TORQ_SPEEDDOWN        3       /* 减速扭矩 */
-#define INDEX_TORQ_SHOW             3       /* 显示扭矩 */
-//#define INDEX_TORQ_BEAR             7       /* 肩负扭矩 */
-//#define INDEX_TORQ_UPPERTAI         8       /* 最大台阶扭矩 */
-//#define INDEX_TORQ_LOWERTAI         9       /* 最小台阶扭矩 */
-#define INDEX_TORQ_INITBO             4       /* 卸扣初始扭矩 */
+#define INDEX_TORQ_MAXLIMIT         0       /* ������� */
+//#define INDEX_TORQ_UPPERLIMIT       1       /* ���Ť�� */
+#define INDEX_TORQ_CONTROL          1       /* ����Ť�� */
+#define INDEX_TORQ_OPTIMAL          2       /* ���Ť�� */
+//#define INDEX_TORQ_LOWERLIMIT       4       /* ��СŤ�� */
+//#define INDEX_TORQ_SPEEDDOWN        3       /* ����Ť�� */
+#define INDEX_TORQ_SHOW             3       /* ��ʾŤ�� */
+//#define INDEX_TORQ_BEAR             7       /* �縺Ť�� */
+//#define INDEX_TORQ_UPPERTAI         8       /* ���̨��Ť�� */
+//#define INDEX_TORQ_LOWERTAI         9       /* ��С̨��Ť�� */
+#define INDEX_TORQ_INITBO             4       /* ж�۳�ʼŤ�� */
 #define MAXTORQCONFNUM              (INDEX_TORQ_INITBO+1)
 
 
-#define INDEX_TURN_MAXLIMIT         0       /* 最大周数 */
-#define INDEX_TURN_UPPERLIMIT       1       /* 上限周数 */
-#define INDEX_TURN_CONTROL          2       /* 控制周数 */
-#define INDEX_TURN_LOWERLIMIT       3       /* 下限周数 */
-//#define INDEX_TURN_MAXDELTA         4       /* 最大Delta周数0.1 */
-//#define INDEX_TURN_MINDELTA         5       /* 最大Delta周数0.1 */
+#define INDEX_TURN_MAXLIMIT         0       /* ������� */
+#define INDEX_TURN_UPPERLIMIT       1       /* �������� */
+#define INDEX_TURN_CONTROL          2       /* �������� */
+#define INDEX_TURN_LOWERLIMIT       3       /* �������� */
+//#define INDEX_TURN_MAXDELTA         4       /* ���Delta����0.1 */
+//#define INDEX_TURN_MINDELTA         5       /* ���Delta����0.1 */
 #define MAXTURNCONFNUM              (INDEX_TURN_LOWERLIMIT+1)
 
 #pragma endregion
@@ -358,10 +358,10 @@ using namespace std;
 //#define SHOWPARA_TUBEOEM            4
 //#define SHOWPARA_TUBETYPE           5
 
-/* 输出excel统计报告常量 */
+/* ���excelͳ�Ʊ��泣�� */
 #define         STATPARA_GENNUM         5
-#define         STATPARA_JOBNUM         6       /* 总结(Page1)最多 6个显示参数, 3占4格 / 4占8格 */
-#define         STATPARA_INFONUM        2       /* 报表(Page4)最多 3个显示参数 */
+#define         STATPARA_JOBNUM         6       /* �ܽ�(Page1)��� 6����ʾ����, 3ռ4�� / 4ռ8�� */
+#define         STATPARA_INFONUM        2       /* ����(Page4)��� 3����ʾ���� */
 #define         MAX1VALUES              4
 #define         MAX2VALUES              6
 #define         MAX3VALUES              4
@@ -408,81 +408,81 @@ using namespace std;
 #pragma endregion
 #endif
 #pragma region DEBUGINFO
-/* 保存调试信息约定消息头宏值和字符串 */
+/* ���������ϢԼ����Ϣͷ��ֵ���ַ��� */
 #define DBG_HASH                    0   /* # */
 #define DBG_START                   1   /* * reset */
 #define DBG_COLLECT                 2   /* collect */
-#define DBG_MESSAGE                 3   /* MessageBox显示信息 */
-#define DBG_SNDCMD                  4   /* 发送串口请求 */
-#define DBG_RCVCOM                  5   /* 接收串口消息 */
-#define DBG_TCPMSG                  6   /* TCP消息 */
+#define DBG_MESSAGE                 3   /* MessageBox��ʾ��Ϣ */
+#define DBG_SNDCMD                  4   /* ���ʹ������� */
+#define DBG_RCVCOM                  5   /* ���մ�����Ϣ */
+#define DBG_TCPMSG                  6   /* TCP��Ϣ */
 #define DBG_MAXNUM                  (DBG_TCPMSG+1)
-/* 调试信息头的长度固定为4 */
+/* ������Ϣͷ�ĳ��ȹ̶�Ϊ4 */
 #define DBG_HEADLEN                 5
 #pragma endregion
 
 #pragma region MAX RANGE
 
 #define     MAXPWLEN            32
-#define     MAXSKIPLEN          64  /* 总共跳64个字节 */
+#define     MAXSKIPLEN          64  /* �ܹ���64���ֽ� */
 
-#define     MAXPROBUFF          819200  // 3.22 buf扩大2倍
-#define     OVERFLOWTORQ        300000  /* 溢出的扭矩值，超过该值肯定无效 */
+#define     MAXPROBUFF          819200  // 3.22 buf����2��
+#define     OVERFLOWTORQ        300000  /* �����Ť��ֵ��������ֵ�϶���Ч */
 
 //#define     VITTANAMENUM        50
 
 #define     SPRINTFLEN          60
 
 #define     MAXCMDNUM           24
-/* 最大通信中断时间5s */
+/* ���ͨ���ж�ʱ��5s */
 #define     MAXCOMMBREAKTIME    5000
 
 #define     DEFIPDELTAVAL               0.1
 
-#define     DEFTALLYNAME                _T("入井序号")
+#define     DEFTALLYNAME                _T("�뾮���")
 #pragma endregion
 
 #pragma region STATUS
-/* 定义程序的状态 */
-#define STATUS_INVALID          0   /* 无效状态 */
-#define STATUS_START            1   /* 程序启动状态 */
-#define STATUS_EXIT             2   /* 程序退出状态 */
-#define STATUS_RUN              3   /* 程序运行状态 */
-#define STATUS_STOP             4   /* 程序停止状态 */
-#define STATUS_SETPARA          5   /* 参数设置状态 */
-#define STATUS_FUNTEST          6   /* 功能调试状态 */
-#define STATUS_COLLECT          7   /* 收集单片机数据状态 */
-#define STATUS_HISTORY          8   /* 读取历史数据状态 */
-#define STATUS_RESTART          9   /* 重新打开串口 */
-#define STATUS_CHGLAN           10  /* 改变语言重新打开窗口 */
-#define STATUS_HISSTAT          11  /* 上井数据统计 */
-#define STATUS_SETVALVE         12  /* 设置比例阀参数 */
-#define STATUS_CIRCLE           13  /* 横轴为周版本 */
-#define STATUS_TIME             14  /* 横轴为时间版本 */
-#define STATUS_SETSHOW          15  /* 修改界面显示参数 */
-#define STATUS_CHGUNIT          16  /* 修改扭矩单位 */
-#define STATUS_CALIB            17  /* 校准 */
-#define STATUS_TUBECFG          18  /* 油管参数设置 */
-#define STATUS_GLBCFG           19  /* 全局参数设置 */
-#define STATUS_SERVERCFG        20  /* Server参数设置 */
-#define STATUS_WITSCFG          21  /* WITS参数设置 */
+/* ��������״̬ */
+#define STATUS_INVALID          0   /* ��Ч״̬ */
+#define STATUS_START            1   /* ��������״̬ */
+#define STATUS_EXIT             2   /* �����˳�״̬ */
+#define STATUS_RUN              3   /* ��������״̬ */
+#define STATUS_STOP             4   /* ����ֹͣ״̬ */
+#define STATUS_SETPARA          5   /* ��������״̬ */
+#define STATUS_FUNTEST          6   /* ���ܵ���״̬ */
+#define STATUS_COLLECT          7   /* �ռ���Ƭ������״̬ */
+#define STATUS_HISTORY          8   /* ��ȡ��ʷ����״̬ */
+#define STATUS_RESTART          9   /* ���´򿪴��� */
+#define STATUS_CHGLAN           10  /* �ı��������´򿪴��� */
+#define STATUS_HISSTAT          11  /* �Ͼ�����ͳ�� */
+#define STATUS_SETVALVE         12  /* ���ñ��������� */
+#define STATUS_CIRCLE           13  /* ����Ϊ�ܰ汾 */
+#define STATUS_TIME             14  /* ����Ϊʱ��汾 */
+#define STATUS_SETSHOW          15  /* �޸Ľ�����ʾ���� */
+#define STATUS_CHGUNIT          16  /* �޸�Ť�ص�λ */
+#define STATUS_CALIB            17  /* У׼ */
+#define STATUS_TUBECFG          18  /* �͹ܲ������� */
+#define STATUS_GLBCFG           19  /* ȫ�ֲ������� */
+#define STATUS_SERVERCFG        20  /* Server�������� */
+#define STATUS_WITSCFG          21  /* WITS�������� */
 #define STATUS_MAXNUM           (STATUS_WITSCFG +1)
 #pragma endregion
 
 #pragma region DATABASE
-/* 定义程序的状态 */
-#define D_LANGUAGE              0   /* 语言字典表 */
-#define T_SHOWNAME              1   /* 显示参数名称表 */
-#define T_GLBCFG                2   /* 全局配置表 */
-#define T_SHOWCFG               3   /* 显示参数配置表 */
-#define T_SHOWOPTION            4   /* 显示参数选项表 */
-#define T_VALTORQUE             5   /* 扭矩控制值配置表 */
-#define T_VALTURN               6   /* 周数控制值配置表 */
-#define T_TORQUECFG             7   /* 程序参数值配置表 */
-#define T_XLSSTATCFG            8   /* 导出excel统计配置表 */
-#define T_VALVECFG              9   /* 比例阀配置表 */
-#define T_SERVERCFG             10  /* FTP服务器配置表 */
-#define T_WITSCFG               11  /* WITS(TCP)配置表 */
+/* ��������״̬ */
+#define D_LANGUAGE              0   /* �����ֵ�� */
+#define T_SHOWNAME              1   /* ��ʾ�������Ʊ� */
+#define T_GLBCFG                2   /* ȫ�����ñ� */
+#define T_SHOWCFG               3   /* ��ʾ�������ñ� */
+#define T_SHOWOPTION            4   /* ��ʾ����ѡ��� */
+#define T_VALTORQUE             5   /* Ť�ؿ���ֵ���ñ� */
+#define T_VALTURN               6   /* ��������ֵ���ñ� */
+#define T_TORQUECFG             7   /* �������ֵ���ñ� */
+#define T_XLSSTATCFG            8   /* ����excelͳ�����ñ� */
+#define T_VALVECFG              9   /* ���������ñ� */
+#define T_SERVERCFG             10  /* FTP���������ñ� */
+#define T_WITSCFG               11  /* WITS(TCP)���ñ� */
 #define MAXTABLENUM             (T_WITSCFG +1)
 
 #define DB_INVALID_VAL          -1
@@ -506,22 +506,22 @@ using namespace std;
 //#define         HALFPARALEN             25
 //#define         MAXPARALEN              50
 
-#define         MAXPARANUM              16  /* 钻杆6+油田3+勘探公司6+其他3  */
-#define         MAXMAINPARA             8   /* 0 Factory + 7个 */
+#define         MAXPARANUM              16  /* ���6+����3+��̽��˾6+����3  */
+#define         MAXMAINPARA             8   /* 0 Factory + 7�� */
 #define         MAXOPTIONNUM            50
-//#define         MAINSHOWTUBE            5   /* 第5个主界面显示参数为管体序号(5) */
-#define         MAINSHOWTALLY           7   /* 第6个主界面显示参数为入井序号(7) */
+//#define         MAINSHOWTUBE            5   /* ��5����������ʾ����Ϊ�������(5) */
+#define         MAINSHOWTALLY           7   /* ��6����������ʾ����Ϊ�뾮���(7) */
 
-/* 15个参数, 4~7固定 */
-//#define         FIXSHOWBEGIN            4   /* 第4个显示参数固定(4) */
-//#define         FIXSHOWEND              7   /* 第7个显示参数固定(7) */
-//#define         TUBESN                  9   /* 管体序号 */
-//#define         TALLYNO                 16  /* 入井序号 */
+/* 15������, 4~7�̶� */
+//#define         FIXSHOWBEGIN            4   /* ��4����ʾ�����̶�(4) */
+//#define         FIXSHOWEND              7   /* ��7����ʾ�����̶�(7) */
+//#define         TUBESN                  9   /* ������� */
+//#define         TALLYNO                 16  /* �뾮��� */
 
 
-/* 主界面7个参数, 1~6固定 */
-#define         MAINSHOWBEGIN           0   /* 第1个显示参数固定(1-1) 0 for Factory*/
-#define         MAINSHOWEND             4   /* 第4个显示参数固定(4-1) */
+/* ������7������, 1~6�̶� */
+#define         MAINSHOWBEGIN           0   /* ��1����ʾ�����̶�(1-1) 0 for Factory*/
+#define         MAINSHOWEND             4   /* ��4����ʾ�����̶�(4-1) */
 
 //#define         CBMAINSHOW_FACTORY      0
 //#define         CBMAINSHOW_OEM          1
@@ -529,7 +529,7 @@ using namespace std;
 //#define         CBMAINSHOW_MAT          3
 //#define         CBMAINSHOW_COUPL        4
 
-/* DlgParaSet 系统管材的combobox对应显示参数的序号 */
+/* DlgParaSet ϵͳ�ܲĵ�combobox��Ӧ��ʾ��������� */
 #define         FIXINDEX_FACTORY        0
 #define         FIXINDEX_OEM            4
 #define         FIXINDEX_SIZE           5
@@ -539,33 +539,33 @@ using namespace std;
 
 #pragma region QUALITY
 
-/* dwQuality质量定义约定 */
+/* dwQuality��������Լ�� */
 /*
     bit0    - 1:GOOD; 0:BAD
-    后续位表示质量NOK原因
-    bit1    - TORQ_LESS_LIMIT   低于扭矩下限
-    bit2    - TORQ_MORE_LIMIT   高于扭矩上限
-    bit3    - TORQ_MORE_START   起始扭矩大于控制扭矩15%
-    bit4    - TORQ_MORE_CTRL    高于控制扭矩10%
-    bit5    - CIRC_LESS_LIMIT   低于0.20圈数
-    bit6    - CIRC_MORE_LIMIT   高于圈数上限
-    bit7    - TRANSLATE         图形超过台阶扭矩(控制扭矩15%)后平移
+    ����λ��ʾ����NOKԭ��
+    bit1    - TORQ_LESS_LIMIT   ����Ť������
+    bit2    - TORQ_MORE_LIMIT   ����Ť������
+    bit3    - TORQ_MORE_START   ��ʼŤ�ش��ڿ���Ť��15%
+    bit4    - TORQ_MORE_CTRL    ���ڿ���Ť��10%
+    bit5    - CIRC_LESS_LIMIT   ����0.20Ȧ��
+    bit6    - CIRC_MORE_LIMIT   ����Ȧ������
+    bit7    - TRANSLATE         ͼ�γ���̨��Ť��(����Ť��15%)��ƽ��
 
-    bit8    - NOIPPOINT         无拐点扭矩 // 大庆版本不存在
-    bit9    - LOW_SHOULD        拐点扭矩<Min shoulder(15%)
-    bit10   - HIGHT_SHOULD      拐点扭矩>Max shoulder(70%)
+    bit8    - NOIPPOINT         �޹յ�Ť�� // ����汾������
+    bit9    - LOW_SHOULD        �յ�Ť��<Min shoulder(15%)
+    bit10   - HIGHT_SHOULD      �յ�Ť��>Max shoulder(70%)
     bit11   - LOW_DELTATURN     < Min D. Tns
     bit12   - HIGHT_DELTATURN   > Max D. Tns
-    bit13   - LOW_SLOPE         斜率 < Min Slope
-    bit14   - OTHER_CAUSE       其他,根据不同标准，将不属于范围内的归置到其他中
-    bit15   - SHACK_INSPECT     卸扣检查        人工设定
+    bit13   - LOW_SLOPE         б�� < Min Slope
+    bit14   - OTHER_CAUSE       ����,���ݲ�ͬ��׼���������ڷ�Χ�ڵĹ��õ�������
+    bit15   - SHACK_INSPECT     ж�ۼ��        �˹��趨
 
-    bit16   - GALLING           粘扣            人工设定
-    bit17   - HYDTONGSLIP       液压钳打滑      人工设定
-    bit18   - THREADNOTCLEAN    丝扣清洗不干净  人工设定
-    bit19   - GASSEALINSPECT    气检不合格  人工设定
+    bit16   - GALLING           ճ��            �˹��趨
+    bit17   - HYDTONGSLIP       Һѹǯ��      �˹��趨
+    bit18   - THREADNOTCLEAN    ˿����ϴ���ɾ�  �˹��趨
+    bit19   - GASSEALINSPECT    ���첻�ϸ�  �˹��趨
 */
-#define QUA_RESU_QUALITYBIT     0x00000001 /* 质量位为最低位 */
+#define QUA_RESU_QUALITYBIT     0x00000001 /* ����λΪ���λ */
 #define QUA_RESU_BAD            0x00000000
 #define QUA_RESU_GOOD           0x00000001
 
@@ -575,19 +575,19 @@ using namespace std;
 #define QUA_TORQ_MORE_CTRL      0x00000010
 #define QUA_CIRC_LESS_LIMIT     0x00000020
 #define QUA_CIRC_MORE_LIMIT     0x00000040
-#define QUA_TRANSLATE           0x00000080 /* 图形超过台阶扭矩后平移 */
-#define QUA_NOIPPOINT           0x00000100 /* 无拐点扭矩 */
+#define QUA_TRANSLATE           0x00000080 /* ͼ�γ���̨��Ť�غ�ƽ�� */
+#define QUA_NOIPPOINT           0x00000100 /* �޹յ�Ť�� */
 #define QUA_LOW_SHOULD          0x00000200
 #define QUA_HIGHT_SHOULD        0x00000400
 #define QUA_LOW_DELTATURN       0x00000800
 #define QUA_HIGHT_DELTATURN     0x00001000
 #define QUA_LOW_SLOPE           0x00002000
 #define QUA_OTHER_CAUSE         0x00004000
-#define QUA_SHACK_INSPECT       0x00008000  /* 卸扣检查 手工设置 shackle inspection */
-#define QUA_GALLING             0x00010000  /* 粘扣 手工设置 */
-#define QUA_THREADNOTCLEAN      0x00020000  /* 丝扣清洗不干净 手工设置 */
-#define QUA_GASSEALINSPECT      0x00040000  /* 气检不合格   手工设置 */
-//#define QUA_HYDTONGSLIP         0x00020000  /* 液压钳打滑 手工设置 删除 */
+#define QUA_SHACK_INSPECT       0x00008000  /* ж�ۼ�� �ֹ����� shackle inspection */
+#define QUA_GALLING             0x00010000  /* ճ�� �ֹ����� */
+#define QUA_THREADNOTCLEAN      0x00020000  /* ˿����ϴ���ɾ� �ֹ����� */
+#define QUA_GASSEALINSPECT      0x00040000  /* ���첻�ϸ�   �ֹ����� */
+//#define QUA_HYDTONGSLIP         0x00020000  /* Һѹǯ�� �ֹ����� ɾ�� */
 
 #define MAX_BAD_CAUSE           18
 
@@ -597,8 +597,8 @@ using namespace std;
 #pragma endregion
 
 #pragma region OTHER
-#define VALID_YEAR              5       // 软件有效期年份
-/* 强制设置CTime的长度为4, VC2008认为长度为8，VC6认为为0，两者不一致 */
+#define VALID_YEAR              5       // ������Ч�����
+/* ǿ������CTime�ĳ���Ϊ4, VC2008��Ϊ����Ϊ8��VC6��ΪΪ0�����߲�һ�� */
 #define CTIMELEN                4
 
 #define MAX_LOADSTRING          512
@@ -627,71 +627,71 @@ using namespace std;
 #pragma endregion
 
 #pragma region Struct WITSREPORT
-/* TCP传输协议：
-1、帧头 && ，帧尾!!，每个数据之间回车换行分隔（十六进制为0D 0A）
-2、每行开头固定项目数字定为80
-3、具体传输数据，每行仅一个具体序号数据，一包数据可包含多行数据
-4、每根管需传输数据包数，为扭矩数组长度 + 1，具体规定为：
-(1)	每包数据固定包含01、02、03数据
-(2)	第一包数据传输01~03，11~28
-(3)	后续包数据传输01~03，51~53
+/* TCP����Э�飺
+1��֡ͷ && ��֡β!!��ÿ������֮��س����зָ���ʮ������Ϊ0D 0A��
+2��ÿ�п�ͷ�̶���Ŀ���ֶ�Ϊ80
+3�����崫�����ݣ�ÿ�н�һ������������ݣ�һ�����ݿɰ�����������
+4��ÿ�����贫�����ݰ�����ΪŤ�����鳤�� + 1������涨Ϊ��
+(1)	ÿ�����ݹ̶�����01��02��03����
+(2)	��һ�����ݴ���01~03��11~28
+(3)	���������ݴ���01~03��51~53
 */
-#define WITSRPT_FIXHEADNUM      3   // 每个报文固定参数: 日期，时间，套管号
-#define WITSRPT_REPEATNUM       3   // 重复上报数据: 扭矩，周数，时间
-#define WITSRPT_CALPARANUM      5   // 上扣完成后扭矩计算参数，比如上扣扭矩，拐点扭矩，增量扭矩，台阶比，台阶时间等
-#define WITSRPT_CONFIGNUM       3   // 配置数据，目前为类型，最大扭矩，最小扭矩
-#define WITSRPT_SHOWPARANUM     15  // 最多15个显示参数
-#define WITSRPT_TORQUECOUNT     5   // 最多上报5组数据
+#define WITSRPT_FIXHEADNUM      3   // ÿ�����Ĺ̶�����: ���ڣ�ʱ�䣬�׹ܺ�
+#define WITSRPT_REPEATNUM       3   // �ظ��ϱ�����: Ť�أ�������ʱ��
+#define WITSRPT_CALPARANUM      5   // �Ͽ���ɺ�Ť�ؼ�������������Ͽ�Ť�أ��յ�Ť�أ�����Ť�أ�̨�ױȣ�̨��ʱ���
+#define WITSRPT_CONFIGNUM       3   // �������ݣ�ĿǰΪ���ͣ����Ť�أ���СŤ��
+#define WITSRPT_SHOWPARANUM     15  // ���15����ʾ����
+#define WITSRPT_TORQUECOUNT     5   // ����ϱ�5������
 #pragma endregion
 
 #pragma region Struct DEFINE
 
 typedef struct tagCONTROLPARA
 {
-    /* 扭矩显示相关参数 */
+    /* Ť����ʾ��ز��� */
     double      fTorqConf[MAXTORQCONFNUM];
 #if 0
-    double      fMaxLimit;    /* 最大上限 */
-    double      fUpperLimit;  /* 最大扭矩 */
-    double      fControl;     /* 控制扭矩 */
-    double      fOptTorq;     /* 最佳扭矩 */
-    double      fLowerLimit;  /* 最小扭矩 */
-    double      fSpeedDown;   /* 减速扭矩 */
-    double      fShow;        /* 显示扭矩 */
-    double      fBear;        /* 肩负扭矩 */
-    double      fUpperTai;      /* 最大台阶扭矩 */
-    double      fLowerTai;      /* 最小台阶扭矩 */
+    double      fMaxLimit;    /* ������� */
+    double      fUpperLimit;  /* ���Ť�� */
+    double      fControl;     /* ����Ť�� */
+    double      fOptTorq;     /* ���Ť�� */
+    double      fLowerLimit;  /* ��СŤ�� */
+    double      fSpeedDown;   /* ����Ť�� */
+    double      fShow;        /* ��ʾŤ�� */
+    double      fBear;        /* �縺Ť�� */
+    double      fUpperTai;      /* ���̨��Ť�� */
+    double      fLowerTai;      /* ��С̨��Ť�� */
 #endif
-    //double      fCut;         /* 打折比例 0.8 */
-    /* 扭拧周数 */
+    //double      fCut;         /* ���۱��� 0.8 */
+    /* Ťš���� */
     double      fTurnConf[MAXTURNCONFNUM];
 #if 0
-    double      fMaxCir;      /* 最大周数 */
-    double      fUpperCir;    /* 上限周数 */
-    double      fControlCir;  /* 控制周数 */
-    double      fLowerCir;    /* 下限周数 */
+    double      fMaxCir;      /* ������� */
+    double      fUpperCir;    /* �������� */
+    double      fControlCir;  /* �������� */
+    double      fLowerCir;    /* �������� */
 #endif
-    //double      fPlus;        /* 周脉冲数 */
-    /* 满屏转速 */
-    double      fFullRPM;       /* 画图上的最大转速 */
-    //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
-    int         iSingleSTD;     /* 单根立柱 */
+    //double      fPlus;        /* �������� */
+    /* ����ת�� */
+    double      fFullRPM;       /* ��ͼ�ϵ����ת�� */
+    //double      fMinShlSlope;   /* ��С�縺б��5.0 */
+    int         iSingleSTD;     /* �������� */
 
-    //WORD        wIPPos;       /* 拐点纵坐标位置，0表示没有拐点,或者是老数据，手工补充拐点 */
-    //BYTE        ucVer;        /* 0: 2017年数据结构
-    //                             1: 显示参数名称长度固定25；最多30个显示参数；NLV格式: 显示参数的值长度根据L
-    //                                0～14：正常显示名称，15 Factory
-    //                             2: 2022 0Factory, 1~15正常数据 */
+    //WORD        wIPPos;       /* �յ�������λ�ã�0��ʾû�йյ�,�����������ݣ��ֹ�����յ� */
+    //BYTE        ucVer;        /* 0: 2017�����ݽṹ
+    //                             1: ��ʾ�������Ƴ��ȹ̶�25�����30����ʾ������NLV��ʽ: ��ʾ������ֵ���ȸ���L
+    //                                0��14��������ʾ���ƣ�15 Factory
+    //                             2: 2022 0Factory, 1~15�������� */
     BYTE        ucRsv;
 }CONTROLPARA;
 
 typedef struct tagPORTCFG
 {
-    BYTE        ucPortNo;       /* 串口号 */
-    BYTE        ucParity;       /* 奇偶校验 */
-    BYTE        ucDataBit;      /* 数据位 */
-    BYTE        ucStopBit;      /* 停止位 */
-    UINT        nBand;          /* 波特率 */
+    BYTE        ucPortNo;       /* ���ں� */
+    BYTE        ucParity;       /* ��żУ�� */
+    BYTE        ucDataBit;      /* ����λ */
+    BYTE        ucStopBit;      /* ֹͣλ */
+    UINT        nBand;          /* ������ */
 }PORTCFG;
 
 #if 0
@@ -717,23 +717,23 @@ typedef struct tagTubeCfg
 {
     UINT    nIndex;
 #if 0
-    UINT    nFactory;       // 厂家  JFE
-    UINT    nOEM;           // 管件厂家  2-7/8″ JFE
-    UINT    nSize;          // 管件规格 TubingSize
-    UINT    nMat;           // 扣型材质 EUE          N80
-    UINT    nCoupling;      // 接箍规格 93.2X    磷化
+    UINT    nFactory;       // ����  JFE
+    UINT    nOEM;           // �ܼ�����  2-7/8�� JFE
+    UINT    nSize;          // �ܼ���� TubingSize
+    UINT    nMat;           // ���Ͳ��� EUE          N80
+    UINT    nCoupling;      // �ӹ���� 93.2X    �׻�
 #else
     UINT    nFixTube[MAXTUBECFGNUM];
 #endif
 #if 0
     /* N.m */
-    UINT    nMaxTorq;       // 最大扭矩
-    UINT    nOptTorq;       // 最佳扭矩
-    UINT    nMinTorq;       // 最小扭矩
+    UINT    nMaxTorq;       // ���Ť��
+    UINT    nOptTorq;       // ���Ť��
+    UINT    nMinTorq;       // ��СŤ��
     /* lb.ft */
-    UINT    lMaxTorq;       // 最大扭矩
-    UINT    lOptTorq;       // 最佳扭矩
-    UINT    lMinTorq;       // 最小扭矩
+    UINT    lMaxTorq;       // ���Ť��
+    UINT    lOptTorq;       // ���Ť��
+    UINT    lMinTorq;       // ��СŤ��
 #else
     UINT    nTorqVal[MAXTUBETORQNUM];
 #endif
@@ -749,38 +749,38 @@ typedef struct tagFixTubeCfg
 //#define MAXMEMOLEN              128
 //typedef struct tagCOMMONCFG
 //{
-//    double      fMaxTorq;       /* 启用，记录数据的最大扭矩 */
-//    /* double类型配置 最多16个 */
-//    //double      fRpmAdj;        /* 转速调整 */
-//    //double      fMulti;         /* 校准参数范围0~2 */
-//    //double      fMinShlSlope;   /* 最小肩负斜率5.0 */
-//    //double      fMaxDeltaCir;   /* 最大Delta周数0.1 */
-//    //double      fMinDeltaCir;   /* 最小Delta周数0.1 */
-//    double      fRsv[12];        /* 保留double字段，共16个 */
+//    double      fMaxTorq;       /* ���ã���¼���ݵ����Ť�� */
+//    /* double�������� ���16�� */
+//    //double      fRpmAdj;        /* ת�ٵ��� */
+//    //double      fMulti;         /* У׼������Χ0~2 */
+//    //double      fMinShlSlope;   /* ��С�縺б��5.0 */
+//    //double      fMaxDeltaCir;   /* ���Delta����0.1 */
+//    //double      fMinDeltaCir;   /* ��СDelta����0.1 */
+//    double      fRsv[12];        /* ����double�ֶΣ���16�� */
 //
-//    /* DWORD类型配置 最多16个 */
+//    /* DWORD�������� ���16�� */
 //    DWORD       dwSeqNo;
 //    DWORD       dwRsv[15];
 //
-//    /* 开关值设置，每个开关值使用一个BIT位 */
-//    /* BIT位定义 最多8*32个 */
-//    //DWORD       bBear : 1;        /* 是否有肩负,默认为没有 */
-//    DWORD       bToolBuck : 1;    /* 是否为工具扣,默认为否 */
+//    /* ����ֵ���ã�ÿ������ֵʹ��һ��BITλ */
+//    /* BITλ���� ���8*32�� */
+//    //DWORD       bBear : 1;        /* �Ƿ��м縺,Ĭ��Ϊû�� */
+//    DWORD       bToolBuck : 1;    /* �Ƿ�Ϊ���߿�,Ĭ��Ϊ�� */
 //    DWORD       bRsv : 30;
 //    DWORD       dwRsv2[7];
 //
-//    //char        aucMemo[MAXMEMOLEN];        /* 备注 */
-//    //char        aucRemark[MAXPARALEN];      /*标注说明remark*/
+//    //char        aucMemo[MAXMEMOLEN];        /* ��ע */
+//    //char        aucRemark[MAXPARALEN];      /*��ע˵��remark*/
 //}COMMONCFG;
 
 typedef struct tagPARACFG
 {
     CONTROLPARA tCtrl;
     //COMMONCFG   tComm;
-    //TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
+    //TUBECFG     tTubeCfg;               /* 5���͹ܲ����Ĺ̻����壬�ǹ̻�������SHOWPARA�� */
 
     string      strAlias;
-    string      strValue[MAXPARANUM];   /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */
+    string      strValue[MAXPARANUM];   /* ��ǰѡ�����ʾ������ֵ +1 ����(0)����������ʱʹ�� */
 
     //string      strAlias;
     string      strMemo;
@@ -789,37 +789,37 @@ typedef struct tagPARACFG
 
 typedef struct tagGLBCFG
 {
-    UINT        nLangType;      /* 语言类型 */
-    //UINT        nParaIndex;     /* 控制参数配置索引 */
-    UINT        nPortNO;        /* 串口号 */
-    UINT        nBaudRate;      /* 波特率 */
-    UINT        nPlusPerTurn;   /* 周脉冲数 */
-    UINT        nTorqUnit;      /* 扭矩单位: 0:N.m; 1:lb.ft */
-    UINT        nCollectDur;    /* 定时收集数据的时间，ms，默认100 */
-    UINT        nResetDur;      /* 复位时间，默认10s */
-    UINT        nSaveDur;       /* 大于显示扭矩后保存数据的时间，默认30s */
-    /*UINT        nIPShowMode;    /* 拐点显示方式：1: 只画数据中的拐点
-                                                2: 只画计算拐点
-                                                3: 数据拐点和计算拐点都画 */
-    UINT        nZoomIn;        /* 图形放大倍数 */
-    UINT        nImgNum;        /* 批量导出图形时，一个图像文件中包含多少个图形 */
-    UINT        nTest;          /* 0: 真实串口；1：模拟测试；2：读取dat扭矩数据；3: 读取多行扭矩数据；4：从日志中恢复数据，基于当前数据库和多行处理；5: 读取dat 历史数据； */
-    //int         iBreakOut;      /* 是否是卸扣版本，是到控制扭矩不画竖线，按单片机数据显示 */
+    UINT        nLangType;      /* �������� */
+    //UINT        nParaIndex;     /* ���Ʋ����������� */
+    UINT        nPortNO;        /* ���ں� */
+    UINT        nBaudRate;      /* ������ */
+    UINT        nPlusPerTurn;   /* �������� */
+    UINT        nTorqUnit;      /* Ť�ص�λ: 0:N.m; 1:lb.ft */
+    UINT        nCollectDur;    /* ��ʱ�ռ����ݵ�ʱ�䣬ms��Ĭ��100 */
+    UINT        nResetDur;      /* ��λʱ�䣬Ĭ��10s */
+    UINT        nSaveDur;       /* ������ʾŤ�غ󱣴����ݵ�ʱ�䣬Ĭ��30s */
+    /*UINT        nIPShowMode;    /* �յ���ʾ��ʽ��1: ֻ�������еĹյ�
+                                                2: ֻ������յ�
+                                                3: ���ݹյ�ͼ���յ㶼�� */
+    UINT        nZoomIn;        /* ͼ�ηŴ��� */
+    UINT        nImgNum;        /* ��������ͼ��ʱ��һ��ͼ���ļ��а������ٸ�ͼ�� */
+    UINT        nTest;          /* 0: ��ʵ���ڣ�1��ģ����ԣ�2����ȡdatŤ�����ݣ�3: ��ȡ����Ť�����ݣ�4������־�лָ����ݣ����ڵ�ǰ���ݿ�Ͷ��д�����5: ��ȡdat ��ʷ���ݣ� */
+    //int         iBreakOut;      /* �Ƿ���ж�۰汾���ǵ�����Ť�ز������ߣ�����Ƭ��������ʾ */
 
-    double      fDiscount;      /* fCut 打折比例 0.8 */
-    double      fMulti;         /* 校准参数范围0~2 */
-    double      fRpmAdj;        /* 转速调整 */
-    //double      fIPDeltaVal;    /* 默认0.7 */   
+    double      fDiscount;      /* fCut ���۱��� 0.8 */
+    double      fMulti;         /* У׼������Χ0~2 */
+    double      fRpmAdj;        /* ת�ٵ��� */
+    //double      fIPDeltaVal;    /* Ĭ��0.7 */   
 
-    //BOOL        bCheckIP;       /* 质量判断是否启用高级判断，简单判断以控制扭矩为准， 超过最大扭矩和低于最小扭矩为不合格，默认为1 和控件关联*/
-    bool        bBigTorq;       /* 是否为大扭矩版本2.4.9, TRUE:和单片机扭矩相差10倍,FALSE:1倍 */
-    bool        bDateBehind;    /* 日期在文件命名的后面 */
+    //BOOL        bCheckIP;       /* �����ж��Ƿ����ø߼��жϣ����ж��Կ���Ť��Ϊ׼�� �������Ť�غ͵�����СŤ��Ϊ���ϸ�Ĭ��Ϊ1 �Ϳؼ�����*/
+    bool        bBigTorq;       /* �Ƿ�Ϊ��Ť�ذ汾2.4.9, TRUE:�͵�Ƭ��Ť�����10��,FALSE:1�� */
+    bool        bDateBehind;    /* �������ļ������ĺ��� */
 
     string      strPassWord;
-    //string      strBreakOutFile; /* 上扣后开始卸扣的文件名称 */
+    //string      strBreakOutFile; /* �Ͽۺ�ʼж�۵��ļ����� */
     string      strDataPath;
 
-    string      strUnit;        /* 对应扭矩单位的字符串 */
+    string      strUnit;        /* ��ӦŤ�ص�λ���ַ��� */
 }GLBCFG;
 
 typedef struct tagSERVERCFG
@@ -851,22 +851,22 @@ typedef struct tagSHOWOPTION
 
 typedef struct tagSHOWCFG
 {
-    UINT        nParaNum;               /* 当前显示参数个数;图形参数个数等于显示参数个数 */
-    //UINT        nListNum;               /* 当前列表显示参数个数 */
-    UINT        nMainNum;               /* 当前主界面显示参数个数 */
-    UINT        nFileName;              /* 命名数据文件的参数，是各个参数中的一个 */
-    UINT        nStatType;              /* 统计参数，是各个参数中的一个 */
-    UINT        nJointOD;               /* 接头外径，入井/出井参数值可以不一样，需要取两次 */
-    UINT        nShow[MAXPARANUM];      /* strShow字符串对应存储的index号 */
-    //UINT        nList[MAXPARANUM];      /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
-    UINT        nMain[MAXMAINPARA];     /* strShow的序号，从0开始，根据序号从strShow活动显示值 */
-    string      strShow[MAXPARANUM];    /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */
-    //string      strValue[MAXPARANUM];   /* 当前选择的显示参数及值 +1 厂家(0)，参数设置时使用 */
-    //SHOWOPTION  tOption[MAXPARANUM];  /* 当前显示参数的可选项 +1 厂家(0)，参数设置时使用  */
+    UINT        nParaNum;               /* ��ǰ��ʾ��������;ͼ�β�������������ʾ�������� */
+    //UINT        nListNum;               /* ��ǰ�б���ʾ�������� */
+    UINT        nMainNum;               /* ��ǰ��������ʾ�������� */
+    UINT        nFileName;              /* ���������ļ��Ĳ������Ǹ��������е�һ�� */
+    UINT        nStatType;              /* ͳ�Ʋ������Ǹ��������е�һ�� */
+    UINT        nJointOD;               /* ��ͷ�⾶���뾮/��������ֵ���Բ�һ������Ҫȡ���� */
+    UINT        nShow[MAXPARANUM];      /* strShow�ַ�����Ӧ�洢��index�� */
+    //UINT        nList[MAXPARANUM];      /* strShow����ţ���0��ʼ��������Ŵ�strShow���ʾֵ */
+    UINT        nMain[MAXMAINPARA];     /* strShow����ţ���0��ʼ��������Ŵ�strShow���ʾֵ */
+    string      strShow[MAXPARANUM];    /* ��ǰѡ�����ʾ������ֵ +1 ����(0)����������ʱʹ�� */
+    //string      strValue[MAXPARANUM];   /* ��ǰѡ�����ʾ������ֵ +1 ����(0)����������ʱʹ�� */
+    //SHOWOPTION  tOption[MAXPARANUM];  /* ��ǰ��ʾ�����Ŀ�ѡ�� +1 ����(0)����������ʱʹ��  */
 
     UINT        nAlias;
     //bool        bFixTube;
-    //TUBECFG     tTubeCfg;               /* 5个油管参数的固化定义，非固化参数在SHOWPARA中 */
+    //TUBECFG     tTubeCfg;               /* 5���͹ܲ����Ĺ̻����壬�ǹ̻�������SHOWPARA�� */
 }SHOWCFG;
 
 typedef struct tagTorqCfgID
@@ -877,28 +877,28 @@ typedef struct tagTorqCfgID
     string      strOptionID;
 }TORQCFGID;
 
-/* XLS统计结果参数配置 */
+/* XLSͳ�ƽ���������� */
 typedef struct tagXLSSTATCFG
 {
-    //BYTE        ucWellNO;                   /* 井号 */
-    //BYTE        ucWellDepth;                /* 井深 */
-    //BYTE        ucCompany;                  /* 甲方名称 */
-    //BYTE        ucOperator;                 /* 当班班长(操作者)参数序号 */
-    //BYTE        ucTally;                    /* 入井序号参数序号 */
+    //BYTE        ucWellNO;                   /* ���� */
+    //BYTE        ucWellDepth;                /* ���� */
+    //BYTE        ucCompany;                  /* �׷����� */
+    //BYTE        ucOperator;                 /* ����೤(������)������� */
+    //BYTE        ucTally;                    /* �뾮��Ų������ */
     int         GenPara[STATPARA_GENNUM];
-    int         JobPara[STATPARA_JOBNUM];       /* 摘要(Page1)显示参数序号 */
-    int         InfoPara[STATPARA_INFONUM];     /* 报告(Page4)显示参数序号 */
+    int         JobPara[STATPARA_JOBNUM];       /* ժҪ(Page1)��ʾ������� */
+    int         InfoPara[STATPARA_INFONUM];     /* ����(Page4)��ʾ������� */
 }XLSSTATCFG;
 
-/*  状态定义参见TorqueDlg.h, 如PLCSTATUS_WAIT
-    0：待机/反转、数据丢弃
-    1：正常显示；
-    2：减速
-    3：卸荷
-    4: 抱死
-    CC: 上扣/卸扣反转，扭矩奇数/偶数互换
-    F0: 多个数据时，数据重复，该条数据需要跳过continue
-    FE:卸扣结束254
+/*  ״̬����μ�TorqueDlg.h, ��PLCSTATUS_WAIT
+    0������/��ת�����ݶ���
+    1��������ʾ��
+    2������
+    3��ж��
+    4: ����
+    CC: �Ͽ�/ж�۷�ת��Ť������/ż������
+    F0: �������ʱ�������ظ�������������Ҫ����continue
+    FE:ж�۽���254
     FF:CRC ERROR
 */
 typedef struct tagORGDATA
@@ -913,31 +913,31 @@ typedef struct tagORGDATA
 
 typedef struct tagCOLLECTDATA
 {
-    double      fTorque;        /*当前扭矩*/
-    double      fRpm;           /*当前转速*/
-    int         iPointNum;      /*一个数据画图的点数
-                                  0;没有转，只是更新扭矩值，不往后画图
-                                  1:正常插入一次数据，画一个点
-                                  2~N:中间数据丢失或者一次plus比较多，需要画多次数据
-                                      程序自动插入多个数据，使图像更加平滑合理*/
-    UINT        nOrgPlus;       /* 原始记录的脉冲数；计算转速时，会减去showplus */
-    BYTE        ucStatus;       /* 下位机的状态, 同ORGDATA的ucStatus定义 */
+    double      fTorque;        /*��ǰŤ��*/
+    double      fRpm;           /*��ǰת��*/
+    int         iPointNum;      /*һ�����ݻ�ͼ�ĵ���
+                                  0;û��ת��ֻ�Ǹ���Ť��ֵ��������ͼ
+                                  1:��������һ�����ݣ���һ����
+                                  2~N:�м����ݶ�ʧ����һ��plus�Ƚ϶࣬��Ҫ���������
+                                      �����Զ����������ݣ�ʹͼ�����ƽ������*/
+    UINT        nOrgPlus;       /* ԭʼ��¼��������������ת��ʱ�����ȥshowplus */
+    BYTE        ucStatus;       /* ��λ����״̬, ͬORGDATA��ucStatus���� */
 }COLLECTDATA;
 
-/* 统计参数设置 */
+/* ͳ�Ʋ������� */
 #define     STATRANGENUM        3
 typedef struct tagSTATCFG
 {
-    double  fCtrlRange[STATRANGENUM];       /* 控件扭矩范围 */
-    //double  fShouldRange[STATRANGENUM];     /* 拐点扭矩统计范围 */
-    //double  fDeltaRange[STATRANGENUM];      /* Delta周数统计范围 */
+    double  fCtrlRange[STATRANGENUM];       /* �ؼ�Ť�ط�Χ */
+    //double  fShouldRange[STATRANGENUM];     /* �յ�Ť��ͳ�Ʒ�Χ */
+    //double  fDeltaRange[STATRANGENUM];      /* Delta����ͳ�Ʒ�Χ */
 }STATCFG;
 
 //#define     MAXSPLIITNUM        10
 //typedef struct tagSplit
 //{
-//    int     iCur;           /* 范围1~iSplitNum */
-//    int     iCtrlPnt;       /* 控制周数对应点数，上扣有效，卸扣写死为500 */
+//    int     iCur;           /* ��Χ1~iSplitNum */
+//    int     iCtrlPnt;       /* ����������Ӧ�������Ͽ���Ч��ж��д��Ϊ500 */
 //    int     iSplitNum;
 //    int     iBegin[MAXSPLIITNUM];
 //    int     iEnd[MAXSPLIITNUM];
@@ -946,7 +946,7 @@ typedef struct tagSTATCFG
 #define     MAXWELLNUM   5000
 typedef struct tagTORQUEDATA
 {
-    UINT    nCur;               /* nCur从1开始计数，相当于数组序号+1 当前显示/卸扣的序号 */
+    UINT    nCur;               /* nCur��1��ʼ�������൱���������+1 ��ǰ��ʾ/ж�۵���� */
     UINT    nTotal;
     UINT    nQualy;
     UINT    nUnQualy;
@@ -955,8 +955,8 @@ typedef struct tagTORQUEDATA
     string  strFileName;
 }TORQUEDATA;
 
-/* 最大10屏，考虑放大5倍，10*500*5 */
-#define SPLITPOSNUM     20          // 上扣扭矩和卸扣扭矩数据之间的间隔点数
+/* ���10�������ǷŴ�5����10*500*5 */
+#define SPLITPOSNUM     20          // �Ͽ�Ť�غ�ж��Ť������֮��ļ������
 typedef struct tagDRAWTORQDATA
 {
     WORD        wCount;
@@ -983,7 +983,7 @@ typedef struct tagHISDATA
     ONEHISDATA  tOneData[MAXHISDATANUM];
 }HISDATA;
 
-//6k存储空间（1M內存溢出）
+//6k�洢�ռ䣨1M�ȴ������
 //#define     MAXSAVEDATALEN  1048576
 //#define     MAXSAVELEN      1000000  
 #define     MAXSAVEDATALEN  65530
@@ -994,25 +994,25 @@ typedef struct tagSAVELOGDATA
     char        aucLog[MAXSAVEDATALEN];
 }SAVELOGDATA;
 
-/* 比例阀参数设置 */
+/* �������������� */
 #define     VALVETYPENUM        2
 #define     VALVERATIONUM       3
 typedef struct tagVALVECFG
 {
-    BYTE    ucTorq[VALVETYPENUM][VALVERATIONUM];    /* 扭矩比例 */
-    BYTE    ucRatio[VALVETYPENUM][VALVERATIONUM];   /* 阀值比例 */
+    BYTE    ucTorq[VALVETYPENUM][VALVERATIONUM];    /* Ť�ر��� */
+    BYTE    ucRatio[VALVETYPENUM][VALVERATIONUM];   /* ��ֵ���� */
 
-    //BYTE    ucZoomRatio;                            /* 放大倍数 */
+    //BYTE    ucZoomRatio;                            /* �Ŵ��� */
 }VALVECFG;
 
-/* 校准参数设置 */
+/* У׼�������� */
 #define     CALIBNUM            7
 #define     CALIBPARALEN        10
 typedef struct tagCALIBCFG
 {
-    BYTE    ucLoad[CALIBNUM][CALIBPARALEN];     /* 负荷 */
-    BYTE    ucStroke[CALIBNUM][CALIBPARALEN];   /* 进程读数 */
-    BYTE    ucReturn[CALIBNUM][CALIBPARALEN];   /* 回程读数 */
+    BYTE    ucLoad[CALIBNUM][CALIBPARALEN];     /* ���� */
+    BYTE    ucStroke[CALIBNUM][CALIBPARALEN];   /* ���̶��� */
+    BYTE    ucReturn[CALIBNUM][CALIBPARALEN];   /* �س̶��� */
 }CALIBCFG;
 
 #define     MAXSEGNUM   10
@@ -1032,7 +1032,7 @@ typedef struct tagCalibCtrl
     CALIBINFO   tInfo;
 }CALIBCTRL;
 
-/* 显示参数的名称定义，在代码写死，确定显示的名称/顺序 */
+/* ��ʾ���������ƶ��壬�ڴ���д����ȷ����ʾ������/˳�� */
 #define         MAXNAMELEN              32
 typedef struct tagSHOWPARANAME
 {
@@ -1041,7 +1041,7 @@ typedef struct tagSHOWPARANAME
 
 
 #define MAXLINEITEM     500
-#define COLLECTPOINTS   (MAXLINEITEM + 50) // 自动缩放周数
+#define COLLECTPOINTS   (MAXLINEITEM + 50) // �Զ���������
 #define TESTNUM         10*MAXLINEITEM
 typedef struct tagCOLLECTORQUE
 {
@@ -1083,157 +1083,157 @@ typedef struct tagWITSRPTDATA
 #define WIDTHBYTES(bits)    (((bits) + 31) / 32 * 4)
 #endif
 
-/* 数据标准化，小数点后两位 */
+/* ���ݱ�׼����С�������λ */
 #define PERCENTDATA(fData)    (int(fData*100)/100.0)
 
 #define MIN(a, b)            ((a) > (b) ? (b) : (a))
 #define MAX(a, b)            ((a) > (b) ? (a) : (b))
 
-/* 3.22后所有串口数据都记录,数据包括脉冲信息，根据脉冲算周数 */
+/* 3.22�����д������ݶ���¼,���ݰ���������Ϣ���������������� */
 // #define VERSION_RECPLUS(ptTorq)  (ptTorq->dwdelplus_size() > 0)
 
-/* 自定义代码宏，降低代码圈复杂度 */
-/* 程序公共宏值 */
-/* 指针为空，直接返回 */
+/* �Զ������꣬���ʹ���Ȧ���Ӷ� */
+/* ���򹫹���ֵ */
+/* ָ��Ϊ�գ�ֱ�ӷ��� */
 #define ASSERT_NULL(point)              {                   \
         if((point) == NULL)                                 \
             return;                                         \
     }
 
-/* 指针为空，返回ret(BOOL, value, NULL) */
+/* ָ��Ϊ�գ�����ret(BOOL, value, NULL) */
 #define ASSERT_NULL_R(point, ret)       {                   \
         if((point) == NULL)                                 \
             return (ret);                                   \
     }
 
-/* 参数为0，直接返回 */
+/* ����Ϊ0��ֱ�ӷ��� */
 #define ASSERT_ZERO(value)              {                   \
         if((value) == 0)                                    \
             return;                                         \
     }
 
-/* 参数为0，返回ret(BOOL, value, NULL)  */
+/* ����Ϊ0������ret(BOOL, value, NULL)  */
 #define ASSERT_ZERO_R(value, ret)       {                   \
         if((value) == 0)                                    \
             return (ret);                                   \
     }
 
-/* 参数为TRUE，直接返回 */
+/* ����ΪTRUE��ֱ�ӷ��� */
 #define COMP_BTRUE(value)               {                   \
         if((value))                                         \
             return;                                         \
     }
 
-/* 参数为FALSE，直接返回 */
+/* ����ΪFALSE��ֱ�ӷ��� */
 #define COMP_BFALSE(value)              {                   \
         if(!(value))                                        \
             return;                                         \
     }
 
-/* 参数为TRUE，返回 ret */
+/* ����ΪTRUE������ ret */
 #define COMP_BTRUE_R(value, ret)        {                   \
         if((value))                                         \
             return (ret);                                   \
     }
 
-/* 参数为FALSE，返回 ret */
+/* ����ΪFALSE������ ret */
 #define COMP_BFALSE_R(value, ret)        {                  \
         if(!(value))                                        \
             return (ret);                                   \
     }
 
-/* 参数等于cp，直接返回 */
+/* ��������cp��ֱ�ӷ��� */
 #define COMP_BE(value, cp)              {                   \
         if((value) == (cp))                                 \
             return;                                         \
     }
 
-/* 参数等于cp，返回ret(BOOL, value, NULL)  */
+/* ��������cp������ret(BOOL, value, NULL)  */
 #define COMP_BE_R(value, cp, ret)       {                   \
         if((value) == (cp))                                 \
             return (ret);                                   \
     }
 
-/* 参数不等于cp，直接返回 */
+/* ����������cp��ֱ�ӷ��� */
 #define COMP_BNE(value, cp)             {                   \
         if((value) != (cp))                                 \
             return;                                         \
     }
 
-/* 参数不等于cp，返回ret(BOOL, value, NULL)  */
+/* ����������cp������ret(BOOL, value, NULL)  */
 #define COMP_BNE_R(value, cp, ret)      {                   \
         if((value) != (cp))                                 \
             return (ret);                                   \
     }
 
-/* 参数小于cp，直接返回 */
+/* ����С��cp��ֱ�ӷ��� */
 #define COMP_BL(value, cp)              {                   \
         if((value) < (cp))                                  \
             return;                                         \
     }
 
-/* 参数小于cp，返回ret(BOOL, value, NULL)  */
+/* ����С��cp������ret(BOOL, value, NULL)  */
 #define COMP_BL_R(value, cp, ret)       {                   \
         if((value) < (cp))                                  \
             return (ret);                                   \
     }
 
-/* 参数大于cp，直接返回 */
+/* ��������cp��ֱ�ӷ��� */
 #define COMP_BG(value, cp)              {                   \
         if((value) > (cp))                                  \
             return;                                         \
     }
 
-/* 参数大于cp，返回ret(BOOL, value, NULL)  */
+/* ��������cp������ret(BOOL, value, NULL)  */
 #define COMP_BG_R(value, cp, ret)       {                   \
         if((value) > (cp))                                  \
             return (ret);                                   \
     }
 
-/* 参数小于等于cp，直接返回 */
+/* ����С�ڵ���cp��ֱ�ӷ��� */
 #define COMP_BLE(value, cp)             {                   \
         if((value) <= (cp))                                 \
             return;                                         \
     }
 
-/* 参数小于等于cp，返回ret(BOOL, value, NULL)  */
+/* ����С�ڵ���cp������ret(BOOL, value, NULL)  */
 #define COMP_BLE_R(value, cp, ret)      {                   \
         if((value) <= (cp))                                 \
             return (ret);                                   \
     }
 
-/* 参数大于等于cp，直接返回 */
+/* �������ڵ���cp��ֱ�ӷ��� */
 #define COMP_BGE(value, cp)             {                   \
         if((value) >= (cp))                                 \
             return;                                         \
     }
 
-/* 参数大于等于cp，返回ret(BOOL, value, NULL)  */
+/* �������ڵ���cp������ret(BOOL, value, NULL)  */
 #define COMP_BGE_R(value, cp, ret)      {                   \
         if((value) >= (cp))                                 \
             return (ret);                                   \
     }
 
 
-/* 参数为NULL，循环里面continue */
+/* ����ΪNULL��ѭ������continue */
 #define COMP_BNULL_CONTINUE(value)      {                   \
         if((value) == NULL)                                 \
             continue;                                       \
     }
 
-/* 参数为TRUE，循环里面continue */
+/* ����ΪTRUE��ѭ������continue */
 #define COMP_BTRUE_CONTINUE(value)      {                   \
         if((value))                                         \
             continue;                                       \
     }
 
-/* 参数为FALSE，循环里面continue */
+/* ����ΪFALSE��ѭ������continue */
 #define COMP_BFALSE_CONTINUE(value)     {                   \
         if(!(value))                                        \
             continue;                                       \
     }
 
-/* 删除非空指针 */
+/* ɾ���ǿ�ָ�� */
 #define DELETE_POINT(point)             {                   \
         if((point) != NULL)                                 \
         {                                                   \
@@ -1242,13 +1242,13 @@ typedef struct tagWITSRPTDATA
         }                                                   \
     }
 
-/* 删除有效的object */
+/* ɾ����Ч��object */
 #define DELETE_OBJECT(hObject)          {                   \
         if(hObject)                                         \
             ::DeleteObject(hObject);                        \
     }
 
-/* 参数上限检查，如果检查的值大于某值，将该值修改为某值 */
+/* �������޼�飬�������ֵ����ĳֵ������ֵ�޸�Ϊĳֵ */
 #define CHECK_VALUE_UP(check, upper)    {                   \
         if(check > upper)                                   \
         {                                                   \
@@ -1256,7 +1256,7 @@ typedef struct tagWITSRPTDATA
         }                                                   \
     }
 
-/* 参数下限检查，如果检查的值小于某值，将该值修改为某值*/
+/* �������޼�飬�������ֵС��ĳֵ������ֵ�޸�Ϊĳֵ*/
 #define CHECK_VALUE_LOW(check, lower)   {                   \
         if(check < lower)                                   \
         {                                                   \
@@ -1265,8 +1265,8 @@ typedef struct tagWITSRPTDATA
     }
 
 
-/* 程序特有宏值 */
-/* 判断扭矩记录的序号是否有效 */
+/* �������к�ֵ */
+/* �ж�Ť�ؼ�¼������Ƿ���Ч */
 #define JUDGE_RANGE(nNo, iMaxNo)        {                   \
         if(((nNo) < 1                      )  ||            \
            ((nNo) > (iMaxNo)               )  ||            \
@@ -1285,7 +1285,7 @@ typedef struct tagWITSRPTDATA
         }                                                   \
     }
 
-/* 判断扭矩记录的序号是否有效，无效打印信息 */
+/* �ж�Ť�ؼ�¼������Ƿ���Ч����Ч��ӡ��Ϣ */
 #define JUDGE_RANGE_MESS(nNo, iMaxNo, strInfo)  {           \
         if(((nNo) < 1                      )  ||            \
            ((nNo) > (iMaxNo)               )  ||            \
@@ -1296,7 +1296,7 @@ typedef struct tagWITSRPTDATA
         }                                                   \
     }
 
-/* 读取扭矩结构历史文件越界保护 */
+/* ��ȡŤ�ؽṹ��ʷ�ļ�Խ�籣�� */
 #define CHECK_FILE_LEN(file, iFileLen)  {                   \
         if((file).GetPosition() > (iFileLen))               \
         {                                                   \
@@ -1312,14 +1312,14 @@ typedef struct tagWITSRPTDATA
         }                                                   \
     }
 
-   /* 获取图像的控制扭矩 */
+   /* ��ȡͼ��Ŀ���Ť�� */
 #define GET_CTRL_TORQ(fTorq, ptTorq)        {                       \
         fTorq = ptTorq->fmumaxtorq();                               \
         if(fTorq < ptTorq->fbomaxtorq())                            \
             fTorq = ptTorq->fbomaxtorq();                           \
     }
 
-/* 判断程序注册状态 */
+/* �жϳ���ע��״̬ */
 #define JUDGE_REG_STATUS()              {                       \
         if(!theApp.m_tReg.Reged())                              \
         {                                                       \
@@ -1328,14 +1328,14 @@ typedef struct tagWITSRPTDATA
         }                                                       \
     }
 
-/* 设置控件的名称为STRINGTABEL指定的字符串 */
+/* ���ÿؼ�������ΪSTRINGTABELָ�����ַ��� */
 #define SET_CONTROL_NAME(CtrlID, strTabID, strTag)                          \
     {                                                                       \
         strTag.LoadString(strTabID);                                        \
         GetDlgItem(CtrlID)->SetWindowText(strTag);                          \
     }
 
-/* 设置质量位属性，满足条件设置为1，否则清0 */
+/* ��������λ���ԣ�������������Ϊ1��������0 */
 #define SET_QUALITY_BIT(tCondition, bitFlag, dwQua)     {                   \
     if(tCondition)                                                          \
     {                                                                       \
@@ -1358,7 +1358,7 @@ typedef struct tagWITSRPTDATA
 #define HAND_FLOOR(fNum)    (floor((fNum)/100) * 100)
 #define GetRandom( min, max ) ((rand() % (int)(((max)+1) - (min))) + (min))
 
-/* 显示周数信息，如果nCur=nAll，显示周数；否则显示当前周数/总周数 */
+/* ��ʾ������Ϣ�����nCur=nAll����ʾ������������ʾ��ǰ����/������ */
 #define SHOWCIRINFO(nCur, nAll, fMaxCir, strCir)                                \
     {                                                                           \
         if(nCur == nAll)                                                        \
@@ -1388,7 +1388,7 @@ typedef struct tagWITSRPTDATA
     }
 
 
-/* 参数上限检查，如果检查的值大于某值，将该值修改为比某值小*** */
+/* �������޼�飬�������ֵ����ĳֵ������ֵ�޸�Ϊ��ĳֵС*** */
 #define CHECK_PARA_UP(check, upper,diff) {                      \
         if(check > upper)                                       \
         {                                                       \
@@ -1396,7 +1396,7 @@ typedef struct tagWITSRPTDATA
         }                                                       \
     }
 
-/* 参数下限检查，如果检查的值小于某值，将该值修改为比某值大*** */
+/* �������޼�飬�������ֵС��ĳֵ������ֵ�޸�Ϊ��ĳֵ��*** */
 #define CHECK_PARA_LOW(check, lower, diff) {                    \
         if(check < lower)                                       \
         {                                                       \
@@ -1404,7 +1404,7 @@ typedef struct tagWITSRPTDATA
         }                                                       \
     }
 
-/* 参数范围检查，如果检查的值不在范围内，将该值设置为默认值 */
+/* ������Χ��飬�������ֵ���ڷ�Χ�ڣ�����ֵ����ΪĬ��ֵ */
 #define CHECK_PARA_ROUND(check, lower, upper, defval) {         \
         if(check < lower || check > upper)                      \
         {                                                       \
@@ -1412,7 +1412,7 @@ typedef struct tagWITSRPTDATA
         }                                                       \
     }
 
-/* 参数范围检查，如果检查的值不在数组内，将该值设置为默认值 */
+/* ������Χ��飬�������ֵ���������ڣ�����ֵ����ΪĬ��ֵ */
 #define CHECK_PARA_ARRAY(check, array, lower, upper, defval) {  \
         for(i=lower; i<upper; i++)                              \
         {                                                       \
@@ -1462,8 +1462,8 @@ vector<int> GetIDFromList(string lsVals);
 void CheckLanguage(UINT& nLang);
 string GetCCBString(CComboBox* ptCCB);
 
-string UTF82ASCII(string& strUtf8Code);         //utf-8 转 ascii 
-string ASCII2UTF8(string& strAsciiCode);        //ascii 转 Utf8
+string UTF82ASCII(string& strUtf8Code);         //utf-8 ת ascii 
+string ASCII2UTF8(string& strAsciiCode);        //ascii ת Utf8
 string string_format(const char* format, ...);
 #pragma endregion
 

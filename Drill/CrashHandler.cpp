@@ -184,12 +184,12 @@ void CCrashHandler::CreateMiniDump(EXCEPTION_POINTERS* pExcPtrs)
     }
 
     strDumpName = string_format("crashdump%04d%02d%02d%02d%02d%02d.dmp",
-        tDay.GetYear(),      //yyyyå¹´
-        tDay.GetMonth(),     //mmæœˆä»½
-        tDay.GetDay(),       //ddæ—¥
-        tDay.GetHour(),      //hhå°æ—¶
-        tDay.GetMinute(),    //mmåˆ†é’Ÿ
-        tDay.GetSecond());   //ssç§’
+        tDay.GetYear(),      //yyyyÄê
+        tDay.GetMonth(),     //mmÔÂ·İ
+        tDay.GetDay(),       //ddÈÕ
+        tDay.GetHour(),      //hhĞ¡Ê±
+        tDay.GetMinute(),    //mm·ÖÖÓ
+        tDay.GetSecond());   //ssÃë
 
 // Create the minidump file
     hFile = CreateFile(strDumpName.c_str(),

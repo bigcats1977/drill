@@ -104,7 +104,7 @@ BOOL CDlgStatSet::OnInitDialog()
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // 脪矛鲁拢: OCX 脢么脨脭脪鲁脫娄路碌禄脴 FALSE
+                  // 异常: OCX 属性页应返回 FALSE
 }
 
 void CDlgStatSet::OnBnClickedOk()

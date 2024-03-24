@@ -54,7 +54,7 @@ BOOL CDlgSegCabl::OnInitDialog()
 
     iWidth = (int)(rcView.Width() / 4.2);
     m_lsCalibInfo.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT);
-    // "ç±»å‹,%d;æ®µå·,%d;æ ¡å‡†æ‰­çŸ©,%d;A/Dæ‰­çŸ©,%d;æœ€å°æ‰­çŸ©,%d;æœ€å¤§æ‰­çŸ©,%d;"
+    // "ÀàĞÍ,%d;¶ÎºÅ,%d;Ğ£×¼Å¤¾Ø,%d;A/DÅ¤¾Ø,%d;×îĞ¡Å¤¾Ø,%d;×î´óÅ¤¾Ø,%d;"
     //strHead.Format(IDS_STRCALIBLISTHEAD,int(iWidth*0.4),int(iWidth*0.4),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8),int(iWidth*0.8));
     /*snprintf(buffer, MAX_LOADSTRING, theApp.LoadstringFromRes(IDS_STRCALIBLISTHEAD).c_str(),
         int(iWidth * 0.4), int(iWidth * 0.4), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8), int(iWidth * 0.8));*/
@@ -69,7 +69,7 @@ BOOL CDlgSegCabl::OnInitDialog()
     RegisterHotKey(GetSafeHwnd(), 1, (MOD_CONTROL | MOD_ALT), UINT('I'));
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
+                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
 }
 
 void CDlgSegCabl::DoDataExchange(CDataExchange* pDX)
@@ -221,7 +221,7 @@ void CDlgSegCabl::UpdateCalibList()
         strMin.Format("%d", ptCurCabli->iLowTorq);
         strMax.Format("%d", ptCurCabli->iHighTorq);
 
-        // "ç±»å‹,%d;æ®µå·,%d;æ ¡å‡†æ‰­çŸ©,%d;A/Dæ‰­çŸ©,%d;æœ€å°æ‰­çŸ©,%d;æœ€å¤§æ‰­çŸ©,%d;"
+        // "ÀàĞÍ,%d;¶ÎºÅ,%d;Ğ£×¼Å¤¾Ø,%d;A/DÅ¤¾Ø,%d;×îĞ¡Å¤¾Ø,%d;×î´óÅ¤¾Ø,%d;"
         m_lsCalibInfo.AddItem(strType, strNO, strCalib, strSCM, strMin, strMax);
     }
 
@@ -298,7 +298,7 @@ void CDlgSegCabl::OnBnClickedBtncalibgo()
 
     UpdateCalibList();
 
-    /* 20201119: æ ¡å‡†æ—¶A/D */
+    /* 20201119: Ğ£×¼Ê±A/D */
     theApp.m_tCalibCtrl.tInfo.iSCMTorq = 0;
     if (!thepDlg->SendData(SCMWRITECALIB))
     {
@@ -423,8 +423,8 @@ BOOL CDlgSegCabl::GetCalibInfoFromExcel(CString strName)
     COMP_BFALSE_R(m_impExc.open(strName), FALSE);
     COMP_BFALSE_R(m_impExc.loadSheet(1), FALSE);
 
-    iRow = m_impExc.getRowCount();//è·å–sheetä¸­è¡Œæ•°
-    iCol = m_impExc.getColumnCount();//è·å–sheetä¸­åˆ—æ•°
+    iRow = m_impExc.getRowCount();//»ñÈ¡sheetÖĞĞĞÊı
+    iCol = m_impExc.getColumnCount();//»ñÈ¡sheetÖĞÁĞÊı
     if (iCol < 6 || iRow < 2)
     {
         return FALSE;
@@ -512,7 +512,7 @@ void CDlgSegCabl::OnBnClickedBtncalibimp()
     EndWaitCursor();
 }
 
-// å®šæ—¶å‘é€è®¾ç½®æ¶ˆæ¯
+// ¶¨Ê±·¢ËÍÉèÖÃÏûÏ¢
 void CDlgSegCabl::OnTimer(UINT_PTR nIDEvent)
 {
     int     i = 0;

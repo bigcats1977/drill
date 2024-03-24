@@ -73,7 +73,7 @@ END_MESSAGE_MAP()
 // CDlgValveSet message handlers
 
 
-/* ONOKæ—¶å‘é€å‘½ä»¤ */
+/* ONOKÊ±·¢ËÍÃüÁî */
 void CDlgValveSet::OnBnClickedBtnvalve()
 {
     UpdateData(TRUE);
@@ -124,5 +124,5 @@ BOOL CDlgValveSet::OnInitDialog()
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
-                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
+                  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
 }

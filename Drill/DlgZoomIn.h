@@ -45,8 +45,8 @@ private:
     void AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir);
 
     int     m_iBegin, m_iEnd;
-    int     m_iZoomPos;  /* æ”¾å¤§åä½ç½® */
-    UINT    m_nZoomTorq; /* æ”¾å¤§ç‚¹æ‰­çŸ© */
+    int     m_iZoomPos;  /* ·Å´óºóÎ»ÖÃ */
+    UINT    m_nZoomTorq; /* ·Å´óµãÅ¤¾Ø */
     double  m_fMinCir, m_fMaxCir;
     double  m_fMinTorq, m_fMaxTorq;
 

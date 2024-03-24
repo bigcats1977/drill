@@ -5,9 +5,9 @@
 #define WITSTAIL                _T("!!\r\n")
 #define WITSSPLIT               _T("\r\n")
 
-#define RPTHISDATANUM			50	//每次最多上报5个，历史记录每秒1条记录，5×10=50
+#define RPTHISDATANUM			50	//ÿ������ϱ�5������ʷ��¼ÿ��1����¼��5��10=50
 #define HISDATAINTER			10
-#define RPTTORQMULTI			1	//上报扭矩单位，1表示直接上报扭矩值
+#define RPTTORQMULTI			1	//�ϱ�Ť�ص�λ��1��ʾֱ���ϱ�Ť��ֵ
 
 class WITSEnc
 {

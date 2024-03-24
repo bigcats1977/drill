@@ -3,25 +3,25 @@
 #include "LineChartCtrlStat.h"
 #include "Ruler.h"
 
-// CDlgScatter å¯¹è¯æ¡†
+// CDlgScatter ¶Ô»°¿ò
 
 class CDlgScatter : public CDialogEx
 {
     DECLARE_DYNAMIC(CDlgScatter)
 
 public:
-    CDlgScatter(CWnd* pParent = nullptr);   // æ ‡å‡†æ„é€ å‡½æ•°
+    CDlgScatter(CWnd* pParent = nullptr);   // ±ê×¼¹¹Ôìº¯Êı
     virtual ~CDlgScatter();
     void    DrawScatterPlot(void);
     string  SaveScatterImg(void);
 
-    // å¯¹è¯æ¡†æ•°æ®
+    // ¶Ô»°¿òÊı¾İ
 #ifdef AFX_DESIGN_TIME
     enum { IDD = IDD_DLGSCATTER };
 #endif
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
 
     DECLARE_MESSAGE_MAP()
 

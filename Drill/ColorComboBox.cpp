@@ -50,7 +50,7 @@ HBRUSH CColorComboBox::CtlColor(CDC* pDC, UINT nCtlColor)
     pDC->SetBkColor(m_ColorBk);
     return m_Brush;
 }
-//脡猫脰脙脳脰麓贸脨隆
+//设置字大小
 void CColorComboBox::SetFontSize(int iSize, CFont* font)
 {
     font->CreatePointFont(iSize, _T("Times New Roman"));

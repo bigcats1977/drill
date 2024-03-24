@@ -96,16 +96,16 @@ void CMylistctrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
     case CDDS_ITEMPREPAINT:
         *pResult = CDRF_DODEFAULT;
         iRow = lplvcd->nmcd.dwItemSpec;
-        /* 隔行设置不同的背景色 */
+        /* �������ò�ͬ�ı���ɫ */
         if (iRow % 2 != 0)
             lplvcd->clrTextBk = CLR_ALTERBACKG;
         dwData = GetItemData(iRow);
-        /* 异常记录，文字设置为红色 */
+        /* �쳣��¼����������Ϊ��ɫ */
         if (dwData == TORQ_BAD_QUALITY)
         {
             lplvcd->clrText = CLR_ABNORMDATA;
         }
-        /* 工具扣为蓝色 */
+        /* ���߿�Ϊ��ɫ */
         else if (dwData == TORQ_TOOLBUCKLE)
         {
             lplvcd->clrText = CLR_TOOLBUCKLE;
@@ -158,8 +158,8 @@ void CMylistctrl::OnRButtonDown(UINT nFlags, CPoint point)
     CListCtrl::OnRButtonDown(nFlags, point);
 }
 
-/*  不允许排序
-    因为需要根据位置获取数据的序号，排序将导致处理复杂
+/*  ����������
+    ��Ϊ��Ҫ����λ�û�ȡ���ݵ���ţ����򽫵��´�������
    */
 void CMylistctrl::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {

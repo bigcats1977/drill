@@ -79,20 +79,20 @@ public:
     bool    ReDrawLine(double* pData, UINT nCount, bool bBreakOut);
 
 public:
-    /* æ‰­çŸ©æ˜¾ç¤ºç›¸å…³å‚æ•° */
-    //double       m_fUpperLimit; /* æœ€å¤§æ‰­çŸ© */
-    //double       m_fLowerLimit; /* æœ€å°æ‰­çŸ© */
-    double       m_fOptTorq;    /* æœ€ä½³æ‰­çŸ© */
-    //double       m_fSpeedDown;  /* å‡é€Ÿæ‰­çŸ© */
-    double       m_fShow;       /* æ˜¾ç¤ºæ‰­çŸ© */
-    double       m_fControlCir; /* æ§åˆ¶å‘¨æ•° */
-    double       m_fUpperCir;   /* ä¸Šé™å‘¨æ•° */
-    double       m_fLowerCir;   /* ä¸‹é™å‘¨æ•° */
-    double       m_fMaxCir;     /* æœ€å¤§å‘¨æ•° */
-    double       m_fMaxLimit;   /* æœ€å¤§ä¸Šé™ */
-    //double       m_fBear;       /* è‚©è´Ÿæ‰­çŸ© */
-    double       m_fWidthCir;   /* ç”»å›¾çš„çœŸå®å®½åº¦çš„å‘¨æ•°ï¼Œä¸€èˆ¬ç­‰äºm_fMaxCirï¼Œå› ä¸ºå·¦è¾¹ç•Œä¸º0
-                                   å¯¹äºæ”¾å¤§çš„å›¾, å·¦è¾¹m_fMinCiré0, è¯¥å‚æ•°å°äºm_fMaxCir */
+    /* Å¤¾ØÏÔÊ¾Ïà¹Ø²ÎÊı */
+    //double       m_fUpperLimit; /* ×î´óÅ¤¾Ø */
+    //double       m_fLowerLimit; /* ×îĞ¡Å¤¾Ø */
+    double       m_fOptTorq;    /* ×î¼ÑÅ¤¾Ø */
+    //double       m_fSpeedDown;  /* ¼õËÙÅ¤¾Ø */
+    double       m_fShow;       /* ÏÔÊ¾Å¤¾Ø */
+    double       m_fControlCir; /* ¿ØÖÆÖÜÊı */
+    double       m_fUpperCir;   /* ÉÏÏŞÖÜÊı */
+    double       m_fLowerCir;   /* ÏÂÏŞÖÜÊı */
+    double       m_fMaxCir;     /* ×î´óÖÜÊı */
+    double       m_fMaxLimit;   /* ×î´óÉÏÏŞ */
+    //double       m_fBear;       /* ¼ç¸ºÅ¤¾Ø */
+    double       m_fWidthCir;   /* »­Í¼µÄÕæÊµ¿í¶ÈµÄÖÜÊı£¬Ò»°ãµÈÓÚm_fMaxCir£¬ÒòÎª×ó±ß½çÎª0
+                                   ¶ÔÓÚ·Å´óµÄÍ¼, ×ó±ßm_fMinCir·Ç0, ¸Ã²ÎÊıĞ¡ÓÚm_fMaxCir */
 
     //BOOL         m_bBear;
 

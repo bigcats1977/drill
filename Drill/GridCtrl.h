@@ -102,7 +102,7 @@ typedef struct _GV_ITEM
     UINT     nState;      // cell state (focus/hilighted etc)
     UINT     nFormat;     // Format of cell
     CString  szText;      // Text in cell
-    int      iImage;      // index of the list view itemæŠ¯ icon
+    int      iImage;      // index of the list view item’s icon
     COLORREF clrBk;       // Background colour (or CLR_DEFAULT)
     COLORREF clrFg;       // Forground colour (or CLR_DEFAULT)
     LPARAM   lParam;      // 32-bit value to associate with item
@@ -201,13 +201,13 @@ typedef struct tagCELL_RANGE
 class CGridCell : public CObject
 {
 public:
-    BOOL m_bSkipV;      //å‰ä¸€ä¸ªè¡¨æ˜å»æ‰å•å…ƒæ ¼çš„å‚ç›´çº¿æ®µ,åä¸€ä¸ªè¡¨æ˜å»æ‰å•å…ƒæ ¼çš„æ°´å¹³çº¿æ®µ
+    BOOL m_bSkipV;      //Ç°Ò»¸ö±íÃ÷È¥µôµ¥Ôª¸ñµÄ´¹Ö±Ïß¶Î,ºóÒ»¸ö±íÃ÷È¥µôµ¥Ôª¸ñµÄË®Æ½Ïß¶Î
     BOOL m_bSkipH;
-    BOOL m_bHide;//å•å…ƒæ ¼æ˜¯å¦è¢«åˆå¹¶(éœ€è¦éšè—)
+    BOOL m_bHide;//µ¥Ôª¸ñÊÇ·ñ±»ºÏ²¢(ĞèÒªÒş²Ø)
     BOOL m_bNoEdit;
-    int  m_iNumHhide;   //æ°´å¹³éœ€è¦éšè—çš„å•å…ƒæ ¼;åªé’ˆå¯¹TOPLEFTèµ‹å€¼.å³åˆ—æ•°
-    int  m_iNumVhide;   //å‚ç›´éœ€è¦éšè—çš„å•å…ƒæ ¼;åªé’ˆå¯¹TOPLEFTèµ‹å€¼,å³è¡Œæ•°
-    int  m_iTopleftRow; //è¢«éšè—çš„å•å…ƒæ ¼éœ€è¦è¾“å…¥æœ€å·¦ä¸Šçš„è¡Œå’Œåˆ—å€¼
+    int  m_iNumHhide;   //Ë®Æ½ĞèÒªÒş²ØµÄµ¥Ôª¸ñ;Ö»Õë¶ÔTOPLEFT¸³Öµ.¼´ÁĞÊı
+    int  m_iNumVhide;   //´¹Ö±ĞèÒªÒş²ØµÄµ¥Ôª¸ñ;Ö»Õë¶ÔTOPLEFT¸³Öµ,¼´ĞĞÊı
+    int  m_iTopleftRow; //±»Òş²ØµÄµ¥Ôª¸ñĞèÒªÊäÈë×î×óÉÏµÄĞĞºÍÁĞÖµ
     int  m_iTopleftCol;
 
     CGridCell()
@@ -234,7 +234,7 @@ public:
     UINT     m_nState;       // Cell state (selected/focus etc)
     UINT     m_nFormat;     // Cell format
     CString  m_szText;      // Cell text (or binary data if you wish...)
-    int      m_iImage;      // Index of the list view itemæŠ¯ icon
+    int      m_iImage;      // Index of the list view item’s icon
     COLORREF m_clrBk;     // Background colour (or CLR_DEFAULT)
     COLORREF m_clrFg;     // Forground colour (or CLR_DEFAULT)
     LOGFONT  m_lfFont;      // Cell font

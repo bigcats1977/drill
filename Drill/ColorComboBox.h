@@ -19,7 +19,7 @@ public:
     COLORREF m_ColorText, m_ColorBk;
     CBrush m_Brush;
 
-    //脡猫脰脙脳脰脤氓麓贸脨隆
+    //设置字体大小
     void SetFontSize(int iSize, CFont* font);
     // Attributes
 public:

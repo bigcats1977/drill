@@ -1,14 +1,14 @@
 //  MenuEx.h: interface for the CMenuEx class.
 //  CMenuEx
-//  åŸä½œè€…ï¼šlbird(éƒ‘æ’)
-//  ä¿®æ”¹:(querw)é˜™è£æ–‡
-//  æ–°å¢æ¥å£:
+//  Ô­×÷Õß£ºlbird(Ö£ºã)
+//  ĞŞ¸Ä:(querw)ãÚÈÙÎÄ
+//  ĞÂÔö½Ó¿Ú:
 //  void LoadMenu();
 //  BOOL ModifyMenuEx()
 //  BOOL AppendMenuEx()
 //  BOOL RemoveMenuEx()
 //  void LoadToolBar()
-//  åŸæ¥å£:
+//  Ô­½Ó¿Ú:
 //  void SetHighLightColor(COLORREF crColor)
 //  void SetBackColor(COLORREF)
 //  void SetTextColor(COLORREF)
@@ -26,11 +26,11 @@
 
 typedef struct tagMENUITEM
 {
-    CString     strText;                //èœå•æ–‡æœ¬
-    UINT        nID;                    //èœå•ID
-    int         iIndex;                 //èœå•å›¾æ ‡çš„ç¼–å·
-    int         iLeftImagePos;          //èœå•å·¦è¾¹ä½å›¾çš„ä½ç½®
-    int         iSubMenuIndex;          //è‹¥æ˜¯å­èœå•,è¡¨ç¤ºåœ¨æ•°ç»„ä¸­çš„ä½ç½®
+    CString     strText;                //²Ëµ¥ÎÄ±¾
+    UINT        nID;                    //²Ëµ¥ID
+    int         iIndex;                 //²Ëµ¥Í¼±êµÄ±àºÅ
+    int         iLeftImagePos;          //²Ëµ¥×ó±ßÎ»Í¼µÄÎ»ÖÃ
+    int         iSubMenuIndex;          //ÈôÊÇ×Ó²Ëµ¥,±íÊ¾ÔÚÊı×éÖĞµÄÎ»ÖÃ
     tagMENUITEM()
     {
         strText = "";
@@ -51,18 +51,18 @@ class CMenuEx : public CMenu
 {
     DECLARE_DYNAMIC(CMenuEx)
 public:
-    //è¯»å…¥èœå•,è°ƒç”¨è¿™ä¸ªå‡½æ•°ä»¥å,èœå•å°±æœ‰äº†è‡ªç”»é£æ ¼
+    //¶ÁÈë²Ëµ¥,µ÷ÓÃÕâ¸öº¯ÊıÒÔºó,²Ëµ¥¾ÍÓĞÁË×Ô»­·ç¸ñ
     BOOL LoadMenu(UINT nMenu);
 
-    //ä¿®æ”¹,æ·»åŠ ,åˆ é™¤èœå•é¡¹,è‡ªåŠ¨æŒ‡å®šä¸ºè‡ªç”»é£æ ¼
+    //ĞŞ¸Ä,Ìí¼Ó,É¾³ı²Ëµ¥Ïî,×Ô¶¯Ö¸¶¨Îª×Ô»­·ç¸ñ
     BOOL ModifyMenuEx(UINT nPosition, UINT nFlags, UINT nIDNewItem = 0, LPCTSTR lpszNewItem = NULL);
     BOOL AppendMenuEx(UINT nFlags, UINT nIDNewItem = 0, LPCTSTR lpszNewItem = NULL);
     BOOL RemoveMenuEx(UINT nPosition, UINT nFlags);
 
-    //è¯»å…¥å·¥å…·æ¡,å¯ä»¥æŒ‡å®šä¸€å¼ ä½å›¾ä»¥æ›¿ä»£å·¥å…·æ¡èµ„æºçš„16è‰²ä½å›¾
+    //¶ÁÈë¹¤¾ßÌõ,¿ÉÒÔÖ¸¶¨Ò»ÕÅÎ»Í¼ÒÔÌæ´ú¹¤¾ßÌõ×ÊÔ´µÄ16É«Î»Í¼
     void LoadToolBar(UINT nToolBar, UINT nFace);
 
-    //å…¶ä»–å„ç§è®¾ç½®
+    //ÆäËû¸÷ÖÖÉèÖÃ
     void SetHighLightColor(COLORREF crColor);
     void SetBackColor(COLORREF crColor);
     void SetTextColor(COLORREF crColor);
@@ -75,7 +75,7 @@ public:
     virtual ~CMenuEx();
 
 protected:
-    void    CalculateLeftImagePos(CMenu* pPopupMenu); //é‡æ–°è®¡ç®—å·¦è¾¹ä½å›¾çš„ä½ç½®(æœ€åº•éƒ¨çš„èœå•é¡¹çš„ä½å›¾æ ‡å·æ˜¯ 0 )
+    void    CalculateLeftImagePos(CMenu* pPopupMenu); //ÖØĞÂ¼ÆËã×ó±ßÎ»Í¼µÄÎ»ÖÃ(×îµ×²¿µÄ²Ëµ¥ÏîµÄÎ»Í¼±êºÅÊÇ 0 )
     void    ChangeMenuStyle(CMenu* pMenu, HMENU hNewMenu);
     int     GetImageFromToolBar(UINT nToolBar, CToolBar* pToolBar,
         COLORREF crMask = RGB(192, 192, 192),
@@ -88,18 +88,18 @@ protected:
     void    GrayString(CDC* pDC, const CString& strGray, const CRect rcItem);
 
 
-    int         m_iSeparator;               //åˆ†å‰²æ¡çš„é«˜åº¦
+    int         m_iSeparator;               //·Ö¸îÌõµÄ¸ß¶È
 
-    CSize       m_szImageLeft;              //èœå•å·¦è¾¹ä¸ºä½“çš„é«˜åº¦å’Œå®½åº¦
-    CBitmap     m_bmpImageLeft;             //èœå•å·¦è¾¹çš„ä½å›¾
-    int         m_iWidthLeftImage;          //èœå•å·¦è¾¹ä½å›¾çš„å®½åº¦
-    BOOL        m_bHasImageLeft;            //æ˜¯å¦æœ‰ä¾§è¾¹ä½å›¾
+    CSize       m_szImageLeft;              //²Ëµ¥×ó±ßÎªÌåµÄ¸ß¶ÈºÍ¿í¶È
+    CBitmap     m_bmpImageLeft;             //²Ëµ¥×ó±ßµÄÎ»Í¼
+    int         m_iWidthLeftImage;          //²Ëµ¥×ó±ßÎ»Í¼µÄ¿í¶È
+    BOOL        m_bHasImageLeft;            //ÊÇ·ñÓĞ²à±ßÎ»Í¼
 
-    COLORREF    m_crMenu;                   //èœå•èƒŒæ™¯è‰²
-    COLORREF    m_crTextSelected;           //èœå•è¢«é€‰ä¸­æ—¶æ–‡æœ¬çš„é¢œè‰²
-    CImageList  m_ImageList;                //èœå•é¡¹ä½å›¾åˆ—è¡¨
-    COLORREF    m_crText;                   //èœå•é¡¹æ²¡è¢«é€‰ä¸­æ—¶æ–‡æœ¬çš„é¢œè‰²
-    CSize       m_szImage;                  //èœå•é¡¹ä½å›¾çš„å¤§å°
+    COLORREF    m_crMenu;                   //²Ëµ¥±³¾°É«
+    COLORREF    m_crTextSelected;           //²Ëµ¥±»Ñ¡ÖĞÊ±ÎÄ±¾µÄÑÕÉ«
+    CImageList  m_ImageList;                //²Ëµ¥ÏîÎ»Í¼ÁĞ±í
+    COLORREF    m_crText;                   //²Ëµ¥ÏîÃ»±»Ñ¡ÖĞÊ±ÎÄ±¾µÄÑÕÉ«
+    CSize       m_szImage;                  //²Ëµ¥ÏîÎ»Í¼µÄ´óĞ¡
 
     CArray<CMenuEx*, CMenuEx*> m_SubMenuArr;
     CArray<MENUITEM*, MENUITEM*>m_MenuItemArr;

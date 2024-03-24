@@ -3,7 +3,7 @@
 //#include "TubeCfg.h"
 #include "DBAccess.h"
 
-/*********************å…¨å±€å˜é‡************************************/
+/*********************È«¾Ö±äÁ¿************************************/
 //CTubeCfg        g_cTubing;
 
 CDBAccess::CDBAccess()
@@ -123,7 +123,7 @@ bool CDBAccess::InitConfigFromDB(UINT& initstep)
     if (initstep != DB_INIT_SUCCESS)
         return false;
 
-    /* ç³»ç»Ÿå‚æ•°è·¯å¾„ï¼Œå†™æ­»ï¼Œä¸å­˜å‚¨ */
+    /* ÏµÍ³²ÎÊıÂ·¾¶£¬Ğ´ËÀ£¬²»´æ´¢ */
     //CheckParaFileName();
     return true;
 }

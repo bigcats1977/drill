@@ -165,7 +165,7 @@ CInPlaceEdit::CInPlaceEdit(CWnd* pParent, CRect& rc, DWORD dwStyle, UINT nID,
 
     COMP_BTRUE(DirectionKeyInit(nFirstChar));
 
-    /* BackKeyåœ¨å‡½æ•°ä¸­åˆå§‹åŒ–äº†ï¼Œå…¶ä»–çš„Keyåœ¨ifè¯­å¥é‡Œé¢åˆå§‹åŒ– */
+    /* BackKeyÔÚº¯ÊıÖĞ³õÊ¼»¯ÁË£¬ÆäËûµÄKeyÔÚifÓï¾äÀïÃæ³õÊ¼»¯ */
     if(!BackKeyInit(nFirstChar))
     {
         SetSel(0,-1);

@@ -180,7 +180,7 @@ static char THIS_FILE[] = __FILE__;
 
 #define SELECTED_CELL_FONT_WEIGHT 600    // weight of text for selected items
 
-/* Cellè½åœ¨è¡Œæˆ–è€…åˆ—çš„ä½ç½® */
+/* CellÂäÔÚĞĞ»òÕßÁĞµÄÎ»ÖÃ */
 #define OVERLAP_CELL(ciCheck, iRow, iCol)                               \
         ((ciCheck.m_iRow == iRow) ||                                    \
          (ciCheck.m_iCol == iCol))
@@ -201,8 +201,8 @@ static char THIS_FILE[] = __FILE__;
 }
 
 
-/* å®šä¹‰CGridCtrlçš„KeyDownå¤„ç†å‡½æ•°æ•°ç»„ 
-   è¿”å›è¡Œæ˜¯å¦å‘ç”Ÿå˜åŒ– */
+/* ¶¨ÒåCGridCtrlµÄKeyDown´¦Àíº¯ÊıÊı×é 
+   ·µ»ØĞĞÊÇ·ñ·¢Éú±ä»¯ */
 typedef void (CGridCtrl::*KeyDownFun)(UINT nRepCnt, UINT nFlags, CCellID *pciNext);
 typedef struct tagGCKEYDOWNFUNC
 {
@@ -223,7 +223,7 @@ GCKEYDOWNFUNC  g_tGCKeyDownProc[] =
     {VK_END,            &CGridCtrl::KD_End      }
 };
 
-/* å®šä¹‰CGridCtrlçš„OnHScrollå¤„ç†å‡½æ•°æ•°ç»„ */
+/* ¶¨ÒåCGridCtrlµÄOnHScroll´¦Àíº¯ÊıÊı×é */
 typedef void (CGridCtrl::*HScrollFun)(int iScrPos, CCellID ciTopLeft, CRect rcTmp);
 typedef struct tagGCHSCROLLFUNC
 {
@@ -242,7 +242,7 @@ GCHSCROLLFUNC  g_tGCHScrollProc[] =
     {SB_LEFT,           &CGridCtrl::HS_Left     }
 };
 
-/* å®šä¹‰CGridCtrlçš„OnVScrollå¤„ç†å‡½æ•°æ•°ç»„ */
+/* ¶¨ÒåCGridCtrlµÄOnVScroll´¦Àíº¯ÊıÊı×é */
 typedef void (CGridCtrl::*VScrollFun)(int iScrPos, CCellID ciTopLeft, CRect rcTmp);
 typedef struct tagGCVSCROLLFUNC
 {
@@ -1166,7 +1166,7 @@ void CGridCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
     ciNext = m_ciCurrent;
 
-    /* CTRL + Key ç‰¹æ®Šå¤„ç†*/
+    /* CTRL + Key ÌØÊâ´¦Àí*/
     CTRLKeyDown(nChar);
 
     iFunNum = sizeof(g_tGCKeyDownProc)/sizeof(GCKEYDOWNFUNC);
@@ -1184,7 +1184,7 @@ void CGridCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         CWnd::OnKeyDown(nChar, nRepCnt, nFlags);
     }
  
-    /* ä½ç½®æ²¡æœ‰å˜åŒ–ï¼Œç›´æ¥è¿”å› */
+    /* Î»ÖÃÃ»ÓĞ±ä»¯£¬Ö±½Ó·µ»Ø */
     COMP_BE(ciNext, m_ciCurrent);
 
     if(ciNext.m_iRow != m_ciCurrent.m_iRow)
@@ -3677,7 +3677,7 @@ BOOL CGridCtrl::SetColumnCount(int iCols)
     //else    // check for selected cell ranges
     //    ResetSelectedRange();
 
-    /* ä¸å…è®¸ç”»çš„è¯ç›´æ¥è¿”å› */
+    /* ²»ÔÊĞí»­µÄ»°Ö±½Ó·µ»Ø */
     COMP_BFALSE_R(m_bAllowDraw, TRUE);
 
     if (GetSafeHwnd())
@@ -5070,7 +5070,7 @@ BOOL CGridCtrl::OnMouseWheel(UINT nFlags, short iDelta, CPoint ptOpr)
 }
 #endif // !defined(_WIN32_WCE) && (_MFC_VER >= 0x0421)
 
-/* æ ¹æ®é¼ æ ‡ä½ç½®ï¼Œæ›´æ–°é¼ æ ‡æ¨¡å¼å’Œå…‰æ ‡ */
+/* ¸ù¾İÊó±êÎ»ÖÃ£¬¸üĞÂÊó±êÄ£Ê½ºÍ¹â±ê */
 void CGridCtrl::UpdateMouseMode(CPoint& ptOpr)
 {    
     if (m_bAllowColumnResize && MouseOverColumnResizeArea(ptOpr))
@@ -5163,7 +5163,7 @@ void CGridCtrl::MM_UpdateTitleTips(CPoint& ptOpr)
 
 void CGridCtrl::MM_WhenLeftBtnUp(CPoint& ptOpr)
 {
-    /* æ ¹æ®é¼ æ ‡ä½ç½®ï¼Œæ›´æ–°é¼ æ ‡æ¨¡å¼å’Œå…‰æ ‡ */
+    /* ¸ù¾İÊó±êÎ»ÖÃ£¬¸üĞÂÊó±êÄ£Ê½ºÍ¹â±ê */
     UpdateMouseMode(ptOpr);
 
 #ifndef GRIDCONTROL_NO_TITLETIPS
@@ -5387,7 +5387,7 @@ void CGridCtrl::OnLButtonDblClk(UINT nFlags, CPoint ptOpr)
     CWnd::OnLButtonDblClk(nFlags, ptOpr);
 }
 
-/* return FALSE è¡¨ç¤ºå¤„ç†å®Œæˆç›´æ¥è¿”å›ï¼Œä¸éœ€è¦åç»­çš„å¤„ç† */
+/* return FALSE ±íÊ¾´¦ÀíÍê³ÉÖ±½Ó·µ»Ø£¬²»ĞèÒªºóĞøµÄ´¦Àí */
 BOOL CGridCtrl::LBD_UpdateStatus(UINT nFlags, CPoint& ptOpr)
 {
     HWND hOldFocusWnd = ::GetFocus();
@@ -6532,7 +6532,7 @@ BOOL CGridCtrl::DrawHideFixedCell(int &iRow, int &iCol, CRect& rcCell, GV_ITEM* 
         iBottomRow = pgcCell->m_iTopleftRow + pgcTopLeft->m_iNumHhide;
     }
     /* if( pgcCell->m_iNumHhide!=0 || pgcCell->m_iNumVhide!=0) */
-    else //æ‰©å……å·¦ä¸Šè§’åˆ°åˆé€‚çš„ä½ç½®
+    else //À©³ä×óÉÏ½Çµ½ºÏÊÊµÄÎ»ÖÃ
     {
         iBottomRow = iRow + pgcCell->m_iNumHhide;
         iRightCol  = iCol + pgcCell->m_iNumVhide;
@@ -6722,7 +6722,7 @@ void CGridCtrl::DrawHideCell(int &iRow, int &iCol, CRect& rcCell)
         iBottomRow = pgcCell->m_iTopleftRow + pgcTopLeft->m_iNumHhide;
     }
     /* if( pgcCell->m_iNumHhide!=0 || pgcCell->m_iNumVhide!=0) */
-    else //æ‰©å……å·¦ä¸Šè§’åˆ°åˆé€‚çš„ä½ç½®
+    else //À©³ä×óÉÏ½Çµ½ºÏÊÊµÄÎ»ÖÃ
     {
         /*crCombine.Set(iRow,iCol,iRow+pgcCell->m_iNumHhide,iCol+pgcCell->m_iNumVhide);
         GetCellRangeRect(crCombine,rcCell);*/
@@ -6923,7 +6923,7 @@ BOOL CGridCtrl::EditCombineCell(int &iRow, int &iCol, CRect &rcCell)
 
     COMP_BFALSE_R(CELLHIDE(pgcCell), TRUE);
    
-    /* å¦‚æœè¢«éšè—ï¼Œæ˜¾ç„¶åº”å½“ç¼–è¾‘æœ€å·¦ä¸Šè§’ */
+    /* Èç¹û±»Òş²Ø£¬ÏÔÈ»Ó¦µ±±à¼­×î×óÉÏ½Ç */
     if(pgcCell->m_bHide)
     {
         pgcTopLeft = GetCell(pgcCell->m_iTopleftRow,pgcCell->m_iTopleftCol);
@@ -7130,12 +7130,12 @@ void CGridCtrl::SetAbutCellHide(int iRow, int iCol, int iXNum, int iYNum, BOOL b
         }
 }
 
-//è®¾ç½®å•å…ƒæ ¼çš„åˆå¹¶ç‰¹æ€§
-//iRow ,iCol  åˆ†åˆ«ä¸ºæ¬²åˆå¹¶çš„å‡ ä¸ªå•å…ƒæ ¼çš„TOPLEFTä½ç½®,xNumä¸ºå…¶ç´§ä¸´çš„æ°´å¹³æ–¹å‘çš„å•å…ƒæ ¼æ•°ç›®
-//yNumä¸ºTOPLEFTå‚ç›´æ–¹å‘çš„å•å…ƒæ ¼æ•°ç›®
-//æœ¬å‡½æ•°åŠç›¸å…³çš„åˆå¹¶å•å…ƒæ ¼åŠŸèƒ½ä»£ç å‡ç”±daishaozhong@china.comæä¾›
-//åˆå¹¶åŠŸèƒ½å·²ç»é€šè¿‡äº†ä¸å¾ˆä¸¥æ ¼çš„è°ƒè¯•ï¼Œå¦‚æœä½ è¦ä½¿ç”¨æœ¬åŠŸèƒ½,æˆ‘ä¸å¯¹æœ¬ä»£ç çš„æ­£ç¡®æ€§å’Œå®‰å…¨æ€§è´Ÿè´£
-//æ¬¢è¿ä½¿ç”¨å’Œæ”¹è¿›ã€‚
+//ÉèÖÃµ¥Ôª¸ñµÄºÏ²¢ÌØĞÔ
+//iRow ,iCol  ·Ö±ğÎªÓûºÏ²¢µÄ¼¸¸öµ¥Ôª¸ñµÄTOPLEFTÎ»ÖÃ,xNumÎªÆä½ôÁÙµÄË®Æ½·½ÏòµÄµ¥Ôª¸ñÊıÄ¿
+//yNumÎªTOPLEFT´¹Ö±·½ÏòµÄµ¥Ôª¸ñÊıÄ¿
+//±¾º¯Êı¼°Ïà¹ØµÄºÏ²¢µ¥Ôª¸ñ¹¦ÄÜ´úÂë¾ùÓÉdaishaozhong@china.comÌá¹©
+//ºÏ²¢¹¦ÄÜÒÑ¾­Í¨¹ıÁË²»ºÜÑÏ¸ñµÄµ÷ÊÔ£¬Èç¹ûÄãÒªÊ¹ÓÃ±¾¹¦ÄÜ,ÎÒ²»¶Ô±¾´úÂëµÄÕıÈ·ĞÔºÍ°²È«ĞÔ¸ºÔğ
+//»¶Ó­Ê¹ÓÃºÍ¸Ä½ø¡£
 void CGridCtrl::SetCellCombine(int iRow, int iCol, int iXNum, int iYNum, BOOL bNoEdit)
 {
     iXNum = (int)fabs((double)iXNum);
@@ -7153,7 +7153,7 @@ void CGridCtrl::SetCellCombine(int iRow, int iCol, int iXNum, int iYNum, BOOL bN
     SetAbutCellHide(iRow, iCol, iXNum, iYNum, bNoEdit);
 }
 
-void CGridCtrl::UndoCellCombine(int iRow, int iCol)//å·¦ä¸Šè§’çš„å•å…ƒæ ¼åº§æ ‡
+void CGridCtrl::UndoCellCombine(int iRow, int iCol)//×óÉÏ½ÇµÄµ¥Ôª¸ñ×ù±ê
 {
     int         i           = 0;
     int         j           = 0;

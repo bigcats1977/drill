@@ -8,15 +8,15 @@ using namespace std;
 #define REGNAME         _T("reg.dat")
 
 #define MAXREGYEAR      200
-#define REGCODEVALUE    0x55    /* ä¿å­˜çš„æ³¨å†Œç çš„å·®å€¼ */
-#define REGCODESEGNUM   6       /* æ³¨å†Œç åˆ†ä¸º6æ®µï¼Œé•¿åº¦åˆ†åˆ«å®šä¹‰å¦‚ä¸‹ */
+#define REGCODEVALUE    0x55    /* ±£´æµÄ×¢²áÂëµÄ²îÖµ */
+#define REGCODESEGNUM   6       /* ×¢²áÂë·ÖÎª6¶Î£¬³¤¶È·Ö±ğ¶¨ÒåÈçÏÂ */
 #define REGCODELEN      6
 #define MACHVOL1LEN		8
 #define MACHVOL2LEN		8
 #define MACHMAC1LEN		6
 #define MACHMAC2LEN		4
 
-/* REGCODEè®¡ç®—çš„å¸¸æ•°å®šä¹‰ */
+/* REGCODE¼ÆËãµÄ³£Êı¶¨Òå */
 #define MAC0XOR         0x789789
 #define MAC0AND         0x00FFFFFF
 //#define MAC0DEC         0x197712
@@ -38,16 +38,16 @@ typedef struct tagDBREG
 {
     BYTE    strMachCode[MAXMACHCODE];
     BYTE    strCode1[HALFREGCODE];
-    BYTE    strGenDate[TIMESTRLEN];     // å¡«å†™æ³¨å†Œç æ—¶é—´ï¼Œæ£€æŸ¥æ—¥æœŸå¾€å‰éšæœº30å¤©
-                                        // å¦‚æœå½“å‰æ—¥æœŸå°äºæ£€æŸ¥æ—¥æœŸï¼Œè¯´æ˜ä¿®æ”¹è¿‡æ—¥æœŸï¼Œæ³¨å†Œæ— æ•ˆï¼Œé™¤éé‡æ–°æ³¨å†Œ
+    BYTE    strGenDate[TIMESTRLEN];     // ÌîĞ´×¢²áÂëÊ±¼ä£¬¼ì²éÈÕÆÚÍùÇ°Ëæ»ú30Ìì
+                                        // Èç¹ûµ±Ç°ÈÕÆÚĞ¡ÓÚ¼ì²éÈÕÆÚ£¬ËµÃ÷ĞŞ¸Ä¹ıÈÕÆÚ£¬×¢²áÎŞĞ§£¬³ı·ÇÖØĞÂ×¢²á
     BYTE    bRsv1 : 3;
     BYTE    bReged : 1;
-    BYTE    bMach : 1;                  // æœºå™¨ç æœ‰æ•ˆ
+    BYTE    bMach : 1;                  // »úÆ÷ÂëÓĞĞ§
     BYTE    bRsv2 : 3;
     BYTE    ucYear;
-    BYTE    strRegDate[TIMESTRLEN];     // è½¯ä»¶æœ‰æ•ˆæ—¥æœŸï¼Œæ³¨å†Œæ—¥æœŸå¾€åÃ—Ã—å¹´
+    BYTE    strRegDate[TIMESTRLEN];     // Èí¼şÓĞĞ§ÈÕÆÚ£¬×¢²áÈÕÆÚÍùºó¡Á¡ÁÄê
     BYTE    strCode2[HALFREGCODE];
-    BYTE    strUseDate[TIMESTRLEN];     // è½¯ä»¶æœ€æ–°ä½¿ç”¨æ—¥æœŸ
+    BYTE    strUseDate[TIMESTRLEN];     // Èí¼ş×îĞÂÊ¹ÓÃÈÕÆÚ
 
     BYTE    strTotalNum[TORQNUMLEN];
 }DBREG;
@@ -94,7 +94,7 @@ private:
     string      GetRegStrFromArray(BYTE* pData, int len);
     bool        GenRegArrayFromStr(BYTE* pData, int len, string str);
 
-    // è½¯ä»¶æ³¨å†Œç›¸å…³å‡½æ•°
+    // Èí¼ş×¢²áÏà¹Øº¯Êı
     bool        CheckRegDate();
     bool        CheckRegCode();
     bool        CheckMachineCode();

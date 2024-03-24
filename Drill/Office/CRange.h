@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CRange åŒ…è£…å™¨ç±»
+// CRange °ü×°Æ÷Àà
 
 class CRange : public COleDispatchDriver
 {
 public:
-    CRange() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CRange() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CRange(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CRange(const CRange& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // Range æ–¹æ³•
+    // Range ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -1302,7 +1302,7 @@ public:
         return result;
     }
 
-    // Range å±æ€§
+    // Range ÊôĞÔ
 public:
 
 };

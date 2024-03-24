@@ -1,23 +1,23 @@
-// ä»ç±»å‹åº“å‘å¯¼ä¸­ç”¨â€œæ·»åŠ ç±»â€åˆ›å»ºçš„è®¡ç®—æœºç”Ÿæˆçš„ IDispatch åŒ…è£…å™¨ç±»
+// ´ÓÀàĞÍ¿âÏòµ¼ÖĞÓÃ¡°Ìí¼ÓÀà¡±´´½¨µÄ¼ÆËã»úÉú³ÉµÄ IDispatch °ü×°Æ÷Àà
 
 //#import "C:\\Program Files (x86)\\Microsoft Office\\Office12\\EXCEL.EXE" no_namespace
-// CChart åŒ…è£…å™¨ç±»
+// CChart °ü×°Æ÷Àà
 
 class CChart : public COleDispatchDriver
 {
 public:
-    CChart() {} // è°ƒç”¨ COleDispatchDriver é»˜è®¤æ„é€ å‡½æ•°
+    CChart() {} // µ÷ÓÃ COleDispatchDriver Ä¬ÈÏ¹¹Ôìº¯Êı
     CChart(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CChart(const CChart& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // ç‰¹æ€§
+    // ÌØĞÔ
 public:
 
-    // æ“ä½œ
+    // ²Ù×÷
 public:
 
 
-    // _Chart æ–¹æ³•
+    // _Chart ·½·¨
 public:
     LPDISPATCH get_Application()
     {
@@ -1027,7 +1027,7 @@ public:
         InvokeHelper(0x9ce, DISPATCH_METHOD, VT_EMPTY, nullptr, nullptr);
     }
 
-    // _Chart å±æ€§
+    // _Chart ÊôĞÔ
 public:
 
 };

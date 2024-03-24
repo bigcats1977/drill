@@ -10,7 +10,7 @@
 // CDlgZoomIn dialog
 
 
-/*********************ä»£ç å®************************************/
+/*********************´úÂëºê************************************/
 #define INSERTZOOMPNT(fTorque, iDrawed)         {       \
         if((iDrawed + 1) < MAXLINEITEM)                 \
         {                                               \
@@ -88,8 +88,8 @@ void CDlgZoomIn::DrawZoomPnt()
     DrawZoomLine(ptDraw);
 }
 
-/* åœ¨ç¡®è®¤m_wBegin/m_wEndåè®¡ç®—
-   V3.22 begin/endæ˜¯ä¹˜äº†å€æ•°çš„ */
+/* ÔÚÈ·ÈÏm_wBegin/m_wEndºó¼ÆËã
+   V3.22 begin/endÊÇ³ËÁË±¶ÊıµÄ */
 void CDlgZoomIn::GetTorqueRange(DRAWTORQDATA* ptDraw)
 {
     int     i = 0;
@@ -134,10 +134,10 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
 
     ASSERT_NULL(ptDraw);
 
-    /* delciréœ€è¦å‡å°‘å€æ•° for 3.22 */
+    /* delcirĞèÒª¼õÉÙ±¶Êı for 3.22 */
     iAdjDel = m_nCurZoom;
 
-    /* æ”¾å¤§å›¾åƒéƒ½è®¾ç½®ä¸ºæ»¡å±ï¼Œå¦‚æœç¬¬ä¸€å±æœ‰ç©ºï¼Œåˆ™beginå¾€åç§» */
+    /* ·Å´óÍ¼Ïñ¶¼ÉèÖÃÎªÂúÆÁ£¬Èç¹ûµÚÒ»ÆÁÓĞ¿Õ£¬ÔòbeginÍùºóÒÆ */
     if (m_iBegin < 0)
     {
         fDelCir = m_iBegin * fSrcMaxCir / iAdjDel / MAXLINEITEM;
@@ -146,7 +146,7 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
         m_iEnd -= m_iBegin;
         m_iBegin = 0;
     }
-    /* æœ€åä¸€å±æ”¾å¤§æ—¶ï¼Œå¦‚æœEnd è¶…è¿‡ */
+    /* ×îºóÒ»ÆÁ·Å´óÊ±£¬Èç¹ûEnd ³¬¹ı */
     if (m_iEnd >= ptDraw->wCount)
     {
         iDelCnt = m_iEnd - ptDraw->wCount;
@@ -156,7 +156,7 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
         m_iBegin -= iDelCnt;
         m_iEnd = ptDraw->wCount - 1;
 
-        if (m_iBegin < 0)  /* è¶…çª„å›¾åƒ,æ”¾å¤§å›¾åƒåŒ…å«æ‰€æœ‰ï¼Œåªæ˜¯å›¾å½¢æ”¾å¤§ï¼ŒèŒƒå›´æ²¡æœ‰å˜åŒ– */
+        if (m_iBegin < 0)  /* ³¬Õ­Í¼Ïñ,·Å´óÍ¼Ïñ°üº¬ËùÓĞ£¬Ö»ÊÇÍ¼ĞÎ·Å´ó£¬·¶Î§Ã»ÓĞ±ä»¯ */
         {
             m_fMinCir = 0;
             m_fMaxCir = fSrcMaxCir / m_nCurZoom;
@@ -164,11 +164,11 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
         }
     }
 
-    /* å•å±ç›´æ¥è¿”å› */
+    /* µ¥ÆÁÖ±½Ó·µ»Ø */
     //COMP_BLE(m_tSplit.iSplitNum, 1);
 #if 0
-    /* å¤šå±é‡æ–°è®¡ç®—åœˆæ•°èŒƒå›´ */
-    /* è®¡ç®—å½“å‰æ‰­çŸ©å½“å‰å±çš„åœˆæ•°èŒƒå›´ */
+    /* ¶àÆÁÖØĞÂ¼ÆËãÈ¦Êı·¶Î§ */
+    /* ¼ÆËãµ±Ç°Å¤¾Øµ±Ç°ÆÁµÄÈ¦Êı·¶Î§ */
 
     fBeginCir = m_tSplit.iEnd[0] * fSrcMaxCir / MAXLINEITEM - fSrcMaxCir
         + fSrcMaxCir * (m_tSplit.iCur - 1);
@@ -181,9 +181,9 @@ void CDlgZoomIn::AdjustShowCir(DRAWTORQDATA* ptDraw, double  fSrcMaxCir)
 
 void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
 {
-    double  fZoomCir = 0;      // é¼ æ ‡ç‚¹å‡»ä½ç½®
+    double  fZoomCir = 0;      // Êó±êµã»÷Î»ÖÃ
     double  fSrcMaxCir = 0;
-    int     iBegin, iEnd;       // æ”¾å¤§å‰çš„ä½ç½®ï¼›m_iBegin/m_iEnd: æ”¾å¤§åçš„ä½ç½®
+    int     iBegin, iEnd;       // ·Å´óÇ°µÄÎ»ÖÃ£»m_iBegin/m_iEnd: ·Å´óºóµÄÎ»ÖÃ
     UINT    nStartPoint = 0;
 
     ASSERT_NULL(ptDraw);
@@ -207,11 +207,11 @@ void CDlgZoomIn::GetZoomRange(DRAWTORQDATA* ptDraw)
     iEnd = ptDraw->wCount;
     //theApp.GetShowDataRange(ptDraw, iBegin, iEnd, &m_tSplit, m_nCurZoom);
 
-    /* å¤šå±çš„ç¬¬ä¸€å±æ—¶ï¼Œè´´å³ç”»å›¾ */
+    /* ¶àÆÁµÄµÚÒ»ÆÁÊ±£¬ÌùÓÒ»­Í¼ */
     m_iZoomPos = m_nPos + iBegin;
 
     m_iBegin = (UINT)(m_fMinCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin;
-    /* 20200312 é¿å…æ”¾å¤§æ—¶ï¼Œæ”¾å¤§LineCtrlExç”»çš„ç‚¹è¶…è¿‡500ï¼Œm_nPosä¸º0ï¼Œæ”¾å¤§å›¾åƒæ— æ³•ç‚¹å‡»é¼ æ ‡ */
+    /* 20200312 ±ÜÃâ·Å´óÊ±£¬·Å´óLineCtrlEx»­µÄµã³¬¹ı500£¬m_nPosÎª0£¬·Å´óÍ¼ÏñÎŞ·¨µã»÷Êó±ê */
     m_iEnd = (UINT)(m_fMaxCir / fSrcMaxCir * MAXLINEITEM) - nStartPoint + iBegin - 1;
 
     m_iZoomPos *= m_nCurZoom;
@@ -245,7 +245,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
     double  fmaxcir = 0;
     COLORREF clrZoom = RGB(0, 0, 255);
     double  fMinDiff = m_nZoomTorq;
-    int     iZoomPos = 0; // å½“å‰ç”»å›¾çš„å®é™…ä½ç½®
+    int     iZoomPos = 0; // µ±Ç°»­Í¼µÄÊµ¼ÊÎ»ÖÃ
     UINT    iDrawed = 0;
     int     iBegin = 0, iEnd = 0;
 
@@ -258,7 +258,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
 
     m_wndLineZoom.DrawZoomBkLine();
 
-    /* ç”»ç¬¬ä¸€ä¸ªç‚¹ */
+    /* »­µÚÒ»¸öµã */
     fPreTorq = ptDraw->fTorque[m_iBegin];
     m_wndLineZoom.SetPos(fPreTorq);
     m_wndLineZoom.DrawSpike();
@@ -274,8 +274,8 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
         }
     }
 
-    /* æ”¾å¤§å›¾åŒ…å«æ§åˆ¶æ‰­çŸ©ï¼Œç”»ç«–çº¿ */
-    /*æœ€åä¸€ä¸ªæ•°æ®åœ¨å¤–é¢GOï¼Œä»¥å…å‡ºç°åŒçº¿çš„æƒ…å†µ*/
+    /* ·Å´óÍ¼°üº¬¿ØÖÆÅ¤¾Ø£¬»­ÊúÏß */
+    /*×îºóÒ»¸öÊı¾İÔÚÍâÃæGO£¬ÒÔÃâ³öÏÖË«ÏßµÄÇé¿ö*/
     if (m_iEnd >= ptDraw->wCount - 1)
     {
         m_wndLineZoom.SetPos(ptDraw->fTorque[ptDraw->wCount - 1], TRUE);
@@ -295,7 +295,7 @@ void CDlgZoomIn::DrawZoomLine(DRAWTORQDATA* ptDraw)
     m_wndLineZoom.DrawZoomInfo(iZoomPos, m_fMinCir, fmaxcir, fDeltaCir, m_nZoomTorq);
 }
 
-/* å·¦é”®å•å‡» wParam :True æ˜¾ç¤º/ false: ä¸æ˜¾ç¤º */
+/* ×ó¼üµ¥»÷ wParam :True ÏÔÊ¾/ false: ²»ÏÔÊ¾ */
 LRESULT CDlgZoomIn::SelPosChange(WPARAM wParam, LPARAM lParam)
 {
     DrawZoomPnt();

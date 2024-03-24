@@ -97,9 +97,9 @@ private:
     //UINT    m_nMaxShowNum;
     int     m_iWidth;
     string  m_strFixHead;
-    UINT    m_nSelItem[MAXWELLNUM];     /* 记录选定的记录的序号 */
+    UINT    m_nSelItem[MAXWELLNUM];     /* ��¼ѡ���ļ�¼����� */
     UINT    m_nCurLang;
-    TorqData::Torque* m_ptStatTorq;     /* 统计数据的地址，从最后开始排除工具扣,且没有备注 */
+    TorqData::Torque* m_ptStatTorq;     /* ͳ�����ݵĵ�ַ�������ʼ�ų����߿�,��û�б�ע */
     Excel   m_tSaveExc;
 
     XLSSTATCFG* m_ptStat;
