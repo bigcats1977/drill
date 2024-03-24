@@ -28,9 +28,9 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define     CONT_XOFFSET        5       /* 显示文字，相对于竖线的位置 */
-#define     CONT_YOFFSET        12      /* 显示文字，相对于底线的位置 */
-#define     CONT_XSCALE         0.75    /* 文字开始位置(相对于整体宽度) */
+//#define     CONT_XOFFSET        5       /* 显示文字，相对于竖线的位置 */
+//#define     CONT_YOFFSET        12      /* 显示文字，相对于底线的位置 */
+//#define     CONT_XSCALE         0.75    /* 文字开始位置(相对于整体宽度) */
 
 
 /////////////////////////////////////////////////////////////////////////////
